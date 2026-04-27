@@ -1,25 +1,25 @@
-# Use Case 1 — Meter Telemetry
+# Meter Telemetry
 
 **AMI meter data exchange between an Advanced Metering Infrastructure Service Provider (AMISP) and a Distribution Company (DISCOM).**
 
----
+***
 
 ## Scenario
 
 An AMISP (e.g. IntelliGrid AMI Services) has collected 15-minute interval smart meter readings from thousands of meters across a DISCOM's (e.g. BESCOM's) service area. The DISCOM needs this data for load forecasting, billing validation, and regulatory reporting. Rather than a bespoke FTP push or proprietary API call, the exchange happens over the IES Data Exchange protocol — discoverable, auditable, and schema-validated.
 
----
+***
 
 ## Roles
 
-| Role | Organisation | What they do |
-|---|---|---|
-| BAP (consumer) | BESCOM (DISCOM) | Requests meter telemetry for a given meter ID and date range |
-| BPP (provider) | IntelliGrid AMI Services (AMISP) | Publishes and delivers `IES_Report` datasets |
+| Role           | Organisation                     | What they do                                                 |
+| -------------- | -------------------------------- | ------------------------------------------------------------ |
+| BAP (consumer) | BESCOM (DISCOM)                  | Requests meter telemetry for a given meter ID and date range |
+| BPP (provider) | IntelliGrid AMI Services (AMISP) | Publishes and delivers `IES_Report` datasets                 |
 
----
+***
 
-## Dataset — IES_Report
+## Dataset — IES\_Report
 
 The `IES_Report` schema carries meter telemetry in **OpenADR 3.1.0** format. OpenADR is an international standard for communicating demand response and energy management signals; IES uses it as the container for meter readings.
 
@@ -62,18 +62,18 @@ The `IES_Report` schema carries meter telemetry in **OpenADR 3.1.0** format. Ope
 }
 ```
 
-| Field | Description |
-|---|---|
-| `programID` | Dataset identifier — used by the BAP to select the right dataset |
-| `payloadDescriptors` | Declares measurement type (`USAGE`), unit (`KWH`), and precision |
-| `resources[]` | One entry per meter |
-| `resourceName` | Meter ID — the unique identifier for the smart meter |
-| `intervals[]` | One entry per 15-minute period |
-| `intervalPeriod.start` | ISO 8601 timestamp with IST offset (`+05:30`) |
-| `intervalPeriod.duration` | Always `PT15M` for 15-minute AMI data |
-| `payloads[].values` | Array of readings — single value for USAGE (kWh consumed in the interval) |
+| Field                     | Description                                                               |
+| ------------------------- | ------------------------------------------------------------------------- |
+| `programID`               | Dataset identifier — used by the BAP to select the right dataset          |
+| `payloadDescriptors`      | Declares measurement type (`USAGE`), unit (`KWH`), and precision          |
+| `resources[]`             | One entry per meter                                                       |
+| `resourceName`            | Meter ID — the unique identifier for the smart meter                      |
+| `intervals[]`             | One entry per 15-minute period                                            |
+| `intervalPeriod.start`    | ISO 8601 timestamp with IST offset (`+05:30`)                             |
+| `intervalPeriod.duration` | Always `PT15M` for 15-minute AMI data                                     |
+| `payloads[].values`       | Array of readings — single value for USAGE (kWh consumed in the interval) |
 
----
+***
 
 ## Transaction Flow
 
@@ -149,7 +149,7 @@ The BAP calls status to trigger data delivery. The BPP responds with `on_status`
 }
 ```
 
----
+***
 
 ## Running This Use Case
 
@@ -181,14 +181,16 @@ curl -X POST http://localhost:8081/bap/caller/status \
 ```
 
 Check the delivered data:
+
 ```bash
 docker logs sandbox-bap 2>&1 | tail -100
 ```
 
----
+***
 
 ## Reference
 
-- [IES_Report Schema](https://github.com/India-Energy-Stack/ies-docs)
-- [OpenADR 3.1.0 Specification](https://www.openadr.org)
-- [Example payloads](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange/usecase1/examples)
+* [IES\_Report Schema](https://github.com/India-Energy-Stack/ies-docs)
+* [OpenADR 3.1.0 Specification](https://www.openadr.org)
+* [Example payloads](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange/usecase1/examples)
+* [comprehensive-obis-codes-and-event-ids-for-india.md](comprehensive-obis-codes-and-event-ids-for-india.md "mention")
