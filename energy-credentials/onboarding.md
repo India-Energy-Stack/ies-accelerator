@@ -1,6 +1,8 @@
 # Onboarding Guide — Energy Credentials
 
-This guide walks you through the complete setup process to start issuing or verifying IES Energy Credentials. The process differs slightly depending on your role.
+This guide walks you through the complete setup to start issuing or verifying IES Energy Credentials using **OpenCred** — the open-source W3C VC platform that IES credential services are built on.
+
+> Full OpenCred documentation: [https://opencred.gitbook.io/docs](https://opencred.gitbook.io/docs)
 
 ---
 
@@ -8,129 +10,121 @@ This guide walks you through the complete setup process to start issuing or veri
 
 | Role | What you do | Setup path |
 |---|---|---|
-| **DISCOM (Issuer)** | Issue electricity connection credentials to consumers | [DISCOM Onboarding](#discom-onboarding) |
+| **DISCOM (Issuer)** | Issue electricity connection credentials to consumers via DigiLocker | [DISCOM Onboarding](#discom-onboarding) |
 | **Certification Body (Issuer)** | Issue green energy / safety / compliance credentials to assets | [Certification Body Onboarding](#certification-body-onboarding) |
-| **Service Provider (Verifier)** | Verify credentials presented by consumers or assets | [Verifier Onboarding](#verifier-onboarding) |
+| **Service Provider (Verifier)** | Verify credentials presented by consumers | [Verifier Onboarding](#verifier-onboarding) |
 
 ---
 
 ## DISCOM Onboarding
 
-DISCOMs integrate with the IES Credential Service to issue **electricity connection credentials (NYCER)** to their consumers via DigiLocker.
-
 ### Prerequisites
 
-Before you start, confirm you have:
-
-- [ ] Organisation registered on [API Setu](https://apisetu.gov.in) as a DigiLocker issuer (or existing issuer account — contact NeGD/Chikan)
-- [ ] Access to the IES Credential Service API (request credentials from the IES team)
-- [ ] The [IES Postman Collection](https://fsrglobaladmin.sharepoint.com/:u:/s/FSRG/IQAOQcWtB6JzQobtt91va2oZAaNny8bhbkGh_cizrV5v0qc?e=pUUxti) (shared by IES team)
+- [ ] Organisation registered on [API Setu](https://apisetu.gov.in) as a DigiLocker issuer (or existing issuer account — contact NeGD)
 - [ ] An HTTPS endpoint you can expose for DigiLocker's inbound Pull URI calls
+- [ ] Docker installed (for production API deployment)
 - [ ] Read access to your CIS / billing database for consumer lookups
 
-### Step 1 — Get Your Issuer DID
+### Step 1 — Deploy OpenCred
 
-Call the IES Credential Service to create your DISCOM's Decentralized Identifier. The IES team walks you through this using the Postman collection.
+Set up the OpenCred Docker service. This is the credential signing engine your DISCOM will call at runtime.
 
-```
-POST /credential/did/create
-```
+```bash
+# Generate a secure API key
+export OPENCRED_API_KEY=$(openssl rand -base64 32)
 
-Save the `issuer_did` returned. You will pass it in every credential issuance request.
-
-```json
-{
-  "issuer_did": "did:ies:discom-tpddl",
-  "public_key": "...",
-  "created_at": "2026-04-01T10:00:00Z"
-}
+docker run -p 3100:3100 \
+  -e OPENCRED_API_KEY=$OPENCRED_API_KEY \
+  -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
+  -v /path/to/your-key.pem:/secrets/issuer-key.pem:ro \
+  opencred:latest
 ```
 
-### Step 2 — Register the NYCER Schema
-
-Register the electricity connection credential schema with the IES service:
-
-```
-POST /credential/schema/create
+Verify it's running:
+```bash
+curl http://localhost:3100/v1/health
+# → 200 OK
 ```
 
-The IES team provides the schema definition. Save the `schema_id` returned.
+See [Issuing Credentials](./issuance.md#docker-api) for the full Docker Compose setup and Cloud KMS options.
 
-```json
-{
-  "schema_id": "ies:schema:nycer:v1",
-  "name": "National Yield Consumer Electricity Record",
-  "version": "1.0"
-}
-```
+### Step 2 — Set Up Your Signing Key and Issuer DID
+
+You need a signing key and a DID that identifies your DISCOM as the credential issuer. OpenCred supports three approaches:
+
+**Option A — Import an existing Digital Signature Certificate (DSC)**
+- Use the OpenCred Desktop Client → Settings → Import File
+- Import your PFX, PEM, or hardware token
+- OpenCred derives `did:key` from your certificate's public key
+
+**Option B — Generate a fresh ECDSA P-256 key (recommended for new deployments)**
+- Open the OpenCred Desktop Client → Settings → Generate Key → **Generate ECDSA P-256 Key**
+- Enter your domain (e.g. `ies.tpddl.in`)
+- Download the DID document and upload it to `https://ies.tpddl.in/.well-known/did.json`
+- Your issuer DID is `did:web:ies.tpddl.in`
+
+**Option C — Hardware token (PKCS#11)**
+- OpenCred Desktop Client → Settings → Hardware Token
+- Select library, slot, and enter PIN
+
+Save your issuer DID — you will pass it in every credential issuance API call.
 
 ### Step 3 — Register on API Setu as a DigiLocker Issuer
 
-If you are not already registered:
-1. Go to [https://apisetu.gov.in](https://apisetu.gov.in)
-2. Register your organisation as a document issuer
-3. Add the `NYCER` document type with these parameters:
-   - **Endpoint URL:** `https://{your-domain}/digilocker/pulluri`
-   - **UDF1:** Consumer Number
-   - **UDF2:** Registered Mobile Number
+If not already registered:
+1. Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register your organisation
+2. Add the `NYCER` document type with these parameters:
+
+| Field | Value |
+|---|---|
+| Endpoint URL | `https://{your-domain}/digilocker/pulluri` |
+| HTTP Method | `POST` |
+| Content-Type | `application/xml` |
+| DocType | `NYCER` |
+| UDF1 Label | `Consumer Number` |
+| UDF2 Label | `Registered Mobile Number` |
 
 You receive an `issuer_id` (e.g. `in.gov.tpddl`) and an `api_key`. Store the `api_key` securely — you need it to verify inbound HMAC headers from DigiLocker.
 
-> If your DISCOM is already on DigiLocker for ELBIL (electricity bills), contact NeGD to add the NYCER document type to your existing account rather than re-registering.
+> If your DISCOM is already on DigiLocker for ELBIL, contact NeGD to add `NYCER` to your existing account. Do not re-register.
 
 ### Step 4 — Build the Pull URI Endpoint
 
-Build and deploy an HTTPS endpoint at `https://{your-domain}/digilocker/pulluri`. This is the only custom code your DISCOM writes. DigiLocker calls it whenever a consumer requests their NYCER credential.
+Build and deploy an HTTPS endpoint at `https://{your-domain}/digilocker/pulluri`. This is the only custom code your DISCOM writes.
 
-For the full specification of request/response formats, HMAC verification, and code samples, see the [DigiLocker Integration guide](./digilocker-integration.md).
-
-At a high level, the handler:
+At runtime, the handler:
 1. Verifies the inbound HMAC from DigiLocker
-2. Looks up the consumer in your CIS using the consumer number (UDF1)
-3. Calls `POST /credential/credentials/issue` on the IES service
-4. Calls `GET /credential/credentials/{id}` to retrieve the PDF
-5. Returns a `PullURIResponse` XML to DigiLocker
+2. Looks up the consumer in your CIS
+3. Calls OpenCred's `POST /v1/credentials/issue` to produce a signed credential
+4. Returns the signed VC (JSON) and a rendered PDF in the `PullURIResponse` XML
 
-### Step 5 — Test with the Sandbox
+For the full endpoint specification, request/response formats, HMAC verification, and code samples, see the [DigiLocker Integration guide](./digilocker-integration.md).
 
-The IES team provides a DigiLocker sandbox environment. Run an end-to-end test:
+### Step 5 — Test End-to-End
 
-1. Simulate a DigiLocker inbound `PullURIRequest` to your endpoint
-2. Confirm your endpoint calls IES and returns a valid `PullURIResponse`
-3. Verify the credential is accessible in the DigiLocker test environment
+Use the OpenCred Desktop Client to issue a test credential for a sample consumer. Confirm the output VC is well-formed, then run a simulated DigiLocker inbound request against your Pull URI endpoint and verify the response is a valid `PullURIResponse`.
 
 ### Step 6 — Go Live
 
-Once testing is complete, switch to the production DigiLocker endpoint. Consumers can immediately search for their NYCER credential in DigiLocker under your organisation name.
+Switch to the production DigiLocker endpoint on API Setu. Consumers can immediately find their `NYCER` credential in the DigiLocker app.
 
 ---
 
 ## Certification Body Onboarding
 
-Certification bodies issue credentials about energy assets — green energy certificates, safety compliance, grid interconnection approvals.
+Certification bodies issue credentials about energy assets — green energy certificates, grid interconnection approvals, safety compliance.
 
-### Step 1 — Get Your Issuer DID
+### Step 1 — Deploy OpenCred
 
-Same as the DISCOM flow:
-```
-POST /credential/did/create
-```
+Same as the DISCOM flow. See [Step 1 above](#step-1--deploy-opencred).
 
-### Step 2 — Register Your Credential Schema
+### Step 2 — Set Up Signing Key and Issuer DID
 
-Define the claims your credential will attest and register the schema:
-```
-POST /credential/schema/create
-```
+Same as [Step 2 above](#step-2--set-up-your-signing-key-and-issuer-did).
 
-Work with the IES team to align your schema with the appropriate IES credential type (e.g. `GreenEnergyCertificate`, `GridInterconnectionApproval`, `SafetyCertificate`).
+### Step 3 — Issue Credentials After Inspection
 
-### Step 3 — Issue Credentials
-
-After an audit or inspection, call the IES service to issue a signed credential to the asset holder's DID:
-```
-POST /credential/credentials/issue
-```
+After an audit or inspection, call OpenCred's issue endpoint with the asset's fields and the appropriate `credentialType` (e.g. `GreenEnergyCertificate`, `GridInterconnectionApproval`, `SafetyCertificate`). Deliver the signed VC to the asset holder's DID.
 
 See [Issuing Credentials](./issuance.md) for the full API reference.
 
@@ -138,62 +132,55 @@ See [Issuing Credentials](./issuance.md) for the full API reference.
 
 ## Verifier Onboarding
 
-Service providers who need to verify credentials (e.g. housing societies verifying address proof, fintech apps verifying energy consumer status) have a lighter integration.
+Service providers who need to verify credentials have a lighter integration.
 
-### Step 1 — Register as a Verifier
+### Step 1 — Deploy OpenCred (or use Desktop Client)
 
-Contact the IES team to register your application and receive a verifier API key.
+For automated verification in production, deploy OpenCred as a Docker service (same as above). For manual spot-checks, the Desktop Client's Verify page is sufficient.
 
 ### Step 2 — Implement DigiLocker OAuth (for consumer credentials)
 
 To receive credentials shared by consumers via DigiLocker:
 
-1. Register your application on API Setu as a DigiLocker requester
-2. Implement the [DigiLocker OAuth flow](https://partners.digitallocker.gov.in/assets/img/Digital%20Locker%20Technical%20Specification%20v1%200%205.pdf):
-   - Redirect consumer to DigiLocker authorization endpoint with `req_doctype=NYCER`
+1. Register your application on [API Setu](https://apisetu.gov.in) as a DigiLocker requester
+2. Implement the DigiLocker OAuth 2.0 + PKCE flow:
+   - Redirect consumer to DigiLocker with `req_doctype=NYCER`
    - Exchange auth code for access token
-   - Fetch the credential XML from DigiLocker's file API
-   - Verify the HMAC on the response
+   - Fetch the `VcContent` from DigiLocker's file API
+3. Extract the base64-encoded VC JSON from `VcContent`
+4. Verify HMAC on the DigiLocker response
 
-### Step 3 — Verify the W3C Credential (optional but recommended)
+### Step 3 — Verify with OpenCred
 
-For stronger assurance, call the IES verification endpoint directly:
+Pass the decoded VC to OpenCred's verify endpoint for cryptographic assurance:
 
-```
-GET /credential/credentials/{credential_id}/verify
-```
-
-Response:
-```json
-{
-  "verified": true,
-  "proof_valid": true,
-  "revoked": false,
-  "expired": false,
-  "issuer": "did:ies:discom-tpddl"
-}
+```bash
+curl -X POST http://localhost:3100/v1/credentials/verify \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "credential": { /* decoded VC JSON */ } }'
 ```
 
-See [Verifying Credentials](./verification.md) for the full API reference.
+See [Verifying Credentials](./verification.md) for the full response format and revocation details.
 
 ---
 
 ## Checklist Summary
 
 ### DISCOM (Issuer)
-- [ ] Registered on API Setu (issuer_id + api_key)
-- [ ] Issuer DID created (`issuer_did` saved)
-- [ ] NYCER schema registered (`schema_id` saved)
-- [ ] Pull URI endpoint built, tested, and deployed
-- [ ] DigiLocker sandbox test passed
+- [ ] OpenCred Docker deployed and healthy (`/v1/health` returns 200)
+- [ ] Signing key set up — issuer DID confirmed (`did:key:...` or `did:web:...`)
+- [ ] Registered on API Setu (`issuer_id` + `api_key` saved)
+- [ ] Pull URI endpoint built, tested, and deployed at HTTPS
+- [ ] End-to-end test passed with sample consumer
 - [ ] Production endpoint registered on API Setu
 
 ### Certification Body (Issuer)
-- [ ] Issuer DID created
-- [ ] Custom credential schema registered
-- [ ] Issuance API integration tested
+- [ ] OpenCred Docker deployed and healthy
+- [ ] Signing key set up — issuer DID confirmed
+- [ ] Issuance API integration tested with a sample asset credential
 
 ### Verifier
-- [ ] Verifier API key received
+- [ ] OpenCred deployed (or Desktop Client for manual use)
 - [ ] DigiLocker OAuth flow implemented
-- [ ] Credential verification API integration tested
+- [ ] Verify endpoint integration tested

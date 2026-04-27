@@ -49,7 +49,7 @@ For consumer-facing credentials (e.g. electricity connection proof), IES integra
 - No new app install is required
 - Credentials can be shared with any DigiLocker-connected verifier (banks, government portals, housing societies)
 
-The IES Credential Service handles the W3C VC lifecycle (issuance, signing, PDF rendering). DigiLocker handles consumer-facing storage and sharing.
+**OpenCred** handles the W3C VC lifecycle — issuance, signing, and verification. DISCOMs call OpenCred's Docker API from their Pull URI endpoint to produce a signed credential on demand, then return it to DigiLocker. DigiLocker handles consumer-facing storage and sharing.
 
 For machine-to-machine credentials (e.g. DER assets in a P2P energy marketplace), credentials are issued directly to DID-controlled wallets without DigiLocker.
 
@@ -69,7 +69,7 @@ For machine-to-machine credentials (e.g. DER assets in a P2P energy marketplace)
 
 ## Reference
 
-- [OpenCred Documentation](https://opencred.gitbook.io/docs) — the open credential platform that IES credential services are based on
+- [OpenCred Documentation](https://opencred.gitbook.io/docs) — the open credential platform IES is built on (Desktop Client, Docker API, key management, proof formats, revocation)
 - [W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/)
 - [W3C Decentralized Identifiers](https://www.w3.org/TR/did-core/)
 - [IES Energy Credentials Architecture](https://github.com/India-Energy-Stack/ies-docs/blob/main/architecture/03_Energy_Credentials.md)

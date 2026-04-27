@@ -1,199 +1,188 @@
 # Verifying Credentials
 
-This page covers how verifiers — service providers, marketplaces, applications — check that a credential presented by a holder is authentic, current, and unrevoked.
+Verification checks that a credential is authentic, unexpired, and unrevoked. OpenCred handles this entirely locally — no network calls are needed for `did:key` credentials because JSON-LD contexts are bundled and DID resolution runs in-process.
+
+> Full OpenCred documentation: [https://opencred.gitbook.io/docs](https://opencred.gitbook.io/docs)
 
 ---
 
-## Two Verification Paths
+## Two Ways to Verify
 
-| Path | When to use | How |
-|---|---|---|
-| **DigiLocker HMAC verification** | Consumer shares via DigiLocker OAuth | Verify the HMAC header on the DigiLocker response |
-| **IES direct verification** | Independent check of the W3C VC | Call `GET /credential/credentials/{id}/verify` |
-
-Both paths can be combined for maximum assurance.
-
----
-
-## Path 1 — DigiLocker HMAC Verification
-
-When a consumer shares their credential through DigiLocker's OAuth flow, DigiLocker sends you a credential XML with an `x-digilocker-hmac` header. Verify it before trusting any fields.
-
-### Compute the Expected HMAC
-
-```python
-import hmac, hashlib, base64
-
-def verify_digilocker_response_hmac(
-    response_body: bytes,
-    api_key: str,
-    received_hmac: str
-) -> bool:
-    expected = base64.b64encode(
-        hmac.new(api_key.encode(), response_body, hashlib.sha256).digest()
-    ).decode()
-    return hmac.compare_digest(expected, received_hmac)
-```
-
-Use `hmac.compare_digest` — not `==` — to prevent timing attacks.
-
-### Extract Claims from the Response
-
-Once the HMAC is verified, parse the credential XML:
-
-```xml
-<DocDetails>
-  <FullName>Priya Sharma</FullName>
-  <ConsumerNumber>TPDDL-2025-001234567</ConsumerNumber>
-  <ServiceAddress>Flat 4B, Sector 12, Rohini, New Delhi – 110085</ServiceAddress>
-  <ServiceConnectionDate>2019-03-15</ServiceConnectionDate>
-  <IssuedBy>Tata Power Delhi Distribution Limited</IssuedBy>
-</DocDetails>
-```
-
-This is sufficient for most address-verification and consumer-identity use cases.
-
----
-
-## Path 2 — IES Direct Verification
-
-For stronger assurance — especially in automated or machine-to-machine contexts — call the IES verification API directly.
-
-### Request
-
-```http
-GET /credential/credentials/{credential_id}/verify
-Authorization: Bearer {verifier_api_key}
-```
-
-### Response
-
-```json
-{
-  "credential_id": "nycer-TPDDL-001234567-20260401",
-  "verified": true,
-  "checks": {
-    "proof_valid": true,
-    "not_expired": true,
-    "revoked": false,
-    "schema_valid": true
-  },
-  "issuer": {
-    "did": "did:ies:discom-tpddl",
-    "name": "Tata Power Delhi Distribution Limited",
-    "trusted": true
-  },
-  "subject": {
-    "consumerNumber": "TPDDL-2025-001234567",
-    "serviceAddress": "Flat 4B, Sector 12, Rohini, New Delhi – 110085"
-  }
-}
-```
-
-| Field | Meaning |
+| Method | Best for |
 |---|---|
-| `proof_valid` | Issuer's cryptographic signature checks out |
-| `not_expired` | Current timestamp is within `issuanceDate` – `expirationDate` |
-| `revoked` | `false` means the issuer has not revoked this credential |
-| `schema_valid` | Credential fields conform to the registered schema |
-| `issuer.trusted` | The issuer DID is on the IES trusted issuer registry |
-
-A credential is valid only when **all four checks pass and `revoked` is false**.
+| [Desktop Client](#desktop-client) | Manual spot checks, debugging |
+| [Docker API](#docker-api) | Production — automated verification in your application |
 
 ---
 
-## Verifying a Verifiable Presentation
+## What Gets Checked
 
-In machine-to-machine flows (e.g. a prosumer presenting credentials during a P2P energy trade), the holder sends a **Verifiable Presentation** containing one or more VCs.
+Every verification run performs these checks in sequence:
 
-### Request
+| Check | What it validates |
+|---|---|
+| **Signature** | Cryptographic proof against the issuer's public key |
+| `validFrom` | Credential is not being used before its issuance date |
+| `validUntil` | Credential has not expired |
+| **DID resolution** | Issuer DID resolves to a DID document with a matching public key |
+| **Revocation** | Credential hash is not present in the DeDi revocation registry |
+
+A credential is valid only when **all checks pass**.
+
+---
+
+## Desktop Client
+
+1. Go to the **Verify** page
+2. Paste the credential JSON or load it from a file
+3. Click **Verify**
+4. Review the results — each check is shown as passed or failed with a reason
+
+For `did:key` credentials, verification is fully offline. For `did:web` credentials, the desktop client fetches the DID document from `https://<domain>/.well-known/did.json` (requires network access).
+
+---
+
+## Docker API
+
+### Deploy
+
+See [Issuing Credentials — Docker API](./issuance.md#docker-api) for deployment instructions. The same container handles both issuance and verification.
+
+### Verify a Credential
 
 ```http
-POST /credential/presentations/verify
-Authorization: Bearer {verifier_api_key}
+POST http://localhost:3100/v1/credentials/verify
+Authorization: Bearer sk_prod_change_me
 Content-Type: application/json
 ```
 
 ```json
 {
-  "presentation": {
-    "@context": ["https://www.w3.org/2018/credentials/v1"],
-    "type": "VerifiablePresentation",
-    "verifiableCredential": [ /* embedded VCs */ ],
-    "proof": {
-      "type": "Ed25519Signature2020",
-      "challenge": "verifier-nonce-abc123",
-      "verificationMethod": "did:ies:consumer-7a3f9b2c#key-1",
-      "proofValue": "z3Abc...holder signature...xyz"
-    }
-  },
-  "challenge": "verifier-nonce-abc123",
-  "domain": "ies.energy"
+  "credential": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://ies.energy/credentials/v1"
+    ],
+    "id": "urn:uuid:4b3a1c9e-...",
+    "type": ["VerifiableCredential", "ElectricityConnectionCredential"],
+    "issuer": "did:web:ies.tpddl.in",
+    "validFrom": "2026-04-01T00:00:00Z",
+    "validUntil": "2027-04-01T00:00:00Z",
+    "credentialSubject": { "..." : "..." },
+    "proof": { "..." : "..." }
+  }
 }
 ```
-
-Always pass the same `challenge` you issued to the holder. The service verifies:
-- Holder's signature on the outer presentation
-- Issuer's signature on each embedded credential
-- Challenge matches (prevents replay)
-- All embedded credentials pass the standard four checks
 
 ### Response
 
 ```json
 {
-  "verified": true,
-  "holder_did": "did:ies:consumer-7a3f9b2c",
-  "credentials": [
-    {
-      "id": "nycer-TPDDL-001234567-20260401",
-      "type": "ElectricityConnectionCredential",
-      "verified": true,
-      "issuer": "did:ies:discom-tpddl"
-    }
+  "isValid": true,
+  "checks": [
+    { "name": "signature",  "passed": true },
+    { "name": "notBefore",  "passed": true },
+    { "name": "expiry",     "passed": true },
+    { "name": "revocation", "passed": true }
   ]
 }
 ```
 
----
-
-## Selective Disclosure Verification
-
-When a holder presents a credential with selective disclosure (revealing only certain fields), verify using the same endpoint. The IES service handles BBS+ proof verification automatically. Your response will only contain the fields the holder chose to reveal:
+A failed check looks like:
 
 ```json
 {
-  "verified": true,
-  "revealed_claims": {
-    "serviceConnectionActive": true,
-    "serviceState": "Delhi"
-  }
+  "isValid": false,
+  "checks": [
+    { "name": "signature", "passed": true },
+    { "name": "expiry",    "passed": false, "reason": "Credential expired on 2027-04-01T00:00:00Z" }
+  ]
+}
+```
+
+The HTTP status is always `200` — check the `isValid` field in the response body, not the status code.
+
+---
+
+## Checking Revocation Status Separately
+
+If you only need to check revocation without a full verification:
+
+```http
+GET http://localhost:3100/v1/credentials/revocation-status?credentialId=urn:uuid:4b3a1c9e-...
+Authorization: Bearer sk_prod_change_me
+```
+
+Response:
+```json
+{
+  "revoked": false,
+  "checkedAt": "2026-04-26T10:00:00Z"
 }
 ```
 
 ---
 
-## Trusted Issuer Registry
+## How Revocation Works
 
-IES maintains a registry of trusted issuer DIDs. Credentials from issuers not on the registry will return `issuer.trusted: false` in the verification response. You may choose to reject such credentials or flag them for manual review.
+OpenCred uses a **hash-based revocation registry** via DeDi (a decentralised data infrastructure), rather than a bitstring status list.
 
-Contact the IES team to add your organisation's issuer DID to the trusted registry.
+When a credential is issued with a `revocationRegistryUrl`, it contains a `credentialStatus` block:
+
+```json
+{
+  "credentialStatus": {
+    "id": "https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<hash>",
+    "type": "dedi",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/query/<namespace>/vc-revocation-registry"
+  }
+}
+```
+
+At verification time, OpenCred:
+1. Computes `SHA-256(JCS(credential))` — a canonical hash of the credential
+2. Queries the DeDi registry for that hash
+3. If the hash is found → **revoked**; if not found → **valid**
+
+This means there is no central revocation list to maintain — revocation is proven by presence of the hash, not by a bit at a known position.
 
 ---
 
-## Error Codes
+## Verifying Credentials Shared via DigiLocker
 
-| HTTP Status | Code | Description |
+When a consumer shares their credential through DigiLocker's OAuth flow, you receive an XML response. For strong cryptographic assurance beyond the DigiLocker HMAC, extract the `VcContent` field (base64-encoded W3C VC JSON-LD) and pass it to the OpenCred verify endpoint.
+
+```python
+import base64, json, requests
+
+# Extract VcContent from DigiLocker XML response
+vc_b64 = response_xml.find(".//VcContent").text
+vc_json = json.loads(base64.b64decode(vc_b64).decode())
+
+# Verify with OpenCred
+result = requests.post(
+    "http://localhost:3100/v1/credentials/verify",
+    headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
+    json={"credential": vc_json}
+)
+assert result.json()["isValid"]
+```
+
+---
+
+## DID Methods and Network Requirements
+
+| DID Method | Resolution | Network needed? |
 |---|---|---|
-| 400 | `invalid_presentation` | Malformed VC or VP structure |
-| 400 | `challenge_mismatch` | `challenge` in presentation does not match `challenge` in request |
-| 404 | `credential_not_found` | `credential_id` does not exist |
-| 200 | — | Always 200 even for failed verifications — check `verified` field |
+| `did:key` | Decoded from DID string itself | No — fully offline |
+| `did:jwk` | Decoded from DID string itself | No — fully offline |
+| `did:web` | Fetched from `https://<domain>/.well-known/did.json` | Yes |
+
+For production IES deployments using `did:web`, the verifier's system needs outbound HTTPS to the issuer's domain. OpenCred's `did:web` resolver enforces HTTPS-only, no redirects, private-IP blocking, and a 10-second timeout.
 
 ---
 
-## Reference
+## Offline Verification
 
-- [OpenCred Verification Docs](https://opencred.gitbook.io/docs) — deeper coverage of presentation protocols, BBS+ proofs, and custom verification policies
-- [W3C VC Verification](https://www.w3.org/TR/vc-data-model/#verification)
-- [Status List 2021](https://www.w3.org/TR/vc-status-list/)
+For `did:key` credentials, OpenCred bundles all required JSON-LD contexts and performs DID resolution in-process. No network calls are made. This makes air-gapped or restricted-network verification possible for credentials issued with `did:key`.

@@ -144,25 +144,25 @@ Request → Issue → Hold → Present → Verify
 | **Hold** | Holder | Stores VC in wallet (DigiLocker, software wallet) |
 | **Present** | Holder | Creates VP in response to a verifier's challenge |
 | **Verify** | Verifier | Checks issuer signature, holder binding, expiry, revocation |
-| **Revoke** | Issuer | Updates status list; all future verifications fail |
+| **Revoke** | Issuer | Publishes revocation hash; all future verifications fail |
 
-Revocation uses the [W3C Status List 2021](https://www.w3.org/TR/vc-status-list/) standard — a bitstring credential where each issued VC gets a position, and setting that bit revokes it.
+IES uses **hash-based revocation via DeDi** (a decentralised data registry). OpenCred computes `SHA-256(JCS(credential))` and the issuer publishes that hash to their DeDi namespace. Verifiers check for the hash's presence — found means revoked, absent means valid. There is no central bitstring list to maintain.
 
 ---
 
 ## Credential Schemas
 
-Every credential type is defined by a **schema** registered with the IES Credential Service. The schema specifies:
-- Which fields are required
-- Data types and validation rules
-- Display templates (for PDF rendering)
+Every credential type is defined by a **schema** that specifies which fields are required, their data types, and validation rules. OpenCred ships with built-in schemas (Education, Employment, Identity, Health, Business) and supports custom schemas for energy-specific types.
 
-The current IES credential schema for consumer electricity connections is `NYCER` (National Yield Consumer Electricity Record). DISCOMs register their issuer DID and the NYCER schema once during onboarding.
+The IES credential type for consumer electricity connections is `ElectricityConnectionCredential` (surfaced to DigiLocker as `NYCER` — National Yield Consumer Electricity Record). DISCOMs declare this `credentialType` in every `POST /v1/credentials/issue` call; no separate schema registration step is required in OpenCred.
 
 ---
 
 ## Further Reading
 
-- [OpenCred Docs](https://opencred.gitbook.io/docs) — the open credential platform reference that IES is based on, with deeper coverage of VC flows, wallet integration, and presentation protocols
+- [OpenCred Docs](https://opencred.gitbook.io/docs) — the open credential platform IES is built on. Covers Desktop Client, Docker API, key management, proof formats, revocation, and security model in full detail
+- [OpenCred — Issuing credentials](https://opencred.gitbook.io/docs/desktop-client/issuing-credentials)
+- [OpenCred — Verifying credentials](https://opencred.gitbook.io/docs/desktop-client/verifying-credentials)
+- [OpenCred — Docker API reference](https://opencred.gitbook.io/docs/docker-image/api-reference)
 - [W3C VC Data Model](https://www.w3.org/TR/vc-data-model/) — the normative specification
 - [W3C DIDs](https://www.w3.org/TR/did-core/) — the DID specification

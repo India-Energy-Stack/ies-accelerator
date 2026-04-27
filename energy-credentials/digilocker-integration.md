@@ -47,20 +47,20 @@ Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a documen
 
 > If your DISCOM already issues electricity bills (ELBIL) on DigiLocker, contact NeGD to add the `NYCER` document type to your existing account. Do not re-register.
 
-### Step 2 — Create Issuer DID
+### Step 2 — Set Up Your Signing Key and Issuer DID
 
-Using the IES Postman collection:
-```
-POST /credential/did/create
-```
-Save `issuer_did`.
+Using the **OpenCred Desktop Client** (or Docker API):
 
-### Step 3 — Register NYCER Schema
+1. Generate an ECDSA P-256 keypair: Settings → Generate Key → **Generate ECDSA P-256 Key**
+2. Enter your domain (e.g. `ies.tpddl.in`)
+3. Download the DID document, upload it to `https://ies.tpddl.in/.well-known/did.json`
+4. Your issuer DID is `did:web:ies.tpddl.in`
 
-```
-POST /credential/schema/create
-```
-Save `schema_id`.
+Alternatively, import an existing DSC (PFX/PEM) — OpenCred derives `did:key` from its public key.
+
+Save your issuer DID — it goes into every `POST /v1/credentials/issue` call.
+
+> See [OpenCred key management docs](https://opencred.gitbook.io/docs/desktop-client/key-management) for all key import options.
 
 ### Step 4 — Register Pull URI Endpoint on API Setu
 
@@ -137,34 +137,43 @@ if not consumer:
     return pulluri_error_response(ts, txn, status=0, message="Consumer not found")
 ```
 
-### Step 4 — Call IES to Issue Credential
+### Step 4 — Call OpenCred to Issue the Credential
 
 ```python
-credential_response = ies_client.post("/credential/credentials/issue", json={
-    "issuer_did": ISSUER_DID,
-    "schema_id": SCHEMA_ID,
-    "subject": {
-        "fullName": consumer.full_name,
-        "consumerNumber": consumer.consumer_number,
-        "serviceAddress": consumer.service_address,
-        "serviceConnectionDate": consumer.connection_date.isoformat(),
-        "meterNumber": consumer.meter_number,
-        "maskedIdNumber": consumer.masked_aadhaar
-    },
-    "validity": {
-        "from": datetime.utcnow().isoformat() + "Z",
-        "until": (datetime.utcnow() + timedelta(days=365)).isoformat() + "Z"
+import requests
+
+credential_response = requests.post(
+    "http://localhost:3100/v1/credentials/issue",
+    headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
+    json={
+        "issuer": ISSUER_DID,                    # e.g. "did:web:ies.tpddl.in"
+        "credentialType": "ElectricityConnectionCredential",
+        "proofFormat": "data-integrity",
+        "credentialSubject": {
+            "fullName": consumer.full_name,
+            "consumerNumber": consumer.consumer_number,
+            "serviceAddress": consumer.service_address,
+            "serviceConnectionDate": consumer.connection_date.isoformat(),
+            "meterNumber": consumer.meter_number,
+            "maskedIdNumber": consumer.masked_aadhaar
+        },
+        "validFrom": datetime.utcnow().isoformat() + "Z",
+        "validUntil": (datetime.utcnow() + timedelta(days=365)).isoformat() + "Z",
+        "revocationRegistryUrl": DEDI_REVOCATION_URL
     }
-})
-credential_id = credential_response["credential_id"]
-vc_json = credential_response["credential"]
+).json()
+
+vc_json = credential_response   # the full signed VC is the response body
 ```
 
-### Step 5 — Retrieve the PDF
+### Step 5 — Render the PDF
+
+OpenCred does not generate PDFs directly — render the signed VC JSON using your preferred PDF library or a template engine. Embed the VC JSON as a QR code on the PDF for verifier scanning.
 
 ```python
-pdf_bytes = ies_client.get(f"/credential/credentials/{credential_id}",
-                           params={"template": IES_TEMPLATE_ID})
+from your_pdf_lib import render_credential_pdf
+
+pdf_bytes = render_credential_pdf(vc_json, template="nycer")
 pdf_b64 = base64.b64encode(pdf_bytes).decode()
 vc_b64 = base64.b64encode(json.dumps(vc_json).encode()).decode()
 ```
