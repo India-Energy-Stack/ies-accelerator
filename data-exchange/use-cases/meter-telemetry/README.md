@@ -193,4 +193,5 @@ docker logs sandbox-bap 2>&1 | tail -100
 * [IES\_Report Schema](https://github.com/India-Energy-Stack/ies-docs)
 * [OpenADR 3.1.0 Specification](https://www.openadr.org)
 * [Example payloads](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange/usecase1/examples)
-* [comprehensive-obis-codes-and-event-ids-for-india.md](comprehensive-obis-codes-and-event-ids-for-india.md "mention")
+* [survey-of-existing-terminology.md](survey-of-existing-terminology.md "mention")
+* [ies-data-model.md](ies-data-model.md "mention")
