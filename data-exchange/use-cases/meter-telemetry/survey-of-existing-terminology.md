@@ -10,29 +10,27 @@ This document details the data objects and identifiers mandated by the Bureau of
 
 These parameters provide the real-time state of the meter and are critical for monitoring grid health and detecting immediate tamper attempts.
 
-| **Category**      | **OBIS Code**    | **Data Object Name**    | **Purpose / Brief Use**                           | **Standard Reference** |
-| ----------------- | ---------------- | ----------------------- | ------------------------------------------------- | ---------------------- |
-| **General**       | `0.0.1.0.0.255`  | Clock (Date & Time)     | Real-time clock for timestamping profiles/events. | Part 1, 2, 3           |
-| **General**       | `0.0.96.1.0.255` | Meter Serial Number     | Unique identifier for asset management.           | Part 1, 2, 3           |
-| **Instantaneous** | `1.0.12.7.0.255` | Voltage (Phase-Neutral) | Real-time RMS voltage for monitoring.             | Part 1, 2              |
-| **Instantaneous** | `1.0.11.7.0.255` | Phase Current           | Real-time line current measurement.               | Part 1, 2              |
-| **Instantaneous** | `1.0.91.7.0.255` | Neutral Current         | Monitoring for neutral unbalance or theft.        | Part 2 (Smart)         |
-| **Instantaneous** | `1.0.14.7.0.255` | Frequency (Hz)          | System frequency monitoring.                      | Part 1, 2, 3           |
-| **Instantaneous** | `1.0.13.7.0.255` | Signed Power Factor     | Total signed power factor (Lag/Lead).             | Part 1, 2              |
-| **Instantaneous** | `1.0.1.7.0.255`  | Active Power (Import)   | Real-time Active Power (kW).                      | Part 1, 2              |
-| **Instantaneous** | `1.0.9.7.0.255`  | Apparent Power (Import) | Real-time Apparent Power (kVA).                   | Part 1, 2              |
+| **Category**      | **OBIS Code**    | **Data Object Name**    | **Purpose / Brief Use**                           |
+| ----------------- | ---------------- | ----------------------- | ------------------------------------------------- |
+| **General**       | `0.0.1.0.0.255`  | Clock (Date & Time)     | Real-time clock for timestamping.                 |
+| **General**       | `0.0.96.1.0.255` | Meter Serial Number     | Unique identifier for asset management.           |
+| **Instantaneous** | `1.0.1.7.0.255`  | Active Power (Import)   | Real-time Active Power (kW).                      |
+| **Instantaneous** | `1.0.12.7.0.255` | Voltage (Phase-Neutral) | Real-time RMS voltage.                            |
+| **Instantaneous** | `1.0.11.7.0.255` | Phase Current           | Real-time line current.                           |
+| **Instantaneous** | `1.0.13.7.0.255` | Signed Power Factor     | Total signed power factor (Lag/Lead).             |
 
-#### 1.2 Energy and Demand Registers (Cumulative)
+#### 1.2 Energy & Demand: Distinction by Profile
 
-| **Category** | **OBIS Code**   | **Data Object Name**        | **Purpose / Brief Use**                         | **Standard Reference** |
-| ------------ | --------------- | --------------------------- | ----------------------------------------------- | ---------------------- |
-| **Energy**   | `1.0.1.8.0.255` | Cumulative Energy (kWh)     | Billing determinant for active energy import.   | Part 1, 2, 3           |
-| **Energy**   | `1.0.9.8.0.255` | Cumulative Energy (kVAh)    | Billing determinant for apparent energy import. | Part 1, 2, 3           |
-| **Energy**   | `1.0.2.8.0.255` | Cumulative Energy (kWh-Exp) | For Net-Metering / Solar export measurement.    | Part 2 (Smart)         |
-| **Energy**   | `1.0.5.8.0.255` | Reactive Energy (Lag)       | Reactive energy (kVARh Lag).                    | Part 1, 3              |
-| **Energy**   | `1.0.8.8.0.255` | Reactive Energy (Lead)      | Reactive energy (kVARh Lead).                   | Part 1, 3              |
-| **Demand**   | `1.0.1.6.0.255` | Maximum Demand (kW)         | Peak active demand during the billing cycle.    | Part 1, 2              |
-| **Demand**   | `1.0.9.6.0.255` | Maximum Demand (kVA)        | Peak apparent demand during the billing cycle.  | Part 1, 2              |
+In DLMS, while the "Attribute" might be similar, the OBIS code varies based on whether it is a cumulative total or an interval increment.
+
+| **Parameter** | **Instantaneous/Total** | **Load Survey (Interval)** | **Billing/Daily (Snapshot)** |
+| ------------- | ----------------------- | -------------------------- | ---------------------------- |
+| **Active Energy (Imp)** | `1.0.1.8.0.255` | `1.0.1.29.0.255` | `1.0.1.8.0.255` (at midnight) |
+| **Apparent Energy (Imp)** | `1.0.9.8.0.255` | `1.0.9.29.0.255` | `1.0.9.8.0.255` (at midnight) |
+| **Active Energy (Exp)** | `1.0.2.8.0.255` | `1.0.2.29.0.255` | `1.0.2.8.0.255` (at midnight) |
+| **Reactive Energy (Lag)** | `1.0.5.8.0.255` | `1.0.5.29.0.255` | `1.0.5.8.0.255` |
+| **Reactive Energy (Lead)** | `1.0.8.8.0.255` | `1.0.8.29.0.255` | `1.0.8.8.0.255` |
+| **Max Demand (kW)** | `1.0.1.6.0.255` | N/A | `1.0.1.6.0.x` (History zones) |
 
 #### 1.3 Time-of-Use (ToU) Registers
 
@@ -48,7 +46,7 @@ ToU zones allow for differential pricing. India typically mandates up to 8 slots
 
 ### 2. Profile Buffers & Capture Logic
 
-Profile buffers act as a historical log. They store a sequence of "Capture Objects" at defined intervals.
+Profile buffers store a sequence of Capture Objects. The HES interprets the data based on the position in the array defined by the profile's `capture_objects` attribute.
 
 | **Profile Type**    | **OBIS Code**     | **Integration Period** | **Mandatory Capture Sequence (Typical)**                                            |
 | ------------------- | ----------------- | ---------------------- | ----------------------------------------------------------------------------------- |
@@ -121,7 +119,55 @@ Events are stored in specific profile buffers. The **Event ID** identifies the s
 3. **Verification:** HES reads the **Relay Status** to confirm physical state change.
 4. **Feedback:** Success/Failure is relayed back to MDM to update billing and customer portals.
 
-### 5. IS 15959 Annexures Summary
+### 5. Network Topology & Connection Hierarchy
+
+In India, the Advanced Metering Infrastructure (AMI) follows a strict hierarchy for Energy Auditing (AT&C loss calculation).
+
+#### 5.1 Typical Topology
+
+- **Substation/Feeder Level**: High-accuracy meters (Class 0.2s/0.5s) monitoring the outgoing 11kV/33kV lines.
+- **Distribution Transformer (DT) Level**: Meters monitoring the Low Voltage (LV) side of the DT. This is the critical node for "DTR-level energy accounting."
+- **Consumer Level**: End-user meters (1-Phase or 3-Phase).
+
+#### 5.2 Connectivity Mapping
+
+The link between these layers is managed in the Geographic Information System (GIS) and mapped to the Meter Data Management (MDM) system.
+
+- **Feeder-DT Link**: Mapping which DTs are fed by which Feeder.
+- **DT-Consumer Link**: Mapping which consumers are connected to which DT (crucial for pinpointing theft or leakage).
+
+### 6. Master Data Standards
+
+Interoperability at the data level is governed by the Common Information Model (CIM).
+
+#### 6.1 Standards for Master Data
+
+- **IEC 61968-1**: Interface architecture for Distribution Management.
+- **IEC 61968-9**: Specifically for Meter Reading and Control.
+- **IEC 61970**: Energy Management System (EMS) application program interfaces.
+
+#### 6.2 Mandatory Master Data Fields (MDM/CIS)
+
+To link the physical meter to the utility's business logic, the following "Master Data" must be synchronized:
+
+| **Data Category** | **Key Fields** | **Source System** |
+| ----------------- | -------------- | ----------------- |
+| **Asset Master** | Meter Serial No, Make, Model, Hardware/Firmware Version, CT/PT Ratios. | Inventory / ERP |
+| **Consumer Master** | Consumer ID (K-No/Service No), Name, Address, Category (DS/NDS), Sanctioned Load. | CIS (Billing) |
+| **Network Master** | Substation ID, Feeder ID, DT ID, Pole ID, Phase (R/Y/B). | GIS |
+| **Tariff Master** | ToU Slots, Slab rates, Fixed Charges, Penalties. | Billing System |
+
+#### 6.3 Linking Data to Connection
+
+When a meter is "installed" (Connection Process), the MDM creates a Service Point object. This object links:
+
+- The Meter Asset (from Inventory).
+- The Consumer Account (from CIS).
+- The Network Location (from GIS).
+
+This linkage ensures that when an OBIS code `1.0.1.8.0.255` (kWh) is received, the system knows exactly which consumer to bill and which DT's "export" to compare it against for loss analysis.
+
+### 7. IS 15959 Annexures Summary
 
 | **Annexure**   | **Subject**        | **Purpose / Detail**                                          |
 | -------------- | ------------------ | ------------------------------------------------------------- |
