@@ -1,6 +1,6 @@
 # India Energy Stack
 ## IES Energy Data Exchange — Implementation Checklist
-### Detailed Technical Reference for Integration Teams
+### Detailed Technical Reference: Testnet to Production
 
 **Name of Organisation:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
@@ -8,295 +8,325 @@
 
 **Technical Lead:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &nbsp;&nbsp; **Email:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-**Use Case(s):**  ☐ UC1 Meter Telemetry &nbsp; ☐ UC2 ARR Filings &nbsp; ☐ UC3 Tariff Policies
+**Use Cases:** &nbsp; ☐ UC1 Meter Telemetry &nbsp; ☐ UC2 ARR Filings &nbsp; ☐ UC3 Tariff Policies
 
 ---
 
-## Phase 0 — Pre-requisites
+## Stage 1 — Testnet Validation
 
-- [ ] **0.a** Docker Engine (v24+) and Docker Compose installed on the deployment host
-- [ ] **0.b** `curl` and `git` available
-- [ ] **0.c** ~2 GB free disk space for Docker images
-- [ ] **0.d** IES testnet credentials received from IES team:
-  - BAP ID: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-  - BPP ID: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-  - Ed25519 signing key pair: \_\_\_ received
-  - Network ID confirmed as `nfh.global/testnet-deg`
-- [ ] **0.e** Role confirmed — determines which adapters and configs you need:
+*Complete this stage fully before moving to Stage 2. Testnet is a safe environment to catch integration issues.*
 
-| Role | Adapter needed | Config file |
-|---|---|---|
-| BAP only | ONIX BAP (port 8081) | `local-simple-bap.yaml` |
-| BPP only | ONIX BPP (port 8082) | `local-simple-bpp.yaml` |
-| Both | Both adapters | Both config files |
+### Pre-requisites
 
----
+- [ ] **1.0.a** Docker Engine (v24+) and Docker Compose installed
+- [ ] **1.0.b** `curl`, `git`, and `python3` available in the terminal
+- [ ] **1.0.c** ~2 GB free disk space for Docker images
+- [ ] **1.0.d** IES testnet credentials received from IES team:
+  - Testnet BAP ID: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+  - Testnet BPP ID: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+  - Ed25519 signing key pair: ☐ received
+  - Network ID: `nfh.global/testnet-deg`
 
-## Phase 1 — Repository Setup
+### Stack Setup
 
-- [ ] **1.a** DEG devkit cloned:
+- [ ] **1.1** DEG devkit cloned:
   ```bash
   git clone https://github.com/Beckn-One/DEG.git
   cd DEG/devkits/data-exchange
   ```
-- [ ] **1.b** Directory structure confirmed:
+- [ ] **1.2** Adapter configs updated with testnet credentials:
+  - `config/local-simple-bap.yaml` → `participant_id`, `signing_key`, `callback_url`
+  - `config/local-simple-bpp.yaml` → `participant_id`, `signing_key`
+- [ ] **1.3** Bootcamp stack started:
+  ```bash
+  cd install
+  docker compose -f docker-compose-bootcamp.yml up -d --build
   ```
-  data-exchange/
-  ├── config/        ← adapter configs to edit
-  ├── install/       ← docker-compose files
-  ├── scripts/       ← test-workflow.sh
-  ├── usecase1/      ← meter telemetry examples
-  ├── usecase2/      ← ARR filings examples
-  └── usecase3/      ← tariff policies examples
+- [ ] **1.4** All services healthy (wait ~15s after start):
+  ```bash
+  curl http://localhost:8081/health   # ONIX BAP → 200
+  curl http://localhost:8082/health   # ONIX BPP → 200
+  curl http://localhost:3001/api/health  # Sandbox BAP → 200
+  curl http://localhost:3002/api/health  # Mock BPP → 200 + dataset list
   ```
+
+### Use Case Testing
+
+For each applicable use case, run the full 4-step exchange and verify the `dataPayload`:
+
+**UC1 — Meter Telemetry (`IES_Report`)**
+- [ ] **1.5.a** `test-workflow.sh usecase1` passes all 15 steps
+- [ ] **1.5.b** `on_status` contains `IES_Report` with `payloadDescriptors`, `resources[]`, `intervals[]`
+- [ ] **1.5.c** `intervalPeriod.duration` = `"PT15M"`, `payloads[].type` = `"USAGE"`, values are numbers
+
+**UC2 — ARR Filings (`IES_ARR_Filing`)**
+- [ ] **1.6.a** `test-workflow.sh usecase2` passes all 15 steps
+- [ ] **1.6.b** `on_status` contains `IES_ARR_Filing` with `licensee`, `fiscalYears[]`, `lineItems[]`
+- [ ] **1.6.c** `amountCrINR` fields are numbers; `year` follows `YYYY-YY` format
+
+**UC3 — Tariff Policies (`IES_Policy` + `IES_Program`)**
+- [ ] **1.7.a** `test-workflow.sh usecase3` passes all 15 steps
+- [ ] **1.7.b** `on_status` contains `programs[]` and `policies[]` with `energySlabs[]`
+- [ ] **1.7.c** Last energy slab has `toKWh: null`; surcharge percentages are signed numbers
+
+**All use cases**
+- [ ] **1.8** `test-workflow.sh all` passes end-to-end
+
+### Testnet Sign-off
+
+- [ ] **1.9** Postman collections imported and all requests run manually in order (select → init → confirm → status) for each applicable use case
+- [ ] **1.10** At least one custom payload tested (modified date ranges or resource IDs) — not only the example files
+- [ ] **1.11** Testnet validation sign-off — proceed to Stage 2: \_\_\_\_\_\_\_\_\_ (date)
 
 ---
 
-## Phase 2 — Adapter Configuration
+## Stage 2 — DeDi Setup
 
-### 2.1 BAP Adapter Config (skip if BPP only)
+*DeDi (Decentralised Data Infrastructure) anchors dataset hashes for provenance and enables dispute resolution. Set this up before network registration — your DeDi namespace is submitted as part of the registration package.*
 
-- [ ] **2.1.a** Edit `config/local-simple-bap.yaml`:
-  - [ ] `network_id` set to `nfh.global/testnet-deg`
-  - [ ] `participant_id` set to your BAP ID (from IES team)
-  - [ ] `signing_key` set to your Ed25519 private key
-  - [ ] `callback_url` set to the public URL where your app receives `on_*` callbacks
-- [ ] **2.1.b** For local development with sandbox credentials: no edits needed — sandbox values work against testnet mock
+### 2.1 Register a DeDi Namespace
 
-### 2.2 BPP Adapter Config (skip if BAP only)
-
-- [ ] **2.2.a** Edit `config/local-simple-bpp.yaml`:
-  - [ ] `network_id` set to `nfh.global/testnet-deg`
-  - [ ] `participant_id` set to your BPP ID (from IES team)
-  - [ ] `signing_key` set to your Ed25519 private key
-- [ ] **2.2.b** Edit routing config (`local-simple-routing-BPPReceiver.yaml`) to point to your BPP server URL
-
----
-
-## Phase 3 — Stack Deployment
-
-### 3.1 Start the Stack
-
-- [ ] **3.1.a** Choose deployment mode:
-  - **Bootcamp/development** (mock BPP included — recommended for initial testing):
-    ```bash
-    cd install
-    docker compose -f docker-compose-bootcamp.yml up -d --build
-    ```
-  - **Full stack** (you bring your own BPP server):
-    ```bash
-    cd install
-    docker compose -f docker-compose-adapter.yml up -d
-    ```
-
-### 3.2 Verify All Services Healthy
-
-- [ ] **3.2.a** Wait 15 seconds for ONIX to initialise, then run all health checks:
+- [ ] **2.1.a** DeDi namespace registration initiated at `dedi.global` for your organisation
+- [ ] **2.1.b** Namespace name confirmed (typically your organisation identifier, e.g. `bescom` or `intelligrid`): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+- [ ] **2.1.c** DeDi API key / write credentials received and stored in secrets manager
+- [ ] **2.1.d** Namespace accessible — test a read against your namespace:
   ```bash
-  curl http://localhost:8081/health         # ONIX BAP
-  curl http://localhost:8082/health         # ONIX BPP
-  curl http://localhost:3001/api/health     # Sandbox BAP webhook
-  curl http://localhost:3002/api/health     # Mock BPP
-  ```
-- [ ] **3.2.b** All return HTTP 200 — note: mock BPP `/api/health` also shows loaded dataset names
-- [ ] **3.2.c** If any service fails: check logs
-  ```bash
-  docker logs onix-bap    # check for config errors
-  docker logs mock-bpp    # check for startup errors
+  curl https://dedi.global/dedi/query/{namespace}/vc-revocation-registry
+  # Expected: empty registry or existing entries
   ```
 
----
+### 2.2 Configure Dataset Hash Anchoring (BPP)
 
-## Phase 4 — Use Case Integration
+*At delivery time, the BPP computes and publishes a hash of the delivered dataset to DeDi. This allows the BAP (and any auditor) to verify that the data received is identical to what was sent.*
 
-Work through each use case you selected. Steps are the same for all three — only the example files and `dataPayload` schema differ.
+- [ ] **2.2.a** Hash computation implemented in BPP at delivery time:
+  ```python
+  import hashlib, json
 
-### 4.1 Use Case 1 — Meter Telemetry (`IES_Report`) *(skip if not applicable)*
-
-**Context:** AMISP (BPP) → DISCOM (BAP). Dataset: 15-minute kWh interval readings in OpenADR 3.1.0 format.
-
-- [ ] **4.1.a** Run `select` step:
-  ```bash
-  curl -s -X POST http://localhost:8081/bap/caller/select \
-    -H "Content-Type: application/json" \
-    -d @usecase1/examples/select-request.json | python3 -m json.tool
+  def compute_dataset_hash(data_payload: dict) -> str:
+      canonical = json.dumps(data_payload, sort_keys=True, separators=(',', ':'))
+      return hashlib.sha256(canonical.encode()).hexdigest()
   ```
-  Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-- [ ] **4.1.b** Confirm `on_select` callback received — check sandbox BAP logs:
+- [ ] **2.2.b** Hash published to DeDi namespace after each successful `on_status` delivery:
   ```bash
-  docker logs sandbox-bap 2>&1 | grep on_select | tail -5
-  ```
-  Expected: log entry showing catalog with `IES_Report` dataset item
+  POST https://dedi.global/dedi/publish/{namespace}/datasets
+  Authorization: Bearer {dedi_api_key}
+  Content-Type: application/json
 
-- [ ] **4.1.c** Run `init` step:
-  ```bash
-  curl -s -X POST http://localhost:8081/bap/caller/init \
-    -H "Content-Type: application/json" \
-    -d @usecase1/examples/init-request.json | python3 -m json.tool
-  ```
-  Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-- [ ] **4.1.d** Run `confirm` step:
-  ```bash
-  curl -s -X POST http://localhost:8081/bap/caller/confirm \
-    -H "Content-Type: application/json" \
-    -d @usecase1/examples/confirm-request.json | python3 -m json.tool
-  ```
-  Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-- [ ] **4.1.e** Run `status` step:
-  ```bash
-  curl -s -X POST http://localhost:8081/bap/caller/status \
-    -H "Content-Type: application/json" \
-    -d @usecase1/examples/status-request.json | python3 -m json.tool
-  ```
-  Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-- [ ] **4.1.f** Confirm `on_status` contains `IES_Report` payload:
-  ```bash
-  docker logs sandbox-bap 2>&1 | tail -80
-  # Look for "dataPayload" with "payloadDescriptors" and "resources" fields
-  ```
-- [ ] **4.1.g** Validate `dataPayload` structure:
-  - [ ] `payloadDescriptors[0].payloadType` = `"USAGE"`
-  - [ ] `payloadDescriptors[0].units` = `"KWH"`
-  - [ ] `resources[]` contains at least one meter entry
-  - [ ] Each meter has `intervals[]` with `intervalPeriod.duration` = `"PT15M"`
-  - [ ] Each interval has `payloads[].values` = array of kWh readings
-
-- [ ] **4.1.h** Automated test passing:
-  ```bash
-  ./scripts/test-workflow.sh usecase1
-  # Expected: ✓ usecase1: All 15 steps passed
-  ```
-
-### 4.2 Use Case 2 — ARR Filings (`IES_ARR_Filing`) *(skip if not applicable)*
-
-**Context:** DISCOM (BPP) → Regulator/SERC (BAP). Dataset: fiscal year cost line items.
-
-- [ ] **4.2.a** Run `select` → `init` → `confirm` → `status` with `usecase2/examples/` files (same curl pattern as 4.1.a–e, replace `usecase1` with `usecase2`)
-- [ ] **4.2.b** Confirm `on_status` contains `IES_ARR_Filing` payload:
-  - [ ] `licensee` field present
-  - [ ] `regulatoryCommission` field present
-  - [ ] `fiscalYears[]` contains at least one year
-  - [ ] Each fiscal year has `lineItems[]` with `category` and `amountCrINR` fields
-- [ ] **4.2.c** Automated test passing:
-  ```bash
-  ./scripts/test-workflow.sh usecase2
-  ```
-
-### 4.3 Use Case 3 — Tariff Policies (`IES_Policy` + `IES_Program`) *(skip if not applicable)*
-
-**Context:** SERC (BPP) → DISCOM (BAP). Dataset: machine-readable tariff rate structures.
-
-- [ ] **4.3.a** Run `select` → `init` → `confirm` → `status` with `usecase3/examples/` files
-- [ ] **4.3.b** Confirm `on_status` contains combined tariff payload:
-  - [ ] `programs[]` array present — each entry has `id`, `name`, `consumerCategory`
-  - [ ] `policies[]` array present — each entry has `programId`, `energySlabs[]`
-  - [ ] `energySlabs[]` entries have `fromKWh`, `toKWh` (null for open-ended), `ratePerKWh`
-  - [ ] `surchargeTariffs[]` present with `period`, `timeRange`, `surchargePercent`
-- [ ] **4.3.c** Automated test passing:
-  ```bash
-  ./scripts/test-workflow.sh usecase3
-  ```
-
----
-
-## Phase 5 — Application Integration
-
-### 5.1 BAP Application (skip if BPP only)
-
-- [ ] **5.1.a** BAP application sends Beckn messages to ONIX BAP caller:
-  - Endpoint: `POST http://localhost:8081/bap/caller/{action}`
-  - Actions: `select`, `init`, `confirm`, `status`
-  - `Content-Type: application/json`
-- [ ] **5.1.b** BAP application registers a webhook to receive `on_*` callbacks:
-  - URL registered in `config/local-simple-bap.yaml` as `callback_url`
-  - Application handles: `on_select`, `on_init`, `on_confirm`, `on_status`
-- [ ] **5.1.c** `dataPayload` correctly parsed from `on_status` response:
-  - UC1: `IES_Report` parsed — meter readings extracted and ingested
-  - UC2: `IES_ARR_Filing` parsed — cost line items extracted
-  - UC3: `programs` + `policies` parsed — tariff slabs loaded into billing system
-- [ ] **5.1.d** `transaction_id` tracked across all four steps of a single exchange
-- [ ] **5.1.e** Application handles async pattern correctly — does not block on ACK waiting for data
-
-### 5.2 BPP Server (skip if BAP only)
-
-- [ ] **5.2.a** BPP server receives inbound Beckn calls routed by ONIX:
-  - `POST /select` — return dataset catalog
-  - `POST /init` — confirm readiness
-  - `POST /confirm` — activate contract, transition state to `CONFIRMED`
-  - `POST /status` — deliver `dataPayload` inline in `on_status`
-- [ ] **5.2.b** Order state machine implemented: `DRAFT → SELECTED → INITIALIZED → CONFIRMED → DELIVERED`
-- [ ] **5.2.c** `on_status` response sends `dataPayload` correctly:
-  ```json
   {
-    "message": {
-      "order": {
-        "status": "DELIVERY_COMPLETE",
-        "items": [{
-          "id": "<dataset-id>",
-          "accessMethod": "INLINE",
-          "dataPayload": { /* IES schema data */ }
-        }]
-      }
-    }
+    "transaction_id": "<beckn transaction_id>",
+    "dataset_hash": "<sha256 of dataPayload>",
+    "dataset_type": "IES_Report",
+    "delivered_at": "<ISO 8601 timestamp>",
+    "bap_id": "<BAP participant ID>",
+    "bpp_id": "<BPP participant ID>"
   }
   ```
-- [ ] **5.2.d** `schemaContext` present in request context:
+- [ ] **2.2.c** DeDi namespace URL included in `on_status` response so BAP can independently verify:
+  ```json
+  {
+    "items": [{
+      "dataPayload": { /* ... */ },
+      "provenanceUrl": "https://dedi.global/dedi/query/{namespace}/datasets?txn={transaction_id}"
+    }]
+  }
+  ```
+- [ ] **2.2.d** Hash anchoring tested — BAP retrieves hash from DeDi and recomputes from received `dataPayload` → hashes match
+
+### 2.3 Configure DeDi Verification (BAP)
+
+- [ ] **2.3.a** BAP application reads `provenanceUrl` from `on_status` response
+- [ ] **2.3.b** BAP fetches published hash from DeDi and recomputes hash of received `dataPayload`
+- [ ] **2.3.c** Mismatch handling implemented — BAP raises an alert and initiates dispute if hashes don't match
+- [ ] **2.3.d** DeDi lookup tested end-to-end with a testnet transaction before moving to production
+
+---
+
+## Stage 3 — Production Network Registration
+
+*Register as a formal participant on the live IES Beckn network. Your DeDi namespace and public HTTPS endpoints must be in place before submitting this registration.*
+
+### 3.1 Domain and TLS Setup
+
+- [ ] **3.1.a** Production domain provisioned for your ONIX adapter (e.g. `beckn.{discom}.in`)
+- [ ] **3.1.b** Valid TLS certificate issued and installed (Let's Encrypt or CA-signed)
+- [ ] **3.1.c** HTTPS accessible from the public internet:
+  ```bash
+  curl https://beckn.{yourdomain}.in/health
+  ```
+- [ ] **3.1.d** BAP callback URL publicly reachable: `https://beckn.{yourdomain}.in/bap/receiver`
+- [ ] **3.1.e** BPP receiver URL publicly reachable: `https://beckn.{yourdomain}.in/bpp/receiver`
+- [ ] **3.1.f** Firewall allows inbound HTTPS from IES network infrastructure; outbound HTTPS to `dedi.global` and IES registry
+
+### 3.2 Generate Production Signing Keys
+
+- [ ] **3.2.a** **Separate** Ed25519 key pair generated for production — do **not** reuse testnet keys:
+  ```bash
+  openssl genpkey -algorithm ed25519 -out prod-signing-key.pem
+  openssl pkey -in prod-signing-key.pem -pubout -out prod-signing-key-pub.pem
+  ```
+- [ ] **3.2.b** Private key stored in secrets manager (AWS Secrets Manager / GCP Secret Manager / HashiCorp Vault) — never in a config file or repository
+- [ ] **3.2.c** Public key fingerprint noted: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+### 3.3 Submit Registration to IES Team
+
+- [ ] **3.3.a** Registration package submitted to IES team containing:
+  - Organisation legal name
+  - Role: BAP / BPP / both
+  - Production public signing key (PEM)
+  - BAP callback URL (where `on_*` responses arrive)
+  - BPP endpoint URL (where Beckn requests arrive)
+  - DeDi namespace name
+  - Use case(s) being implemented
+- [ ] **3.3.b** Production BAP ID assigned and noted: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+- [ ] **3.3.c** Production BPP ID assigned and noted: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+- [ ] **3.3.d** Production network ID confirmed: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+- [ ] **3.3.e** Registry lookup confirmed — participant ID resolves to your public key and URLs on the production registry
+
+---
+
+## Stage 4 — Real Data Integration
+
+*Replace the mock BPP with a production server connected to your actual data systems.*
+
+### 4.1 Production BPP Server (BPP role only)
+
+- [ ] **4.1.a** Production BPP server built in your language of choice (Python/Go/Node/Java)
+- [ ] **4.1.b** All four Beckn actions implemented:
+  - `POST /select` → return catalog of available datasets with access terms
+  - `POST /init` → acknowledge and prepare contract
+  - `POST /confirm` → activate contract, transition order to `CONFIRMED`
+  - `POST /status` → deliver dataset — call ONIX BPP caller with `on_status` + `dataPayload`
+- [ ] **4.1.c** Order state machine implemented: `DRAFT → SELECTED → INITIALIZED → CONFIRMED → DELIVERED`
+- [ ] **4.1.d** `on_*` callbacks sent through ONIX BPP caller (not directly to BAP):
+  ```bash
+  POST http://localhost:8082/bpp/caller/on_status
+  ```
+- [ ] **4.1.e** `schemaContext` present in every response context:
   ```json
   { "context": { "schemaContext": "https://ies.energy/schemas/v1" } }
   ```
-- [ ] **5.2.e** Nested `@context` fields stripped from `dataPayload` before sending (prevents ONIX schema validation errors — see [beckn-onix#655](https://github.com/beckn/beckn-onix/issues/655))
-- [ ] **5.2.f** BPP sends `on_*` callbacks through ONIX BPP caller:
-  - Endpoint: `POST http://localhost:8082/bpp/caller/{on_action}`
+- [ ] **4.1.f** Nested `@context` fields stripped from `dataPayload` before sending (prevents ONIX validation errors)
+
+### 4.2 Connect to Real Data Sources
+
+**UC1 — Meter Telemetry**
+- [ ] **4.2.a** MDMS / AMISP API connected — BPP can query 15-min interval kWh readings by meter ID and date range
+- [ ] **4.2.b** Response mapped to `IES_Report` schema (OpenADR 3.1.0) — `resources[]`, `intervals[]`, `payloads[]`
+- [ ] **4.2.c** Data freshness confirmed — readings are from live MDMS, not a static file
+- [ ] **4.2.d** Large dataset handling tested — verified `dataPayload` size fits within Beckn message limits; chunking strategy decided if needed
+
+**UC2 — ARR Filings**
+- [ ] **4.2.e** ARR filing system / financial database connected — BPP can query cost line items by fiscal year and DISCOM
+- [ ] **4.2.f** Response mapped to `IES_ARR_Filing` schema — `fiscalYears[]`, `lineItems[]`, `amountCrINR`
+- [ ] **4.2.g** Filing version control handled — BAP always receives the latest submitted version, not a draft
+
+**UC3 — Tariff Policies**
+- [ ] **4.2.h** Tariff management system connected — SERC can serve current rate structures and energy slabs
+- [ ] **4.2.i** Response mapped to `IES_Policy` + `IES_Program` schemas — `energySlabs[]`, `surchargeTariffs[]`
+- [ ] **4.2.j** Effective date filtering implemented — only publish tariff policies that are currently in force
+
+### 4.3 Dataset Catalog Publication
+
+- [ ] **4.3.a** Catalog defined — lists all datasets your BPP can serve:
+  ```json
+  {
+    "catalog": {
+      "descriptor": { "name": "BESCOM Data Exchange" },
+      "providers": [{
+        "id": "bescom.discom.karnataka.ies.in",
+        "items": [
+          {
+            "id": "bescom-ami-telemetry",
+            "descriptor": { "name": "AMI Meter Telemetry", "code": "IES_Report" },
+            "fulfillments": [{ "type": "INLINE" }]
+          }
+        ]
+      }]
+    }
+  }
+  ```
+- [ ] **4.3.b** Catalog served correctly in `on_select` response
+- [ ] **4.3.c** Catalog registered on IES production network discovery service — other participants can find your datasets via `select`
+
+### 4.4 Production BAP Application (BAP role only)
+
+- [ ] **4.4.a** BAP application sends Beckn messages to production ONIX BAP caller (not localhost — production URL)
+- [ ] **4.4.b** BAP public callback URL receiving `on_*` responses from production network
+- [ ] **4.4.c** `dataPayload` parsed and ingested into downstream systems:
+  - UC1: meter readings loaded into internal MDMS or analytics system
+  - UC2: ARR filing data loaded into regulatory processing system
+  - UC3: tariff policy loaded into billing system (rate slabs applied)
+- [ ] **4.4.d** DeDi hash verification integrated (see Stage 3.3)
+- [ ] **4.4.e** Idempotency handled — duplicate `on_status` for the same `transaction_id` does not double-import data
 
 ---
 
-## Phase 6 — Schema Validation
+## Stage 5 — Production Infrastructure
 
-- [ ] **6.a** `IES_Report` payload validated against OpenADR 3.1.0 schema:
-  - `intervalPeriod.duration` uses ISO 8601 duration format (e.g. `PT15M`)
-  - `payloads[].values` is an array of numbers
-- [ ] **6.b** `IES_ARR_Filing` payload validated:
-  - `amountCrINR` fields are numbers (not strings)
-  - `fiscalYears[].year` follows `YYYY-YY` format (e.g. `"2026-27"`)
-- [ ] **6.c** `IES_Policy`/`IES_Program` payload validated:
-  - `toKWh: null` used for open-ended energy slab (last slab)
-  - `surchargePercent` is a signed number (negative for off-peak discount)
-- [ ] **6.d** ONIX schema validation not failing — no `domain not allowed` errors in ONIX logs
+### 5.1 ONIX Adapter Deployment
+
+- [ ] **5.1.a** ONIX adapters deployed to production environment — follow [`GCP-DEPLOY.md`](https://github.com/Beckn-One/DEG/blob/main/devkits/data-exchange/GCP-DEPLOY.md) for GCP or adapt for your platform
+- [ ] **5.1.b** Production config files updated:
+  - `network_id`: production network ID (from IES team)
+  - `participant_id`: production BAP/BPP ID
+  - `signing_key`: production Ed25519 private key (injected from secrets manager — never in file)
+  - `callback_url`: production HTTPS callback URL
+- [ ] **5.1.c** ONIX adapters deployed behind HTTPS reverse proxy (Nginx / Cloud Load Balancer)
+- [ ] **5.1.d** Redis for ONIX message cache deployed with persistence enabled and memory limits set
+- [ ] **5.1.e** Adapter restartable without losing in-flight transactions (Redis TTL configured appropriately)
+
+### 5.2 Security
+
+- [ ] **5.2.a** Production signing key never written to disk unencrypted — injected via secrets manager at runtime
+- [ ] **5.2.b** All inter-service communication over HTTPS or within a private VPC
+- [ ] **5.2.c** ONIX adapter not directly exposed to the internet — fronted by a load balancer or API gateway
+- [ ] **5.2.d** Rate limiting applied to inbound Beckn endpoints (prevent flood from network)
+- [ ] **5.2.e** Access to DeDi publish API restricted to BPP server only
+
+### 5.3 Monitoring and Observability
+
+- [ ] **5.3.a** ONIX adapter health (`/health`) polled every 60 seconds — alert on non-200
+- [ ] **5.3.b** ONIX Prometheus metrics scraped (`/metrics`) — dashboard created for:
+  - Message throughput (requests/min per action)
+  - Signature verification failure rate
+  - Callback delivery latency
+- [ ] **5.3.c** Application-level SLA alert: `on_status` not received within 60 seconds of `status` call
+- [ ] **5.3.d** DeDi publish failures alerted — dataset delivered but hash not anchored is a data integrity risk
+- [ ] **5.3.e** Structured logging in place — every Beckn transaction logged with `transaction_id`, `action`, `bap_id`, `bpp_id`, timestamp, status. No dataset payload content in logs.
 
 ---
 
-## Phase 7 — Testing Sign-off
+## Stage 6 — Go-Live Verification
 
-- [ ] **7.a** `test-workflow.sh all` completes with all steps passing for all configured use cases
-- [ ] **7.b** Each use case tested with at least one custom payload (not just the example files)
-- [ ] **7.c** Network interruption tested — ONIX retry behaviour confirmed
-- [ ] **7.d** Invalid `transaction_id` tested — ONIX rejects with appropriate error
+### 6.1 Production Integration Test
 
----
+- [ ] **6.1.a** End-to-end exchange completed on the production network with a real counterpart organisation (not testnet mock)
+- [ ] **6.1.b** All four Beckn steps confirmed working on production: select → init → confirm → status
+- [ ] **6.1.c** `dataPayload` received by BAP matches source system data — spot-checked against raw source
 
-## Phase 8 — Testnet Registration & Go-Live
+### 6.2 Data Integrity Verification
 
-- [ ] **8.a** Public signing key shared with IES team for testnet registry registration
-- [ ] **8.b** Registered on testnet — confirmed discoverable via `select` from another participant
-- [ ] **8.c** (BPP) Published at least one real dataset on the testnet
-- [ ] **8.d** Production deployment environment chosen: ☐ GCP &nbsp; ☐ On-premise &nbsp; ☐ Other: \_\_\_\_\_
-  - [ ] GCP deployment: follow [`GCP-DEPLOY.md`](https://github.com/Beckn-One/DEG/blob/main/devkits/data-exchange/GCP-DEPLOY.md)
-- [ ] **8.e** Monitoring configured:
-  - ONIX BAP/BPP adapter health endpoints polled every 60s
-  - Alert on adapter restart or health check failure
-  - Alert on `on_status` not received within 60s of `status` call (data delivery SLA)
-- [ ] **8.f** Postman collections imported for manual testing and debugging:
-  - `usecase1/postman/data-exchange-usecase1.BAP-DEG.postman_collection.json`
-  - `usecase2/postman/data-exchange-usecase2.BAP-DEG.postman_collection.json`
-  - `usecase3/postman/data-exchange-usecase3.BAP-DEG.postman_collection.json`
-- [ ] **8.g** Internal runbook prepared:
-  - How to restart ONIX adapters without losing in-flight transactions
-  - How to rotate signing keys and re-register on testnet
-  - How to debug missing `on_*` callbacks (check adapter logs, check routing config)
+- [ ] **6.2.a** DeDi hash anchored for the test transaction — confirmed visible at `dedi.global`
+- [ ] **6.2.b** BAP recomputed hash from received `dataPayload` → matches DeDi-anchored hash
+- [ ] **6.2.c** Tamper test — modified `dataPayload` hash does **not** match DeDi record (hash mismatch detection works)
+
+### 6.3 Operations Readiness
+
+- [ ] **6.3.a** Key rotation runbook written and tested:
+  - Generate new Ed25519 key pair
+  - Register new public key with IES network registry
+  - Update secrets manager
+  - Rolling restart of ONIX adapter with new key
+  - Confirm registry updated — old key no longer used
+- [ ] **6.3.b** Incident response runbook covers:
+  - ONIX adapter failure — restart procedure, in-flight transaction recovery
+  - Data source outage — graceful error response to BAP (`on_status` with error, not a hang)
+  - DeDi unavailable — delivery proceeds; hash anchoring retried asynchronously
+- [ ] **6.3.c** Dataset update procedure defined (BPP):
+  - How catalog is updated when new datasets become available
+  - How existing consumers are notified of new dataset versions
+- [ ] **6.3.d** Log retention policy confirmed — transaction IDs and metadata retained for audit; no PII or dataset content in logs
 
 ---
 
@@ -304,13 +334,15 @@ Work through each use case you selected. Steps are the same for all three — on
 
 | Symptom | First thing to check |
 |---|---|
-| `connection refused` on 8081 or 8082 | `docker logs onix-bap` — wait 15s for initialisation |
-| ACK returned but no `on_*` callback | `docker logs mock-bpp` — check for routing or schema errors |
-| `domain not allowed` in ONIX logs | BPP is including nested `@context` in `dataPayload` — strip them |
-| Schema validation error | `schemaContext` missing from request `context` field |
-| Signature verification failed | Signing key in config doesn't match key registered on testnet |
-| `test-workflow.sh` step fails at `on_status` | Check `docker logs mock-bpp` — state machine may be out of sequence |
+| `connection refused` on ONIX ports | `docker logs onix-bap` — check for config parse errors or key load failure |
+| ACK returned but no `on_*` callback | Check routing config points to correct BPP URL; check `docker logs mock-bpp` |
+| `domain not allowed` in ONIX logs | BPP sending nested `@context` in `dataPayload` — strip before sending |
+| Schema validation error | `schemaContext` missing from request context field |
+| Signature verification failed on production | Production signing key in config doesn't match key registered on production registry |
+| DeDi hash mismatch | Canonicalization differs between BPP (publisher) and BAP (verifier) — ensure `sort_keys=True, separators=(',', ':')` on both sides |
+| BAP not receiving `on_status` | Confirm BAP callback URL is publicly reachable from the network; check firewall |
+| Testnet works but production fails | Confirm `network_id` and `participant_id` in config are production values, not testnet sandbox values |
 
 ---
 
-*Reference: [IES Data Exchange Documentation](https://india-energy-stack.gitbook.io/docs/data-exchange) · [DEG Devkit](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange) · [DDM DatasetItem Schema](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1)*
+*Reference: [IES Data Exchange Documentation](https://india-energy-stack.gitbook.io/docs/data-exchange) · [DEG Devkit](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange) · [DDM DatasetItem Schema](https://github.com/beckn/DDM) · [Beckn Protocol](https://becknprotocol.io)*

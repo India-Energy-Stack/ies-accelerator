@@ -8,48 +8,72 @@
 
 **Point of Contact:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &nbsp;&nbsp; **Email:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
----
-
-### 1. Testnet Access & Credentials
-
-- [ ] **1.a** IES testnet credentials received (BAP/BPP ID, signing key pair)
-- [ ] **1.b** Network ID confirmed: `nfh.global/testnet-deg`
-- [ ] **1.c** Use case(s) identified: ☐ Meter Telemetry &nbsp; ☐ ARR Filings &nbsp; ☐ Tariff Policies
-
-### 2. Infrastructure Setup
-
-- [ ] **2.a** Docker and Docker Compose installed
-- [ ] **2.b** DEG devkit cloned from GitHub
-- [ ] **2.c** ONIX BAP adapter deployed and health check passing (port 8081)
-- [ ] **2.d** ONIX BPP adapter deployed and health check passing (port 8082)
-- [ ] **2.e** Adapter configs updated with testnet credentials (BAP/BPP ID, signing key)
-
-### 3. Dataset Preparation
-
-- [ ] **3.a** Dataset schema selected: `IES_Report` / `IES_ARR_Filing` / `IES_Policy` + `IES_Program`
-- [ ] **3.b** Test dataset prepared and schema-compliant
-- [ ] **3.c** (BPP only) Mock or real BPP server able to serve dataset in `on_status` response
-
-### 4. Transaction Flow Integration
-
-- [ ] **4.a** `select` → `on_select` exchange working (catalog returned)
-- [ ] **4.b** `init` → `on_init` exchange working (contract activated)
-- [ ] **4.c** `confirm` → `on_confirm` exchange working (contract locked)
-- [ ] **4.d** `status` → `on_status` exchange working — dataset delivered in `dataPayload`
-- [ ] **4.e** Automated test script (`test-workflow.sh`) passing for all applicable use cases
-
-### 5. Application Integration
-
-- [ ] **5.a** BAP application receiving `on_*` callbacks at webhook URL
-- [ ] **5.b** `dataPayload` parsed and processed by consuming application
-- [ ] **5.c** (BPP only) Real dataset delivery integrated — not just mock data
-
-### 6. Go-Live
-
-- [ ] **6.a** Testnet registration complete — discoverable by other participants
-- [ ] **6.b** Production deployment planned (GCP / on-premise)
-- [ ] **6.c** Monitoring and logging in place for ONIX adapter and application
+**Use Case(s):** &nbsp; ☐ UC1 Meter Telemetry &nbsp; ☐ UC2 ARR Filings &nbsp; ☐ UC3 Tariff Policies
 
 ---
 
-*Reference: [IES Data Exchange Documentation](https://india-energy-stack.gitbook.io/docs/data-exchange) · [DEG Devkit](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange)*
+### Stage 1 — Testnet Validation
+
+*Goal: confirm your stack works end-to-end before touching production systems.*
+
+- [ ] **1.a** IES testnet credentials received from IES team (BAP/BPP ID, signing key pair)
+- [ ] **1.b** DEG devkit cloned and bootcamp stack running (all Docker services healthy)
+- [ ] **1.c** Adapter configs updated with testnet credentials
+- [ ] **1.d** Full 4-step exchange (select → init → confirm → status) working with mock BPP
+- [ ] **1.e** `dataPayload` received and validated for each applicable use case
+- [ ] **1.f** Automated test script (`test-workflow.sh`) passing for all applicable use cases
+
+### Stage 2 — DeDi Setup
+
+*Goal: establish your organisation's namespace on the decentralised data infrastructure before network registration — your DeDi namespace is referenced during registry onboarding.*
+
+- [ ] **2.a** DeDi namespace registered for your organisation at `dedi.global`
+- [ ] **2.b** DeDi namespace name noted (e.g. `bescom`, `intelligrid`): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+- [ ] **2.c** DeDi API credentials received and stored securely
+- [ ] **2.d** Namespace accessible — read test against your namespace passes
+- [ ] **2.e** (BPP) Dataset hash publication tested — BPP able to anchor hashes to DeDi namespace
+- [ ] **2.f** (BPP) Revocation registry URL configured for credentialed datasets
+
+### Stage 3 — Production Network Registration
+
+*Goal: become a registered participant on the live IES Beckn network. Your DeDi namespace is included in the registration submission.*
+
+- [ ] **3.a** Production Ed25519 signing key pair generated (separate from testnet keys)
+- [ ] **3.b** Public HTTPS domain set up with valid TLS certificate (domain + TLS in place before registration)
+- [ ] **3.c** Registration submitted to IES team — includes public signing key, callback URL, BPP endpoint URL, and DeDi namespace
+- [ ] **3.d** Production BAP/BPP ID assigned and noted
+- [ ] **3.e** Public key confirmed resolving on the IES production network registry
+- [ ] **3.f** Production network ID confirmed with IES team
+
+### Stage 4 — Real Data Integration
+
+*Goal: replace the mock BPP with a production server connected to real data systems.*
+
+- [ ] **4.a** Production BPP server built — handles all four Beckn actions (`select`, `init`, `confirm`, `status`)
+- [ ] **4.b** Real data source connected:
+  - UC1: MDMS / AMISP system — live 15-min interval meter readings
+  - UC2: ARR filing system — fiscal year cost line items
+  - UC3: Tariff management system — current rate structures and slabs
+- [ ] **4.c** `on_status` delivers real `dataPayload` (IES schema compliant) — not mock data
+- [ ] **4.d** Dataset catalog published on the production network — discoverable by other participants
+- [ ] **4.e** (BAP) Real consuming application integrated — processes `dataPayload` and ingests into internal systems
+
+### Stage 5 — Production Infrastructure
+
+*Goal: production-grade deployment with security, reliability, and observability.*
+
+- [ ] **5.a** ONIX adapter deployed to production environment (GCP / on-premise) with production credentials
+- [ ] **5.b** BPP server deployed with HTTPS, behind a load balancer
+- [ ] **5.c** Secrets (signing keys, API keys) stored in a secrets manager — not in config files
+- [ ] **5.d** Monitoring and alerting active for ONIX adapter health and data delivery SLA
+
+### Stage 6 — Go-Live Verification
+
+- [ ] **6.a** End-to-end exchange tested on production network with a real counterpart (not testnet mock)
+- [ ] **6.b** Data integrity verified — delivered `dataPayload` matches source system data
+- [ ] **6.c** DeDi hash anchoring confirmed on production datasets
+- [ ] **6.d** Operations runbook prepared (key rotation, incident response, dataset updates)
+
+---
+
+*Reference: [IES Data Exchange Documentation](https://india-energy-stack.gitbook.io/docs/data-exchange) · [DEG Devkit](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange) · [Beckn Protocol](https://becknprotocol.io)*
