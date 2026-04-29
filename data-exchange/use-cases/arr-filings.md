@@ -84,6 +84,106 @@ The schema maps directly to the standard ARR format prescribed by most SERCs, ma
 
 ---
 
+## Proposal: OpenADR 3 Standardized Format
+
+To align with global grid standards and enable automated processing by generic regulatory tools, the ARR filing can be represented using the **OpenADR 3.0 REPORT** format.
+
+### Mapping Strategy
+| Custom Schema Concept | OpenADR 3 Mapping | Rationale |
+|---|---|---|
+| **Fiscal Year** | `intervalPeriod` | A 1-year duration (`P1Y`) starting from April 1st. |
+| **ARR Categories** | `resourceName` | Each cost or energy heading is treated as a logical resource. |
+| **Financial Values** | `payloadType: PRICE` | Standard type for financial/cost data (Units: `INR_CRORES`). |
+| **Energy Quantities** | `payloadType: USAGE` | Standard type for energy volumes (Units: `MU` for Million Units). |
+| **Projections** | `readingType: FORECAST` | Used for the coming year's estimated Aggregate Revenue Requirement. |
+| **Historical Actuals** | `readingType: SUMMED` | Used for "True-up" sections showing actual historical costs. |
+
+### OpenADR 3 JSON Example
+This example shows how the "Power Purchase Cost" and "Total Energy" for a fiscal year are represented as resources within a single Report.
+
+```json
+{
+  "objectType": "REPORT",
+  "reportID": "BESCOM-ARR-2026-27",
+  "programID": "regulatory-arr-filing",
+  "reportPayloadDescriptors": [
+    {
+      "payloadType": "PRICE",
+      "readingType": "FORECAST",
+      "units": "INR_CRORES"
+    },
+    {
+      "payloadType": "USAGE",
+      "readingType": "FORECAST",
+      "units": "MU"
+    }
+  ],
+  "resources": [
+    {
+      "resourceName": "Power Purchase Cost",
+      "intervalPeriod": {
+        "start": "2026-04-01T00:00:00Z",
+        "duration": "P1Y"
+      },
+      "intervals": [
+        {
+          "id": 0,
+          "payloads": [{"type": "PRICE", "values": [12450.5]}]
+        }
+      ]
+    },
+    {
+      "resourceName": "Total Energy Requirement",
+      "intervalPeriod": {
+        "start": "2026-04-01T00:00:00Z",
+        "duration": "P1Y"
+      },
+      "intervals": [
+        {
+          "id": 0,
+          "payloads": [{"type": "USAGE", "values": [15200.0]}]
+        }
+      ]
+    }
+  ]
+}
+```
+
+##### Historical Actuals (True-up for 2024-25)
+This example uses `readingType: SUMMED` to indicate actual historical values rather than projections.
+
+```json
+{
+  "objectType": "REPORT",
+  "reportID": "BESCOM-TRUE-UP-2024-25",
+  "programID": "regulatory-arr-filing",
+  "reportPayloadDescriptors": [
+    {
+      "payloadType": "PRICE",
+      "readingType": "SUMMED",
+      "units": "INR_CRORES"
+    }
+  ],
+  "resources": [
+    {
+      "resourceName": "Power Purchase Cost",
+      "intervalPeriod": {
+        "start": "2024-04-01T00:00:00Z",
+        "duration": "P1Y"
+      },
+      "intervals": [
+        {
+          "id": 0,
+          "payloads": [{"type": "PRICE", "values": [11820.3]}]
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
 ## Transaction Flow
 
 ### 1. Select
@@ -105,6 +205,10 @@ The SERC (BAP) requests the DISCOM's ARR filing for a specific fiscal year:
         {
           "id": "bescom-arr-filing-2026-27",
           "descriptor": { "code": "IES_ARR_Filing" }
+        },
+        {
+          "id": "bescom-arr-report-2026-27",
+          "descriptor": { "code": "OpenADR_Report" }
         }
       ],
       "fulfillments": [
@@ -163,6 +267,7 @@ The SERC calls `status`. The DISCOM delivers the filing inline:
 | No standard schema — different DISCOMs format differently | Uniform `IES_ARR_Filing` schema across all DISCOMs |
 | No audit trail on submission | Every exchange is signed, timestamped, and logged in Beckn |
 | Filing disputes require going back to paper trail | Cryptographically signed payload is non-repudiable |
+| Proprietary schemas limit interoperability | OpenADR 3 alignment allows use of standard grid management tools |
 
 ---
 
