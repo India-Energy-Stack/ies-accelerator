@@ -23,5 +23,6 @@
   * [Meter Telemetry](data-exchange/use-cases/meter-telemetry/README.md)
     * [Survey of Existing Terminology](data-exchange/use-cases/meter-telemetry/survey-of-existing-terminology.md)
     * [IES Data Model](data-exchange/use-cases/meter-telemetry/ies-data-model.md)
+    * [IES Resource Addressing](data-exchange/use-cases/meter-telemetry/ies-resource-addressing.md)
   * [ARR Filings](data-exchange/use-cases/arr-filings.md)
   * [Tariff Policies](data-exchange/use-cases/tariff-policies.md)
