@@ -195,3 +195,4 @@ docker logs sandbox-bap 2>&1 | tail -100
 * [Example payloads](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange/usecase1/examples)
 * [survey-of-existing-terminology.md](survey-of-existing-terminology.md "mention")
 * [ies-data-model.md](ies-data-model.md "mention")
+* [ies-resource-addressing.md](ies-resource-addressing.md "mention")
