@@ -71,6 +71,7 @@ IES Data Exchange currently supports three dataset types:
 | [Core Concepts](./concepts.md) | DEG primitives, Beckn lifecycle, inline data delivery |
 | [Onboarding Guide](./onboarding.md) | Step-by-step setup for BAPs and BPPs |
 | [Architecture](./architecture.md) | Full transaction flow, component diagram, network config |
+| [Unify but not uniform](./unify-but-not-uniform.md) | Scalable architecture with semantic layers and evolvability |
 | [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes |
 | [Use Cases](./use-cases/README.md) | Detailed walkthroughs for each dataset type |
 

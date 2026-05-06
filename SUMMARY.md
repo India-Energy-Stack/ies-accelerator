@@ -18,6 +18,7 @@
 * [Core Concepts](data-exchange/concepts.md)
 * [Onboarding Guide](data-exchange/onboarding.md)
 * [Architecture](data-exchange/architecture.md)
+* [Unify but not uniform](data-exchange/unify-but-not-uniform.md)
 * [Quick Start](data-exchange/quick-start.md)
 * [Use Cases](data-exchange/use-cases/README.md)
   * [Meter Telemetry](data-exchange/use-cases/meter-telemetry/README.md)
