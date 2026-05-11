@@ -47,22 +47,17 @@ Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a documen
 
 > If your DISCOM already issues electricity bills (ELBIL) on DigiLocker, contact NeGD to add the `NYCER` document type to your existing account. Do not re-register.
 
-### Step 2 — Set Up Your Signing Key and Issuer DID
+### Step 2 — Stand Up OpenCred and Your Issuer DID
 
-Using the **OpenCred Desktop Client** (or Docker API):
+Follow [Deployment](./onboarding.md) end-to-end. By the time you reach this page you should have:
 
-1. Generate an ECDSA P-256 keypair: Settings → Generate Key → **Generate ECDSA P-256 Key**
-2. Enter your domain (e.g. `ies.tpddl.in`)
-3. Download the DID document, upload it to `https://ies.tpddl.in/.well-known/did.json`
-4. Your issuer DID is `did:web:ies.tpddl.in`
-
-Alternatively, import an existing DSC (PFX/PEM) — OpenCred derives `did:key` from its public key.
+- OpenCred running with `signingKeyLoaded: true`
+- An issuer DID — `did:web:ies.tpddl.in` (recommended) or `did:key:…` (from an imported DSC)
+- (Optional, recommended) DeDi configured for revocation
 
 Save your issuer DID — it goes into every `POST /v1/credentials/issue` call.
 
-> See [OpenCred key management docs](https://opencred.gitbook.io/docs/desktop-client/key-management) for all key import options.
-
-### Step 4 — Register Pull URI Endpoint on API Setu
+### Step 3 — Register the Pull URI Endpoint on API Setu
 
 | Field | Value |
 |---|---|
@@ -143,40 +138,60 @@ if not consumer:
 import requests
 
 credential_response = requests.post(
-    "http://localhost:3100/v1/credentials/issue",
+    "http://opencred:3100/v1/credentials/issue",
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
     json={
-        "issuer": ISSUER_DID,                    # e.g. "did:web:ies.tpddl.in"
-        "credentialType": "ElectricityConnectionCredential",
+        "issuerDid": ISSUER_DID,                # e.g. "did:web:ies.tpddl.in"
+        "additionalTypes": ["EnergyCredential", "UtilityCustomerCredential"],
         "proofFormat": "data-integrity",
-        "credentialSubject": {
-            "fullName": consumer.full_name,
-            "consumerNumber": consumer.consumer_number,
-            "serviceAddress": consumer.service_address,
-            "serviceConnectionDate": consumer.connection_date.isoformat(),
-            "meterNumber": consumer.meter_number,
-            "maskedIdNumber": consumer.masked_aadhaar
-        },
         "validFrom": datetime.utcnow().isoformat() + "Z",
         "validUntil": (datetime.utcnow() + timedelta(days=365)).isoformat() + "Z",
-        "revocationRegistryUrl": DEDI_REVOCATION_URL
+        "inlineContext": {
+            "@context": [
+                "https://schema.beckn.io/EnergyCredential/v2.0",
+                "https://schema.beckn.io/UtilityCustomerCredential/v2.0"
+            ]
+        },
+        "credentialSubject": {
+            "id": holder_did,                   # did:key generated for this consumer
+            "consumerNumber": consumer.consumer_number,
+            "fullName": consumer.full_name,
+            "installationAddress": {
+                "fullAddress": consumer.address_line,
+                "postalCode": consumer.pincode,
+                "country": "IN",
+                "city": consumer.city,
+                "stateProvince": consumer.state_code,
+            },
+            "meterNumber": consumer.meter_number,
+            "serviceConnectionDate": consumer.connection_date.isoformat(),
+            "maskedIdNumber": consumer.masked_aadhaar
+        },
+        "revocationRegistryUrl": DEDI_REVOCATION_URL,
+        "packageFormats": ["pdf"]   # ask OpenCred to render the PDF for you
     }
 ).json()
 
-vc_json = credential_response   # the full signed VC is the response body
+vc_json = credential_response["credential"]
+pdf_bytes = base64.b64decode(
+    next(p for p in credential_response.get("packagedOutputs", [])
+         if p["format"] == "pdf")["contentBase64"]
+)
 ```
 
-### Step 5 — Render the PDF
+### Step 5 — Package the PDF and VC for the response
 
-OpenCred does not generate PDFs directly — render the signed VC JSON using your preferred PDF library or a template engine. Embed the VC JSON as a QR code on the PDF for verifier scanning.
+OpenCred can render the PDF for you when you pass `packageFormats: ["pdf"]` (already done in Step 4 above). The PDF carries the signed credential payload in its info dictionary and embeds a scannable QR — DigiLocker stores the PDF, and verifiers can later re-extract the credential from the PDF itself.
 
 ```python
-from your_pdf_lib import render_credential_pdf
+import base64, json
 
-pdf_bytes = render_credential_pdf(vc_json, template="nycer")
+# pdf_bytes came back from the OpenCred response in Step 4
 pdf_b64 = base64.b64encode(pdf_bytes).decode()
 vc_b64 = base64.b64encode(json.dumps(vc_json).encode()).decode()
 ```
+
+If your DISCOM wants a custom PDF design instead (branded letterhead, regional language), render server-side with your own template engine and embed the QR + the credential JSON as you prefer. The `VcContent` field in the PullURIResponse is what verifiers actually parse — the PDF is mostly for human display.
 
 ### Step 6 — Return the PullURIResponse
 
@@ -213,9 +228,9 @@ def build_pulluri_response(ts, txn, consumer, pdf_b64, vc_b64):
 2. Verify x-digilocker-hmac → HTTP 401 if invalid
 3. Parse XML → extract UDF1, UDF2, ts, txn
 4. Lookup consumer in CIS → error response if not found
-5. POST /credential/credentials/issue → get credential_id + VC JSON
-6. GET /credential/credentials/{id} → get PDF bytes
-7. Base64-encode PDF and VC
+5. Resolve / generate the consumer's holder DID
+6. POST /v1/credentials/issue with packageFormats=["pdf"] → signed VC + PDF
+7. Base64-encode PDF and VC for the response envelope
 8. Return PullURIResponse XML with Status=1
 ```
 

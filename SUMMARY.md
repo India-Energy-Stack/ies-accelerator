@@ -7,7 +7,8 @@
 
 * [Overview](energy-credentials/README.md)
 * [Core Concepts](energy-credentials/concepts.md)
-* [Onboarding Guide](energy-credentials/onboarding.md)
+* [Schemas](energy-credentials/schemas.md)
+* [Deployment](energy-credentials/onboarding.md)
 * [Issuing Credentials](energy-credentials/issuance.md)
 * [Verifying Credentials](energy-credentials/verification.md)
 * [DigiLocker Integration](energy-credentials/digilocker-integration.md)
