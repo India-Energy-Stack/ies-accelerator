@@ -1,186 +1,359 @@
-# Onboarding Guide — Energy Credentials
+# Deployment
 
-This guide walks you through the complete setup to start issuing or verifying IES Energy Credentials using **OpenCred** — the open-source W3C VC platform that IES credential services are built on.
+This page walks a DISCOM tech team from zero to a running OpenCred service that can sign DEG energy credentials. At the end you will have:
 
-> Full OpenCred documentation: [https://opencred.gitbook.io/docs](https://opencred.gitbook.io/docs)
+- The OpenCred server running on Linux
+- A signing key loaded — either from a file, an HSM, or your existing DSC
+- A `did:web` (or `did:key`) issuer DID published and resolvable
+- (Optional) A DeDi namespace configured for revocation
 
----
-
-## Choose Your Role
-
-| Role | What you do | Setup path |
-|---|---|---|
-| **DISCOM (Issuer)** | Issue electricity connection credentials to consumers via DigiLocker | [DISCOM Onboarding](#discom-onboarding) |
-| **Certification Body (Issuer)** | Issue green energy / safety / compliance credentials to assets | [Certification Body Onboarding](#certification-body-onboarding) |
-| **Service Provider (Verifier)** | Verify credentials presented by consumers | [Verifier Onboarding](#verifier-onboarding) |
+You will issue your first credential in [Issuing Credentials](./issuance.md).
 
 ---
 
-## DISCOM Onboarding
+## Prerequisites
 
-### Prerequisites
+- A Linux host (cloud VM, on-prem, or Kubernetes node) with outbound HTTPS
+- Docker 20.10+
+- One of:
+  - A domain you control for `did:web` (recommended) — e.g. `ies.tpddl.in`
+  - An existing Digital Signature Certificate (DSC) in PFX/PEM form
+  - An AWS / Azure / GCP KMS key with appropriate IAM access
+- (Optional, for revocation) A DeDi namespace from [dedi.global](https://dedi.global) and either an API key or bearer credentials
+- A secrets manager (Vault, AWS Secrets Manager, Azure Key Vault) for `OPENCRED_API_KEY` and DeDi credentials
 
-- [ ] Organisation registered on [API Setu](https://apisetu.gov.in) as a DigiLocker issuer (or existing issuer account — contact NeGD)
-- [ ] An HTTPS endpoint you can expose for DigiLocker's inbound Pull URI calls
-- [ ] Docker installed (for production API deployment)
-- [ ] Read access to your CIS / billing database for consumer lookups
+---
 
-### Step 1 — Deploy OpenCred
-
-Set up the OpenCred Docker service. This is the credential signing engine your DISCOM will call at runtime.
+## Step 1 — Pull the OpenCred image
 
 ```bash
-# Generate a secure API key
-export OPENCRED_API_KEY=$(openssl rand -base64 32)
+docker pull ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
+```
 
+The image is public; no GHCR authentication is needed. Pin to a specific tag (`:v1.x.y`) in production rather than `latest`.
+
+---
+
+## Step 2 — Decide your signing-key model
+
+| Model | Best for | Setup |
+|---|---|---|
+| **Software file (PEM/JWK/PFX)** | Dev, small DISCOMs, first deploy | Generate or import; mount read-only |
+| **Cloud KMS** (AWS / Azure / GCP) | Production at scale | One IAM grant; OpenCred uses default credential chain |
+| **Existing DSC** | DISCOMs already operating with a CCA-issued DSC | Import as PFX/PEM; OpenCred derives `did:key` |
+
+For a first deploy, generate an ECDSA P-256 key locally. You can rotate to KMS later without changing your DID by re-uploading the same public key.
+
+### Generate a software key
+
+```bash
+# Inside a secure host (not a shared dev box)
+openssl ecparam -name prime256v1 -genkey -noout -out issuer-key.pem
+chmod 600 issuer-key.pem
+
+# Extract the public key for did:web
+openssl ec -in issuer-key.pem -pubout -out issuer-pub.pem
+```
+
+Move `issuer-key.pem` to your secrets store. Do not commit it.
+
+---
+
+## Step 3 — Set up your issuer DID
+
+### Option A — `did:web` (recommended)
+
+You publish a single static JSON file at `https://<your-domain>/.well-known/did.json`. Verifiers fetch it to validate signatures.
+
+1. Boot OpenCred locally with your software key (Step 4 below).
+2. Call `POST /v1/keys/publish` (or compose the DID document manually — see below) to get the published JSON.
+3. Upload the JSON to `https://ies.tpddl.in/.well-known/did.json` via your web server.
+4. Your issuer DID is `did:web:ies.tpddl.in`.
+
+A minimal `did.json`:
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1"
+  ],
+  "id": "did:web:ies.tpddl.in",
+  "verificationMethod": [{
+    "id": "did:web:ies.tpddl.in#key-1",
+    "type": "JsonWebKey2020",
+    "controller": "did:web:ies.tpddl.in",
+    "publicKeyJwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "<base64url x>",
+      "y": "<base64url y>"
+    }
+  }],
+  "assertionMethod": ["did:web:ies.tpddl.in#key-1"],
+  "authentication": ["did:web:ies.tpddl.in#key-1"]
+}
+```
+
+OpenCred's `did:web` resolver enforces HTTPS-only, no redirects, no private-IP targets, and a 10-second timeout — make sure the file is served from a public HTTPS endpoint with a CA-issued certificate.
+
+### Option B — `did:key` from a DSC
+
+Mount the DSC file and let OpenCred derive a `did:key` from the certificate's public key.
+
+```bash
 docker run -p 3100:3100 \
   -e OPENCRED_API_KEY=$OPENCRED_API_KEY \
+  -e OPENCRED_KEY_PATH=/secrets/issuer.pfx \
+  -e OPENCRED_KEY_PASSWORD=$PFX_PASSWORD \
+  -v $(pwd)/issuer.pfx:/secrets/issuer.pfx:ro \
+  ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
+```
+
+Read the issuer DID from `GET /v1/keys`. You will pass it as `issuerDid` in every issue call.
+
+---
+
+## Step 4 — Run OpenCred
+
+### Quick start (software key)
+
+```bash
+export OPENCRED_API_KEY=$(openssl rand -base64 32)
+
+docker run -d --name opencred -p 3100:3100 \
+  -e OPENCRED_PORT=3100 \
+  -e OPENCRED_API_KEY=$OPENCRED_API_KEY \
   -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
-  -v /path/to/your-key.pem:/secrets/issuer-key.pem:ro \
-  opencred:latest
+  -e OPENCRED_LOG_LEVEL=info \
+  -v /etc/opencred/issuer-key.pem:/secrets/issuer-key.pem:ro \
+  --read-only \
+  --tmpfs /tmp:noexec,nosuid,size=64m \
+  --cap-drop ALL \
+  --security-opt no-new-privileges:true \
+  ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
 ```
 
-Verify it's running:
+Sanity check:
+
 ```bash
-curl http://localhost:3100/v1/health
-# → 200 OK
+curl -s http://localhost:3100/v1/health
+# {"status":"ok","ready":true,"signingKeyLoaded":true, ...}
 ```
 
-See [Issuing Credentials](./issuance.md#docker-api) for the full Docker Compose setup and Cloud KMS options.
+### Docker Compose (production)
 
-### Step 2 — Set Up Your Signing Key and Issuer DID
+```yaml
+services:
+  opencred:
+    image: ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
+    container_name: opencred
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3100:3100"   # bind only to localhost; TLS-terminate upstream
+    environment:
+      OPENCRED_PORT: "3100"
+      OPENCRED_API_KEY: ${OPENCRED_API_KEY}
+      OPENCRED_KEY_PATH: /secrets/issuer-key.pem
+      OPENCRED_KEY_LABEL: discom-prod-issuer
+      OPENCRED_LOG_LEVEL: info
+      # DeDi (optional)
+      OPENCRED_DEDI_BASE_URL: https://dedi.global
+      OPENCRED_DEDI_AUTH_TYPE: api-key
+      OPENCRED_DEDI_API_KEY: ${DEDI_API_KEY}
+      OPENCRED_DEDI_NAMESPACE: tpddl
+    volumes:
+      - /etc/opencred/issuer-key.pem:/secrets/issuer-key.pem:ro
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3100/v1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+```
 
-You need a signing key and a DID that identifies your DISCOM as the credential issuer. OpenCred supports three approaches:
+Always terminate TLS upstream (nginx, Caddy, ALB) — the container speaks plain HTTP intentionally.
 
-**Option A — Import an existing Digital Signature Certificate (DSC)**
-- Use the OpenCred Desktop Client → Settings → Import File
-- Import your PFX, PEM, or hardware token
-- OpenCred derives `did:key` from your certificate's public key
+### Cloud KMS variants
 
-**Option B — Generate a fresh ECDSA P-256 key (recommended for new deployments)**
-- Open the OpenCred Desktop Client → Settings → Generate Key → **Generate ECDSA P-256 Key**
-- Enter your domain (e.g. `ies.tpddl.in`)
-- Download the DID document and upload it to `https://ies.tpddl.in/.well-known/did.json`
-- Your issuer DID is `did:web:ies.tpddl.in`
+```bash
+# AWS KMS
+-e OPENCRED_KMS_PROVIDER=aws \
+-e OPENCRED_KMS_KEY_ARN=arn:aws:kms:ap-south-1:111:key/...
 
-**Option C — Hardware token (PKCS#11)**
-- OpenCred Desktop Client → Settings → Hardware Token
-- Select library, slot, and enter PIN
+# Azure Key Vault
+-e OPENCRED_KMS_PROVIDER=azure \
+-e OPENCRED_AZURE_KEY_VAULT_URL=https://discom-kv.vault.azure.net \
+-e OPENCRED_AZURE_KEY_NAME=opencred-issuer
 
-Save your issuer DID — you will pass it in every credential issuance API call.
+# GCP Cloud KMS
+-e OPENCRED_KMS_PROVIDER=gcp \
+-e OPENCRED_GCP_KMS_KEY_NAME=projects/.../cryptoKeyVersions/1
+```
 
-### Step 3 — Register on API Setu as a DigiLocker Issuer
-
-If not already registered:
-1. Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register your organisation
-2. Add the `NYCER` document type with these parameters:
-
-| Field | Value |
-|---|---|
-| Endpoint URL | `https://{your-domain}/digilocker/pulluri` |
-| HTTP Method | `POST` |
-| Content-Type | `application/xml` |
-| DocType | `NYCER` |
-| UDF1 Label | `Consumer Number` |
-| UDF2 Label | `Registered Mobile Number` |
-
-You receive an `issuer_id` (e.g. `in.gov.tpddl`) and an `api_key`. Store the `api_key` securely — you need it to verify inbound HMAC headers from DigiLocker.
-
-> If your DISCOM is already on DigiLocker for ELBIL, contact NeGD to add `NYCER` to your existing account. Do not re-register.
-
-### Step 4 — Build the Pull URI Endpoint
-
-Build and deploy an HTTPS endpoint at `https://{your-domain}/digilocker/pulluri`. This is the only custom code your DISCOM writes.
-
-At runtime, the handler:
-1. Verifies the inbound HMAC from DigiLocker
-2. Looks up the consumer in your CIS
-3. Calls OpenCred's `POST /v1/credentials/issue` to produce a signed credential
-4. Returns the signed VC (JSON) and a rendered PDF in the `PullURIResponse` XML
-
-For the full endpoint specification, request/response formats, HMAC verification, and code samples, see the [DigiLocker Integration guide](./digilocker-integration.md).
-
-### Step 5 — Test End-to-End
-
-Use the OpenCred Desktop Client to issue a test credential for a sample consumer. Confirm the output VC is well-formed, then run a simulated DigiLocker inbound request against your Pull URI endpoint and verify the response is a valid `PullURIResponse`.
-
-### Step 6 — Go Live
-
-Switch to the production DigiLocker endpoint on API Setu. Consumers can immediately find their `NYCER` credential in the DigiLocker app.
+Each variant uses the cloud's default credential chain (IAM role, workload identity, ADC). No keys live on disk.
 
 ---
 
-## Certification Body Onboarding
+## Step 5 — Environment variables reference
 
-Certification bodies issue credentials about energy assets — green energy certificates, grid interconnection approvals, safety compliance.
-
-### Step 1 — Deploy OpenCred
-
-Same as the DISCOM flow. See [Step 1 above](#step-1--deploy-opencred).
-
-### Step 2 — Set Up Signing Key and Issuer DID
-
-Same as [Step 2 above](#step-2--set-up-your-signing-key-and-issuer-did).
-
-### Step 3 — Issue Credentials After Inspection
-
-After an audit or inspection, call OpenCred's issue endpoint with the asset's fields and the appropriate `credentialType` (e.g. `GreenEnergyCertificate`, `GridInterconnectionApproval`, `SafetyCertificate`). Deliver the signed VC to the asset holder's DID.
-
-See [Issuing Credentials](./issuance.md) for the full API reference.
+| Variable | Required? | Default | Purpose |
+|---|---|---|---|
+| `OPENCRED_PORT` | No | `3100` | HTTP listen port |
+| `OPENCRED_API_KEY` | Yes | — | Bearer token for protected endpoints. Fail-closed if missing. |
+| `OPENCRED_DEV_MODE_NO_AUTH` | No | `false` | Disables auth — **dev only**, do not set in production |
+| `OPENCRED_LOG_LEVEL` | No | `info` | `fatal/error/warn/info/debug/trace` |
+| `OPENCRED_KEY_PATH` | One of these | — | Path to PEM/JWK/PKCS#8/PFX file |
+| `OPENCRED_KEY_PASSWORD` | No | — | PFX password |
+| `OPENCRED_KEY_LABEL` | No | `server-key` | Human label visible in `GET /v1/keys` |
+| `OPENCRED_KMS_PROVIDER` | One of these | `none` | `aws` \| `azure` \| `gcp` \| `none` |
+| `OPENCRED_KMS_KEY_ARN` | If aws | — | AWS KMS key ARN |
+| `OPENCRED_AZURE_KEY_VAULT_URL` | If azure | — | Azure Key Vault URL |
+| `OPENCRED_AZURE_KEY_NAME` | If azure | — | Key name in vault |
+| `OPENCRED_GCP_KMS_KEY_NAME` | If gcp | — | Full GCP KMS resource name with version |
+| `OPENCRED_BATCH_ROW_LIMIT` | No | `1000` | Max rows per batch CSV |
+| `OPENCRED_SESSION_TTL` | No | `14400` | Seconds before ephemeral batch results expire |
+| `OPENCRED_CSCA_TRUST_STORE_PATH` | No | — | Directory of CSCA PEMs for DSC verification |
+| `OPENCRED_SCHEMA_UPDATE_URL` | No | — | HTTPS manifest for schema updates |
+| `OPENCRED_SCHEMA_CACHE_DIR` | No | — | Persistent schema cache directory |
+| `OPENCRED_DEDI_BASE_URL` | If revocation | — | DeDi instance endpoint |
+| `OPENCRED_DEDI_AUTH_TYPE` | If DeDi | — | `api-key` \| `bearer` |
+| `OPENCRED_DEDI_API_KEY` | If api-key | — | DeDi API key |
+| `OPENCRED_DEDI_EMAIL` | If bearer | — | DeDi bearer email |
+| `OPENCRED_DEDI_PASSWORD` | If bearer | — | DeDi bearer password |
+| `OPENCRED_DEDI_NAMESPACE` | If DeDi | — | Default namespace for your DISCOM |
+| `OPENCRED_DEDI_TIMEOUT_MS` | No | `10000` | DeDi request timeout (1000–30000) |
 
 ---
 
-## Verifier Onboarding
+## Step 6 — Configure DeDi for revocation (optional, recommended)
 
-Service providers who need to verify credentials have a lighter integration.
+1. Register a namespace on [dedi.global](https://dedi.global) — typically your DISCOM short code (`tpddl`, `bescom`, etc.).
+2. Receive an API key or bearer credentials.
+3. Set the `OPENCRED_DEDI_*` env vars above.
+4. Ensure the namespace's required registries exist:
+   ```bash
+   curl -X POST http://localhost:3100/v1/dedi/namespace/ensure \
+     -H "Authorization: Bearer $OPENCRED_API_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{"namespace": "tpddl"}'
+   ```
+   This idempotently creates `vc-revocation-registry`, `public_key_registry`, `schema_registry`, and `context_registry`.
 
-### Step 1 — Deploy OpenCred (or use Desktop Client)
+Restart `/v1/health` should now show `"dediConfigured": true`.
 
-For automated verification in production, deploy OpenCred as a Docker service (same as above). For manual spot-checks, the Desktop Client's Verify page is sufficient.
+---
 
-### Step 2 — Implement DigiLocker OAuth (for consumer credentials)
+## Step 7 — Reverse proxy and TLS
 
-To receive credentials shared by consumers via DigiLocker:
+Terminate TLS upstream. Minimal nginx site:
 
-1. Register your application on [API Setu](https://apisetu.gov.in) as a DigiLocker requester
-2. Implement the DigiLocker OAuth 2.0 + PKCE flow:
-   - Redirect consumer to DigiLocker with `req_doctype=NYCER`
-   - Exchange auth code for access token
-   - Fetch the `VcContent` from DigiLocker's file API
-3. Extract the base64-encoded VC JSON from `VcContent`
-4. Verify HMAC on the DigiLocker response
+```nginx
+server {
+  listen 443 ssl http2;
+  server_name opencred.ies.tpddl.in;
 
-### Step 3 — Verify with OpenCred
+  ssl_certificate     /etc/ssl/ies.tpddl.in.fullchain.pem;
+  ssl_certificate_key /etc/ssl/ies.tpddl.in.key;
 
-Pass the decoded VC to OpenCred's verify endpoint for cryptographic assurance:
+  client_max_body_size 25m;   # for batch CSV uploads + PDF verify
+  proxy_read_timeout 60s;
+
+  location / {
+    proxy_pass http://127.0.0.1:3100;
+    proxy_set_header Host              $host;
+    proxy_set_header X-Forwarded-For   $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+}
+```
+
+Restrict this domain to internal callers (firewall, mTLS, or VPN). OpenCred is not designed to be exposed to the public internet — it sits behind your DISCOM's API gateway.
+
+The `did.json` for `did:web:ies.tpddl.in` must be served from the **`ies.tpddl.in`** apex (not `opencred.ies.tpddl.in`). Use a separate nginx server block or static hosting for `.well-known/did.json`.
+
+---
+
+## Step 8 — Kubernetes (optional)
+
+If you run Kubernetes, set probes:
+
+```yaml
+livenessProbe:
+  httpGet: { path: /v1/health, port: 3100 }
+  initialDelaySeconds: 10
+  periodSeconds: 30
+readinessProbe:
+  httpGet: { path: /v1/health, port: 3100 }
+  initialDelaySeconds: 5
+  periodSeconds: 10
+```
+
+Mount the signing key from a `Secret` or use the cloud's CSI driver to project KMS credentials.
+
+---
+
+## Production checklist
+
+- [ ] `OPENCRED_API_KEY` rotated quarterly; stored in a secrets manager, never committed
+- [ ] Signing key file `chmod 0600`; mount read-only
+- [ ] Container runs as non-root (`node` user; verify with `docker exec opencred id`)
+- [ ] TLS terminated upstream; container bound to `127.0.0.1`
+- [ ] Image pinned to a specific SHA, not `latest`
+- [ ] `/v1/health` wired to your orchestrator and to monitoring alerts
+- [ ] JSON logs (pino) shipped to your aggregator (ELK, Loki, Datadog)
+- [ ] DeDi namespace provisioned and credentials present (if using revocation)
+- [ ] `did:web` JSON published, resolvable from the public internet, and validated against `GET https://<domain>/.well-known/did.json`
+- [ ] Backups: **none needed** — OpenCred is stateless. Back up only the signing key and DeDi credentials.
+
+---
+
+## Verifying the deployment
 
 ```bash
-curl -X POST http://localhost:3100/v1/credentials/verify \
+# Health
+curl -s http://localhost:3100/v1/health
+
+# Keys loaded
+curl -s http://localhost:3100/v1/keys -H "Authorization: Bearer $OPENCRED_API_KEY"
+
+# Schemas available
+curl -s http://localhost:3100/v1/schemas -H "Authorization: Bearer $OPENCRED_API_KEY"
+
+# DID resolution end-to-end (proves did:web is reachable)
+curl -s -X POST http://localhost:3100/v1/keys/resolve \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "credential": { /* decoded VC JSON */ } }'
+  -d '{"did": "did:web:ies.tpddl.in"}'
 ```
 
-See [Verifying Credentials](./verification.md) for the full response format and revocation details.
+If all four succeed, you are ready to issue your first credential. Move on to [Issuing Credentials](./issuance.md).
 
 ---
 
-## Checklist Summary
+## Troubleshooting
 
-### DISCOM (Issuer)
-- [ ] OpenCred Docker deployed and healthy (`/v1/health` returns 200)
-- [ ] Signing key set up — issuer DID confirmed (`did:key:...` or `did:web:...`)
-- [ ] Registered on API Setu (`issuer_id` + `api_key` saved)
-- [ ] Pull URI endpoint built, tested, and deployed at HTTPS
-- [ ] End-to-end test passed with sample consumer
-- [ ] Production endpoint registered on API Setu
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Container exits immediately with config error | Missing required env var | Check the Zod error in stderr; set the named variable |
+| `/v1/health` returns 503, `signingKeyLoaded: false` | Key file unreadable inside container | Re-check mount path and permissions; ensure file owned by readable by uid 1000 |
+| All requests return 401 | `Authorization: Bearer …` header missing | Add the header (or set `OPENCRED_DEV_MODE_NO_AUTH=true` in dev) |
+| `did:web` resolution fails | `.well-known/did.json` returns redirect, private IP, or non-HTTPS | Serve directly over HTTPS with a public CA cert; no redirects |
+| Revocation operations error with `DEDI_NOT_CONFIGURED` | DeDi env vars not set | Set `OPENCRED_DEDI_*` and restart |
 
-### Certification Body (Issuer)
-- [ ] OpenCred Docker deployed and healthy
-- [ ] Signing key set up — issuer DID confirmed
-- [ ] Issuance API integration tested with a sample asset credential
+---
 
-### Verifier
-- [ ] OpenCred deployed (or Desktop Client for manual use)
-- [ ] DigiLocker OAuth flow implemented
-- [ ] Verify endpoint integration tested
+## References
+
+- [OpenCred — Docker overview](https://opencred.gitbook.io/docs/docker-image/docker)
+- [OpenCred — Deployment](https://opencred.gitbook.io/docs/docker-image/deployment)
+- [OpenCred — Cloud HSM](https://opencred.gitbook.io/docs/docker-image/cloud-hsm)
+- [OpenCred — Observability](https://opencred.gitbook.io/docs/docker-image/observability)
+- [OpenCred — Security overview](https://opencred.gitbook.io/docs/security/security)

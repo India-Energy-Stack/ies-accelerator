@@ -1,188 +1,168 @@
-# Verifying Credentials
+# Verification
 
-Verification checks that a credential is authentic, unexpired, and unrevoked. OpenCred handles this entirely locally — no network calls are needed for `did:key` credentials because JSON-LD contexts are bundled and DID resolution runs in-process.
+DISCOMs primarily *issue* credentials, but you will be asked two questions repeatedly by partners:
 
-> Full OpenCred documentation: [https://opencred.gitbook.io/docs](https://opencred.gitbook.io/docs)
+1. **"How do we verify the credentials you give our consumer?"** — for banks, marketplaces, regulators, service providers receiving a credential.
+2. **"How do I check a credential I just issued is well-formed?"** — for your own QA before pushing to DigiLocker.
+
+This page answers both. It is intentionally short — verification is a property of the credential, not something the DISCOM has to host as a service.
 
 ---
 
-## Two Ways to Verify
+## What Verification Checks
 
-| Method | Best for |
+A successful verification confirms all of these:
+
+| Check | What it means |
 |---|---|
-| [Desktop Client](#desktop-client) | Manual spot checks, debugging |
-| [Docker API](#docker-api) | Production — automated verification in your application |
+| `signature` | The `proof.proofValue` matches the issuer's published public key |
+| `date` / `notBefore` / `expiry` | `validFrom` ≤ now ≤ `validUntil` |
+| `keyResolution` | The issuer DID resolves successfully (for `did:web`, the well-known JSON exists) |
+| `x5c` (if present) | The DSC certificate chain validates against a CSCA trust store |
+| `revocation` | The credential's hash is **not** present in the DeDi revocation registry |
+| `schema` | The credential body conforms to its DEG schema |
+| `context` | All JSON-LD `@context` URLs are known and resolvable |
 
----
-
-## What Gets Checked
-
-Every verification run performs these checks in sequence:
-
-| Check | What it validates |
-|---|---|
-| **Signature** | Cryptographic proof against the issuer's public key |
-| `validFrom` | Credential is not being used before its issuance date |
-| `validUntil` | Credential has not expired |
-| **DID resolution** | Issuer DID resolves to a DID document with a matching public key |
-| **Revocation** | Credential hash is not present in the DeDi revocation registry |
-
-A credential is valid only when **all checks pass**.
-
----
-
-## Desktop Client
-
-1. Go to the **Verify** page
-2. Paste the credential JSON or load it from a file
-3. Click **Verify**
-4. Review the results — each check is shown as passed or failed with a reason
-
-For `did:key` credentials, verification is fully offline. For `did:web` credentials, the desktop client fetches the DID document from `https://<domain>/.well-known/did.json` (requires network access).
-
----
-
-## Docker API
-
-### Deploy
-
-See [Issuing Credentials — Docker API](./issuance.md#docker-api) for deployment instructions. The same container handles both issuance and verification.
-
-### Verify a Credential
-
-```http
-POST http://localhost:3100/v1/credentials/verify
-Authorization: Bearer sk_prod_change_me
-Content-Type: application/json
-```
+The overall result is a single boolean plus an enum:
 
 ```json
 {
-  "credential": {
-    "@context": [
-      "https://www.w3.org/2018/credentials/v1",
-      "https://ies.energy/credentials/v1"
-    ],
-    "id": "urn:uuid:4b3a1c9e-...",
-    "type": ["VerifiableCredential", "ElectricityConnectionCredential"],
-    "issuer": "did:web:ies.tpddl.in",
-    "validFrom": "2026-04-01T00:00:00Z",
-    "validUntil": "2027-04-01T00:00:00Z",
-    "credentialSubject": { "..." : "..." },
-    "proof": { "..." : "..." }
-  }
-}
-```
-
-### Response
-
-```json
-{
-  "isValid": true,
+  "valid": true,
+  "code": "VALID",
+  "message": "Credential is valid.",
   "checks": [
-    { "name": "signature",  "passed": true },
-    { "name": "notBefore",  "passed": true },
-    { "name": "expiry",     "passed": true },
+    { "name": "signature", "passed": true },
+    { "name": "date", "passed": true },
     { "name": "revocation", "passed": true }
   ]
 }
 ```
 
-A failed check looks like:
+Possible `code` values: `VALID`, `REVOKED`, `EXPIRED`, `INVALID`, `UNRESOLVABLE`, `CONTEXT_MISSING`.
 
-```json
-{
-  "isValid": false,
-  "checks": [
-    { "name": "signature", "passed": true },
-    { "name": "expiry",    "passed": false, "reason": "Credential expired on 2027-04-01T00:00:00Z" }
-  ]
-}
+---
+
+## Verifying With OpenCred
+
+Anyone — including your own QA pipeline — can run the same OpenCred server in verify-only mode. No issuer key is needed for verification; mount no `OPENCRED_KEY_PATH` and the server happily verifies inbound credentials.
+
+### `POST /v1/credentials/verify`
+
+**Auth:** `Authorization: Bearer $OPENCRED_API_KEY`
+**Content-Type:** `application/json` (for JSON-LD VC / vc-jwt / sd-jwt-vc / OPENCRED1: token)
+**Content-Type:** `application/pdf` (raw PDF body — OpenCred extracts the embedded payload)
+
+```bash
+# JSON-LD credential
+curl -X POST http://localhost:3100/v1/credentials/verify \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"credential": "<full VC JSON as a string>"}'
+
+# PDF certificate
+curl -X POST http://localhost:3100/v1/credentials/verify \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/pdf" \
+  --data-binary @nycer-credential.pdf
 ```
 
-The HTTP status is always `200` — check the `isValid` field in the response body, not the status code.
+The request body's `credential` field accepts the credential serialised as a string — JSON-LD, vc-jwt, sd-jwt-vc, or an `OPENCRED1:` compact token. OpenCred auto-detects the format.
+
+---
+
+## How a Partner Verifies What You Issued
+
+Hand partners three things, and they can verify without contacting you:
+
+1. **The credential JSON / PDF / QR** — delivered via DigiLocker or directly
+2. **Your issuer DID** (`did:web:ies.tpddl.in`) — already inside the credential's `issuer.id`
+3. **The OpenCred Docker image link** — `ghcr.io/nfh-trust-labs/opencred/opencred-server:latest`
+
+That is the entire verifier onboarding. The partner runs OpenCred (or the `opencred verify` CLI, or the desktop app's Verify tab), feeds it the credential, and reads `valid: true|false`.
+
+For `did:web` credentials, the partner needs outbound HTTPS to your domain so they can fetch `did.json`. For `did:key` credentials (from DSC-based issuers), verification works fully offline.
 
 ---
 
 ## Checking Revocation Status Separately
 
-If you only need to check revocation without a full verification:
+If a verifier already trusts the signature and only wants to recheck status — e.g. a verifier polling daily for a long-lived credential:
 
-```http
-GET http://localhost:3100/v1/credentials/revocation-status?credentialId=urn:uuid:4b3a1c9e-...
-Authorization: Bearer sk_prod_change_me
+```bash
+curl -X POST http://localhost:3100/v1/credentials/revocation-status \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"hash": "d6f4e2c9b7a8...e1f0"}'
 ```
 
-Response:
-```json
-{
-  "revoked": false,
-  "checkedAt": "2026-04-26T10:00:00Z"
-}
-```
+The hash is `SHA-256(JCS(credential))` — computable from the credential without contacting you.
 
 ---
 
-## How Revocation Works
+## QA Pattern for DISCOM Teams
 
-OpenCred uses a **hash-based revocation registry** via DeDi (a decentralised data infrastructure), rather than a bitstring status list.
-
-When a credential is issued with a `revocationRegistryUrl`, it contains a `credentialStatus` block:
-
-```json
-{
-  "credentialStatus": {
-    "id": "https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<hash>",
-    "type": "dedi",
-    "statusPurpose": "revocation",
-    "statusListCredential": "https://dedi.global/dedi/query/<namespace>/vc-revocation-registry"
-  }
-}
-```
-
-At verification time, OpenCred:
-1. Computes `SHA-256(JCS(credential))` — a canonical hash of the credential
-2. Queries the DeDi registry for that hash
-3. If the hash is found → **revoked**; if not found → **valid**
-
-This means there is no central revocation list to maintain — revocation is proven by presence of the hash, not by a bit at a known position.
-
----
-
-## Verifying Credentials Shared via DigiLocker
-
-When a consumer shares their credential through DigiLocker's OAuth flow, you receive an XML response. For strong cryptographic assurance beyond the DigiLocker HMAC, extract the `VcContent` field (base64-encoded W3C VC JSON-LD) and pass it to the OpenCred verify endpoint.
+Before pushing a newly issued credential to DigiLocker, round-trip it through Verify in your CI:
 
 ```python
-import base64, json, requests
-
-# Extract VcContent from DigiLocker XML response
-vc_b64 = response_xml.find(".//VcContent").text
-vc_json = json.loads(base64.b64decode(vc_b64).decode())
-
-# Verify with OpenCred
-result = requests.post(
-    "http://localhost:3100/v1/credentials/verify",
+# After POST /v1/credentials/issue
+import json, requests
+vc = response["credential"]
+v = requests.post(
+    f"{OPENCRED_URL}/v1/credentials/verify",
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
-    json={"credential": vc_json}
-)
-assert result.json()["isValid"]
+    json={"credential": json.dumps(vc)},
+).json()
+assert v["valid"], v
 ```
 
+This catches:
+
+- Schema drift between your `inlineContext` and the DEG canonical context
+- Stale or unpublished `did:web` documents (you bumped the key but forgot to upload)
+- DeDi misconfiguration (verifier can't reach the registry)
+- Expired `validUntil` (clock skew on the issuing host)
+
+Bake this into your integration tests.
+
 ---
 
-## DID Methods and Network Requirements
+## Common Failure Modes
 
-| DID Method | Resolution | Network needed? |
+| `code` | `checks` failure | What it means |
 |---|---|---|
-| `did:key` | Decoded from DID string itself | No — fully offline |
-| `did:jwk` | Decoded from DID string itself | No — fully offline |
-| `did:web` | Fetched from `https://<domain>/.well-known/did.json` | Yes |
-
-For production IES deployments using `did:web`, the verifier's system needs outbound HTTPS to the issuer's domain. OpenCred's `did:web` resolver enforces HTTPS-only, no redirects, private-IP blocking, and a 10-second timeout.
+| `INVALID` | `signature` failed | Credential was modified after signing, or the verifier resolved the wrong public key |
+| `EXPIRED` | `date` failed with `validUntil` in past | Re-issue or revoke |
+| `REVOKED` | `revocation` failed | Credential hash is in DeDi — expected behaviour for revoked credentials |
+| `UNRESOLVABLE` | `keyResolution` failed | `did:web` JSON not reachable; check `https://<domain>/.well-known/did.json` |
+| `CONTEXT_MISSING` | `context` failed | A JSON-LD `@context` URL OpenCred doesn't recognise; ship updated contexts |
 
 ---
 
-## Offline Verification
+## DigiLocker-Delivered Credentials
 
-For `did:key` credentials, OpenCred bundles all required JSON-LD contexts and performs DID resolution in-process. No network calls are made. This makes air-gapped or restricted-network verification possible for credentials issued with `did:key`.
+When a consumer shares an NYCER / DEG credential through DigiLocker's OAuth flow, DigiLocker returns an XML envelope. Decode `<VcContent>` (base64) into a JSON object and pass it to OpenCred:
+
+```python
+import base64, json, requests, xml.etree.ElementTree as ET
+
+root = ET.fromstring(digilocker_xml)
+vc_b64 = root.find(".//VcContent").text
+vc_json = json.loads(base64.b64decode(vc_b64))
+
+result = requests.post(
+    f"{OPENCRED_URL}/v1/credentials/verify",
+    headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
+    json={"credential": json.dumps(vc_json)},
+).json()
+assert result["valid"]
+```
+
+The DigiLocker HMAC proves the envelope came from DigiLocker; the OpenCred verification proves the credential inside came from you. Verifiers should check both.
+
+---
+
+## References
+
+- [OpenCred — API reference (verify)](https://opencred.gitbook.io/docs/docker-image/api-reference)
+- [OpenCred — Verifying credentials (Desktop)](https://opencred.gitbook.io/docs/desktop-app/verifying-credentials)
+- [OpenCred — Revocation](https://opencred.gitbook.io/docs/concepts/revocation)

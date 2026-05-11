@@ -1,4 +1,4 @@
-# Table of Contents
+# Table of contents
 
 * [Home](README.md)
 * [Getting Started](getting-started.md)
@@ -7,7 +7,8 @@
 
 * [Overview](energy-credentials/README.md)
 * [Core Concepts](energy-credentials/concepts.md)
-* [Onboarding Guide](energy-credentials/onboarding.md)
+* [Schemas](energy-credentials/schemas.md)
+* [Deployment](energy-credentials/onboarding.md)
 * [Issuing Credentials](energy-credentials/issuance.md)
 * [Verifying Credentials](energy-credentials/verification.md)
 * [DigiLocker Integration](energy-credentials/digilocker-integration.md)
@@ -20,13 +21,8 @@
 * [Architecture](data-exchange/architecture.md)
 * [Quick Start](data-exchange/quick-start.md)
 * [Use Cases](data-exchange/use-cases/README.md)
-  * [Meter Telemetry](data-exchange/use-cases/meter-telemetry.md)
+  * [Meter Telemetry](data-exchange/use-cases/meter-telemetry/README.md)
+    * [Survey of Existing Terminology](data-exchange/use-cases/meter-telemetry/survey-of-existing-terminology.md)
+    * [IES Data Model](data-exchange/use-cases/meter-telemetry/ies-data-model.md)
   * [ARR Filings](data-exchange/use-cases/arr-filings.md)
   * [Tariff Policies](data-exchange/use-cases/tariff-policies.md)
-
-## Checklists
-
-* [Energy Credentials — Readiness Checklist](checklists/energy-credentials-checklist.md)
-* [Energy Credentials — Detailed Implementation Checklist](checklists/energy-credentials-checklist-detailed.md)
-* [Data Exchange — Readiness Checklist](checklists/data-exchange-checklist.md)
-* [Data Exchange — Detailed Implementation Checklist](checklists/data-exchange-checklist-detailed.md)

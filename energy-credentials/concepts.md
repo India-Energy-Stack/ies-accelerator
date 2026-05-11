@@ -1,131 +1,199 @@
-# Core Concepts — Energy Credentials
+# Core Concepts
 
-This page explains the foundational standards and terminology you need to understand before integrating with IES Energy Credentials.
+This page explains every concept used downstream in this chapter. Read it once before deployment. You can issue your first credential after page 4 — this page just makes the field names mean something.
 
 ---
 
-## W3C Verifiable Credentials
+## Verifiable Credentials (VCs)
 
-A **Verifiable Credential (VC)** is a tamper-evident digital document that contains claims about a subject. It is structurally similar to a physical credential (a driving licence, a utility bill) but has one critical advantage: the issuer's digital signature can be verified by anyone, without calling back to the issuer.
+A **Verifiable Credential** is a tamper-evident JSON document that contains claims about a subject and a digital signature by the issuer. Anyone holding the document can verify the signature without contacting the issuer.
 
-The IES Credential Service implements the [W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/), which is the same standard used by [OpenCred](https://opencred.gitbook.io/docs) and is globally interoperable.
+Three parties are involved in every credential's life:
 
-### Credential Structure
+| Role | Who, in DISCOM context |
+|---|---|
+| **Issuer** | The DISCOM signs and emits the credential |
+| **Holder** | The consumer (in their DigiLocker / wallet) |
+| **Verifier** | A bank, marketplace, regulator, service provider receiving the credential from the holder |
+
+A minimum DEG-style energy credential looks like this:
 
 ```json
 {
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
-    "https://ies.energy/credentials/v1"
+    "https://schema.beckn.io/EnergyCredential/v2.0",
+    "https://schema.beckn.io/UtilityCustomerCredential/v2.0"
   ],
-  "id": "https://ies.energy/credentials/nycer-TPDDL-001234567",
-  "type": ["VerifiableCredential", "ElectricityConnectionCredential"],
+  "id": "urn:uuid:8e6b5e34-1c1b-4a3c-9c20-2fa8a3b9e1c0",
+  "type": ["VerifiableCredential", "EnergyCredential", "UtilityCustomerCredential"],
   "issuer": {
-    "id": "did:ies:discom-tpddl",
-    "name": "Tata Power Delhi Distribution Limited"
+    "id": "did:web:ies.tpddl.in",
+    "name": "Tata Power Delhi Distribution Limited",
+    "licenseNumber": "DERC/DL/2025/0042"
   },
-  "issuanceDate": "2026-04-01T00:00:00Z",
-  "expirationDate": "2027-04-01T00:00:00Z",
+  "issuanceDate": "2026-05-01T00:00:00Z",
+  "expirationDate": "2031-05-01T00:00:00Z",
   "credentialSubject": {
-    "id": "did:ies:consumer-7a3f9b2c",
-    "fullName": "Priya Sharma",
+    "id": "did:key:z6MkjVQ...",
     "consumerNumber": "TPDDL-2025-001234567",
-    "serviceAddress": "Flat 4B, Sector 12, Rohini, New Delhi – 110085",
-    "serviceConnectionDate": "2019-03-15",
-    "meterNumber": "MTR-98765432"
+    "fullName": "Priya Sharma",
+    "installationAddress": {
+      "fullAddress": "Flat 4B, Sector 12, Rohini, New Delhi",
+      "postalCode": "110085",
+      "country": "IN",
+      "city": "New Delhi",
+      "stateProvince": "DL"
+    },
+    "meterNumber": "MTR-98765432",
+    "serviceConnectionDate": "2019-03-15"
+  },
+  "credentialStatus": {
+    "id": "https://dedi.global/dedi/lookup/tpddl/vc-revocation-registry/<hash>",
+    "type": "dediregistry"
   },
   "proof": {
-    "type": "Ed25519Signature2020",
-    "created": "2026-04-01T10:00:00Z",
+    "type": "DataIntegrityProof",
+    "cryptosuite": "ecdsa-2019",
+    "created": "2026-05-01T10:00:00Z",
     "proofPurpose": "assertionMethod",
-    "verificationMethod": "did:ies:discom-tpddl#key-1",
-    "proofValue": "z3FXQjecWh...signature...kKJh6vW3"
+    "verificationMethod": "did:web:ies.tpddl.in#key-1",
+    "proofValue": "z3FXQjecWh...kKJh6vW3"
   }
 }
 ```
 
-| Field | Description |
+| Block | What it does |
 |---|---|
-| `@context` | JSON-LD context — declares the vocabulary for all fields |
-| `id` | Globally unique identifier for this credential |
-| `type` | Credential type(s) — must include `VerifiableCredential` |
-| `issuer` | DID + human-readable name of the issuing organisation |
-| `issuanceDate` | When the credential was issued |
-| `expirationDate` | When it expires (optional) |
-| `credentialSubject` | The claims being made — consumer details, asset attributes, etc. |
-| `proof` | Cryptographic signature by the issuer |
+| `@context` | Defines the JSON-LD vocabulary — `EnergyCredential` and any subclass (e.g. `UtilityCustomerCredential`) |
+| `id` | A globally unique URI for this specific credential |
+| `type` | Always `VerifiableCredential` + `EnergyCredential` + the specific DEG subclass |
+| `issuer` | DID, human name, and **regulatory `licenseNumber`** (DEG mandates this) |
+| `issuanceDate` / `expirationDate` | ISO 8601 timestamps |
+| `credentialSubject` | The actual facts you are attesting — fields vary by credential type |
+| `credentialStatus` | DeDi revocation pointer (see below) |
+| `proof` | Issuer's signature |
+
+OpenCred constructs every block above for you. You hand it the `credentialSubject` data, an `issuerDid`, a `schemaId`, and validity dates; it produces the signed credential.
 
 ---
 
 ## Decentralized Identifiers (DIDs)
 
-A **DID** is a globally unique, cryptographically verifiable identifier that does not depend on a central registry. It looks like:
+A **DID** is a globally unique, cryptographically verifiable identifier that does not depend on any central registry. It looks like `did:method:identifier`.
+
+OpenCred supports three DID methods. For DISCOMs, only two matter:
+
+### `did:web` — recommended for DISCOMs
+
+The DID's identifier *is* a domain you control. The corresponding public key is hosted at `https://<your-domain>/.well-known/did.json`. Example:
 
 ```
-did:ies:discom-tpddl
-did:ies:consumer-7a3f9b2c
-did:ies:asset-solar-panel-kr-001
+did:web:ies.tpddl.in
+   ↓ resolves to
+https://ies.tpddl.in/.well-known/did.json
 ```
 
-Each DID resolves to a **DID Document** that contains public keys and service endpoints. The IES Credential Service manages DID creation and resolution for registered organisations.
+**Why DISCOMs should default to this:** key rotation is just a file replace, and the trust chain terminates in your domain's TLS certificate — which is already validated by a public CA every browser trusts.
 
-DIDs serve three purposes in the VC system:
-1. **Issuer DID** — identifies the organisation signing the credential
-2. **Subject DID** — identifies the entity the credential is about
-3. **Holder DID** — identifies who controls and presents the credential (may differ from subject)
+**One requirement:** you must be able to publish a single static JSON file under your domain. No backend needed.
+
+### `did:key` — for cases where you have an existing DSC
+
+The public key is encoded directly into the DID string. OpenCred derives it from an existing Digital Signature Certificate (PFX/PEM) at import time. Use this if your DISCOM already operates with a CCA-issued DSC and wants to anchor trust in the CSCA root chain (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)).
+
+### `did:key` and `did:jwk` for consumers
+
+The **consumer's holder DID** is generated client-side (by their wallet or by DigiLocker) and is almost always `did:key`. You receive it in the issuance request — you do not generate it.
+
+OpenCred's `did:web` resolver enforces HTTPS-only, blocks redirects, rejects private-IP resolution targets, and times out at 10 seconds. Details: [OpenCred — DIDs](https://opencred.gitbook.io/docs/concepts/dids).
 
 ---
 
-## Energy Resource Addresses (ERAs)
+## Signing Keys and Trust
 
-An **Energy Resource Address** is the IES-specific identifier for a physical or logical energy asset — a meter, a solar installation, an EV charger, a DISCOM service area. ERAs follow a structured naming convention similar to internet domain names:
+When OpenCred boots, it loads exactly one **signing key** from one of these sources:
 
-```
-household-solar-001.greenenergy.tpddl.in
-IN*ECO*BTM*01*CCS2*A          (EVSE OCPI format)
-meter-KA-98765432.amisp.bescom.in
-```
+| Source | Env var | When to use |
+|---|---|---|
+| Software file (PEM, JWK, PKCS#8, PFX) | `OPENCRED_KEY_PATH` | Dev, small DISCOMs, simplest |
+| AWS KMS | `OPENCRED_KMS_PROVIDER=aws`, `OPENCRED_KMS_KEY_ARN` | Production on AWS |
+| Azure Key Vault | `OPENCRED_KMS_PROVIDER=azure`, `OPENCRED_AZURE_*` | Production on Azure |
+| GCP Cloud KMS | `OPENCRED_KMS_PROVIDER=gcp`, `OPENCRED_GCP_KMS_KEY_NAME` | Production on GCP |
 
-Credentials issued about energy assets bind to the asset's ERA, not a person's identity. This allows a rooftop solar installation to carry its own trust record — green certification, grid approval, safety compliance — independently of who owns it.
+**The key never leaves the container.** OpenCred signs in-process; in KMS modes the private key never leaves the HSM at all. There is no shared signing service and no key escrow.
+
+Trust flows from the verifier's root store to your credential signature:
+
+- For `did:web`: verifier resolves your DID document over HTTPS → reads the public key → checks the credential's `proof.proofValue` → trust anchors in the TLS certificate of your domain.
+- For `did:key` from a DSC: verifier extracts the public key from your DID → optionally validates the x5c certificate chain back to a configured CSCA root.
 
 ---
 
-## Verifiable Presentations
+## DeDi Revocation
 
-When a Holder wants to share credential claims with a Verifier, they create a **Verifiable Presentation (VP)**:
+Energy credentials need revocation: connections terminate, meters are replaced, programs end. DEG uses **DeDi (Decentralised Data Infrastructure)** — a public hash registry — instead of the W3C bitstring status list.
+
+### The model
+
+The DeDi registry stores **only the hashes of revoked credentials**. A credential is valid unless its hash appears in the registry.
+
+The hash is deterministic:
+
+```
+revocationHash = SHA-256(JCS(credential))
+```
+
+Where `JCS` is RFC 8785 JSON Canonicalization Scheme. OpenCred computes the hash the same way at issuance time (to embed `credentialStatus.id`) and at verification time. Issuers and verifiers always compute the same value.
+
+### Lifecycle
+
+| Phase | What happens |
+|---|---|
+| **At issuance** | OpenCred computes the hash and embeds `credentialStatus`. **Nothing is published to DeDi.** |
+| **At revocation** | The DISCOM calls `POST /v1/credentials/revoke`. OpenCred publishes the hash to your DeDi namespace using DISCOM-only credentials. |
+| **At verification** | Verifier GETs `credentialStatus.id`. Hash found → revoked. Hash absent → valid. |
+
+This means there is no central revocation list to maintain. Only DISCOMs with namespace credentials can publish to their own namespace.
+
+### The `credentialStatus` block
 
 ```json
-{
-  "@context": ["https://www.w3.org/2018/credentials/v1"],
-  "type": "VerifiablePresentation",
-  "verifiableCredential": [ /* one or more VCs */ ],
-  "proof": {
-    "type": "Ed25519Signature2020",
-    "proofPurpose": "authentication",
-    "challenge": "verifier-issued-nonce-xyz",
-    "verificationMethod": "did:ies:consumer-7a3f9b2c#key-1",
-    "proofValue": "z3Abc...holder signature...xyz"
-  }
+"credentialStatus": {
+  "id": "https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<hash>",
+  "type": "dediregistry"
 }
 ```
 
-The VP has **two proofs**:
-- The issuer's proof inside each embedded credential (proves authenticity)
-- The holder's proof on the outer presentation (proves the holder controls the DID — prevents replay attacks)
+The DEG schema mandates `type: "dediregistry"`. OpenCred uses `type: "dedi"` in some older outputs — verify your deployment uses the DEG-conformant value if you are issuing into the DEG ecosystem.
 
-The `challenge` is a nonce issued by the Verifier to prevent replay attacks. Always include it.
+Details: [OpenCred — Revocation](https://opencred.gitbook.io/docs/concepts/revocation).
 
 ---
 
-## Selective Disclosure
+## Proof Formats
 
-IES credentials support **selective disclosure**: a holder can prove a specific claim without revealing all credential fields.
+OpenCred can package the same credential in three on-the-wire formats. You pick at issuance time with `proofFormat`.
 
-**Example:** A service provider needs to verify that a consumer has an active electricity connection in Delhi. The consumer does not need to reveal their exact address or meter number — only a proof of:
-- Connection is active
-- Service area is Delhi
+| Format | What it looks like | Use when |
+|---|---|---|
+| `data-integrity` | JSON-LD with embedded `proof` block | **Default for DEG credentials.** Most human-readable; matches the DEG schema. |
+| `vc-jwt` | Compact JWT (`eyJhbGciOi...`) | When integrating with JWT-native systems (some OAuth clients) |
+| `sd-jwt-vc` | Selective-disclosure JWT | When holders need to prove individual claims without revealing the whole credential |
 
-IES uses [BBS+ signatures](https://identity.foundation/bbs-signature/draft-irtf-cfrg-bbs-signatures.html) for selective disclosure. The IES Credential Service handles this automatically when you request a presentation with specific `revealedAttributes`.
+Selective disclosure is useful for energy: a consumer can prove "I have an active connection in Delhi" without revealing the exact address or meter number. To enable it, pass `selectiveDisclosureClaims: ["serviceAddress.city", "stateProvince"]` at issuance.
+
+---
+
+## Packaging Outputs
+
+Beyond the raw signed JSON, OpenCred can package a credential as:
+
+- `pdf` — printable PDF with the credential payload embedded in the info dictionary and a scannable QR
+- `qr-png` / `qr-svg` — QR code carrying a compact token (`OPENCRED1:...` or JWT)
+- `json` / `json-compact` — the raw signed credential
+
+Request these via the `packageFormats` array on the issue endpoint. The PDF carries the whole credential inside the file, so a verifier can drop the PDF into the OpenCred Verify tab and skip the QR scan entirely.
 
 ---
 
@@ -133,36 +201,33 @@ IES uses [BBS+ signatures](https://identity.foundation/bbs-signature/draft-irtf-
 
 ```
 Request → Issue → Hold → Present → Verify
-                              │
-                              └──> Revoke (if needed)
+                          │
+                          └──> Revoke (issuer-initiated)
 ```
 
-| Phase | Who acts | What happens |
+| Phase | Actor | What happens |
 |---|---|---|
-| **Request** | Holder or consumer | Submits identity/attribute data to issuer |
-| **Issue** | Issuer (DISCOM, certifier) | Creates VC, signs with private key, delivers to holder |
-| **Hold** | Holder | Stores VC in wallet (DigiLocker, software wallet) |
-| **Present** | Holder | Creates VP in response to a verifier's challenge |
-| **Verify** | Verifier | Checks issuer signature, holder binding, expiry, revocation |
-| **Revoke** | Issuer | Publishes revocation hash; all future verifications fail |
-
-IES uses **hash-based revocation via DeDi** (a decentralised data registry). OpenCred computes `SHA-256(JCS(credential))` and the issuer publishes that hash to their DeDi namespace. Verifiers check for the hash's presence — found means revoked, absent means valid. There is no central bitstring list to maintain.
+| **Request** | Consumer or DigiLocker | Triggers issuance by consumer-number lookup |
+| **Issue** | DISCOM | OpenCred signs and packages the credential |
+| **Hold** | Consumer | Credential lives in DigiLocker or a DID wallet |
+| **Present** | Consumer | Shares the credential (or selective disclosures) with a verifier |
+| **Verify** | Verifier | Checks signature, validity dates, revocation, schema |
+| **Revoke** | DISCOM | Publishes the hash to DeDi; all future verifications fail |
 
 ---
 
-## Credential Schemas
+## Next
 
-Every credential type is defined by a **schema** that specifies which fields are required, their data types, and validation rules. OpenCred ships with built-in schemas (Education, Employment, Identity, Health, Business) and supports custom schemas for energy-specific types.
-
-The IES credential type for consumer electricity connections is `ElectricityConnectionCredential` (surfaced to DigiLocker as `NYCER` — National Yield Consumer Electricity Record). DISCOMs declare this `credentialType` in every `POST /v1/credentials/issue` call; no separate schema registration step is required in OpenCred.
+You now know what a credential is, who signs it, how trust flows, and how revocation works. [Schemas](./schemas.md) shows the five DEG energy credential types and their fields. Then [Deployment](./onboarding.md) walks you through standing up OpenCred.
 
 ---
 
-## Further Reading
+## References
 
-- [OpenCred Docs](https://opencred.gitbook.io/docs) — the open credential platform IES is built on. Covers Desktop Client, Docker API, key management, proof formats, revocation, and security model in full detail
-- [OpenCred — Issuing credentials](https://opencred.gitbook.io/docs/desktop-client/issuing-credentials)
-- [OpenCred — Verifying credentials](https://opencred.gitbook.io/docs/desktop-client/verifying-credentials)
-- [OpenCred — Docker API reference](https://opencred.gitbook.io/docs/docker-image/api-reference)
-- [W3C VC Data Model](https://www.w3.org/TR/vc-data-model/) — the normative specification
-- [W3C DIDs](https://www.w3.org/TR/did-core/) — the DID specification
+- [OpenCred — Concepts overview](https://opencred.gitbook.io/docs/concepts/concepts)
+- [OpenCred — Verifiable Credentials](https://opencred.gitbook.io/docs/concepts/verifiable-credentials)
+- [OpenCred — DIDs](https://opencred.gitbook.io/docs/concepts/dids)
+- [OpenCred — Trust chains](https://opencred.gitbook.io/docs/concepts/trust-chains)
+- [OpenCred — Revocation](https://opencred.gitbook.io/docs/concepts/revocation)
+- [W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/)
+- [RFC 8785 JSON Canonicalization Scheme](https://datatracker.ietf.org/doc/html/rfc8785)

@@ -1,281 +1,436 @@
 # Issuing Credentials
 
-IES Energy Credentials are issued using the **OpenCred** credential service — an open-source W3C VC platform available as a desktop application or a self-hosted Docker API. This page covers both paths.
+This page covers the end-to-end mechanics of issuing DEG energy credentials from OpenCred: single issue, batch issue, integrating with your CIS / NMS, packaging output, and revoking.
 
-> Full OpenCred documentation: [https://opencred.gitbook.io/docs](https://opencred.gitbook.io/docs)
-
----
-
-## Two Ways to Issue
-
-| Method | Best for |
-|---|---|
-| [Desktop Client](#desktop-client) | One-off issuance, testing, small batches |
-| [Docker API](#docker-api) | Production — DISCOM systems calling programmatically |
+You should have OpenCred running and a signing key loaded ([Deployment](./onboarding.md)).
 
 ---
 
-## Desktop Client
+## The Core Flow
 
-### Install
+```
+Your integration service
+        │
+        ▼
+1. Read consumer/asset facts from CIS, NMS, MDM, DER registry
+        │
+        ▼
+2. Build credentialSubject matching the DEG schema (see Schemas page)
+        │
+        ▼
+3. POST /v1/credentials/issue → OpenCred signs locally, returns VC
+        │
+        ▼
+4. Deliver to consumer:
+       - Push to DigiLocker via PullURIResponse (most consumers)
+       - Send to consumer wallet via DID-to-DID protocol
+       - Email PDF / QR
+       - Display in your DISCOM consumer portal
+        │
+        ▼
+5. (Later) Revoke when facts change — POST /v1/credentials/revoke
+```
 
-| Platform | Package |
-|---|---|
-| macOS | `.dmg` → drag to Applications |
-| Windows | `.exe` installer |
-| Linux | `.AppImage` (chmod +x) or `.deb` |
-
-Download from the [OpenCred releases page](https://opencred.gitbook.io/docs).
-
-### First Launch — Set Up Your Signing Key
-
-On first launch, the onboarding wizard asks you to configure a signing key. You have three options:
-
-**Option A — Import an existing Digital Signature Certificate (DSC)**
-- Import a PFX, PEM file, hardware token, or OS certificate store (macOS Keychain / Windows CNG)
-- OpenCred derives a `did:key` from your certificate's public key
-
-**Option B — Generate a fresh ECDSA P-256 keypair**
-1. Settings → Generate Key → **Generate ECDSA P-256 Key**
-2. Enter your domain (e.g. `ies.tpddl.in`)
-3. Download the generated DID document
-4. Upload it to `https://<your-domain>/.well-known/did.json`
-5. Your issuer DID becomes `did:web:<your-domain>`
-
-**Option C — Hardware token (PKCS#11)**
-1. Settings → Hardware Token
-2. Select your PKCS#11 library
-3. Enter slot index and PIN (PIN is never persisted)
-
-> OpenCred never stores private key material or PINs. Config lives at `~/.config/opencred/opencred-config.json`.
-
-### Issue a Single Credential
-
-1. Select a schema from the Home screen (use a custom IES schema for energy credentials)
-2. Fill in the credential subject fields (consumer number, address, meter number, etc.)
-3. Configure:
-   - **Signing key** — select from your imported keys
-   - **Valid from / Valid until** — ISO 8601 dates
-   - **Proof format** — `data-integrity` recommended for IES (JSON-LD embedded proof)
-4. Click **Build & Sign**
-5. Export as JSON, PDF, or QR code
-
-### Issue in Bulk (Batch)
-
-1. Prepare a CSV with one row per credential (max 1,000 rows)
-2. Upload CSV — OpenCred auto-detects delimiter (comma, semicolon, tab)
-3. Map CSV columns to schema fields
-4. Configure validity dates, signing key, output formats
-5. Export results as ZIP (one file per credential)
+Every step 1–5 is HTTP calls against OpenCred plus a thin glue layer in whichever language your DISCOM uses.
 
 ---
 
-## Docker API
+## `POST /v1/credentials/issue`
 
-For production DISCOM systems, deploy OpenCred as a Docker container and call its REST API.
+**Auth:** `Authorization: Bearer $OPENCRED_API_KEY`
+**Content-Type:** `application/json`
 
-### Deploy
+### Request body
 
-```bash
-# Build the image
-docker build -f apps/server/Dockerfile -t opencred:latest .
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `issuerDid` | string | ✓ | Your DISCOM DID — `did:web:ies.tpddl.in` or `did:key:…` |
+| `credentialSubject` | object | ✓ | The facts being attested. Must match the chosen schema. |
+| `validFrom` | ISO 8601 string | ✓ | Credential is valid from this instant |
+| `validUntil` | ISO 8601 string | | Optional expiration |
+| `schemaId` | string | one of these | Built-in schema ID (e.g. `deg/utility-customer/v2`) |
+| `inlineSchema` | object | one of these | JSON Schema fragment for the credential subject |
+| `inlineContext` | object | | JSON-LD `@context` fragment to merge in |
+| `proofFormat` | enum | | `data-integrity` (default) \| `vc-jwt` \| `sd-jwt-vc` |
+| `additionalTypes` | string[] | | E.g. `["EnergyCredential", "UtilityCustomerCredential"]` |
+| `subjectDid` | string | | Overrides `credentialSubject.id` if you prefer to pass it separately |
+| `selectiveDisclosureClaims` | string[] | | For `sd-jwt-vc` — which fields are individually disclosable |
+| `revocationRegistryUrl` | string | | DeDi registry URL; OpenCred embeds the `credentialStatus` block |
+| `credentialSchemaUrl` | string | | `credentialSchema.id` for the issued VC |
+| `packageFormats` | enum[] | | Any of `qr-png`, `qr-svg`, `pdf`, `json`, `json-compact` |
 
-# Run with a signing key mounted
-docker run -p 3100:3100 \
-  -e OPENCRED_API_KEY=sk_prod_change_me \
-  -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
-  -v /path/to/issuer-key.pem:/secrets/issuer-key.pem:ro \
-  opencred:latest
-```
-
-Or with Docker Compose:
-
-```yaml
-services:
-  opencred:
-    image: opencred:latest
-    ports:
-      - "3100:3100"
-    environment:
-      OPENCRED_API_KEY: ${OPENCRED_API_KEY}
-      OPENCRED_KEY_PATH: /app/keys/issuer-key.pem
-      OPENCRED_LOG_LEVEL: info
-    volumes:
-      - ./keys/issuer-key.pem:/app/keys/issuer-key.pem:ro
-    read_only: true
-    cap_drop:
-      - ALL
-    security_opt:
-      - no-new-privileges:true
-```
-
-Generate a secure API key:
-```bash
-openssl rand -base64 32
-```
-
-Verify the service is up:
-```bash
-curl http://localhost:3100/v1/health
-# → 200 (ready) or 503 (signing key not loaded)
-```
-
-### Core Environment Variables
-
-| Variable | Required | Description |
-|---|---|---|
-| `OPENCRED_API_KEY` | Yes | Bearer token for all protected endpoints |
-| `OPENCRED_KEY_PATH` | Yes* | Path to signing key (PEM, JWK, PKCS#8, PFX) |
-| `OPENCRED_KEY_PASSWORD` | No | Password for PFX files |
-| `OPENCRED_PORT` | No (default 3100) | HTTP listen port |
-| `OPENCRED_LOG_LEVEL` | No (default `info`) | `fatal/error/warn/info/debug/trace` |
-
-*Or configure a Cloud KMS provider (AWS KMS, Azure Key Vault, GCP Cloud KMS) instead of a file.
-
-### Issue a Credential
-
-```http
-POST http://localhost:3100/v1/credentials/issue
-Authorization: Bearer sk_prod_change_me
-Content-Type: application/json
-```
+### Response
 
 ```json
 {
-  "issuer": "did:web:ies.tpddl.in",
-  "credentialType": "ElectricityConnectionCredential",
+  "credential": { /* signed VC JSON-LD, or compact JWT string */ },
   "proofFormat": "data-integrity",
-  "credentialSubject": {
-    "id": "did:key:z6Mk...",
-    "fullName": "Priya Sharma",
-    "consumerNumber": "TPDDL-2025-001234567",
-    "serviceAddress": "Flat 4B, Sector 12, Rohini, New Delhi – 110085",
-    "serviceConnectionDate": "2019-03-15",
-    "meterNumber": "MTR-98765432",
-    "maskedIdNumber": "XXXX-XXXX-1234"
-  },
-  "validFrom": "2026-04-01T00:00:00Z",
-  "validUntil": "2027-04-01T00:00:00Z",
-  "revocationRegistryUrl": "https://dedi.global/dedi/query/<namespace>/vc-revocation-registry"
+  "isCompactToken": false,
+  "packagedOutputs": [
+    { "format": "pdf", "contentBase64": "JVBERi0xLj..." },
+    { "format": "qr-png", "contentBase64": "iVBORw0KG..." }
+  ]
 }
 ```
 
-| Field | Description |
-|---|---|
-| `issuer` | Your DID — `did:key:...` or `did:web:<domain>` |
-| `credentialType` | The IES credential type name |
-| `proofFormat` | `data-integrity` (JSON-LD embedded proof), `vc-jwt`, or `sd-jwt-vc` (selective disclosure) |
-| `credentialSubject.id` | The holder's DID |
-| `maskedIdNumber` | Masked Aadhaar — never pass or store the full number |
-| `revocationRegistryUrl` | Include to embed a `credentialStatus` block for revocation support |
-
-**Response** — signed credential with proof block:
-
-```json
-{
-  "@context": [
-    "https://www.w3.org/2018/credentials/v1",
-    "https://ies.energy/credentials/v1"
-  ],
-  "id": "urn:uuid:4b3a1c9e-...",
-  "type": ["VerifiableCredential", "ElectricityConnectionCredential"],
-  "issuer": "did:web:ies.tpddl.in",
-  "validFrom": "2026-04-01T00:00:00Z",
-  "validUntil": "2027-04-01T00:00:00Z",
-  "credentialSubject": {
-    "id": "did:key:z6Mk...",
-    "fullName": "Priya Sharma",
-    "consumerNumber": "TPDDL-2025-001234567",
-    "serviceAddress": "Flat 4B, Sector 12, Rohini, New Delhi – 110085",
-    "serviceConnectionDate": "2019-03-15",
-    "meterNumber": "MTR-98765432"
-  },
-  "credentialStatus": {
-    "id": "https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<hash>",
-    "type": "dedi",
-    "statusPurpose": "revocation",
-    "statusListCredential": "https://dedi.global/dedi/query/<namespace>/vc-revocation-registry"
-  },
-  "proof": {
-    "type": "DataIntegrityProof",
-    "cryptosuite": "ecdsa-2019",
-    "created": "2026-04-01T10:00:00Z",
-    "proofPurpose": "assertionMethod",
-    "verificationMethod": "did:web:ies.tpddl.in#key-1",
-    "proofValue": "z3FXQ...signature...kKJh6"
-  }
-}
-```
-
-Store the full signed credential JSON — you need it for the DigiLocker `PullURIResponse`.
-
-### Batch Issuance
-
-```http
-POST http://localhost:3100/v1/credentials/batch
-Authorization: Bearer sk_prod_change_me
-Content-Type: application/json
-```
-
-```json
-{
-  "csvData": "<base64-encoded-csv>",
-  "credentialType": "ElectricityConnectionCredential",
-  "proofFormat": "data-integrity",
-  "validFrom": "2026-04-01T00:00:00Z",
-  "validUntil": "2027-04-01T00:00:00Z"
-}
-```
-
-Returns a session ID for progress tracking. Max 1,000 rows per batch (configurable via `OPENCRED_BATCH_ROW_LIMIT`).
+Store the full `credential` JSON — you will hand it to DigiLocker, to a DID wallet, or to a verifier.
 
 ---
 
-## Proof Formats
+## Worked Example — `UtilityCustomerCredential`
 
-| Format | Description | Use when |
+This is the foundational credential every new connection should receive.
+
+```bash
+curl -X POST http://localhost:3100/v1/credentials/issue \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "issuerDid": "did:web:ies.tpddl.in",
+    "additionalTypes": ["EnergyCredential", "UtilityCustomerCredential"],
+    "proofFormat": "data-integrity",
+    "validFrom": "2026-05-01T00:00:00Z",
+    "validUntil": "2031-05-01T00:00:00Z",
+    "inlineContext": {
+      "@context": [
+        "https://schema.beckn.io/EnergyCredential/v2.0",
+        "https://schema.beckn.io/UtilityCustomerCredential/v2.0"
+      ]
+    },
+    "credentialSubject": {
+      "id": "did:key:z6MkjVQ8r4f3rPuY7CG2D6Lf8WJxJBs5sjkR8d3v2Bv4nP4Z",
+      "consumerNumber": "TPDDL-2025-001234567",
+      "fullName": "Priya Sharma",
+      "installationAddress": {
+        "fullAddress": "Flat 4B, Sector 12, Rohini",
+        "postalCode": "110085",
+        "country": "IN",
+        "city": "New Delhi",
+        "stateProvince": "DL"
+      },
+      "meterNumber": "MTR-98765432",
+      "serviceConnectionDate": "2019-03-15",
+      "maskedIdNumber": "XXXX-XXXX-1234"
+    },
+    "revocationRegistryUrl": "https://dedi.global/dedi/query/tpddl/vc-revocation-registry",
+    "packageFormats": ["pdf", "qr-png"]
+  }'
+```
+
+Add the `issuer.name` and `issuer.licenseNumber` fields by extending `inlineContext` and `credentialSubject` — or wrap the call in a thin DISCOM-side helper that always injects them. OpenCred fills `proof` and (with `revocationRegistryUrl`) `credentialStatus`.
+
+---
+
+## Worked Example — `GenerationProfileCredential`
+
+For a rooftop solar commissioning:
+
+```json
+{
+  "issuerDid": "did:web:ies.tpddl.in",
+  "additionalTypes": ["EnergyCredential", "GenerationProfileCredential"],
+  "proofFormat": "data-integrity",
+  "validFrom": "2026-05-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:key:z6MkjVQ8r4f3...",
+    "consumerNumber": "TPDDL-2025-001234567",
+    "generationType": "Solar",
+    "capacityKW": 4.5,
+    "commissioningDate": "2025-08-20",
+    "assetId": "TPDDL-DER-2025-A11023",
+    "manufacturer": "Tata Power Solar",
+    "modelNumber": "TP-330W-MONO"
+  },
+  "revocationRegistryUrl": "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
+}
+```
+
+All five DEG credential subject shapes are documented in [Schemas](./schemas.md).
+
+---
+
+## Integrating With Your CIS / NMS
+
+Your integration service sits between the consumer-facing trigger (new connection, DER commissioning, program enrolment) and OpenCred.
+
+### Reference architecture
+
+```
+   ┌──────────────────┐
+   │ CIS / Billing DB │──┐
+   └──────────────────┘  │     ┌─────────────────────┐      ┌──────────────┐
+   ┌──────────────────┐  │     │  Issuance Service   │      │   OpenCred   │
+   │ DER registry /   │──┼────▶│  (your code)        │─────▶│  /v1/issue   │
+   │ Net-metering DB  │  │     │  Python / Java / Go │      └──────────────┘
+   └──────────────────┘  │     └─────────────────────┘
+   ┌──────────────────┐  │              │
+   │ Program/DR DB    │──┘              ▼
+   └──────────────────┘        ┌─────────────────────┐
+                               │  Delivery channel   │
+                               │  DigiLocker / DID / │
+                               │  Email / Portal     │
+                               └─────────────────────┘
+```
+
+### Triggers
+
+| Event | Source system | Credential to issue |
 |---|---|---|
-| `data-integrity` | JSON-LD embedded proof | Default for IES — human-readable, inspectable |
-| `vc-jwt` | JWT-wrapped VC | Interop with JWT-native verifiers |
-| `sd-jwt-vc` | Selective disclosure JWT | When holders need to reveal only specific fields |
+| New service connection activated | CIS | `UtilityCustomerCredential` + `ConsumptionProfileCredential` |
+| Tariff category change | Billing | New `ConsumptionProfileCredential`; revoke previous |
+| Solar / DER commissioned | DER registry | `GenerationProfileCredential` |
+| Battery commissioned | DER registry | `StorageProfileCredential` |
+| Program enrolment | Program ops | `ProgramEnrollmentCredential` |
+| Enrolment withdrawal / expiry | Program ops | Revoke `ProgramEnrollmentCredential` |
+| Disconnection / closure | CIS | Revoke `UtilityCustomerCredential` + dependents |
+
+### Reference handler — Python
+
+```python
+import os, requests
+from datetime import datetime, timedelta
+
+OPENCRED_URL = "http://opencred:3100"
+OPENCRED_API_KEY = os.environ["OPENCRED_API_KEY"]
+ISSUER_DID = "did:web:ies.tpddl.in"
+ISSUER_NAME = "Tata Power Delhi Distribution Limited"
+LICENSE_NUMBER = "DERC/DL/2025/0042"
+DEDI_REVOCATION_URL = "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
+
+def issue_utility_customer_credential(consumer, holder_did):
+    body = {
+        "issuerDid": ISSUER_DID,
+        "additionalTypes": ["EnergyCredential", "UtilityCustomerCredential"],
+        "proofFormat": "data-integrity",
+        "validFrom": datetime.utcnow().isoformat() + "Z",
+        "validUntil": (datetime.utcnow() + timedelta(days=5*365)).isoformat() + "Z",
+        "credentialSubject": {
+            "id": holder_did,
+            "consumerNumber": consumer.consumer_number,
+            "fullName": consumer.full_name,
+            "installationAddress": {
+                "fullAddress": consumer.address_line,
+                "postalCode": consumer.pincode,
+                "country": "IN",
+                "city": consumer.city,
+                "stateProvince": consumer.state_code,
+            },
+            "meterNumber": consumer.meter_number,
+            "serviceConnectionDate": consumer.connection_date.isoformat(),
+            "maskedIdNumber": consumer.masked_aadhaar,
+        },
+        "revocationRegistryUrl": DEDI_REVOCATION_URL,
+        "packageFormats": ["pdf", "qr-png"],
+    }
+    r = requests.post(
+        f"{OPENCRED_URL}/v1/credentials/issue",
+        headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
+        json=body,
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()
+```
+
+### Where the consumer's DID comes from
+
+| Delivery channel | Source of `credentialSubject.id` |
+|---|---|
+| **DigiLocker** | Generate a per-credential `did:key` and store the mapping in your CIS — DigiLocker does not provide a stable consumer DID today |
+| **DID wallet** | The wallet performs a "request credential" handshake and presents its own DID first |
+| **Email / paper QR** | Generate a `did:key` server-side and either bind it to the consumer record or accept that it is single-use |
+
+For DigiLocker delivery specifically, see [DigiLocker Integration](./digilocker-integration.md).
+
+---
+
+## Batch Issuance
+
+For migration / backfill scenarios — e.g. issuing `UtilityCustomerCredential` for every existing connection.
+
+### `POST /v1/credentials/batch`
+
+```bash
+curl -X POST http://localhost:3100/v1/credentials/batch \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "csvContent": "consumerNumber,fullName,meterNumber,connectionDate\nTPDDL-001,...\n",
+    "schemaId": "deg/utility-customer/v2",
+    "issuerDid": "did:web:ies.tpddl.in",
+    "validFrom": "2026-05-01T00:00:00Z",
+    "proofFormat": "data-integrity",
+    "additionalTypes": ["EnergyCredential", "UtilityCustomerCredential"],
+    "revocationRegistryUrl": "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
+  }'
+```
+
+Response:
+
+```json
+{
+  "jobId": "a1e7c3f9-4b2d-4f21-8c3a-1f4d7e9b2c01",
+  "headers": ["consumerNumber", "fullName", "meterNumber", "connectionDate"],
+  "validCount": 42,
+  "invalidCount": 1,
+  "totalCount": 43
+}
+```
+
+Poll `GET /v1/credentials/batch/{jobId}` for progress:
+
+```json
+{
+  "jobId": "a1e7c3f9-…",
+  "total": 42,
+  "completed": 42,
+  "successCount": 42,
+  "errorCount": 0,
+  "running": false,
+  "cancelled": false
+}
+```
+
+Limits: default 1,000 rows per request (configurable via `OPENCRED_BATCH_ROW_LIMIT`); results live in process memory for `OPENCRED_SESSION_TTL` seconds (default 4 hours). Drain to your CIS or object storage before TTL.
 
 ---
 
 ## Revoking a Credential
 
-Revocation uses the **DeDi** hash registry. OpenCred computes a SHA-256 hash of the canonicalised credential; publishing that hash to DeDi marks it as revoked.
+DeDi revocation publishes a credential's hash to your namespace. After publication, any verifier checking that credential will see `revoked: true`.
+
+### Compute the hash first (optional, for audit logs)
 
 ```bash
-# Step 1 — compute the revocation hash
-POST http://localhost:3100/v1/credentials/revocation-hash
-Authorization: Bearer sk_prod_change_me
-Content-Type: application/json
-
-{ "credential": { /* full VC JSON */ } }
-
-# Step 2 — publish the hash to your DeDi namespace
-POST http://localhost:3100/v1/credentials/revoke
-Authorization: Bearer sk_prod_change_me
-Content-Type: application/json
-
-{ "credential": { /* full VC JSON */ } }
+curl -X POST http://localhost:3100/v1/credentials/revocation-hash \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"credential": { /* full signed VC */ }}'
+# → {"hash":"d6f4e2c9b7a8...e1f0"}
 ```
 
-Any verifier that subsequently checks this credential will find its hash in the DeDi registry and return `revoked: true`.
+### Publish the revocation
+
+```bash
+curl -X POST http://localhost:3100/v1/credentials/revoke \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"hash": "d6f4e2c9b7a8...e1f0"}'
+# → {"hash":"d6f4...","revoked":true,"revokedAt":"2026-05-01T10:00:00.000Z"}
+```
+
+Or revoke by passing the full credential — OpenCred recomputes the hash:
+
+```bash
+curl -X POST http://localhost:3100/v1/credentials/revoke \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"credential": { /* full signed VC */ }}'
+```
+
+Only the namespace owner (your DISCOM, holding the DeDi API key configured on this OpenCred instance) can revoke into your namespace.
+
+### Batch revocation hashes
+
+```bash
+curl -X POST http://localhost:3100/v1/credentials/revocation-hash/batch \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"credentials": [ /* …array of VCs… */ ]}'
+```
+
+### Hash stability rules
+
+The hash is `SHA-256(JCS(credential))`. To stay reproducible, callers must always pass the **same shape** to both issuance and revocation — typically the signed credential. Mutating the `proof` block (e.g. via re-canonicalisation) changes the hash. OpenCred handles this internally; just always pass the credential as you stored it.
 
 ---
 
-## Available API Endpoints
+## Lifecycle Patterns
 
-| Endpoint | Method | Purpose |
-|---|---|---|
-| `GET /v1/health` | GET | Liveness probe (no auth) |
-| `GET /v1/keys` | GET | List loaded signing keys |
-| `POST /v1/credentials/issue` | POST | Issue a single credential |
-| `POST /v1/credentials/batch` | POST | Batch issue from CSV |
-| `POST /v1/credentials/verify` | POST | Verify a credential |
-| `POST /v1/credentials/revoke` | POST | Publish revocation |
-| `POST /v1/credentials/revocation-hash` | POST | Compute revocation hash |
-| `GET /v1/credentials/revocation-status` | GET | Check revocation status |
-| `GET /v1/schemas` | GET | List available schemas |
-| `GET /v1/metrics` | GET | Prometheus metrics (no auth) |
+### Re-issuing on data change
+
+When a fact changes (new tariff category, new sanctioned load), the cleanest pattern is:
+
+1. Issue a new credential with the updated `credentialSubject`.
+2. Revoke the old credential.
+3. Push the new credential to the consumer's wallet / DigiLocker.
+
+Do not edit and re-sign the old credential — the W3C VC model treats each `id` as immutable.
+
+### Connection closures
+
+On disconnection:
+
+1. Revoke `UtilityCustomerCredential`, `ConsumptionProfileCredential`, and any active `GenerationProfileCredential` / `StorageProfileCredential` / `ProgramEnrollmentCredential`.
+2. Push a notification to the consumer wallet (verifiers will see `revoked: true` on next check).
+
+### Programme cohorts
+
+For time-bounded programs (e.g. a 6-month DR pilot), set `validUntil` to the cohort end date. The credential expires automatically — no explicit revocation needed. Revoke only for early withdrawals.
+
+---
+
+## Operational Notes
+
+### Logging and audit
+
+OpenCred logs every issue / revoke call to stdout in JSON (pino). Ship to your aggregator and retain for the credential lifetime + audit window. Do not log `credentialSubject` payloads at level `info`; use `debug` and gate on environment.
+
+### Rate limits
+
+OpenCred itself does not impose rate limits. Apply at your gateway. Issuance is CPU-bound on the signing operation; an `m6i.large` typically handles ~200 ECDSA-P256 signs/sec single-threaded. Scale horizontally — all instances are stateless.
+
+### Idempotency
+
+OpenCred does not deduplicate on `id`. Generate `id` in your integration service (UUIDv4) and store the mapping `consumer_number → credential_id` in your CIS so you can detect a duplicate before signing.
+
+### Selective disclosure
+
+When integrating with verifiers who only need partial fields (e.g. a marketplace that needs `state` but not `address`), issue with `proofFormat: "sd-jwt-vc"` and list the disclosable claims:
+
+```json
+{
+  "proofFormat": "sd-jwt-vc",
+  "selectiveDisclosureClaims": [
+    "installationAddress.city",
+    "installationAddress.stateProvince",
+    "premisesType",
+    "connectionType"
+  ]
+}
+```
+
+The consumer's wallet decides which claims to reveal at presentation time.
+
+---
+
+## All Endpoints at a Glance
+
+| Method | Path | Auth | Purpose |
+|---|---|---|---|
+| `GET` | `/v1/health` | none | Liveness + signing key status |
+| `GET` | `/v1/metrics` | none | Prometheus metrics |
+| `GET` | `/v1/keys` | yes | List loaded signing keys |
+| `POST` | `/v1/keys/publish` | yes | Publish DID doc to DeDi |
+| `POST` | `/v1/keys/resolve` | yes | Resolve any DID |
+| `GET` | `/v1/schemas` | yes | List available schemas |
+| `GET` | `/v1/schemas/:id` | yes | Full schema definition |
+| `POST` | `/v1/credentials/issue` | yes | Issue one credential |
+| `POST` | `/v1/credentials/batch` | yes | Start batch issue from CSV |
+| `GET` | `/v1/credentials/batch/:jobId` | yes | Batch progress |
+| `POST` | `/v1/credentials/verify` | yes | Verify a credential (see [Verification](./verification.md)) |
+| `POST` | `/v1/credentials/revocation-hash` | yes | Compute revocation hash |
+| `POST` | `/v1/credentials/revocation-hash/batch` | yes | Batch hashes |
+| `POST` | `/v1/credentials/revoke` | yes | Publish revocation |
+| `POST` | `/v1/credentials/revocation-status` | yes | Look up revocation status |
+| `POST` | `/v1/dedi/namespace/ensure` | yes | Ensure DeDi namespace + registries |
+
+---
+
+## References
+
+- [OpenCred — API reference](https://opencred.gitbook.io/docs/docker-image/api-reference)
+- [OpenCred — Issuing credentials (Desktop)](https://opencred.gitbook.io/docs/desktop-app/issuing-credentials)
+- [DEG schemas](./schemas.md)
+- [DigiLocker Integration](./digilocker-integration.md)
+- [Verification](./verification.md)
