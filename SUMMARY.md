@@ -26,3 +26,12 @@
     * [IES Data Model](data-exchange/use-cases/meter-telemetry/ies-data-model.md)
   * [ARR Filings](data-exchange/use-cases/arr-filings.md)
   * [Tariff Policies](data-exchange/use-cases/tariff-policies.md)
+
+
+## Checklists
+
+* [Energy Credentials Simplified Checklist](checklists/energy-credentials-checklist.md)
+* [Energy Credentials Detailed Checklist](checklists/energy-credentials-checklist-detailed.md)
+* [Data Exchange Simplified Checklist](checklists/data-exchange-checklist.md)
+* [Data Exchange Detailed Checklist](checklists/data-exchange-checklist-detailed.md)
+
