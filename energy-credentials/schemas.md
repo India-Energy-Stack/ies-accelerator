@@ -1,259 +1,302 @@
-# Energy Credential Schemas
+# Electricity Credential Schema
 
-DISCOMs issue credentials against the [Beckn DEG `EnergyCredential` schema family](https://github.com/beckn/DEG/tree/main/specification/schema/EnergyCredential). All five concrete schemas inherit a common envelope (issuer with regulatory licence number, validity dates, DeDi revocation status, W3C proof) and differ in their `credentialSubject` fields.
+DISCOMs issue a single unified **`CustomerCredential`** (from the IES Electricity Credential schema family — see [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/)) per meter. One credential carries customer identity, address, consumption characteristics, generation assets, and storage assets as equal-level sub-profiles within a single W3C Verifiable Credential (VC Data Model 2.0).
+
+> **Schema files.** All canonical schema artefacts referenced on this page live under [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/) in this repository. Repository root: **https://github.com/India-Energy-Stack/ies-accelerator**. The directory contains `schema.json` (JSON Schema 2020-12), `context.jsonld` (JSON-LD context), `attributes.yaml` (field reference), and `examples/example.json`.
+>
+> **Upstream provenance.** The schema is sourced from the Beckn DEG [`ElectricityCredential` v1.0](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.0) specification and mirrored into this repo for offline reference. All field rules below are normative against the mirrored `schema.json`.
 
 ```
-beckn:Credential
-  └── deg:EnergyCredential                    (shared envelope)
-        ├── deg:UtilityCustomerCredential     (identity)
-        ├── deg:ConsumptionProfileCredential  (connection / load)
-        ├── deg:GenerationProfileCredential   (DER generation)
-        ├── deg:StorageProfileCredential      (battery storage)
-        └── deg:ProgramEnrollmentCredential   (program enrolment)
+CustomerCredential
+└── credentialSubject
+      ├── id                    (optional — consumer DID)
+      ├── customerProfile       (required — meter, customer number, idRef)
+      ├── customerDetails       (optional — name, address, connection date)
+      ├── consumptionProfiles[] (optional — premises, load, tariff per meter/category)
+      ├── generationProfiles[]  (optional — one entry per DER asset)
+      └── storageProfiles[]     (optional — one entry per battery)
 ```
 
-**Schema location:** `https://schema.beckn.io/<CredentialType>/v2.0`
-**Namespace prefix:** `deg:` → `https://schema.beckn.io/deg/EnergyCredential/v2.0/`
+One credential per meter. Multiple assets of the same kind go into the corresponding array; you do not issue separate credentials per asset.
 
 ---
 
-## Common Envelope — `EnergyCredential`
+## Common Envelope
 
-Every DEG energy credential includes these fields on top of W3C VC's standard ones.
+Every credential includes these top-level fields on top of W3C VC's standard ones.
 
 | Property | Type | Required | Notes |
 |---|---|---|---|
-| `issuer.id` | URI | ✓ | DISCOM DID (`did:web:ies.tpddl.in`) |
+| `@context` | array | ✓ | Must contain `https://www.w3.org/ns/credentials/v2`; minItems 2 |
+| `id` | URI | ✓ | URN UUID — e.g. `urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456` |
+| `type` | array | ✓ | Must contain `"CustomerCredential"`; minItems 2 — typically `["VerifiableCredential", "CustomerCredential"]` |
+| `issuer.id` | URI | ✓ | DISCOM DID (`did:web:bescom.karnataka.gov.in`) or HTTPS URL |
 | `issuer.name` | string | ✓ | Legal name of the distribution utility |
-| `issuer.licenseNumber` | string | ✓ | **DEG-mandated.** Regulatory licence number from your SERC |
-| `issuanceDate` | date-time | | ISO 8601 timestamp |
-| `expirationDate` | date-time | | Optional |
-| `credentialStatus.id` | URI | ✓ | DeDi lookup URL — `https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<hash>` |
-| `credentialStatus.type` | const | ✓ | DEG-required value is `"dediregistry"`. OpenCred currently emits `"dedi"` — see [Core Concepts → DeDi Revocation](./concepts.md#dedi-revocation) for the post-processing step DISCOMs apply to land on the DEG-conformant value. |
-| `credentialStatus.statusPurpose` | string | | OpenCred also emits `"revocation"` |
-| `credentialStatus.statusListCredential` | URI | | OpenCred also emits the registry query URL `https://dedi.global/dedi/query/<namespace>/vc-revocation-registry`. Not required by DEG but harmless for verifiers. |
-| `proof.*` | object | ✓ | W3C proof block — OpenCred fills this |
+| `issuer.idRef` | object | | Regulatory registration of the utility — see [idRef](#idref) |
+| `validFrom` | date-time | ✓ | ISO 8601 with explicit timezone offset |
+| `validUntil` | date-time | | Optional expiration |
+| `credentialStatus.id` | URI | ✓ | DeDi lookup URL — `https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<credential-id>` |
+| `credentialStatus.type` | const | ✓ | `"dedi"` |
+| `credentialStatus.statusPurpose` | enum | ✓ | `"revocation"` or `"suspension"` |
+| `credentialStatus.statusListCredential` | URI | ✓ | Registry query URL — `https://dedi.global/dedi/query/<namespace>/vc-revocation-registry` |
+| `credentialSubject` | object | ✓ | The profile sections — see below |
+| `proof` | object | ✓ | W3C proof block — OpenCred fills this |
 
-When you call OpenCred's issue endpoint, you supply `issuerDid` (a string), `validFrom`, optional `validUntil`, and an optional `revocationRegistryUrl`. OpenCred sets `issuer` to the DID and fills `proof` and `credentialStatus`. **OpenCred does not accept `issuer.name` or `issuer.licenseNumber` as request fields** — DEG mandates these, so your integration service must post-process the returned credential and inject the issuer object (DID, name, regulatory licence) before delivering it to the consumer.
+When you call OpenCred's issue endpoint, you supply `issuerDid`, `validFrom`, optional `validUntil`, and (if revocation is configured) `revocationRegistryUrl`. OpenCred sets `issuer.id` to your DID and fills `proof` and `credentialStatus`.
+
+**OpenCred does not accept `issuer.name` or `issuer.idRef` as request fields.** Both are required by the schema, so your integration service must post-process the returned credential and inject the full `issuer` object before delivery. Note that re-shaping `issuer` invalidates the original `proof`; the practical pattern is to either re-sign in your integration service or pass the patched fields back through OpenCred for re-signing.
 
 ---
 
-## 1. `UtilityCustomerCredential`
+## credentialSubject
 
-**The foundational identity credential.** Every consumer should hold this. All other DEG profile credentials reference the same `credentialSubject.id` DID.
+Only `customerProfile` is required. All other sub-profiles are optional and appear when the relevant assets/details exist for that meter.
 
-**Schema:** `https://schema.beckn.io/UtilityCustomerCredential/v2.0`
+### customerProfile (required)
 
-| Property | Type | Required | Description |
+| Field | Type | Required | Description |
 |---|---|---|---|
-| `id` | URI | ✓ | Consumer's DID |
-| `consumerNumber` | string | ✓ | Consumer account number from your CIS |
-| `fullName` | string | ✓ | Full name as on ID proof |
-| `installationAddress` | object | ✓ | See below |
+| `customerNumber` | string | ✓ | Consumer account number from your CIS |
 | `meterNumber` | string | ✓ | Unique meter serial number |
-| `serviceConnectionDate` | date | ✓ | When the connection was activated |
-| `maskedIdNumber` | string | | Masked Aadhaar / government ID. **Never** include the full ID. |
+| `meterType` | enum | ✓ | See [meterType enum](#metertype-enum) |
+| `idRef` | object | | Customer's external government-ID reference — see [idRef](#idref). **Never include the raw ID number.** |
 
-### `installationAddress`
+#### meterType enum
 
-| Property | Required |
+Values derived from Green Button / ESPI meter-kind classifications:
+
+| Value | Description |
 |---|---|
-| `fullAddress` | ✓ |
-| `postalCode` | ✓ |
-| `country` (ISO 3166-1 alpha-2, e.g. `IN`) | ✓ |
-| `city` | |
-| `district` | |
-| `stateProvince` | |
+| `AMR` | Automated Meter Reading |
+| `AMI` | Advanced Metering Infrastructure (smart meter) |
+| `Electromechanical` | Traditional electromechanical meter |
+| `Forward` | Forward-only (import) meter |
+| `Reverse` | Reverse-only (export) meter |
+| `Bidirectional` | Bidirectional meter (import + export) |
+| `Prepaid` | Prepaid / token-based meter |
+| `NetMeter` | Net-metering meter |
+| `Other` | Other |
 
-### Example
+### customerDetails
+
+Personal and address information.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `fullName` | string | ✓ | Full name as on ID proof |
+| `installationAddress` | object | ✓ | See [installationAddress](#installationaddress) |
+| `serviceConnectionDate` | date-time | ✓ | ISO 8601 with timezone (e.g. `"2019-03-15T00:00:00+05:30"`) |
+
+#### installationAddress
+
+The address object follows the [beckn Location](https://github.com/beckn/protocol-specifications/blob/master/schema/Location.yaml) shape — with an added `openLocationCode` field — and reuses [schema.org](https://schema.org/) vocabulary where applicable.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `address` | string | ✓ | Complete postal address |
+| `country` | object | ✓ | `{ name: string, code: string }` — ISO 3166-1 alpha-2 |
+| `area_code` | string | ✓ | Postal / PIN code |
+| `city` | object | | `{ name: string, code: string }` |
+| `district` | string | | District / county |
+| `state` | object | | `{ name: string, code: string }` |
+| `gps` | string | | `"lat,lng"` |
+| `openLocationCode` | string | | Open Location Code (OLC) |
+| `id` | string | | Stable identifier for the location |
+| `descriptor` | object | | `{ name, code, short_desc, long_desc }` |
+| `map_url` | string (uri) | | Map link |
+| `circle` | object | | Geo-fence — `{ gps, radius }` |
+| `polygon` | string | | Boundary polygon |
+
+### consumptionProfiles[]
+
+Array with `minItems: 1` when present. One entry per meter or tariff category.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `premisesType` | enum | ✓ | `Residential` \| `Commercial` \| `Industrial` \| `Agricultural` |
+| `connectionType` | enum | ✓ | `Single-phase` \| `Three-phase` |
+| `sanctionedLoadKW` | number | ✓ | Sanctioned load in kW |
+| `tariffCategoryCode` | string | ✓ | Your billing / tariff category code |
+
+### generationProfiles[]
+
+Array with `minItems: 1` when present. One entry per DER asset.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `generationType` | enum | ✓ | `Solar` \| `Wind` \| `MicroHydro` \| `Other` |
+| `capacityKW` | number | ✓ | Installed capacity in kW |
+| `commissioningDate` | date-time | ✓ | Activation timestamp |
+| `assetId` | string | | DER asset unique ID |
+| `manufacturer` | string | | Panel / turbine manufacturer |
+| `modelNumber` | string | | Equipment model |
+
+### storageProfiles[]
+
+Array with `minItems: 1` when present. One entry per battery.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `storageCapacityKWh` | number | ✓ | Storage capacity in kWh |
+| `powerRatingKW` | number | ✓ | Charge / discharge rating in kW |
+| `commissioningDate` | date-time | ✓ | Activation timestamp |
+| `assetId` | string | | Storage asset unique ID |
+| `storageType` | enum | | `LithiumIon` \| `LeadAcid` \| `FlowBattery` \| `Other` |
+
+---
+
+## idRef
+
+A reusable identity-reference pattern used in two places:
+
+- **`issuer.idRef`** — the DISCOM's entry in the **IES DISCOMs Reference Registry**. This is the trust anchor verifiers use to look up the issuer's published public key and confirm the DISCOM is a registered IES participant.
+- **`customerProfile.idRef`** — the customer's external identity (e.g. Aadhaar / government ID), used **instead of** carrying the raw ID
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `issuedBy` | URI (DID) | ✓ | DID of the issuing authority |
+| `subjectId` | string | ✓ | `authority-domain:id-value`, e.g. `india-energy-stack:tpddl` |
+
+### IES DISCOMs Reference Registry
+
+A DISCOM acting as an issuer must be registered in the **IES DISCOMs Reference Registry**. The registry is the canonical source of truth for **which DISCOMs are trusted issuers and what public key each has published**. Verifiers consult it during signature verification — without a registry entry, a credential cannot be trusted, even if the cryptographic signature itself is valid.
+
+The registry lives on [`dedi.global`](https://dedi.global) under the IES namespace. Its full base URL is:
+
+```
+https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/
+```
+
+That long path segment is the URL-encoded form of the namespace DID `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` — the cryptographic identifier of the `india-energy-stack` namespace on DeDi. Throughout the rest of these docs we refer to entries by the **relative path** below; prepend the base URL above to resolve.
+
+| Property | Value |
+|---|---|
+| Host | `api.dedi.global` |
+| Namespace (friendly) | `india-energy-stack` |
+| Namespace DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
+| Registry name | `ies-discoms-reference-registry` |
+| Relative path to a DISCOM entry | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+| Issuer (`issuedBy`) DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
+| `subjectId` format | `india-energy-stack:<discom-short-code>` (e.g. `india-energy-stack:tpddl`, `india-energy-stack:bescom`) |
+
+> A sibling registry — `ies-regulators-reference-registry` — lives in the same namespace and holds regulator entries (DERCs, KERCs, etc.). It is not consulted for `issuer.idRef` on electricity credentials, but it is the lookup destination if your application needs to verify a regulator separately.
+
+Setting `issuer.idRef` to point at this registry is what makes a credential **verifiable on the IES network**. Verifiers do not need to know your DISCOM out-of-band — they resolve the registry entry and obtain both the trust assertion and the public key in one lookup.
+
+Customer example (masked Aadhaar reference):
+
+```json
+"idRef": {
+  "issuedBy": "did:web:uidai.gov.in",
+  "subjectId": "uidai.gov.in:XXXX-XXXX-1234"
+}
+```
+
+---
+
+## Full example
 
 ```json
 {
   "@context": [
-    "https://www.w3.org/2018/credentials/v1",
-    "https://schema.beckn.io/EnergyCredential/v2.0",
-    "https://schema.beckn.io/UtilityCustomerCredential/v2.0"
+    "https://www.w3.org/ns/credentials/v2",
+    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ElectricityCredential/v1.0/context.jsonld"
   ],
-  "type": ["VerifiableCredential", "EnergyCredential", "UtilityCustomerCredential"],
+  "id": "urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456",
+  "type": ["VerifiableCredential", "CustomerCredential"],
   "issuer": {
     "id": "did:web:ies.tpddl.in",
     "name": "Tata Power Delhi Distribution Limited",
-    "licenseNumber": "DERC/DL/2025/0042"
+    "idRef": {
+      "issuedBy": "did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma",
+      "subjectId": "india-energy-stack:tpddl"
+    }
+  },
+  "validFrom": "2026-05-01T00:00:00+05:30",
+  "validUntil": "2031-05-01T00:00:00+05:30",
+  "credentialStatus": {
+    "id": "https://dedi.global/dedi/lookup/tpddl/vc-revocation-registry/e5f6a7b8-9012-34ab-cdef-567890123456",
+    "type": "dedi",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
   },
   "credentialSubject": {
-    "id": "did:key:z6MkjVQ8r4f3...",
-    "consumerNumber": "TPDDL-2025-001234567",
-    "fullName": "Priya Sharma",
-    "installationAddress": {
-      "fullAddress": "Flat 4B, Sector 12, Rohini",
-      "postalCode": "110085",
-      "country": "IN",
-      "city": "New Delhi",
-      "stateProvince": "DL"
+    "id": "did:key:z6MkjVQ8r4f3rPuY7CG2D6Lf8WJxJBs5sjkR8d3v2Bv4nP4Z",
+    "customerProfile": {
+      "customerNumber": "TPDDL-2025-001234567",
+      "meterNumber": "MTR-98765432",
+      "meterType": "AMI",
+      "idRef": {
+        "issuedBy": "did:web:uidai.gov.in",
+        "subjectId": "uidai.gov.in:XXXX-XXXX-1234"
+      }
     },
-    "meterNumber": "MTR-98765432",
-    "serviceConnectionDate": "2019-03-15",
-    "maskedIdNumber": "XXXX-XXXX-1234"
+    "customerDetails": {
+      "fullName": "Priya Sharma",
+      "installationAddress": {
+        "address": "Flat 4B, Sector 12, Rohini",
+        "city":    {"name": "New Delhi", "code": "DEL"},
+        "state":   {"name": "Delhi",     "code": "DL"},
+        "country": {"name": "India",     "code": "IN"},
+        "area_code": "110085",
+        "openLocationCode": "7JWVQ7G3+QR"
+      },
+      "serviceConnectionDate": "2019-03-15T00:00:00+05:30"
+    },
+    "consumptionProfiles": [{
+      "premisesType": "Residential",
+      "connectionType": "Single-phase",
+      "sanctionedLoadKW": 5,
+      "tariffCategoryCode": "DOM-A2"
+    }],
+    "generationProfiles": [{
+      "assetId": "DER-TPDDL-2024-005678",
+      "generationType": "Solar",
+      "capacityKW": 5.5,
+      "commissioningDate": "2024-08-20T00:00:00+05:30",
+      "manufacturer": "Tata Power Solar",
+      "modelNumber": "TP540M-72"
+    }]
   }
 }
 ```
 
 ---
 
-## 2. `ConsumptionProfileCredential`
+## Lifecycle Patterns
 
-Connection and load characteristics. Used by tariff engines, demand response programs, and load forecasting.
+DISCOMs issue **one credential per meter** and re-issue when material facts change:
 
-**Schema:** `https://schema.beckn.io/ConsumptionProfileCredential/v2.0`
-
-| Property | Type | Required | Description |
-|---|---|---|---|
-| `id` | URI | ✓ | Consumer DID |
-| `consumerNumber` | string | ✓ | Consumer account number |
-| `fullName` | string | ✓ | Consumer name |
-| `premisesType` | enum | ✓ | `Residential` \| `Commercial` \| `Industrial` \| `Agricultural` |
-| `connectionType` | enum | ✓ | `Single-phase` \| `Three-phase` |
-| `sanctionedLoadKW` | number (0.5–10000) | ✓ | Approved load in kW |
-| `tariffCategoryCode` | string | ✓ | Your billing/tariff category code |
-| `meterNumber` | string | | Meter serial number |
-
-### Example `credentialSubject`
-
-```json
-{
-  "id": "did:key:z6MkjVQ8r4f3...",
-  "consumerNumber": "TPDDL-2025-001234567",
-  "fullName": "Priya Sharma",
-  "premisesType": "Residential",
-  "connectionType": "Single-phase",
-  "sanctionedLoadKW": 5.0,
-  "tariffCategoryCode": "DOM-A2",
-  "meterNumber": "MTR-98765432"
-}
-```
-
----
-
-## 3. `GenerationProfileCredential`
-
-DER asset capabilities. Required for net metering, green energy attribution, and P2P trading as a seller.
-
-**Schema:** `https://schema.beckn.io/GenerationProfileCredential/v2.0`
-
-| Property | Type | Required | Description |
-|---|---|---|---|
-| `id` | URI | ✓ | Consumer DID |
-| `consumerNumber` | string | ✓ | Consumer account number |
-| `generationType` | enum | ✓ | `Solar` \| `Wind` \| `MicroHydro` \| `Other` |
-| `capacityKW` | number (0.1–10000) | ✓ | Installed capacity in kW |
-| `commissioningDate` | date | ✓ | Activation date |
-| `fullName` | string | | Consumer name |
-| `meterNumber` | string | | Net meter serial |
-| `assetId` | string | | DER asset unique ID |
-| `manufacturer` | string | | Panel / turbine manufacturer |
-| `modelNumber` | string | | Equipment model |
-
-### Example `credentialSubject`
-
-```json
-{
-  "id": "did:key:z6MkjVQ8r4f3...",
-  "consumerNumber": "TPDDL-2025-001234567",
-  "generationType": "Solar",
-  "capacityKW": 4.5,
-  "commissioningDate": "2025-08-20",
-  "assetId": "TPDDL-DER-2025-A11023",
-  "manufacturer": "Tata Power Solar",
-  "modelNumber": "TP-330W-MONO"
-}
-```
-
----
-
-## 4. `StorageProfileCredential`
-
-Behind-the-meter battery storage. Enables virtual power plant participation and time-of-use arbitrage.
-
-**Schema:** `https://schema.beckn.io/StorageProfileCredential/v2.0`
-
-| Property | Type | Required | Description |
-|---|---|---|---|
-| `id` | URI | ✓ | Consumer DID |
-| `consumerNumber` | string | ✓ | Consumer account number |
-| `storageCapacityKWh` | number (0.1–10000) | ✓ | Storage capacity in kWh |
-| `powerRatingKW` | number (0.1–10000) | ✓ | Charge/discharge rating in kW |
-| `commissioningDate` | date | ✓ | Activation date |
-| `fullName` | string | | Consumer name |
-| `meterNumber` | string | | Meter serial |
-| `assetId` | string | | Storage asset unique ID |
-| `storageType` | enum | | `LithiumIon` \| `LeadAcid` \| `FlowBattery` \| `Other` |
-
----
-
-## 5. `ProgramEnrollmentCredential`
-
-On-chain proof of enrolment in a specific energy program — P2P trading, ToU tariff, demand response, VPP. Typically short-lived; `expirationDate` should match the program window.
-
-**Schema:** `https://schema.beckn.io/ProgramEnrollmentCredential/v2.0`
-
-| Property | Type | Required | Description |
-|---|---|---|---|
-| `id` | URI | ✓ | Consumer DID |
-| `consumerNumber` | string | ✓ | Consumer account number |
-| `programName` | string | ✓ | Human-readable program name |
-| `programCode` | string | ✓ | Unique program identifier |
-| `enrollmentDate` | date | ✓ | Enrolment date |
-| `fullName` | string | | Consumer name |
-| `validUntil` | date | | Enrolment expiration |
-
-### Example `credentialSubject`
-
-```json
-{
-  "id": "did:key:z6MkjVQ8r4f3...",
-  "consumerNumber": "TPDDL-2025-001234567",
-  "programName": "Delhi Rooftop P2P Pilot — Cohort 2026A",
-  "programCode": "TPDDL-P2P-2026A",
-  "enrollmentDate": "2026-05-01",
-  "validUntil": "2027-04-30"
-}
-```
-
----
-
-## Schema Composition Strategies
-
-DISCOMs typically issue **multiple credentials per consumer** as facts emerge:
-
-| Trigger event | Credential to issue |
+| Trigger event | Action |
 |---|---|
-| New service connection | `UtilityCustomerCredential` + `ConsumptionProfileCredential` |
-| Tariff category change | Re-issue `ConsumptionProfileCredential`, revoke the old one |
-| Rooftop solar commissioning | `GenerationProfileCredential` |
-| Battery commissioning | `StorageProfileCredential` |
-| Program enrolment / withdrawal | `ProgramEnrollmentCredential` (issue or revoke) |
+| New service connection activated | Issue with `customerProfile` + `customerDetails` + `consumptionProfiles[0]` |
+| Tariff category change | Re-issue with updated `consumptionProfiles`; revoke the previous credential |
+| Rooftop solar / DER commissioned | Re-issue with added `generationProfiles` entry; revoke previous |
+| Battery commissioned | Re-issue with added `storageProfiles` entry; revoke previous |
+| Asset decommissioned | Re-issue with the asset removed; revoke previous |
+| Disconnection / closure | Revoke; do not re-issue |
 
-All five reference the same `credentialSubject.id` (the consumer's DID), so a verifier with the bundle can compose a complete picture: identity + connection + DER + storage + active programs.
+Each re-issue gets a new `id` (URN UUID); the consumer DID (`credentialSubject.id`) stays the same so a verifier holding multiple historical credentials can still tie them to the same person.
 
 ---
 
 ## Implementing in OpenCred
 
-OpenCred can load DEG schemas in three ways:
+OpenCred can load the schema in three ways:
 
-1. **Built-in schema ID** — once DEG schemas ship in the OpenCred image, pass `schemaId: "deg/utility-customer/v2"` (or similar; check `GET /v1/schemas`).
-2. **Inline schema** — pass the JSON Schema fragment in the request body as `inlineSchema`.
-3. **Inline context** — pass the JSON-LD `@context` fragment as `inlineContext`.
+1. **Built-in schema ID** — the published image ships `electricity/v1` as a built-in schema. Pass `schemaId: "electricity/v1"`. This is the **recommended path**.
+2. **Inline schema** — supply the JSON Schema body as `inlineSchema`.
+3. **Inline context** — supply the JSON-LD `@context` fragment as `inlineContext`.
 
-For day-one deployments without a built-in DEG schema, the simplest pattern is `inlineSchema` + `inlineContext` from the [DEG repo](https://github.com/beckn/DEG/tree/main/specification/schema/EnergyCredential). Worked examples are in [Issuing Credentials](./issuance.md).
+Worked curls are in [Issuing Credentials](./issuance.md).
 
 ---
 
 ## References
 
-- [Beckn DEG — `EnergyCredential` v2.0](https://github.com/beckn/DEG/tree/main/specification/schema/EnergyCredential/v2.0)
-- [Beckn DEG — `UtilityCustomerCredential` v2.0](https://github.com/beckn/DEG/tree/main/specification/schema/UtilityCustomerCredential/v2.0)
-- [Beckn DEG — `ConsumptionProfileCredential` v2.0](https://github.com/beckn/DEG/tree/main/specification/schema/ConsumptionProfileCredential/v2.0)
-- [Beckn DEG — `GenerationProfileCredential` v2.0](https://github.com/beckn/DEG/tree/main/specification/schema/GenerationProfileCredential/v2.0)
-- [Beckn DEG — `StorageProfileCredential` v2.0](https://github.com/beckn/DEG/tree/main/specification/schema/StorageProfileCredential/v2.0)
-- [Beckn DEG — `ProgramEnrollmentCredential` v2.0](https://github.com/beckn/DEG/tree/main/specification/schema/ProgramEnrollmentCredential/v2.0)
+- [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/) — mirrored schema files in this repo (`schema.json`, `context.jsonld`, `attributes.yaml`, `examples/`)
+- Repository root: [https://github.com/India-Energy-Stack/ies-accelerator](https://github.com/India-Energy-Stack/ies-accelerator)
+- [Beckn DEG `ElectricityCredential` v1.0 — upstream](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.0)
+- [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/)
+- [beckn Location schema](https://github.com/beckn/protocol-specifications/blob/master/schema/Location.yaml) — basis for `installationAddress`
+- [Green Button / ESPI](https://www.energy.gov/data/green-button) — basis for `meterType` enum

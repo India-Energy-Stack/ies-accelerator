@@ -137,35 +137,41 @@ if not consumer:
 ```python
 import requests
 
+IST = timezone(timedelta(hours=5, minutes=30))
+
 credential_response = requests.post(
     "http://opencred:3100/v1/credentials/issue",
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
     json={
         "issuerDid": ISSUER_DID,                # e.g. "did:web:ies.tpddl.in"
-        "additionalTypes": ["EnergyCredential", "UtilityCustomerCredential"],
-        "proofFormat": "data-integrity",
-        "validFrom": datetime.utcnow().isoformat() + "Z",
-        "validUntil": (datetime.utcnow() + timedelta(days=365)).isoformat() + "Z",
-        "inlineContext": {
-            "@context": [
-                "https://schema.beckn.io/EnergyCredential/v2.0",
-                "https://schema.beckn.io/UtilityCustomerCredential/v2.0"
-            ]
-        },
+        "schemaId":  "electricity/v1",
+        "additionalTypes": ["CustomerCredential"],
+        "proofFormat": "vc-jwt",
+        "validFrom":  datetime.now(IST).isoformat(),
+        "validUntil": (datetime.now(IST) + timedelta(days=365)).isoformat(),
+        "subjectDid": holder_did,
         "credentialSubject": {
             "id": holder_did,                   # did:key generated for this consumer
-            "consumerNumber": consumer.consumer_number,
-            "fullName": consumer.full_name,
-            "installationAddress": {
-                "fullAddress": consumer.address_line,
-                "postalCode": consumer.pincode,
-                "country": "IN",
-                "city": consumer.city,
-                "stateProvince": consumer.state_code,
+            "customerProfile": {
+                "customerNumber": consumer.consumer_number,
+                "meterNumber":    consumer.meter_number,
+                "meterType":      consumer.meter_type,
+                "idRef": {
+                    "issuedBy":  "did:web:uidai.gov.in",
+                    "subjectId": f"uidai.gov.in:{consumer.masked_aadhaar}",
+                },
             },
-            "meterNumber": consumer.meter_number,
-            "serviceConnectionDate": consumer.connection_date.isoformat(),
-            "maskedIdNumber": consumer.masked_aadhaar
+            "customerDetails": {
+                "fullName": consumer.full_name,
+                "installationAddress": {
+                    "address":   consumer.address_line,
+                    "city":      {"name": consumer.city,  "code": consumer.city_code},
+                    "state":     {"name": consumer.state, "code": consumer.state_code},
+                    "country":   {"name": "India",        "code": "IN"},
+                    "area_code": consumer.pincode,
+                },
+                "serviceConnectionDate": consumer.connection_date.isoformat(),
+            },
         },
         "revocationRegistryUrl": DEDI_REVOCATION_URL,
         "packageFormats": ["pdf"]   # ask OpenCred to render the PDF for you
@@ -174,16 +180,18 @@ credential_response = requests.post(
 
 vc_json = credential_response["credential"]
 
-# Post-process to match DEG: OpenCred returns issuer as the DID string and
-# credentialStatus.type="dedi". DEG requires the full issuer object and
-# credentialStatus.type="dediregistry". See issuance.md and concepts.md.
+# Inject the schema-required issuer object before delivery — OpenCred returns
+# issuer as the DID string, but the ElectricityCredential schema requires the
+# full object with name and (optional) idRef. This invalidates the original
+# proof; re-sign downstream if you need a single signed-and-conformant artifact.
 vc_json["issuer"] = {
-    "id": ISSUER_DID,
+    "id":   ISSUER_DID,
     "name": ISSUER_NAME,
-    "licenseNumber": LICENSE_NUMBER,
+    "idRef": {
+        "issuedBy":  IES_REGISTRY_DID,         # namespace DID of india-energy-stack on dedi.global
+        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:tpddl
+    },
 }
-if "credentialStatus" in vc_json:
-    vc_json["credentialStatus"]["type"] = "dediregistry"
 
 pdf_bytes = base64.b64decode(
     next(p for p in credential_response.get("packagedOutputs", [])
@@ -284,7 +292,7 @@ Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential f
 - [ ] HMAC verified on every inbound request before any processing
 - [ ] `hmac.compare_digest` used (not `==`) to prevent timing attacks
 - [ ] Raw request bytes used for HMAC computation (not re-serialised XML)
-- [ ] `maskedIdNumber` — full Aadhaar never stored or logged
+- [ ] `customerProfile.idRef.subjectId` uses a **masked** identifier — full Aadhaar / ID never stored or logged
 - [ ] API key stored in environment variable / secrets manager, not in code
 - [ ] Endpoint accessible only over HTTPS (TLS 1.2+)
 - [ ] Rate limiting applied (DigiLocker can retry aggressively on timeout)

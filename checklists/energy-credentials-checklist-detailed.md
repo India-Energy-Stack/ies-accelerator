@@ -1,25 +1,25 @@
 # India Energy Stack
-## IES Energy Credentials — Implementation Checklist
+## IES Electricity Credentials — Implementation Checklist
 ### Detailed Technical Reference for DISCOM Integration Teams
 
 **Name of DISCOM:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 **Technical Lead:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &nbsp;&nbsp; **Email:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-**Credential types:**
-&nbsp; ☐ Consumer Profile &nbsp; ☐ Consumption Profile &nbsp; ☐ Generation Profile
-&nbsp; ☐ Storage Profile &nbsp; ☐ Composite Profile &nbsp; ☐ Recurring Meter Data
+**Sub-profiles being populated (single `CustomerCredential` per meter):**
+&nbsp; ☐ `customerProfile` (always) &nbsp; ☐ `customerDetails` &nbsp; ☐ `consumptionProfiles[]`
+&nbsp; ☐ `generationProfiles[]` &nbsp; ☐ `storageProfiles[]`
 
 ---
 
 ## Phase 0 — Pre-requisites
 
-- [ ] **0.a** Docker Engine (v24+) and Docker Compose installed
+- [ ] **0.a** Docker Engine (v24+) and Docker Compose installed (or Docker Desktop on Windows / macOS for dev evaluation)
 - [ ] **0.b** `openssl` and `curl` available in the terminal
 - [ ] **0.c** OpenCred Desktop Client installed on the operator workstation ([opencred.gitbook.io/docs/desktop-app/installation](https://opencred.gitbook.io/docs/desktop-app/installation))
 - [ ] **0.d** Access to CIS / billing database for consumer data lookups
-- [ ] **0.e** Access to MDMS / AMISP system for meter reading data (required for Recurring Meter Data credential)
-- [ ] **0.f** DeDi namespace registration initiated at `dedi.global`
+- [ ] **0.e** Access to MDMS / AMISP system for meter type and connection data
+- [ ] **0.f** DeDi namespace registration initiated at `dedi.global` (skip for initial dev evaluation)
 
 ---
 
@@ -56,38 +56,45 @@
 
 ### 1.2 Signing Key Setup
 
-Choose one trust type based on your organisation's PKI posture. Refer to [trust chains docs](https://opencred.gitbook.io/docs/concepts/trust-chains).
+Choose one based on your organisation's posture. Refer to [trust chains docs](https://opencred.gitbook.io/docs/concepts/trust-chains).
 
-**Type 1 — Import existing DSC (government agencies, regulated entities with existing certificates)**
+**Option A — `did:key` from a self-generated software PEM (recommended for dev / first deploy)**
+- [ ] Generate an ECDSA P-256 key: `openssl ecparam -name prime256v1 -genkey -noout -out issuer-key.pem`
+- [ ] Mount at `OPENCRED_KEY_PATH`; OpenCred derives a stable `did:key` automatically
+- [ ] Read the DID via `GET /v1/keys` — the same PEM always yields the same DID
+- [ ] Trust model: verifier extracts the public key directly from the DID string — no external lookup
+
+**Option B — `did:web` from a self-generated key (recommended for production)**
+- [ ] Generate the key as in Option A
+- [ ] Download or compose the DID document
+- [ ] Upload to `https://{domain}/.well-known/did.json`
+- [ ] Confirm resolution:
+  ```bash
+  curl https://{domain}/.well-known/did.json
+  # Expected: DID document with publicKeyMultibase or publicKeyJwk
+  ```
+- [ ] Issuer DID noted: `did:web:{domain}` → \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+- [ ] Trust chain: VC → published public key → DID document → domain TLS certificate
+
+**Option C — Import existing CCA-issued DSC**
 - [ ] Import via OpenCred Desktop → Settings → Import File
 - [ ] Supported formats: PFX, PEM, JWK, PKCS#8 DER
 - [ ] OpenCred derives `did:key` from the certificate's public key automatically
 - [ ] Trust chain: VC → DSC public key → CSCA root (verifiers trust the root)
 
-**Type 2 — Hardware token (PKCS#11)**
+**Option D — Hardware token (PKCS#11)**
 - [ ] OpenCred Desktop → Settings → Hardware Token
 - [ ] Select PKCS#11 library path, slot index, and enter PIN
 - [ ] PIN is never persisted — entered each session
 
-**Type 3 — Self-published key / `did:web` (recommended for new DISCOM deployments)**
-- [ ] OpenCred Desktop → Settings → Generate Key → Generate ECDSA P-256 Key
-- [ ] Enter domain (e.g. `ies.tpddl.in`)
-- [ ] Download DID document from OpenCred Desktop
-- [ ] Upload to `https://{domain}/.well-known/did.json`
-- [ ] Confirm resolution:
-  ```bash
-  curl https://{domain}/.well-known/did.json
-  # Expected: DID document with publicKeyMultibase
-  ```
-- [ ] Issuer DID noted: `did:web:{domain}` → \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-- [ ] Trust chain: VC → published public key → DID document → domain TLS certificate
-
-**Key Storage Verification (all types)**
+**Key Storage Verification (all options)**
 - [ ] Private key material never stored in config, logs, or error responses (enforced by OpenCred invariant)
 - [ ] Config file at `~/.config/opencred/opencred-config.json` stores only metadata and key path — not key material
-- [ ] Host key file permissions set to `0600`:
+- [ ] Host key file permissions set to `0600` (Linux/macOS) or restricted via `icacls` (Windows):
   ```bash
   chmod 0600 /path/to/issuer-key.pem
+  # Windows PowerShell:
+  # icacls issuer-key.pem /inheritance:r /grant:r "$($env:USERNAME):(R)"
   ```
 
 ### 1.3 DeDi Namespace Setup
@@ -99,7 +106,7 @@ Choose one trust type based on your organisation's PKI posture. Refer to [trust 
   ```json
   {
     "credentialStatus": {
-      "id": "https://dedi.global/dedi/lookup/{namespace}/vc-revocation-registry/<hash>",
+      "id": "https://dedi.global/dedi/lookup/{namespace}/vc-revocation-registry/<credential-id>",
       "type": "dedi",
       "statusPurpose": "revocation",
       "statusListCredential": "https://dedi.global/dedi/query/{namespace}/vc-revocation-registry"
@@ -108,192 +115,63 @@ Choose one trust type based on your organisation's PKI posture. Refer to [trust 
   ```
 - [ ] **1.3.e** `dediConfigured: true` confirmed in `/v1/health` response
 
+> Note on `/v1/keys/resolve`: the current image requires DeDi to be configured for resolution to succeed, even for `did:key` (which encodes its public key in the DID string). If you skipped DeDi setup, `/v1/keys/resolve` returns `DEDI_NOT_CONFIGURED` — this does not block issuance or verification, only the standalone resolve endpoint.
+
 ---
 
-## Phase 2 — Credential Schema Design
+## Phase 2 — Credential Schema
 
-Define a custom JSON Schema for each credential type. Use `POST /v1/schemas/generate` to generate from field definitions, or import via URL.
+### 2.1 Use the built-in `electricity/v1` schema
 
-### 2.1 Consumer Profile Credential
+The OpenCred image ships `electricity/v1` as a built-in `schemaId`. It implements the IES `ElectricityCredential` v1.0 family — a single per-meter credential (`type: "CustomerCredential"`) with five sub-profiles. Canonical schema files: [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/) in this repo (root: [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator)).
 
-*Attests a consumer's identity, service details, and tariff classification. The foundational credential — other profiles reference it.*
-
-- [ ] **2.1.a** Schema fields defined:
-
-  ```json
-  {
-    "credentialType": "ConsumerProfileCredential",
-    "fields": [
-      { "name": "consumerNumber",       "type": "string", "required": true },
-      { "name": "fullName",             "type": "string", "required": true },
-      { "name": "serviceAddress",       "type": "string", "required": true },
-      { "name": "district",             "type": "string", "required": true },
-      { "name": "state",                "type": "string", "required": true },
-      { "name": "serviceConnectionDate","type": "string", "required": true },
-      { "name": "meterNumber",          "type": "string", "required": true },
-      { "name": "consumerCategory",     "type": "string", "required": true },
-      { "name": "sanctionedLoadKW",     "type": "number", "required": true },
-      { "name": "tariffPlan",           "type": "string", "required": true },
-      { "name": "connectionStatus",     "type": "string", "required": true },
-      { "name": "maskedIdNumber",       "type": "string", "required": false }
-    ]
-  }
-  ```
-
-- [ ] **2.1.b** Schema registered with OpenCred:
-  ```bash
-  curl -X POST http://localhost:3100/v1/schemas/generate \
-    -H "Authorization: Bearer $OPENCRED_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{ "name": "ConsumerProfileCredential", "fields": [ ... ] }'
-  ```
-  > `GET /v1/schemas` does **not** ship with `ConsumerProfileCredential`/`ConsumptionProfileCredential`/etc. as built-in IDs. Each DISCOM must register them via `/v1/schemas/generate` (or pass the JSON Schema inline at issuance time as `inlineSchema` + `inlineContext`). The only built-in composite is `electricity/v1` (see 2.5).
-- [ ] **2.1.c** Schema ID returned from the response above saved (look for `id` in the response body): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-- [ ] **2.1.d** Proof format chosen: ☐ `data-integrity` (recommended) &nbsp; ☐ `vc-jwt` &nbsp; ☐ `sd-jwt-vc`
-- [ ] **2.1.e** Validity period defined: \_\_\_\_ months (recommended: 12 months; reissue annually)
-
-### 2.2 Consumption Profile Credential
-
-*Attests a consumer's energy consumption pattern over a defined billing or reporting period.*
-
-- [ ] **2.2.a** Schema fields defined:
-
-  ```json
-  {
-    "credentialType": "ConsumptionProfileCredential",
-    "fields": [
-      { "name": "consumerNumber",           "type": "string", "required": true },
-      { "name": "meterNumber",              "type": "string", "required": true },
-      { "name": "reportPeriodFrom",         "type": "string", "required": true },
-      { "name": "reportPeriodTo",           "type": "string", "required": true },
-      { "name": "totalConsumptionKWh",      "type": "number", "required": true },
-      { "name": "peakConsumptionKWh",       "type": "number", "required": false },
-      { "name": "offPeakConsumptionKWh",    "type": "number", "required": false },
-      { "name": "averageDailyKWh",          "type": "number", "required": false },
-      { "name": "maxDemandKW",              "type": "number", "required": false },
-      { "name": "dataSource",              "type": "string", "required": true }
-    ]
-  }
-  ```
-
-- [ ] **2.2.b** Schema registered and schema ID saved: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-- [ ] **2.2.c** Validity period defined (recommended: matches the report period, e.g. 1 month)
-- [ ] **2.2.d** Selective disclosure configured if using `sd-jwt-vc` — mark sensitive fields (e.g. `maxDemandKW`) as disclosable
-
-### 2.3 Generation Profile Credential
-
-*Attests a prosumer asset's renewable energy generation characteristics. Issued per generation asset.*
-
-- [ ] **2.3.a** Schema fields defined:
-
-  ```json
-  {
-    "credentialType": "GenerationProfileCredential",
-    "fields": [
-      { "name": "assetERA",                "type": "string", "required": true },
-      { "name": "assetType",               "type": "string", "required": true },
-      { "name": "installedCapacityKW",     "type": "number", "required": true },
-      { "name": "commissioningDate",       "type": "string", "required": true },
-      { "name": "reportPeriodFrom",        "type": "string", "required": false },
-      { "name": "reportPeriodTo",          "type": "string", "required": false },
-      { "name": "totalGenerationKWh",      "type": "number", "required": false },
-      { "name": "gridExportKWh",           "type": "number", "required": false },
-      { "name": "selfConsumptionKWh",      "type": "number", "required": false },
-      { "name": "certificationStandard",   "type": "string", "required": false },
-      { "name": "gridInterconnectionApproval", "type": "string", "required": true },
-      { "name": "netMeteringEnabled",      "type": "boolean","required": true }
-    ]
-  }
-  ```
-
-- [ ] **2.3.b** Schema registered and schema ID saved: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-- [ ] **2.3.c** Issuer decided: ☐ DISCOM &nbsp; ☐ Renewable Energy Authority &nbsp; ☐ Both (different claims)
-
-### 2.4 Storage Profile Credential
-
-*Attests battery or other storage asset characteristics and current operational status.*
-
-- [ ] **2.4.a** Schema fields defined:
-
-  ```json
-  {
-    "credentialType": "StorageProfileCredential",
-    "fields": [
-      { "name": "assetERA",                "type": "string", "required": true },
-      { "name": "assetType",               "type": "string", "required": true },
-      { "name": "installedCapacityKWh",    "type": "number", "required": true },
-      { "name": "chargeRateKW",            "type": "number", "required": true },
-      { "name": "dischargeRateKW",         "type": "number", "required": true },
-      { "name": "roundTripEfficiencyPct",  "type": "number", "required": false },
-      { "name": "commissioningDate",       "type": "string", "required": true },
-      { "name": "gridConnectionApproval",  "type": "string", "required": true },
-      { "name": "certificationStandard",   "type": "string", "required": false },
-      { "name": "operationalStatus",       "type": "string", "required": true }
-    ]
-  }
-  ```
-
-- [ ] **2.4.b** Schema registered and schema ID saved: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-### 2.5 Composite Profile Credential
-
-*A single credential that bundles customer identity, customer details, consumption, generation, and storage profiles for a prosumer. Used where a counterparty needs the full picture in one presentation.*
-
-> **OpenCred ships a built-in composite schema** — `schemaId: "electricity/v1"`. You can use it directly without calling `/v1/schemas/generate`. Its `credentialSubject` shape is fixed by the bundled schema as below; design custom field names only if you intend to register your own composite via `/v1/schemas/generate`.
-
-- [ ] **2.5.a** Built-in `electricity/v1` `credentialSubject` shape understood:
+- [ ] **2.1.a** Confirm `electricity/v1` appears in `GET /v1/schemas`
+- [ ] **2.1.b** `credentialSubject` shape understood:
 
   ```json
   {
     "credentialSubject": {
       "id": "<consumer DID, optional>",
-      "customerProfile":   { "customerNumber": "...", "meterNumber": "...", "meterType": "AMI|NetMeter|..." },
-      "customerDetails":   { "fullName": "...", "installationAddress": { /* beckn Location */ }, "serviceConnectionDate": "..." },
-      "consumptionProfile":{ "premisesType": "Residential", "connectionType": "Single-phase", "sanctionedLoadKW": 5, "tariffCategoryCode": "..." },
-      "generationProfile": { "generationType": "Solar", "capacityKW": 4.5, "commissioningDate": "...", "manufacturer": "...", "modelNumber": "..." },
-      "storageProfile":    { "storageCapacityKWh": 13.5, "powerRatingKW": 5, "commissioningDate": "...", "storageType": "LithiumIon" }
+      "customerProfile":      { "customerNumber": "...", "meterNumber": "...", "meterType": "AMI", "idRef": {...} },
+      "customerDetails":      { "fullName": "...", "installationAddress": { /* beckn Location */ }, "serviceConnectionDate": "..." },
+      "consumptionProfiles":  [{ "premisesType": "Residential", "connectionType": "Single-phase", "sanctionedLoadKW": 5, "tariffCategoryCode": "..." }],
+      "generationProfiles":   [{ "generationType": "Solar", "capacityKW": 4.5, "commissioningDate": "...", "manufacturer": "...", "modelNumber": "..." }],
+      "storageProfiles":      [{ "storageCapacityKWh": 13.5, "powerRatingKW": 5, "commissioningDate": "...", "storageType": "LithiumIon" }]
     }
   }
   ```
 
-  > Field names are `customerProfile` and `customerDetails` (not `consumerProfile`); `customerProfile.meterType` is required and must be one of `AMR | AMI | Electromechanical | Forward | Reverse | Bidirectional | Prepaid | NetMeter | Other`. Only `customerProfile` is required at the subject level — the other four sub-profiles are optional and present only when applicable.
+  > Only `customerProfile` is required. The other four sub-profiles are optional. `consumptionProfiles`, `generationProfiles`, and `storageProfiles` are **arrays** with `minItems: 1` when present — multiple assets of the same kind go in as separate array entries.
 
-- [ ] **2.5.b** Schema ID for the composite path: `electricity/v1` (built-in). Register a custom composite via `/v1/schemas/generate` only if the built-in shape does not fit.
-- [ ] **2.5.c** Assembly process defined — which system triggers composite issuance and how sub-profile data is gathered
-- [ ] **2.5.d** `sd-jwt-vc` considered for composite — allows counterparties to request only the sub-profiles they need
+- [ ] **2.1.c** `customerProfile.meterType` is required and must be one of: `AMR | AMI | Electromechanical | Forward | Reverse | Bidirectional | Prepaid | NetMeter | Other` (Green Button / ESPI meter-kind values)
+- [ ] **2.1.d** `installationAddress` shape matches the beckn Location schema — `country` is required and uses `{name, code}` (ISO 3166-1 alpha-2); `area_code` and `address` are required strings; `city` / `state` are `{name, code}` objects when present
+- [ ] **2.1.e** All date-time fields use ISO 8601 with an explicit timezone offset (e.g. `2019-03-15T00:00:00+05:30`)
 
-### 2.6 Recurring Meter Data Credential
+### 2.2 Issuer object enrichment
 
-*A time-series credential issued periodically (monthly, quarterly, or on-demand) attesting actual meter readings for a consumer. Allows consumers to portably share verified energy usage data.*
+The schema requires `issuer.id`, `issuer.name`, and an optional `issuer.idRef`. OpenCred only accepts the DID string as `issuerDid` — your integration service must replace the returned `issuer` field with the full object before delivery. The `idRef` points at your DISCOM's entry in the **IES DISCOMs Reference Registry**, which is the trust anchor verifiers consult.
 
-- [ ] **2.6.a** Schema designed to carry interval reading data in IES_Report / OpenADR 3.1.0 structure:
+- [ ] **2.2.a** DISCOM registered in the IES DISCOMs Reference Registry at relative path `india-energy-stack/ies-discoms-reference-registry/<discom-id>` (full base URL declared in [`energy-credentials/schemas.md`](../energy-credentials/schemas.md#ies-discoms-reference-registry)) with the issuer DID and published public key
+- [ ] **2.2.b** `issuer.name` configured — legal name of the utility
+- [ ] **2.2.c** `issuer.idRef.issuedBy` set to `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`
+- [ ] **2.2.d** `issuer.idRef.subjectId` set to `india-energy-stack:<discom-short-code>` (e.g. `india-energy-stack:tpddl`)
+- [ ] **2.2.e** Post-process step in integration service rewrites the `issuer` field after each `POST /v1/credentials/issue`. Note: this invalidates the original `proof` — either re-sign in your service, or send the patched fields back through OpenCred for re-signing.
 
-  ```json
-  {
-    "credentialType": "MeterDataCredential",
-    "fields": [
-      { "name": "consumerNumber",    "type": "string", "required": true },
-      { "name": "meterNumber",       "type": "string", "required": true },
-      { "name": "reportPeriodFrom",  "type": "string", "required": true },
-      { "name": "reportPeriodTo",    "type": "string", "required": true },
-      { "name": "intervalMinutes",   "type": "number", "required": true,
-        "description": "15 for AMI smart meters, 60 for conventional" },
-      { "name": "totalKWh",          "type": "number", "required": true },
-      { "name": "intervals",         "type": "array",  "required": true,
-        "description": "Array of { start, duration, kWh } — OpenADR 3.1.0 interval format" },
-      { "name": "dataSource",        "type": "string", "required": true,
-        "description": "MDMS system identifier or AMISP name" },
-      { "name": "meterReadingMethod","type": "string", "required": true,
-        "description": "AMI_AUTOMATIC | MANUAL | ESTIMATED" }
-    ]
-  }
-  ```
+### 2.3 Customer external ID
 
-- [ ] **2.6.b** Schema registered and schema ID saved: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-  > No built-in OpenCred schema exists for meter-data today. Two options: (1) `POST /v1/schemas/generate` with the field list above and use the returned ID; or (2) skip registration and pass `inlineSchema` + `inlineContext` directly in each `/v1/credentials/issue` call — useful for ad-hoc / experimental shapes during pilot.
-- [ ] **2.6.c** Issuance trigger defined: ☐ Monthly billing cycle &nbsp; ☐ On consumer request &nbsp; ☐ Both
-- [ ] **2.6.d** MDMS / AMISP data pipeline to OpenCred issuance call automated
-- [ ] **2.6.e** Large interval array handling tested — verify `OPENCRED_SESSION_TTL` (default 4 hours) is sufficient for batch jobs
+The customer's external government ID (Aadhaar, etc.) is carried via `customerProfile.idRef`, never as the raw number.
+
+- [ ] **2.3.a** External authority DID identified (e.g. `did:web:uidai.gov.in` for Aadhaar)
+- [ ] **2.3.b** `subjectId` format uses **masked** identifier: `uidai.gov.in:XXXX-XXXX-1234`
+- [ ] **2.3.c** Confirmed: full Aadhaar / ID number is never in any credential payload
+
+### 2.4 Proof format
+
+- [ ] **2.4.a** Proof format chosen: ☐ `vc-jwt` (recommended) &nbsp; ☐ `data-integrity` &nbsp; ☐ `sd-jwt-vc` (selective disclosure)
+
+  > **Why `vc-jwt` is recommended:** the bundled `electricity/v1` JSON-LD context currently collides with the W3C VC v2 protected terms when `additionalTypes` is passed together with `proofFormat: "data-integrity"`, returning `CRYPTO_ERROR: Invalid JSON-LD syntax; tried to redefine a protected term`. `data-integrity` works against schemas you register yourself with a clean context.
+
+- [ ] **2.4.b** Validity period defined: `validFrom` ≤ now ≤ `validUntil`, both with timezone offsets
 
 ---
 
@@ -301,36 +179,61 @@ Define a custom JSON Schema for each credential type. Use `POST /v1/schemas/gene
 
 ### 3.1 Single Credential Issuance (API)
 
-For each credential type, the issuance call follows this pattern:
+Validated working call against `ghcr.io/nfh-trust-labs/opencred/opencred-server:latest`:
 
 ```bash
 curl -X POST http://localhost:3100/v1/credentials/issue \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "schemaId": "<schema-id-for-type>",
-    "issuerDid": "did:web:ies.{discom}.in",
+    "issuerDid": "did:web:ies.tpddl.in",
+    "schemaId":  "electricity/v1",
+    "additionalTypes": ["CustomerCredential"],
     "proofFormat": "vc-jwt",
-    "credentialSubject": { /* type-specific fields */ },
-    "validFrom": "2026-04-01T00:00:00Z",
-    "validUntil": "2027-04-01T00:00:00Z"
+    "validFrom":  "2026-05-01T00:00:00+05:30",
+    "validUntil": "2031-05-01T00:00:00+05:30",
+    "subjectDid": "did:key:z6MkjVQ...",
+    "credentialSubject": {
+      "id": "did:key:z6MkjVQ...",
+      "customerProfile": {
+        "customerNumber": "TPDDL-2025-001234567",
+        "meterNumber":    "MTR-98765432",
+        "meterType":      "AMI"
+      },
+      "customerDetails": {
+        "fullName": "Priya Sharma",
+        "installationAddress": {
+          "address":   "Flat 4B, Sector 12, Rohini",
+          "city":      {"name": "New Delhi", "code": "DEL"},
+          "state":     {"name": "Delhi",     "code": "DL"},
+          "country":   {"name": "India",     "code": "IN"},
+          "area_code": "110085"
+        },
+        "serviceConnectionDate": "2019-03-15T00:00:00+05:30"
+      },
+      "consumptionProfiles": [{
+        "premisesType":       "Residential",
+        "connectionType":     "Single-phase",
+        "sanctionedLoadKW":   5,
+        "tariffCategoryCode": "DOM-A2"
+      }]
+    },
+    "revocationRegistryUrl": "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
   }'
 ```
 
-> **Proof format note.** `data-integrity` is the long-term DEG recommendation, but as of the current OpenCred image it fails against the bundled `electricity/v1` schema with `CRYPTO_ERROR: Invalid JSON-LD syntax; tried to redefine a protected term` (the schema's bundled `@context` collides with the built-in W3C V2 context). Use `proofFormat: "vc-jwt"` for the composite path until that's fixed; `data-integrity` works against schemas you register yourself with a clean context. Avoid passing `additionalTypes` together with `data-integrity` — it triggers the same error.
-
-- [ ] **3.1.a** Consumer Profile credential issued and signed VC JSON received
-- [ ] **3.1.b** Consumption Profile credential issued for a test consumer and billing period
-- [ ] **3.1.c** Generation Profile credential issued for a test prosumer asset
-- [ ] **3.1.d** Storage Profile credential issued for a test storage asset
-- [ ] **3.1.e** Composite Profile credential issued — all four sub-profiles present in `credentialSubject`
-- [ ] **3.1.f** Recurring Meter Data credential issued for a test consumer with at least one month of interval data
+- [ ] **3.1.a** Issuance returns `HTTP 200` and a signed VC with `type: ["VerifiableCredential", "CustomerCredential"]`
+- [ ] **3.1.b** Re-issue with a `generationProfiles[]` entry (new DER asset) tested
+- [ ] **3.1.c** Re-issue with a `storageProfiles[]` entry (new battery) tested
+- [ ] **3.1.d** Re-issue with updated `consumptionProfiles[]` (tariff change) tested
+- [ ] **3.1.e** Re-issue with multiple sub-profiles populated tested
 
 For each issued credential, confirm:
-- [ ] `proof` block present. For `data-integrity` look for `verificationMethod` pointing to your issuer DID; for `vc-jwt` the proof is `{ "type": "JsonWebSignature2020", "jwt": "<compact-JWS>" }` and the `kid` header inside the JWT is the verification method.
-- [ ] `credentialStatus` block present (only when `revocationRegistryUrl` was passed). OpenCred currently emits `type: "dedi"`; DEG conformance requires `type: "dediregistry"` — your integration service should rewrite this on egress. See `energy-credentials/issuance.md` and `energy-credentials/concepts.md` for the post-processing recipe.
-- [ ] `validFrom` and `validUntil` set correctly
-- [ ] `maskedIdNumber` used — full Aadhaar/ID never in credential payload
+- [ ] `proof` block present. For `vc-jwt` the proof is `{ "type": "JsonWebSignature2020", "jwt": "<compact-JWS>" }`. For `data-integrity` look for `verificationMethod` pointing to your issuer DID.
+- [ ] `credentialStatus` block present (only when `revocationRegistryUrl` was passed). All four fields populated: `id`, `type: "dedi"`, `statusPurpose: "revocation"`, `statusListCredential`.
+- [ ] `validFrom` and `validUntil` set correctly with timezone offsets
+- [ ] `customerProfile.idRef.subjectId` is masked — full Aadhaar / ID never in payload
+- [ ] Integration service injects the full `issuer` object (with `name` and `idRef`) before delivery
 
 ### 3.2 Single Issuance via CLI
 
@@ -342,57 +245,54 @@ cd apps/server && pnpm build
 
 # Issue a credential
 node dist/cli.js issue \
-  --schema ConsumerProfileCredential \
-  --input consumer-subject.json \
+  --schema electricity/v1 \
+  --input customer-subject.json \
   --key /path/to/issuer-key.pem \
-  --proof-format data-integrity \
-  --output consumer-profile-vc.json
+  --proof-format vc-jwt \
+  --output customer-credential.json
 ```
 
-- [ ] **3.2.a** CLI issuance tested for at least one credential type
-- [ ] **3.2.b** Output file is a valid W3C VC JSON — same format as API output
+- [ ] **3.2.a** CLI issuance tested — output file is a valid W3C VC JSON matching the API output
 
 ### 3.3 Single Issuance via Desktop Client
 
 For ad-hoc issuance by non-technical staff:
 
-- [ ] **3.3.a** Custom schemas for all 6 types visible on OpenCred Desktop Home screen
-- [ ] **3.3.b** Staff trained on: selecting schema → filling fields → choosing signing key → Build & Sign → export
-- [ ] **3.3.c** Export formats tested: JSON (for API consumers), PDF (for printing/emailing to consumer), QR code (for scanning)
+- [ ] **3.3.a** `electricity/v1` schema visible on OpenCred Desktop Home screen
+- [ ] **3.3.b** Staff trained on: selecting `electricity/v1` → filling sub-profile fields → choosing signing key → Build & Sign → export
+- [ ] **3.3.c** Export formats tested: JSON (for API consumers), PDF (for printing/emailing), QR code (for scanning)
 
 ### 3.4 Batch Issuance
 
 For issuing credentials to a large number of consumers at once:
 
 ```bash
-# Via API
 curl -X POST http://localhost:3100/v1/credentials/batch \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "csvContent": "<base64-encoded-CSV>",
-    "schemaId": "ConsumerProfileCredential",
+    "schemaId":  "electricity/v1",
     "issuerDid": "did:web:ies.{discom}.in",
-    "validFrom": "2026-04-01T00:00:00Z"
+    "additionalTypes": ["CustomerCredential"],
+    "proofFormat": "vc-jwt",
+    "validFrom": "2026-04-01T00:00:00+05:30"
   }'
 # Response: { "jobId": "...", "validCount": N, "invalidCount": M }
 
-# Poll for job completion
 curl http://localhost:3100/v1/credentials/batch/{jobId} \
   -H "Authorization: Bearer $OPENCRED_API_KEY"
 
-# Download results
 curl http://localhost:3100/v1/credentials/batch/{jobId}/results \
   -H "Authorization: Bearer $OPENCRED_API_KEY"
 ```
 
-- [ ] **3.4.a** Batch issuance tested for Consumer Profile — CSV prepared with one consumer per row
-- [ ] **3.4.b** Column mapping verified — CSV headers match schema field names (or `columnMapping` provided)
-- [ ] **3.4.c** Job polling implemented — application waits for `status: completed` before downloading results
+- [ ] **3.4.a** CSV prepared with one row per consumer — flat columns map into the nested `customerProfile` / `customerDetails` / `consumptionProfiles[0]` shape via the configured column mapping
+- [ ] **3.4.b** Column mapping verified
+- [ ] **3.4.c** Job polling implemented — application waits for `running: false` before downloading results
 - [ ] **3.4.d** Results ZIP downloaded and individual VC JSON files validated
-- [ ] **3.4.e** Batch size limit noted: default 1,000 rows; increase via `OPENCRED_BATCH_ROW_LIMIT` env var if needed
-- [ ] **3.4.f** Batch issuance tested for Recurring Meter Data — one row per consumer per billing period
-- [ ] **3.4.g** CSV delimiter confirmed (auto-detected: comma, semicolon, or tab)
+- [ ] **3.4.e** Batch size limit noted: default 1,000 rows; increase via `OPENCRED_BATCH_ROW_LIMIT` if needed
+- [ ] **3.4.f** CSV delimiter confirmed (auto-detected: comma, semicolon, or tab)
 
 ### 3.5 Packaging and Delivery
 
@@ -403,7 +303,7 @@ curl http://localhost:3100/v1/credentials/batch/{jobId}/results \
     -d '{ "credential": { ... }, "format": "pdf" }'
   ```
 - [ ] **3.5.b** PDF output reviewed — DISCOM branding (logo, primary colour) configured via `--logo` and `--primary-color` options
-- [ ] **3.5.c** QR code output tested — QR encodes the full VC JSON and is scannable by a verifier app
+- [ ] **3.5.c** QR code output tested — QR encodes the full VC and is scannable by a verifier app
 
 ---
 
@@ -443,22 +343,22 @@ Expected response (vc-jwt):
 
 Expected response (data-integrity): the `checks` array names differ — typically `signature`, `notBefore`, `expiry`, `keyResolution`. Treat `valid: true` and `code: "VALID"` as the contract; do not pattern-match on specific check names.
 
-- [ ] **4.1.a** Verification tested for each of the 6 credential types — `valid: true` for all
+- [ ] **4.1.a** Verification of a freshly issued credential returns `valid: true`
 - [ ] **4.1.b** Expired credential test — `validUntil` in the past → `code: "EXPIRED"`
-- [ ] **4.1.c** Tampered credential test — modify `credentialSubject` field → `code: "INVALID"` (signature check fails)
+- [ ] **4.1.c** Tampered credential test — modify any `credentialSubject` field → `code: "INVALID"` (signature fails)
 - [ ] **4.1.d** Unresolvable DID test — delete or corrupt DID document → `code: "UNRESOLVABLE"`
 - [ ] **4.1.e** All result codes handled in application: `VALID`, `INVALID`, `REVOKED`, `EXPIRED`, `UNRESOLVABLE`
 
 ### 4.2 Desktop Client Verification
 
-- [ ] **4.2.a** OpenCred Desktop → Verify page — paste VC JSON → Verify → all four checks shown as passed
+- [ ] **4.2.a** OpenCred Desktop → Verify page — paste VC JSON → Verify → all checks shown as passed
 - [ ] **4.2.b** Offline verification confirmed for `did:key` credentials (no network, JSON-LD contexts are bundled)
 - [ ] **4.2.c** `did:web` credential verification confirmed — requires network to fetch DID document from `/.well-known/did.json`
 
 ### 4.3 CLI Verification
 
 ```bash
-node dist/cli.js verify --input consumer-profile-vc.json
+node dist/cli.js verify --input customer-credential.json
 # Exit code 0 = valid, exit code 1 = invalid
 ```
 
@@ -482,10 +382,7 @@ Revocation uses DeDi hash-lookup. The registry stores only revoked hashes. A cre
   ```
   > Pass the credential **as you stored it** (signed, with `proof`). `/v1/credentials/revoke` recomputes the hash from the same shape — stripping `proof` here would produce a hash that does not match the one revocation publishes. See `energy-credentials/issuance.md` § "Hash stability rules".
 - [ ] **5.1.b** Hash is deterministic — same input always produces same output (`SHA-256(JCS(credential))` via RFC 8785)
-- [ ] **5.1.c** Batch hash computation tested for multiple credentials:
-  ```bash
-  POST /v1/credentials/revocation-hash/batch
-  ```
+- [ ] **5.1.c** Batch hash computation tested for multiple credentials (`POST /v1/credentials/revocation-hash/batch`)
 
 ### 5.2 Publishing Revocation
 
@@ -496,48 +393,43 @@ Revocation uses DeDi hash-lookup. The registry stores only revoked hashes. A cre
     -H "Content-Type: application/json" \
     -d '{ "credential": { /* VC JSON */ } }'
   ```
-  > Note: OpenCred computes the hash and publishes to your DeDi namespace. It does **not** publish on your behalf without this explicit call.
-
-- [ ] **5.2.b** Revocation status confirmed — query DeDi for the hash and confirm it is present:
-  ```bash
-  POST /v1/credentials/revocation-status
-  ```
+- [ ] **5.2.b** Revocation status confirmed via `POST /v1/credentials/revocation-status`
 - [ ] **5.2.c** Post-revocation verification returns `code: "REVOKED"` — not `VALID`
 
 ### 5.3 Revocation Runbook
 
-- [ ] **5.3.a** Runbook written for each revocation scenario:
-  - Connection terminated → revoke Consumer Profile + Consumption Profile + Composite
-  - Meter replaced → revoke and reissue Consumer Profile (new meter number)
-  - Data correction → revoke old credential, issue corrected version
-  - Asset decommissioned → revoke Generation Profile or Storage Profile
-  - Recurring Meter Data correction → revoke period credential, reissue corrected
-- [ ] **5.3.b** Internal process defined for bulk revocation (batch hash endpoint used for efficiency)
+Every material change is a **re-issue + revoke previous**. The runbook covers each trigger:
+
+- [ ] **5.3.a** Runbook written for each scenario:
+  - Connection terminated → revoke the active credential; do not re-issue
+  - Meter replaced → re-issue with new `customerProfile.meterNumber` / `meterType`; revoke previous
+  - Tariff / load change → re-issue with updated `consumptionProfiles`; revoke previous
+  - DER commissioned / decommissioned → re-issue with updated `generationProfiles`; revoke previous
+  - Battery commissioned / decommissioned → re-issue with updated `storageProfiles`; revoke previous
+  - Address / name correction → re-issue with updated `customerDetails`; revoke previous
+- [ ] **5.3.b** Bulk revocation process defined (batch hash endpoint used for efficiency)
 
 ---
 
 ## Phase 6 — Consumer Delivery Channels
 
-Delivery is a separate concern from issuance. Choose the right channel for each credential type.
+Delivery is a separate concern from issuance.
 
-| Credential Type | Recommended Channel | Notes |
-|---|---|---|
-| Consumer Profile | DigiLocker (NYCER) | Consumer-facing identity proof; shareable with banks, societies |
-| Consumption Profile | Direct VC (app / email) | Periodic delivery; consumer shares for energy audits, loans |
-| Generation Profile | Direct VC + Registry | Presented during P2P trades; also registered on IES network |
-| Storage Profile | Direct VC + Registry | Presented during P2P trades |
-| Composite Profile | Direct VC | On-demand for prosumers needing full profile for a counterparty |
-| Recurring Meter Data | Direct VC (app) | Monthly push; consumer presents to service providers |
+| Channel | When to use |
+|---|---|
+| DigiLocker (NYCER) | Consumer-facing identity proof; shareable with banks, societies |
+| Direct VC (app / email) | App-native delivery; consumer presents at counterparty's verifier |
+| QR code | On-the-spot presentation; printed on paper or rendered on a portal |
+| Wallet (DID-to-DID) | When the consumer's wallet performs a request-credential handshake |
 
-### 6.1 Direct VC Delivery (all credential types)
+### 6.1 Direct VC Delivery
 
 - [ ] **6.1.a** Consumer-facing delivery mechanism built — VC JSON emailed, pushed via app, or downloadable from DISCOM portal
 - [ ] **6.1.b** QR code (PNG) delivery tested — consumer scans to obtain VC on mobile wallet
-- [ ] **6.1.c** Recurring Meter Data automated delivery confirmed — triggered monthly after billing cycle close
 
-### 6.2 DigiLocker Integration (Consumer Profile / NYCER only)
+### 6.2 DigiLocker Integration
 
-*DigiLocker is one delivery channel for the Consumer Profile credential. It is not required for other credential types.*
+*See [DigiLocker Integration](../energy-credentials/digilocker-integration.md) for full implementation.*
 
 - [ ] **6.2.a** Organisation registered on [API Setu](https://apisetu.gov.in) as DigiLocker issuer
 - [ ] **6.2.b** `NYCER` document type configured: Pull URI endpoint, DocType, UDF1 = Consumer Number, UDF2 = Mobile
@@ -545,6 +437,7 @@ Delivery is a separate concern from issuance. Choose the right channel for each 
   - HMAC verification (`x-digilocker-hmac`) — using `hmac.compare_digest`, not `==`
   - CIS lookup by consumer number
   - `POST /v1/credentials/issue` called on OpenCred to produce signed VC
+  - Integration service injects full `issuer` object before delivery
   - PDF rendered and base64-encoded
   - `PullURIResponse` XML returned with `DocContent` + `VcContent`
 - [ ] **6.2.d** DigiLocker sandbox test passed — credential visible under DISCOM name
@@ -572,8 +465,8 @@ These are the seven invariants OpenCred enforces. Confirm they hold in your depl
 - [ ] **8.b** Prometheus metrics scraped from `GET /v1/metrics` — dashboard for issuance rate, error rate, batch job queue
 - [ ] **8.c** JSON structured logs from OpenCred stdout ingested into log aggregator — `OPENCRED_LOG_LEVEL=info`
 - [ ] **8.d** `OPENCRED_API_KEY` rotation schedule established (recommended: every 90 days)
-- [ ] **8.e** All 6 credential types issued, verified, and revoked in staging — sign-off by technical lead
-- [ ] **8.f** Consumer communication ready — inform consumers which credentials are available and how to access them
+- [ ] **8.e** End-to-end issue → verify → revoke loop confirmed in staging — sign-off by technical lead
+- [ ] **8.f** Consumer communication ready
 - [ ] **8.g** Key rotation runbook written:
   - Generate new key → update secrets manager → restart OpenCred container
   - For `did:web`: update `/.well-known/did.json` with new public key before revoking old one
@@ -581,4 +474,4 @@ These are the seven invariants OpenCred enforces. Confirm they hold in your depl
 
 ---
 
-*Reference: [OpenCred Docs](https://opencred.gitbook.io/docs) · [OpenCred API Reference](https://github.com/nfh-trust-labs/opencred/blob/new-opencred-dev/docs/api-reference.md) · [OpenCred Deployment Guide](https://github.com/nfh-trust-labs/opencred/blob/new-opencred-dev/docs/deployment-guide.md) · [IES Energy Credentials Documentation](https://india-energy-stack.gitbook.io/docs/energy-credentials)*
+*Reference: [OpenCred Docs](https://opencred.gitbook.io/docs) · [OpenCred API Reference](https://github.com/nfh-trust-labs/opencred/blob/new-opencred-dev/docs/api-reference.md) · [OpenCred Deployment Guide](https://github.com/nfh-trust-labs/opencred/blob/new-opencred-dev/docs/deployment-guide.md) · [IES Electricity Credentials Documentation](https://india-energy-stack.gitbook.io/docs/energy-credentials)*

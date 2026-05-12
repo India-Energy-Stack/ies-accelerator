@@ -1,10 +1,10 @@
 # Deployment
 
-This page walks a DISCOM tech team from zero to a running OpenCred service that can sign DEG energy credentials. At the end you will have:
+This page walks a DISCOM tech team from zero to a running OpenCred service that can sign electricity credentials. At the end you will have:
 
-- The OpenCred server running on Linux
+- The OpenCred server running on Linux (or on Docker Desktop for dev evaluation)
 - A signing key loaded — either from a file, an HSM, or your existing DSC
-- A `did:web` (or `did:key`) issuer DID published and resolvable
+- A `did:key` or `did:web` issuer DID resolvable
 - (Optional) A DeDi namespace configured for revocation
 
 You will issue your first credential in [Issuing Credentials](./issuance.md).
@@ -13,14 +13,50 @@ You will issue your first credential in [Issuing Credentials](./issuance.md).
 
 ## Prerequisites
 
-- A Linux host (cloud VM, on-prem, or Kubernetes node) with outbound HTTPS
+- A Linux host (cloud VM, on-prem, or Kubernetes node) with outbound HTTPS — **or Docker Desktop on Windows / macOS** for dev evaluation (its bundled Linux VM satisfies the host requirement)
 - Docker 20.10+
 - One of:
-  - A domain you control for `did:web` (recommended) — e.g. `ies.tpddl.in`
+  - **Nothing extra** for the dev-friendly `did:key` from a self-generated software PEM (recommended for first deploy)
+  - A domain you control for `did:web` (recommended for production) — e.g. `ies.tpddl.in`
   - An existing Digital Signature Certificate (DSC) in PFX/PEM form
   - An AWS / Azure / GCP KMS key with appropriate IAM access
 - (Optional, for revocation) A DeDi namespace from [dedi.global](https://dedi.global) and either an API key or bearer credentials
 - A secrets manager (Vault, AWS Secrets Manager, Azure Key Vault) for `OPENCRED_API_KEY` and DeDi credentials
+- A DISCOM short code and a registration in the **IES DISCOMs Reference Registry** (see Step 0 below) — required for credentials to be trusted on the IES network
+
+---
+
+## Step 0 — Register in the IES DISCOMs Reference Registry
+
+Credentials issued on the IES network are trusted only if the issuing DISCOM is listed in the **IES DISCOMs Reference Registry**. The registry holds, per DISCOM, the issuer DID and the published public key(s) verifiers use to check signatures.
+
+The registry lives on [`dedi.global`](https://dedi.global) under the `india-energy-stack` namespace. Full base URL:
+
+```
+https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/
+```
+
+| Property | Value |
+|---|---|
+| Host | `api.dedi.global` |
+| Namespace (friendly) | `india-energy-stack` |
+| Namespace DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
+| Registry | `ies-discoms-reference-registry` |
+| Relative path to your entry | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+
+Steps:
+
+1. Contact the IES network operator and request a registry entry. Provide your DISCOM's legal name, short code (`tpddl`, `bescom`, etc.), and the issuer DID you will use (`did:web:<your-domain>` for production, or a `did:key` for early evaluation).
+2. Publish your public key under that DID. For `did:web`, host the DID document at `https://<your-domain>/.well-known/did.json` (see Step 3 below). The registry will reference this DID.
+3. Confirm the registry entry resolves — combine the base URL above with the relative path:
+   ```bash
+   curl https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/ies-discoms-reference-registry/<your-discom-id>
+   ```
+4. Note these values — they go into every credential's `issuer.idRef`:
+   - `issuedBy: did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`
+   - `subjectId: india-energy-stack:<your-discom-id>`
+
+You can do Steps 1–8 below (deploy OpenCred, issue test credentials locally) without a registry entry — the registry only gates whether *third-party verifiers on the IES network* will trust your credentials. For local dev and internal testing it can be deferred.
 
 ---
 
@@ -61,7 +97,23 @@ Move `issuer-key.pem` to your secrets store. Do not commit it.
 
 ## Step 3 — Set up your issuer DID
 
-### Option A — `did:web` (recommended)
+Three options, ordered from lowest to highest friction. Start with Option A to evaluate the system; switch to Option B before you go to production.
+
+### Option A — `did:key` from a self-generated software key (recommended for dev / first deploy)
+
+Lowest friction. No domain, no certificate, no cost. OpenCred reads the public key bytes from the PEM you mounted in Step 2 and encodes them into a `did:key`. The same PEM always produces the same DID, so the DID survives container restarts.
+
+No extra configuration needed beyond what you did in Step 2 — just boot OpenCred (Step 4 below) and read the DID back:
+
+```bash
+curl -s http://localhost:3100/v1/keys \
+  -H "Authorization: Bearer $OPENCRED_API_KEY"
+# → {"id":"did:key:zDnaei47pfd4...","algorithm":"P-256","source":"software-file","hasCertificateChain":false}
+```
+
+You will pass this DID as `issuerDid` in every issue call.
+
+### Option B — `did:web` (recommended for production)
 
 You publish a single static JSON file at `https://<your-domain>/.well-known/did.json`. Verifiers fetch it to validate signatures.
 
@@ -97,9 +149,9 @@ A minimal `did.json`:
 
 OpenCred's `did:web` resolver enforces HTTPS-only, no redirects, no private-IP targets, and a 10-second timeout — make sure the file is served from a public HTTPS endpoint with a CA-issued certificate.
 
-### Option B — `did:key` from a DSC
+### Option C — `did:key` from an existing CCA-issued DSC
 
-Mount the DSC file and let OpenCred derive a `did:key` from the certificate's public key.
+For DISCOMs that already operate a CCA-issued Digital Signature Certificate under their CIS / billing systems and want to reuse the same identity. Mount the PFX/PEM and supply `OPENCRED_KEY_PASSWORD` if the file is password-protected.
 
 ```bash
 docker run -p 3100:3100 \
@@ -140,6 +192,47 @@ Sanity check:
 curl -s http://localhost:3100/v1/health
 # {"status":"ok","ready":true,"signingKeyLoaded":true, ...}
 ```
+
+### Local dev on Windows / macOS (Docker Desktop)
+
+Docker Desktop's bundled Linux VM satisfies the "Linux host" requirement for dev evaluation. The Linux quick-start commands above need three adjustments on Windows (PowerShell). macOS users can use the Linux commands as-is in zsh / bash.
+
+**PowerShell-equivalent startup:**
+
+```powershell
+# Restrict the key file to the current user (Windows equivalent of chmod 600)
+icacls issuer-key.pem /inheritance:r /grant:r "$($env:USERNAME):(R)"
+
+# Generate API key and start the container in the same script block —
+# env vars do not persist across separate PowerShell invocations.
+$apiKey = openssl rand -base64 32
+
+docker run -d --name opencred -p 3100:3100 `
+  -e OPENCRED_PORT=3100 `
+  -e OPENCRED_API_KEY=$apiKey `
+  -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem `
+  -e OPENCRED_LOG_LEVEL=info `
+  -v "${PWD}\issuer-key.pem:/secrets/issuer-key.pem:ro" `
+  --read-only `
+  --tmpfs /tmp:noexec,nosuid,size=64m `
+  --cap-drop ALL `
+  --security-opt no-new-privileges:true `
+  ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
+
+$apiKey | Out-File -Encoding utf8 -FilePath opencred-api-key.txt
+```
+
+**Translation reference** for adapting other Linux snippets in this doc to PowerShell:
+
+| Linux | PowerShell equivalent |
+|---|---|
+| `chmod 600 issuer-key.pem` | `icacls issuer-key.pem /inheritance:r /grant:r "$($env:USERNAME):(R)"` |
+| `export FOO=$(cmd)` | `$foo = cmd` |
+| Trailing `\` line continuation | Trailing backtick `` ` `` |
+| `-v /etc/opencred/issuer-key.pem:/secrets/...` | `-v "${PWD}\issuer-key.pem:/secrets/..."` |
+| `curl -d '{"x":"y"}'` (inline JSON) | Write JSON to a file and use `--data "@body.json"` — PowerShell strips inner double quotes when forwarding to native commands |
+
+This dev path is for evaluation only. Production must run on a real Linux host with TLS, a secrets manager, and secured key storage.
 
 ### Docker Compose (production)
 
@@ -318,23 +411,35 @@ Mount the signing key from a `Secret` or use the cloud's CSI driver to project K
 ## Verifying the deployment
 
 ```bash
-# Health
+# 1. Health (no auth required)
 curl -s http://localhost:3100/v1/health
+# → {"status":"ok","ready":true,"signingKeyLoaded":true,"dediConfigured":<bool>, ...}
 
-# Keys loaded
-curl -s http://localhost:3100/v1/keys -H "Authorization: Bearer $OPENCRED_API_KEY"
+# 2. Keys loaded — also returns your derived issuer DID
+curl -s http://localhost:3100/v1/keys \
+  -H "Authorization: Bearer $OPENCRED_API_KEY"
+# → {"id":"did:key:zDnaei47pfd4...#...","algorithm":"P-256","source":"software-file","hasCertificateChain":false}
 
-# Schemas available
-curl -s http://localhost:3100/v1/schemas -H "Authorization: Bearer $OPENCRED_API_KEY"
+# 3. Schemas available — confirm electricity/v1 is in the list
+curl -s http://localhost:3100/v1/schemas \
+  -H "Authorization: Bearer $OPENCRED_API_KEY"
 
-# DID resolution end-to-end (proves did:web is reachable)
+# 4. DID resolution — production with a domain
 curl -s -X POST http://localhost:3100/v1/keys/resolve \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"did": "did:web:ies.tpddl.in"}'
+  -d '{"did":"did:web:ies.tpddl.in"}'
+
+# 5. DID resolution — dev / local with a self-generated PEM
+curl -s -X POST http://localhost:3100/v1/keys/resolve \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"did":"did:key:zDnaei47pfd4..."}'
 ```
 
-If all four succeed, you are ready to issue your first credential. Move on to [Issuing Credentials](./issuance.md).
+> **Note on `/v1/keys/resolve`.** The current OpenCred image requires DeDi to be configured for resolution to succeed — even for `did:key` (which encodes its public key in the DID string and would not normally need a registry) and for `did:web` (which fetches the DID document from the domain itself). If you skipped Step 6 below, this endpoint will return `DEDI_NOT_CONFIGURED`. This is a server limitation; it does not mean your DID or key are misconfigured. Steps 1–3 are sufficient to confirm the deployment is healthy and ready to issue credentials.
+
+If steps 1–3 succeed, you are ready to issue your first credential. Move on to [Issuing Credentials](./issuance.md).
 
 ---
 
@@ -347,6 +452,7 @@ If all four succeed, you are ready to issue your first credential. Move on to [I
 | All requests return 401 | `Authorization: Bearer …` header missing | Add the header (or set `OPENCRED_DEV_MODE_NO_AUTH=true` in dev) |
 | `did:web` resolution fails | `.well-known/did.json` returns redirect, private IP, or non-HTTPS | Serve directly over HTTPS with a public CA cert; no redirects |
 | Revocation operations error with `DEDI_NOT_CONFIGURED` | DeDi env vars not set | Set `OPENCRED_DEDI_*` and restart |
+| `/v1/keys/resolve` returns `DEDI_NOT_CONFIGURED` even for `did:key` | Current server limitation — resolve requires DeDi | Either configure DeDi, or skip this step (issuance and signature verification work without it) |
 
 ---
 

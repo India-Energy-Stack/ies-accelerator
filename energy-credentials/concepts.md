@@ -16,46 +16,54 @@ Three parties are involved in every credential's life:
 | **Holder** | The consumer (in their DigiLocker / wallet) |
 | **Verifier** | A bank, marketplace, regulator, service provider receiving the credential from the holder |
 
-A minimum DEG-style energy credential looks like this:
+A minimum IES electricity credential (`type: "CustomerCredential"`) looks like this:
 
 ```json
 {
   "@context": [
-    "https://www.w3.org/2018/credentials/v1",
-    "https://schema.beckn.io/EnergyCredential/v2.0",
-    "https://schema.beckn.io/UtilityCustomerCredential/v2.0"
+    "https://www.w3.org/ns/credentials/v2",
+    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ElectricityCredential/v1.0/context.jsonld"
   ],
   "id": "urn:uuid:8e6b5e34-1c1b-4a3c-9c20-2fa8a3b9e1c0",
-  "type": ["VerifiableCredential", "EnergyCredential", "UtilityCustomerCredential"],
+  "type": ["VerifiableCredential", "CustomerCredential"],
   "issuer": {
     "id": "did:web:ies.tpddl.in",
     "name": "Tata Power Delhi Distribution Limited",
-    "licenseNumber": "DERC/DL/2025/0042"
+    "idRef": {
+      "issuedBy": "did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma",
+      "subjectId": "india-energy-stack:tpddl"
+    }
   },
-  "issuanceDate": "2026-05-01T00:00:00Z",
-  "expirationDate": "2031-05-01T00:00:00Z",
+  "validFrom":  "2026-05-01T00:00:00+05:30",
+  "validUntil": "2031-05-01T00:00:00+05:30",
   "credentialSubject": {
     "id": "did:key:z6MkjVQ...",
-    "consumerNumber": "TPDDL-2025-001234567",
-    "fullName": "Priya Sharma",
-    "installationAddress": {
-      "fullAddress": "Flat 4B, Sector 12, Rohini, New Delhi",
-      "postalCode": "110085",
-      "country": "IN",
-      "city": "New Delhi",
-      "stateProvince": "DL"
+    "customerProfile": {
+      "customerNumber": "TPDDL-2025-001234567",
+      "meterNumber":    "MTR-98765432",
+      "meterType":      "AMI"
     },
-    "meterNumber": "MTR-98765432",
-    "serviceConnectionDate": "2019-03-15"
+    "customerDetails": {
+      "fullName": "Priya Sharma",
+      "installationAddress": {
+        "address":   "Flat 4B, Sector 12, Rohini",
+        "city":      {"name": "New Delhi", "code": "DEL"},
+        "state":     {"name": "Delhi",     "code": "DL"},
+        "country":   {"name": "India",     "code": "IN"},
+        "area_code": "110085"
+      },
+      "serviceConnectionDate": "2019-03-15T00:00:00+05:30"
+    }
   },
   "credentialStatus": {
-    "id": "https://dedi.global/dedi/lookup/tpddl/vc-revocation-registry/<hash>",
-    "type": "dediregistry"
+    "id": "https://dedi.global/dedi/lookup/tpddl/vc-revocation-registry/<credential-id>",
+    "type": "dedi",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
   },
   "proof": {
-    "type": "DataIntegrityProof",
-    "cryptosuite": "ecdsa-2019",
-    "created": "2026-05-01T10:00:00Z",
+    "type": "Ed25519Signature2020",
+    "created": "2026-05-01T10:00:00+05:30",
     "proofPurpose": "assertionMethod",
     "verificationMethod": "did:web:ies.tpddl.in#key-1",
     "proofValue": "z3FXQjecWh...kKJh6vW3"
@@ -65,16 +73,16 @@ A minimum DEG-style energy credential looks like this:
 
 | Block | What it does |
 |---|---|
-| `@context` | Defines the JSON-LD vocabulary — `EnergyCredential` and any subclass (e.g. `UtilityCustomerCredential`) |
-| `id` | A globally unique URI for this specific credential |
-| `type` | Always `VerifiableCredential` + `EnergyCredential` + the specific DEG subclass |
-| `issuer` | DID, human name, and **regulatory `licenseNumber`** (DEG mandates this) |
-| `issuanceDate` / `expirationDate` | ISO 8601 timestamps |
-| `credentialSubject` | The actual facts you are attesting — fields vary by credential type |
+| `@context` | Defines the JSON-LD vocabulary. Must contain `https://www.w3.org/ns/credentials/v2`. |
+| `id` | A globally unique URN UUID for this specific credential |
+| `type` | Always `"VerifiableCredential"` + `"CustomerCredential"` |
+| `issuer` | DID, legal name, and `idRef` pointing at the DISCOM's entry in the **IES DISCOMs Reference Registry** (see [Trust and the IES Reference Registry](#trust-and-the-ies-reference-registry)) |
+| `validFrom` / `validUntil` | ISO 8601 timestamps with timezone offset |
+| `credentialSubject` | The actual facts you are attesting — see [Schemas](./schemas.md) for the sub-profile structure |
 | `credentialStatus` | DeDi revocation pointer (see below) |
 | `proof` | Issuer's signature |
 
-OpenCred constructs every block above for you. You hand it the `credentialSubject` data, an `issuerDid`, a `schemaId`, and validity dates; it produces the signed credential.
+OpenCred constructs every block above for you. You hand it the `credentialSubject` data, an `issuerDid`, a `schemaId`, and validity dates; it produces the signed credential. (Your integration service then injects the full `issuer.name` and `issuer.idRef` before delivery — see [Issuance](./issuance.md).)
 
 ---
 
@@ -82,9 +90,15 @@ OpenCred constructs every block above for you. You hand it the `credentialSubjec
 
 A **DID** is a globally unique, cryptographically verifiable identifier that does not depend on any central registry. It looks like `did:method:identifier`.
 
-OpenCred supports three DID methods. For DISCOMs, only two matter:
+OpenCred supports three DID methods. For DISCOMs, all three are useful at different points:
 
-### `did:web` — recommended for DISCOMs
+### `did:key` from a self-generated software key — recommended for dev / first deploy
+
+The public key is encoded directly into the DID string. Generate an ECDSA P-256 PEM with `openssl`; OpenCred derives the `did:key` automatically on startup. No domain, no certificate, no cost — and the same DID is reproducible from the same PEM, so it survives container restarts. Read it back from `GET /v1/keys`.
+
+This is the fastest way to evaluate the system end-to-end before provisioning production infrastructure.
+
+### `did:web` — recommended for production
 
 The DID's identifier *is* a domain you control. The corresponding public key is hosted at `https://<your-domain>/.well-known/did.json`. Example:
 
@@ -94,13 +108,13 @@ did:web:ies.tpddl.in
 https://ies.tpddl.in/.well-known/did.json
 ```
 
-**Why DISCOMs should default to this:** key rotation is just a file replace, and the trust chain terminates in your domain's TLS certificate — which is already validated by a public CA every browser trusts.
+**Why DISCOMs should default to this in production:** key rotation is just a file replace, and the trust chain terminates in your domain's TLS certificate — which is already validated by a public CA every browser trusts.
 
 **One requirement:** you must be able to publish a single static JSON file under your domain. No backend needed.
 
-### `did:key` — for cases where you have an existing DSC
+### `did:key` from an existing DSC
 
-The public key is encoded directly into the DID string. OpenCred derives it from an existing Digital Signature Certificate (PFX/PEM) at import time. Use this if your DISCOM already operates with a CCA-issued DSC and wants to anchor trust in the CSCA root chain (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)).
+For DISCOMs that already operate with a CCA-issued **Digital Signature Certificate** (Class-2 / Class-3, issued by eMudhra, Sify, NSDL, Capricorn, etc.) and want to anchor trust in the CSCA root chain. Mount the PFX/PEM; OpenCred derives the `did:key` from the certificate's public key (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)).
 
 ### `did:key` and `did:jwk` for consumers
 
@@ -123,16 +137,65 @@ When OpenCred boots, it loads exactly one **signing key** from one of these sour
 
 **The key never leaves the container.** OpenCred signs in-process; in KMS modes the private key never leaves the HSM at all. There is no shared signing service and no key escrow.
 
-Trust flows from the verifier's root store to your credential signature:
+---
 
-- For `did:web`: verifier resolves your DID document over HTTPS → reads the public key → checks the credential's `proof.proofValue` → trust anchors in the TLS certificate of your domain.
-- For `did:key` from a DSC: verifier extracts the public key from your DID → optionally validates the x5c certificate chain back to a configured CSCA root.
+## Trust and the IES Reference Registry
+
+A cryptographically valid signature is not enough on its own — it proves the credential was signed by *whoever holds that DID's private key*, but a verifier still needs to answer: **"is that DID a trusted DISCOM?"** On the IES network, the answer comes from the **IES DISCOMs Reference Registry**.
+
+### The registry
+
+The registry is hosted on [`dedi.global`](https://dedi.global). Its full base URL is:
+
+```
+https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/
+```
+
+Throughout these docs we refer to a DISCOM's entry by its **relative path** `india-energy-stack/ies-discoms-reference-registry/<discom-id>`; prepend the base URL above to resolve.
+
+| Property | Value |
+|---|---|
+| Host | `api.dedi.global` |
+| Namespace (friendly) | `india-energy-stack` |
+| Namespace DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
+| Registry | `ies-discoms-reference-registry` |
+| Relative path | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+
+Each registry entry holds, at a minimum: the DISCOM's issuer DID, its legal name, and its **published public key(s)**. Registry entries are managed by the IES network operator; DISCOMs cannot self-publish.
+
+### The trust flow
+
+When a verifier checks a credential issued on the IES network:
+
+1. Parse the credential and read `issuer.idRef.subjectId` (e.g. `india-energy-stack:tpddl`)
+2. Resolve the registry entry at `india-energy-stack/ies-discoms-reference-registry/tpddl` (i.e. the full URL formed by prepending the base above)
+3. Confirm `issuer.id` in the credential matches the DID recorded in the registry entry
+4. Read the public key from the registry entry
+5. Verify the credential's `proof` against that public key
+
+If any of steps 2–4 fails, the credential is **not trusted**, even if step 5 would have succeeded. This is what makes the registry the trust anchor: a forged credential signed with an unregistered key has no path to acceptance.
+
+### Why this is better than relying on `did:web` alone
+
+A pure `did:web` model anchors trust in the issuer's own TLS certificate. That works for organisations a verifier already knows out-of-band, but it does not answer "is this DISCOM real?" — anyone can stand up `did:web:not-a-real-discom.example` and self-attest.
+
+The IES Reference Registry is the network's curated list of who counts as a DISCOM. A DISCOM still publishes its public key via `did:web` (so key rotation remains simple and self-service), but **registration in the IES registry is the act that makes that key trustworthy on this network**.
+
+### Other DID methods still work for signing
+
+The registry is the trust authority, but the underlying signing key can come from any of OpenCred's supported sources:
+
+- **`did:web`** is the most common production setup — the registry entry references your `did:web:<your-domain>` and the public key resolves from your `.well-known/did.json`.
+- **`did:key` from a self-generated PEM** — useful for dev and for early-stage DISCOMs. The registry entry references the `did:key:...` directly.
+- **`did:key` from a DSC** — for DISCOMs anchoring trust additionally in the CSCA chain (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)). The registry entry can carry the certificate's `x5c` chain alongside the bare public key.
+
+In every case, the verifier reaches the public key via the registry entry, not by trusting the DISCOM's domain or certificate authority on its own.
 
 ---
 
 ## DeDi Revocation
 
-Energy credentials need revocation: connections terminate, meters are replaced, programs end. DEG uses **DeDi (Decentralised Data Infrastructure)** — a public hash registry — instead of the W3C bitstring status list.
+Electricity credentials need revocation: connections terminate, meters are replaced, assets are decommissioned. Revocation uses **DeDi (Decentralised Data Infrastructure)** — a public hash registry defined by Beckn DEG — instead of the W3C bitstring status list.
 
 ### The model
 
@@ -160,12 +223,14 @@ This means there is no central revocation list to maintain. Only DISCOMs with na
 
 ```json
 "credentialStatus": {
-  "id": "https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<hash>",
-  "type": "dediregistry"
+  "id": "https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<credential-id>",
+  "type": "dedi",
+  "statusPurpose": "revocation",
+  "statusListCredential": "https://dedi.global/dedi/query/<namespace>/vc-revocation-registry"
 }
 ```
 
-The DEG schema mandates `type: "dediregistry"`. OpenCred currently emits `type: "dedi"` and adds two extra fields — `statusPurpose: "revocation"` and `statusListCredential: "https://dedi.global/dedi/query/<namespace>/vc-revocation-registry"`. To produce a DEG-conformant credential, your integration service must post-process the OpenCred output and rewrite `credentialStatus.type` to `"dediregistry"` before delivering the credential. The `statusPurpose` and `statusListCredential` fields are harmless for DEG verifiers and can be retained.
+All four fields are required by the schema. OpenCred fills them automatically when you pass `revocationRegistryUrl` on the issue call.
 
 Details: [OpenCred — Revocation](https://opencred.gitbook.io/docs/concepts/revocation).
 
@@ -177,11 +242,11 @@ OpenCred can package the same credential in three on-the-wire formats. You pick 
 
 | Format | What it looks like | Use when |
 |---|---|---|
-| `data-integrity` | JSON-LD with embedded `proof` block | **Recommended for DEG credentials** — most human-readable and matches the DEG schema. Pass `proofFormat: "data-integrity"` explicitly on every issue call. |
-| `vc-jwt` | Compact JWT (`eyJhbGciOi...`) | OpenCred's built-in default if you omit `proofFormat`. Use when integrating with JWT-native systems (some OAuth clients). |
+| `vc-jwt` | Compact JWT (`eyJhbGciOi...`) | **Recommended** when issuing against the built-in `electricity/v1` schema — currently the only format that interoperates cleanly with the bundled JSON-LD context. Also OpenCred's default if you omit `proofFormat`. |
+| `data-integrity` | JSON-LD with embedded `proof` block | Most human-readable. Use against schemas you register yourself with a clean context. Avoid passing `additionalTypes` alongside `data-integrity` against the bundled `electricity/v1` context — the protected-term collision returns `CRYPTO_ERROR: Invalid JSON-LD syntax`. |
 | `sd-jwt-vc` | Selective-disclosure JWT | When holders need to prove individual claims without revealing the whole credential |
 
-Selective disclosure is useful for energy: a consumer can prove "I have an active connection in Delhi" without revealing the exact address or meter number. To enable it, pass `selectiveDisclosureClaims: ["serviceAddress.city", "stateProvince"]` at issuance.
+Selective disclosure is useful for energy: a consumer can prove "I have an active connection in Delhi" without revealing the exact address or meter number. To enable it, pass `selectiveDisclosureClaims: ["customerDetails.installationAddress.city", "customerDetails.installationAddress.state"]` at issuance.
 
 ---
 
@@ -218,7 +283,37 @@ Request → Issue → Hold → Present → Verify
 
 ## Next
 
-You now know what a credential is, who signs it, how trust flows, and how revocation works. [Schemas](./schemas.md) shows the five DEG energy credential types and their fields. Then [Deployment](./onboarding.md) walks you through standing up OpenCred.
+You now know what a credential is, who signs it, how trust flows, and how revocation works. [Schemas](./schemas.md) shows the unified `CustomerCredential` and its five sub-profiles. Then [Deployment](./onboarding.md) walks you through standing up OpenCred.
+
+---
+
+## Glossary
+
+Cryptographic and PKI terms used in this chapter:
+
+| Term | Meaning |
+|---|---|
+| **ECDSA** | Elliptic Curve Digital Signature Algorithm — the asymmetric signature scheme used for `proof` |
+| **P-256** | NIST elliptic curve (`prime256v1`), the standard curve for W3C VCs |
+| **Ed25519** | Alternative signature scheme; supported but not the IES default |
+| **SHA-256** | Cryptographic hash function used in the revocation hash |
+| **JCS** | RFC 8785 JSON Canonicalization Scheme — deterministic JSON serialization, used to make hashes reproducible |
+| **JWK** | JSON Web Key — public/private key encoded as JSON |
+| **PKCS#8** | Standard binary encoding for private keys |
+| **PFX** | PKCS#12 archive — usually a private key plus an X.509 certificate chain |
+| **PEM** | Base64-armoured wrapper around PKCS#8 / X.509 |
+| **JSON-LD** | JSON for Linked Data — JSON with a `@context` for semantic interoperability |
+| **vc-jwt** | Verifiable Credential serialized as a compact JWT |
+| **sd-jwt-vc** | Selective Disclosure JWT for VCs — holder reveals individual claims |
+| **x5c** | "X.509 certificate chain" — a JWS/JWK header carrying the cert chain |
+| **DID** | Decentralised Identifier (`did:method:value`) |
+| **VC** | Verifiable Credential |
+| **DSC** | Digital Signature Certificate — Class-2/Class-3 X.509 cert issued by a **CCA**-licensed CA in India |
+| **CCA** | Controller of Certifying Authorities — the Indian government body that licences DSC-issuing CAs |
+| **CSCA** | Country Signing Certificate Authority — the root in a national PKI |
+| **HSM** | Hardware Security Module — tamper-resistant device that holds keys; cloud KMS is the managed equivalent |
+| **DeDi** | Decentralised Data Infrastructure — the hash registry used for revocation |
+| **SERC** | State Electricity Regulatory Commission — issues the utility's regulatory licence (the `issuer.idRef` value) |
 
 ---
 
@@ -229,5 +324,5 @@ You now know what a credential is, who signs it, how trust flows, and how revoca
 - [OpenCred — DIDs](https://opencred.gitbook.io/docs/concepts/dids)
 - [OpenCred — Trust chains](https://opencred.gitbook.io/docs/concepts/trust-chains)
 - [OpenCred — Revocation](https://opencred.gitbook.io/docs/concepts/revocation)
-- [W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/)
+- [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/)
 - [RFC 8785 JSON Canonicalization Scheme](https://datatracker.ietf.org/doc/html/rfc8785)
