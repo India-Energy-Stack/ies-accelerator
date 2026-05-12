@@ -34,6 +34,7 @@
 - [ ] **1.1.b** Start OpenCred container with security hardening:
   ```bash
   docker run -d --name opencred -p 3100:3100 \
+    -e OPENCRED_PORT=3100 \
     -e OPENCRED_API_KEY=$OPENCRED_API_KEY \
     -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
     -v /path/to/issuer-key.pem:/secrets/issuer-key.pem:ro \
@@ -41,13 +42,15 @@
     --tmpfs /tmp:noexec,nosuid,size=64m \
     --cap-drop ALL \
     --security-opt no-new-privileges:true \
-    opencred:latest
+    ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
   ```
+  > The public image lives on GitHub Container Registry; no auth is needed for `pull`. There is no `opencred:latest` on Docker Hub.
 - [ ] **1.1.c** Health check passes and signing key is loaded:
   ```bash
   curl http://localhost:3100/v1/health
-  # Expected: { "status": "ok", "ready": true, "signingKeyLoaded": true, "dediConfigured": true }
+  # Expected: { "status": "ok", "ready": true, "signingKeyLoaded": true, "dediConfigured": <bool> }
   ```
+  > `dediConfigured` is `false` on a fresh install — it only flips to `true` after Phase 1.3 sets the `OPENCRED_DEDI_*` env vars. A `false` value here is **not** an error.
 - [ ] **1.1.d** Image pinned to a SHA digest in production (not `latest`)
 - [ ] **1.1.e** TLS terminated upstream (nginx / Caddy / cloud load balancer) — OpenCred itself serves HTTP only
 
@@ -144,7 +147,8 @@ Define a custom JSON Schema for each credential type. Use `POST /v1/schemas/gene
     -H "Content-Type: application/json" \
     -d '{ "name": "ConsumerProfileCredential", "fields": [ ... ] }'
   ```
-- [ ] **2.1.c** Schema ID saved: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+  > `GET /v1/schemas` does **not** ship with `ConsumerProfileCredential`/`ConsumptionProfileCredential`/etc. as built-in IDs. Each DISCOM must register them via `/v1/schemas/generate` (or pass the JSON Schema inline at issuance time as `inlineSchema` + `inlineContext`). The only built-in composite is `electricity/v1` (see 2.5).
+- [ ] **2.1.c** Schema ID returned from the response above saved (look for `id` in the response body): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 - [ ] **2.1.d** Proof format chosen: ☐ `data-integrity` (recommended) &nbsp; ☐ `vc-jwt` &nbsp; ☐ `sd-jwt-vc`
 - [ ] **2.1.e** Validity period defined: \_\_\_\_ months (recommended: 12 months; reissue annually)
 
@@ -233,30 +237,28 @@ Define a custom JSON Schema for each credential type. Use `POST /v1/schemas/gene
 
 ### 2.5 Composite Profile Credential
 
-*A single credential that bundles consumer, consumption, generation, and storage profiles for a prosumer. Used where a counterparty needs the full picture in one presentation.*
+*A single credential that bundles customer identity, customer details, consumption, generation, and storage profiles for a prosumer. Used where a counterparty needs the full picture in one presentation.*
 
-- [ ] **2.5.a** Schema designed to embed all four sub-profiles as nested objects within `credentialSubject`:
+> **OpenCred ships a built-in composite schema** — `schemaId: "electricity/v1"`. You can use it directly without calling `/v1/schemas/generate`. Its `credentialSubject` shape is fixed by the bundled schema as below; design custom field names only if you intend to register your own composite via `/v1/schemas/generate`.
+
+- [ ] **2.5.a** Built-in `electricity/v1` `credentialSubject` shape understood:
 
   ```json
   {
-    "credentialType": "CompositeEnergyProfileCredential",
-    "fields": [
-      { "name": "consumerNumber",    "type": "string", "required": true },
-      { "name": "consumerProfile",   "type": "object", "required": true,
-        "description": "Matches ConsumerProfileCredential subject fields" },
-      { "name": "consumptionProfile","type": "object", "required": true,
-        "description": "Matches ConsumptionProfileCredential subject fields" },
-      { "name": "generationProfile", "type": "object", "required": false,
-        "description": "Present only for prosumers with generation assets" },
-      { "name": "storageProfile",    "type": "object", "required": false,
-        "description": "Present only for prosumers with storage assets" },
-      { "name": "profileAsOf",       "type": "string", "required": true,
-        "description": "ISO 8601 timestamp of when this composite was assembled" }
-    ]
+    "credentialSubject": {
+      "id": "<consumer DID, optional>",
+      "customerProfile":   { "customerNumber": "...", "meterNumber": "...", "meterType": "AMI|NetMeter|..." },
+      "customerDetails":   { "fullName": "...", "installationAddress": { /* beckn Location */ }, "serviceConnectionDate": "..." },
+      "consumptionProfile":{ "premisesType": "Residential", "connectionType": "Single-phase", "sanctionedLoadKW": 5, "tariffCategoryCode": "..." },
+      "generationProfile": { "generationType": "Solar", "capacityKW": 4.5, "commissioningDate": "...", "manufacturer": "...", "modelNumber": "..." },
+      "storageProfile":    { "storageCapacityKWh": 13.5, "powerRatingKW": 5, "commissioningDate": "...", "storageType": "LithiumIon" }
+    }
   }
   ```
 
-- [ ] **2.5.b** Schema registered and schema ID saved: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+  > Field names are `customerProfile` and `customerDetails` (not `consumerProfile`); `customerProfile.meterType` is required and must be one of `AMR | AMI | Electromechanical | Forward | Reverse | Bidirectional | Prepaid | NetMeter | Other`. Only `customerProfile` is required at the subject level — the other four sub-profiles are optional and present only when applicable.
+
+- [ ] **2.5.b** Schema ID for the composite path: `electricity/v1` (built-in). Register a custom composite via `/v1/schemas/generate` only if the built-in shape does not fit.
 - [ ] **2.5.c** Assembly process defined — which system triggers composite issuance and how sub-profile data is gathered
 - [ ] **2.5.d** `sd-jwt-vc` considered for composite — allows counterparties to request only the sub-profiles they need
 
@@ -288,6 +290,7 @@ Define a custom JSON Schema for each credential type. Use `POST /v1/schemas/gene
   ```
 
 - [ ] **2.6.b** Schema registered and schema ID saved: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+  > No built-in OpenCred schema exists for meter-data today. Two options: (1) `POST /v1/schemas/generate` with the field list above and use the returned ID; or (2) skip registration and pass `inlineSchema` + `inlineContext` directly in each `/v1/credentials/issue` call — useful for ad-hoc / experimental shapes during pilot.
 - [ ] **2.6.c** Issuance trigger defined: ☐ Monthly billing cycle &nbsp; ☐ On consumer request &nbsp; ☐ Both
 - [ ] **2.6.d** MDMS / AMISP data pipeline to OpenCred issuance call automated
 - [ ] **2.6.e** Large interval array handling tested — verify `OPENCRED_SESSION_TTL` (default 4 hours) is sufficient for batch jobs
@@ -307,13 +310,14 @@ curl -X POST http://localhost:3100/v1/credentials/issue \
   -d '{
     "schemaId": "<schema-id-for-type>",
     "issuerDid": "did:web:ies.{discom}.in",
-    "proofFormat": "data-integrity",
+    "proofFormat": "vc-jwt",
     "credentialSubject": { /* type-specific fields */ },
     "validFrom": "2026-04-01T00:00:00Z",
-    "validUntil": "2027-04-01T00:00:00Z",
-    "additionalTypes": ["<CredentialTypeName>"]
+    "validUntil": "2027-04-01T00:00:00Z"
   }'
 ```
+
+> **Proof format note.** `data-integrity` is the long-term DEG recommendation, but as of the current OpenCred image it fails against the bundled `electricity/v1` schema with `CRYPTO_ERROR: Invalid JSON-LD syntax; tried to redefine a protected term` (the schema's bundled `@context` collides with the built-in W3C V2 context). Use `proofFormat: "vc-jwt"` for the composite path until that's fixed; `data-integrity` works against schemas you register yourself with a clean context. Avoid passing `additionalTypes` together with `data-integrity` — it triggers the same error.
 
 - [ ] **3.1.a** Consumer Profile credential issued and signed VC JSON received
 - [ ] **3.1.b** Consumption Profile credential issued for a test consumer and billing period
@@ -323,8 +327,8 @@ curl -X POST http://localhost:3100/v1/credentials/issue \
 - [ ] **3.1.f** Recurring Meter Data credential issued for a test consumer with at least one month of interval data
 
 For each issued credential, confirm:
-- [ ] `proof` block present with correct `verificationMethod` pointing to your issuer DID
-- [ ] `credentialStatus` block present with `type: "dedi"` and correct namespace URL
+- [ ] `proof` block present. For `data-integrity` look for `verificationMethod` pointing to your issuer DID; for `vc-jwt` the proof is `{ "type": "JsonWebSignature2020", "jwt": "<compact-JWS>" }` and the `kid` header inside the JWT is the verification method.
+- [ ] `credentialStatus` block present (only when `revocationRegistryUrl` was passed). OpenCred currently emits `type: "dedi"`; DEG conformance requires `type: "dediregistry"` — your integration service should rewrite this on egress. See `energy-credentials/issuance.md` and `energy-credentials/concepts.md` for the post-processing recipe.
 - [ ] `validFrom` and `validUntil` set correctly
 - [ ] `maskedIdNumber` used — full Aadhaar/ID never in credential payload
 
@@ -408,25 +412,36 @@ curl http://localhost:3100/v1/credentials/batch/{jobId}/results \
 ### 4.1 API Verification
 
 ```bash
+# vc-jwt credential — pass the compact JWT string from proof.jwt:
+curl -X POST http://localhost:3100/v1/credentials/verify \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "credential": "eyJhbGciOi...<jwt-from-proof.jwt>...sig" }'
+
+# data-integrity credential — pass the JSON-stringified VC object:
 curl -X POST http://localhost:3100/v1/credentials/verify \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "credential": "<JSON-stringified VC>" }'
 ```
 
-Expected response:
+> The `credential` field is **always a string**. For `vc-jwt`, extract `proof.jwt` from your stored credential and send only that string — sending the credential object returns `INVALID` (the verifier expects to parse a JWT).
+
+Expected response (vc-jwt):
 ```json
 {
   "valid": true,
   "code": "VALID",
+  "message": "Credential is valid.",
   "checks": [
     { "name": "signature",      "passed": true },
-    { "name": "notBefore",      "passed": true },
-    { "name": "expiry",         "passed": true },
-    { "name": "keyResolution",  "passed": true }
+    { "name": "vc-jwt-claims",  "passed": true },
+    { "name": "date",           "passed": true }
   ]
 }
 ```
+
+Expected response (data-integrity): the `checks` array names differ — typically `signature`, `notBefore`, `expiry`, `keyResolution`. Treat `valid: true` and `code: "VALID"` as the contract; do not pattern-match on specific check names.
 
 - [ ] **4.1.a** Verification tested for each of the 6 credential types — `valid: true` for all
 - [ ] **4.1.b** Expired credential test — `validUntil` in the past → `code: "EXPIRED"`
@@ -462,10 +477,11 @@ Revocation uses DeDi hash-lookup. The registry stores only revoked hashes. A cre
   curl -X POST http://localhost:3100/v1/credentials/revocation-hash \
     -H "Authorization: Bearer $OPENCRED_API_KEY" \
     -H "Content-Type: application/json" \
-    -d '{ "credential": { /* VC JSON without proof block */ } }'
+    -d '{ "credential": { /* full signed VC, INCLUDING the proof block */ } }'
   # Returns: { "hash": "sha256hex..." }
   ```
-- [ ] **5.1.b** Hash is deterministic — same input always produces same output (JCS canonicalization via RFC 8785)
+  > Pass the credential **as you stored it** (signed, with `proof`). `/v1/credentials/revoke` recomputes the hash from the same shape — stripping `proof` here would produce a hash that does not match the one revocation publishes. See `energy-credentials/issuance.md` § "Hash stability rules".
+- [ ] **5.1.b** Hash is deterministic — same input always produces same output (`SHA-256(JCS(credential))` via RFC 8785)
 - [ ] **5.1.c** Batch hash computation tested for multiple credentials:
   ```bash
   POST /v1/credentials/revocation-hash/batch

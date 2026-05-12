@@ -14,11 +14,11 @@
 
 ### 1. Infrastructure Setup
 
-- [ ] **1.a** OpenCred service deployed (Docker) and health check passing
+- [ ] **1.a** OpenCred service deployed (`ghcr.io/nfh-trust-labs/opencred/opencred-server:latest`) and `/v1/health` returns `ready: true, signingKeyLoaded: true`. (`dediConfigured: false` is normal until 1.d is done.)
 - [ ] **1.b** Signing key configured — method chosen: ☐ DSC import &nbsp; ☐ Generated ECDSA P-256 &nbsp; ☐ Hardware token
 - [ ] **1.c** Issuer DID established and noted (`did:web` or `did:key`): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-- [ ] **1.d** DeDi namespace registered and accessible (`dedi.global`)
-- [ ] **1.e** `credentialStatus` block embedding confirmed — revocation hash included in issued VCs
+- [ ] **1.d** DeDi namespace registered and accessible (`dedi.global`); `OPENCRED_DEDI_*` env vars set; `dediConfigured: true` in `/v1/health`
+- [ ] **1.e** `credentialStatus` block embedding confirmed — revocation hash included in issued VCs (note: OpenCred emits `type: "dedi"`; rewrite to `"dediregistry"` on egress for DEG conformance)
 
 ### 2. Credential Schema Design
 
@@ -26,10 +26,10 @@
 - [ ] **2.b** **Consumption Profile** schema defined — billing period, total/peak/off-peak kWh, average daily consumption
 - [ ] **2.c** **Generation Profile** schema defined — asset ERA, installed capacity, generation period, grid export, certification standard
 - [ ] **2.d** **Storage Profile** schema defined — asset ERA, capacity kWh, charge/discharge rate, round-trip efficiency
-- [ ] **2.e** **Composite Profile** schema defined — single credential containing consumer, consumption, generation, and storage subjects
+- [ ] **2.e** **Composite Profile** schema decided — use the built-in `electricity/v1` (sub-keys: `customerProfile`, `customerDetails`, `consumptionProfile`, `generationProfile`, `storageProfile`), or register a custom composite via `/v1/schemas/generate`
 - [ ] **2.f** **Recurring Meter Data** schema defined — meter ID, report period, interval readings (15-min or hourly), total kWh
 - [ ] **2.g** All schemas registered with OpenCred (`POST /v1/schemas/generate` or custom JSON Schema URL)
-- [ ] **2.h** Proof format chosen for each credential type: ☐ `data-integrity` &nbsp; ☐ `vc-jwt` &nbsp; ☐ `sd-jwt-vc` (selective disclosure)
+- [ ] **2.h** Proof format chosen for each credential type: ☐ `data-integrity` &nbsp; ☐ `vc-jwt` &nbsp; ☐ `sd-jwt-vc` (selective disclosure). Note: the bundled `electricity/v1` composite currently only signs cleanly with `vc-jwt` (the bundled JSON-LD context redefines protected terms under `data-integrity`).
 
 ### 3. Credential Issuance
 
@@ -42,14 +42,14 @@
 
 ### 4. Credential Verification
 
-- [ ] **4.a** Verification tested for each credential type (`POST /v1/credentials/verify`)
-- [ ] **4.b** All four checks passing: signature, `validFrom`, `validUntil`, key resolution
+- [ ] **4.a** Verification tested for each credential type (`POST /v1/credentials/verify`). The `credential` field is always a string: for `vc-jwt` send the compact JWT from `proof.jwt`; for `data-integrity` send the JSON-stringified VC.
+- [ ] **4.b** Response checks all `passed: true`. Names vary by proof format: `signature / vc-jwt-claims / date` for vc-jwt; `signature / notBefore / expiry / keyResolution` for data-integrity. Treat `valid: true` + `code: "VALID"` as the contract.
 - [ ] **4.c** Verification result codes handled: `VALID`, `INVALID`, `REVOKED`, `EXPIRED`, `UNRESOLVABLE`
 - [ ] **4.d** Offline verification confirmed for `did:key` credentials (no network required)
 
 ### 5. Revocation
 
-- [ ] **5.a** Revocation hash computation tested (`POST /v1/credentials/revocation-hash`)
+- [ ] **5.a** Revocation hash computation tested (`POST /v1/credentials/revocation-hash`) — pass the **full signed VC including `proof`**, not a stripped copy
 - [ ] **5.b** Revocation publish working — hash appears in DeDi namespace (`POST /v1/credentials/revoke`)
 - [ ] **5.c** Post-revocation verification returns `REVOKED` status
 - [ ] **5.d** Revocation runbook prepared — process for connection termination, meter replacement, data correction
