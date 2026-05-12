@@ -165,7 +165,7 @@ This means there is no central revocation list to maintain. Only DISCOMs with na
 }
 ```
 
-The DEG schema mandates `type: "dediregistry"`. OpenCred uses `type: "dedi"` in some older outputs — verify your deployment uses the DEG-conformant value if you are issuing into the DEG ecosystem.
+The DEG schema mandates `type: "dediregistry"`. OpenCred currently emits `type: "dedi"` and adds two extra fields — `statusPurpose: "revocation"` and `statusListCredential: "https://dedi.global/dedi/query/<namespace>/vc-revocation-registry"`. To produce a DEG-conformant credential, your integration service must post-process the OpenCred output and rewrite `credentialStatus.type` to `"dediregistry"` before delivering the credential. The `statusPurpose` and `statusListCredential` fields are harmless for DEG verifiers and can be retained.
 
 Details: [OpenCred — Revocation](https://opencred.gitbook.io/docs/concepts/revocation).
 
@@ -177,8 +177,8 @@ OpenCred can package the same credential in three on-the-wire formats. You pick 
 
 | Format | What it looks like | Use when |
 |---|---|---|
-| `data-integrity` | JSON-LD with embedded `proof` block | **Default for DEG credentials.** Most human-readable; matches the DEG schema. |
-| `vc-jwt` | Compact JWT (`eyJhbGciOi...`) | When integrating with JWT-native systems (some OAuth clients) |
+| `data-integrity` | JSON-LD with embedded `proof` block | **Recommended for DEG credentials** — most human-readable and matches the DEG schema. Pass `proofFormat: "data-integrity"` explicitly on every issue call. |
+| `vc-jwt` | Compact JWT (`eyJhbGciOi...`) | OpenCred's built-in default if you omit `proofFormat`. Use when integrating with JWT-native systems (some OAuth clients). |
 | `sd-jwt-vc` | Selective-disclosure JWT | When holders need to prove individual claims without revealing the whole credential |
 
 Selective disclosure is useful for energy: a consumer can prove "I have an active connection in Delhi" without revealing the exact address or meter number. To enable it, pass `selectiveDisclosureClaims: ["serviceAddress.city", "stateProvince"]` at issuance.

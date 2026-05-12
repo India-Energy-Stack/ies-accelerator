@@ -29,10 +29,12 @@ Every DEG energy credential includes these fields on top of W3C VC's standard on
 | `issuanceDate` | date-time | | ISO 8601 timestamp |
 | `expirationDate` | date-time | | Optional |
 | `credentialStatus.id` | URI | ✓ | DeDi lookup URL — `https://dedi.global/dedi/lookup/<namespace>/vc-revocation-registry/<hash>` |
-| `credentialStatus.type` | const | ✓ | Must be `"dediregistry"` |
+| `credentialStatus.type` | const | ✓ | DEG-required value is `"dediregistry"`. OpenCred currently emits `"dedi"` — see [Core Concepts → DeDi Revocation](./concepts.md#dedi-revocation) for the post-processing step DISCOMs apply to land on the DEG-conformant value. |
+| `credentialStatus.statusPurpose` | string | | OpenCred also emits `"revocation"` |
+| `credentialStatus.statusListCredential` | URI | | OpenCred also emits the registry query URL `https://dedi.global/dedi/query/<namespace>/vc-revocation-registry`. Not required by DEG but harmless for verifiers. |
 | `proof.*` | object | ✓ | W3C proof block — OpenCred fills this |
 
-When you call OpenCred's issue endpoint, you supply `issuerDid`, `validFrom`, `validUntil`, and an optional `revocationRegistryUrl`. OpenCred constructs the envelope; you only need to send the **subject-specific fields** in `credentialSubject`.
+When you call OpenCred's issue endpoint, you supply `issuerDid` (a string), `validFrom`, optional `validUntil`, and an optional `revocationRegistryUrl`. OpenCred sets `issuer` to the DID and fills `proof` and `credentialStatus`. **OpenCred does not accept `issuer.name` or `issuer.licenseNumber` as request fields** — DEG mandates these, so your integration service must post-process the returned credential and inject the issuer object (DID, name, regulatory licence) before delivering it to the consumer.
 
 ---
 

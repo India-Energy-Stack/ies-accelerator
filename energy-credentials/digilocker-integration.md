@@ -173,6 +173,18 @@ credential_response = requests.post(
 ).json()
 
 vc_json = credential_response["credential"]
+
+# Post-process to match DEG: OpenCred returns issuer as the DID string and
+# credentialStatus.type="dedi". DEG requires the full issuer object and
+# credentialStatus.type="dediregistry". See issuance.md and concepts.md.
+vc_json["issuer"] = {
+    "id": ISSUER_DID,
+    "name": ISSUER_NAME,
+    "licenseNumber": LICENSE_NUMBER,
+}
+if "credentialStatus" in vc_json:
+    vc_json["credentialStatus"]["type"] = "dediregistry"
+
 pdf_bytes = base64.b64decode(
     next(p for p in credential_response.get("packagedOutputs", [])
          if p["format"] == "pdf")["contentBase64"]

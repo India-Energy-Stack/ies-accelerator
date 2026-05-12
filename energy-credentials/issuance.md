@@ -51,7 +51,7 @@ Every step 1–5 is HTTP calls against OpenCred plus a thin glue layer in whiche
 | `schemaId` | string | one of these | Built-in schema ID (e.g. `deg/utility-customer/v2`) |
 | `inlineSchema` | object | one of these | JSON Schema fragment for the credential subject |
 | `inlineContext` | object | | JSON-LD `@context` fragment to merge in |
-| `proofFormat` | enum | | `data-integrity` (default) \| `vc-jwt` \| `sd-jwt-vc` |
+| `proofFormat` | enum | | `vc-jwt` (OpenCred default) \| `data-integrity` (recommended for DEG) \| `sd-jwt-vc` |
 | `additionalTypes` | string[] | | E.g. `["EnergyCredential", "UtilityCustomerCredential"]` |
 | `subjectDid` | string | | Overrides `credentialSubject.id` if you prefer to pass it separately |
 | `selectiveDisclosureClaims` | string[] | | For `sd-jwt-vc` — which fields are individually disclosable |
@@ -117,7 +117,21 @@ curl -X POST http://localhost:3100/v1/credentials/issue \
   }'
 ```
 
-Add the `issuer.name` and `issuer.licenseNumber` fields by extending `inlineContext` and `credentialSubject` — or wrap the call in a thin DISCOM-side helper that always injects them. OpenCred fills `proof` and (with `revocationRegistryUrl`) `credentialStatus`.
+OpenCred sets `issuer` from the `issuerDid` you pass, fills `proof`, and (with `revocationRegistryUrl`) fills `credentialStatus`. **OpenCred's request schema has no field for `issuer.name` or `issuer.licenseNumber`** — both are DEG-required, so your integration service must post-process the returned credential and replace the issuer block with the full DEG-conformant object:
+
+```python
+vc = response["credential"]
+vc["issuer"] = {
+    "id": ISSUER_DID,
+    "name": ISSUER_NAME,
+    "licenseNumber": LICENSE_NUMBER,
+}
+# Also rewrite credentialStatus.type from "dedi" to "dediregistry" — see concepts.md
+if "credentialStatus" in vc:
+    vc["credentialStatus"]["type"] = "dediregistry"
+```
+
+Wrap this in a thin DISCOM-side helper so every issued credential lands in DEG-conformant shape before delivery. (Note: post-processing the credential body invalidates the original `proof`. If you need a single signed-and-DEG-conformant artifact, re-sign the modified credential — typically by calling OpenCred again with the patched fields, or by signing it in your own service.)
 
 ---
 
@@ -418,6 +432,9 @@ The consumer's wallet decides which claims to reveal at presentation time.
 | `POST` | `/v1/credentials/issue` | yes | Issue one credential |
 | `POST` | `/v1/credentials/batch` | yes | Start batch issue from CSV |
 | `GET` | `/v1/credentials/batch/:jobId` | yes | Batch progress |
+| `GET` | `/v1/credentials/batch/:jobId/results` | yes | Fetch batch results (errors `409 JOB_RUNNING` while in-flight) |
+| `POST` | `/v1/credentials/package` | yes | Re-package an existing credential into QR/PDF/JSON |
+| `POST` | `/v1/schemas/generate` | yes | Generate a JSON Schema from a set of example fields |
 | `POST` | `/v1/credentials/verify` | yes | Verify a credential (see [Verification](./verification.md)) |
 | `POST` | `/v1/credentials/revocation-hash` | yes | Compute revocation hash |
 | `POST` | `/v1/credentials/revocation-hash/batch` | yes | Batch hashes |
