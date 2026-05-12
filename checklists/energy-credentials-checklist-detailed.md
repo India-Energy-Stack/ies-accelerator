@@ -151,10 +151,10 @@ The OpenCred image ships `electricity/v1` as a built-in `schemaId`. It implement
 
 The schema requires `issuer.id`, `issuer.name`, and an optional `issuer.idRef`. OpenCred only accepts the DID string as `issuerDid` — your integration service must replace the returned `issuer` field with the full object before delivery. The `idRef` points at your DISCOM's entry in the **IES DISCOMs Reference Registry**, which is the trust anchor verifiers consult.
 
-- [ ] **2.2.a** DISCOM registered in the IES DISCOMs Reference Registry (`https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>`) with the issuer DID and published public key
+- [ ] **2.2.a** DISCOM registered in the IES DISCOMs Reference Registry at relative path `india-energy-stack/ies-discoms-reference-registry/<discom-id>` (full base URL declared in [`energy-credentials/schemas.md`](../energy-credentials/schemas.md#ies-discoms-reference-registry)) with the issuer DID and published public key
 - [ ] **2.2.b** `issuer.name` configured — legal name of the utility
-- [ ] **2.2.c** `issuer.idRef.issuedBy` set to `did:web:indiaenergystack.in`
-- [ ] **2.2.d** `issuer.idRef.subjectId` set to `indiaenergystack.in:<discom-short-code>` (e.g. `indiaenergystack.in:tpddl`)
+- [ ] **2.2.c** `issuer.idRef.issuedBy` set to `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`
+- [ ] **2.2.d** `issuer.idRef.subjectId` set to `india-energy-stack:<discom-short-code>` (e.g. `india-energy-stack:tpddl`)
 - [ ] **2.2.e** Post-process step in integration service rewrites the `issuer` field after each `POST /v1/credentials/issue`. Note: this invalidates the original `proof` — either re-sign in your service, or send the patched fields back through OpenCred for re-signing.
 
 ### 2.3 Customer external ID

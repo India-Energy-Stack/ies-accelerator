@@ -188,8 +188,8 @@ vc_json["issuer"] = {
     "id":   ISSUER_DID,
     "name": ISSUER_NAME,
     "idRef": {
-        "issuedBy":  IES_REGISTRY_DID,         # did:web:indiaenergystack.in
-        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. indiaenergystack.in:tpddl
+        "issuedBy":  IES_REGISTRY_DID,         # namespace DID of india-energy-stack on dedi.global
+        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:tpddl
     },
 }
 

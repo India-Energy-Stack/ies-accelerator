@@ -30,8 +30,8 @@ A minimum IES electricity credential (`type: "CustomerCredential"`) looks like t
     "id": "did:web:ies.tpddl.in",
     "name": "Tata Power Delhi Distribution Limited",
     "idRef": {
-      "issuedBy": "did:web:indiaenergystack.in",
-      "subjectId": "indiaenergystack.in:tpddl"
+      "issuedBy": "did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma",
+      "subjectId": "india-energy-stack:tpddl"
     }
   },
   "validFrom":  "2026-05-01T00:00:00+05:30",
@@ -145,12 +145,21 @@ A cryptographically valid signature is not enough on its own — it proves the c
 
 ### The registry
 
+The registry is hosted on [`dedi.global`](https://dedi.global). Its full base URL is:
+
+```
+https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/
+```
+
+Throughout these docs we refer to a DISCOM's entry by its **relative path** `india-energy-stack/ies-discoms-reference-registry/<discom-id>`; prepend the base URL above to resolve.
+
 | Property | Value |
 |---|---|
-| Host | `dedi.indiaenergystack.in` |
-| Namespace | `india-energy-stack` |
+| Host | `api.dedi.global` |
+| Namespace (friendly) | `india-energy-stack` |
+| Namespace DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
 | Registry | `ies-discoms-reference-registry` |
-| Lookup pattern | `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+| Relative path | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
 
 Each registry entry holds, at a minimum: the DISCOM's issuer DID, its legal name, and its **published public key(s)**. Registry entries are managed by the IES network operator; DISCOMs cannot self-publish.
 
@@ -158,8 +167,8 @@ Each registry entry holds, at a minimum: the DISCOM's issuer DID, its legal name
 
 When a verifier checks a credential issued on the IES network:
 
-1. Parse the credential and read `issuer.idRef.subjectId` (e.g. `indiaenergystack.in:tpddl`)
-2. Resolve the registry entry at `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/tpddl`
+1. Parse the credential and read `issuer.idRef.subjectId` (e.g. `india-energy-stack:tpddl`)
+2. Resolve the registry entry at `india-energy-stack/ies-discoms-reference-registry/tpddl` (i.e. the full URL formed by prepending the base above)
 3. Confirm `issuer.id` in the credential matches the DID recorded in the registry entry
 4. Read the public key from the registry entry
 5. Verify the credential's `proof` against that public key

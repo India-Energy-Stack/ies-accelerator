@@ -30,24 +30,31 @@ You will issue your first credential in [Issuing Credentials](./issuance.md).
 
 Credentials issued on the IES network are trusted only if the issuing DISCOM is listed in the **IES DISCOMs Reference Registry**. The registry holds, per DISCOM, the issuer DID and the published public key(s) verifiers use to check signatures.
 
+The registry lives on [`dedi.global`](https://dedi.global) under the `india-energy-stack` namespace. Full base URL:
+
+```
+https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/
+```
+
 | Property | Value |
 |---|---|
-| Registry host | `dedi.indiaenergystack.in` |
-| Namespace | `india-energy-stack` |
+| Host | `api.dedi.global` |
+| Namespace (friendly) | `india-energy-stack` |
+| Namespace DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
 | Registry | `ies-discoms-reference-registry` |
-| Lookup URL pattern | `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+| Relative path to your entry | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
 
 Steps:
 
 1. Contact the IES network operator and request a registry entry. Provide your DISCOM's legal name, short code (`tpddl`, `bescom`, etc.), and the issuer DID you will use (`did:web:<your-domain>` for production, or a `did:key` for early evaluation).
 2. Publish your public key under that DID. For `did:web`, host the DID document at `https://<your-domain>/.well-known/did.json` (see Step 3 below). The registry will reference this DID.
-3. Confirm the registry entry resolves:
+3. Confirm the registry entry resolves — combine the base URL above with the relative path:
    ```bash
-   curl https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<your-discom-id>
+   curl https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/ies-discoms-reference-registry/<your-discom-id>
    ```
 4. Note these values — they go into every credential's `issuer.idRef`:
-   - `issuedBy: did:web:indiaenergystack.in`
-   - `subjectId: indiaenergystack.in:<your-discom-id>`
+   - `issuedBy: did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`
+   - `subjectId: india-energy-stack:<your-discom-id>`
 
 You can do Steps 1–8 below (deploy OpenCred, issue test credentials locally) without a registry entry — the registry only gates whether *third-party verifiers on the IES network* will trust your credentials. For local dev and internal testing it can be deferred.
 

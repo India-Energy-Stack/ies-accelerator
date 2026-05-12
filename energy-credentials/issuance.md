@@ -137,8 +137,8 @@ vc["issuer"] = {
     "id":   ISSUER_DID,
     "name": ISSUER_NAME,
     "idRef": {
-        "issuedBy":  IES_REGISTRY_DID,         # did:web:indiaenergystack.in
-        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. indiaenergystack.in:tpddl
+        "issuedBy":  IES_REGISTRY_DID,         # namespace DID of india-energy-stack
+        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:tpddl
     },
 }
 ```
@@ -232,9 +232,11 @@ OPENCRED_URL = "http://opencred:3100"
 OPENCRED_API_KEY = os.environ["OPENCRED_API_KEY"]
 ISSUER_DID = "did:web:ies.tpddl.in"
 ISSUER_NAME = "Tata Power Delhi Distribution Limited"
-# DISCOM's entry in the IES DISCOMs Reference Registry — the trust anchor verifiers use
-IES_REGISTRY_DID = "did:web:indiaenergystack.in"
-IES_REGISTRY_SUBJECT_ID = "indiaenergystack.in:tpddl"
+# DISCOM's entry in the IES DISCOMs Reference Registry — the trust anchor verifiers use.
+# Relative path: india-energy-stack/ies-discoms-reference-registry/tpddl
+# Full base URL declared in energy-credentials/schemas.md § IES DISCOMs Reference Registry.
+IES_REGISTRY_DID = "did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma"
+IES_REGISTRY_SUBJECT_ID = "india-energy-stack:tpddl"
 DEDI_REVOCATION_URL = "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
 
 IST = timezone(timedelta(hours=5, minutes=30))

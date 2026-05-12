@@ -155,20 +155,31 @@ A reusable identity-reference pattern used in two places:
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `issuedBy` | URI (DID) | ✓ | DID of the issuing authority |
-| `subjectId` | string | ✓ | `authority-domain:id-value`, e.g. `indiaenergystack.in:tpddl` |
+| `subjectId` | string | ✓ | `authority-domain:id-value`, e.g. `india-energy-stack:tpddl` |
 
 ### IES DISCOMs Reference Registry
 
 A DISCOM acting as an issuer must be registered in the **IES DISCOMs Reference Registry**. The registry is the canonical source of truth for **which DISCOMs are trusted issuers and what public key each has published**. Verifiers consult it during signature verification — without a registry entry, a credential cannot be trusted, even if the cryptographic signature itself is valid.
 
+The registry lives on [`dedi.global`](https://dedi.global) under the IES namespace. Its full base URL is:
+
+```
+https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/
+```
+
+That long path segment is the URL-encoded form of the namespace DID `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` — the cryptographic identifier of the `india-energy-stack` namespace on DeDi. Throughout the rest of these docs we refer to entries by the **relative path** below; prepend the base URL above to resolve.
+
 | Property | Value |
 |---|---|
-| Registry host | `dedi.indiaenergystack.in` |
-| Namespace | `india-energy-stack` |
+| Host | `api.dedi.global` |
+| Namespace (friendly) | `india-energy-stack` |
+| Namespace DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
 | Registry name | `ies-discoms-reference-registry` |
-| Lookup URL pattern | `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
-| Issuer (`issuedBy`) DID | `did:web:indiaenergystack.in` |
-| `subjectId` format | `indiaenergystack.in:<discom-short-code>` (e.g. `indiaenergystack.in:tpddl`, `indiaenergystack.in:bescom`) |
+| Relative path to a DISCOM entry | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+| Issuer (`issuedBy`) DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
+| `subjectId` format | `india-energy-stack:<discom-short-code>` (e.g. `india-energy-stack:tpddl`, `india-energy-stack:bescom`) |
+
+> A sibling registry — `ies-regulators-reference-registry` — lives in the same namespace and holds regulator entries (DERCs, KERCs, etc.). It is not consulted for `issuer.idRef` on electricity credentials, but it is the lookup destination if your application needs to verify a regulator separately.
 
 Setting `issuer.idRef` to point at this registry is what makes a credential **verifiable on the IES network**. Verifiers do not need to know your DISCOM out-of-band — they resolve the registry entry and obtain both the trust assertion and the public key in one lookup.
 
@@ -197,8 +208,8 @@ Customer example (masked Aadhaar reference):
     "id": "did:web:ies.tpddl.in",
     "name": "Tata Power Delhi Distribution Limited",
     "idRef": {
-      "issuedBy": "did:web:indiaenergystack.in",
-      "subjectId": "indiaenergystack.in:tpddl"
+      "issuedBy": "did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma",
+      "subjectId": "india-energy-stack:tpddl"
     }
   },
   "validFrom": "2026-05-01T00:00:00+05:30",
