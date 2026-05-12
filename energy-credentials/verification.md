@@ -20,7 +20,7 @@ A successful verification confirms all of these:
 | `keyResolution` | The issuer DID resolves successfully (for `did:web`, the well-known JSON exists) |
 | `x5c` (if present) | The DSC certificate chain validates against a CSCA trust store |
 | `revocation` | The credential's hash is **not** present in the DeDi revocation registry |
-| `schema` | The credential body conforms to its DEG schema |
+| `schema` | The credential body conforms to its `CustomerCredential` schema |
 | `context` | All JSON-LD `@context` URLs are known and resolvable |
 
 The overall result is a single boolean plus an enum:
@@ -117,7 +117,7 @@ assert v["valid"], v
 
 This catches:
 
-- Schema drift between your `inlineContext` and the DEG canonical context
+- Schema drift between your `inlineContext` and the canonical `ElectricityCredential` context
 - Stale or unpublished `did:web` documents (you bumped the key but forgot to upload)
 - DeDi misconfiguration (verifier can't reach the registry)
 - Expired `validUntil` (clock skew on the issuing host)
@@ -140,7 +140,7 @@ Bake this into your integration tests.
 
 ## DigiLocker-Delivered Credentials
 
-When a consumer shares an NYCER / DEG credential through DigiLocker's OAuth flow, DigiLocker returns an XML envelope. Decode `<VcContent>` (base64) into a JSON object and pass it to OpenCred:
+When a consumer shares an electricity credential through DigiLocker's OAuth flow, DigiLocker returns an XML envelope. Decode `<VcContent>` (base64) into a JSON object and pass it to OpenCred:
 
 ```python
 import base64, json, requests, xml.etree.ElementTree as ET
