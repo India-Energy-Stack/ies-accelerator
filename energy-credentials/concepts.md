@@ -30,8 +30,8 @@ A minimum IES electricity credential (`type: "CustomerCredential"`) looks like t
     "id": "did:web:ies.tpddl.in",
     "name": "Tata Power Delhi Distribution Limited",
     "idRef": {
-      "issuedBy": "did:web:derc.delhi.gov.in",
-      "subjectId": "derc.delhi.gov.in:DERC-DL-2025-0042"
+      "issuedBy": "did:web:indiaenergystack.in",
+      "subjectId": "indiaenergystack.in:tpddl"
     }
   },
   "validFrom":  "2026-05-01T00:00:00+05:30",
@@ -76,7 +76,7 @@ A minimum IES electricity credential (`type: "CustomerCredential"`) looks like t
 | `@context` | Defines the JSON-LD vocabulary. Must contain `https://www.w3.org/ns/credentials/v2`. |
 | `id` | A globally unique URN UUID for this specific credential |
 | `type` | Always `"VerifiableCredential"` + `"CustomerCredential"` |
-| `issuer` | DID, legal name, and an optional `idRef` pointing at the utility's regulatory registration |
+| `issuer` | DID, legal name, and `idRef` pointing at the DISCOM's entry in the **IES DISCOMs Reference Registry** (see [Trust and the IES Reference Registry](#trust-and-the-ies-reference-registry)) |
 | `validFrom` / `validUntil` | ISO 8601 timestamps with timezone offset |
 | `credentialSubject` | The actual facts you are attesting — see [Schemas](./schemas.md) for the sub-profile structure |
 | `credentialStatus` | DeDi revocation pointer (see below) |
@@ -137,11 +137,50 @@ When OpenCred boots, it loads exactly one **signing key** from one of these sour
 
 **The key never leaves the container.** OpenCred signs in-process; in KMS modes the private key never leaves the HSM at all. There is no shared signing service and no key escrow.
 
-Trust flows from the verifier's root store to your credential signature:
+---
 
-- For `did:web`: verifier resolves your DID document over HTTPS → reads the public key → checks the credential's `proof.proofValue` → trust anchors in the TLS certificate of your domain.
-- For `did:key` from a self-generated PEM: verifier extracts the public key directly from the DID string — no external lookup needed.
-- For `did:key` from a DSC: verifier extracts the public key from the DID → optionally validates the x5c certificate chain back to a configured CSCA root.
+## Trust and the IES Reference Registry
+
+A cryptographically valid signature is not enough on its own — it proves the credential was signed by *whoever holds that DID's private key*, but a verifier still needs to answer: **"is that DID a trusted DISCOM?"** On the IES network, the answer comes from the **IES DISCOMs Reference Registry**.
+
+### The registry
+
+| Property | Value |
+|---|---|
+| Host | `dedi.indiaenergystack.in` |
+| Namespace | `india-energy-stack` |
+| Registry | `ies-discoms-reference-registry` |
+| Lookup pattern | `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+
+Each registry entry holds, at a minimum: the DISCOM's issuer DID, its legal name, and its **published public key(s)**. Registry entries are managed by the IES network operator; DISCOMs cannot self-publish.
+
+### The trust flow
+
+When a verifier checks a credential issued on the IES network:
+
+1. Parse the credential and read `issuer.idRef.subjectId` (e.g. `indiaenergystack.in:tpddl`)
+2. Resolve the registry entry at `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/tpddl`
+3. Confirm `issuer.id` in the credential matches the DID recorded in the registry entry
+4. Read the public key from the registry entry
+5. Verify the credential's `proof` against that public key
+
+If any of steps 2–4 fails, the credential is **not trusted**, even if step 5 would have succeeded. This is what makes the registry the trust anchor: a forged credential signed with an unregistered key has no path to acceptance.
+
+### Why this is better than relying on `did:web` alone
+
+A pure `did:web` model anchors trust in the issuer's own TLS certificate. That works for organisations a verifier already knows out-of-band, but it does not answer "is this DISCOM real?" — anyone can stand up `did:web:not-a-real-discom.example` and self-attest.
+
+The IES Reference Registry is the network's curated list of who counts as a DISCOM. A DISCOM still publishes its public key via `did:web` (so key rotation remains simple and self-service), but **registration in the IES registry is the act that makes that key trustworthy on this network**.
+
+### Other DID methods still work for signing
+
+The registry is the trust authority, but the underlying signing key can come from any of OpenCred's supported sources:
+
+- **`did:web`** is the most common production setup — the registry entry references your `did:web:<your-domain>` and the public key resolves from your `.well-known/did.json`.
+- **`did:key` from a self-generated PEM** — useful for dev and for early-stage DISCOMs. The registry entry references the `did:key:...` directly.
+- **`did:key` from a DSC** — for DISCOMs anchoring trust additionally in the CSCA chain (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)). The registry entry can carry the certificate's `x5c` chain alongside the bare public key.
+
+In every case, the verifier reaches the public key via the registry entry, not by trusting the DISCOM's domain or certificate authority on its own.
 
 ---
 

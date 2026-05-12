@@ -22,6 +22,34 @@ You will issue your first credential in [Issuing Credentials](./issuance.md).
   - An AWS / Azure / GCP KMS key with appropriate IAM access
 - (Optional, for revocation) A DeDi namespace from [dedi.global](https://dedi.global) and either an API key or bearer credentials
 - A secrets manager (Vault, AWS Secrets Manager, Azure Key Vault) for `OPENCRED_API_KEY` and DeDi credentials
+- A DISCOM short code and a registration in the **IES DISCOMs Reference Registry** (see Step 0 below) — required for credentials to be trusted on the IES network
+
+---
+
+## Step 0 — Register in the IES DISCOMs Reference Registry
+
+Credentials issued on the IES network are trusted only if the issuing DISCOM is listed in the **IES DISCOMs Reference Registry**. The registry holds, per DISCOM, the issuer DID and the published public key(s) verifiers use to check signatures.
+
+| Property | Value |
+|---|---|
+| Registry host | `dedi.indiaenergystack.in` |
+| Namespace | `india-energy-stack` |
+| Registry | `ies-discoms-reference-registry` |
+| Lookup URL pattern | `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+
+Steps:
+
+1. Contact the IES network operator and request a registry entry. Provide your DISCOM's legal name, short code (`tpddl`, `bescom`, etc.), and the issuer DID you will use (`did:web:<your-domain>` for production, or a `did:key` for early evaluation).
+2. Publish your public key under that DID. For `did:web`, host the DID document at `https://<your-domain>/.well-known/did.json` (see Step 3 below). The registry will reference this DID.
+3. Confirm the registry entry resolves:
+   ```bash
+   curl https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<your-discom-id>
+   ```
+4. Note these values — they go into every credential's `issuer.idRef`:
+   - `issuedBy: did:web:indiaenergystack.in`
+   - `subjectId: indiaenergystack.in:<your-discom-id>`
+
+You can do Steps 1–8 below (deploy OpenCred, issue test credentials locally) without a registry entry — the registry only gates whether *third-party verifiers on the IES network* will trust your credentials. For local dev and internal testing it can be deferred.
 
 ---
 

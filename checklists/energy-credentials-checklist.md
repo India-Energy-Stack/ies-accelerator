@@ -31,9 +31,10 @@
   - `consumptionProfiles[]`: `premisesType`, `connectionType`, `sanctionedLoadKW`, `tariffCategoryCode`
   - `generationProfiles[]`: `generationType`, `capacityKW`, `commissioningDate`, optional `assetId` / `manufacturer` / `modelNumber`
   - `storageProfiles[]`: `storageCapacityKWh`, `powerRatingKW`, `commissioningDate`, optional `storageType` / `assetId`
-- [ ] **2.c** Issuer object enrichment configured in integration service — `issuer.name` and `issuer.idRef` (regulatory registration) injected on egress, since OpenCred only emits the DID string
-- [ ] **2.d** Customer external ID strategy decided — `customerProfile.idRef` uses `issuedBy` (DID of authority, e.g. `did:web:uidai.gov.in`) + masked `subjectId`. Full Aadhaar / ID number is **never** in the payload.
-- [ ] **2.e** Proof format chosen: ☐ `vc-jwt` (recommended for built-in `electricity/v1`) &nbsp; ☐ `data-integrity` (only with a custom-registered clean-context schema) &nbsp; ☐ `sd-jwt-vc` (selective disclosure)
+- [ ] **2.c** DISCOM registered in the **IES DISCOMs Reference Registry** (`https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>`); issuer DID and public key published in the registry entry — this is the trust anchor verifiers use
+- [ ] **2.d** Issuer object enrichment configured in integration service — `issuer.name` and `issuer.idRef` (pointing at the IES registry entry: `issuedBy: did:web:indiaenergystack.in`, `subjectId: indiaenergystack.in:<discom-short-code>`) injected on egress, since OpenCred only emits the DID string
+- [ ] **2.e** Customer external ID strategy decided — `customerProfile.idRef` uses `issuedBy` (DID of authority, e.g. `did:web:uidai.gov.in`) + masked `subjectId`. Full Aadhaar / ID number is **never** in the payload.
+- [ ] **2.f** Proof format chosen: ☐ `vc-jwt` (recommended for built-in `electricity/v1`) &nbsp; ☐ `data-integrity` (only with a custom-registered clean-context schema) &nbsp; ☐ `sd-jwt-vc` (selective disclosure)
 
 ### 3. Credential Issuance
 

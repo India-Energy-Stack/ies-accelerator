@@ -149,13 +149,28 @@ Array with `minItems: 1` when present. One entry per battery.
 
 A reusable identity-reference pattern used in two places:
 
-- **`issuer.idRef`** — the utility's regulatory registration (e.g. SERC licence)
+- **`issuer.idRef`** — the DISCOM's entry in the **IES DISCOMs Reference Registry**. This is the trust anchor verifiers use to look up the issuer's published public key and confirm the DISCOM is a registered IES participant.
 - **`customerProfile.idRef`** — the customer's external identity (e.g. Aadhaar / government ID), used **instead of** carrying the raw ID
 
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `issuedBy` | URI (DID) | ✓ | DID of the issuing authority |
-| `subjectId` | string | ✓ | `authority-domain:id-value`, e.g. `kerc.karnataka.gov.in:AABPC12345` |
+| `subjectId` | string | ✓ | `authority-domain:id-value`, e.g. `indiaenergystack.in:tpddl` |
+
+### IES DISCOMs Reference Registry
+
+A DISCOM acting as an issuer must be registered in the **IES DISCOMs Reference Registry**. The registry is the canonical source of truth for **which DISCOMs are trusted issuers and what public key each has published**. Verifiers consult it during signature verification — without a registry entry, a credential cannot be trusted, even if the cryptographic signature itself is valid.
+
+| Property | Value |
+|---|---|
+| Registry host | `dedi.indiaenergystack.in` |
+| Namespace | `india-energy-stack` |
+| Registry name | `ies-discoms-reference-registry` |
+| Lookup URL pattern | `https://dedi.indiaenergystack.in/dedi/lookup/india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
+| Issuer (`issuedBy`) DID | `did:web:indiaenergystack.in` |
+| `subjectId` format | `indiaenergystack.in:<discom-short-code>` (e.g. `indiaenergystack.in:tpddl`, `indiaenergystack.in:bescom`) |
+
+Setting `issuer.idRef` to point at this registry is what makes a credential **verifiable on the IES network**. Verifiers do not need to know your DISCOM out-of-band — they resolve the registry entry and obtain both the trust assertion and the public key in one lookup.
 
 Customer example (masked Aadhaar reference):
 
@@ -182,8 +197,8 @@ Customer example (masked Aadhaar reference):
     "id": "did:web:ies.tpddl.in",
     "name": "Tata Power Delhi Distribution Limited",
     "idRef": {
-      "issuedBy": "did:web:derc.delhi.gov.in",
-      "subjectId": "derc.delhi.gov.in:DERC-DL-2025-0042"
+      "issuedBy": "did:web:indiaenergystack.in",
+      "subjectId": "indiaenergystack.in:tpddl"
     }
   },
   "validFrom": "2026-05-01T00:00:00+05:30",

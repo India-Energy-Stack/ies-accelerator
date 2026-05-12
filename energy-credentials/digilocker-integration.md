@@ -188,8 +188,8 @@ vc_json["issuer"] = {
     "id":   ISSUER_DID,
     "name": ISSUER_NAME,
     "idRef": {
-        "issuedBy":  REGULATOR_DID,         # e.g. did:web:derc.delhi.gov.in
-        "subjectId": REGULATOR_SUBJECT_ID,  # e.g. derc.delhi.gov.in:DERC-DL-2025-0042
+        "issuedBy":  IES_REGISTRY_DID,         # did:web:indiaenergystack.in
+        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. indiaenergystack.in:tpddl
     },
 }
 
