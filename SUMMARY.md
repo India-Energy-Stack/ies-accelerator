@@ -28,9 +28,9 @@
 
 * [Overview](data-exchange/README.md)
 * [Core Concepts](data-exchange/concepts.md)
-* [Onboarding Guide](data-exchange/onboarding.md)
 * [Architecture](data-exchange/architecture.md)
 * [Quick Start](data-exchange/quick-start.md)
+* [Registry Setup](data-exchange/registry-setup.md)
 * [Use Cases](data-exchange/use-cases/README.md)
   * [Meter Telemetry](data-exchange/use-cases/meter-telemetry/README.md)
     * [Survey of Existing Terminology](data-exchange/use-cases/meter-telemetry/survey-of-existing-terminology.md)
