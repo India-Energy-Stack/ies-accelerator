@@ -1,8 +1,8 @@
 # Use Case 3 — Tariff Policies
 
-> **Status: planned.** The schema and scenario below describe the target shape. There is no implementation in the devkit yet — no `uc3-*` directory, no example payloads, no Postman collection. The page is retained for design alignment; expect changes when the devkit ships UC3.
+**A State Electricity Regulatory Commission (SERC) publishes machine-readable retail tariff policies to a distribution licensee (DISCOM).**
 
-**A State Electricity Regulatory Commission (SERC) publishes machine-readable tariff rate structures to DISCOMs.**
+Shipped in the devkit at [`uc3-tariff-policy/`](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy).
 
 ---
 
@@ -10,7 +10,7 @@
 
 After a tariff order is issued, DISCOMs must implement the new rate structures in their billing systems. Today this means manually interpreting a PDF tariff order and re-keying energy slabs, time-of-day surcharges, and category definitions — a process prone to interpretation drift and errors.
 
-With IES Data Exchange, the SERC publishes a machine-readable `IES_Policy` + `IES_Program` dataset alongside the tariff order. DISCOMs consume it directly into their billing systems — no re-keying, no ambiguity.
+With IES Data Exchange, the SERC publishes a machine-readable `IES_Policy` artefact alongside the regulatory order. DISCOMs consume it directly into their billing systems — no re-keying, no ambiguity. The transfer is free under public-disclosure norms (settlement value `0` in the example payloads).
 
 ---
 
@@ -18,158 +18,82 @@ With IES Data Exchange, the SERC publishes a machine-readable `IES_Policy` + `IE
 
 | Role | Organisation | What they do |
 |---|---|---|
-| BAP (consumer) | MeraShehar DISCOM | Requests the tariff rate structure |
-| BPP (provider) | KERC / SERC | Publishes machine-readable tariff policies and programs |
+| BAP (consumer) | MeraShehar DISCOM | Subscribes to the tariff policy feed |
+| BPP (provider) | MERC — Maharashtra Electricity Regulatory Commission | Publishes the machine-readable `IES_Policy` |
 
 ---
 
-## Dataset — IES_Policy + IES_Program
+## Dataset — `IES_Policy`
 
-Two schemas combine to represent a complete tariff structure:
+A single `IES_Policy` object captures the tariff. The schema (canonical: [`beckn/DEG ies-specs core/attributes.yaml`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/attributes.yaml)) carries:
 
-- **`IES_Program`** — defines the tariff programs (consumer categories: residential, commercial, agricultural, industrial)
-- **`IES_Policy`** — defines the rate rules for each program (energy slabs, fixed charges, time-of-day surcharges)
+- **Identity** — `id`, `policyID` (e.g. `MUM-RES-T1`), `policyName`, `policyType` (`TARIFF` or `DISPATCH_GUIDE`), `programID` linking it to an [`IES_Program`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/attributes.yaml).
+- **Validity** — `samplingInterval` as an ISO 8601 recurrence pattern (`R/2024-04-10T00:00:00Z/P1M`).
+- **`energySlabs[]`** — progressive consumption tiers, each `{ id, start (kWh, inclusive), end (kWh, exclusive or null for open-ended), price }`.
+- **`surchargeTariffs[]`** — time-of-day adjustments, each `{ id, recurrence (ISO duration, e.g. `P1D`), interval (Time-of-Day start + ISO duration), value, unit (`PERCENT` or `INR_PER_KWH`) }`.
 
-The combined payload is called `IES_TariffIntelligence` in the mock BPP.
-
-### Structure
+### Example — Mumbai Residential Telescopic Tariff
 
 ```json
 {
-  "programs": [
+  "@context": "https://raw.githubusercontent.com/beckn/DEG/ies-specs/specification/external/schema/ies/core/context.jsonld",
+  "@type": "IES_Policy",
+  "id": "policy-mumbai-res-001",
+  "objectType": "POLICY",
+  "policyID": "MUM-RES-T1",
+  "policyName": "Mumbai Residential Telescopic 2024",
+  "policyType": "TARIFF",
+  "programID": "program-merashehar-001",
+  "samplingInterval": "R/2024-04-10T00:00:00Z/P1M",
+  "energySlabs": [
+    { "id": "slab-0-100",     "@type": "EnergySlab", "start": 0,   "end": 100,  "price": 4.5 },
+    { "id": "slab-101-300",   "@type": "EnergySlab", "start": 101, "end": 300,  "price": 7.2 },
+    { "id": "slab-301-plus",  "@type": "EnergySlab", "start": 301, "end": null, "price": 9.8 }
+  ],
+  "surchargeTariffs": [
     {
-      "id": "residential-2026-27",
-      "name": "Residential LT-2 Tariff 2026-27",
-      "regulatoryOrder": "KERC/T/2026/001",
-      "effectiveFrom": "2026-04-01",
-      "effectiveTo": "2027-03-31",
-      "consumerCategory": "residential",
-      "currency": "INR"
+      "id": "surcharge-evening-peak",
+      "@type": "SurchargeTariff",
+      "recurrence": "P1D",
+      "interval": { "start": "T18:00:00Z", "duration": "PT4H" },
+      "value": 20,
+      "unit": "PERCENT"
     },
     {
-      "id": "commercial-2026-27",
-      "name": "Commercial LT-5 Tariff 2026-27",
-      "regulatoryOrder": "KERC/T/2026/001",
-      "effectiveFrom": "2026-04-01",
-      "consumerCategory": "commercial",
-      "currency": "INR"
-    }
-  ],
-  "policies": [
-    {
-      "id": "residential-2026-27-policy",
-      "programId": "residential-2026-27",
-      "fixedChargePerMonth": 35.00,
-      "energySlabs": [
-        {
-          "slabNumber": 1,
-          "fromKWh": 0,
-          "toKWh": 100,
-          "ratePerKWh": 3.50,
-          "description": "First 100 units"
-        },
-        {
-          "slabNumber": 2,
-          "fromKWh": 101,
-          "toKWh": 200,
-          "ratePerKWh": 5.75,
-          "description": "101–200 units"
-        },
-        {
-          "slabNumber": 3,
-          "fromKWh": 201,
-          "toKWh": null,
-          "ratePerKWh": 7.20,
-          "description": "Above 200 units"
-        }
-      ],
-      "surchargeTariffs": [
-        {
-          "type": "time_of_day",
-          "period": "peak",
-          "timeRange": "18:00–22:00",
-          "surchargePercent": 20,
-          "applicableDays": ["weekdays"]
-        },
-        {
-          "type": "time_of_day",
-          "period": "off_peak",
-          "timeRange": "22:00–06:00",
-          "surchargePercent": -10,
-          "applicableDays": ["all"]
-        }
-      ]
+      "id": "discount-night-offpeak",
+      "@type": "SurchargeTariff",
+      "recurrence": "P1D",
+      "interval": { "start": "T23:00:00Z", "duration": "PT6H" },
+      "value": -10,
+      "unit": "PERCENT"
     }
   ]
 }
 ```
 
-| Field | Description |
-|---|---|
-| `programs[]` | One per consumer category. References the regulatory order. |
-| `policies[].energySlabs[]` | Progressive rate bands — `toKWh: null` means open-ended (above last threshold) |
-| `policies[].surchargeTariffs[]` | Time-of-day pricing adjustments — percent on top of base slab rate |
-| `fixedChargePerMonth` | Monthly fixed/demand charge regardless of consumption |
+Source: [India-Energy-Stack/ies-docs `tariff_specification_example.jsonld`](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/examples/tariff_specification_example.jsonld). The `@type: "IES_Policy"` matters — ONIX's Extended Schema validator dispatches by `@type` against the schema name in `attributes.yaml`.
 
 ---
 
 ## Transaction Flow
 
-### 1. Select
-
-The DISCOM (BAP) requests the tariff policy for its state:
+UC3 exercises **`confirm` → `on_confirm` → `status` → `on_status`**. The tariff is delivered inside `message.contract.commitments[].resources[].resourceAttributes` at contract time and inside `message.contract.performance[].performanceAttributes.dataPayload` on the final `on_status` callback:
 
 ```json
-{
-  "context": {
-    "action": "select",
-    "domain": "deg:data-exchange",
-    "bap_id": "merashehar.discom.ies.in",
-    "bpp_id": "kerc.regulator.karnataka.ies.in",
-    "transaction_id": "txn-tariff-2026-27-001"
-  },
-  "message": {
-    "order": {
-      "items": [
-        {
-          "id": "kerc-tariff-order-2026-27",
-          "descriptor": { "code": "IES_Policy" }
-        }
-      ],
-      "fulfillments": [
-        {
-          "tags": [
-            { "code": "fiscal_year", "value": "2026-27" },
-            { "code": "regulatory_order", "value": "KERC/T/2026/001" }
-          ]
-        }
-      ]
-    }
+"performance": [{
+  "id": "perf-tariff-policy-delivery-001",
+  "status": { "code": "DELIVERY_COMPLETE" },
+  "commitmentIds": ["commitment-tariff-policy-001"],
+  "performanceAttributes": {
+    "@context": "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld",
+    "@type": "DatasetItem",
+    "dataset:accessMethod": "INLINE",
+    "dataPayload": { /* IES_Policy — see above */ }
   }
-}
+}]
 ```
 
-### 4. Status — Inline Delivery
-
-```json
-{
-  "message": {
-    "order": {
-      "status": "DELIVERY_COMPLETE",
-      "items": [
-        {
-          "id": "kerc-tariff-order-2026-27",
-          "accessMethod": "INLINE",
-          "dataPayload": {
-            "programs": [ /* ... */ ],
-            "policies": [ /* ... */ ]
-          }
-        }
-      ]
-    }
-  }
-}
-```
+Full request/response examples (publish-catalog, discover, confirm, on-confirm, status, on-status × 3) live in [uc3-tariff-policy/examples/](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy/examples).
 
 ---
 
@@ -177,9 +101,9 @@ The DISCOM (BAP) requests the tariff policy for its state:
 
 | Current State | With IES Tariff Policies |
 |---|---|
-| Tariff orders published as PDFs | Machine-readable JSON alongside PDF |
+| Tariff orders published as PDFs | Machine-readable JSON-LD alongside the PDF order |
 | Each DISCOM interprets slabs independently | Single authoritative structured definition |
-| Billing system updates take days/weeks | Billing systems can ingest the policy directly |
+| Billing system updates take days/weeks | Billing systems ingest the policy directly via Beckn |
 | TOU surcharges manually configured | Surcharge rules machine-parseable by smart meters / home energy managers |
 | Comparison across SERCs is manual | Structured format enables automated cross-state analysis |
 
@@ -188,29 +112,44 @@ The DISCOM (BAP) requests the tariff policy for its state:
 ## Consuming the Policy in a Billing System
 
 ```python
-import requests
+from datetime import time
 
-# After on_status arrives at your webhook
 def apply_tariff(consumption_kwh: float, hour_of_day: int, policy: dict) -> float:
-    # Find applicable energy slab
-    base_rate = 0
+    """
+    Compute the bill for `consumption_kwh` units consumed at `hour_of_day`,
+    given an IES_Policy dict. Real billing iterates over actual usage
+    intervals; this is the rate-lookup core.
+    """
+    # 1. Find the applicable energy slab. `end` is exclusive; `null` = open-ended.
+    base_rate = 0.0
     for slab in policy["energySlabs"]:
-        if slab["fromKWh"] <= consumption_kwh:
-            if slab["toKWh"] is None or consumption_kwh <= slab["toKWh"]:
-                base_rate = slab["ratePerKWh"]
-                break
-
-    # Apply time-of-day surcharge
-    surcharge_pct = 0
-    for tod in policy["surchargeTariffs"]:
-        start, end = tod["timeRange"].split("–")
-        start_h = int(start.split(":")[0])
-        end_h = int(end.split(":")[0])
-        if start_h <= hour_of_day < end_h:
-            surcharge_pct = tod["surchargePercent"]
+        end = slab.get("end")
+        if slab["start"] <= consumption_kwh and (end is None or consumption_kwh < end):
+            base_rate = slab["price"]
             break
 
-    effective_rate = base_rate * (1 + surcharge_pct / 100)
+    # 2. Apply the first matching time-of-day surcharge.
+    surcharge_value = 0.0
+    surcharge_unit  = "PERCENT"
+    for tod in policy.get("surchargeTariffs", []):
+        start_h = int(tod["interval"]["start"][1:3])     # "T18:00:00Z" -> 18
+        # ISO 8601 duration parsing kept minimal here; production code should use
+        # `isodate.parse_duration`.
+        dur_h = int(tod["interval"]["duration"].split("PT")[1].rstrip("H")) \
+                if tod["interval"]["duration"].endswith("H") else 0
+        end_h = (start_h + dur_h) % 24
+        in_window = (start_h <= hour_of_day < end_h) if start_h < end_h \
+                    else (hour_of_day >= start_h or hour_of_day < end_h)
+        if in_window:
+            surcharge_value = tod["value"]
+            surcharge_unit  = tod.get("unit", "PERCENT")
+            break
+
+    if surcharge_unit == "PERCENT":
+        effective_rate = base_rate * (1 + surcharge_value / 100)
+    else:  # INR_PER_KWH (absolute adder)
+        effective_rate = base_rate + surcharge_value
+
     return consumption_kwh * effective_rate
 ```
 
@@ -218,10 +157,31 @@ def apply_tariff(consumption_kwh: float, hour_of_day: int, policy: dict) -> floa
 
 ## Running This Use Case
 
-Not yet runnable — the devkit does not ship a tariff-policies use case. Track [beckn/DEG](https://github.com/beckn/DEG) for when `uc3-tariff-policies/` (or equivalent) lands.
+```bash
+cd DEG/devkits/data-exchange/install
+docker compose up -d
+```
+
+Then import the BAP collection at `uc3-tariff-policy/postman/data-exchange-uc3-tariff-policy.BAP-DEG.postman_collection.json` into Postman, set `bap_host_root` and `bpp_host_root` to `http://beckn-router:9000`, and fire `confirm`. Inspect callbacks:
+
+```bash
+docker logs sandbox-bap 2>&1 | grep -E 'on_(confirm|status)' | tail -10
+```
+
+To run the workflows in one shot via the Arazzo runner:
+
+```bash
+cd DEG/devkits/data-exchange/uc3-tariff-policy/workflows
+./run-arazzo.sh                                     # publish-catalog + discover
+./run-arazzo.sh -w confirm-through-delivery -v      # end-to-end confirm→on_status
+```
+
+See the [Quick Start](../quick-start.md) for the full step-by-step.
 
 ---
 
 ## Reference
 
-- [IES Core Schemas — `IES_Policy` + `IES_Program`](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core) *(currently on the `ies-specs` branch; will move to India-Energy-Stack — see [Concepts § IES Data Schemas](../concepts.md#ies-data-schemas))*
+- [IES Core Schemas — `IES_Policy`, `IES_Program`, `EnergySlab`, `SurchargeTariff`](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core) *(currently on the `ies-specs` branch; will move to India-Energy-Stack — see [Concepts § IES Data Schemas](../concepts.md#ies-data-schemas))*
+- [IES tariff specification example (ies-docs)](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/examples/tariff_specification_example.jsonld) — source for the example payload above
+- [Example payloads in the devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy/examples)

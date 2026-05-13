@@ -10,9 +10,9 @@ IES Data Exchange targets three dataset types, each corresponding to a distinct 
 | - | ------------------------------------- | ------------------- | ------------------- | ---------------------------- | ------ | ----------------------------------------------------------- |
 | 1 | [Meter Telemetry](meter-telemetry/)   | DISCOM (BESCOM)     | AMISP (IntelliGrid) | `IES_Report`                 | Shipped in devkit | 15-minute AMI meter readings in OpenADR 3.1.0 format        |
 | 2 | [ARR Filings](arr-filings.md)         | SERC (APERC)        | DISCOM (BESCOM)     | `IES_ARR_Filing`             | Shipped in devkit | Aggregate Revenue Requirement — fiscal year cost line items |
-| 3 | [Tariff Policies](tariff-policies.md) | DISCOM (MeraShehar) | SERC (KERC)         | `IES_Policy` + `IES_Program` | **Planned** — not yet in devkit | Machine-readable tariff rate structures and energy slabs    |
+| 3 | [Tariff Policies](tariff-policies.md) | DISCOM (MeraShehar) | SERC (MERC)         | `IES_Policy`                 | Shipped in devkit | Machine-readable tariff rate structures (energy slabs, time-of-day surcharges) |
 
-UC1 and UC2 share the same Docker infrastructure, ONIX adapter configs, and Beckn message envelope. They differ in roles, schemas carried in `dataPayload`, and the resource identifiers in each message.
+All three use cases share the same Docker infrastructure, ONIX adapter configs, and Beckn message envelope. They differ in roles, schemas carried in `dataPayload`, and the resource identifiers in each message.
 
 ***
 
@@ -29,7 +29,7 @@ The Beckn message envelope is identical across use cases. What differs is:
 
 ## Common Transaction Lifecycle
 
-The minimal exchange is `confirm` → `on_confirm` (payload inline). UC1 and UC2 both also exercise `status` → `on_status` for asynchronous payload delivery. The full set of optional actions (`publish-catalog`/`discover`/`select`/`init`/`update`) is described in [Architecture](../architecture.md#generic-beckn-flow).
+The minimal exchange is `confirm` → `on_confirm` (payload inline). All three use cases additionally exercise `status` → `on_status` for asynchronous payload delivery. The full set of optional actions (`publish-catalog`/`discover`/`select`/`init`/`update`) is described in [Architecture](../architecture.md#generic-beckn-flow).
 
 ***
 
@@ -40,4 +40,4 @@ cd DEG/devkits/data-exchange/install
 docker compose up -d
 ```
 
-Then import the use-case BAP Postman collection from `uc{1,2}-*/postman/` and fire `confirm`. See the [Quick Start](../quick-start.md) for the full walkthrough.
+Then import the use-case BAP Postman collection from `uc{1,2,3}-*/postman/` and fire `confirm`. See the [Quick Start](../quick-start.md) for the full walkthrough.

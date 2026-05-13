@@ -103,7 +103,7 @@ The same Postman collection ships requests for the other actions; run them only 
 Each use case page lists which steps it actually exercises:
 - [Meter Telemetry (UC1)](./use-cases/meter-telemetry/) — uses `confirm` + `on_status`
 - [ARR Filings (UC2)](./use-cases/arr-filings.md) — uses `confirm` + `on_status`
-- [Tariff Policies (UC3)](./use-cases/tariff-policies.md) — *planned, not yet implemented in devkit*
+- [Tariff Policies (UC3)](./use-cases/tariff-policies.md) — uses `confirm` + `on_status` (SERC publishes `IES_Policy` to DISCOM)
 
 ---
 

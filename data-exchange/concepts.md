@@ -138,7 +138,7 @@ The body inside `dataPayload` is one of the IES schemas; the relevant one for ea
 |---|---|---|
 | `IES_Report` (OpenADR 3.1.0) | 15-min interval meter readings | [Meter Telemetry](./use-cases/meter-telemetry/) |
 | `IES_ARR_Filing` | Aggregate Revenue Requirement line items by fiscal year | [ARR Filings](./use-cases/arr-filings.md) |
-| `IES_Policy` + `IES_Program` | Machine-readable tariff rate structures | [Tariff Policies](./use-cases/tariff-policies.md) *(planned)* |
+| `IES_Policy` (+ `IES_Program`) | Machine-readable tariff rate structures (energy slabs, ToD surcharges) | [Tariff Policies](./use-cases/tariff-policies.md) |
 
 Canonical schema definitions (today): [beckn/DEG — `ies-specs` branch](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies). They are currently hosted under the Beckn DEG repo on a working branch; **TBD: these will be migrated to a public repository under the [India-Energy-Stack](https://github.com/India-Energy-Stack) GitHub organisation** once the IES schema family is stabilised. Links from these docs will be updated when the move happens.
 
