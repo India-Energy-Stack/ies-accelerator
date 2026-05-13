@@ -4,23 +4,17 @@ Run a working data exchange against the devkit's local sandbox in under 10 minut
 
 ---
 
-## 1. Pick your role and the flow shape
+## 1. Pick your role
 
-| You are | You run | You consume |
+| You are | You run | What you do |
 |---|---|---|
-| **BAP** — Data Consumer (DISCOM, regulator, VAS provider, researcher) | BAP-side adapter + your application | Datasets published by BPPs |
-| **BPP** — Data Provider (AMISP, DISCOM, SERC, data custodian) | BPP-side adapter + your provider implementation | (You serve) |
-| Both | Both stacks | Datasets in both directions |
+| **BAP** — data consumer (DISCOM, regulator, VAS provider, researcher) | BAP-side adapter + your application | Send `confirm` (and optional discovery/negotiation), receive `on_confirm` / `on_status` callbacks |
+| **BPP** — data provider (AMISP, DISCOM, SERC, data custodian) | BPP-side adapter + your provider implementation | Receive `confirm`, emit `on_confirm` (and `on_status` for async delivery) with the dataset |
+| Both | Both stacks | Both flows in parallel |
 
-Not every Beckn action is needed. Pick the simplest flow that meets your case:
+The walkthrough below uses the **BAP** path by default — send `confirm` from Postman, see `on_confirm` arrive at the sandbox-bap webhook. If you're a BPP implementor, see [§ 4 BPP path](#bpp-path) inside section 4.
 
-| Flow shape | Actions you need | When to use |
-|---|---|---|
-| **Minimal** | `confirm` → `on_confirm` (payload inline) | Pre-agreed bilateral exchange, one-shot delivery |
-| Negotiated | + `select` / `init` before `confirm` | Terms (price, SLA, delivery mode) need agreement |
-| Discoverable | + `publish-catalog` (BPP), `discover` (BAP) | Consumer doesn't yet know the provider |
-| Async delivery | + `status` / `on_status` after `on_confirm` | Payload prepared asynchronously |
-| Post-fulfilment | + `update` / `on_update` | Credential rotation, contract amendments |
+Which Beckn actions you need depends on your case; the picker lives in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle). The minimal flow — `confirm` → `on_confirm` — is what sections 2–6 below set you up to run.
 
 ---
 
@@ -46,68 +40,133 @@ docker compose up -d
 Verify the services are up:
 
 ```bash
-docker compose ps
-curl http://localhost:8081/health    # onix-bap
-curl http://localhost:8082/health    # onix-bpp
-curl http://localhost:9000/health    # beckn-router
+$ docker compose ps
+# all 7 containers should show "running" (and the redis/sandbox ones "healthy")
+
+$ curl -s http://localhost:8081/health   # onix-bap
+{"status":"ok"}
+$ curl -s http://localhost:8082/health   # onix-bpp
+{"status":"ok"}
+$ curl -s http://localhost:9000/         # beckn-router default route
+beckn-router ok
 ```
 
 The stack lays out as in [Architecture](./architecture.md): `beckn-router:9000` is the bridge; each side runs `onix-{bap,bpp}` + `sandbox-{bap,bpp}` + redis.
+
+> **If checks fail** — give ONIX ~15s after `docker compose up` to initialise, then re-curl. Persistent `connection refused` usually means a container isn't running; `docker compose logs onix-bap` and `docker compose logs onix-bpp` show why.
 
 ---
 
 ## 4. Run the minimal exchange (`confirm` → `on_confirm`)
 
-The minimal sanity check is one round-trip. From the BAP Postman collection, fire `confirm` and watch for `on_confirm` arriving back — that exercises sign → route → verify on both sides end-to-end.
+The minimal sanity check is one Beckn round-trip. The BAP POSTs `confirm`, ONIX-BAP signs and routes it to ONIX-BPP, which verifies the signature against the registered public key and delivers it to the BPP server. The BPP then calls `on_confirm` back through ONIX, signed at its end and verified at the BAP's end. A successful round-trip proves all of that wiring in one shot.
 
-### Import the collections
+### Import the Postman collection
 
-Each use case ships its own BAP and BPP Postman collections:
+Each use case ships BAP and BPP collections:
 
 ```
 devkits/data-exchange/uc1-meter-data/postman/data-exchange-uc1-meter-data.{BAP,BPP}-DEG.postman_collection.json
 devkits/data-exchange/uc2-regulatory-data/postman/data-exchange-uc2-regulatory-data.{BAP,BPP}-DEG.postman_collection.json
+devkits/data-exchange/uc3-tariff-policy/postman/data-exchange-uc3-tariff-policy.{BAP,BPP}-DEG.postman_collection.json
 ```
 
-Import the **BAP** collection for the use case you care about (UC1 meter data or UC2 ARR filings).
+Import the **BAP** collection for the use case you care about.
 
 ### Set collection variables
 
-| Variable | Local sandbox value |
+From Postman running on your laptop, use `http://localhost:9000` — the `beckn-router` hostname only resolves *inside* the docker network.
+
+| Variable | Value (from Postman) |
 |---|---|
-| `bap_host_root` | `http://beckn-router:9000` *(in-stack)* or `http://localhost:9000` |
-| `bpp_host_root` | `http://beckn-router:9000` *(in-stack)* or `http://localhost:9000` |
+| `bap_host_root` | `http://localhost:9000` |
+| `bpp_host_root` | `http://localhost:9000` |
 
-For a public tunnel (ngrok) or a deployed router, set both to that hostname. The Caddy router on `:9000` is the only public-facing port.
+> The `bapUri` / `bppUri` baked into the example payloads use `http://beckn-router:9000/...` — that value is for ONIX, which lives inside docker and resolves it correctly. Don't confuse the two.
 
-### Send `confirm` and verify
+For a public tunnel (ngrok) or a deployed router, set both variables to that hostname instead. See the [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes) for the ngrok recipe.
 
-1. In Postman, open the BAP collection's `confirm` request and click **Send**. Expect `{"status":"ACK"}`.
-2. Tail the BAP sandbox logs to see the matching callback:
+### Send `confirm` and verify (BAP path)
+
+1. In Postman, open the BAP collection's `confirm` request and click **Send**. The synchronous response is the ACK envelope from ONIX-BAP:
+   ```json
+   {"message":{"ack":{"status":"ACK"}}}
+   ```
+   (Some adapters reduce this to just `{"status":"ACK"}`. Either form means "accepted, async callback pending.")
+2. Tail the BAP sandbox logs to see the matching callback land:
    ```bash
    docker logs sandbox-bap 2>&1 | grep on_confirm | tail -5
    ```
-3. The `on_confirm` body carries the dataset (for INLINE delivery) or a delivery handle. That's your end-to-end signal.
+3. The `on_confirm` body either carries the dataset directly (`INLINE` delivery for the minimal flow) or holds a delivery handle that points to a later `on_status`. Either way, seeing `on_confirm` in `sandbox-bap` is your end-to-end signal.
+
+> **If you don't see `on_confirm`** — the most common causes are (a) you set `bap_host_root` / `bpp_host_root` to `beckn-router:9000` from Postman (it must be `localhost:9000` — see above), (b) ONIX rejected the message on schema/signature; check `docker logs onix-bap | grep -i error` and `docker logs onix-bpp | grep -i error`, or (c) the host alias DNS isn't set on `beckn-router` (only relevant if you regenerated `install/docker-compose.yml` — see beckn/DEG#319).
+
+### BPP path
+
+If your role is BPP (data provider), the same sanity check runs in reverse:
+
+1. Import the **BPP** collection for your use case.
+2. Trigger `on_confirm` from the BPP collection (or wait for an inbound `confirm` from a BAP). The synchronous response is the same ACK envelope.
+3. Tail `sandbox-bpp` for the inbound `confirm` and `sandbox-bap` for your outbound `on_confirm`:
+   ```bash
+   docker logs sandbox-bpp 2>&1 | grep -E 'confirm|status' | tail -5
+   ```
+
+The next step for BPP implementors is replacing `sandbox-bpp` with your own provider — see [Wire in your application](#wire-in-your-application) below.
 
 ---
 
-## 5. (Optional) Add other steps
+## 5. (Optional) Add other Beckn actions
 
-The same Postman collection ships requests for the other actions; run them only when your use case needs them:
+Beyond the minimal `confirm` round-trip, each Beckn action ships in either the BAP or the BPP collection — fire it from the right side only when your use case needs it:
 
-- `publish-catalog` (BPP collection) + `discover` (BAP) — for unknown providers
-- `select` / `init` — for negotiated terms
-- `status` / `on_status` — for asynchronous delivery (UC1 inline meter data flows often use this)
-- `update` / `on_update` — for credential rotation
+| Action | Sent by | Use it when |
+|---|---|---|
+| `publish-catalog` | BPP collection | You're a provider listing datasets so consumers can discover you |
+| `discover` | BAP collection | The consumer doesn't yet know which BPP holds the dataset |
+| `select` / `init` | BAP collection | Terms (price, SLA, delivery mode) need to be agreed before commitment |
+| `status` | BAP collection | The payload is prepared *after* `on_confirm`; the BAP polls for it (UC1, UC2, UC3 all use this) |
+| `update` | BAP collection | Post-fulfilment changes — most relevant for credential rotation in streaming |
 
-Each use case page lists which steps it actually exercises:
-- [Meter Telemetry (UC1)](./use-cases/meter-telemetry/) — uses `confirm` + `on_status`
-- [ARR Filings (UC2)](./use-cases/arr-filings.md) — uses `confirm` + `on_status`
-- [Tariff Policies (UC3)](./use-cases/tariff-policies.md) — uses `confirm` + `on_status` (SERC publishes `IES_Policy` to DISCOM)
+The corresponding `on_*` callbacks come back into your sandbox webhook (BAP gets `on_*` callbacks at `sandbox-bap`, BPP gets inbound requests at `sandbox-bpp`).
+
+Each use case page lists exactly which steps it exercises and where the example payloads live:
+
+- [Meter Telemetry (UC1)](./use-cases/meter-telemetry/) — `confirm` + `on_status`
+- [ARR Filings (UC2)](./use-cases/arr-filings.md) — `confirm` + `on_status`
+- [Tariff Policies (UC3)](./use-cases/tariff-policies.md) — `confirm` + `on_status`
 
 ---
 
-## 6. Stop the stack
+## 6. Wire in your application
+
+Sections 1–5 prove the wiring against the bundled sandbox containers. To run real consumer or provider logic instead, **replace** the sandbox container on your side:
+
+### BAP — receive the callback in your own app
+
+`sandbox-bap` is the default webhook receiver for `on_*` callbacks; you swap it out for your application:
+
+1. Stand up your service exposing the four BAP callback paths: `POST /bap/receiver/on_confirm`, `on_status`, `on_select`, `on_init` (only the ones your flow needs).
+2. Place your container on the `bap_side` docker network (or expose it on a routable host and update the next step accordingly).
+3. Stop `sandbox-bap`. ONIX-BAP delivers callbacks to whatever URL is in the message's `bapUri`, so update the `bapUri` baked into the example payloads — or your own outbound payloads — to point at your service.
+
+For a quick sanity check, you can run both side-by-side at first: keep `sandbox-bap` for diff'ing and point your service at a different path until you trust it.
+
+### BPP — serve real data from your provider
+
+`sandbox-bpp` ships canned responses sourced from `uc*/examples/`. To serve real data:
+
+1. Implement the four BPP request paths: `POST /bpp/receiver/confirm`, `status`, `select`, `init` (only the ones your flow needs). Each should:
+   - Return the synchronous `{"message":{"ack":{"status":"ACK"}}}` envelope immediately.
+   - Asynchronously post the corresponding `on_*` callback to ONIX-BPP at `http://onix-bpp:8082/bpp/caller/on_<action>`.
+2. Match the wire shape exactly — copy the structure from `uc*/examples/on-*-response*.json`, swap in your real data.
+3. Stop `sandbox-bpp` and run your provider container on the `bpp_side` network. ONIX-BPP routes by path, not by host.
+
+The example payloads in `uc*/examples/` are your reference wire format; the `sandbox-bpp` source itself is a working minimal provider you can fork.
+
+---
+
+## 7. Stop the stack
 
 ```bash
 cd DEG/devkits/data-exchange/install
@@ -116,34 +175,45 @@ docker compose down
 
 ---
 
-## 7. Going beyond the sandbox
+## 8. Going beyond the sandbox
 
 Onboarding is a two-phase progression. Don't skip phase 1.
 
 ### Phase 1 — Use the devkit as-is and prove the flows
 
-Sections 1–6 above are the whole of phase 1. Run them with the shipped sandbox identities (`bap.example.com` / `bpp.example.com`), the placeholder `networkId` in the devkit payloads, and the sandbox signing keys committed in `config/`. The goal is to confirm:
-
-- The Docker stack comes up cleanly and `beckn-router:9000` is reachable.
-- `confirm` → `on_confirm` produces a callback you can see in `sandbox-bap` logs.
-- Your application consumes the `dataPayload` shape you expect for whichever use case you care about.
-- *(For BPPs)* your provider implementation emits the right `on_confirm` / `on_status` envelopes — start from the `sandbox-bpp` reference behaviour, swap your business logic in, keep the wire shape.
-
-Iterate here until everything is green. Nothing in phase 1 touches DeDi or the IES networks.
+Sections 1–6 above are the whole of phase 1. Run them with the shipped sandbox identities (`bap.example.com` / `bpp.example.com`), the placeholder `networkId` in the devkit payloads, and the sandbox signing keys committed in `config/`. The goal is to confirm the wiring, your application's handling of the `dataPayload` shape, and (for BPPs) your provider's wire format — without involving DeDi or any real IES network.
 
 ### Phase 2 — Swap in your real identity
 
-Only once phase 1 is solid, replace the sandbox identity with yours. Three knobs in [`devkits/data-exchange/config/local-simple-bap.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) and the matching `local-simple-bpp.yaml`:
+Only once phase 1 is solid, replace the sandbox identity with yours. The knobs live in [`devkits/data-exchange/config/local-simple-bap.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) (and the matching `local-simple-bpp.yaml`), nested under `modules[].handler.plugins`:
 
-| Knob | Sandbox value | Replace with |
+```yaml
+modules:
+  - name: bapTxnReceiver
+    handler:
+      plugins:
+        registry:
+          config:
+            allowedNetworkIDs: "indiaenergystack.in/test-ies-data-sharing-network"   # comma-separated string
+        keyManager:
+          config:
+            networkParticipant: your.subscriber.id        # your DeDi subscriberId
+            keyId: <recordId-from-DeDi>                   # the recordId DeDi gave you
+            signingPrivateKey: <base64-ed25519-private>   # the half you keep
+            signingPublicKey:  <base64-ed25519-public>    # the half you published in DeDi
+            # encrPrivateKey / encrPublicKey similarly if you're using encryption
+```
+
+| Knob (YAML path under `plugins.`) | Sandbox value | Replace with |
 |---|---|---|
-| `allowedNetworkIDs` | placeholder | `indiaenergystack.in/test-ies-data-sharing-network` *(stay on test until certified — see [Registry Setup § Two registries, two ONIX deployments](./registry-setup.md#two-registries-two-onix-deployments))* |
-| `networkParticipant` / `subscriberId` | `bap.example.com` / `bpp.example.com` | Your real `subscriberId` from the DeDi record you publish |
-| `keyId` + Ed25519 private key | sandbox keys committed in `config/` | Your real `recordId` from DeDi and the matching Ed25519 private key |
+| `registry.config.allowedNetworkIDs` | placeholder | `indiaenergystack.in/test-ies-data-sharing-network` *(stay on test until certified — see [Registry Setup § Two registries, two ONIX deployments](./registry-setup.md#two-registries-two-onix-deployments))* |
+| `keyManager.config.networkParticipant` | `bap.example.com` / `bpp.example.com` | Your real `subscriberId` from the DeDi record you publish |
+| `keyManager.config.keyId` | sandbox `keyId` | Your real `recordId` from DeDi |
+| `keyManager.config.signing{Private,Public}Key` | sandbox keys committed in `config/` | Your Ed25519 keypair (public half also published in DeDi) |
 
 The corresponding pre-work on DeDi (verify namespace → create subscriber registry → publish record with public key → ask IES to add your DeDi URL to the network reference registry) is the full subject of [Registry Setup](./registry-setup.md). The lookup URL you copied from DeDi is what you hand to IES; the `recordId` you noted is what you put in ONIX as `keyId`.
 
-After the config swap, re-import the same Postman collection (or rerun the same Arazzo workflow) — the requests are identical, only the identity ONIX signs with and the network it claims has changed. A successful `confirm` against another participant on `indiaenergystack.in/test-ies-data-sharing-network` proves end-to-end onboarding.
+After the config swap, re-import the same Postman collection — the requests are identical, only the identity ONIX signs with and the network it claims has changed. A successful `confirm` against another participant on `indiaenergystack.in/test-ies-data-sharing-network` proves end-to-end onboarding.
 
 Promote to `indiaenergystack.in/ies-data-sharing-network` only when testing is finished and IES has added your prod DeDi URL to the prod network's reference registry. The recommended pattern is **two separate ONIX deployments** with `allowedNetworkIDs` narrowed to one network each — see [Registry Setup](./registry-setup.md#two-registries-two-onix-deployments).
 
