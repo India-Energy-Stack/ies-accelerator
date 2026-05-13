@@ -3,6 +3,15 @@
 * [Home](README.md)
 * [Getting Started](getting-started.md)
 
+## Identifiers and Addressing
+
+* [Overview](identifiers/README.md)
+* [Concepts](identifiers/concepts.md)
+* [ID Patterns](identifiers/id-patterns.md)
+* [Registries](identifiers/registries.md)
+* [Resolution and Routing](identifiers/resolution.md)
+* [Issuance Reference](identifiers/issuance-reference.md)
+
 ## Energy Credentials
 
 * [Overview](energy-credentials/README.md)
