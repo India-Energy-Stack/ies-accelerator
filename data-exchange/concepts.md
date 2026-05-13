@@ -6,44 +6,16 @@ This page explains the conceptual foundations of IES Data Exchange before you st
 
 ## The Digital Energy Grid (DEG) Primitives
 
-IES Data Exchange is built on the **Digital Energy Grid (DEG)** architecture, which defines six primitives for energy transactions. Understanding these helps you model your data correctly.
+IES Data Exchange is built on the broader **Digital Energy Grid (DEG)** architecture. For this chapter you only need to know that DEG models four things that surface in the wire format:
 
-### 1. Energy Resource
+| Primitive | What it is | Where it shows up |
+|---|---|---|
+| **Energy Resource** | Any entity that produces, consumes, stores or manages energy — meters, generators, DISCOMs, SERCs, AMISPs. In a data exchange the BAP and BPP are both Energy Resources. | `participants[]`, `provider` |
+| **Energy Catalogue** | A BPP's listing of available datasets, with terms (price, SLA, delivery mode). | `publish-catalog` / `on_discover` |
+| **Energy Contract** | The agreement created when a BAP commits to consume a catalogue entry. | `message.contract` (carries `commitments[]`, `consideration`, `performance[]`, `settlements[]`) |
+| **Energy Credentials** | Verifiable attestations that may gate access (e.g. a regulatory-mandate credential the BPP requires before releasing data). | Not used in the basic flow; relevant to credential-gated use cases. |
 
-Any physical or logical entity that produces, consumes, stores, or manages energy. This includes:
-- Generators (solar plants, wind farms)
-- Storage systems (batteries)
-- Consumption devices (EVs, appliances)
-- Infrastructure (smart meters, transformers)
-- Service providers (DISCOMs, AMISPs, SERCs)
-
-In a data exchange, the **data provider (BPP)** and **data consumer (BAP)** are both Energy Resources.
-
-### 2. Energy Resource Address (ERA)
-
-A globally unique digital identifier for any Energy Resource — analogous to a domain name or IP address. ERAs enable discovery and addressing across federated networks.
-
-```
-meter-KA-98765432.amisp.bescom.in        ← smart meter
-bescom.discom.karnataka.ies.in           ← DISCOM
-aperc.regulator.andhra.ies.in           ← state regulator
-```
-
-### 3. Energy Credentials
-
-Verifiable attestations about Energy Resources. In data exchange, credentials may gate access — a BPP can require the BAP to present a valid credential (e.g. a regulatory mandate credential) before delivering a dataset.
-
-### 4. Energy Intent
-
-A digital expression of what data a consumer needs — what dataset, from what source, for what time range, under what access terms.
-
-### 5. Energy Catalogue
-
-A structured listing of available datasets published by a BPP — including dataset type, time coverage, delivery mode, and pricing/terms.
-
-### 6. Energy Contract
-
-The formalized agreement that results from a BAP's intent matching a BPP's catalogue — the confirmed data exchange order.
+Energy Resource Address (ERA) and Energy Intent are additional DEG concepts not yet surfaced by the data-exchange use cases shipped today; you can read about them in the broader DEG specification when needed.
 
 ---
 
@@ -65,12 +37,12 @@ Beckn is **asynchronous**: every call returns an immediate `ACK`, and the paired
 
 ### Message Structure
 
-Every Beckn message shares the same envelope. Field names follow the v2.0 wire format (camelCase):
+Every Beckn message shares the same envelope. Field names follow the v2.0 wire format (camelCase). The example below shows what the **devkit sandbox** emits — when you join a real IES network in [Phase 2](./quick-start.md#phase-2--swap-in-your-real-identity), `networkId`, `bapId`/`bppId` and `bapUri`/`bppUri` change to your DeDi-published values:
 
 ```json
 {
   "context": {
-    "networkId": "indiaenergystack.in/test-ies-data-sharing-network",
+    "networkId": "nfh.global/testnet-deg",
     "version": "2.0.0",
     "action": "confirm",
     "bapId": "bap.example.com",
@@ -86,6 +58,8 @@ Every Beckn message shares the same envelope. Field names follow the v2.0 wire f
 }
 ```
 
+(`nfh.global/testnet-deg` is the placeholder the devkit example payloads ship with. Real participants on the IES test network emit `networkId: indiaenergystack.in/test-ies-data-sharing-network`.)
+
 ### Context invariants
 
 Two `context` rules govern correlation across the network — get either wrong and the adapter will reject the message:
@@ -99,7 +73,7 @@ Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](htt
 
 ## The DatasetItem Schema
 
-IES describes exchangeable datasets with the **DDM DatasetItem schema** from [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1). On the wire, the dataset rides inside `message.contract.commitments[].resources[]` and is qualified by `resourceAttributes` carrying the `@context` of the DatasetItem schema:
+**DDM** (Decentralised Data Marketplace) is Beckn's generic dataset envelope schema; **`DatasetItem`** is the per-dataset record shape that IES uses inside Beckn's `resources[]` / `commitments[]` to carry an actual dataset payload. On the wire, the dataset rides inside `message.contract.commitments[].resources[]` and is qualified by `resourceAttributes` carrying the `@context` of the DatasetItem schema:
 
 ```json
 "resources": [{
@@ -140,26 +114,14 @@ The body inside `dataPayload` is one of the IES schemas; the relevant one for ea
 | `IES_ARR_Filing` | Aggregate Revenue Requirement line items by fiscal year | [ARR Filings](./use-cases/arr-filings.md) |
 | `IES_Policy` (+ `IES_Program`) | Machine-readable tariff rate structures (energy slabs, ToD surcharges) | [Tariff Policies](./use-cases/tariff-policies.md) |
 
-Canonical schema definitions (today): [beckn/DEG — `ies-specs` branch](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies). They are currently hosted under the Beckn DEG repo on a working branch; **TBD: these will be migrated to a public repository under the [India-Energy-Stack](https://github.com/India-Energy-Stack) GitHub organisation** once the IES schema family is stabilised. Links from these docs will be updated when the move happens.
+Canonical schema definitions today: [beckn/DEG — `ies-specs` branch](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies).
+
+> **TBD — schema migration.** The IES schema family is currently hosted on a working branch under beckn/DEG. It will move to a public repository under the [India-Energy-Stack](https://github.com/India-Energy-Stack) GitHub organisation once stabilised. Links throughout these docs will be updated when the move happens.
 
 ---
 
-## ONIX Adapter
+## ONIX Adapter and Network
 
-**ONIX** is the Beckn protocol adapter used by IES. It handles request signing (Ed25519), routing between BAP and BPP, schema validation (`dataPayload` against the declared IES schema), and async callback delivery — so your application never deals with protocol-level concerns.
+**ONIX** is the Beckn protocol adapter — it signs, verifies, routes, and validates so your application never deals with protocol-level concerns. See [Architecture § Stack topology](./architecture.md#stack-topology).
 
-In the devkit, ONIX runs as a Docker container behind `beckn-router` on `:9000`. See [Architecture](./architecture.md) for the topology, and [Registry Setup](./registry-setup.md) for the identity/configuration mapping.
-
----
-
-## Network
-
-IES Data Exchange participants transact on a Beckn network identified by a `networkId`:
-
-| Parameter | Value |
-|---|---|
-| Network ID (test) | `indiaenergystack.in/test-ies-data-sharing-network` |
-| Network ID (prod) | `indiaenergystack.in/ies-data-sharing-network` |
-| Domain | `deg:data-exchange` |
-
-Both networks are anchored at the `indiaenergystack.in` DeDi namespace. Membership in test does not imply membership in prod — every participant is referenced into each network's registry separately, and ONIX enforces the partition via its `allowedNetworkIDs` config. To join, see [Registry Setup](./registry-setup.md). The canonical network onboarding guide is at [docs.nfh.global/beckn](https://docs.nfh.global/beckn).
+IES operates two networks anchored at the `indiaenergystack.in` DeDi namespace (`test-ies-data-sharing-network` and `ies-data-sharing-network`). The `domain` field in every message is `deg:data-exchange`. See [Registry Setup](./registry-setup.md) for joining either.
