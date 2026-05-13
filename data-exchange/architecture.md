@@ -49,33 +49,22 @@ BAP App      ONIX BAP      beckn-router      ONIX BPP      BPP Server
    │  (optional) update / on_update — credential rotation       │
 ```
 
-The minimal-flow framing and the optional phases are defined in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
-
----
-
-## Context invariants
-
-Two `context` rules govern message correlation. ONIX rejects messages that violate either.
-
-- **`transactionId` is constant across one exchange.** Every message — from the first `discover`/`select`/`confirm` through the final `on_status` or `on_update` — carries the same UUID. It is how all parties (and registry-level audit trails) stitch the conversation together.
-- **`messageId` is the same on a request and its paired callback.** `confirm` and its matching `on_confirm` share one `messageId`; a later `status` gets a *new* `messageId`, which its `on_status` reuses. Treat each request/callback pair as one logical message with two hops.
-
-In addition, every message must include `schemaContext` pointing at the JSON-LD context of the schema being carried in the payload — without it, ONIX validation fails.
-
-Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0).
+The minimal-flow framing, the optional phases, and the `transactionId` / `messageId` correlation rules all live in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
 
 ---
 
 ## Endpoints — sandbox vs production
 
+Two different kinds of URL show up in a Beckn flow, and they live at different layers. Keep them separate:
+
 | Concern | Devkit sandbox | Real network |
 |---|---|---|
-| BAP-side caller (where your code POSTs `confirm`, etc.) | `http://localhost:9000/bap/caller` *(from Postman on your laptop)* or `http://beckn-router:9000/bap/caller` *(in-stack)* | Your ONIX deployment URL behind TLS |
-| BPP-side caller | `http://localhost:9000/bpp/caller` or `http://beckn-router:9000/bpp/caller` *(in-stack)* | Your ONIX deployment URL behind TLS |
-| Callback URLs in payload `bapUri`/`bppUri` | `http://beckn-router:9000/{bap,bpp}/receiver` *(docker-internal hostname; resolved by ONIX, not by Postman)* | Your public `bapUri` / `bppUri` published in your DeDi subscriber record |
+| **HTTP target** — where your client (Postman, your app) POSTs `confirm`, `discover`, etc. to the BAP adapter | `http://localhost:8081/bap/caller` *(port-mapped to the `onix-bap` container)* | Your BAP ONIX deployment URL behind TLS |
+| **HTTP target** — where the BPP's client POSTs `on_confirm` / `on_status` to the BPP adapter | `http://localhost:8082/bpp/caller` *(port-mapped to the `onix-bpp` container)* | Your BPP ONIX deployment URL behind TLS |
+| **Payload hostnames** — values for `bapUri` / `bppUri` inside each message's `context`, used by the receiving ONIX (which sits inside docker) to find the other side | `http://beckn-router:9000/{bap,bpp}/receiver` | Your public callback URLs published in your DeDi subscriber record |
 | `networkId`, `bapId`/`bppId`, `allowedNetworkIDs` | placeholder values shipped in `config/` | See [Registry Setup](./registry-setup.md) |
 
-`beckn-router` is a docker-network hostname — only reachable from inside the `bap_side`/`bpp_side` networks. From Postman on your laptop, hit `localhost:9000`. From within ONIX, `beckn-router` resolves and is the correct value to bake into payload `bapUri`/`bppUri`.
+The split matters because **`beckn-router` is a docker-network hostname**: it's resolved by ONIX (which runs inside docker on the `bap_side`/`bpp_side` networks), not by your Postman client. Your client connects to the port-mapped adapter ports directly — `:8081` for BAP, `:8082` for BPP. The router's `:9000` only needs to be reachable from inside the docker network where ONIX-BAP and ONIX-BPP forward callbacks to each other. The shipped Postman collections reflect this: requests POST to `localhost:8081|8082`; payload variables substitute `http://beckn-router:9000` into the message body.
 
 ONIX configuration lives in [config/local-simple-{bap,bpp}.yaml](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/config). The DeDi → ONIX field mapping is on [Registry Setup](./registry-setup.md).
 

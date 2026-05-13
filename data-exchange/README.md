@@ -34,19 +34,21 @@ meter telemetry                              smart meter data
 
 That's enough for a pre-agreed bilateral exchange. The full Beckn lifecycle adds optional phases on top: `publish-catalog`/`discover` (consumer doesn't know the provider yet), `select`/`init` (terms need negotiating), `status`/`on_status` (payload prepared asynchronously after `on_confirm`), `update`/`on_update` (credential rotation). See [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle) for the full picture.
 
-Data delivery is **inline** — the dataset is embedded directly in the Beckn callback, not fetched from an external URL. End-to-end signed and verifiable.
+Data delivery supports multiple modes — **inline** (dataset embedded directly in the Beckn callback, end-to-end signed and verifiable, best for moderate-sized datasets), **signed download URL** (typical for larger datasets — the callback carries a URL and checksum), or transport-specific streaming credentials (MQTT, Kafka, S3 datalake, REST API) carried inline. The `accessMethod` field on the DatasetItem declares which mode applies. See [Concepts § The DatasetItem Schema](./concepts.md#the-datasetitem-schema) for the full list.
 
 ---
 
 ## What Data Can Be Exchanged
 
-IES Data Exchange currently supports three dataset types:
+The devkit ships **prebuilt schemas** for three IES dataset types — the sector's most common shapes:
 
 | Schema | Description | Typical Flow |
 |---|---|---|
 | `IES_Report` | Smart meter telemetry — 15-minute interval kWh readings in OpenADR 3.1.0 format | AMISP → DISCOM |
 | `IES_ARR_Filing` | Aggregate Revenue Requirement — cost line items by fiscal year | DISCOM → SERC |
 | `IES_Policy` + `IES_Program` | Tariff rate structures — energy slabs, time-of-day surcharges | SERC → DISCOM |
+
+**Any JSON payload can be exchanged** — the wire envelope carries arbitrary data inside `dataPayload`. If your payload is **self-describing** (declares a JSON-LD `@context` and `@type`), the ONIX adapter automatically validates it against the schema published at that context URL. Payloads without `@context` flow through unvalidated — useful for ad-hoc or evolving data shapes. See [Concepts § How schema validation works](./concepts.md#how-schema-validation-works) for the dispatch mechanics.
 
 ---
 
@@ -72,7 +74,7 @@ If you're new, read in this order: **Concepts → Quick Start → your Use Case 
 | [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes — clone, start, send `confirm`, see `on_confirm`. Includes the BAP and BPP onboarding checklists. |
 | [Use Cases](./use-cases/README.md) | Detailed walkthroughs for each dataset type (meter telemetry, ARR filings, tariff policies) |
 | [Registry Setup](./registry-setup.md) | Going beyond sandbox identity — DeDi namespace, subscriber record, ONIX config, how to contact the IES NFO |
-| [Architecture](./architecture.md) | Stack topology, generic Beckn ladder, `transactionId`/`messageId` rules |
+| [Architecture](./architecture.md) | Stack topology, generic Beckn ladder, endpoints (sandbox vs production) |
 
 ---
 

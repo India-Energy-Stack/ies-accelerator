@@ -75,16 +75,17 @@ Import the **BAP** collection for the use case you care about.
 
 ### Set collection variables
 
-From Postman running on your laptop, use `http://localhost:9000` — the `beckn-router` hostname only resolves *inside* the docker network.
+Two things are happening at different layers:
 
-| Variable | Value (from Postman) |
-|---|---|
-| `bap_host_root` | `http://localhost:9000` |
-| `bpp_host_root` | `http://localhost:9000` |
+1. **The HTTP target Postman connects to** is the ONIX BAP adapter — `http://localhost:8081/bap/caller` — already pre-set in the collection's `beckn_adapter_url` variable. You don't change that for local sandbox runs.
+2. **The `bap_host_root` / `bpp_host_root` variables** are substituted into each payload's `context.bapUri` / `context.bppUri`. Those values get read by ONIX inside docker when it routes the callback back to the other side. The collection ships with the right defaults:
 
-> The `bapUri` / `bppUri` baked into the example payloads use `http://beckn-router:9000/...` — that value is for ONIX, which lives inside docker and resolves it correctly. Don't confuse the two.
+| Variable | Default (substituted into the payload) | When to change |
+|---|---|---|
+| `bap_host_root` | `http://beckn-router:9000` | If routing over an ngrok tunnel or a deployed public router, set to that hostname instead. |
+| `bpp_host_root` | `http://beckn-router:9000` | Same as above. |
 
-For a public tunnel (ngrok) or a deployed router, set both variables to that hostname instead. See the [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes) for the ngrok recipe.
+`beckn-router` is a docker-network hostname — ONIX inside docker resolves it; your Postman client never connects to it directly. See the [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes) for the ngrok recipe.
 
 ### Send `confirm` and verify (BAP path)
 
@@ -99,7 +100,7 @@ For a public tunnel (ngrok) or a deployed router, set both variables to that hos
    ```
 3. The `on_confirm` body either carries the dataset directly (`INLINE` delivery for the minimal flow) or holds a delivery handle that points to a later `on_status`. Either way, seeing `on_confirm` in `sandbox-bap` is your end-to-end signal.
 
-> **If you don't see `on_confirm`** — the most common causes are (a) you set `bap_host_root` / `bpp_host_root` to `beckn-router:9000` from Postman (it must be `localhost:9000` — see above), (b) ONIX rejected the message on schema/signature; check `docker logs onix-bap | grep -i error` and `docker logs onix-bpp | grep -i error`, or (c) the host alias DNS isn't set on `beckn-router` (only relevant if you regenerated `install/docker-compose.yml` — see beckn/DEG#319).
+> **If you don't see `on_confirm`** — the most common causes are (a) `bap_host_root` / `bpp_host_root` got changed to `localhost:9000` (they should stay at `http://beckn-router:9000` so ONIX-BPP can route the callback back — see above), (b) ONIX rejected the message on schema/signature; check `docker logs onix-bap | grep -i error` and `docker logs onix-bpp | grep -i error`, or (c) the host alias DNS isn't set on `beckn-router` (only relevant if you regenerated `install/docker-compose.yml` — see beckn/DEG#319).
 
 ### BPP path
 
@@ -138,9 +139,63 @@ Each use case page lists exactly which steps it exercises and where the example 
 
 ---
 
-## 6. Wire in your application
+## 6. Test over the public internet (ngrok)
 
-Sections 1–5 prove the wiring against the bundled sandbox containers. To run real consumer or provider logic instead, **replace** the sandbox container on your side:
+Once §4 is green against the local sandbox, the next sanity check is verifying that your stack can transact through a real public tunnel — the same network path you'd use in production. This proves your laptop-hosted Beckn node can interoperate with **any other node hosted elsewhere** (another participant's laptop fronted by their own ngrok, or a cloud-hosted server), without needing real DeDi identity yet.
+
+The devkit ships [`install/ngrok.yml.example`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/install/ngrok.yml.example) that configures one HTTP tunnel to `beckn-router:9000`.
+
+### One-time setup
+
+1. Create a free [ngrok](https://ngrok.com) account and copy your authtoken from the dashboard.
+2. Copy the example config and paste in your authtoken:
+   ```bash
+   cd DEG/devkits/data-exchange/install
+   cp ngrok.yml.example ngrok.yml
+   # edit ngrok.yml: replace REPLACE_WITH_YOUR_NGROK_AUTHTOKEN with the value from your dashboard
+   ```
+
+### Start the tunnel
+
+With the docker stack already running (§3), start ngrok in another terminal:
+
+```bash
+cd DEG/devkits/data-exchange/install
+ngrok start --all --config ngrok.yml
+```
+
+Note the HTTPS URL ngrok prints — something like `https://abc123.ngrok-free.dev`. That's your public address for `beckn-router:9000`. You can watch each request flow through the tunnel at the local inspector: [http://localhost:4040](http://localhost:4040).
+
+### Re-run the flow through the tunnel
+
+In your Postman collection, change the two host variables you set in §4 — replace `http://beckn-router:9000` with your ngrok URL:
+
+| Variable | Value (ngrok mode) |
+|---|---|
+| `bap_host_root` | `https://<your-subdomain>.ngrok-free.dev` |
+| `bpp_host_root` | `https://<your-subdomain>.ngrok-free.dev` |
+
+Leave `beckn_adapter_url` alone — Postman still POSTs to your local ONIX at `http://localhost:8081/bap/caller`. Only the payload's `bapUri` / `bppUri` need to be publicly reachable, and that's what these variables substitute.
+
+Fire `confirm` again. The callback now travels: your Postman → local ONIX-BAP → out via ngrok → public internet → back in via ngrok → ONIX-BPP → `sandbox-bpp` → back through the same hops. The ngrok inspector at `:4040` shows three hops per transactional step (`Postman → BAP`, `BAP → BPP`, `BPP → BAP callback`).
+
+### Transacting with another participant
+
+For interop testing with someone else's node:
+
+- Each side starts their own ngrok tunnel; exchange tunnel URLs out-of-band.
+- The BAP-side participant sets `bpp_host_root` to the **other side's** ngrok URL. `bap_host_root` stays at their own.
+- The BPP-side participant emits payloads whose `bppUri` is their own ngrok URL; their `bap_host_root` (for outbound callbacks) is set to the BAP's tunnel.
+
+This pattern lets two laptop-hosted Beckn nodes do full bidirectional exchanges over the public internet without any cloud deployment — useful for early conformance testing between participants before either side has DeDi identity in place.
+
+When you're done, `Ctrl+C` ngrok to bring the tunnel down. The docker stack keeps running, and reverting `bap_host_root` / `bpp_host_root` to `http://beckn-router:9000` returns you to local-only mode.
+
+---
+
+## 7. Wire in your application
+
+Sections 1–6 prove the wiring against the bundled sandbox containers (locally in §4–5 and over the public internet in §6). To run real consumer or provider logic instead, **replace** the sandbox container on your side:
 
 ### BAP — receive the callback in your own app
 
@@ -166,7 +221,7 @@ The example payloads in `uc*/examples/` are your reference wire format; the `san
 
 ---
 
-## 7. Stop the stack
+## 8. Stop the stack
 
 ```bash
 cd DEG/devkits/data-exchange/install
@@ -175,7 +230,7 @@ docker compose down
 
 ---
 
-## 8. Going beyond the sandbox
+## 9. Going beyond the sandbox
 
 Onboarding is a two-phase progression. Don't skip phase 1.
 
