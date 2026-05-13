@@ -70,7 +70,7 @@ Every Beckn message shares the same envelope. Field names follow the v2.0 wire f
 ```json
 {
   "context": {
-    "networkId": "nfh.global/testnet-deg",
+    "networkId": "indiaenergystack.in/test-ies-data-sharing-network",
     "version": "2.0.0",
     "action": "confirm",
     "bapId": "bap.example.com",
@@ -158,7 +158,8 @@ IES Data Exchange participants transact on a Beckn network identified by a `netw
 
 | Parameter | Value |
 |---|---|
-| Network ID (test) | `nfh.global/testnet-deg` |
+| Network ID (test) | `indiaenergystack.in/test-ies-data-sharing-network` |
+| Network ID (prod) | `indiaenergystack.in/ies-data-sharing-network` |
 | Domain | `deg:data-exchange` |
 
-The network is anchored on DeDi Global (Beckn's registry infrastructure). To join, see [Registry Setup](./registry-setup.md). The canonical network onboarding guide is at [docs.nfh.global/beckn](https://docs.nfh.global/beckn).
+Both networks are anchored at the `indiaenergystack.in` DeDi namespace. Membership in test does not imply membership in prod — every participant is referenced into each network's registry separately, and ONIX enforces the partition via its `allowedNetworkIDs` config. To join, see [Registry Setup](./registry-setup.md). The canonical network onboarding guide is at [docs.nfh.global/beckn](https://docs.nfh.global/beckn).

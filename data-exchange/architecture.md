@@ -75,7 +75,7 @@ Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](htt
 
 | Parameter | Local devkit (sandbox) | Real network |
 |---|---|---|
-| `networkId` | `nfh.global/testnet-deg` | Your DeDi-issued `<nfo-domain>/<registry>` — see [Registry Setup](./registry-setup.md) |
+| `networkId` | `nfh.global/testnet-deg` *(placeholder in devkit payloads)* | `indiaenergystack.in/test-ies-data-sharing-network` (test) or `indiaenergystack.in/ies-data-sharing-network` (prod). Listed in ONIX `allowedNetworkIDs` — see [Registry Setup](./registry-setup.md) |
 | `bapId` / `bppId` | `bap.example.com` / `bpp.example.com` | Your DeDi `subscriberId` |
 | Caller URLs | `http://beckn-router:9000/{bap,bpp}/caller` (in-stack) or `http://localhost:8081 \| 8082/{bap,bpp}/caller` (direct) | Your ONIX deployment URL behind TLS |
 | Callback URLs | `http://beckn-router:9000/{bap,bpp}/receiver` | Your public `bapUri` / `bppUri` published in the registry |

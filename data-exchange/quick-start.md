@@ -118,7 +118,7 @@ docker compose down
 
 ## 7. Going beyond the sandbox
 
-The sandbox identities (`bap.example.com` / `bpp.example.com`) and the `nfh.global/testnet-deg` network are local-only. To transact with real participants:
+The sandbox identities (`bap.example.com` / `bpp.example.com`) and the placeholder network ID in the devkit payloads are local-only. To transact with real participants on the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`) or the IES production network (`indiaenergystack.in/ies-data-sharing-network`):
 
 1. Publish your own subscriber record on DeDi Global (your verified namespace + Ed25519 public key).
 2. Ask the network owner to add your record to the network registry.

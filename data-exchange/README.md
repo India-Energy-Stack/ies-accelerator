@@ -61,7 +61,7 @@ IES Data Exchange currently supports three dataset types:
 | **ONIX Adapter** | Beckn-compatible adapter that handles signing, routing, and schema validation. Runs as a Docker service. |
 | **BAP** | Beckn Application Platform — the data-consuming side. Your application calls the BAP adapter. |
 | **BPP** | Beckn Provider Platform — the data-providing side. Your server receives requests and delivers data. |
-| **IES Testnet** | The shared network (`nfh.global/testnet-deg`) for discovery and routing. |
+| **IES Networks** | Two networks anchored at the `indiaenergystack.in` DeDi namespace: `indiaenergystack.in/test-ies-data-sharing-network` for pre-production / certification, and `indiaenergystack.in/ies-data-sharing-network` for live exchange. The devkit sandbox is local-only and uses placeholder identities. |
 | **sandbox-bpp** | A pre-built provider stub that auto-responds with real IES test data — bundled in the devkit for local development. |
 
 ---
