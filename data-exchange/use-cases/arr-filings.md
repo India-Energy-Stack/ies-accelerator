@@ -186,75 +186,24 @@ This example uses `readingType: SUMMED` to indicate actual historical values rat
 
 ## Transaction Flow
 
-### 1. Select
+UC2 exercises **`confirm` → `on_confirm` → `status` → `on_status`** — the contract is acknowledged in `on_confirm` and the filing arrives asynchronously in `on_status`. Discovery and negotiation actions are available but optional for the regulator/DISCOM bilateral scenario.
 
-The SERC (BAP) requests the DISCOM's ARR filing for a specific fiscal year:
-
-```json
-{
-  "context": {
-    "action": "select",
-    "domain": "deg:data-exchange",
-    "bap_id": "aperc.regulator.andhra.ies.in",
-    "bpp_id": "bescom.discom.karnataka.ies.in",
-    "transaction_id": "txn-arr-2026-27-001"
-  },
-  "message": {
-    "order": {
-      "items": [
-        {
-          "id": "bescom-arr-filing-2026-27",
-          "descriptor": { "code": "IES_ARR_Filing" }
-        },
-        {
-          "id": "bescom-arr-report-2026-27",
-          "descriptor": { "code": "OpenADR_Report" }
-        }
-      ],
-      "fulfillments": [
-        {
-          "tags": [
-            { "code": "fiscal_year", "value": "2026-27" },
-            { "code": "licensee", "value": "BESCOM" }
-          ]
-        }
-      ]
-    }
-  }
-}
-```
-
-The DISCOM (BPP) responds with `on_select` confirming the filing is available.
-
-### 2–3. Init and Confirm
-
-Standard Beckn lifecycle — no changes from the generic flow. The DISCOM transitions the order state through `INITIALIZED → CONFIRMED`.
-
-### 4. Status
-
-The SERC calls `status`. The DISCOM delivers the filing inline:
+The filing is carried inside `message.contract.commitments[].resources[].resourceAttributes`:
 
 ```json
-{
-  "message": {
-    "order": {
-      "status": "DELIVERY_COMPLETE",
-      "items": [
-        {
-          "id": "bescom-arr-filing-2026-27",
-          "accessMethod": "INLINE",
-          "dataPayload": {
-            "filingId": "BESCOM-ARR-2026-27",
-            "licensee": "BESCOM",
-            "regulatoryCommission": "KERC",
-            "fiscalYears": [ /* ... */ ]
-          }
-        }
-      ]
-    }
+"resources": [{
+  "id": "ds-bescom-arr-filing-2026-27",
+  "descriptor": { "name": "BESCOM ARR Filing 2026-27" },
+  "resourceAttributes": {
+    "@context": "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1.1/context.jsonld",
+    "@type": "DatasetItem",
+    "accessMethod": "INLINE",
+    "dataPayload": { /* IES_ARR_Filing — see snippet above */ }
   }
-}
+}]
 ```
+
+Full request/response examples live in [uc2-regulatory-data/examples/](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc2-regulatory-data/examples).
 
 ---
 
@@ -274,26 +223,21 @@ The SERC calls `status`. The DISCOM delivers the filing inline:
 ## Running This Use Case
 
 ```bash
-cd DEG/devkits/data-exchange
-
-# Start bootcamp stack (if not already running)
-cd install && docker compose -f docker-compose-bootcamp.yml up -d --build && cd ..
-
-# Run all 15 steps
-./scripts/test-workflow.sh usecase2
-
-# Or manually — same as usecase1 but with usecase2 example files
-curl -X POST http://localhost:8081/bap/caller/select \
-  -H "Content-Type: application/json" \
-  -d @usecase2/examples/select-request.json
-
-# ... init, confirm, status (same pattern)
+cd DEG/devkits/data-exchange/install
+docker compose up -d
 ```
+
+Then import the BAP collection at `uc2-regulatory-data/postman/data-exchange-uc2-regulatory-data.BAP-DEG.postman_collection.json` into Postman, set `bap_host_root` and `bpp_host_root` to `http://beckn-router:9000`, and fire `confirm`. Inspect callbacks:
+
+```bash
+docker logs sandbox-bap 2>&1 | grep -E 'on_(confirm|status)' | tail -10
+```
+
+See the [Quick Start](../quick-start.md) for the full step-by-step.
 
 ---
 
 ## Reference
 
-- [IES_ARR_Filing Schema](https://github.com/India-Energy-Stack/ies-docs)
-- [IES ARR Schema definitions](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/arr)
-- [Example payloads](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange/usecase2/examples)
+- [IES_ARR_Filing Schema definitions](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/arr) *(currently on the `ies-specs` branch; will move to India-Energy-Stack — see [Concepts § IES Data Schemas](../concepts.md#ies-data-schemas))*
+- [Example payloads](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc2-regulatory-data/examples)

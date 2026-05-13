@@ -1,18 +1,18 @@
 # Use Cases
 
-IES Data Exchange currently supports three dataset types, each corresponding to a distinct regulatory or operational data flow in the Indian power sector.
+IES Data Exchange targets three dataset types, each corresponding to a distinct regulatory or operational data flow in the Indian power sector.
 
 ***
 
 ## Overview
 
-| # | Use Case                              | BAP (Consumer)      | BPP (Provider)      | Dataset                      | Description                                                 |
-| - | ------------------------------------- | ------------------- | ------------------- | ---------------------------- | ----------------------------------------------------------- |
-| 1 | [Meter Telemetry](meter-telemetry/)   | DISCOM (BESCOM)     | AMISP (IntelliGrid) | `IES_Report`                 | 15-minute AMI meter readings in OpenADR 3.1.0 format        |
-| 2 | [ARR Filings](arr-filings.md)         | SERC (APERC)        | DISCOM (BESCOM)     | `IES_ARR_Filing`             | Aggregate Revenue Requirement — fiscal year cost line items |
-| 3 | [Tariff Policies](tariff-policies.md) | DISCOM (MeraShehar) | SERC (KERC)         | `IES_Policy` + `IES_Program` | Machine-readable tariff rate structures and energy slabs    |
+| # | Use Case                              | BAP (Consumer)      | BPP (Provider)      | Dataset                      | Status | Description                                                 |
+| - | ------------------------------------- | ------------------- | ------------------- | ---------------------------- | ------ | ----------------------------------------------------------- |
+| 1 | [Meter Telemetry](meter-telemetry/)   | DISCOM (BESCOM)     | AMISP (IntelliGrid) | `IES_Report`                 | Shipped in devkit | 15-minute AMI meter readings in OpenADR 3.1.0 format        |
+| 2 | [ARR Filings](arr-filings.md)         | SERC (APERC)        | DISCOM (BESCOM)     | `IES_ARR_Filing`             | Shipped in devkit | Aggregate Revenue Requirement — fiscal year cost line items |
+| 3 | [Tariff Policies](tariff-policies.md) | DISCOM (MeraShehar) | SERC (MERC)         | `IES_Policy`                 | Shipped in devkit | Machine-readable tariff rate structures (energy slabs, time-of-day surcharges) |
 
-All three use cases share the same Docker infrastructure, ONIX adapter configs, and Beckn transaction lifecycle (select → init → confirm → status).
+All three use cases share the same Docker infrastructure, ONIX adapter configs, and Beckn message envelope. They differ in roles, schemas carried in `dataPayload`, and the resource identifiers in each message.
 
 ***
 
@@ -29,27 +29,15 @@ The Beckn message envelope is identical across use cases. What differs is:
 
 ## Common Transaction Lifecycle
 
-```
-BAP sends select   → on_select returns available dataset catalog
-BAP sends init     → on_init confirms readiness
-BAP sends confirm  → on_confirm activates the contract
-BAP sends status   → on_status delivers the data inline in dataPayload
-```
-
-Each step is a separate HTTP POST to the ONIX BAP adapter. ONIX signs, routes, and delivers the messages. Responses arrive asynchronously at your BAP webhook.
+The minimal exchange is `confirm` → `on_confirm` (payload inline). All three use cases additionally exercise `status` → `on_status` for asynchronous payload delivery. The full set of optional actions (`publish-catalog`/`discover`/`select`/`init`/`update`) is described in [Architecture](../architecture.md#generic-beckn-flow).
 
 ***
 
-## Running All Use Cases
+## Running
 
 ```bash
-# Start the bootcamp stack
 cd DEG/devkits/data-exchange/install
-docker compose -f docker-compose-bootcamp.yml up -d --build
-
-# Run all three
-cd ..
-./scripts/test-workflow.sh all
+docker compose up -d
 ```
 
-See the [Quick Start](../quick-start.md) for step-by-step instructions.
+Then import the use-case BAP Postman collection from `uc{1,2,3}-*/postman/` and fire `confirm`. See the [Quick Start](../quick-start.md) for the full walkthrough.
