@@ -209,14 +209,7 @@ Full request/response examples live in [uc2-regulatory-data/examples/](https://g
 
 ## Why This Matters
 
-| Current State | With IES Data Exchange |
-|---|---|
-| Filing arrives as PDF / Excel | Filing arrives as structured JSON — machine-parseable |
-| Regulator manually re-keys data into their system | Regulator's system ingests directly |
-| No standard schema — different DISCOMs format differently | Uniform `IES_ARR_Filing` schema across all DISCOMs |
-| No audit trail on submission | Every exchange is signed, timestamped, and logged in Beckn |
-| Filing disputes require going back to paper trail | Cryptographically signed payload is non-repudiable |
-| Proprietary schemas limit interoperability | OpenADR 3 alignment allows use of standard grid management tools |
+ARR filings arrive today as PDFs/Excel sheets that regulators manually re-key. Delivering them as structured `IES_ARR_Filing` JSON — signed, timestamped, schema-validated — replaces re-keying with direct ingest, gives a non-repudiable audit trail, and lets every DISCOM submit in the same canonical shape. OpenADR 3 alignment opens the same data to standard grid-management tooling.
 
 ---
 
