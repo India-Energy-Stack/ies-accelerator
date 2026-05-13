@@ -19,26 +19,22 @@ IES Data Exchange replaces these ad-hoc arrangements with a **single, open proto
 
 ## How It Works
 
-IES Data Exchange uses the **Beckn Protocol** — an open, decentralised, peer-to-peer commerce protocol — adapted for energy data. Instead of goods or services, the "items" being exchanged are structured energy datasets.
+IES Data Exchange uses the **Beckn Protocol** — an open, decentralised, peer-to-peer protocol — adapted for energy data. Instead of goods or services, the "items" being exchanged are structured energy datasets.
+
+The **minimal exchange** is a single round-trip:
 
 ```
-Data Consumer (BAP)              Data Provider (BPP)
-e.g. DISCOM requesting           e.g. AMISP publishing
-meter telemetry                  smart meter data
+Data Consumer (BAP)                          Data Provider (BPP)
+e.g. DISCOM consuming                        e.g. AMISP publishing
+meter telemetry                              smart meter data
 
-     │── select ───────────────────────────────────────>│
-     │<── on_select (catalog + terms) ─────────────────│
-     │── init ────────────────────────────────────────>│
-     │<── on_init (ready) ─────────────────────────────│
-     │── confirm ─────────────────────────────────────>│
-     │<── on_confirm (active) ─────────────────────────│
-     │── status ──────────────────────────────────────>│
-     │<── on_status (data delivered inline) ───────────│
+     │── confirm ──────────────────────────────────────────>│
+     │<── on_confirm (payload delivered inline) ────────────│
 ```
 
-Data is delivered **inline** in the `on_status` response — embedded directly in the Beckn message rather than via an external download URL. This makes the exchange verifiable and auditable end-to-end.
+That's enough for a pre-agreed bilateral exchange. The full Beckn lifecycle adds optional phases on top: `publish-catalog`/`discover` (consumer doesn't know the provider yet), `select`/`init` (terms need negotiating), `status`/`on_status` (payload prepared asynchronously after `on_confirm`), `update`/`on_update` (credential rotation). See [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle) for the full picture.
 
-> Steps before `confirm` and after `on_confirm` are optional. A minimal exchange is `confirm` → `on_confirm`, with the payload carried in the callback. Add `select`/`init` when terms need negotiating, `publish-catalog`/`discover` when the consumer doesn't yet know the provider, and `status`/`on_status` when delivery is asynchronous. See [Quick Start](./quick-start.md) for picking the right shape.
+Data delivery is **inline** — the dataset is embedded directly in the Beckn callback, not fetched from an external URL. End-to-end signed and verifiable.
 
 ---
 
@@ -58,23 +54,25 @@ IES Data Exchange currently supports three dataset types:
 
 | Component | Role |
 |---|---|
-| **ONIX Adapter** | Beckn-compatible adapter that handles signing, routing, and schema validation. Runs as a Docker service. |
-| **BAP** | Beckn Application Platform — the data-consuming side. Your application calls the BAP adapter. |
-| **BPP** | Beckn Provider Platform — the data-providing side. Your server receives requests and delivers data. |
-| **IES Networks** | Two networks anchored at the `indiaenergystack.in` DeDi namespace: `indiaenergystack.in/test-ies-data-sharing-network` for pre-production / certification, and `indiaenergystack.in/ies-data-sharing-network` for live exchange. The devkit sandbox is local-only and uses placeholder identities. |
-| **sandbox-bpp** | A pre-built provider stub that auto-responds with real IES test data — bundled in the devkit for local development. |
+| **BAP** (data consumer) | Your application on the consuming side — DISCOM, regulator, VAS provider. Beckn calls it the Beckn Application Platform. |
+| **BPP** (data provider) | Your server on the providing side — AMISP, DISCOM, SERC, data custodian. Beckn calls it the Beckn Provider Platform. |
+| **ONIX Adapter** | The Beckn protocol adapter — signs and verifies messages, routes between BAP and BPP, validates payload schemas. Your code talks to ONIX; ONIX talks Beckn. Runs as a Docker service. See [Architecture](./architecture.md) for details. |
+| **IES Networks** | Two networks anchored at the `indiaenergystack.in` DeDi namespace: `test-ies-data-sharing-network` for pre-production / certification and `ies-data-sharing-network` for live exchange. The devkit sandbox is local-only and uses placeholder identities. See [Registry Setup](./registry-setup.md). |
+| **sandbox-bpp / sandbox-bap** | Pre-built containers bundled in the devkit. `sandbox-bpp` auto-responds with IES test data; `sandbox-bap` logs every callback so you can inspect it. You replace these with your own application in production. |
 
 ---
 
 ## Sections in This Chapter
 
+If you're new, read in this order: **Concepts → Quick Start → your Use Case → Registry Setup**. Architecture is a deeper reference you can dip into when needed.
+
 | Page | What you'll learn |
 |---|---|
-| [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes — clone, start, send `confirm`, see `on_confirm`. Includes onboarding checklist. |
-| [Core Concepts](./concepts.md) | DEG primitives, DatasetItem, inline delivery, context invariants |
+| [Core Concepts](./concepts.md) | Beckn lifecycle, the minimal flow, DatasetItem, inline delivery, context invariants |
+| [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes — clone, start, send `confirm`, see `on_confirm`. Includes the BAP and BPP onboarding checklists. |
+| [Use Cases](./use-cases/README.md) | Detailed walkthroughs for each dataset type (meter telemetry, ARR filings, tariff policies) |
+| [Registry Setup](./registry-setup.md) | Going beyond sandbox identity — DeDi namespace, subscriber record, ONIX config, how to contact the IES NFO |
 | [Architecture](./architecture.md) | Stack topology, generic Beckn ladder, `transactionId`/`messageId` rules |
-| [Registry Setup](./registry-setup.md) | Going beyond sandbox identity — DeDi namespace, subscriber record, ONIX config |
-| [Use Cases](./use-cases/README.md) | Detailed walkthroughs for each dataset type |
 
 ---
 

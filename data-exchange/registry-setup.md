@@ -60,12 +60,20 @@ After publishing, **note the `recordId`** that DeDi assigns. It is your `keyId` 
 
 ### 4. Ask IES to add your DeDi URL to the network reference registry
 
-For the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`), the namespace owner is **`indiaenergystack.in`**. Send the IES NFO the **DeDi lookup URL** of either your individual subscriber record or your whole subscriber registry, plus the `type` (Registry vs Record — see upstream docs):
+For the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`), the NFO is the **IES Secretariat**. Send them the **DeDi lookup URL** of either your individual subscriber record or your whole subscriber registry, plus the `type` (Registry vs Record — see upstream docs):
 
 - **Record URL** if you want only that one identity referenced into the network.
 - **Registry URL** if you want every current and future subscriber record under that registry of yours treated as part of the network.
 
-IES then adds that URL as a reference entry into the **network reference registry**. Once that reference exists, other participants — and the ONIX adapters they're using — can resolve your subscriber details and verify your signatures. Until it exists, your messages will be rejected by other participants' ONIX as "subscriber not on network".
+**Contact (IES NFO / IES Secretariat):**
+
+| Channel | Address |
+|---|---|
+| Email (primary) | [IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org) |
+| Email (alternate) | [ies@recindia.com](mailto:ies@recindia.com) |
+| Web | [ies.fsrglobal.org](https://ies.fsrglobal.org/#footer) |
+
+IES then adds that URL as a reference entry into the **network reference registry**. Once that reference exists, other participants — and the ONIX adapters they're using — can resolve your subscriber details and verify your signatures. Until it exists, ONIX on the other side will reject your messages with a registry-lookup failure (look for `subscriber not found` or signature verification errors in `docker logs onix-bpp` / `onix-bap`).
 
 Repeat the same handoff against `indiaenergystack.in/ies-data-sharing-network` when you're ready to go production-live (see lifecycle below).
 
@@ -75,33 +83,44 @@ Repeat the same handoff against `indiaenergystack.in/ies-data-sharing-network` w
 
 ## Configure ONIX with your real identity
 
-Edit your devkit's adapter configs ([config/local-simple-bap.yaml](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) and `local-simple-bpp.yaml`) to point at your DeDi-published identity. The mapping:
+Edit your devkit's adapter configs ([config/local-simple-bap.yaml](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) and `local-simple-bpp.yaml`) to point at your DeDi-published identity. The knobs live under `modules[].handler.plugins`:
 
-| DeDi registry field | ONIX config field |
+| DeDi value | ONIX YAML path |
 |---|---|
-| `recordId` | `keyId` |
-| `subscriberId` | `networkParticipant` |
-| Network identifier you're joining | entry in `allowedNetworkIDs` |
+| Your `subscriberId` | `plugins.keyManager.config.networkParticipant` |
+| Your `recordId` | `plugins.keyManager.config.keyId` |
+| Your Ed25519 private key | `plugins.keyManager.config.signingPrivateKey` *(Base64 RFC 4648, 32-byte seed)* |
+| Your Ed25519 public key | `plugins.keyManager.config.signingPublicKey` *(matches what you published in DeDi)* |
+| Network you're joining | `plugins.registry.config.allowedNetworkIDs` *(comma-separated string; see next section)* |
 
-You also drop your Ed25519 **private** key into the ONIX signing config — same keypair whose public half you published in step 3. The public key never leaves DeDi; the private key never leaves your ONIX deployment.
+The public key never leaves DeDi; the private key never leaves your ONIX deployment.
 
 ### `allowedNetworkIDs` is the gate
 
-Every inbound Beckn message carries a `context.networkId`. ONIX rejects any message whose `networkId` is not present in its `allowedNetworkIDs` config. This is your hard partition between environments — a test-only ONIX should have:
+Every inbound Beckn message carries a `context.networkId`. ONIX rejects any message whose `networkId` is not listed in its `allowedNetworkIDs` config; the field is a **comma-separated string** (not a YAML list). A test-only ONIX:
 
 ```yaml
-allowedNetworkIDs:
-  - indiaenergystack.in/test-ies-data-sharing-network
+modules:
+  - handler:
+      plugins:
+        registry:
+          config:
+            allowedNetworkIDs: "indiaenergystack.in/test-ies-data-sharing-network"
 ```
 
-A production-only ONIX should have:
+A production-only ONIX:
 
 ```yaml
-allowedNetworkIDs:
-  - indiaenergystack.in/ies-data-sharing-network
+            allowedNetworkIDs: "indiaenergystack.in/ies-data-sharing-network"
 ```
 
-A single ONIX that serves both — uncommon, generally not recommended — would list both. The reason the split is preferred is operational: see the next section.
+To run one ONIX against both networks (uncommon, generally not recommended), include both, comma-separated:
+
+```yaml
+            allowedNetworkIDs: "indiaenergystack.in/test-ies-data-sharing-network,indiaenergystack.in/ies-data-sharing-network"
+```
+
+The split is preferred operationally — see the next section.
 
 ---
 
@@ -109,7 +128,7 @@ A single ONIX that serves both — uncommon, generally not recommended — would
 
 A common rollout pattern that the IES networks support cleanly:
 
-1. **Run two ONIX deployments — test and prod — on separate hostnames.** Each has its own TLS cert, its own keypair, its own DeDi subscriber record under your namespace. The two subscriber records live under separate subscriber registries (e.g. `example-np.com/test-subscriber` and `example-np.com/prod-subscriber`) so they cannot be confused.
+1. **Run two ONIX deployments — test and prod — on separate hostnames** (e.g. `test.example-np.com` and `beckn.example-np.com`). Each has its own TLS cert, its own keypair, its own DeDi subscriber record under your namespace. The two subscriber records live under separate subscriber registries (e.g. `example-np.com/test-subscriber` and `example-np.com/prod-subscriber`) so they cannot be confused.
 
 2. **`allowedNetworkIDs` is set narrowly on each side.** The test ONIX accepts only `indiaenergystack.in/test-ies-data-sharing-network`. The prod ONIX accepts only `indiaenergystack.in/ies-data-sharing-network`. Cross-network traffic is rejected at the adapter — no risk of a stray test message reaching a production counterparty, or vice versa.
 
@@ -118,19 +137,27 @@ A common rollout pattern that the IES networks support cleanly:
    - **Phase 2 — Prod cutover.** Once testing is finished, IES adds your *prod* subscriber DeDi URL to `indiaenergystack.in/ies-data-sharing-network`. From that moment your prod ONIX is officially allowed to transact with production NPs.
    - **Steady state.** Both deployments keep running. Test stays useful for staging upgrades, regression testing, certifying new use cases — without any chance of polluting prod identity or prod data.
 
-4. **Going further.** Nothing stops you from running additional ONIX deployments per environment, region, or sector. List the appropriate `networkId` in each one's `allowedNetworkIDs` and publish a matching subscriber record per network. See the [devkit README — Hosting the site](https://github.com/beckn/DEG/blob/main/devkits/README.md#hosting-the-site-beyond-the-devkit) for the multi-network ONIX pattern.
+### Running two devkit stacks side-by-side
+
+The devkit ships a single `install/docker-compose.yml`. To run two stacks (test and prod) on the same host:
+
+- Bind the second stack on different host ports — copy `install/` to e.g. `install-prod/`, edit the published ports (`8081→8181`, `8082→8182`, `9000→9100`) and adjust the `Caddyfile` listener accordingly.
+- Use a separate compose project name per stack so docker keeps them isolated:
+  ```bash
+  docker compose -p ies-test  -f install/docker-compose.yml      up -d
+  docker compose -p ies-prod  -f install-prod/docker-compose.yml up -d
+  ```
+- In production deployments these two stacks would typically run on separate hosts (or at least separate VMs) with their own TLS termination and DNS hostnames — see the [Hosting checklist](#hosting-checklist) below.
+
+For deeper multi-network setups (one ONIX serving several networks, per-region splits, etc.), see the [devkit README — Hosting the site](https://github.com/beckn/DEG/blob/main/devkits/README.md#hosting-the-site-beyond-the-devkit).
 
 ---
 
 ## Hosting checklist
 
-In production you also need TLS in front of `beckn-router:9000`. Three common patterns, all documented in the [devkit README](https://github.com/beckn/DEG/blob/main/devkits/README.md#hosting-the-site-beyond-the-devkit):
+In production you also need TLS in front of `beckn-router:9000`. The three common patterns (host-level reverse proxy, in-stack Caddy doing TLS, managed edge) are documented in the [devkit README — Hosting the site](https://github.com/beckn/DEG/blob/main/devkits/README.md#hosting-the-site-beyond-the-devkit).
 
-- **Host-level reverse proxy** — nginx / Caddy / Traefik on your VM, Let's Encrypt cert, `proxy_pass → 127.0.0.1:9000`.
-- **Let the in-stack Caddy do TLS** — edit `install/Caddyfile`, drop `auto_https off`, mount `/data` for cert persistence, expose `:80`/`:443`.
-- **Managed edge** — Cloudflare / ALB / GCP LB / Cloudflare Tunnel, origin at `<your-host>:9000`. No stack changes.
-
-The address you publish in `subscriber_url` (step 3) is the TLS-terminated public URL.
+The address you publish in `subscriber_url` (step 3) must be the TLS-terminated public URL.
 
 ---
 

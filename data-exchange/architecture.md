@@ -49,12 +49,7 @@ BAP App      ONIX BAP      beckn-router      ONIX BPP      BPP Server
    │  (optional) update / on_update — credential rotation       │
 ```
 
-The **minimal viable exchange** is just `confirm` → `on_confirm`, with the dataset (or, for streaming, the connection credentials) carried in `on_confirm`. Every other step is opt-in:
-
-- **Discovery** (`publish-catalog`, `discover`/`on_discover`) — when the consumer doesn't yet know which provider to contract with.
-- **Negotiation** (`select`/`init`) — when terms (price, SLA, delivery mode) must be agreed before commitment.
-- **Polled delivery** (`status`/`on_status`) — when payload is prepared after `on_confirm`.
-- **Post-fulfilment** (`update`/`on_update`) — credential rotation, contract amendments.
+The minimal-flow framing and the optional phases are defined in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
 
 ---
 
@@ -71,22 +66,18 @@ Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](htt
 
 ---
 
-## Network configuration
+## Endpoints — sandbox vs production
 
-| Parameter | Local devkit (sandbox) | Real network |
+| Concern | Devkit sandbox | Real network |
 |---|---|---|
-| `networkId` | `nfh.global/testnet-deg` *(placeholder in devkit payloads)* | `indiaenergystack.in/test-ies-data-sharing-network` (test) or `indiaenergystack.in/ies-data-sharing-network` (prod). Listed in ONIX `allowedNetworkIDs` — see [Registry Setup](./registry-setup.md) |
-| `bapId` / `bppId` | `bap.example.com` / `bpp.example.com` | Your DeDi `subscriberId` |
-| Caller URLs | `http://beckn-router:9000/{bap,bpp}/caller` (in-stack) or `http://localhost:8081 \| 8082/{bap,bpp}/caller` (direct) | Your ONIX deployment URL behind TLS |
-| Callback URLs | `http://beckn-router:9000/{bap,bpp}/receiver` | Your public `bapUri` / `bppUri` published in the registry |
+| BAP-side caller (where your code POSTs `confirm`, etc.) | `http://localhost:9000/bap/caller` *(from Postman on your laptop)* or `http://beckn-router:9000/bap/caller` *(in-stack)* | Your ONIX deployment URL behind TLS |
+| BPP-side caller | `http://localhost:9000/bpp/caller` or `http://beckn-router:9000/bpp/caller` *(in-stack)* | Your ONIX deployment URL behind TLS |
+| Callback URLs in payload `bapUri`/`bppUri` | `http://beckn-router:9000/{bap,bpp}/receiver` *(docker-internal hostname; resolved by ONIX, not by Postman)* | Your public `bapUri` / `bppUri` published in your DeDi subscriber record |
+| `networkId`, `bapId`/`bppId`, `allowedNetworkIDs` | placeholder values shipped in `config/` | See [Registry Setup](./registry-setup.md) |
 
-ONIX configuration lives in [config/local-simple-{bap,bpp}.yaml](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/config). The mapping from DeDi registry fields to ONIX config fields is on the [Registry Setup](./registry-setup.md) page.
+`beckn-router` is a docker-network hostname — only reachable from inside the `bap_side`/`bpp_side` networks. From Postman on your laptop, hit `localhost:9000`. From within ONIX, `beckn-router` resolves and is the correct value to bake into payload `bapUri`/`bppUri`.
 
----
-
-## Mock BPP (cloud sandbox) — planned
-
-`sandbox-bpp` in the diagram above is the **local** devkit container. Separately, a **cloud-hosted Mock BPP** is planned as additional scope outside the devkit — a long-lived sandbox provider that BAP implementors can transact against without running anything locally, and that the network can use for automated conformance testing and certification of new BAPs. URL, supported use cases, and conformance suite — TBD.
+ONIX configuration lives in [config/local-simple-{bap,bpp}.yaml](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/config). The DeDi → ONIX field mapping is on [Registry Setup](./registry-setup.md).
 
 ---
 

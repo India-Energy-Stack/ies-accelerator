@@ -120,5 +120,5 @@ See the [Quick Start](../../quick-start.md) for the full step-by-step.
 * [IES\_Report Schema](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core) *(currently on the `ies-specs` branch; will move to India-Energy-Stack — see [Concepts § IES Data Schemas](../../concepts.md#ies-data-schemas))*
 * [OpenADR 3.1.0 Specification](https://www.openadr.org)
 * [Example payloads](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc1-meter-data/examples)
-* [survey-of-existing-terminology.md](survey-of-existing-terminology.md "mention")
-* [ies-data-model.md](ies-data-model.md "mention")
+* [survey-of-existing-terminology.md](survey-of-existing-terminology.md)
+* [ies-data-model.md](ies-data-model.md)
