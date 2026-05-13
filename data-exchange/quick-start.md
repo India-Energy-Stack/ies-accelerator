@@ -75,16 +75,17 @@ Import the **BAP** collection for the use case you care about.
 
 ### Set collection variables
 
-From Postman running on your laptop, use `http://localhost:9000` — the `beckn-router` hostname only resolves *inside* the docker network.
+Two things are happening at different layers:
 
-| Variable | Value (from Postman) |
-|---|---|
-| `bap_host_root` | `http://localhost:9000` |
-| `bpp_host_root` | `http://localhost:9000` |
+1. **The HTTP target Postman connects to** is the ONIX BAP adapter — `http://localhost:8081/bap/caller` — already pre-set in the collection's `beckn_adapter_url` variable. You don't change that for local sandbox runs.
+2. **The `bap_host_root` / `bpp_host_root` variables** are substituted into each payload's `context.bapUri` / `context.bppUri`. Those values get read by ONIX inside docker when it routes the callback back to the other side. The collection ships with the right defaults:
 
-> The `bapUri` / `bppUri` baked into the example payloads use `http://beckn-router:9000/...` — that value is for ONIX, which lives inside docker and resolves it correctly. Don't confuse the two.
+| Variable | Default (substituted into the payload) | When to change |
+|---|---|---|
+| `bap_host_root` | `http://beckn-router:9000` | If routing over an ngrok tunnel or a deployed public router, set to that hostname instead. |
+| `bpp_host_root` | `http://beckn-router:9000` | Same as above. |
 
-For a public tunnel (ngrok) or a deployed router, set both variables to that hostname instead. See the [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes) for the ngrok recipe.
+`beckn-router` is a docker-network hostname — ONIX inside docker resolves it; your Postman client never connects to it directly. See the [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes) for the ngrok recipe.
 
 ### Send `confirm` and verify (BAP path)
 
@@ -99,7 +100,7 @@ For a public tunnel (ngrok) or a deployed router, set both variables to that hos
    ```
 3. The `on_confirm` body either carries the dataset directly (`INLINE` delivery for the minimal flow) or holds a delivery handle that points to a later `on_status`. Either way, seeing `on_confirm` in `sandbox-bap` is your end-to-end signal.
 
-> **If you don't see `on_confirm`** — the most common causes are (a) you set `bap_host_root` / `bpp_host_root` to `beckn-router:9000` from Postman (it must be `localhost:9000` — see above), (b) ONIX rejected the message on schema/signature; check `docker logs onix-bap | grep -i error` and `docker logs onix-bpp | grep -i error`, or (c) the host alias DNS isn't set on `beckn-router` (only relevant if you regenerated `install/docker-compose.yml` — see beckn/DEG#319).
+> **If you don't see `on_confirm`** — the most common causes are (a) `bap_host_root` / `bpp_host_root` got changed to `localhost:9000` (they should stay at `http://beckn-router:9000` so ONIX-BPP can route the callback back — see above), (b) ONIX rejected the message on schema/signature; check `docker logs onix-bap | grep -i error` and `docker logs onix-bpp | grep -i error`, or (c) the host alias DNS isn't set on `beckn-router` (only relevant if you regenerated `install/docker-compose.yml` — see beckn/DEG#319).
 
 ### BPP path
 
