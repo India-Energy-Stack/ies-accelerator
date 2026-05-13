@@ -1,201 +1,154 @@
 # Quick Start — Data Exchange
 
-Get a complete data exchange running in under 10 minutes using the bootcamp stack (local Docker, mock BPP with real IES test data).
+Run a working data exchange against the devkit's local sandbox in under 10 minutes — no real registry, no production credentials. This page also doubles as the onboarding checklist; the registry/production steps live on [Registry Setup](./registry-setup.md).
 
 ---
 
-## Prerequisites
+## 1. Pick your role and the flow shape
 
-- Docker and Docker Compose installed
-- `curl` available in your terminal
+| You are | You run | You consume |
+|---|---|---|
+| **BAP** — Data Consumer (DISCOM, regulator, VAS provider, researcher) | BAP-side adapter + your application | Datasets published by BPPs |
+| **BPP** — Data Provider (AMISP, DISCOM, SERC, data custodian) | BPP-side adapter + your provider implementation | (You serve) |
+| Both | Both stacks | Datasets in both directions |
+
+Not every Beckn action is needed. Pick the simplest flow that meets your case:
+
+| Flow shape | Actions you need | When to use |
+|---|---|---|
+| **Minimal** | `confirm` → `on_confirm` (payload inline) | Pre-agreed bilateral exchange, one-shot delivery |
+| Negotiated | + `select` / `init` before `confirm` | Terms (price, SLA, delivery mode) need agreement |
+| Discoverable | + `publish-catalog` (BPP), `discover` (BAP) | Consumer doesn't yet know the provider |
+| Async delivery | + `status` / `on_status` after `on_confirm` | Payload prepared asynchronously |
+| Post-fulfilment | + `update` / `on_update` | Credential rotation, contract amendments |
+
+---
+
+## 2. Prerequisites
+
+- Docker and Docker Compose
+- Postman *(or `curl`)*
 - Git
+- ~2 GB free disk space for images
+
+For local sandbox use, the devkit ships pre-configured identities (`bap.example.com` / `bpp.example.com`) — no real credentials needed. For real-network use, see [Registry Setup](./registry-setup.md).
 
 ---
 
-## 1. Clone and Navigate
+## 3. Clone and start the stack
 
 ```bash
-git clone https://github.com/Beckn-One/DEG.git
-cd DEG/devkits/data-exchange
+git clone https://github.com/beckn/DEG.git
+cd DEG/devkits/data-exchange/install
+docker compose up -d
 ```
+
+Verify the services are up:
+
+```bash
+docker compose ps
+curl http://localhost:8081/health    # onix-bap
+curl http://localhost:8082/health    # onix-bpp
+curl http://localhost:9000/health    # beckn-router
+```
+
+The stack lays out as in [Architecture](./architecture.md): `beckn-router:9000` is the bridge; each side runs `onix-{bap,bpp}` + `sandbox-{bap,bpp}` + redis.
 
 ---
 
-## 2. Start the Bootcamp Stack
+## 4. Run the minimal exchange (`confirm` → `on_confirm`)
 
-```bash
-cd install
-docker compose -f docker-compose-bootcamp.yml up -d --build
+The minimal sanity check is one round-trip. From the BAP Postman collection, fire `confirm` and watch for `on_confirm` arriving back — that exercises sign → route → verify on both sides end-to-end.
+
+### Import the collections
+
+Each use case ships its own BAP and BPP Postman collections:
+
+```
+devkits/data-exchange/uc1-meter-data/postman/data-exchange-uc1-meter-data.{BAP,BPP}-DEG.postman_collection.json
+devkits/data-exchange/uc2-regulatory-data/postman/data-exchange-uc2-regulatory-data.{BAP,BPP}-DEG.postman_collection.json
 ```
 
-Wait ~15 seconds for ONIX to initialise, then verify all services:
+Import the **BAP** collection for the use case you care about (UC1 meter data or UC2 ARR filings).
 
-```bash
-curl http://localhost:8081/health      # → {"status":"ok"}
-curl http://localhost:8082/health      # → {"status":"ok"}
-curl http://localhost:3001/api/health  # → {"status":"ok"}
-curl http://localhost:3002/api/health  # → {"status":"ok","datasets":["IES_Report","IES_ARR_Filing","IES_TariffIntelligence"]}
-```
+### Set collection variables
 
----
-
-## 3. Run a Complete Exchange — Meter Telemetry
-
-The Beckn protocol is a four-step sequence. Run each step and check the response.
-
-### Step 1 — Select (browse available datasets)
-
-```bash
-curl -s -X POST http://localhost:8081/bap/caller/select \
-  -H "Content-Type: application/json" \
-  -d @usecase1/examples/select-request.json | python3 -m json.tool
-```
-
-Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-The mock BPP receives this and sends `on_select` back through ONIX with the dataset catalog. Check the sandbox BAP logs:
-
-```bash
-docker logs sandbox-bap 2>&1 | grep on_select | tail -5
-```
-
-### Step 2 — Init (activate the contract)
-
-```bash
-curl -s -X POST http://localhost:8081/bap/caller/init \
-  -H "Content-Type: application/json" \
-  -d @usecase1/examples/init-request.json | python3 -m json.tool
-```
-
-Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-### Step 3 — Confirm (lock the contract)
-
-```bash
-curl -s -X POST http://localhost:8081/bap/caller/confirm \
-  -H "Content-Type: application/json" \
-  -d @usecase1/examples/confirm-request.json | python3 -m json.tool
-```
-
-Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-### Step 4 — Status (receive the data)
-
-```bash
-curl -s -X POST http://localhost:8081/bap/caller/status \
-  -H "Content-Type: application/json" \
-  -d @usecase1/examples/status-request.json | python3 -m json.tool
-```
-
-Expected: `{"message":{"ack":{"status":"ACK"}}}`
-
-### Check the Data Arrived
-
-The `on_status` callback arrives at the sandbox BAP. Inspect it:
-
-```bash
-docker logs sandbox-bap 2>&1 | tail -80
-```
-
-Look for `dataPayload` in the output — it contains the `IES_Report` with 15-minute interval meter readings.
-
-Or check what the mock BPP sent:
-
-```bash
-docker logs mock-bpp 2>&1 | tail -30
-```
-
----
-
-## 4. Run the Automated Test
-
-The test script runs all 15 steps (select → init → confirm → status + 11 intermediate verifications) in sequence:
-
-```bash
-cd ..
-./scripts/test-workflow.sh usecase1
-```
-
-Successful output ends with:
-```
-✓ usecase1: All 15 steps passed
-```
-
----
-
-## 5. Try the Other Use Cases
-
-```bash
-# Use Case 2: ARR Filings (DISCOM → Regulator)
-./scripts/test-workflow.sh usecase2
-
-# Use Case 3: Tariff Policies (SERC → DISCOM)
-./scripts/test-workflow.sh usecase3
-
-# All three in sequence
-./scripts/test-workflow.sh all
-```
-
----
-
-## 6. Inspect the Payloads
-
-To see the actual IES data in a response, extract the `dataPayload`:
-
-```bash
-# Get on_status log from sandbox-bap and extract dataPayload
-docker logs sandbox-bap 2>&1 | \
-  python3 -c "
-import sys, json
-for line in sys.stdin:
-    try:
-        msg = json.loads(line)
-        if 'dataPayload' in str(msg):
-            print(json.dumps(msg, indent=2))
-            break
-    except: pass
-"
-```
-
----
-
-## 7. Stop the Stack
-
-```bash
-cd install
-docker compose -f docker-compose-bootcamp.yml down
-```
-
----
-
-## Next Steps
-
-| Goal | Where to go |
+| Variable | Local sandbox value |
 |---|---|
-| Understand the Beckn message format | [Core Concepts](./concepts.md) |
-| Build your own BAP application | [Onboarding Guide](./onboarding.md#for-bap-implementors) |
-| Build your own BPP / data provider | [Onboarding Guide](./onboarding.md#for-bpp-implementors) |
-| Deep dive into a specific use case | [Use Cases](./use-cases/README.md) |
-| Deploy to GCP | [`GCP-DEPLOY.md`](https://github.com/Beckn-One/DEG/blob/main/devkits/data-exchange/GCP-DEPLOY.md) |
+| `bap_host_root` | `http://beckn-router:9000` *(in-stack)* or `http://localhost:9000` |
+| `bpp_host_root` | `http://beckn-router:9000` *(in-stack)* or `http://localhost:9000` |
+
+For a public tunnel (ngrok) or a deployed router, set both to that hostname. The Caddy router on `:9000` is the only public-facing port.
+
+### Send `confirm` and verify
+
+1. In Postman, open the BAP collection's `confirm` request and click **Send**. Expect `{"status":"ACK"}`.
+2. Tail the BAP sandbox logs to see the matching callback:
+   ```bash
+   docker logs sandbox-bap 2>&1 | grep on_confirm | tail -5
+   ```
+3. The `on_confirm` body carries the dataset (for INLINE delivery) or a delivery handle. That's your end-to-end signal.
 
 ---
 
-## Using Postman Instead of curl
+## 5. (Optional) Add other steps
 
-Import the collection:
+The same Postman collection ships requests for the other actions; run them only when your use case needs them:
+
+- `publish-catalog` (BPP collection) + `discover` (BAP) — for unknown providers
+- `select` / `init` — for negotiated terms
+- `status` / `on_status` — for asynchronous delivery (UC1 inline meter data flows often use this)
+- `update` / `on_update` — for credential rotation
+
+Each use case page lists which steps it actually exercises:
+- [Meter Telemetry (UC1)](./use-cases/meter-telemetry/) — uses `confirm` + `on_status`
+- [ARR Filings (UC2)](./use-cases/arr-filings.md) — uses `confirm` + `on_status`
+- [Tariff Policies (UC3)](./use-cases/tariff-policies.md) — *planned, not yet implemented in devkit*
+
+---
+
+## 6. Stop the stack
+
+```bash
+cd DEG/devkits/data-exchange/install
+docker compose down
 ```
-usecase1/postman/data-exchange-usecase1.BAP-DEG.postman_collection.json
-```
 
-Set collection variables:
+---
 
-| Variable | Value |
-|---|---|
-| `bap_adapter_url` | `http://localhost:8081/bap/caller` |
-| `bap_id` | `bap.example.com` |
-| `bap_uri` | `http://onix-bap:8081/bap/receiver` |
-| `bpp_id` | `bpp.example.com` |
-| `bpp_uri` | `http://onix-bpp:8082/bpp/receiver` |
-| `transaction_id` | *(generate any UUID)* |
+## 7. Going beyond the sandbox
 
-Run requests in order: **select → init → confirm → status**.
+The sandbox identities (`bap.example.com` / `bpp.example.com`) and the `nfh.global/testnet-deg` network are local-only. To transact with real participants:
+
+1. Publish your own subscriber record on DeDi Global (your verified namespace + Ed25519 public key).
+2. Ask the network owner to add your record to the network registry.
+3. Update `config/local-simple-{bap,bpp}.yaml` so ONIX uses your real identity.
+
+Full step-by-step on [Registry Setup](./registry-setup.md).
+
+---
+
+## Onboarding checklist
+
+### BAP (Data Consumer)
+- [ ] Devkit cloned, stack up (`docker compose up -d` in `install/`)
+- [ ] BAP Postman collection imported, variables set
+- [ ] `confirm` → `on_confirm` round-trip succeeds against `sandbox-bpp`
+- [ ] Your application can consume the `dataPayload` body
+- [ ] *(for real network)* Subscriber record published on DeDi; added to network registry; ONIX config updated → [Registry Setup](./registry-setup.md)
+
+### BPP (Data Provider)
+- [ ] Devkit cloned, stack up
+- [ ] BPP Postman collection imported, variables set
+- [ ] Your provider implementation handles inbound `confirm` and emits `on_confirm` (or `on_status` for async delivery) — start from the `sandbox-bpp` reference behaviour
+- [ ] Example payloads in `uc*/examples/` align with your schema output
+- [ ] *(for real network)* Subscriber record published on DeDi; added to network registry; ONIX config updated → [Registry Setup](./registry-setup.md)
+
+---
+
+## Reference
+
+- [Architecture](./architecture.md) — stack topology, generic flow, context invariants
+- [Devkit README](https://github.com/beckn/DEG/blob/main/devkits/README.md) — multi-network ONIX, hosting/TLS, ngrok
+- [docs.nfh.global/beckn](https://docs.nfh.global/beckn) — network and registry primitives
+- [Beckn protocol v2.0.0 spec](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0)
