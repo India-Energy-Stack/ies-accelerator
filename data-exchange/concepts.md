@@ -120,6 +120,45 @@ Canonical schema definitions today: [beckn/DEG — `ies-specs` branch](https://g
 
 ---
 
+## How schema validation works
+
+The IES schemas above are convenient defaults — but the wire envelope itself accepts arbitrary JSON inside `dataPayload`. Validation is **opt-in per object**, driven by JSON-LD self-description:
+
+- **Payload declares `@context` + `@type` → ONIX validates it.** Any object inside the message that carries both fields is dispatched to the Extended Schema validator.
+- **Payload omits `@context` → ONIX passes it through.** Useful when you're prototyping a new dataset shape, exchanging vendor-specific data, or working with sources that don't publish JSON-LD contexts.
+
+### The dispatch mechanic
+
+When ONIX sees a self-describing object (such as `commitmentAttributes`, `resourceAttributes`, `performanceAttributes`, or the inner `dataPayload`), it:
+
+1. Reads the object's `@context` URL — e.g. `https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1.1/context.jsonld`.
+2. Transforms it to the **sibling `attributes.yaml`** at the same path — `…/DatasetItem/v1.1/attributes.yaml`. By convention IES (and the broader Beckn schema family) keeps an OpenAPI 3.x schema file next to every JSON-LD context.
+3. Fetches and caches that `attributes.yaml`.
+4. Looks up an entry in `components.schemas` whose name **matches the `@type` value exactly** — `DatasetItem`, `IES_Report`, `IES_Policy`, `Organization`, `PriceSpecification`, `Payment`, etc.
+5. Validates the object against that schema. If validation fails, the message is rejected.
+
+Two failure modes are worth knowing:
+
+- `no schema found for @type: XYZ` — the `attributes.yaml` doesn't define a schema with that name. Either the `@type` is wrong, or the schema file at the resolved URL doesn't include it.
+- Schema validation error — the object is missing a required field, has the wrong type, or otherwise doesn't match the OpenAPI definition. ONIX includes the JSON path of the failure in the error.
+
+### Domain allow-list
+
+ONIX restricts which hosts it will fetch `@context` URLs from, via the `extendedSchema` plugin config. Out of the box that includes `raw.githubusercontent.com` and `schema.beckn.io`. To validate payloads using a context hosted elsewhere (your own schema repo, for instance), add the host to the allow-list in your ONIX config.
+
+### Publishing your own schema
+
+If you want ONIX to validate a custom dataset shape:
+
+1. Author an OpenAPI 3.x `attributes.yaml` with your schemas in `components.schemas`.
+2. Author a JSON-LD `context.jsonld` mapping your field names to URIs.
+3. Host both at a URL ONIX is allowed to reach — they must sit at the same path (`<base>/context.jsonld` and `<base>/attributes.yaml`).
+4. In your payload, set `@context` to the context URL and `@type` to the matching schema name.
+
+ONIX then validates exactly as it does for `IES_Report` or `DatasetItem`. No code change needed; the dispatch is purely URL-driven. The shipped IES schemas under [beckn/DEG `ies-specs`](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
+
+---
+
 ## ONIX Adapter and Network
 
 **ONIX** is the Beckn protocol adapter — it signs, verifies, routes, and validates so your application never deals with protocol-level concerns. See [Architecture § Stack topology](./architecture.md#stack-topology).
