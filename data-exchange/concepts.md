@@ -62,12 +62,53 @@ Every Beckn message shares the same envelope. Field names follow the v2.0 wire f
 
 ### Context invariants
 
-Two `context` rules govern correlation across the network — get either wrong and the adapter will reject the message:
+Two `context` rules govern message correlation across the network. These are protocol expectations from the Beckn v2.0 spec — every implementation that participates in the network is expected to honour them so that participants and audit trails can stitch related messages together:
 
-- **`transactionId` is constant** across every message in one exchange. From the first `discover`/`select`/`confirm` to the final `on_status`/`on_update`, the same UUID flows through. It is how all parties (and registry-level audit trails) stitch the conversation together.
+- **`transactionId` is constant** across every message in one exchange. From the first `discover`/`select`/`confirm` to the final `on_status`/`on_update`, the same UUID flows through. It is how all parties (and registry-level audit trails) link the conversation.
 - **`messageId` is the same on a request and its paired callback.** `confirm` and the matching `on_confirm` share one `messageId`; a subsequent `status` gets a *new* `messageId`, which its `on_status` reuses. Treat the pair as one logical message with two hops.
 
 Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0).
+
+---
+
+## Building Trust
+
+Every Beckn message on the network is **cryptographically signed** by the sender, and every incoming message is verified by the receiver against the sender's published public key. ONIX does the heavy lifting on both sides — your application doesn't deal with signing or key management directly.
+
+### How identity resolution works
+
+When a message arrives, ONIX:
+
+1. Reads the sender identifier from the message context (`bapId` on a forward request, `bppId` on a callback).
+2. Looks the sender up in the **DeDi registry** at a URL of the form:
+   ```
+   https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>
+   ```
+   The lookup response carries the sender's published callback URL, signing public key, **parent namespaces** they belong to, and the **network memberships** they hold.
+3. Cross-checks those network memberships against this ONIX's `allowedNetworkIDs` config. A sender that doesn't belong to any of the configured networks is treated as outside the boundary of trust.
+4. Verifies the signature on the inbound message using the sender's published public key.
+
+This combination — DeDi resolution plus `allowedNetworkIDs` — creates a **logical boundary of trust**: only participants registered in the networks you accept can transact with you. Two participants registered on different (or non-overlapping) networks cannot reach each other through their ONIX adapters.
+
+### Identity fields, in DeDi and in ONIX
+
+A Beckn subscriber record in DeDi has two identifiers you'll see throughout these docs. Both are present on a DeDi registry record whose registry is of type **`beckn-subscriber`**:
+
+| Field | What it is |
+|---|---|
+| `subscriber_id` | Your unique participant identity on the network — typically tied to your verified DeDi namespace |
+| `record_id` | The specific DeDi-assigned identifier of *this* subscriber record under your namespace; the handle ONIX uses to look up your key |
+
+ONIX on your side needs to know **both of yours**, plus your **private signing key**, so it can stamp every outbound message with a valid signature. The corresponding ONIX config keys live under `modules[].handler.plugins.keyManager.config`:
+
+| Yours, in DeDi | ONIX config key |
+|---|---|
+| `subscriber_id` | `networkParticipant` |
+| `record_id` | `keyId` |
+| Ed25519 private key (the half you keep) | `signingPrivateKey` |
+| Ed25519 public key (the half you publish in DeDi) | `signingPublicKey` |
+
+See [Registry Setup](./registry-setup.md) for the end-to-end onboarding flow that produces these values, and [Quick Start § Phase 2](./quick-start.md#phase-2--swap-in-your-real-identity) for the YAML snippet showing exactly where they sit in the adapter config.
 
 ---
 
@@ -163,4 +204,4 @@ ONIX then validates exactly as it does for `IES_Report` or `DatasetItem`. No cod
 
 **ONIX** is the Beckn protocol adapter — it signs, verifies, routes, and validates so your application never deals with protocol-level concerns. See [Architecture § Stack topology](./architecture.md#stack-topology).
 
-IES operates two networks anchored at the `indiaenergystack.in` DeDi namespace (`test-ies-data-sharing-network` and `ies-data-sharing-network`). The `domain` field in every message is `deg:data-exchange`. See [Registry Setup](./registry-setup.md) for joining either.
+IES operates two networks anchored at the `indiaenergystack.in` DeDi namespace (`test-ies-data-sharing-network` and `ies-data-sharing-network`). See [Registry Setup](./registry-setup.md) for joining either.
