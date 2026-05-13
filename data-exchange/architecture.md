@@ -49,20 +49,7 @@ BAP App      ONIX BAP      beckn-router      ONIX BPP      BPP Server
    │  (optional) update / on_update — credential rotation       │
 ```
 
-The minimal-flow framing and the optional phases are defined in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
-
----
-
-## Context invariants
-
-Two `context` rules govern message correlation. ONIX rejects messages that violate either.
-
-- **`transactionId` is constant across one exchange.** Every message — from the first `discover`/`select`/`confirm` through the final `on_status` or `on_update` — carries the same UUID. It is how all parties (and registry-level audit trails) stitch the conversation together.
-- **`messageId` is the same on a request and its paired callback.** `confirm` and its matching `on_confirm` share one `messageId`; a later `status` gets a *new* `messageId`, which its `on_status` reuses. Treat each request/callback pair as one logical message with two hops.
-
-In addition, every message must include `schemaContext` pointing at the JSON-LD context of the schema being carried in the payload — without it, ONIX validation fails.
-
-Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0).
+The minimal-flow framing, the optional phases, and the `transactionId` / `messageId` correlation rules all live in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
 
 ---
 
