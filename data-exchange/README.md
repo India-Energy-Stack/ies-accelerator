@@ -40,13 +40,15 @@ Data delivery is **inline** — the dataset is embedded directly in the Beckn ca
 
 ## What Data Can Be Exchanged
 
-IES Data Exchange currently supports three dataset types:
+The devkit ships **prebuilt schemas** for three IES dataset types — the sector's most common shapes:
 
 | Schema | Description | Typical Flow |
 |---|---|---|
 | `IES_Report` | Smart meter telemetry — 15-minute interval kWh readings in OpenADR 3.1.0 format | AMISP → DISCOM |
 | `IES_ARR_Filing` | Aggregate Revenue Requirement — cost line items by fiscal year | DISCOM → SERC |
 | `IES_Policy` + `IES_Program` | Tariff rate structures — energy slabs, time-of-day surcharges | SERC → DISCOM |
+
+**Any JSON payload can be exchanged** — the wire envelope carries arbitrary data inside `dataPayload`. If your payload is **self-describing** (declares a JSON-LD `@context` and `@type`), the ONIX adapter automatically validates it against the schema published at that context URL. Payloads without `@context` flow through unvalidated — useful for ad-hoc or evolving data shapes. See [Concepts § How schema validation works](./concepts.md#how-schema-validation-works) for the dispatch mechanics.
 
 ---
 
