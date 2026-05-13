@@ -1,5 +1,7 @@
 # Use Case 3 — Tariff Policies
 
+> **Status: planned.** The schema and scenario below describe the target shape. There is no implementation in the devkit yet — no `uc3-*` directory, no example payloads, no Postman collection. The page is retained for design alignment; expect changes when the devkit ships UC3.
+
 **A State Electricity Regulatory Commission (SERC) publishes machine-readable tariff rate structures to DISCOMs.**
 
 ---
@@ -216,19 +218,10 @@ def apply_tariff(consumption_kwh: float, hour_of_day: int, policy: dict) -> floa
 
 ## Running This Use Case
 
-```bash
-cd DEG/devkits/data-exchange
-
-# Start bootcamp stack (if not already running)
-cd install && docker compose -f docker-compose-bootcamp.yml up -d --build && cd ..
-
-./scripts/test-workflow.sh usecase3
-```
+Not yet runnable — the devkit does not ship a tariff-policies use case. Track [beckn/DEG](https://github.com/beckn/DEG) for when `uc3-tariff-policies/` (or equivalent) lands.
 
 ---
 
 ## Reference
 
-- [IES_Policy + IES_Program Schemas](https://github.com/India-Energy-Stack/ies-docs)
-- [IES Core Schemas](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
-- [Example payloads](https://github.com/Beckn-One/DEG/tree/main/devkits/data-exchange/usecase3/examples)
+- [IES Core Schemas — `IES_Policy` + `IES_Program`](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core) *(currently on the `ies-specs` branch; will move to India-Energy-Stack — see [Concepts § IES Data Schemas](../concepts.md#ies-data-schemas))*
