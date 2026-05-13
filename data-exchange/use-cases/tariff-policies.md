@@ -99,13 +99,7 @@ Full request/response examples (publish-catalog, discover, confirm, on-confirm, 
 
 ## Why Machine-Readable Tariffs Matter
 
-| Current State | With IES Tariff Policies |
-|---|---|
-| Tariff orders published as PDFs | Machine-readable JSON-LD alongside the PDF order |
-| Each DISCOM interprets slabs independently | Single authoritative structured definition |
-| Billing system updates take days/weeks | Billing systems ingest the policy directly via Beckn |
-| TOU surcharges manually configured | Surcharge rules machine-parseable by smart meters / home energy managers |
-| Comparison across SERCs is manual | Structured format enables automated cross-state analysis |
+Tariff orders are published today as PDFs that every DISCOM re-keys into its billing system — slowly, inconsistently, and with interpretation drift. A signed `IES_Policy` JSON-LD published alongside the order means a single authoritative definition that billing systems, smart meters, and home energy managers can ingest directly, and that consumer-side tools can compare across SERCs.
 
 ---
 
