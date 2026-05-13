@@ -118,31 +118,67 @@ docker compose down
 
 ## 7. Going beyond the sandbox
 
-The sandbox identities (`bap.example.com` / `bpp.example.com`) and the placeholder network ID in the devkit payloads are local-only. To transact with real participants on the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`) or the IES production network (`indiaenergystack.in/ies-data-sharing-network`):
+Onboarding is a two-phase progression. Don't skip phase 1.
 
-1. Publish your own subscriber record on DeDi Global (your verified namespace + Ed25519 public key).
-2. Ask the network owner to add your record to the network registry.
-3. Update `config/local-simple-{bap,bpp}.yaml` so ONIX uses your real identity.
+### Phase 1 — Use the devkit as-is and prove the flows
 
-Full step-by-step on [Registry Setup](./registry-setup.md).
+Sections 1–6 above are the whole of phase 1. Run them with the shipped sandbox identities (`bap.example.com` / `bpp.example.com`), the placeholder `networkId` in the devkit payloads, and the sandbox signing keys committed in `config/`. The goal is to confirm:
+
+- The Docker stack comes up cleanly and `beckn-router:9000` is reachable.
+- `confirm` → `on_confirm` produces a callback you can see in `sandbox-bap` logs.
+- Your application consumes the `dataPayload` shape you expect for whichever use case you care about.
+- *(For BPPs)* your provider implementation emits the right `on_confirm` / `on_status` envelopes — start from the `sandbox-bpp` reference behaviour, swap your business logic in, keep the wire shape.
+
+Iterate here until everything is green. Nothing in phase 1 touches DeDi or the IES networks.
+
+### Phase 2 — Swap in your real identity
+
+Only once phase 1 is solid, replace the sandbox identity with yours. Three knobs in [`devkits/data-exchange/config/local-simple-bap.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) and the matching `local-simple-bpp.yaml`:
+
+| Knob | Sandbox value | Replace with |
+|---|---|---|
+| `allowedNetworkIDs` | placeholder | `indiaenergystack.in/test-ies-data-sharing-network` *(stay on test until certified — see [Registry Setup § Two registries, two ONIX deployments](./registry-setup.md#two-registries-two-onix-deployments))* |
+| `networkParticipant` / `subscriberId` | `bap.example.com` / `bpp.example.com` | Your real `subscriberId` from the DeDi record you publish |
+| `keyId` + Ed25519 private key | sandbox keys committed in `config/` | Your real `recordId` from DeDi and the matching Ed25519 private key |
+
+The corresponding pre-work on DeDi (verify namespace → create subscriber registry → publish record with public key → ask IES to add your DeDi URL to the network reference registry) is the full subject of [Registry Setup](./registry-setup.md). The lookup URL you copied from DeDi is what you hand to IES; the `recordId` you noted is what you put in ONIX as `keyId`.
+
+After the config swap, re-import the same Postman collection (or rerun the same Arazzo workflow) — the requests are identical, only the identity ONIX signs with and the network it claims has changed. A successful `confirm` against another participant on `indiaenergystack.in/test-ies-data-sharing-network` proves end-to-end onboarding.
+
+Promote to `indiaenergystack.in/ies-data-sharing-network` only when testing is finished and IES has added your prod DeDi URL to the prod network's reference registry. The recommended pattern is **two separate ONIX deployments** with `allowedNetworkIDs` narrowed to one network each — see [Registry Setup](./registry-setup.md#two-registries-two-onix-deployments).
 
 ---
 
 ## Onboarding checklist
 
 ### BAP (Data Consumer)
+
+Phase 1 — devkit as-is:
 - [ ] Devkit cloned, stack up (`docker compose up -d` in `install/`)
 - [ ] BAP Postman collection imported, variables set
 - [ ] `confirm` → `on_confirm` round-trip succeeds against `sandbox-bpp`
 - [ ] Your application can consume the `dataPayload` body
-- [ ] *(for real network)* Subscriber record published on DeDi; added to network registry; ONIX config updated → [Registry Setup](./registry-setup.md)
+
+Phase 2 — real identity on `indiaenergystack.in/test-ies-data-sharing-network`:
+- [ ] DeDi namespace verified; subscriber registry created
+- [ ] Subscriber record published (public key, callback URL); `recordId` noted
+- [ ] DeDi lookup URL handed to IES; reference entry added to the test network registry
+- [ ] `config/local-simple-bap.yaml` updated: `allowedNetworkIDs`, `subscriberId`, `keyId`, private key
+- [ ] Same flow passes against the test network → ready for IES to promote you to prod ([Registry Setup](./registry-setup.md))
 
 ### BPP (Data Provider)
+
+Phase 1 — devkit as-is:
 - [ ] Devkit cloned, stack up
 - [ ] BPP Postman collection imported, variables set
 - [ ] Your provider implementation handles inbound `confirm` and emits `on_confirm` (or `on_status` for async delivery) — start from the `sandbox-bpp` reference behaviour
 - [ ] Example payloads in `uc*/examples/` align with your schema output
-- [ ] *(for real network)* Subscriber record published on DeDi; added to network registry; ONIX config updated → [Registry Setup](./registry-setup.md)
+
+Phase 2 — real identity on `indiaenergystack.in/test-ies-data-sharing-network`:
+- [ ] DeDi namespace verified; subscriber registry created
+- [ ] Subscriber record published; `recordId` noted; DeDi lookup URL handed to IES
+- [ ] `config/local-simple-bpp.yaml` updated: `allowedNetworkIDs`, `subscriberId`, `keyId`, private key
+- [ ] End-to-end exchange completes with another participant on the test network → ready for prod ([Registry Setup](./registry-setup.md))
 
 ---
 
