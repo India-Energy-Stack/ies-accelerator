@@ -1,6 +1,6 @@
 # Basic Checklist — DISCOM Regulatory Filing
 
-*A plain-English, conceptual checklist for a DISCOM (and the receiving SERC) standing up the [DISCOM Regulatory Filing use case](../use-cases/discom-regulatory-filing.md) — submitting ARR, true-up, FPPCA, and other compliance filings as structured, signed objects instead of PDFs. Use it to brief leadership and align finance, regulatory affairs, and IT teams.*
+*A plain-English, conceptual checklist for a DISCOM (and the receiving SERC) standing up the [DISCOM Regulatory Filing use case](./discom-regulatory-filing.md) — submitting ARR, true-up, FPPCA, and other compliance filings as structured, signed objects instead of PDFs. Use it to brief leadership and align finance, regulatory affairs, and IT teams.*
 
 ---
 
@@ -86,4 +86,4 @@ Identify three roles: a **Regulatory affairs / finance point of contact** for th
 
 ---
 
-*Once these nine items are in place, regulatory filings between the DISCOM and the SERC flow as signed, machine-verifiable objects with a non-repudiable audit trail. See the [DISCOM Regulatory Filing use case](../use-cases/discom-regulatory-filing.md) for the detailed setup and the [data-exchange checklists](./data-exchange-basic-checklist.md) for the underlying network-onboarding steps.*
+*Once these nine items are in place, regulatory filings between the DISCOM and the SERC flow as signed, machine-verifiable objects with a non-repudiable audit trail. See the [DISCOM Regulatory Filing use case](./discom-regulatory-filing.md) for the detailed setup and the [data-exchange checklists](../checklists/data-exchange-basic-checklist.md) for the underlying network-onboarding steps.*

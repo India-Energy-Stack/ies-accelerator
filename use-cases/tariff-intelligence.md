@@ -227,7 +227,7 @@ cd DEG/devkits/data-exchange/uc3-tariff-policy/workflows
 
 ## References
 
-- [Basic Checklist](../checklists/tariff-intelligence-basic-checklist.md) — plain-English rollout checklist
+- [Basic Checklist](./tariff-intelligence-basic-checklist.md) — plain-English rollout checklist
 - [`IES_Policy`, `IES_Program`, `EnergySlab`, `SurchargeTariff` (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [ies-docs tariff specification example](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/examples/tariff_specification_example.jsonld)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy/examples)

@@ -51,17 +51,17 @@
 
 * [Overview](use-cases/README.md)
 * [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
+  * [Basic Checklist](use-cases/smart-meter-data-exchange/basic-checklist.md)
   * [Survey of Existing Terminology](use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md)
   * [IES Data Model](use-cases/smart-meter-data-exchange/ies-data-model.md)
-  * [Basic Checklist](checklists/smart-meter-data-exchange-basic-checklist.md)
 * [Consumer Meter Digest](use-cases/consumer-meter-digest.md)
-  * [Basic Checklist](checklists/consumer-meter-digest-basic-checklist.md)
+  * [Basic Checklist](use-cases/consumer-meter-digest-basic-checklist.md)
 * [Consumer Energy Passport](use-cases/consumer-energy-passport.md)
-  * [Basic Checklist](checklists/consumer-energy-passport-basic-checklist.md)
+  * [Basic Checklist](use-cases/consumer-energy-passport-basic-checklist.md)
 * [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing.md)
-  * [Basic Checklist](checklists/discom-regulatory-filing-basic-checklist.md)
+  * [Basic Checklist](use-cases/discom-regulatory-filing-basic-checklist.md)
 * [Tariff Intelligence](use-cases/tariff-intelligence.md)
-  * [Basic Checklist](checklists/tariff-intelligence-basic-checklist.md)
+  * [Basic Checklist](use-cases/tariff-intelligence-basic-checklist.md)
 
 
 

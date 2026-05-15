@@ -1,6 +1,6 @@
 # Basic Checklist — Smart Meter Data Exchange
 
-*A plain-English, conceptual checklist for an AMISP, DISCOM, or SERC standing up the [Smart Meter Data Exchange use case](../use-cases/smart-meter-data-exchange/README.md). Use it to brief leadership and align operations, IT, and metering teams. The detailed setup steps live on the use case page itself.*
+*A plain-English, conceptual checklist for an AMISP, DISCOM, or SERC standing up the [Smart Meter Data Exchange use case](./README.md). Use it to brief leadership and align operations, IT, and metering teams. The detailed setup steps live on the use case page itself.*
 
 ---
 
@@ -59,7 +59,7 @@ The AMISP publishes a catalogue entry the DISCOM can `discover` and `confirm` ag
 
 ### 7. (Optional) Enable consented third-party access
 
-When a consumer-authorised third party is the consumer, they present a [Consumer Meter Digest](../use-cases/consumer-meter-digest.md) authorisation alongside `confirm`. The provider verifies the credential before delivery.
+When a consumer-authorised third party is the consumer, they present a [Consumer Meter Digest](../consumer-meter-digest.md) authorisation alongside `confirm`. The provider verifies the credential before delivery.
 
 - [ ] Third-party consent model agreed (if in scope)
 - [ ] Credential check wired into the provider adapter
@@ -82,4 +82,4 @@ Identify two roles: an **IT / data point of contact** for the technical integrat
 
 ---
 
-*Once these nine items are in place, your organisation is exchanging smart-meter data on IES in a standardised, signed, auditable way. See the [Smart Meter Data Exchange use case](../use-cases/smart-meter-data-exchange/README.md) for the detailed setup, and the [data-exchange checklists](./data-exchange-basic-checklist.md) for the underlying network-onboarding steps.*
+*Once these nine items are in place, your organisation is exchanging smart-meter data on IES in a standardised, signed, auditable way. See the [Smart Meter Data Exchange use case](./README.md) for the detailed setup, and the [data-exchange checklists](../../checklists/data-exchange-basic-checklist.md) for the underlying network-onboarding steps.*
