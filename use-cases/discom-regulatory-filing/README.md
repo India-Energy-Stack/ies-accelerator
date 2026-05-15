@@ -30,10 +30,10 @@ Note: unlike Smart Meter Data Exchange, here the **DISCOM is the BPP** (data pro
 
 | Block | Role in this use case |
 |---|---|
-| [Identifiers](../identifiers/README.md) | The DISCOM and SERC each have a `did:web` identity registered in the IES registries; the filing object carries identifiers for the filing, the fiscal year, the regulatory order it responds to, and the cost line items. |
-| [Registries](../registries/README.md) | DISCOM looked up in [IES DISCOMs Reference Registry](../registries/required-registries.md#discoms-registry); SERC in [IES Regulators Reference Registry](../registries/required-registries.md#regulators-registry). |
-| [Data Exchange](../data-exchange/README.md) | The Beckn-based protocol carries the `IES_ARR_Filing` payload from BPP (DISCOM) to BAP (SERC), with the same `confirm` / `on_confirm` / `status` / `on_status` lifecycle as the meter-data flow. |
-| [Energy Credentials](../energy-credentials/README.md) | *Not used for the filing itself* — the filing is signed by the Beckn message envelope. Credentials enter the picture only if a consumer-rep needs an attested DISCOM identity letter, which is the [Consumer Energy Passport / DISCOM-side analogue](../energy-credentials/README.md), not part of the filing flow. |
+| [Identifiers](../../identifiers/README.md) | The DISCOM and SERC each have a `did:web` identity registered in the IES registries; the filing object carries identifiers for the filing, the fiscal year, the regulatory order it responds to, and the cost line items. |
+| [Registries](../../registries/README.md) | DISCOM looked up in [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry); SERC in [IES Regulators Reference Registry](../../registries/required-registries.md#regulators-registry). |
+| [Data Exchange](../../data-exchange/README.md) | The Beckn-based protocol carries the `IES_ARR_Filing` payload from BPP (DISCOM) to BAP (SERC), with the same `confirm` / `on_confirm` / `status` / `on_status` lifecycle as the meter-data flow. |
+| [Energy Credentials](../../energy-credentials/README.md) | *Not used for the filing itself* — the filing is signed by the Beckn message envelope. Credentials enter the picture only if a consumer-rep needs an attested DISCOM identity letter, which is the [Consumer Energy Passport / DISCOM-side analogue](../../energy-credentials/README.md), not part of the filing flow. |
 
 ---
 
@@ -117,16 +117,16 @@ Either shape can be exchanged; the BAP declares which it expects in the catalogu
 
 Both parties need DeDi entries:
 
-- DISCOM in [`ies-discoms-reference-registry`](../registries/required-registries.md#discoms-registry) under `india-energy-stack:<discom-short-code>`.
-- SERC in [`ies-regulators-reference-registry`](../registries/required-registries.md#regulators-registry) under `india-energy-stack:<serc-short-code>`.
+- DISCOM in [`ies-discoms-reference-registry`](../../registries/required-registries.md#discoms-registry) under `india-energy-stack:<discom-short-code>`.
+- SERC in [`ies-regulators-reference-registry`](../../registries/required-registries.md#regulators-registry) under `india-energy-stack:<serc-short-code>`.
 
-Each registration pins a `did:web` and the public key for Beckn message signing. See [Registry Creation](../registries/registry-creation.md).
+Each registration pins a `did:web` and the public key for Beckn message signing. See [Registry Creation](../../registries/registry-creation.md).
 
 ### 2. Identifier hygiene
 
 Mint a single canonical `filingId` per submission (typical pattern: `<DISCOM>-ARR-<FY>` or `<DISCOM>-TRUEUP-<FY>`). The same `filingId` should appear on any subsequent re-submissions or revisions — versioning lives on the data-exchange envelope (`updatedAt`), not on the ID.
 
-If the filing responds to a specific tariff order, include the `policyID` of that order (see [Tariff Intelligence](tariff-intelligence.md)) so the SERC's archive can stitch order ↔ petition ↔ true-up automatically.
+If the filing responds to a specific tariff order, include the `policyID` of that order (see [Tariff Intelligence](../tariff-intelligence/README.md)) so the SERC's archive can stitch order ↔ petition ↔ true-up automatically.
 
 ### 3. Stand up the data-exchange adapters
 
@@ -138,7 +138,7 @@ cd DEG/devkits/data-exchange/install
 docker compose up -d
 ```
 
-For production, follow [Registry Setup](../data-exchange/registry-setup.md) and point the adapter at the IES registry endpoint and your `did:web` keys.
+For production, follow [Registry Setup](../../data-exchange/registry-setup.md) and point the adapter at the IES registry endpoint and your `did:web` keys.
 
 ### 4. Catalogue the filing as a published dataset
 
@@ -199,14 +199,16 @@ ARR filings arrive today as PDFs/Excel sheets that regulators manually re-key. D
 
 - **`IES_ARR_Filing` schema canonicalisation.** The schema currently lives on `beckn/DEG:ies-specs`; it will move to `India-Energy-Stack`. The cost-category enumeration is the active conversation — expect additions, not breaking renames.
 - **Workbook attachments.** Many filings ship with supporting Excel models; the convention for attaching them (separate `DatasetItem` per workbook vs. embedded base64) is being agreed.
-- **Cross-filing references.** A standard reference shape for *"this filing responds to SERC Order X"* is being aligned with the [Tariff Intelligence](tariff-intelligence.md) `policyID` pattern.
+- **Cross-filing references.** A standard reference shape for *"this filing responds to SERC Order X"* is being aligned with the [Tariff Intelligence](../tariff-intelligence/README.md) `policyID` pattern.
 
 ---
 
 ## References
 
+- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
+
 - [`IES_ARR_Filing` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/arr)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc2-regulatory-data/examples)
 - [ies-docs ARR examples](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange/examples)
-- [Data Exchange — Architecture](../data-exchange/architecture.md)
-- [Data Exchange — Quick Start](../data-exchange/quick-start.md)
+- [Data Exchange — Architecture](../../data-exchange/architecture.md)
+- [Data Exchange — Quick Start](../../data-exchange/quick-start.md)

@@ -10,7 +10,7 @@ Smart meter readings are the foundation of modern distribution operations: load 
 
 Today this is a tangle of bespoke FTP drops, proprietary MDMS APIs, and CSV email attachments. The Smart Meter Data Exchange use case replaces these with a single, discoverable, signed, schema-validated exchange over the IES Data Exchange protocol.
 
-> For consumer-pull of their own meter data (one-meter, on-demand, wallet-shareable), see the sister use case [Consumer Meter Digest](../consumer-meter-digest.md). This guide is the bulk, scheduled, machine-to-machine flow.
+> For consumer-pull of their own meter data (one-meter, on-demand, wallet-shareable), see the sister use case [Consumer Meter Digest](../consumer-meter-digest/README.md). This guide is the bulk, scheduled, machine-to-machine flow.
 
 ---
 
@@ -34,7 +34,7 @@ The protocol is symmetric — the same surface area supports AMISP→DISCOM, DIS
 | [Identifiers](../../identifiers/README.md) | Every meter, DT, feeder, and substation involved is referenced by an IES identifier. Resource references in the exchange (`resourceName`) carry these IDs. |
 | [Registries](../../registries/README.md) | The AMISP, DISCOM, and SERC participants are looked up in their respective DeDi registries. Meter/asset IDs are resolved through utility-operated identifier registries. |
 | [Data Exchange](../../data-exchange/README.md) | The Beckn-based protocol that carries the `IES_Report` payload from BPP to BAP, with optional discovery, contract, and async delivery semantics. |
-| [Energy Credentials](../../energy-credentials/README.md) | *Optional for the M2M flow; required when a consumer-consented third party is the BAP.* The third party presents the [Consumer Meter Digest](../consumer-meter-digest.md) authorisation or holds a presentation of the consumer's [Consumer Energy Passport](../consumer-energy-passport.md). |
+| [Energy Credentials](../../energy-credentials/README.md) | *Optional for the M2M flow; required when a consumer-consented third party is the BAP.* The third party presents the [Consumer Meter Digest](../consumer-meter-digest/README.md) authorisation or holds a presentation of the consumer's [Consumer Energy Passport](../consumer-energy-passport/README.md). |
 
 ---
 
@@ -141,7 +141,7 @@ The dataset is carried inside `message.contract.commitments[].resources[].resour
 
 ### 6. (Optional) Enable consented third-party access
 
-When the DISCOM wants to allow a consumer-authorised third party to pull data on a specific consumer's meter, the third party becomes the BAP and presents a [Consumer Meter Digest](../consumer-meter-digest.md) authorisation credential alongside the `confirm`. The BPP verifies the credential (issuer = DISCOM, subject = consumer, scope = this meter, validity in range) before delivering data. The credential model and the data-exchange policy hook are the integration boundary — no new protocol surface.
+When the DISCOM wants to allow a consumer-authorised third party to pull data on a specific consumer's meter, the third party becomes the BAP and presents a [Consumer Meter Digest](../consumer-meter-digest/README.md) authorisation credential alongside the `confirm`. The BPP verifies the credential (issuer = DISCOM, subject = consumer, scope = this meter, validity in range) before delivering data. The credential model and the data-exchange policy hook are the integration boundary — no new protocol surface.
 
 ---
 
@@ -176,6 +176,8 @@ cd DEG/devkits/data-exchange/uc1-meter-data/workflows
 ---
 
 ## References
+
+- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
 
 - [`IES_Report` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [OpenADR 3.1.0 Specification](https://www.openadr.org)

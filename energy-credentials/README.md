@@ -30,7 +30,7 @@ The IES Electricity Credential family currently spans three credential types —
 | [`ConsumerEnergyPassport`](./consumer-energy-passport.md) (draft) | Wallet-shareable composite credential binding consumer identity to connection, meter, sanctioned load, and DER/storage assets — for presentation to banks, marketplaces, regulators, societies | Once at onboarding; re-issued on material change |
 | [`ConsumerMeterDigest`](./consumer-meter-digest.md) (draft) | On-demand snapshot of the consumer's meter readings (raw or summary) the consumer holds in their wallet and shares with any third party | On consumer demand, freshly each time, with a short `validUntil` |
 
-The use-case framing for the two consumer-facing credentials lives under [Use Cases → Consumer Energy Passport](../use-cases/consumer-energy-passport.md) and [Use Cases → Consumer Meter Digest](../use-cases/consumer-meter-digest.md).
+The use-case framing for the two consumer-facing credentials lives under [Use Cases → Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) and [Use Cases → Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md).
 
 The rest of this chapter is written from the DISCOM-as-issuer perspective and uses `CustomerCredential` as the running example. The two consumer-facing credentials reuse the same envelope, the same OpenCred deployment, and the same DigiLocker delivery path — only the schema and the trigger differ.
 
