@@ -177,6 +177,7 @@ cd DEG/devkits/data-exchange/uc1-meter-data/workflows
 
 ## References
 
+- [Basic Checklist](../../checklists/smart-meter-data-exchange-basic-checklist.md) — plain-English rollout checklist
 - [`IES_Report` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [OpenADR 3.1.0 Specification](https://www.openadr.org)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc1-meter-data/examples)
