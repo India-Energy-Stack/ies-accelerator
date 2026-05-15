@@ -1,6 +1,6 @@
 # Consumer Meter Digest Credential
 
-The **Consumer Meter Digest** is a W3C Verifiable Credential 2.0 issued by a DISCOM, on consumer demand, that carries the consumer's own meter readings — either raw OpenADR 3 reports or derived summaries — in a form the consumer can hold in their wallet and share with any third party. It is the credential behind the [Consumer Meter Digest use case](../use-cases/consumer-meter-digest.md).
+The **Consumer Meter Digest** is a W3C Verifiable Credential 2.0 issued by a DISCOM, on consumer demand, that carries the consumer's own meter readings — either raw OpenADR 3 reports or derived summaries — in a form the consumer can hold in their wallet and share with any third party. It is the credential behind the [Consumer Meter Digest use case](../use-cases/consumer-meter-digest/README.md).
 
 > **Status — draft.** The envelope, `meterReference`, `period`, `granularity`, and `readings` blocks are stable. The `summary` taxonomy is being formalised.
 >
@@ -250,7 +250,7 @@ Same flow as [Verification](./verification.md):
 
 ## References
 
-- [Consumer Meter Digest — use case](../use-cases/consumer-meter-digest.md)
+- [Consumer Meter Digest — use case](../use-cases/consumer-meter-digest/README.md)
 - [`CustomerCredential` — base schema](./schemas.md)
 - [Smart Meter Data Exchange — `IES_Report`](../use-cases/smart-meter-data-exchange/README.md)
 - [Issuance](./issuance.md)

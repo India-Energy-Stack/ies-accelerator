@@ -30,10 +30,10 @@ Publication is typically open under public-disclosure norms (settlement value `0
 
 | Block | Role in this use case |
 |---|---|
-| [Identifiers](../identifiers/README.md) | The `policyID` (e.g. `MUM-RES-T1`) is an IES identifier; the policy is bound to the publisher's `did:web` and references the `programID` of the regulatory program (consumer category, tariff scheme) it belongs to. |
-| [Registries](../registries/README.md) | The publishing SERC/utility is looked up in the IES Regulators or DISCOMs reference registry to obtain its public key for signature verification. |
-| [Data Exchange](../data-exchange/README.md) | Policies are distributed over the same Beckn-based protocol used for telemetry and filings. Policies may flow in the public data exchange, or be carried inline as part of a private data exchange to negotiate that exchange's terms. |
-| [Energy Credentials](../energy-credentials/README.md) | *Not used to carry the policy itself.* Credentials enter when a downstream agent needs to prove its tariff category or sanctioned load to a billing-time policy engine — that's the [Consumer Energy Passport](../energy-credentials/README.md) flow. |
+| [Identifiers](../../identifiers/README.md) | The `policyID` (e.g. `MUM-RES-T1`) is an IES identifier; the policy is bound to the publisher's `did:web` and references the `programID` of the regulatory program (consumer category, tariff scheme) it belongs to. |
+| [Registries](../../registries/README.md) | The publishing SERC/utility is looked up in the IES Regulators or DISCOMs reference registry to obtain its public key for signature verification. |
+| [Data Exchange](../../data-exchange/README.md) | Policies are distributed over the same Beckn-based protocol used for telemetry and filings. Policies may flow in the public data exchange, or be carried inline as part of a private data exchange to negotiate that exchange's terms. |
+| [Energy Credentials](../../energy-credentials/README.md) | *Not used to carry the policy itself.* Credentials enter when a downstream agent needs to prove its tariff category or sanctioned load to a billing-time policy engine — that's the [Consumer Energy Passport](../../energy-credentials/README.md) flow. |
 
 ---
 
@@ -106,8 +106,8 @@ The pattern is the same: a signed, addressable, machine-verifiable rule that con
 
 The SERC (or utility) publishing the policy is registered in the appropriate DeDi registry:
 
-- SERC → [`ies-regulators-reference-registry`](../registries/required-registries.md#regulators-registry)
-- DISCOM publishing a sub-policy → [`ies-discoms-reference-registry`](../registries/required-registries.md#discoms-registry)
+- SERC → [`ies-regulators-reference-registry`](../../registries/required-registries.md#regulators-registry)
+- DISCOM publishing a sub-policy → [`ies-discoms-reference-registry`](../../registries/required-registries.md#discoms-registry)
 
 The registry entry pins the `did:web` and public key used to sign the `IES_Policy` object.
 
@@ -116,7 +116,7 @@ The registry entry pins the `did:web` and public key used to sign the `IES_Polic
 - A canonical `policyID` per policy (e.g. `MUM-RES-T1`, `KA-LT2-IND-TOD-2026`). This is the **stable handle** every downstream system uses to refer to this policy.
 - A `programID` per `IES_Program` (consumer category, regulatory scheme) that groups related policies.
 
-See [ID Patterns](../identifiers/id-patterns.md).
+See [ID Patterns](../../identifiers/id-patterns.md).
 
 ### 3. Author the policy
 
@@ -227,9 +227,11 @@ cd DEG/devkits/data-exchange/uc3-tariff-policy/workflows
 
 ## References
 
+- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
+
 - [`IES_Policy`, `IES_Program`, `EnergySlab`, `SurchargeTariff` (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [ies-docs tariff specification example](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/examples/tariff_specification_example.jsonld)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy/examples)
-- [Data Exchange — Architecture](../data-exchange/architecture.md)
-- [Data Exchange — Quick Start](../data-exchange/quick-start.md)
+- [Data Exchange — Architecture](../../data-exchange/architecture.md)
+- [Data Exchange — Quick Start](../../data-exchange/quick-start.md)
 - [ies-docs `08_Energy_policy_as_code.md`](https://github.com/India-Energy-Stack/ies-docs/blob/main/architecture/08_Energy_policy_as_code.md)

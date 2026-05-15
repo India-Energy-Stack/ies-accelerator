@@ -152,8 +152,8 @@ The body inside `dataPayload` is one of the IES schemas; the relevant one for ea
 | Schema | Carried in | Use case |
 |---|---|---|
 | `IES_Report` (OpenADR 3.1.0) | 15-min interval meter readings | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) |
-| `IES_ARR_Filing` | Aggregate Revenue Requirement line items by fiscal year | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing.md) |
-| `IES_Policy` (+ `IES_Program`) | Machine-readable tariff rate structures (energy slabs, ToD surcharges) | [Tariff Intelligence](../use-cases/tariff-intelligence.md) |
+| `IES_ARR_Filing` | Aggregate Revenue Requirement line items by fiscal year | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) |
+| `IES_Policy` (+ `IES_Program`) | Machine-readable tariff rate structures (energy slabs, ToD surcharges) | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) |
 
 Canonical schema definitions today: [beckn/DEG — `ies-specs` branch](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies).
 

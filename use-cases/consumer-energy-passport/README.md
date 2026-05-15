@@ -20,7 +20,7 @@ The Consumer Energy Passport replaces this paperwork with a single signed creden
 | **Holder** | Consumer | Stores it in DigiLocker or a DID wallet; presents it to verifiers |
 | **Verifier** | Bank, marketplace, regulator, society, app | Validates the signature against the IES DISCOMs Reference Registry |
 
-The Passport is fundamentally a **composite** of the existing `CustomerCredential` sub-profiles, plus a binding to the consumer's identity reference. The DISCOM does not need to deploy new infrastructure beyond what [Energy Credentials](../energy-credentials/README.md) already prescribes.
+The Passport is fundamentally a **composite** of the existing `CustomerCredential` sub-profiles, plus a binding to the consumer's identity reference. The DISCOM does not need to deploy new infrastructure beyond what [Energy Credentials](../../energy-credentials/README.md) already prescribes.
 
 ---
 
@@ -28,10 +28,10 @@ The Passport is fundamentally a **composite** of the existing `CustomerCredentia
 
 | Block | Role in this use case |
 |---|---|
-| [Identifiers](../identifiers/README.md) | The Passport carries the consumer's DID, the meter ID, the connection ID, asset IDs for each DER/battery, and an `idRef` to a government identity (Aadhaar reference, never the raw number). |
-| [Registries](../registries/README.md) | The DISCOM's `did:web` and public key are resolved through the [IES DISCOMs Reference Registry](../registries/required-registries.md#discoms-registry). Revocation is checked via DeDi. |
-| [Energy Credentials](../energy-credentials/README.md) | The Passport schema lives here — see [Consumer Energy Passport credential](../energy-credentials/consumer-energy-passport.md) for the full schema. Issuance and verification reuse the OpenCred service the DISCOM already runs. |
-| [Data Exchange](../data-exchange/README.md) | *Not used for issuance.* Comes in only when a third-party app pulls the Passport over Beckn from the DISCOM's BPP (an alternative to wallet pull). |
+| [Identifiers](../../identifiers/README.md) | The Passport carries the consumer's DID, the meter ID, the connection ID, asset IDs for each DER/battery, and an `idRef` to a government identity (Aadhaar reference, never the raw number). |
+| [Registries](../../registries/README.md) | The DISCOM's `did:web` and public key are resolved through the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry). Revocation is checked via DeDi. |
+| [Energy Credentials](../../energy-credentials/README.md) | The Passport schema lives here — see [Consumer Energy Passport credential](../../energy-credentials/consumer-energy-passport.md) for the full schema. Issuance and verification reuse the OpenCred service the DISCOM already runs. |
+| [Data Exchange](../../data-exchange/README.md) | *Not used for issuance.* Comes in only when a third-party app pulls the Passport over Beckn from the DISCOM's BPP (an alternative to wallet pull). |
 
 ---
 
@@ -48,7 +48,7 @@ The Consumer Energy Passport is a W3C Verifiable Credential 2.0 of type `Consume
 | `generationProfiles[]` | DER assets — solar / wind / micro-hydro, capacity, commissioning date |
 | `storageProfiles[]` | Batteries — kWh capacity, kW power rating, technology |
 
-The full schema and a worked example live in [Energy Credentials → Consumer Energy Passport](../energy-credentials/consumer-energy-passport.md).
+The full schema and a worked example live in [Energy Credentials → Consumer Energy Passport](../../energy-credentials/consumer-energy-passport.md).
 
 ---
 
@@ -56,11 +56,11 @@ The full schema and a worked example live in [Energy Credentials → Consumer En
 
 ### 1. Be a registered DISCOM issuer
 
-Pre-requisite: the DISCOM is registered in the [IES DISCOMs Reference Registry](../registries/required-registries.md#discoms-registry) with its `did:web` and current public key. If you are not yet registered, follow [Registry Creation](../registries/registry-creation.md).
+Pre-requisite: the DISCOM is registered in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry) with its `did:web` and current public key. If you are not yet registered, follow [Registry Creation](../../registries/registry-creation.md).
 
 ### 2. Run OpenCred
 
-The Passport is issued by the same OpenCred service used for `CustomerCredential`. If you've already followed the [Energy Credentials Deployment](../energy-credentials/onboarding.md) guide, no additional service is needed. If not, stand up OpenCred per that guide (a single Docker container holding your signing key plus a thin integration service you write).
+The Passport is issued by the same OpenCred service used for `CustomerCredential`. If you've already followed the [Energy Credentials Deployment](../../energy-credentials/onboarding.md) guide, no additional service is needed. If not, stand up OpenCred per that guide (a single Docker container holding your signing key plus a thin integration service you write).
 
 ### 3. Map your CIS + DER systems to the Passport sub-profiles
 
@@ -77,13 +77,13 @@ These are the same data sources you use for `CustomerCredential`. The Passport a
 
 ### 4. Issue the Passport
 
-Call OpenCred's `POST /v1/credentials/issue` with the composite `credentialSubject`, then post-process the returned credential to inject the full `issuer` block (name + `idRef`) — see the issuance pattern documented at [Issuing Credentials](../energy-credentials/issuance.md).
+Call OpenCred's `POST /v1/credentials/issue` with the composite `credentialSubject`, then post-process the returned credential to inject the full `issuer` block (name + `idRef`) — see the issuance pattern documented at [Issuing Credentials](../../energy-credentials/issuance.md).
 
 ### 5. Deliver to the wallet
 
 Two delivery paths:
 
-- **DigiLocker Pull URI** — the DISCOM publishes a Pull URI; DigiLocker fetches the credential when the consumer logs in. See [DigiLocker Integration](../energy-credentials/digilocker-integration.md).
+- **DigiLocker Pull URI** — the DISCOM publishes a Pull URI; DigiLocker fetches the credential when the consumer logs in. See [DigiLocker Integration](../../energy-credentials/digilocker-integration.md).
 - **Direct DID-to-DID push** — for consumers using a non-DigiLocker wallet, push the credential to their DID endpoint.
 
 ### 6. Re-issue on material change
@@ -100,7 +100,7 @@ Re-issue and revoke the previous Passport when:
 | Address change | `customerDetails.installationAddress` |
 | Connection closure | Revoke; do not re-issue |
 
-Revocation is hash-based via DeDi — see [Core Concepts § DeDi Revocation](../energy-credentials/concepts.md).
+Revocation is hash-based via DeDi — see [Core Concepts § DeDi Revocation](../../energy-credentials/concepts.md).
 
 ---
 
@@ -114,7 +114,7 @@ A verifier (bank, marketplace, society) receives the Passport JSON from the cons
 4. Checks `credentialStatus` against DeDi to confirm the credential is not revoked.
 5. Reads the specific sub-profile fields it needs and proceeds.
 
-For the verifier walkthrough, see [Energy Credentials → Verification](../energy-credentials/verification.md).
+For the verifier walkthrough, see [Energy Credentials → Verification](../../energy-credentials/verification.md).
 
 ---
 
@@ -132,7 +132,7 @@ OpenCred ships SD-JWT-VC support; see the [OpenCred docs](https://opencred.gitbo
 
 ## Open Items
 
-- **`ConsumerEnergyPassport` credential schema** is in draft — the composite type is defined as a superset of `CustomerCredential` with an explicit `identityBinding` block. See [Energy Credentials → Consumer Energy Passport](../energy-credentials/consumer-energy-passport.md) for the working schema.
+- **`ConsumerEnergyPassport` credential schema** is in draft — the composite type is defined as a superset of `CustomerCredential` with an explicit `identityBinding` block. See [Energy Credentials → Consumer Energy Passport](../../energy-credentials/consumer-energy-passport.md) for the working schema.
 - **Selective-disclosure profile.** The agreed set of "minimum-disclosure presentations" (loan, marketplace, subsidy, society) is being formalised — they shape the SD-JWT-VC claim grouping.
 - **Cross-DISCOM portability.** Behaviour when a consumer moves between DISCOMs (issue a new Passport from the new DISCOM and revoke the prior one) is the agreed pattern; cross-DISCOM linking is intentionally not in scope.
 
@@ -140,10 +140,12 @@ OpenCred ships SD-JWT-VC support; see the [OpenCred docs](https://opencred.gitbo
 
 ## References
 
-- [Energy Credentials → Consumer Energy Passport (schema)](../energy-credentials/consumer-energy-passport.md)
-- [Energy Credentials → Core Concepts](../energy-credentials/concepts.md)
-- [Energy Credentials → Issuance](../energy-credentials/issuance.md)
-- [Energy Credentials → DigiLocker Integration](../energy-credentials/digilocker-integration.md)
-- [Energy Credentials → Verification](../energy-credentials/verification.md)
+- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
+
+- [Energy Credentials → Consumer Energy Passport (schema)](../../energy-credentials/consumer-energy-passport.md)
+- [Energy Credentials → Core Concepts](../../energy-credentials/concepts.md)
+- [Energy Credentials → Issuance](../../energy-credentials/issuance.md)
+- [Energy Credentials → DigiLocker Integration](../../energy-credentials/digilocker-integration.md)
+- [Energy Credentials → Verification](../../energy-credentials/verification.md)
 - [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/)
 - [SD-JWT-VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/)

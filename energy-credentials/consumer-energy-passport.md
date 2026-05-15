@@ -1,6 +1,6 @@
 # Consumer Energy Passport Credential
 
-The **Consumer Energy Passport** is a wallet-held W3C Verifiable Credential 2.0 issued by a DISCOM that binds a consumer's identity to their connection, meter, sanctioned load, and DER / storage assets. It is the credential behind the [Consumer Energy Passport use case](../use-cases/consumer-energy-passport.md).
+The **Consumer Energy Passport** is a wallet-held W3C Verifiable Credential 2.0 issued by a DISCOM that binds a consumer's identity to their connection, meter, sanctioned load, and DER / storage assets. It is the credential behind the [Consumer Energy Passport use case](../use-cases/consumer-energy-passport/README.md).
 
 > **Status — draft.** The schema below is the working shape under review. The envelope, sub-profile composition, and `identityBinding` block are stable; the "minimum-disclosure presentation" profiles are still being agreed.
 
@@ -169,7 +169,7 @@ Verifiers indicate which presentation they need; the wallet redacts the rest.
 
 ## References
 
-- [Consumer Energy Passport — use case](../use-cases/consumer-energy-passport.md)
+- [Consumer Energy Passport — use case](../use-cases/consumer-energy-passport/README.md)
 - [`CustomerCredential` — base schema](./schemas.md)
 - [Core Concepts](./concepts.md)
 - [Issuance](./issuance.md)

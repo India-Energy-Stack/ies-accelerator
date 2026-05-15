@@ -134,8 +134,8 @@ The corresponding `on_*` callbacks come back into your sandbox webhook (BAP gets
 Each use case page lists exactly which steps it exercises and where the example payloads live:
 
 - [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) — `confirm` + `on_status`
-- [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing.md) — `confirm` + `on_status`
-- [Tariff Intelligence](../use-cases/tariff-intelligence.md) — `confirm` + `on_status`
+- [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) — `confirm` + `on_status`
+- [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) — `confirm` + `on_status`
 
 ---
 
