@@ -1,9 +1,11 @@
 # India Energy Stack — Accelerator
 
-The **India Energy Stack (IES) Accelerator** is the developer hub for building on top of India's open energy infrastructure. It provides everything you need to integrate with two core capabilities of the IES platform:
+The **India Energy Stack (IES) Accelerator** is the developer hub for building on top of India's open energy infrastructure. It provides everything you need to integrate with the four core sections of the IES platform:
 
-| Capability | What it does |
+| Section | What it does |
 |---|---|
+| [IES Identifiers and Addressing](./identifiers/README.md) | DIDs and addressing grammar for DISCOMs, regulators, consumers, assets, meters, credentials, and datasets |
+| [IES Registries and Directories](./registries/README.md) | DeDi-based public registries — namespaces, the IES reference registries, Beckn subscriber registries, revocation, public-keys |
 | [IES Energy Credentials](./energy-credentials/README.md) | Issue, hold, and verify cryptographically signed digital credentials for energy assets and consumers |
 | [IES Data Exchange](./data-exchange/README.md) | Discover and exchange structured energy datasets — telemetry, regulatory filings, tariff policies — over the Beckn protocol |
 
@@ -25,6 +27,12 @@ Generators · Prosumers · DISCOMs · Regulators · Aggregators · Consumers
           ├──────────────────────────────────┤
           │  Data Exchange                   │  ← data layer
           │  (Beckn Protocol + IES schemas)  │
+          ├──────────────────────────────────┤
+          │  Registries and Directories      │  ← discovery + revocation
+          │  (DeDi: namespaces / registries) │
+          ├──────────────────────────────────┤
+          │  Identifiers and Addressing      │  ← identity foundation
+          │  (DIDs: did:web / did:key / …)   │
           └──────────────────────────────────┘
                             ↕
              Physical energy infrastructure
@@ -35,6 +43,8 @@ Generators · Prosumers · DISCOMs · Regulators · Aggregators · Consumers
 ## Where to Start
 
 **New to IES?** Read [Getting Started](./getting-started.md) for a five-minute orientation.
+
+**Onboarding as a DISCOM, regulator, or NP?** Go to the [Required Registries onboarding checklist](./registries/required-registries.md#end-to-end-onboarding-checklist).
 
 **Integrating Energy Credentials?** Go to the [Energy Credentials onboarding guide](./energy-credentials/onboarding.md).
 

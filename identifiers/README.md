@@ -28,10 +28,7 @@ This section is the developer reference for **how IDs are minted, structured, re
 |---|---|
 | [Concepts](./concepts.md) | DID 101 — methods, structure, how `did:web` and `did:dedi` work in IES |
 | [ID Patterns](./id-patterns.md) | How to ID DISCOMs, consumers, assets, meters, regulators, credentials |
-| [Registries](./registries.md) | Hosting a public DeDi registry; running a parallel private registry inside the DISCOM |
-| [DeDi Primer](./dedi-primer.md) | Self-contained reference for what DeDi is, its three-coordinate model, proofs, and deployment options |
-| [Registry Creation](./registry-creation.md) | Hands-on walkthrough: account, domain-verified namespace, registries, records (UI + API) |
-| [Required Registries for Onboarding](./required-registries.md) | The baseline set of registries an IES participant needs — DISCOM reference, Beckn subscriber, revocation, public-keys, etc. |
+| [Registries](./registries.md) | Conceptual overview of public vs private registries (the hands-on registry section is [Registries and Directories](../registries/README.md)) |
 | [Resolution](./resolution.md) | Workflows to resolve a DID and route a request to the right endpoint |
 | [Issuance Reference](./issuance-reference.md) | Reference implementation: minting and registering IDs end-to-end |
 

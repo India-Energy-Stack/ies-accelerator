@@ -1,6 +1,6 @@
 # Registries — Public and Private
 
-> **Looking for hands-on instructions?** This page is the conceptual overview of the public/private split. For a self-contained DeDi reference, see [DeDi Primer](./dedi-primer.md). For step-by-step setup, see [Registry Creation](./registry-creation.md). For the catalogue of registries you need to be onboarded, see [Required Registries for Onboarding](./required-registries.md).
+> **Looking for hands-on instructions?** This page is the conceptual overview of the public/private split. For the dedicated registries section — DeDi primer, step-by-step setup, and the onboarding catalogue — see [Registries and Directories](../registries/README.md).
 
 A DID resolves to a record. **Registries are where records live.** This page covers:
 

@@ -9,11 +9,15 @@
 * [Concepts](identifiers/concepts.md)
 * [ID Patterns](identifiers/id-patterns.md)
 * [Registries](identifiers/registries.md)
-* [DeDi Primer](identifiers/dedi-primer.md)
-* [Registry Creation](identifiers/registry-creation.md)
-* [Required Registries for Onboarding](identifiers/required-registries.md)
 * [Resolution and Routing](identifiers/resolution.md)
 * [Issuance Reference](identifiers/issuance-reference.md)
+
+## Registries and Directories
+
+* [Overview](registries/README.md)
+* [DeDi Primer](registries/dedi-primer.md)
+* [Registry Creation](registries/registry-creation.md)
+* [Required Registries for Onboarding](registries/required-registries.md)
 
 ## Energy Credentials
 
