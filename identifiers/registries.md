@@ -1,7 +1,5 @@
 # Registries — Public and Private
 
-> **Looking for hands-on instructions?** This page is the conceptual overview of the public/private split. For the dedicated registries section — DeDi primer, step-by-step setup, and the onboarding catalogue — see [Registries and Directories](../registries/README.md).
-
 A DID resolves to a record. **Registries are where records live.** This page covers:
 
 1. The structure of a DeDi registry — namespaces, registries, records.
