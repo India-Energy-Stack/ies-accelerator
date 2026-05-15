@@ -22,7 +22,21 @@ Because the signature is over the canonicalised credential bytes, anyone holding
 
 ## What You Can Issue
 
-You issue **one credential per meter** (`type: "CustomerCredential"`). That single credential carries five equal-level sub-profiles inside its `credentialSubject` — only `customerProfile` is required; the others appear when the relevant facts exist for that meter:
+The IES Electricity Credential family currently spans three credential types — all issued by the DISCOM, all signed by the same OpenCred service, all verified the same way:
+
+| Credential | Purpose | Issued |
+|---|---|---|
+| [`CustomerCredential`](./schemas.md) | DISCOM-side attestation about a meter and its assets | Once at onboarding; re-issued on material change |
+| [`ConsumerEnergyPassport`](./consumer-energy-passport.md) (draft) | Wallet-shareable composite credential binding consumer identity to connection, meter, sanctioned load, and DER/storage assets — for presentation to banks, marketplaces, regulators, societies | Once at onboarding; re-issued on material change |
+| [`ConsumerMeterDigest`](./consumer-meter-digest.md) (draft) | On-demand snapshot of the consumer's meter readings (raw or summary) the consumer holds in their wallet and shares with any third party | On consumer demand, freshly each time, with a short `validUntil` |
+
+The use-case framing for the two consumer-facing credentials lives under [Use Cases → Consumer Energy Passport](../use-cases/consumer-energy-passport.md) and [Use Cases → Consumer Meter Digest](../use-cases/consumer-meter-digest.md).
+
+The rest of this chapter is written from the DISCOM-as-issuer perspective and uses `CustomerCredential` as the running example. The two consumer-facing credentials reuse the same envelope, the same OpenCred deployment, and the same DigiLocker delivery path — only the schema and the trigger differ.
+
+### `CustomerCredential` sub-profiles
+
+You issue **one `CustomerCredential` per meter**. That single credential carries five equal-level sub-profiles inside its `credentialSubject` — only `customerProfile` is required; the others appear when the relevant facts exist for that meter:
 
 | Sub-profile | What it attests | Required? |
 |---|---|---|
