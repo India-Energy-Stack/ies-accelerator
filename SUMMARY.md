@@ -9,6 +9,9 @@
 * [Concepts](identifiers/concepts.md)
 * [ID Patterns](identifiers/id-patterns.md)
 * [Registries](identifiers/registries.md)
+* [DeDi Primer](identifiers/dedi-primer.md)
+* [Registry Creation](identifiers/registry-creation.md)
+* [Required Registries for Onboarding](identifiers/required-registries.md)
 * [Resolution and Routing](identifiers/resolution.md)
 * [Issuance Reference](identifiers/issuance-reference.md)
 
