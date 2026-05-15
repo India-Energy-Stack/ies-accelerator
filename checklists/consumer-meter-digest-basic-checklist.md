@@ -1,6 +1,6 @@
 # Basic Checklist — Consumer Meter Digest
 
-*A plain-English, conceptual checklist for a DISCOM enabling the [Consumer Meter Digest use case](./consumer-meter-digest.md) — the consumer-pull flow where a consumer requests their own meter readings as a signed credential they can hand to any third party. Use it to brief leadership and align IT, MDMS, and consumer-experience teams.*
+*A plain-English, conceptual checklist for a DISCOM enabling the [Consumer Meter Digest use case](../use-cases/consumer-meter-digest.md) — the consumer-pull flow where a consumer requests their own meter readings as a signed credential they can hand to any third party. Use it to brief leadership and align IT, MDMS, and consumer-experience teams.*
 
 ---
 
@@ -29,7 +29,7 @@ Pick the granularities you will offer in Phase 1 — typically a 12-month **mont
 
 ### 3. Define how the consumer authorises the request
 
-A consumer's request must be authenticated. Choose what proof of identity / right-to-the-meter the consumer presents — typically the [Consumer Energy Passport](./consumer-energy-passport.md) or a basic `CustomerCredential` issued by you.
+A consumer's request must be authenticated. Choose what proof of identity / right-to-the-meter the consumer presents — typically the [Consumer Energy Passport](../use-cases/consumer-energy-passport.md) or a basic `CustomerCredential` issued by you.
 
 - [ ] Required-credential type decided
 - [ ] Wallet (DigiLocker or DID-enabled app) recommended to consumers
@@ -84,4 +84,4 @@ Identify three roles: an **IT point of contact** for the technical build, a **Co
 
 ---
 
-*Once these nine items are in place, consumers can pull their own meter data on demand as a signed, wallet-shareable credential. See the [Consumer Meter Digest use case](./consumer-meter-digest.md) for the detailed setup and the [credential schema](../energy-credentials/consumer-meter-digest.md) for the data shape.*
+*Once these nine items are in place, consumers can pull their own meter data on demand as a signed, wallet-shareable credential. See the [Consumer Meter Digest use case](../use-cases/consumer-meter-digest.md) for the detailed setup and the [credential schema](../energy-credentials/consumer-meter-digest.md) for the data shape.*

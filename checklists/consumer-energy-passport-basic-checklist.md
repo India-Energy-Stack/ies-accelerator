@@ -1,6 +1,6 @@
 # Basic Checklist — Consumer Energy Passport
 
-*A plain-English, conceptual checklist for a DISCOM rolling out the [Consumer Energy Passport use case](./consumer-energy-passport.md) — the wallet-held credential that binds a consumer's identity to their connection, meter, sanctioned load, tariff category, and DER / storage assets. Use it to brief leadership and align IT, commercial, and consumer-experience teams.*
+*A plain-English, conceptual checklist for a DISCOM rolling out the [Consumer Energy Passport use case](../use-cases/consumer-energy-passport.md) — the wallet-held credential that binds a consumer's identity to their connection, meter, sanctioned load, tariff category, and DER / storage assets. Use it to brief leadership and align IT, commercial, and consumer-experience teams.*
 
 ---
 
@@ -84,4 +84,4 @@ Identify three roles: an **IT point of contact** for the technical build, a **Co
 
 ---
 
-*Once these nine items are in place, consumers in your service area hold a wallet-shareable, tamper-evident Passport that any verifier can validate without contacting you. See the [Consumer Energy Passport use case](./consumer-energy-passport.md) for the detailed setup and the [credential schema](../energy-credentials/consumer-energy-passport.md) for the data shape.*
+*Once these nine items are in place, consumers in your service area hold a wallet-shareable, tamper-evident Passport that any verifier can validate without contacting you. See the [Consumer Energy Passport use case](../use-cases/consumer-energy-passport.md) for the detailed setup and the [credential schema](../energy-credentials/consumer-energy-passport.md) for the data shape.*

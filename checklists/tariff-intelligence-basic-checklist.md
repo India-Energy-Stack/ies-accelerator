@@ -1,6 +1,6 @@
 # Basic Checklist — Tariff Intelligence
 
-*A plain-English, conceptual checklist for a SERC, DISCOM, or other policy authority publishing the [Tariff Intelligence use case](./tariff-intelligence.md) — tariffs, deviation penalties, data-quality SLAs, and other rules as machine-readable, signed `IES_Policy` artefacts. Use it to brief leadership and align legal, regulatory, and IT teams.*
+*A plain-English, conceptual checklist for a SERC, DISCOM, or other policy authority publishing the [Tariff Intelligence use case](../use-cases/tariff-intelligence.md) — tariffs, deviation penalties, data-quality SLAs, and other rules as machine-readable, signed `IES_Policy` artefacts. Use it to brief leadership and align legal, regulatory, and IT teams.*
 
 ---
 
@@ -82,4 +82,4 @@ Identify three roles: a **Legal / regulatory point of contact** for the policy c
 
 ---
 
-*Once these nine items are in place, your tariffs (and other policies) reach DISCOM billing systems, consumer apps, and smart meters as signed, machine-readable artefacts — no PDF re-keying, no interpretation drift. See the [Tariff Intelligence use case](./tariff-intelligence.md) for the detailed setup and the [data-exchange checklists](../checklists/data-exchange-basic-checklist.md) for the underlying network-onboarding steps.*
+*Once these nine items are in place, your tariffs (and other policies) reach DISCOM billing systems, consumer apps, and smart meters as signed, machine-readable artefacts — no PDF re-keying, no interpretation drift. See the [Tariff Intelligence use case](../use-cases/tariff-intelligence.md) for the detailed setup and the [data-exchange checklists](./data-exchange-basic-checklist.md) for the underlying network-onboarding steps.*

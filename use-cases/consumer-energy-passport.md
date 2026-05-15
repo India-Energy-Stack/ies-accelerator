@@ -140,7 +140,7 @@ OpenCred ships SD-JWT-VC support; see the [OpenCred docs](https://opencred.gitbo
 
 ## References
 
-- [Basic Checklist](./consumer-energy-passport-basic-checklist.md) — plain-English rollout checklist
+- [Basic Checklist](../checklists/consumer-energy-passport-basic-checklist.md) — plain-English rollout checklist
 - [Energy Credentials → Consumer Energy Passport (schema)](../energy-credentials/consumer-energy-passport.md)
 - [Energy Credentials → Core Concepts](../energy-credentials/concepts.md)
 - [Energy Credentials → Issuance](../energy-credentials/issuance.md)
