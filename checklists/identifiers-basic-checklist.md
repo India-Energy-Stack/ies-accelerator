@@ -12,7 +12,7 @@
 
 ### 1. Decide your organisation's public name on the network
 
-Pick the public web identifier the rest of the ecosystem will use to refer to your DISCOM — typically a domain you already own (e.g. `discom.gov.in`). This becomes the anchor for everything else you publish.
+Pick the public web identifier the rest of the ecosystem will use to refer to your DISCOM — typically a domain you already own (e.g. `discom.org`). This becomes the anchor for everything else you publish.
 
 - [ ] Domain selected and confirmed available for use as an IES identifier
 
