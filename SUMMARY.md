@@ -26,6 +26,8 @@
 * [Overview](energy-credentials/README.md)
 * [Core Concepts](energy-credentials/concepts.md)
 * [Schemas](energy-credentials/schemas.md)
+* [Consumer Energy Passport](energy-credentials/consumer-energy-passport.md)
+* [Consumer Meter Digest](energy-credentials/consumer-meter-digest.md)
 * [Deployment](energy-credentials/onboarding.md)
 * [Issuing Credentials](energy-credentials/issuance.md)
 * [Verifying Credentials](energy-credentials/verification.md)
@@ -41,15 +43,20 @@
 * [Architecture](data-exchange/architecture.md)
 * [Quick Start](data-exchange/quick-start.md)
 * [Registry Setup](data-exchange/registry-setup.md)
-* [Use Cases](data-exchange/use-cases/README.md)
-  * [Meter Telemetry](data-exchange/use-cases/meter-telemetry/README.md)
-    * [Survey of Existing Terminology](data-exchange/use-cases/meter-telemetry/survey-of-existing-terminology.md)
-    * [IES Data Model](data-exchange/use-cases/meter-telemetry/ies-data-model.md)
-  * [ARR Filings](data-exchange/use-cases/arr-filings.md)
-  * [Tariff Policies](data-exchange/use-cases/tariff-policies.md)
 * [Basic Checklist](checklists/data-exchange-basic-checklist.md)
 * [Simple Checklist](checklists/data-exchange-checklist.md)
 * [Detailed Checklist](checklists/data-exchange-checklist-detailed.md)
+
+## Use Cases
+
+* [Overview](use-cases/README.md)
+* [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
+  * [Survey of Existing Terminology](use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md)
+  * [IES Data Model](use-cases/smart-meter-data-exchange/ies-data-model.md)
+* [Consumer Meter Digest](use-cases/consumer-meter-digest.md)
+* [Consumer Energy Passport](use-cases/consumer-energy-passport.md)
+* [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing.md)
+* [Tariff Intelligence](use-cases/tariff-intelligence.md)
 
 
 

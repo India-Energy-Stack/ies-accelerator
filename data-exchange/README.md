@@ -66,13 +66,12 @@ The devkit ships **prebuilt schemas** for three IES dataset types — the sector
 
 ## Sections in This Chapter
 
-If you're new, read in this order: **Concepts → Quick Start → your Use Case → Registry Setup**. Architecture is a deeper reference you can dip into when needed.
+If you're new, read in this order: **Concepts → Quick Start → Registry Setup**. Architecture is a deeper reference you can dip into when needed. End-to-end use cases that exercise this protocol — meter telemetry, ARR filings, tariff publication — live in the top-level [Use Cases](../use-cases/README.md) section.
 
 | Page | What you'll learn |
 |---|---|
 | [Core Concepts](./concepts.md) | Beckn lifecycle, the minimal flow, DatasetItem, inline delivery, context invariants |
 | [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes — clone, start, send `confirm`, see `on_confirm`. Includes the BAP and BPP onboarding checklists. |
-| [Use Cases](./use-cases/README.md) | Detailed walkthroughs for each dataset type (meter telemetry, ARR filings, tariff policies) |
 | [Registry Setup](./registry-setup.md) | Going beyond sandbox identity — DeDi namespace, subscriber record, ONIX config, how to contact the IES NFO |
 | [Architecture](./architecture.md) | Stack topology, generic Beckn ladder, endpoints (sandbox vs production) |
 
