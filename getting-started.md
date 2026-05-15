@@ -8,7 +8,19 @@ This page gives you a five-minute orientation to IES before you dive into either
 
 IES is an **open protocol and governance layer** for India's energy sector. It does not operate data — it defines the standards and interaction patterns that let diverse organisations share data and trust each other's claims.
 
-IES has two independently usable capabilities:
+IES has four developer-facing sections. The bottom two are the **foundations** every participant needs in place; the top two are the **capabilities** built on top of them.
+
+### Identifiers and Addressing
+
+The DID grammar IES uses to name every actor, asset, document, and dataset on the network — `did:web` for institutions, `did:key` / `did:jwk` for consumers, `did:dedi` for registry-anchored records. Internal numbering (consumer numbers, asset SAP codes) is preserved and wrapped, never replaced.
+
+**Who should use this:** Every participant — this is the addressing layer below everything else.
+
+### Registries and Directories
+
+DeDi-based public registries that resolve identifiers to records and act as the trust layer for credentials and Beckn. Covers the IES reference registries (DISCOMs, regulators, network), the per-participant registries you need to operate (Beckn subscriber, revocation, public-keys), and the step-by-step process for creating them.
+
+**Who should use this:** Every participant onboarding to IES. Start here with the [end-to-end onboarding checklist](./registries/required-registries.md#end-to-end-onboarding-checklist).
 
 ### Energy Credentials
 
@@ -35,15 +47,21 @@ A Beckn Protocol v2.0 network for discovering and exchanging structured energy d
 ## Choosing Your Path
 
 ```
+Are you a DISCOM / regulator / NP onboarding to the IES network for the first time?
+  → Go to: Registries and Directories → Required Registries → Onboarding Checklist
+
 Are you issuing or verifying credentials about energy consumers or assets?
   → Go to: Energy Credentials → Onboarding Guide
+  (you will need the revocation + public-keys registries from Registries section)
 
 Are you exchanging structured energy datasets (telemetry, filings, tariffs)?
   → Go to: Data Exchange → Onboarding Guide
+  (you will need a Beckn subscriber registry from Registries section)
 
 Are you building a new application that needs both?
-  → Start with Energy Credentials (simpler integration surface)
-  → Then add Data Exchange
+  → Start with Registries (foundation)
+  → Then Energy Credentials (simpler integration surface)
+  → Then Data Exchange
 ```
 
 ---

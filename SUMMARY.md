@@ -12,6 +12,13 @@
 * [Resolution and Routing](identifiers/resolution.md)
 * [Issuance Reference](identifiers/issuance-reference.md)
 
+## Registries and Directories
+
+* [Overview](registries/README.md)
+* [DeDi Primer](registries/dedi-primer.md)
+* [Registry Creation](registries/registry-creation.md)
+* [Required Registries for Onboarding](registries/required-registries.md)
+
 ## Energy Credentials
 
 * [Overview](energy-credentials/README.md)
