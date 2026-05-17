@@ -1,6 +1,6 @@
 # IES Data Exchange
 
-**IES Data Exchange** is a federated, policy-governed protocol for discovering and exchanging structured energy datasets across the Indian power sector. It enables AMISPs, DISCOMs, SERCs, and other sector participants to share data — telemetry, regulatory filings, tariff orders — in a standardised, auditable, and credential-gated way.
+**IES Data Exchange** is a federated, policy-governed way for energy-sector participants — [AMISPs](../glossary.md#amisp), [DISCOMs](../glossary.md#discom), [SERCs](../glossary.md#serc), and others — to discover, contract, and exchange structured datasets. [Beckn](../glossary.md#beckn) is the **control plane**: it carries discovery, offer, consent, contract, and audit. The dataset bytes themselves move over the sector standard appropriate to each dataset class — a signed download URL for an [XBRL](../glossary.md#xbrl) filing, an [MQTT](../glossary.md#mqtt) topic for near-real-time telemetry, [OpenADR](../glossary.md#openadr) for DR events, and so on — handed off via Beckn's `accessMethod` field.
 
 ---
 
@@ -9,19 +9,20 @@
 Today, energy data in India moves through bespoke bilateral channels:
 
 - Regulatory filings arrive as PDFs, independently re-implemented across the sector
-- Smart meter telemetry is locked inside proprietary MDMS systems
+- Smart meter telemetry is locked inside proprietary [MDMS](../glossary.md#mdm--mdms) systems
 - Tariff policies are interpreted differently by each DISCOM
 - There is no standard for discovery, access terms, or audit trails
 
-IES Data Exchange replaces these ad-hoc arrangements with a **single, open protocol stack** based on Beckn Protocol v2.0 and IES schemas.
+IES Data Exchange replaces these ad-hoc arrangements with **two complementary layers**:
+
+1. **Control plane (Beckn Protocol v2.0 + IES schemas)** — how participants find each other, negotiate terms, give consent, sign contracts, and produce auditable records.
+2. **Data plane (existing sector standards)** — how the bytes actually move, using whatever protocol the dataset class already standardises on ([DLMS-COSEM](../glossary.md#dlms-cosem--is-15959), [IEC 61968](../glossary.md#iec-61968) / [CIM](../glossary.md#cim) / [MultiSpeak](../glossary.md#multispeak), [OpenADR](../glossary.md#openadr), [XBRL](../glossary.md#xbrl), [Akoma Ntoso](../glossary.md#akoma-ntoso), or a plain signed URL).
 
 ---
 
 ## How It Works
 
-IES Data Exchange uses the **Beckn Protocol** — an open, decentralised, peer-to-peer protocol — adapted for energy data. Instead of goods or services, the "items" being exchanged are structured energy datasets.
-
-The **minimal exchange** is a single round-trip:
+The **minimal exchange** is a single Beckn round-trip:
 
 ```
 Data Consumer (BAP)                          Data Provider (BPP)
@@ -29,26 +30,30 @@ e.g. DISCOM consuming                        e.g. AMISP publishing
 meter telemetry                              smart meter data
 
      │── confirm ──────────────────────────────────────────>│
-     │<── on_confirm (payload delivered inline) ────────────│
+     │<── on_confirm (carries the agreed accessMethod) ─────│
 ```
 
-That's enough for a pre-agreed bilateral exchange. The full Beckn lifecycle adds optional phases on top: `publish-catalog`/`discover` (consumer doesn't know the provider yet), `select`/`init` (terms need negotiating), `status`/`on_status` (payload prepared asynchronously after `on_confirm`), `update`/`on_update` (credential rotation). See [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle) for the full picture.
+The `on_confirm` callback delivers either the dataset **inline** (small batches), a **signed download URL** (typical for files), or a **transport-specific credential** — an MQTT topic + token, a Kafka consumer config, an S3 prefix, a REST endpoint — that the BAP uses to fetch or stream the data over the appropriate sector protocol. The `accessMethod` field on the [DatasetItem](./concepts.md#the-datasetitem-schema) declares which mode applies.
 
-Data delivery supports multiple modes — **inline** (dataset embedded directly in the Beckn callback, end-to-end signed and verifiable, best for moderate-sized datasets), **signed download URL** (typical for larger datasets — the callback carries a URL and checksum), or transport-specific streaming credentials (MQTT, Kafka, S3 datalake, REST API) carried inline. The `accessMethod` field on the DatasetItem declares which mode applies. See [Concepts § The DatasetItem Schema](./concepts.md#the-datasetitem-schema) for the full list.
+That's enough for a pre-agreed bilateral exchange. The full Beckn lifecycle adds optional phases on top: `publish-catalog`/`discover` (consumer doesn't know the provider yet), `select`/`init` (terms need negotiating), `status`/`on_status` (delivery prepared asynchronously after `on_confirm`), `update`/`on_update` (credential rotation). See [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle) for the full picture.
+
+### Why Beckn is not the payload wire
+
+Wrapping every meter reading or every byte of a 50 MB filing in a signed Beckn message would be operationally heavy and would duplicate work the sector standards already do well. **Beckn coordinates; the existing protocols move bytes.** Expect **batch or near-real-time delivery after MDM validation** for smart-meter data; sub-minute streaming uses a transport credential handed off via Beckn, not Beckn itself.
 
 ---
 
 ## What Data Can Be Exchanged
 
-The devkit ships **prebuilt schemas** for three IES dataset types — the sector's most common shapes:
+The devkit ships **prebuilt schemas** for three IES dataset types. The table below names common integration examples for each — *these are examples seen in utility integrations; confirm the actual interface with your AMISP / HES / vendor stack.*
 
-| Schema | Description | Typical Flow |
-|---|---|---|
-| `IES_Report` | Smart meter telemetry — 15-minute interval kWh readings in OpenADR 3.1.0 format | AMISP → DISCOM |
-| `IES_ARR_Filing` | Aggregate Revenue Requirement — cost line items by fiscal year | DISCOM → SERC |
-| `IES_Policy` + `IES_Program` | Tariff rate structures — energy slabs, time-of-day surcharges | SERC → DISCOM |
+| Dataset (`schema`) | Beckn role | Common integration examples | Transfer pattern | Confirm with your vendor |
+|---|---|---|---|---|
+| Smart meter telemetry (`IES_Report`) | discovery + contract + consent + audit | Field: [DLMS-COSEM / IS 15959](../glossary.md#dlms-cosem--is-15959). HES↔MDM and enterprise: [IEC 61968-9 / CIM / MultiSpeak v3.0](../glossary.md#iec-61968). Optional event / near-real-time adapter: [MQTT 5.0](../glossary.md#mqtt). [OpenADR 3.1.0](../glossary.md#openadr) for DR / DER events only — *not* generic interval reads. | Batch or near-real-time after MDM validation; signed URL or REST for bulk; MQTT for subscribed events | Which standard is actually deployed on your HES↔MDM interface and field network |
+| ARR filing (`IES_ARR_Filing`) | discovery + contract + audit | [XBRL / iXBRL](../glossary.md#xbrl) (target). Current SERC portal practice: PDF/A + spreadsheet annexures. | HTTPS REST or signed object URL | Which annexure schema your SERC accepts today |
+| Tariff policy (`IES_Policy` + `IES_Program`) | discovery + contract | Order text: [Akoma Ntoso / LegalDocML](../glossary.md#akoma-ntoso) XML. Schedules / slabs / [ToD](../glossary.md#tod) / subsidies: versioned CSV / JSON / JSON-LD with [DCAT 3](../glossary.md#dcat-3) metadata. | HTTPS REST or signed artifact | How your state publishes tariff orders today |
 
-**Any JSON payload can be exchanged** — the wire envelope carries arbitrary data inside `dataPayload`. If your payload is **self-describing** (declares a JSON-LD `@context` and `@type`), the ONIX adapter automatically validates it against the schema published at that context URL. Payloads without `@context` flow through unvalidated — useful for ad-hoc or evolving data shapes. See [Concepts § How schema validation works](./concepts.md#how-schema-validation-works) for the dispatch mechanics.
+**Any JSON payload can be exchanged** beyond these three — the wire envelope carries arbitrary data inside `dataPayload`. If your payload is **self-describing** (declares a JSON-LD `@context` and `@type`), the ONIX adapter automatically validates it against the schema published at that context URL. Payloads without `@context` flow through unvalidated — useful for ad-hoc or evolving data shapes. See [Concepts § How schema validation works](./concepts.md#how-schema-validation-works) for the dispatch mechanics.
 
 ---
 
@@ -56,10 +61,10 @@ The devkit ships **prebuilt schemas** for three IES dataset types — the sector
 
 | Component | Role |
 |---|---|
-| **BAP** (data consumer) | Your application on the consuming side — DISCOM, regulator, VAS provider. Beckn calls it the Beckn Application Platform. |
-| **BPP** (data provider) | Your server on the providing side — AMISP, DISCOM, SERC, data custodian. Beckn calls it the Beckn Provider Platform. |
-| **ONIX Adapter** | The Beckn protocol adapter — signs and verifies messages, routes between BAP and BPP, validates payload schemas. Your code talks to ONIX; ONIX talks Beckn. Runs as a Docker service. See [Architecture](./architecture.md) for details. |
-| **IES Networks** | Two networks anchored at the `indiaenergystack.in` DeDi namespace: `test-ies-data-sharing-network` for pre-production / certification and `ies-data-sharing-network` for live exchange. The devkit sandbox is local-only and uses placeholder identities. See [Registry Setup](./registry-setup.md). |
+| **[BAP](../glossary.md#bap)** (data consumer) | Your application on the consuming side — DISCOM, regulator, VAS provider. Beckn calls it the Beckn Application Platform. |
+| **[BPP](../glossary.md#bpp)** (data provider) | Your server on the providing side — AMISP, DISCOM, SERC, data custodian. Beckn calls it the Beckn Provider Platform. |
+| **[ONIX](../glossary.md#onix) Adapter** | The Beckn protocol adapter — signs and verifies messages, routes between BAP and BPP, validates payload schemas. Your code talks to ONIX; ONIX talks Beckn. Runs as a Docker service. See [Architecture](./architecture.md) for details. |
+| **IES Networks** | Two networks anchored at the `indiaenergystack.in` [DeDi](../glossary.md#dedi) namespace: `test-ies-data-sharing-network` for pre-production / certification and `ies-data-sharing-network` for live exchange. The devkit sandbox is local-only and uses placeholder identities. See [Registry Setup](./registry-setup.md). |
 | **sandbox-bpp / sandbox-bap** | Pre-built containers bundled in the devkit. `sandbox-bpp` auto-responds with IES test data; `sandbox-bap` logs every callback so you can inspect it. You replace these with your own application in production. |
 
 ---
