@@ -1,6 +1,6 @@
 # Glossary
 
-Plain-language definitions for every acronym and term used across this book. Each term is anchor-linked from its first use in a chapter, so you can hover the link to preview, or click through for the full entry.
+Plain-language definitions for every acronym and term used across this book. Each term is anchor-linked from its first use in a chapter — click any link to jump directly to the definition below.
 
 {% hint style="info" %}
 This page is always visible in the left nav. If you hit a term you don't recognise, come back here.
@@ -24,6 +24,8 @@ This page is always visible in the left nav. If you hit a term you don't recogni
 ### DeDi
 
 **Decentralized Directory** — the public registry primitive IES uses for namespaces, network membership, public keys, revocation, and Beckn subscriber records. A DeDi record has a `subscriber_id` and `record_id` and is looked up via a public HTTPS URL (`https://dedi.global/dedi/lookup/...`). See [Registries chapter](registries/README.md).
+
+<a id="verifiable-credential-vc"></a>
 
 ### Verifiable Credential (VC)
 
