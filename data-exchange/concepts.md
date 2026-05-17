@@ -6,22 +6,22 @@ This page explains the conceptual foundations of IES Data Exchange before you st
 
 ## The Digital Energy Grid (DEG) Primitives
 
-IES Data Exchange is built on the broader **Digital Energy Grid (DEG)** architecture. For this chapter you only need to know that DEG models four things that surface in the wire format:
+IES Data Exchange is built on the broader **[Digital Energy Grid (DEG)](../glossary.md#deg)** architecture. For this chapter you only need to know that DEG models four things that surface in the wire format:
 
 | Primitive | What it is | Where it shows up |
 |---|---|---|
-| **Energy Resource** | Any entity that produces, consumes, stores or manages energy — meters, generators, DISCOMs, SERCs, AMISPs. In a data exchange the BAP and BPP are both Energy Resources. | `participants[]`, `provider` |
+| **Energy Resource** | Any entity that produces, consumes, stores or manages energy — meters, generators, [DISCOMs](../glossary.md#discom), [SERCs](../glossary.md#serc), [AMISPs](../glossary.md#amisp). In a data exchange the [BAP](../glossary.md#bap) and [BPP](../glossary.md#bpp) are both Energy Resources. | `participants[]`, `provider` |
 | **Energy Catalogue** | A BPP's listing of available datasets, with terms (price, SLA, delivery mode). | `publish-catalog` / `on_discover` |
 | **Energy Contract** | The agreement created when a BAP commits to consume a catalogue entry. | `message.contract` (carries `commitments[]`, `consideration`, `performance[]`, `settlements[]`) |
 | **Energy Credentials** | Verifiable attestations that may gate access (e.g. a regulatory-mandate credential the BPP requires before releasing data). | Not used in the basic flow; relevant to credential-gated use cases. |
 
-Energy Resource Address (ERA) and Energy Intent are additional DEG concepts not yet surfaced by the data-exchange use cases shipped today; you can read about them in the broader DEG specification when needed.
+[Energy Resource Address (ERA)](../glossary.md#era) and Energy Intent are additional DEG concepts not yet surfaced by the data-exchange use cases shipped today; you can read about them in the broader DEG specification when needed.
 
 ---
 
 ## Beckn Protocol Lifecycle
 
-IES Data Exchange uses the **Beckn Protocol v2.0** interaction model. The full set of actions:
+IES Data Exchange uses the **[Beckn Protocol v2.0](../glossary.md#beckn)** interaction model. The full set of actions:
 
 | Phase | BAP calls | BPP responds | When you need it |
 |---|---|---|---|
@@ -33,7 +33,7 @@ IES Data Exchange uses the **Beckn Protocol v2.0** interaction model. The full s
 
 > **Minimal viable exchange:** `confirm` → `on_confirm`, with the dataset embedded in the callback. Everything else is optional.
 
-Beckn is **asynchronous**: every call returns an immediate `ACK`, and the paired response arrives as a callback (`on_*`) to the BAP's webhook URL. The ONIX adapter manages this asynchrony transparently.
+Beckn is **asynchronous**: every call returns an immediate `ACK`, and the paired response arrives as a callback (`on_*`) to the BAP's webhook URL. The [ONIX](../glossary.md#onix) adapter manages this asynchrony transparently.
 
 ### Message Structure
 
@@ -80,7 +80,7 @@ Every Beckn message on the network is **cryptographically signed** by the sender
 When a message arrives, ONIX:
 
 1. Reads the sender identifier from the message context (`bapId` on a forward request, `bppId` on a callback).
-2. Looks the sender up in the **DeDi registry** at a URL of the form:
+2. Looks the sender up in the **[DeDi](../glossary.md#dedi) registry** at a URL of the form:
    ```
    https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>
    ```
