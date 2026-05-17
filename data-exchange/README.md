@@ -9,14 +9,14 @@
 Today, energy data in India moves through bespoke bilateral channels:
 
 - Regulatory filings arrive as PDFs, independently re-implemented across the sector
-- Smart meter telemetry is locked inside proprietary [MDMS](../glossary.md#mdm--mdms) systems
+- Smart meter telemetry is locked inside proprietary [MDMS](../glossary.md#mdms) systems
 - Tariff policies are interpreted differently by each DISCOM
 - There is no standard for discovery, access terms, or audit trails
 
 IES Data Exchange replaces these ad-hoc arrangements with **two complementary layers**:
 
 1. **Control plane (Beckn Protocol v2.0 + IES schemas)** — how participants find each other, negotiate terms, give consent, sign contracts, and produce auditable records.
-2. **Data plane (existing sector standards)** — how the bytes actually move, using whatever protocol the dataset class already standardises on ([DLMS-COSEM](../glossary.md#dlms-cosem--is-15959), [IEC 61968](../glossary.md#iec-61968) / [CIM](../glossary.md#cim) / [MultiSpeak](../glossary.md#multispeak), [OpenADR](../glossary.md#openadr), [XBRL](../glossary.md#xbrl), [Akoma Ntoso](../glossary.md#akoma-ntoso), or a plain signed URL).
+2. **Data plane (existing sector standards)** — how the bytes actually move, using whatever protocol the dataset class already standardises on ([DLMS-COSEM](../glossary.md#dlms-cosem), [IEC 61968](../glossary.md#iec-61968) / [CIM](../glossary.md#cim) / [MultiSpeak](../glossary.md#multispeak), [OpenADR](../glossary.md#openadr), [XBRL](../glossary.md#xbrl), [Akoma Ntoso](../glossary.md#akoma-ntoso), or a plain signed URL).
 
 ---
 
@@ -49,7 +49,7 @@ The devkit ships **prebuilt schemas** for three IES dataset types. The table bel
 
 | Dataset (`schema`) | Beckn role | Common integration examples | Transfer pattern | Confirm with your vendor |
 |---|---|---|---|---|
-| Smart meter telemetry (`IES_Report`) | discovery + contract + consent + audit | Field: [DLMS-COSEM / IS 15959](../glossary.md#dlms-cosem--is-15959). HES↔MDM and enterprise: [IEC 61968-9 / CIM / MultiSpeak v3.0](../glossary.md#iec-61968). Optional event / near-real-time adapter: [MQTT 5.0](../glossary.md#mqtt). [OpenADR 3.1.0](../glossary.md#openadr) for DR / DER events only — *not* generic interval reads. | Batch or near-real-time after MDM validation; signed URL or REST for bulk; MQTT for subscribed events | Which standard is actually deployed on your HES↔MDM interface and field network |
+| Smart meter telemetry (`IES_Report`) | discovery + contract + consent + audit | Field: [DLMS-COSEM / IS 15959](../glossary.md#dlms-cosem). HES↔MDM and enterprise: [IEC 61968-9 / CIM / MultiSpeak v3.0](../glossary.md#iec-61968). Optional event / near-real-time adapter: [MQTT 5.0](../glossary.md#mqtt). [OpenADR 3.1.0](../glossary.md#openadr) for DR / DER events only — *not* generic interval reads. | Batch or near-real-time after MDM validation; signed URL or REST for bulk; MQTT for subscribed events | Which standard is actually deployed on your HES↔MDM interface and field network |
 | ARR filing (`IES_ARR_Filing`) | discovery + contract + audit | [XBRL / iXBRL](../glossary.md#xbrl) (target). Current SERC portal practice: PDF/A + spreadsheet annexures. | HTTPS REST or signed object URL | Which annexure schema your SERC accepts today |
 | Tariff policy (`IES_Policy` + `IES_Program`) | discovery + contract | Order text: [Akoma Ntoso / LegalDocML](../glossary.md#akoma-ntoso) XML. Schedules / slabs / [ToD](../glossary.md#tod) / subsidies: versioned CSV / JSON / JSON-LD with [DCAT 3](../glossary.md#dcat-3) metadata. | HTTPS REST or signed artifact | How your state publishes tariff orders today |
 

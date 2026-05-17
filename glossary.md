@@ -113,11 +113,11 @@ The end-of-period adjustment by which actual costs are reconciled against the ap
 
 **Average Cost of Supply minus Average Revenue from sale** — the per-unit revenue shortfall a DISCOM carries. A standard KPI in regulatory and policy conversations.
 
-### AT&C loss
+### ATC loss
 
-**Aggregate Technical & Commercial loss** — the percentage of units injected into the network that are not realised as billed revenue, combining technical losses (line losses) and commercial losses (theft, under-billing, uncollected dues).
+**AT&C loss** — Aggregate Technical & Commercial loss — the percentage of units injected into the network that are not realised as billed revenue, combining technical losses (line losses) and commercial losses (theft, under-billing, uncollected dues).
 
-### HT / LT
+### HT-LT
 
 **High Tension** / **Low Tension** — voltage-class classification of consumers. HT typically ≥11 kV (industrial, commercial); LT typically ≤ 440 V (residential, small commercial).
 
@@ -157,9 +157,9 @@ A deferred cost that the regulator allows the DISCOM to recover through future t
 
 **Head-End System** — the AMI software layer that talks to smart meters over the field network, collects readings, and forwards them to the MDM. Owned by the AMISP in an RDSS deployment.
 
-### MDM / MDMS
+### MDMS
 
-**Meter Data Management (System)** — the utility-side platform that validates, stores, and analyses meter data received from the HES. The DISCOM's system of record for meter readings.
+**Meter Data Management System** (also **MDM**) — the utility-side platform that validates, stores, and analyses meter data received from the HES. The DISCOM's system of record for meter readings.
 
 ### DER
 
@@ -177,9 +177,9 @@ A deferred cost that the regulator allows the DISCOM to recover through future t
 
 The series of standards for **information exchange between distribution management systems**. Part 9 (`IEC 61968-9`) specifically covers meter reading and control interfaces. The CEA's RDSS AMI interoperability guidance names IEC 61968 / IEC 61968-100 alongside MultiSpeak and Web Services for HES↔MDMS integration.
 
-### DLMS-COSEM / IS 15959
+### DLMS-COSEM
 
-The wire protocol between a **smart meter** and the AMI head-end. DLMS-COSEM is the international family (`IEC 62056`); `IS 15959` is the Bureau of Indian Standards profile. The default for Indian RDSS smart-meter deployments.
+The wire protocol between a **smart meter** and the AMI head-end (also referred to as **IS 15959**, the Bureau of Indian Standards profile aligned with the international `IEC 62056` family). The default for Indian RDSS smart-meter deployments.
 
 ### MultiSpeak
 

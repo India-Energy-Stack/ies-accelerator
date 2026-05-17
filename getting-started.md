@@ -44,7 +44,7 @@ In v1, energy credentials enable:
 
 A federated, policy-governed mechanism for discovering and exchanging structured energy datasets. Beckn is the **control plane** — discovery, offer, consent, contract, audit. Dataset bytes move over the sector standard appropriate to each class (signed URL / REST / [MQTT](glossary.md#mqtt) / [OpenADR](glossary.md#openadr) / [XBRL](glossary.md#xbrl) / [Akoma Ntoso](glossary.md#akoma-ntoso)). Covers:
 
-- Smart meter telemetry — typically [DLMS-COSEM / IS 15959](glossary.md#dlms-cosem--is-15959) at the field layer, [IEC 61968](glossary.md#iec-61968) / [CIM](glossary.md#cim) / [MultiSpeak](glossary.md#multispeak) between [HES](glossary.md#hes) and [MDM](glossary.md#mdm--mdms)
+- Smart meter telemetry — typically [DLMS-COSEM / IS 15959](glossary.md#dlms-cosem) at the field layer, [IEC 61968](glossary.md#iec-61968) / [CIM](glossary.md#cim) / [MultiSpeak](glossary.md#multispeak) between [HES](glossary.md#hes) and [MDM](glossary.md#mdms)
 - Regulatory filings — [ARR](glossary.md#arr) submissions, tariff orders
 - Tariff and policy data — rate structures, time-of-day surcharges
 
@@ -70,7 +70,7 @@ A federated, policy-governed mechanism for discovering and exchanging structured
 
 ## Key Terminology
 
-A complete, plain-language glossary lives at **[Glossary](glossary.md)** (also in the left nav). It covers identity ([DID](glossary.md#did), [DeDi](glossary.md#dedi), [VC](glossary.md#verifiable-credential-vc)), Beckn ([BAP](glossary.md#bap), [BPP](glossary.md#bpp), [ONIX](glossary.md#onix), [ERA](glossary.md#era)), India energy sector ([DISCOM](glossary.md#discom), [AMISP](glossary.md#amisp), [SERC](glossary.md#serc), [ARR](glossary.md#arr), [MYT](glossary.md#myt), [HT/LT](glossary.md#ht--lt), [ToD](glossary.md#tod), [RDSS](glossary.md#rdss), [HES](glossary.md#hes), [MDMS](glossary.md#mdm--mdms)), and standards ([CIM](glossary.md#cim), [IEC 61968](glossary.md#iec-61968), [DLMS-COSEM](glossary.md#dlms-cosem--is-15959), [MultiSpeak](glossary.md#multispeak), [OpenADR](glossary.md#openadr), [XBRL](glossary.md#xbrl), [Akoma Ntoso](glossary.md#akoma-ntoso), [DCAT 3](glossary.md#dcat-3), [MQTT](glossary.md#mqtt)).
+A complete, plain-language glossary lives at **[Glossary](glossary.md)** (also in the left nav). It covers identity ([DID](glossary.md#did), [DeDi](glossary.md#dedi), [VC](glossary.md#verifiable-credential-vc)), Beckn ([BAP](glossary.md#bap), [BPP](glossary.md#bpp), [ONIX](glossary.md#onix), [ERA](glossary.md#era)), India energy sector ([DISCOM](glossary.md#discom), [AMISP](glossary.md#amisp), [SERC](glossary.md#serc), [ARR](glossary.md#arr), [MYT](glossary.md#myt), [HT/LT](glossary.md#ht-lt), [ToD](glossary.md#tod), [RDSS](glossary.md#rdss), [HES](glossary.md#hes), [MDMS](glossary.md#mdms)), and standards ([CIM](glossary.md#cim), [IEC 61968](glossary.md#iec-61968), [DLMS-COSEM](glossary.md#dlms-cosem), [MultiSpeak](glossary.md#multispeak), [OpenADR](glossary.md#openadr), [XBRL](glossary.md#xbrl), [Akoma Ntoso](glossary.md#akoma-ntoso), [DCAT 3](glossary.md#dcat-3), [MQTT](glossary.md#mqtt)).
 
 ---
 
