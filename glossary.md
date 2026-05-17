@@ -6,6 +6,10 @@ Plain-language definitions for every acronym and term used across this book. Eac
 This page is always visible in the left nav. If you hit a term you don't recognise, come back here.
 {% endhint %}
 
+{% hint style="warning" %}
+**Why no hover-tooltips?** Modern GitBook (the SaaS platform this book runs on, configured via `.gitbook.yaml`) doesn't support inline hover-tooltip behaviour for arbitrary terms. Per-term tooltips would require building a custom [GitBook ContentKit integration](https://gitbook.com/docs/developers/integrations) — tracked as a post-bootcamp enhancement. Until then, this Glossary is the single source of truth: terms link here on first use, click to jump.
+{% endhint %}
+
 ---
 
 ## Identity and credentials
