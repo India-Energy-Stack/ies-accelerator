@@ -32,6 +32,16 @@ The string itself is the identifier; **resolution** is how a client turns the st
 
 ## What a DID Document contains
 
+A DID string is *just* an identifier; what makes it useful is the DID Document it resolves to — the JSON that publishes the subject's public keys and service endpoints.
+
+```mermaid
+flowchart LR
+  A["DID string<br/><code>did:web:ies.tpddl.in</code>"] -->|resolve| B["DID Document<br/>(JSON)"]
+  B --> C["<b>verificationMethod</b><br/>public keys a verifier<br/>uses to check signatures"]
+  B --> D["<b>assertionMethod</b><br/>which keys may issue<br/>credentials"]
+  B --> E["<b>service</b><br/>endpoints<br/>(OpenCred, BAP/BPP URLs)"]
+```
+
 A minimal DID Document for an IES [DISCOM](../glossary.md#discom) looks like:
 
 ```json

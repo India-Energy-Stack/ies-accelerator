@@ -37,7 +37,7 @@ A credential is a JSON document with three things inside it:
 2. **A credentialSubject block** — the consumer's DID and the specific facts you are attesting (customer profile, address, consumption, generation assets, storage assets).
 3. **A proof block** — an Ed25519 / ECDSA signature over the credential body, produced by your DISCOM's private key.
 
-Because the signature is over the canonicalised credential bytes, anyone holding the credential can independently verify it: no callback to the DISCOM, no shared database, no central registry lookup. Revocation is the only thing that needs a fresh check, and even that runs against a public hash registry rather than a DISCOM API.
+Because the signature covers a **canonical** byte-for-byte form of the credential — same input always serialises the same way regardless of which library produced it — anyone holding the credential can independently verify it without re-asking the DISCOM. No callback, no shared database, no central registry lookup. Revocation is the only thing that needs a fresh check, and even that runs against a public hash registry rather than a DISCOM API.
 
 ---
 

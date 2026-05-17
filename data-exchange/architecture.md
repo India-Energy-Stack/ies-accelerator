@@ -33,20 +33,34 @@ Each side (BAP and BPP) is a self-contained set of containers. The only bridge b
 
 Every action is a separate HTTP POST that returns an immediate `ACK`; the paired `on_*` callback arrives asynchronously at the caller's webhook. Which steps you actually run depends on the use case:
 
-```
-BAP App      ONIX BAP      beckn-router      ONIX BPP      BPP Server
-   │             │              │                 │             │
-   │  (optional) publish-catalog & discover/on_discover         │
-   │             │              │                 │             │
-   │  (optional) select / init  →  on_select / on_init          │
-   │             │              │                 │             │
-   │─ confirm ──>│─────────────>│────────────────>│────────────>│
-   │<── ACK ─────│              │                 │<── ACK ─────│
-   │             │<───────────────  on_confirm  ───────────────│   ★ minimal flow ends here
-   │<─ on_confirm                │                 │             │
-   │             │              │                 │             │
-   │  (optional) status / on_status — async delivery            │
-   │  (optional) update / on_update — credential rotation       │
+```mermaid
+sequenceDiagram
+    participant BAP as BAP App
+    participant OBAP as ONIX BAP
+    participant R as beckn-router
+    participant OBPP as ONIX BPP
+    participant BPP as BPP Server
+
+    Note over BAP,BPP: Optional: publish-catalog · discover / on_discover
+    Note over BAP,BPP: Optional: select / init → on_select / on_init
+
+    BAP->>OBAP: confirm
+    OBAP-->>BAP: ACK (synchronous)
+    OBAP->>R: confirm (async)
+    R->>OBPP: confirm
+    OBPP->>BPP: confirm
+    BPP-->>OBPP: ACK
+
+    rect rgb(245, 245, 245)
+        Note over BAP,BPP: ★ Minimal flow ends after on_confirm
+        BPP->>OBPP: on_confirm
+        OBPP->>R: on_confirm
+        R->>OBAP: on_confirm
+        OBAP->>BAP: on_confirm
+    end
+
+    Note over BAP,BPP: Optional: status / on_status (async delivery)
+    Note over BAP,BPP: Optional: update / on_update (credential rotation)
 ```
 
 The minimal-flow framing, the optional phases, and the `transactionId` / `messageId` correlation rules all live in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
