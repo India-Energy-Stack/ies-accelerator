@@ -6,7 +6,11 @@ This page explains every concept used downstream in this chapter. Read it once b
 
 ## Verifiable Credentials (VCs)
 
-A **Verifiable Credential** is a JSON document containing claims about a subject, with a digital signature by the issuer attached. **Tamper-evident** means: if anyone modifies the contents after the issuer signs them, the signature stops verifying — so any verifier can detect tampering without re-asking the issuer. Anyone holding the document can verify the signature offline using the issuer's published public key.
+A **Verifiable Credential** is a JSON document containing claims about a subject, with a digital signature by the issuer attached. Three properties make it useful:
+
+- **Tamper-evident** — modify the contents after the issuer signs them, and the signature stops verifying. Anyone receiving the credential can detect tampering.
+- **Offline-verifiable** — any verifier checks the signature using the issuer's published public key. No callback to the issuer, no shared database.
+- **Self-contained trust** — the credential carries everything needed to prove who issued it, when, and that the contents haven't changed.
 
 Three parties are involved in every credential's life:
 

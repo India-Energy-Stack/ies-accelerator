@@ -6,10 +6,6 @@ Plain-language definitions for every acronym and term used across this book. Eac
 This page is always visible in the left nav. If you hit a term you don't recognise, come back here.
 {% endhint %}
 
-{% hint style="warning" %}
-**Why no hover-tooltips?** Modern GitBook (the SaaS platform this book runs on, configured via `.gitbook.yaml`) doesn't support inline hover-tooltip behaviour for arbitrary terms. Per-term tooltips would require building a custom [GitBook ContentKit integration](https://gitbook.com/docs/developers/integrations) — tracked as a post-bootcamp enhancement. Until then, this Glossary is the single source of truth: terms link here on first use, click to jump.
-{% endhint %}
-
 ---
 
 ## Identity and credentials
@@ -177,7 +173,7 @@ A deferred cost that the regulator allows the DISCOM to recover through future t
 
 ### CIM
 
-**Common Information Model** — the [IEC 61970 / 61968](https://en.wikipedia.org/wiki/Common_Information_Model_(electricity)) data model for power system information exchange. The lingua franca for HES↔MDM and enterprise integrations.
+**Common Information Model** — the [IEC 61970 / 61968](https://en.wikipedia.org/wiki/Common_Information_Model_%28electricity%29) data model for power system information exchange. The lingua franca for HES↔MDM and enterprise integrations.
 
 ### IEC 61968
 
