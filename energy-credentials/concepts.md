@@ -9,7 +9,7 @@ This page explains every concept used downstream in this chapter. Read it once b
 A **Verifiable Credential** is a JSON document containing claims about a subject, with a digital signature by the issuer attached. Three properties make it useful:
 
 - **Tamper-evident** — modify the contents after the issuer signs them, and the signature stops verifying. Anyone receiving the credential can detect tampering.
-- **Offline-verifiable** — any verifier checks the signature using the issuer's published public key. No callback to the issuer, no shared database.
+- **Offline-verifiable** — any verifier checks the **signature** using the issuer's published public key. No callback to the issuer, no shared database. (Revocation status is a separate check — see [DeDi Revocation](#dedi-revocation).)
 - **Self-contained trust** — the credential carries everything needed to prove who issued it, when, and that the contents haven't changed.
 
 Three parties are involved in every credential's life:
