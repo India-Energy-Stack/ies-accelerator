@@ -2,7 +2,7 @@
 
 This file emulates what the rendered GitBook will look like in `india-energy-stack/ies-accelerator`, so you can review the structure and flow without pushing to GitBook's preview environment. Each section below corresponds to one page in the actual book.
 
-**Not committed to GitBook nav** — this file is `gitbook-preview.md`, not in `SUMMARY.md`, so it's review-only. Delete or `git rm` once you've finished reviewing.
+**Review-only artifact, not for merge.** This file is `gitbook-preview.md`, intentionally excluded from `SUMMARY.md` so it never appears in the published book. It exists to let a reviewer walk the rendered structure locally. **Run `git rm gitbook-preview.md && git commit -m "docs(preview): remove local review aid before merge"` before merging the PR to `main`** — keeping it in `main` would leave dead weight in the repo for no reader benefit.
 
 ---
 
