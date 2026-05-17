@@ -1,5 +1,9 @@
 # Getting Started
 
+{% hint style="info" %}
+**New here?** Unfamiliar terms (DID, DeDi, BAP/BPP, ERA, ARR…) link to the **[Glossary](glossary.md)** on first use. The Glossary is always available from the left nav.
+{% endhint %}
+
 This page gives you a five-minute orientation to IES before you dive into either capability.
 
 ---
