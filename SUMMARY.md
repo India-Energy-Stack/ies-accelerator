@@ -40,6 +40,12 @@
   * [Simple Checklist](checklists/data-exchange-checklist.md)
   * [Detailed Checklist](checklists/data-exchange-checklist-detailed.md)
 
+* [Schemas](schemas/README.md)
+  * [Electricity Credential v1.0](schemas/ElectricityCredential/v1.0/README.md)
+  * [Meter Data v0.5](schemas/MeterData/v0.5/README.md)
+  * [ARR Filing v0.5](schemas/ArrFiling/v0.5/README.md)
+  * [Meter Data Request v0.5](schemas/MeterDataRequest/v0.5/README.md)
+
 * [Use Cases](use-cases/README.md)
   * [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
     * [Basic Checklist](use-cases/smart-meter-data-exchange/basic-checklist.md)
