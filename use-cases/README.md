@@ -6,7 +6,7 @@ If the [Identifiers](../identifiers/README.md), [Registries](../registries/READM
 
 ---
 
-## The Five Use Cases
+## The Six Use Cases
 
 | # | Use Case | What it does | Primary actors | Building blocks |
 |---|---|---|---|---|
@@ -15,8 +15,7 @@ If the [Identifiers](../identifiers/README.md), [Registries](../registries/READM
 | 3 | [Consumer Energy Passport](consumer-energy-passport/README.md) ([checklist](consumer-energy-passport/basic-checklist.md)) | Wallet-held credential binding consumer identity to their connection, meter, sanctioned load, and DER/storage assets — issued by the DISCOM, verifiable everywhere. | Consumer, DISCOM, Verifier (bank, marketplace, society) | Identifiers · Registries · Energy Credentials |
 | 4 | [DISCOM Regulatory Filing](discom-regulatory-filing/README.md) ([checklist](discom-regulatory-filing/basic-checklist.md)) | Aggregate Revenue Requirement (ARR) and compliance filings delivered as structured, signed, machine-verifiable objects from DISCOM to SERC. | DISCOM, SERC | Identifiers · Registries · Data Exchange |
 | 5 | [Tariff Intelligence](tariff-intelligence/README.md) ([checklist](tariff-intelligence/basic-checklist.md)) | Tariff orders (slab billing, time-of-day, deviation penalties) and data-exchange rules published as policy-as-code that billing systems, apps, and meters can consume directly. | SERC, DISCOM, App developer | Identifiers · Registries · Energy Credentials · Data Exchange |
-
-> **DER Visibility** — tracking rooftop solar, batteries and EV chargers per feeder using IES identifiers — is a sixth flagship use case and is documented separately (out of scope for this section for now).
+| 6 | [DER Visibility](der-visibility/README.md) ([checklist](der-visibility/basic-checklist.md)) | DISCOM discovers and subscribes to a credential-gated, near-real-time feed of grid-connection profile, operational telemetry, and grid-behavioural settings for every DER on its network — rooftop solar, BESS, V2G — sourced from the inverter / TSP platform. | Consumer, DISCOM, TSP / Inverter platform, SERC, MNRE | Identifiers · Registries · Energy Credentials · Data Exchange |
 
 ---
 
@@ -48,5 +47,8 @@ Each use case page follows the same structure so you can navigate quickly:
 | `IES_ARR_Filing` schema | **Draft — being finalised** |
 | `IES_Policy` (tariff) schema | Stable |
 | Tariff publication via data exchange | Shipped in devkit |
+| `IES_DER` (DER Layer 1 / 2 / 3) schemas | **Draft — being finalised** |
+| `DERConnectionCredential` schema | **Draft — being finalised** |
+| IES TSP / DER Platform Registry | **To be created** |
 
 The two open items (`IES_Report` and `IES_ARR_Filing`) do not block implementation — the example payloads in the devkit are stable enough to integrate against. Treat the field names as subject to minor renames until the canonical schemas land in `India-Energy-Stack`.
