@@ -1,8 +1,29 @@
 # Energy Credentials for DISCOMs
 
-This chapter is a complete, self-contained guide for a DISCOM tech team to start **issuing electricity credentials to consumers**. It walks from first principles through running the credential service, signing your first credential, and delivering it to consumers via DigiLocker or directly.
+{% hint style="info" %}
+**v1 scope.** [DISCOMs](../glossary.md#discom) are the sole **issuer** of energy credentials about consumers, meters, and assets. **Holders** are consumers (or authorized actors acting on their behalf). **Verifiers / recipients** are third parties depending on the use case — banks, marketplaces, regulators, fintechs. Other issuer roles (SERCs, DER OEMs, government bodies) are architecturally supported but out of scope for v1.
+{% endhint %}
 
-You do not need any prior knowledge of Verifiable Credentials. Every concept used downstream is explained in [Core Concepts](./concepts.md).
+This chapter is a complete, self-contained guide for a DISCOM tech team to start **issuing electricity credentials to consumers**. It walks from first principles through running the credential service, signing your first credential, and delivering it to consumers via [DigiLocker](../glossary.md#digilocker) or directly.
+
+You do not need any prior knowledge of [Verifiable Credentials](../glossary.md#verifiable-credential-vc). Every concept used downstream is explained in [Core Concepts](./concepts.md).
+
+### Credential lifecycle at a glance
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant DISCOM as DISCOM<br/>(Issuer)
+    participant Holder as Consumer /<br/>Authorized Holder
+    participant Verifier as Verifier /<br/>Recipient
+    Note over DISCOM: Build CustomerCredential from CIS / NMS data;<br/>sign with OpenCred private key
+    DISCOM->>Holder: Issue (DigiLocker Pull URI / direct DID push)
+    Note over Holder: Hold in DigiLocker or<br/>DID-controlled wallet
+    Holder->>Verifier: Present (push / share / scan QR)
+    Note over Verifier: Verify signature against DISCOM's<br/>published public key
+    Verifier->>DISCOM: (optional) revocation check in DeDi
+    Verifier-->>Holder: Service granted / KYC complete
+```
 
 ---
 
@@ -12,11 +33,11 @@ An **Electricity Credential** is a cryptographically signed digital attestation 
 
 A credential is a JSON document with three things inside it:
 
-1. **An issuer block** — your DISCOM's DID, legal name, and an `idRef` pointing at your regulatory registration, so any verifier can prove the credential came from you.
+1. **An issuer block** — your DISCOM's [DID](../glossary.md#did), legal name, and an `idRef` pointing at your regulatory registration, so any verifier can prove the credential came from you.
 2. **A credentialSubject block** — the consumer's DID and the specific facts you are attesting (customer profile, address, consumption, generation assets, storage assets).
 3. **A proof block** — an Ed25519 / ECDSA signature over the credential body, produced by your DISCOM's private key.
 
-Because the signature is over the canonicalised credential bytes, anyone holding the credential can independently verify it: no callback to the DISCOM, no shared database, no central registry lookup. Revocation is the only thing that needs a fresh check, and even that runs against a public hash registry rather than a DISCOM API.
+Because the signature covers a **canonical** byte-for-byte form of the credential — same input always serialises the same way regardless of which library produced it — anyone holding the credential can independently verify it without re-asking the DISCOM. No callback, no shared database, no central registry lookup. Revocation is the only thing that needs a fresh check, and even that runs against a public hash registry rather than a DISCOM API.
 
 ---
 

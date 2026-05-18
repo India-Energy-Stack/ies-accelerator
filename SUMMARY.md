@@ -2,6 +2,7 @@
 
 * [Home](README.md)
 * [Getting Started](getting-started.md)
+* [Glossary](glossary.md)
 
 * [Identifiers and Addressing](identifiers/README.md)
   * [Concepts](identifiers/concepts.md)

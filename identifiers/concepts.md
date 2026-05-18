@@ -32,7 +32,17 @@ The string itself is the identifier; **resolution** is how a client turns the st
 
 ## What a DID Document contains
 
-A minimal DID Document for an IES DISCOM looks like:
+A DID string is *just* an identifier; what makes it useful is the DID Document it resolves to — the JSON that publishes the subject's public keys and service endpoints.
+
+```mermaid
+flowchart LR
+  A["DID string<br/><code>did:web:ies.tpddl.in</code>"] -->|resolve| B["DID Document<br/>(JSON)"]
+  B --> C["<b>verificationMethod</b><br/>public keys a verifier<br/>uses to check signatures"]
+  B --> D["<b>assertionMethod</b><br/>which keys may issue<br/>credentials"]
+  B --> E["<b>service</b><br/>endpoints<br/>(OpenCred, BAP/BPP URLs)"]
+```
+
+A minimal DID Document for an IES [DISCOM](../glossary.md#discom) looks like:
 
 ```json
 {
@@ -62,7 +72,7 @@ Three things matter for IES:
 
 1. **`verificationMethod`** — the public key a verifier uses to check `proof` on a credential.
 2. **`assertionMethod`** — which keys are authorised to issue credentials.
-3. **`service`** — endpoints for routing: OpenCred for credentials, Beckn BAP/BPP URLs for data exchange.
+3. **`service`** — endpoints for routing: [OpenCred](../glossary.md#opencred) for credentials, [Beckn](../glossary.md#beckn) [BAP](../glossary.md#bap)/[BPP](../glossary.md#bpp) URLs for data exchange.
 
 ---
 
@@ -89,7 +99,7 @@ did:web:example.gov.in:agency:branch
 
 - DISCOM issuer identity (`issuer.id` on every credential).
 - Regulator and aggregator identities.
-- Namespace anchor for registries on DeDi (the namespace owner publishes its public key under `did:web`).
+- Namespace anchor for registries on [DeDi](../glossary.md#dedi) (the namespace owner publishes its public key under `did:web`).
 
 **Strengths**
 
@@ -108,7 +118,7 @@ The public key *is* the identifier — the method-specific identifier is a multi
 
 **When IES uses it**
 
-- Consumer holder DIDs, generated client-side by a wallet or DigiLocker.
+- Consumer holder DIDs, generated client-side by a wallet or [DigiLocker](../glossary.md#digilocker).
 - DISCOM dev/test deployments before a domain is provisioned.
 - Issuers anchoring in a CCA-issued Digital Signature Certificate (DSC) — the DID is derived from the certificate's public key.
 

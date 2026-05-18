@@ -6,7 +6,11 @@ This page explains every concept used downstream in this chapter. Read it once b
 
 ## Verifiable Credentials (VCs)
 
-A **Verifiable Credential** is a tamper-evident JSON document that contains claims about a subject and a digital signature by the issuer. Anyone holding the document can verify the signature without contacting the issuer.
+A **Verifiable Credential** is a JSON document containing claims about a subject, with a digital signature by the issuer attached. Three properties make it useful:
+
+- **Tamper-evident** — modify the contents after the issuer signs them, and the signature stops verifying. Anyone receiving the credential can detect tampering.
+- **Offline-verifiable** — any verifier checks the **signature** using the issuer's published public key. No callback to the issuer, no shared database. (Revocation status is a separate check — see [DeDi Revocation](#dedi-revocation).)
+- **Self-contained trust** — the credential carries everything needed to prove who issued it, when, and that the contents haven't changed.
 
 Three parties are involved in every credential's life:
 
@@ -88,7 +92,7 @@ OpenCred constructs every block above for you. You hand it the `credentialSubjec
 
 ## Decentralized Identifiers (DIDs)
 
-A **DID** is a globally unique, cryptographically verifiable identifier that does not depend on any central registry. It looks like `did:method:identifier`.
+A **DID** is a globally unique identifier of the form `did:method:identifier` that does not depend on any central authority. **Cryptographically verifiable** means: the identifier itself can be turned into a public key (directly, or via a registry-anchored lookup) — so anyone receiving a signature made by the DID's holder can check it without having to trust an issuing authority's database.
 
 OpenCred supports three DID methods. For DISCOMs, all three are useful at different points:
 
