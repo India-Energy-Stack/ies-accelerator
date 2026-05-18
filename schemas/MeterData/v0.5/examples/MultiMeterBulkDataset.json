@@ -1,0 +1,623 @@
+[
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "CustomerProfile",
+    "profileType": "CUSTOMER",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "timeZone": "Asia/Kolkata",
+    "customer": {
+      "id": {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      },
+      "name": "Acme Industries Pvt Ltd",
+      "consumerCategory": "NDS",
+      "sanctionedLoadKw": 45.0,
+      "billingCycleDay": 1
+    },
+    "serviceDeliveryPoints": [
+      {
+        "id": {
+          "scheme": "SERVICE_DELIVERY_POINT",
+          "value": "SDP-ACME-MAIN-01"
+        },
+        "addressLine": "12 MG Road",
+        "city": "Bengaluru",
+        "postalCode": "560001",
+        "latitude": 12.9759,
+        "longitude": 77.6064
+      },
+      {
+        "id": {
+          "scheme": "SERVICE_DELIVERY_POINT",
+          "value": "SDP-ACME-AUX-02"
+        },
+        "addressLine": "456 Indiranagar",
+        "city": "Bengaluru",
+        "postalCode": "560038",
+        "latitude": 12.97189,
+        "longitude": 77.64115
+      }
+    ],
+    "meters": [
+      {
+        "id": {
+          "scheme": "METER_SERIAL",
+          "value": "METER-GENUS-01"
+        },
+        "manufacturer": "Genus",
+        "modelNumber": "SM-3PH-4W-WC",
+        "meterCategory": "D2",
+        "serviceKind": "ELECTRICITY"
+      },
+      {
+        "id": {
+          "scheme": "METER_SERIAL",
+          "value": "METER-HPL-02"
+        },
+        "manufacturer": "HPL",
+        "modelNumber": "SM-1PH-2W-WC",
+        "meterCategory": "D1",
+        "serviceKind": "ELECTRICITY"
+      }
+    ],
+    "associations": [
+      {
+        "serviceDeliveryPointRefs": [
+          {
+            "scheme": "SERVICE_DELIVERY_POINT",
+            "value": "SDP-ACME-MAIN-01"
+          }
+        ],
+        "meterRefs": [
+          {
+            "scheme": "METER_SERIAL",
+            "value": "METER-GENUS-01"
+          }
+        ],
+        "installedAt": "2026-05-04T10:00:00+05:30"
+      },
+      {
+        "serviceDeliveryPointRefs": [
+          {
+            "scheme": "SERVICE_DELIVERY_POINT",
+            "value": "SDP-ACME-AUX-02"
+          }
+        ],
+        "meterRefs": [
+          {
+            "scheme": "METER_SERIAL",
+            "value": "METER-HPL-02"
+          }
+        ],
+        "installedAt": "2026-05-04T10:30:00+05:30"
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-GENUS-01"
+      }
+    ],
+    "serviceDeliveryPointRefs": [
+      {
+        "scheme": "SERVICE_DELIVERY_POINT",
+        "value": "SDP-ACME-MAIN-01"
+      }
+    ],
+    "coveragePeriod": {
+      "start": "2026-05-18T10:00:00+05:30",
+      "end": "2026-05-18T11:00:00+05:30"
+    },
+    "intervalBlocks": [
+      {
+        "intervalPeriod": {
+          "start": "2026-05-18T10:00:00+05:30",
+          "duration": "PT1H"
+        },
+        "intervalLength": "PT30M",
+        "payloadDescriptors": [
+          {
+            "readingTypeRef": {
+              "scheme": "OBIS",
+              "value": "1.0.1.29.0.255"
+            },
+            "unit": "kWh",
+            "accumulationBehaviour": "DELTA",
+            "phase": "ABC"
+          },
+          {
+            "readingTypeRef": {
+              "scheme": "OBIS",
+              "value": "1.0.9.29.0.255"
+            },
+            "unit": "kVAh",
+            "accumulationBehaviour": "DELTA",
+            "phase": "ABC"
+          }
+        ],
+        "intervals": [
+          {
+            "id": 0,
+            "values": [
+              14.5,
+              15.1
+            ]
+          },
+          {
+            "id": 1,
+            "values": [
+              16.2,
+              16.8
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-HPL-02"
+      }
+    ],
+    "serviceDeliveryPointRefs": [
+      {
+        "scheme": "SERVICE_DELIVERY_POINT",
+        "value": "SDP-ACME-AUX-02"
+      }
+    ],
+    "coveragePeriod": {
+      "start": "2026-05-18T10:00:00+05:30",
+      "end": "2026-05-18T10:30:00+05:30"
+    },
+    "intervalBlocks": [
+      {
+        "intervalPeriod": {
+          "start": "2026-05-18T10:00:00+05:30",
+          "duration": "PT30M"
+        },
+        "intervalLength": "PT15M",
+        "payloadDescriptors": [
+          {
+            "readingTypeRef": {
+              "scheme": "OBIS",
+              "value": "1.0.1.29.0.255"
+            },
+            "unit": "kWh",
+            "accumulationBehaviour": "DELTA",
+            "phase": "NONE"
+          }
+        ],
+        "intervals": [
+          {
+            "id": 0,
+            "values": [
+              2.1
+            ]
+          },
+          {
+            "id": 1,
+            "values": [
+              2.4
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-GENUS-01"
+      }
+    ],
+    "coveragePeriod": {
+      "start": "2026-05-17T00:00:00+05:30",
+      "end": "2026-05-18T00:00:00+05:30"
+    },
+    "intervalBlocks": [
+      {
+        "intervalPeriod": {
+          "start": "2026-05-17T00:00:00+05:30",
+          "duration": "P1D"
+        },
+        "intervalLength": "P1D",
+        "payloadDescriptors": [
+          {
+            "readingTypeRef": {
+              "scheme": "OBIS",
+              "value": "1.0.1.8.0.255"
+            },
+            "unit": "kWh",
+            "accumulationBehaviour": "CUMULATIVE",
+            "phase": "ABC"
+          },
+          {
+            "readingTypeRef": {
+              "scheme": "OBIS",
+              "value": "1.0.9.8.0.255"
+            },
+            "unit": "kVAh",
+            "accumulationBehaviour": "CUMULATIVE",
+            "phase": "ABC"
+          }
+        ],
+        "intervals": [
+          {
+            "id": 0,
+            "values": [
+              24512.4,
+              25134.8
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-HPL-02"
+      }
+    ],
+    "coveragePeriod": {
+      "start": "2026-05-17T00:00:00+05:30",
+      "end": "2026-05-18T00:00:00+05:30"
+    },
+    "intervalBlocks": [
+      {
+        "intervalPeriod": {
+          "start": "2026-05-17T00:00:00+05:30",
+          "duration": "P1D"
+        },
+        "intervalLength": "P1D",
+        "payloadDescriptors": [
+          {
+            "readingTypeRef": {
+              "scheme": "OBIS",
+              "value": "1.0.1.8.0.255"
+            },
+            "unit": "kWh",
+            "accumulationBehaviour": "CUMULATIVE",
+            "phase": "NONE"
+          }
+        ],
+        "intervals": [
+          {
+            "id": 0,
+            "values": [
+              4325.7
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "BillingProfile",
+    "profileType": "BILLING",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-GENUS-01"
+      }
+    ],
+    "billingPeriod": {
+      "start": "2026-04-01T00:00:00+05:30",
+      "end": "2026-05-01T00:00:00+05:30"
+    },
+    "billNumber": "BILL-ACME-MAIN-202604",
+    "billDate": "2026-05-01",
+    "dueDate": "2026-05-21",
+    "currency": "INR",
+    "amountDue": 224150.0,
+    "totals": [
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.1.8.0.255"
+        },
+        "value": 5800.0,
+        "openingValue": 18500.0,
+        "closingValue": 24300.0
+      },
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.9.8.0.255"
+        },
+        "value": 6050.0,
+        "openingValue": 18900.0,
+        "closingValue": 24950.0
+      },
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.1.6.0.255"
+        },
+        "value": 42.5,
+        "occurredAt": "2026-04-18T14:30:00+05:30",
+        "integrationPeriod": "PT30M"
+      }
+    ],
+    "touBuckets": [
+      {
+        "zone": 1,
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.1.8.1.255"
+        },
+        "value": 1500.0
+      },
+      {
+        "zone": 2,
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.1.8.2.255"
+        },
+        "value": 2400.0
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "BillingProfile",
+    "profileType": "BILLING",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-HPL-02"
+      }
+    ],
+    "billingPeriod": {
+      "start": "2026-04-01T00:00:00+05:30",
+      "end": "2026-05-01T00:00:00+05:30"
+    },
+    "billNumber": "BILL-ACME-AUX-202604",
+    "billDate": "2026-05-01",
+    "dueDate": "2026-05-21",
+    "currency": "INR",
+    "amountDue": 32450.0,
+    "totals": [
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.1.8.0.255"
+        },
+        "value": 950.0,
+        "openingValue": 3200.0,
+        "closingValue": 4150.0
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "InstantaneousProfile",
+    "profileType": "INSTANTANEOUS",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-GENUS-01"
+      }
+    ],
+    "capturedAt": "2026-05-18T12:00:00+05:30",
+    "values": [
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.32.7.0.255"
+        },
+        "value": 240.2,
+        "unit": "V",
+        "phase": "R",
+        "accumulationBehaviour": "INSTANTANEOUS",
+        "occurredAt": "2026-05-18T12:00:00+05:30"
+      },
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.52.7.0.255"
+        },
+        "value": 239.8,
+        "unit": "V",
+        "phase": "Y",
+        "accumulationBehaviour": "INSTANTANEOUS",
+        "occurredAt": "2026-05-18T12:00:00+05:30"
+      },
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.72.7.0.255"
+        },
+        "value": 241.1,
+        "unit": "V",
+        "phase": "B",
+        "accumulationBehaviour": "INSTANTANEOUS",
+        "occurredAt": "2026-05-18T12:00:00+05:30"
+      },
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.31.7.0.255"
+        },
+        "value": 58.4,
+        "unit": "A",
+        "phase": "R",
+        "accumulationBehaviour": "INSTANTANEOUS",
+        "occurredAt": "2026-05-18T12:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "InstantaneousProfile",
+    "profileType": "INSTANTANEOUS",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-HPL-02"
+      }
+    ],
+    "capturedAt": "2026-05-18T12:00:00+05:30",
+    "values": [
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.12.7.0.255"
+        },
+        "value": 238.5,
+        "unit": "V",
+        "phase": "NONE",
+        "accumulationBehaviour": "INSTANTANEOUS",
+        "occurredAt": "2026-05-18T12:00:00+05:30"
+      },
+      {
+        "readingTypeRef": {
+          "scheme": "OBIS",
+          "value": "1.0.11.7.0.255"
+        },
+        "value": 14.2,
+        "unit": "A",
+        "phase": "NONE",
+        "accumulationBehaviour": "INSTANTANEOUS",
+        "occurredAt": "2026-05-18T12:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "EventProfile",
+    "profileType": "EVENT",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-GENUS-01"
+      }
+    ],
+    "coveragePeriod": {
+      "start": "2026-05-18T00:00:00+05:30",
+      "end": "2026-05-18T12:00:00+05:30"
+    },
+    "events": [
+      {
+        "timestamp": "2026-05-18T08:15:00+05:30",
+        "eventId": 101,
+        "eventName": "Power Failure - occurrence",
+        "phase": "ABC"
+      },
+      {
+        "timestamp": "2026-05-18T08:20:00+05:30",
+        "eventId": 102,
+        "eventName": "Power Failure - restoration",
+        "phase": "ABC"
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "EventProfile",
+    "profileType": "EVENT",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-HPL-02"
+      }
+    ],
+    "coveragePeriod": {
+      "start": "2026-05-18T00:00:00+05:30",
+      "end": "2026-05-18T12:00:00+05:30"
+    },
+    "events": [
+      {
+        "timestamp": "2026-05-18T09:30:00+05:30",
+        "eventId": 205,
+        "eventName": "Meter Cover Open - occurrence",
+        "phase": "NONE"
+      }
+    ]
+  }
+]
