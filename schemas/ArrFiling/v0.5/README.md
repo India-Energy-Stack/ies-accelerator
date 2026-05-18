@@ -1,0 +1,57 @@
+# Aggregate Revenue Requirement (ARR) Filing Schema (v0.5)
+
+This directory contains the **Aggregate Revenue Requirement (ARR) Filing** (v0.5) schema definitions and semantic models for utility regulatory data exchange. It is designed to standardize the structure of ARR filings made by distribution licensees (DISCOMs) to State Electricity Regulatory Commissions (SERCs) in India.
+
+## Overview
+
+The `ArrFiling` schema unifies diverse state-level regulatory filing formats by structuring them into three relational classes:
+
+1. **`ArrFiling` (Root)** — Describes global metadata about a filing, including filing ID, licensee/DISCOM details, receiving regulatory commission, control period, currency, and unit scale.
+2. **`ArrFiscalYear`** — Connects a specific fiscal year to its baseline/control-period classification and amount basis (e.g., Audited actuals, SERC-Approved values, or proposed projections).
+3. **`ArrLineItem`** — Represents a single cost, revenue, subtotal, or true-up adjustment line item matching the regulatory sub-forms (e.g. Power Purchase Cost, O&M Expenses, Net ARR).
+
+---
+
+## Directory Structure and Files
+
+| File | Description |
+|------|-------------|
+| [`attributes.yaml`](./attributes.yaml) | Canonical OpenAPI 3.1.0 schema source of truth, describing all attributes, models, and types. |
+| [`schema.json`](./schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
+| [`context.jsonld`](./context.jsonld) | Compiled JSON-LD context mapping ARR attributes to semantic terms under the `ies:` prefix. |
+| [`vocab.jsonld`](./vocab.jsonld) | Compiled JSON-LD vocabulary ontology graph defining classes and properties. |
+| [`examples/`](./examples) | JSON-LD absolute-linked regulatory example files. |
+
+---
+
+## Schema Generation and Compilation
+
+The JSON Schema and JSON-LD context/vocabulary are compiled automatically from the core `attributes.yaml` using our generic Python build script.
+
+### To Compile Schemas
+To recompile schemas following modifications in `attributes.yaml`, run the following command from the repository root:
+
+```bash
+python scripts/generate_schema.py schemas/ArrFiling/v0.5
+```
+
+---
+
+## Payload Verification & Validation
+
+Example JSON files are validated for structural compliance against `schema.json` using our dedicated validation script.
+
+### To Validate Example Payloads
+Run the following command from the repository root:
+
+```bash
+python scripts/validate_schema.py schemas/ArrFiling/v0.5/schema.json schemas/ArrFiling/v0.5/examples
+```
+
+---
+
+## JSON-LD Integration
+
+All example payloads in the `examples/` directory have been augmented to support standard Linked Data semantic resolution:
+1. **`@context`** — Points to the canonical absolute URL `https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ArrFiling/v0.5/context.jsonld` to resolve terms.
+2. **`@type`** — Indicates the profile class shape (e.g., `ArrFiling`), aligning the regulatory datasets to the broader India Energy Stack ecosystem.
