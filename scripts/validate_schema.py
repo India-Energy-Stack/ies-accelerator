@@ -17,20 +17,40 @@ def validate_json_file(schema, filepath):
 
     # We use Draft202012Validator because the output schema matches the dialect specified in attributes.yaml
     validator = jsonschema.Draft202012Validator(schema)
-    errors = sorted(validator.iter_errors(data), key=lambda e: e.path)
+    schema_type = schema.get("type", "object")
     
-    if not errors:
-        print(f"✅ {os.path.basename(filepath)}: 100% compliant.")
-        return True, []
-    else:
-        print(f"❌ {os.path.basename(filepath)}: Failed validation.")
+    if isinstance(data, list) and schema_type == "object":
+        all_ok = True
         err_msg = []
-        for error in errors:
-            path_str = " -> ".join([str(p) for p in error.path]) if error.path else "root"
-            print(f"  - Path: {path_str}")
-            print(f"    Message: {error.message}")
-            err_msg.append(f"Path '{path_str}': {error.message}")
-        return False, err_msg
+        for idx, item in enumerate(data):
+            errors = sorted(validator.iter_errors(item), key=lambda e: e.path)
+            if errors:
+                all_ok = False
+                print(f"❌ {os.path.basename(filepath)} [Item {idx}]: Failed validation.")
+                for error in errors:
+                    path_str = f"[{idx}] -> " + (" -> ".join([str(p) for p in error.path]) if error.path else "root")
+                    print(f"  - Path: {path_str}")
+                    print(f"    Message: {error.message}")
+                    err_msg.append(f"Path '{path_str}': {error.message}")
+        if all_ok:
+            print(f"✅ {os.path.basename(filepath)}: 100% compliant (validated {len(data)} items).")
+            return True, []
+        else:
+            return False, err_msg
+    else:
+        errors = sorted(validator.iter_errors(data), key=lambda e: e.path)
+        if not errors:
+            print(f"✅ {os.path.basename(filepath)}: 100% compliant.")
+            return True, []
+        else:
+            print(f"❌ {os.path.basename(filepath)}: Failed validation.")
+            err_msg = []
+            for error in errors:
+                path_str = " -> ".join([str(p) for p in error.path]) if error.path else "root"
+                print(f"  - Path: {path_str}")
+                print(f"    Message: {error.message}")
+                err_msg.append(f"Path '{path_str}': {error.message}")
+            return False, err_msg
 
 def main():
     if len(sys.argv) < 3:
