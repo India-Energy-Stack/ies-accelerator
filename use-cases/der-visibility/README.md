@@ -126,29 +126,46 @@ A Layer 2 telemetry block reuses the OpenADR 3 `REPORT` already used by `IES_Rep
 
 The flow has three phases. They map 1-for-1 to the architecture sketch under discussion at the CA workshop (Phase 0 / Phase 1 / Phase 2).
 
-```
-Consumer   Inverter    TSP (BPP)    DISCOM (BAP)   DER Registry   Dashboard   DeDi (public)
-   │          │           │              │              │            │             │
-   │ Phase 0 — Pre-bootcamp: approval + credential issuance                        │
-   │ ─── apply for grid connection ──────>│              │            │             │
-   │ <── DER Connection VC (signed) ──────│              │            │             │
-   │ ── provision VC ──> │  (or held on the consumer's behalf by the TSP)          │
-   │          │ ── vendor telemetry ─> │ (vendor-native, out of IES scope)         │
-   │                                                                               │
-   │ Phase 1 — Subscription (DISCOM initiates)                                     │
-   │                       │ <── /search {DER feeds in my territory} ──│           │
-   │                       │ — filter to DERs whose VCs are signed by this DISCOM  │
-   │                       │ ── /on_search {Layer 1 + Layer 3 catalog} ─>│         │
-   │                       │ <── /confirm {DISCOM role VC + selected DER-IDs} ──│   │
-   │                       │ ── /on_confirm {receipt + subscription_id} ──>│      │
-   │                                                     │ persist L1+L3 │        │
-   │                                                     │ ──────────────>│        │
-   │                                                     │                │ publish anonymised index entry ─>│
-   │                                                                               │
-   │ Phase 2 — Continuous streaming (every 15 min)                                 │
-   │                       │ ── /on_status {Layer 2, IES JSON-LD} ──>│             │
-   │                                                     │ append ─────>│          │
-   │                                                                  │ push live update ─>│
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Consumer
+    participant Inverter
+    participant TSP as TSP Platform (BPP)
+    participant DISCOM as DISCOM (BAP)
+    participant Registry as DER Registry
+    participant Dashboard
+    participant DeDi as DeDi (Public)
+
+    rect rgb(245,245,245)
+    note over Consumer,DeDi: Phase 0 — Pre-bootcamp: approval + credential issuance
+    Consumer->>DISCOM: Apply for grid connection
+    DISCOM-->>Consumer: DER Connection VC (signed by DISCOM)
+    Consumer->>Inverter: Provision VC (or held on consumer's behalf by TSP)
+    note over Inverter,TSP: Inverter reports to TSP Platform as today<br/>(vendor-native, out of IES scope)
+    Inverter->>TSP: Inverter telemetry (vendor format)
+    end
+
+    rect rgb(245,245,245)
+    note over Consumer,DeDi: Phase 1 — Subscription (DISCOM initiates)
+    DISCOM->>TSP: /search {intent: DER feeds in my territory}
+    note over TSP: Filter to DERs holding VCs<br/>signed by this DISCOM
+    TSP-->>DISCOM: /on_search {matching DER catalog, Layer 1 + Layer 3 metadata}
+    note over TSP,DISCOM: DISCOM presents role credential at confirmation
+    DISCOM->>TSP: /confirm {DISCOM role VC + selected DERs}
+    TSP-->>DISCOM: /on_confirm {receipt + subscription_id + DER-IDs}
+    DISCOM->>Registry: Persist Layer 1 + Layer 3 from catalog
+    Registry->>DeDi: Publish DER index entry
+    end
+
+    rect rgb(245,245,245)
+    note over Consumer,DeDi: Phase 2 — Continuous streaming
+    loop ongoing (every 15 min)
+        TSP-->>DISCOM: /on_status {Layer 2 telemetry, IES JSON-LD}
+        DISCOM->>Registry: Append telemetry record
+        Registry->>Dashboard: Push live update
+    end
+    end
 ```
 
 ### Phase 0 — DER Connection Credential issuance
