@@ -27,7 +27,7 @@ This **Accelerator** is the developer hub for building on it. Four core sections
 | [IES Identifiers and Addressing](./identifiers/README.md) | [DIDs](glossary.md#did) and addressing grammar for DISCOMs, regulators, consumers, assets, meters, credentials, and datasets |
 | [IES Registries and Directories](./registries/README.md) | [DeDi](glossary.md#dedi)-based public registries — namespaces, the IES reference registries, [Beckn](glossary.md#beckn) subscriber registries, revocation, public-keys |
 | [IES Energy Credentials](./energy-credentials/README.md) | Issue, hold, and verify cryptographically signed digital credentials for energy assets and consumers |
-| [IES Data Exchange](./data-exchange/README.md) | Discover and contract dataset exchanges over Beckn — telemetry, regulatory filings, tariff policies. Payload uses the sector standard appropriate to the dataset (signed URL / REST / MQTT / OpenADR) |
+| [IES Data Exchange](./data-exchange/README.md) | Discover and contract dataset exchanges over Beckn — telemetry, regulatory filings, tariff policies. Payload rides **inline** for small / simple datasets, or Beckn delivers an **access method** (signed URL / SFTP / Kafka / MQTT / OpenADR endpoint) when an established channel already moves the bytes |
 
 ---
 
@@ -53,7 +53,7 @@ The Indian power sector runs on data that is siloed, bespoke, and hard to trust 
 |---|---|
 | [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/) | Data model for signed, machine-verifiable credentials |
 | [W3C Decentralized Identifiers (DIDs)](https://www.w3.org/TR/did-core/) | Cryptographic identity for issuers, holders, and verifiers |
-| [Beckn Protocol v2.0](https://becknprotocol.io) | Peer-to-peer protocol for dataset discovery, contracting, and audit (control plane — payload uses the relevant sector standard) |
+| [Beckn Protocol v2.0](https://becknprotocol.io) | Peer-to-peer protocol for dataset discovery, contracting, consent, and audit. Carries payload inline for small / simple cases, or hands off an access method for established channels (signed URL, Kafka, MQTT, SFTP, OpenADR) |
 | [DLMS-COSEM / IS 15959](https://en.wikipedia.org/wiki/IEC_62056) | Smart-meter wire protocol used in RDSS AMI deployments |
 | [IEC 61968 / CIM / MultiSpeak](https://en.wikipedia.org/wiki/IEC_61968) | HES↔MDMS interoperability standards named in CEA AMI interoperability guidance |
 | [OpenADR 3.1.0](https://www.openadr.org) | DR / DER event and flexibility-reporting protocol (not generic interval reads) |

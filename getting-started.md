@@ -42,7 +42,7 @@ In v1, energy credentials enable:
 
 ### Data Exchange
 
-A federated, policy-governed mechanism for discovering and exchanging structured energy datasets. Beckn is the **control plane** — discovery, offer, consent, contract, audit. Dataset bytes move over the sector standard appropriate to each class (signed URL / REST / [MQTT](glossary.md#mqtt) / [OpenADR](glossary.md#openadr) / [XBRL](glossary.md#xbrl) / [Akoma Ntoso](glossary.md#akoma-ntoso)). Covers:
+A federated, policy-governed mechanism for discovering and exchanging structured energy datasets. Beckn always carries the **control plane** — discovery, offer, consent, contract, audit. The **payload** has two equally valid modes: it can ride **inline in the Beckn callback** when the dataset is small and a single signed message is the simplest workflow, or — for bulky / streaming / already-channelised data — Beckn hands off an **access method** (signed URL / SFTP / REST / [MQTT](glossary.md#mqtt) / Kafka / [OpenADR](glossary.md#openadr) / [XBRL](glossary.md#xbrl) artifact / [Akoma Ntoso](glossary.md#akoma-ntoso) document) that the consumer uses to pull or subscribe over the established channel. Covers:
 
 - Smart meter telemetry — typically [DLMS-COSEM / IS 15959](glossary.md#dlms-cosem) at the field layer, [IEC 61968](glossary.md#iec-61968) / [CIM](glossary.md#cim) / [MultiSpeak](glossary.md#multispeak) between [HES](glossary.md#hes) and [MDM](glossary.md#mdms)
 - Regulatory filings — [ARR](glossary.md#arr) submissions, tariff orders
