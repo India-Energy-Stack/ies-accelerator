@@ -148,11 +148,14 @@ def main():
             sys.exit(1)
             
     norm_path = os.path.normpath(schema_dir)
-    schema_name = os.path.basename(norm_path)
-    if schema_name.startswith("v") and schema_name[1:].replace(".", "").isdigit():
+    version_folder = os.path.basename(norm_path)
+    schema_name = version_folder
+    if version_folder.startswith("v") and version_folder[1:].replace(".", "").isdigit():
         parent_dir = os.path.dirname(norm_path)
         schema_name = os.path.basename(parent_dir)
-    print(f"Compiling schemas for '{schema_name}'...")
+    else:
+        version_folder = "v0.5"
+    print(f"Compiling schemas for '{schema_name}' ({version_folder})...")
     
     components = data.get("components", {})
     all_schemas = components.get("schemas", {})
@@ -170,7 +173,7 @@ def main():
         
     schema_json = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": root_def.get("$id", f"https://schema.beckn.io/{schema_name}/v0.5"),
+        "$id": root_def.get("$id", f"https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/{schema_name}/{version_folder}/schema.json"),
         "title": root_def.get("title", schema_name),
         "description": root_def.get("description", ""),
     }
@@ -204,7 +207,7 @@ def main():
             "type": "@type",
             "schema": "https://schema.org/",
             "xsd": "http://www.w3.org/2001/XMLSchema#",
-            "ies": "https://schema.beckn.io/ies#",
+            "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
         }
     }
     
@@ -230,7 +233,7 @@ def main():
     vocab_json = {
         "@context": {
             "@version": 1.1,
-            "ies": "https://schema.beckn.io/ies/",
+            "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies/",
             "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
             "xsd": "http://www.w3.org/2001/XMLSchema#",

@@ -6,7 +6,7 @@
         "type": "@type",
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "ies": "https://schema.beckn.io/ies#",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
         "ArrFiscalYear": {
             "@id": "ies:ArrFiscalYear",
             "@context": {
