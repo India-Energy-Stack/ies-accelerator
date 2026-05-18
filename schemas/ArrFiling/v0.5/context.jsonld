@@ -1,0 +1,126 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+        "ArrFiscalYear": {
+            "@id": "ies:ArrFiscalYear",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "fiscalYear": {
+                    "@id": "ies:fiscalYear",
+                    "@type": "xsd:string"
+                },
+                "yearType": {
+                    "@id": "ies:yearType",
+                    "@type": "xsd:string"
+                },
+                "amountBasis": {
+                    "@id": "ies:amountBasis",
+                    "@type": "xsd:string"
+                },
+                "lineItems": {
+                    "@id": "ies:lineItems",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "lineItemId": {
+                            "@id": "ies:lineItemId",
+                            "@type": "xsd:string"
+                        },
+                        "serialNumber": {
+                            "@id": "ies:serialNumber",
+                            "@type": "xsd:integer"
+                        },
+                        "category": {
+                            "@id": "ies:category",
+                            "@type": "xsd:string"
+                        },
+                        "subCategory": {
+                            "@id": "ies:subCategory",
+                            "@type": "xsd:string"
+                        },
+                        "head": {
+                            "@id": "ies:head",
+                            "@type": "xsd:string"
+                        },
+                        "particulars": {
+                            "@id": "ies:particulars",
+                            "@type": "xsd:string"
+                        },
+                        "amount": {
+                            "@id": "ies:amount",
+                            "@type": "xsd:string"
+                        },
+                        "formReference": {
+                            "@id": "ies:formReference",
+                            "@type": "xsd:string"
+                        },
+                        "componentOf": {
+                            "@id": "ies:componentOf",
+                            "@type": "xsd:string"
+                        },
+                        "formula": {
+                            "@id": "ies:formula",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "ArrLineItem": {
+            "@id": "ies:ArrLineItem",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "lineItemId": {
+                    "@id": "ies:lineItemId",
+                    "@type": "xsd:string"
+                },
+                "serialNumber": {
+                    "@id": "ies:serialNumber",
+                    "@type": "xsd:integer"
+                },
+                "category": {
+                    "@id": "ies:category",
+                    "@type": "xsd:string"
+                },
+                "subCategory": {
+                    "@id": "ies:subCategory",
+                    "@type": "xsd:string"
+                },
+                "head": {
+                    "@id": "ies:head",
+                    "@type": "xsd:string"
+                },
+                "particulars": {
+                    "@id": "ies:particulars",
+                    "@type": "xsd:string"
+                },
+                "amount": {
+                    "@id": "ies:amount",
+                    "@type": "xsd:string"
+                },
+                "formReference": {
+                    "@id": "ies:formReference",
+                    "@type": "xsd:string"
+                },
+                "componentOf": {
+                    "@id": "ies:componentOf",
+                    "@type": "xsd:string"
+                },
+                "formula": {
+                    "@id": "ies:formula",
+                    "@type": "xsd:string"
+                }
+            }
+        }
+    }
+}
