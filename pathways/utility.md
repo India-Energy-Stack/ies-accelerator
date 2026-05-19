@@ -15,6 +15,7 @@ flowchart TD
     passport --> dex["Phase 4: Smart Meter Data Exchange (Step 4.1 - 4.5)"]
     dex --> bill["Phase 5: Consumer Meter Digest (Step 5.1 - 5.2)"]
     bill --> der["Phase 6: DER Visibility (Step 6.1 - 6.5)"]
+    der --> arr["Phase 7: ARR Publication (Step 7.1)"]
 ```
 
 ---
@@ -378,6 +379,29 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 
 ### 💡 Phase Advice
 > Keep it visual! Query feeder aggregations over your Beckn BAP node and plot live timeseries graphs showing feeder loading, battery state-of-charge, and reverse solar back-feeding.
+</details>
+
+---
+
+## Phase 7: ARR Publication (Annual Revenue Requirement)
+
+Publish your Annual Revenue Requirement data in a standardized, machine-readable format to enable programmatic tariff analysis and regulatory transparency.
+
+<details>
+<summary><b>Step 7.1: Map Existing Data to ARR Schema</b></summary>
+
+### 💡 Phase Advice
+> Rather than building new reporting pipelines from scratch, we suggest using your existing regulatory data sets and mapping them directly to the provided ARR schema.
+
+### Execution Guidance
+1. Extract historical, current, and forecasted monetary data from your existing tariff orders and regulatory filings.
+2. Focus strictly on providing **only machine-readable data related to monetary data**. Avoid embedding unstructured text or PDF blobs.
+3. Map this extracted monetary data directly to the canonical `ArrFiling` schema structure.
+4. **Note your experiences**: Treat this as an iterative mapping exercise. Document your experiences, friction points, or any missing schema fields encountered during the data mapping process to help inform future specification refinements.
+
+### References & Anchors
+* [ARR Filing Schema Reference](../schemas/ArrFiling/v0.5/README.md)
+* [ARR Filing Machine-Readable Example](../schemas/ArrFiling/v0.5/examples/arr_filings.json)
 </details>
 
 ---
