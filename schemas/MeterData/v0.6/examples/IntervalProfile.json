@@ -1,0 +1,82 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+  "@type": "IntervalProfile",
+  "profileType": "INTERVAL",
+  "readingPurpose": "BLOCK_LOAD_PROFILE",
+  "intervalBlocks": [
+    {
+      "intervalLength": "PT30M",
+      "payloadDescriptors": [
+        {
+          "readingTypeRef": {
+            "scheme": "OBIS",
+            "value": "1.0.1.8.0.255"
+          },
+          "accumulationBehaviour": "DELTA"
+        }
+      ],
+      "intervals": [
+        {
+          "id": 0,
+          "values": [
+            4.62
+          ]
+        },
+        {
+          "id": 1,
+          "values": [
+            4.85
+          ]
+        },
+        {
+          "id": 2,
+          "values": [
+            5.21
+          ]
+        },
+        {
+          "id": 3,
+          "values": [
+            5.04
+          ]
+        }
+      ],
+      "timePeriod": {
+        "start": "2026-05-04T09:00:00+05:30",
+        "end": "2026-05-04T11:00:00+05:30"
+      },
+      "overrides": [
+        {
+          "intervalId": 2,
+          "descriptorIndex": 0,
+          "validationStatus": "ESTIMATED",
+          "source": "ESTIMATED",
+          "changeMethod": "linear-interpolation",
+          "failCode": "VEE-MISSING-INTERVAL"
+        }
+      ]
+    }
+  ],
+  "customerRefs": [
+    {
+      "scheme": "CONSUMER_NUMBER",
+      "value": "RR-1234"
+    }
+  ],
+  "meterRefs": [
+    {
+      "scheme": "METER_SERIAL",
+      "value": "BESCOM-SM-2025-654321"
+    }
+  ],
+  "serviceDeliveryPointRefs": [
+    {
+      "scheme": "SERVICE_DELIVERY_POINT",
+      "value": "SDP-BLR-A-12345"
+    }
+  ],
+  "timePeriod": {
+    "start": "2026-05-04T09:00:00+05:30",
+    "end": "2026-05-04T11:00:00+05:30"
+  }
+}

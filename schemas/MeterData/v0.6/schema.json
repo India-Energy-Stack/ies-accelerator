@@ -1,0 +1,743 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/schema.json",
+  "title": "MeterData",
+  "description": "Structural JSON Schema for the six compact profile shapes (CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT). Discriminated by `profileType`. Sibling to ae-ies-mdm-3rdparty-v0.schema.json (which validates the credential-wrapped form). Both forms share semantics via the JSON-LD context but live in separate schemas because their structural shapes differ (compact omits the W3C VC envelope).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/EnergyData"
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/EnergyData"
+      }
+    }
+  ],
+  "$defs": {
+    "EnergyData": {
+      "type": "object",
+      "title": "EnergyData",
+      "description": "A single compact data-only profile record. Must be one of the six standard types.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/CustomerProfile"
+        },
+        {
+          "$ref": "#/$defs/IntervalProfile"
+        },
+        {
+          "$ref": "#/$defs/DailyProfile"
+        },
+        {
+          "$ref": "#/$defs/BillingProfile"
+        },
+        {
+          "$ref": "#/$defs/InstantaneousProfile"
+        },
+        {
+          "$ref": "#/$defs/EventProfile"
+        }
+      ]
+    },
+    "CustomerProfile": {
+      "type": "object",
+      "title": "CustomerProfile",
+      "description": "Slow-changing customer + service-point + meter-list summary.",
+      "required": [
+        "profileType",
+        "customerRefs",
+        "customer",
+        "serviceDeliveryPoints",
+        "meters",
+        "associations"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "const": "CUSTOMER"
+        },
+        "customerRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "IANA time-zone, e.g. Asia/Kolkata."
+        },
+        "customer": {
+          "$ref": "#/$defs/Customer"
+        },
+        "serviceDeliveryPoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ServiceDeliveryPoint"
+          }
+        },
+        "meters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Meter"
+          }
+        },
+        "associations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Association"
+          }
+        }
+      }
+    },
+    "IntervalProfile": {
+      "type": "object",
+      "title": "IntervalProfile",
+      "description": "Block Load Survey — PT15M / PT30M cadence intervalBlocks for one meter.",
+      "required": [
+        "profileType",
+        "customerRefs",
+        "meterRefs",
+        "intervalBlocks"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "const": "INTERVAL"
+        },
+        "customerRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "meterRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "serviceDeliveryPointRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "timePeriod": {
+          "$ref": "#/$defs/TimePeriod"
+        },
+        "readings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reading"
+          }
+        },
+        "intervalBlocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/IntervalBlock"
+          }
+        }
+      }
+    },
+    "DailyProfile": {
+      "type": "object",
+      "title": "DailyProfile",
+      "description": "Daily Load Profile — P1D intervalBlocks. Same per-meter shape as IntervalProfile.",
+      "required": [
+        "profileType",
+        "customerRefs",
+        "meterRefs",
+        "intervalBlocks"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "const": "DAILY"
+        },
+        "customerRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "meterRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "serviceDeliveryPointRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "timePeriod": {
+          "$ref": "#/$defs/TimePeriod"
+        },
+        "readings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reading"
+          }
+        },
+        "intervalBlocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/IntervalBlock"
+          }
+        }
+      }
+    },
+    "BillingProfile": {
+      "type": "object",
+      "title": "BillingProfile",
+      "description": "Monthly billing summary — energy + max-demand entries in totals[], ToU buckets, bill amount.",
+      "required": [
+        "profileType",
+        "customerRefs",
+        "meterRefs",
+        "timePeriod"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "const": "BILLING"
+        },
+        "customerRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "meterRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "timePeriod": {
+          "$ref": "#/$defs/TimePeriod"
+        },
+        "billNumber": {
+          "type": "string"
+        },
+        "billDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "currency": {
+          "type": "string",
+          "description": "ISO 4217 (INR, USD, ...)."
+        },
+        "amountDue": {
+          "type": "number"
+        },
+        "readings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reading"
+          }
+        },
+        "intervalBlocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/IntervalBlock"
+          }
+        }
+      }
+    },
+    "InstantaneousProfile": {
+      "type": "object",
+      "title": "InstantaneousProfile",
+      "description": "Snapshot of a meter's electrical quantities at one captured moment.",
+      "required": [
+        "profileType",
+        "customerRefs",
+        "meterRefs",
+        "timestamp"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "const": "INSTANTANEOUS"
+        },
+        "customerRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "meterRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "readings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reading"
+          }
+        },
+        "intervalBlocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/IntervalBlock"
+          }
+        }
+      }
+    },
+    "EventProfile": {
+      "type": "object",
+      "title": "EventProfile",
+      "description": "IS 15959 event log for one meter over a coverage period.",
+      "required": [
+        "profileType",
+        "customerRefs",
+        "meterRefs",
+        "timePeriod",
+        "events"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "const": "EVENT"
+        },
+        "customerRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "meterRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "timePeriod": {
+          "$ref": "#/$defs/TimePeriod"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MeterEvent"
+          }
+        }
+      }
+    },
+    "Identifier": {
+      "type": "object",
+      "title": "Identifier",
+      "description": "Canonical {scheme, value} reference. Used for customer/meter/SDP/OBIS references.",
+      "required": [
+        "scheme",
+        "value"
+      ],
+      "properties": {
+        "scheme": {
+          "$ref": "#/$defs/IdentifierScheme"
+        },
+        "value": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        }
+      }
+    },
+    "IdentifierList": {
+      "type": "array",
+      "title": "IdentifierList",
+      "description": "Non-empty list of Identifiers for the same underlying entity. First element is the primary; additional elements are alternates under different schemes.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Identifier"
+      }
+    },
+    "TimePeriod": {
+      "type": "object",
+      "description": "Half-open time period [start, end). ISO-8601 with mandatory offset.",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "IntervalBlock": {
+      "type": "object",
+      "description": "OpenADR-inspired compact block: descriptors once + positional values per row + sparse quality overrides.",
+      "required": [
+        "timePeriod",
+        "intervalLength",
+        "payloadDescriptors",
+        "intervals"
+      ],
+      "properties": {
+        "timePeriod": {
+          "$ref": "#/$defs/TimePeriod"
+        },
+        "intervalLength": {
+          "type": "string",
+          "format": "duration",
+          "description": "Per-row cadence, e.g. PT30M or P1D."
+        },
+        "payloadDescriptors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/PayloadDescriptor"
+          }
+        },
+        "intervals": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/IntervalRow"
+          }
+        },
+        "overrides": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Override"
+          }
+        }
+      }
+    },
+    "PayloadDescriptor": {
+      "type": "object",
+      "description": "One quantity declared once per block; rows' values[] align positionally with descriptors[].",
+      "required": [
+        "readingTypeRef"
+      ],
+      "properties": {
+        "readingTypeRef": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "accumulationBehaviour": {
+          "$ref": "#/$defs/AccumulationBehaviour"
+        },
+        "powerOfTenMultiplier": {
+          "type": "integer"
+        },
+        "touZone": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        }
+      }
+    },
+    "IntervalRow": {
+      "type": "object",
+      "description": "One time-series row. values[k] is the value for payloadDescriptors[k].",
+      "required": [
+        "id",
+        "values"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "Override": {
+      "type": "object",
+      "description": "Sparse — inject timestamps, zones, or validation states into specific interval cells.",
+      "required": [
+        "intervalId",
+        "descriptorIndex"
+      ],
+      "properties": {
+        "intervalId": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "descriptorIndex": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "zone": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "validationStatus": {
+          "$ref": "#/$defs/ValidationStatus"
+        },
+        "source": {
+          "$ref": "#/$defs/ReadingSource"
+        },
+        "changeMethod": {
+          "type": "string"
+        },
+        "failCode": {
+          "type": "string"
+        }
+      }
+    },
+    "Reading": {
+      "type": "object",
+      "description": "Detailed, self-contained inline reading with full metadata support.",
+      "required": [
+        "readingTypeRef",
+        "value"
+      ],
+      "properties": {
+        "readingTypeRef": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "value": {
+          "type": "number"
+        },
+        "zone": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "validationStatus": {
+          "$ref": "#/$defs/ValidationStatus"
+        },
+        "source": {
+          "$ref": "#/$defs/ReadingSource"
+        },
+        "changeMethod": {
+          "type": "string"
+        },
+        "failCode": {
+          "type": "string"
+        }
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "name": {
+          "type": "string"
+        },
+        "consumerCategory": {
+          "type": "string",
+          "description": "Utility tariff category (e.g., LT2A, NDS, HT)."
+        },
+        "sanctionedLoadKw": {
+          "type": "number",
+          "minimum": 0
+        },
+        "billingCycleDay": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 31
+        }
+      }
+    },
+    "ServiceDeliveryPoint": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "addressLine": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      }
+    },
+    "Meter": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "manufacturer": {
+          "type": "string"
+        },
+        "modelNumber": {
+          "type": "string"
+        },
+        "meterCategory": {
+          "$ref": "#/$defs/MeterCategory"
+        },
+        "serviceKind": {
+          "$ref": "#/$defs/ServiceKind"
+        }
+      }
+    },
+    "Association": {
+      "type": "object",
+      "required": [
+        "serviceDeliveryPointRefs",
+        "meterRefs"
+      ],
+      "properties": {
+        "serviceDeliveryPointRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "meterRefs": {
+          "$ref": "#/$defs/IdentifierList"
+        },
+        "feederId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "dtId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "installedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "MeterEvent": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "eventId"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "eventId": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "eventName": {
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "magnitude": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "string",
+          "format": "duration"
+        }
+      }
+    },
+    "IdentifierScheme": {
+      "type": "string",
+      "enum": [
+        "METER_SERIAL",
+        "METER_BADGE",
+        "MRID",
+        "OBIS",
+        "SHORT_CODE",
+        "CONSUMER_NUMBER",
+        "SERVICE_DELIVERY_POINT",
+        "DID",
+        "ORG",
+        "OTHER"
+      ]
+    },
+    "Phase": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "R",
+        "Y",
+        "B",
+        "ABC"
+      ]
+    },
+    "UnitOfMeasure": {
+      "type": "string",
+      "enum": [
+        "kWh",
+        "kVAh",
+        "kvarh",
+        "kW",
+        "kvar",
+        "kVA",
+        "V",
+        "A",
+        "Hz",
+        "PF",
+        "NONE",
+        "INR",
+        "USD"
+      ]
+    },
+    "AccumulationBehaviour": {
+      "type": "string",
+      "enum": [
+        "CUMULATIVE",
+        "DELTA",
+        "INSTANTANEOUS",
+        "SUMMATION",
+        "INDICATING"
+      ]
+    },
+    "ValidationStatus": {
+      "type": "string",
+      "enum": [
+        "VALID",
+        "ESTIMATED",
+        "MANUAL",
+        "SUSPECT",
+        "REJECTED"
+      ]
+    },
+    "ReadingSource": {
+      "type": "string",
+      "enum": [
+        "METER",
+        "HES",
+        "ESTIMATED",
+        "MANUAL",
+        "IMPORT"
+      ]
+    },
+    "MeterCategory": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D1",
+        "D2",
+        "D3",
+        "D4"
+      ]
+    },
+    "ServiceKind": {
+      "type": "string",
+      "enum": [
+        "ELECTRICITY",
+        "GAS",
+        "WATER",
+        "HEAT"
+      ]
+    }
+  }
+}
