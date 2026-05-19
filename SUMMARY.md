@@ -4,6 +4,9 @@
 * [Getting Started](getting-started.md)
 * [Glossary](glossary.md)
 
+* [Pathways](pathways/README.md)
+  * [DISCOM Pathway](pathways/discom.md)
+
 * [Identifiers and Addressing](identifiers/README.md)
   * [Concepts](identifiers/concepts.md)
   * [ID Patterns](identifiers/id-patterns.md)
