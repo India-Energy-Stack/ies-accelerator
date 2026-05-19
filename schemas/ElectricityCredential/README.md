@@ -18,7 +18,7 @@ Unified W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electr
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v1.0](./v1.0/) | Current | Unified credential replacing separate per-profile VCs |
+| [v1.0](v1.0/README.md) | Current | Unified credential replacing separate per-profile VCs |
 
 ---
 

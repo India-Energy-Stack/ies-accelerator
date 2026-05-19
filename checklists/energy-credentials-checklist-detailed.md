@@ -123,7 +123,7 @@ Choose one based on your organisation's posture. Refer to [trust chains docs](ht
 
 ### 2.1 Use the built-in `electricity/v1` schema
 
-The OpenCred image ships `electricity/v1` as a built-in `schemaId`. It implements the IES `ElectricityCredential` v1.0 family — a single per-meter credential (`type: "CustomerCredential"`) with five sub-profiles. Canonical schema files: [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/) in this repo (root: [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator)).
+The OpenCred image ships `electricity/v1` as a built-in `schemaId`. It implements the IES `ElectricityCredential` v1.0 family — a single per-meter credential (`type: "CustomerCredential"`) with five sub-profiles. Canonical schema files: [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md) in this repo (root: [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator)).
 
 - [ ] **2.1.a** Confirm `electricity/v1` appears in `GET /v1/schemas`
 - [ ] **2.1.b** `credentialSubject` shape understood:

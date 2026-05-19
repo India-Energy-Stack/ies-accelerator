@@ -1,8 +1,8 @@
 # Electricity Credential Schema
 
-DISCOMs issue a single unified **`CustomerCredential`** (from the IES Electricity Credential schema family — see [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/)) per meter. One credential carries customer identity, address, consumption characteristics, generation assets, and storage assets as equal-level sub-profiles within a single W3C Verifiable Credential (VC Data Model 2.0).
+DISCOMs issue a single unified **`CustomerCredential`** (from the IES Electricity Credential schema family — see [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md)) per meter. One credential carries customer identity, address, consumption characteristics, generation assets, and storage assets as equal-level sub-profiles within a single W3C Verifiable Credential (VC Data Model 2.0).
 
-> **Schema files.** All canonical schema artefacts referenced on this page live under [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/) in this repository. Repository root: **https://github.com/India-Energy-Stack/ies-accelerator**. The directory contains `schema.json` (JSON Schema 2020-12), `context.jsonld` (JSON-LD context), `attributes.yaml` (field reference), and `examples/example.json`.
+> **Schema files.** All canonical schema artefacts referenced on this page live under [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md) in this repository. Repository root: **https://github.com/India-Energy-Stack/ies-accelerator**. The directory contains `schema.json` (JSON Schema 2020-12), `context.jsonld` (JSON-LD context), `attributes.yaml` (field reference), and `examples/example.json`.
 >
 > **Upstream provenance.** The schema is sourced from the Beckn DEG [`ElectricityCredential` v1.0](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.0) specification and mirrored into this repo for offline reference. All field rules below are normative against the mirrored `schema.json`.
 
@@ -294,7 +294,7 @@ Worked curls are in [Issuing Credentials](./issuance.md).
 
 ## References
 
-- [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/) — mirrored schema files in this repo (`schema.json`, `context.jsonld`, `attributes.yaml`, `examples/`)
+- [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md) — mirrored schema files in this repo (`schema.json`, `context.jsonld`, `attributes.yaml`, `examples/`)
 - Repository root: [https://github.com/India-Energy-Stack/ies-accelerator](https://github.com/India-Energy-Stack/ies-accelerator)
 - [Beckn DEG `ElectricityCredential` v1.0 — upstream](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.0)
 - [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/)
