@@ -1,6 +1,6 @@
 # IES Pathways
 
-**India Energy Stack (IES) Pathways** provide structured, step-by-step onboarding and integration roadmaps designed for specific energy sector participants — including **DISCOMs**, **regulators**, **AMISPs**, and **third-party service providers** — to systematically adopt IES capabilities.
+**India Energy Stack (IES) Pathways** provide structured, step-by-step onboarding and integration roadmaps designed for specific energy sector participants — including **utilities**, **regulators**, **AMISPs**, and **third-party service providers** — to systematically adopt IES capabilities.
 
 ---
 
@@ -18,7 +18,7 @@ Currently, the following pathways are available:
 
 | Pathway | Who is it for? | Capabilities Integrated | Description |
 |---|---|---|---|
-| **[DISCOM Pathway](./discom.md)** | Distribution Companies (Utilities) | Identifiers · Registries · Energy Credentials · Data Exchange · DER Visibility | Comprehensive roadmap to issue Energy Passports, execute Smart Meter Data Exchange, issue verifiable bills, and achieve DER visibility. |
+| **[Utility Pathway](./utility.md)** | Electricity Distribution Utilities | Identifiers · Registries · Energy Credentials · Data Exchange · DER Visibility | Comprehensive roadmap to issue Energy Passports, execute Smart Meter Data Exchange, issue verifiable bills, and achieve DER visibility. |
 
 ---
 
