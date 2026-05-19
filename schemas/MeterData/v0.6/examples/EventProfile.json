@@ -2,6 +2,13 @@
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
   "@type": "EventProfile",
   "profileType": "EVENT",
+  "customerRefs": [
+    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+  ],
+  "meterRefs": [
+    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+  ],
+  "timePeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P7D"  },
   "events": [
     {
       "timestamp": "2026-05-04T03:12:45+05:30",
@@ -48,21 +55,5 @@
       "eventName": "RTC_SET",
       "sequence": 1240
     }
-  ],
-  "customerRefs": [
-    {
-      "scheme": "CONSUMER_NUMBER",
-      "value": "RR-1234"
-    }
-  ],
-  "meterRefs": [
-    {
-      "scheme": "METER_SERIAL",
-      "value": "BESCOM-SM-2025-654321"
-    }
-  ],
-  "timePeriod": {
-    "start": "2026-05-04T00:00:00+05:30",
-    "end": "2026-05-11T00:00:00+05:30"
-  }
+  ]
 }

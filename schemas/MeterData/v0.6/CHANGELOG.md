@@ -6,8 +6,8 @@ Version 0.6 introduces a major structural refactor to the `MeterData` schema, st
 Previously, time windows and execution timestamps were fragmented (`billingPeriod`, `coveragePeriod`, `intervalPeriod`, `capturedAt`, `timestamp`). 
 
 **Changes:**
-- All period objects have been unified into `timePeriod`, requiring only `start` and `end`.
-- The redundant `duration` property has been removed.
+- All period objects (`billingPeriod`, `coveragePeriod`, `intervalPeriod`) have been unified into `timePeriod`.
+- The new `timePeriod` strictly requires a `start` timestamp and a `duration` (ISO-8601), perfectly aligning with standard IEC/OpenADR telemetry patterns.
 - All point-in-time execution markers have been unified to `timestamp`.
 
 ## 2. Deprecation of Explicit Units & Phases
@@ -26,7 +26,7 @@ Ideal for sparse reads (e.g. `InstantaneousProfile` or `BillingProfile`). Data i
   "@type": "BillingProfile",
   "timePeriod": {
     "start": "2026-04-01T00:00:00+05:30",
-    "end": "2026-05-01T00:00:00+05:30"
+    "duration": "P1M"
   },
   "readings": [
     {

@@ -2,12 +2,12 @@
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
   "@type": "CustomerProfile",
   "profileType": "CUSTOMER",
+  "customerRefs": [
+    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+  ],
   "timeZone": "Asia/Kolkata",
   "customer": {
-    "id": {
-      "scheme": "CONSUMER_NUMBER",
-      "value": "RR-1234"
-    },
+    "id": { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" },
     "name": "Acme Industries Pvt Ltd",
     "consumerCategory": "NDS",
     "sanctionedLoadKw": 15.0,
@@ -15,10 +15,7 @@
   },
   "serviceDeliveryPoints": [
     {
-      "id": {
-        "scheme": "SERVICE_DELIVERY_POINT",
-        "value": "SDP-BLR-A-12345"
-      },
+      "id": { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-BLR-A-12345" },
       "addressLine": "12 MG Road",
       "city": "Bengaluru",
       "postalCode": "560001",
@@ -28,10 +25,7 @@
   ],
   "meters": [
     {
-      "id": {
-        "scheme": "METER_SERIAL",
-        "value": "BESCOM-SM-2025-654321"
-      },
+      "id": { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" },
       "manufacturer": "Genus",
       "modelNumber": "SM-3PH-4W-WC",
       "meterCategory": "D2",
@@ -40,33 +34,15 @@
   ],
   "associations": [
     {
-      "installedAt": "2026-05-04T10:00:00+05:30",
-      "serviceDeliveryPointRefs": [
-        {
-          "scheme": "SERVICE_DELIVERY_POINT",
-          "value": "SDP-BLR-A-12345"
-        }
-      ],
       "meterRefs": [
-        {
-          "scheme": "METER_SERIAL",
-          "value": "BESCOM-SM-2025-654321"
-        }
+        { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
       ],
-      "feederId": {
-        "scheme": "OTHER",
-        "value": "FDR-11KV-BLR-04"
-      },
-      "dtId": {
-        "scheme": "OTHER",
-        "value": "DT-BLR-A-400kVA-12"
-      }
-    }
-  ],
-  "customerRefs": [
-    {
-      "scheme": "CONSUMER_NUMBER",
-      "value": "RR-1234"
+      "serviceDeliveryPointRefs": [
+        { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-BLR-A-12345" }
+      ],
+      "installedAt": "2026-05-04T10:00:00+05:30",
+      "feederId": { "scheme": "OTHER", "value": "FDR-11KV-BLR-04" },
+      "dtId": { "scheme": "OTHER", "value": "DT-BLR-A-400kVA-12" }
     }
   ]
 }

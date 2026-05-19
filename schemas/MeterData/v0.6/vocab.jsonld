@@ -66,7 +66,7 @@
             "@id": "ies:TimePeriod",
             "@type": "rdfs:Class",
             "rdfs:label": "Time Period",
-            "rdfs:comment": "Half-open time period [start, end). ISO-8601 with mandatory offset."
+            "rdfs:comment": "Period defined by a start time and a duration."
         },
         {
             "@id": "ies:IntervalBlock",
@@ -267,16 +267,10 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:end",
+            "@id": "ies:duration",
             "@type": "rdf:Property",
-            "rdfs:label": "end",
+            "rdfs:label": "duration",
             "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:intervalLength",
-            "@type": "rdf:Property",
-            "rdfs:label": "interval Length",
-            "rdfs:comment": "Per-row cadence, e.g. PT30M or P1D."
         },
         {
             "@id": "ies:payloadDescriptors",
@@ -504,12 +498,6 @@
             "@id": "ies:magnitude",
             "@type": "rdf:Property",
             "rdfs:label": "magnitude",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:duration",
-            "@type": "rdf:Property",
-            "rdfs:label": "duration",
             "rdfs:comment": ""
         }
     ]

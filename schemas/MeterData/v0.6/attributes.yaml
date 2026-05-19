@@ -248,33 +248,28 @@ components:
 
     TimePeriod:
       type: "object"
-      description: "Half-open time period [start, end). ISO-8601 with mandatory offset."
+      description: "Period defined by a start time and a duration."
       required:
         - "start"
-        - "end"
+        - "duration"
       properties:
         start:
           type: "string"
           format: "date-time"
-        end:
+        duration:
           type: "string"
-          format: "date-time"
+          format: "duration"
 
     IntervalBlock:
       type: "object"
       description: "OpenADR-inspired compact block: descriptors once + positional values per row + sparse quality overrides."
       required:
         - "timePeriod"
-        - "intervalLength"
         - "payloadDescriptors"
         - "intervals"
       properties:
         timePeriod:
           $ref: "#/components/schemas/TimePeriod"
-        intervalLength:
-          type: "string"
-          format: "duration"
-          description: "Per-row cadence, e.g. PT30M or P1D."
         payloadDescriptors:
           type: "array"
           minItems: 1

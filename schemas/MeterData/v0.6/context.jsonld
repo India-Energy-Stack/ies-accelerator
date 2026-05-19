@@ -256,9 +256,9 @@
                             "@id": "ies:start",
                             "@type": "xsd:dateTime"
                         },
-                        "end": {
-                            "@id": "ies:end",
-                            "@type": "xsd:dateTime"
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
                         }
                     }
                 },
@@ -336,15 +336,11 @@
                                     "@id": "ies:start",
                                     "@type": "xsd:dateTime"
                                 },
-                                "end": {
-                                    "@id": "ies:end",
-                                    "@type": "xsd:dateTime"
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
                                 }
                             }
-                        },
-                        "intervalLength": {
-                            "@id": "ies:intervalLength",
-                            "@type": "xsd:string"
                         },
                         "payloadDescriptors": {
                             "@id": "ies:payloadDescriptors",
@@ -481,9 +477,9 @@
                             "@id": "ies:start",
                             "@type": "xsd:dateTime"
                         },
-                        "end": {
-                            "@id": "ies:end",
-                            "@type": "xsd:dateTime"
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
                         }
                     }
                 },
@@ -561,15 +557,11 @@
                                     "@id": "ies:start",
                                     "@type": "xsd:dateTime"
                                 },
-                                "end": {
-                                    "@id": "ies:end",
-                                    "@type": "xsd:dateTime"
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
                                 }
                             }
-                        },
-                        "intervalLength": {
-                            "@id": "ies:intervalLength",
-                            "@type": "xsd:string"
                         },
                         "payloadDescriptors": {
                             "@id": "ies:payloadDescriptors",
@@ -702,9 +694,9 @@
                             "@id": "ies:start",
                             "@type": "xsd:dateTime"
                         },
-                        "end": {
-                            "@id": "ies:end",
-                            "@type": "xsd:dateTime"
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
                         }
                     }
                 },
@@ -802,15 +794,11 @@
                                     "@id": "ies:start",
                                     "@type": "xsd:dateTime"
                                 },
-                                "end": {
-                                    "@id": "ies:end",
-                                    "@type": "xsd:dateTime"
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
                                 }
                             }
-                        },
-                        "intervalLength": {
-                            "@id": "ies:intervalLength",
-                            "@type": "xsd:string"
                         },
                         "payloadDescriptors": {
                             "@id": "ies:payloadDescriptors",
@@ -1011,15 +999,11 @@
                                     "@id": "ies:start",
                                     "@type": "xsd:dateTime"
                                 },
-                                "end": {
-                                    "@id": "ies:end",
-                                    "@type": "xsd:dateTime"
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
                                 }
                             }
-                        },
-                        "intervalLength": {
-                            "@id": "ies:intervalLength",
-                            "@type": "xsd:string"
                         },
                         "payloadDescriptors": {
                             "@id": "ies:payloadDescriptors",
@@ -1152,9 +1136,9 @@
                             "@id": "ies:start",
                             "@type": "xsd:dateTime"
                         },
-                        "end": {
-                            "@id": "ies:end",
-                            "@type": "xsd:dateTime"
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
                         }
                     }
                 },
@@ -1225,9 +1209,9 @@
                     "@id": "ies:start",
                     "@type": "xsd:dateTime"
                 },
-                "end": {
-                    "@id": "ies:end",
-                    "@type": "xsd:dateTime"
+                "duration": {
+                    "@id": "ies:duration",
+                    "@type": "xsd:string"
                 }
             }
         },
@@ -1246,15 +1230,11 @@
                             "@id": "ies:start",
                             "@type": "xsd:dateTime"
                         },
-                        "end": {
-                            "@id": "ies:end",
-                            "@type": "xsd:dateTime"
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
                         }
                     }
-                },
-                "intervalLength": {
-                    "@id": "ies:intervalLength",
-                    "@type": "xsd:string"
                 },
                 "payloadDescriptors": {
                     "@id": "ies:payloadDescriptors",
