@@ -2,7 +2,7 @@
 
 Welcome to the **DISCOM Pathway**. This comprehensive guide provides a structured, step-by-step roadmap for a Distribution Company (Utility) to adopt the capabilities of the India Energy Stack (IES).
 
-To keep the roadmap scannable and interactive, each phase and step is nested inside an expandable panel. Click to expand any step to view operational guidelines, command lines, code snippets, and links to relevant documentation chapters.
+To keep this guide highly actionable and prevent redundancy, we have **eliminated repeated schemas and payloads**. Instead, each step highlights **current documentation gaps, implementation friction, and areas for improvement**, while pointing directly to the exact anchors in the core specifications for verification.
 
 ---
 
@@ -21,7 +21,7 @@ flowchart TD
 
 ## Phase 1: Preparation (Identity & Addressing)
 
-This phase focuses on establishing your cryptographic institutional identity and defining clear naming conventions for your customers, assets, meters, and grid connections.
+This phase establishes your cryptographic institutional identity and defines clear naming conventions for your customers, assets, meters, and grid connections.
 
 <details>
 <summary><b>Step 1: Establish Your Institutional Identity (did:web)</b></summary>
@@ -30,70 +30,42 @@ This phase focuses on establishing your cryptographic institutional identity and
 Establish a globally unique, tamper-evident cryptographic identifier for your DISCOM (e.g., Tata Power Delhi Distribution Limited - `tpddl`) using the `did:web` standard.
 
 ### Execution Guidance
-A `did:web` identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
-1. **Assign a Subdomain**: Allocate a dedicated subdomain for IES, such as `ies.tpddl.co.in` or `ies.tpddl.in`.
-2. **Expose the DID Document**: Coordinate with your Web/DNS Administrator to host a standard `did.json` file securely over HTTPS at:
-   `https://ies.tpddl.co.in/.well-known/did.json`
-3. **Draft the did.json Document**:
-   ```json
-   {
-     "@context": [
-       "https://www.w3.org/ns/did/v1",
-       "https://w3id.org/security/suites/jws-2020/v1"
-     ],
-     "id": "did:web:ies.tpddl.co.in",
-     "verificationMethod": [
-       {
-         "id": "did:web:ies.tpddl.co.in#key-1",
-         "type": "JsonWebKey2020",
-         "controller": "did:web:ies.tpddl.co.in",
-         "publicKeyJwk": {
-           "kty": "EC",
-           "crv": "P-256",
-           "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
-           "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
-         }
-       }
-     ],
-     "assertionMethod": ["did:web:ies.tpddl.co.in#key-1"],
-     "authentication": ["did:web:ies.tpddl.co.in#key-1"]
-   }
-   ```
-4. **Alternatives**: If subdomain hosting is unavailable in early stages, you may temporarily utilize a `did:key` identifier (derived from a local key pair) or a `did:dedi` identifier anchored directly in the public registry.
+1. **Assign a Dedicated Domain**: Choose an institutional subdomain, e.g., `ies.tpddl.co.in`.
+2. **DNS & Web Hosting Setup**: Coordinate with your Web/DNS Administrator to host your public keys inside a canonical `did.json` file served over HTTPS.
+3. **Reference Verification**: Avoid writing the document from scratch. Refer to [Resolution & Routing § did:web](../identifiers/resolution.md#didweb) for the exact verification method structure and P-256 cryptographic representation.
 
-### References
+> [!WARNING]
+> **Friction Point (DNS/Web Admin Coordination)**: Establishing a `did:web` requires manual coordination with internal institutional security and domain administrators. This step often causes the longest onboarding delay.
+> **Improvement Area**: IES currently lacks an automated validator utility to check if a hosted `did.json` is correctly configured and accessible before submitting it to the registry.
+
+### References & Anchors
 * [Identifiers & Addressing Overview](../identifiers/README.md)
-* [Resolution & Routing Specification](../identifiers/resolution.md)
-* [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md)
+* [Resolution & Routing Specification](../identifiers/resolution.md#didweb) (Target `did:web` resolution mechanics)
+* [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md#1-institutional-identity)
 </details>
 
 <details>
 <summary><b>Step 2: Define Your Naming Grammars (DEDI Identifiers)</b></summary>
 
 ### Objective
-Adopt consistent, standard grammars to assign Decentralized Identifiers (DIDs) to your consumers, physical grid assets, smart meters, and service connections.
+Map your customers, physical grid assets, smart meters, and service connections to standard Decentralized Identifiers (DIDs).
 
 ### Naming Standards
-We suggest standard, DEDI-based naming grammars. Replace `<discom>` with your unique namespace (e.g., `tpddl`):
+Rather than repeating patterns in detail, we follow standard, DEDI-based naming grammars. Map your internal SAP/GIS codes to the exact syntax shown below:
+1. **Consumers**: `did:dedi:<discom>:consumers:<consumer number>`
+2. **Grid Assets**: `did:dedi:<discom>:assets:<asset-class>:<internal id>`
+3. **Smart Meters**: `did:dedi:<discom>:assets:meter:<manufacturer code>_<serial number>`
+4. **Service Connections**: `did:dedi:<discom>:connections:<connection id>`
 
-1. **Consumers**: Unique handle representing your customer relationship:
-   * **Grammar**: `did:dedi:<discom>:consumers:<consumer number>`
-   * **Example**: `did:dedi:tpddl:consumers:CN-89721345`
-2. **Grid Assets**: Identifiers for transformers, substations, and feeders matching internal ERP/GIS codes:
-   * **Grammar**: `did:dedi:<discom>:assets:<asset-class>:<internal id>`
-   * **Example**: `did:dedi:tpddl:assets:transformer:DT-11KV-F02-452`
-3. **Smart Meters**: Embedded manufacturer code + meter serial number to ensure global uniqueness:
-   * **Grammar**: `did:dedi:<discom>:assets:meter:<manufacturer code>_<serial number>`
-   * **Example**: `did:dedi:tpddl:assets:meter:GEN_12345678`
-4. **Service Connections**: Identifiers for physical service/delivery points binding consumers and meters:
-   * **Grammar**: `did:dedi:<discom>:connections:<connection id>`
-   * **Example**: `did:dedi:tpddl:connections:CON-90234`
+> [!NOTE]
+> **Gap (Manufacturer Code Registries)**: Meter identifiers rely on prepending a manufacturer code (e.g., `GEN_12345678`) to ensure global uniqueness. However, IES does not currently operate a centralized registry of recognized manufacturer prefixes, which can lead to namespace collisions.
+> **Design Limitation**: Internal assets like substations or transformers can alternately use `did:web` paths, but doing so shifts the load of resolution from DeDi to the utility's web servers, creating single-points-of-failure.
 
-### Alternatives
-* **Web-based identifiers (`did:web`)**: You can also represent connection resources directly under your subdomain path (e.g., `did:web:ies.tpddl.co.in:connections:CON-90234`).
-
-### References
+### References & Anchors
 * [Identifier Patterns and Grammars](../identifiers/id-patterns.md)
+  * Refer to [Consumer Reference ID](../identifiers/id-patterns.md#consumer-reference-id)
+  * Refer to [Asset Reference ID](../identifiers/id-patterns.md#asset-reference-id)
+  * Refer to [Meter and Connection Reference DIDs](../identifiers/id-patterns.md#meter-and-connection-reference-dids)
 * [Issuance Reference Document](../identifiers/issuance-reference.md)
 </details>
 
@@ -107,16 +79,18 @@ Establish your administrative namespaces on the public Decentralized Directory (
 <summary><b>Step 3: Setup DeDi Namespace</b></summary>
 
 ### Objective
-Create and verify your administrative namespace on the Decentralized Directory (DeDi).
+Create and verify your administrative namespace on the Decentralized Directory (DeDi) matching your short-code (`<discom>`).
 
 ### Execution Guidance
-1. **Create an Account**: Register an institutional role-mailbox (e.g., `registry-admin@tpddl.co.in`) on the DeDi Portal.
-2. **Establish Namespace**: Initialize a namespace corresponding to your DISCOM short-code (`<discom>`).
-3. **Verify Domain**: Prove ownership of the namespace by adding a TXT DNS record containing your DeDi verification token to your institutional domain (`tpddl.co.in`).
+1. Register a secure role-mailbox (e.g., `registry-admin@tpddl.co.in`) on the DeDi Portal.
+2. Verify ownership by adding a DNS TXT record to your domain. Refer to [Registry Creation § Step 3](../registries/registry-creation.md#step-3--verify-the-namespace-against-a-domain) for the exact TXT verification structure.
 
-### References
+> [!IMPORTANT]
+> **Operational Gap**: The domain verification step is currently manual and requires DNS propagation, which can take up to 24 hours. There is no automated fallback if DNS hosting is managed by a third-party vendor with slow turnaround times.
+
+### References & Anchors
 * [DeDi Primer](../registries/dedi-primer.md)
-* [Registry Creation Guide](../registries/registry-creation.md)
+* [Registry Creation Guide](../registries/registry-creation.md#step-3--verify-the-namespace-against-a-domain)
 * [Basic Registries Checklist](../checklists/registries-basic-checklist.md)
 </details>
 
@@ -127,31 +101,38 @@ Create and verify your administrative namespace on the Decentralized Directory (
 Initialize separate registries under your namespace to hold public keys, credential revocation lists, and Beckn subscriber profiles.
 
 ### Suggestion
-Maintain separate registries grouped by identifier type to ensure high operational isolation:
-* `public-keys` (tag `public_key`): Contains versioned cryptographic keys.
-* `vc-revocation-registry` (tag `revoke`): Houses real-time credential revocation lists.
-* `subscribers-test` & `subscribers-prod` (tag `beckn_subscriber`): Configures your Beckn node credentials for sandbox and live environments.
+Ensure your operational registries are isolated:
+* `public-keys` (tag `public_key`): Houses versioned signing keys.
+* `vc-revocation-registry` (tag `revoke`): Manages VC real-time revocation statuses.
+* `subscribers-test` & `subscribers-prod` (tag `beckn_subscriber`): Configures Beckn node credentials.
 
-### References
+> [!WARNING]
+> **Friction Point (Key Management)**: The public keys registry requires manual updates whenever keys are rotated. Failure to correctly set `validUntil` timestamps can invalidate previously issued historical credentials. Refer to [Required Registries § Public-keys registry](../registries/required-registries.md#public-keys-registry) for key rotation best practices.
+
+### References & Anchors
 * [Required Registries Catalog](../registries/required-registries.md)
+  * Refer to [Public-keys registry](../registries/required-registries.md#public-keys-registry)
+  * Refer to [Revocation registry](../registries/required-registries.md#revocation-registry)
+  * Refer to [Beckn subscriber registry](../registries/required-registries.md#beckn-subscriber-registry)
 </details>
 
 <details>
 <summary><b>Step 5: Register with India Energy Stack</b></summary>
 
 ### Objective
-Submit your DISCOM references to the IES Network Facilitator Office (NFO) to get added to the canonical global directories.
+Submit your administrative references to the IES Network Facilitator Office (NFO) to be whitelisted in the canonical global reference directories.
 
 ### Execution Guidance
-You must get **referenced into** the authoritative global allow-lists so counterparties can discover and trust you.
-1. **Compose Request**: Prepare your DISCOM short-code, legal name, service area list, endpoints (OpenCred/Beckn), and `did:web` verification JWK.
-2. **Submit to the IES Secretariat**:
-   * **Primary Email**: [IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org)
-   * **Alternate Email**: [ies@recindia.com](mailto:ies@recindia.com)
-3. **Verify Inclusion**: Once confirmed, perform a DeDi lookup against the authoritative path:
-   `india-energy-stack/ies-discoms-reference-registry/<your-discom-id>`
+Email your registration payload containing your DISCOM credentials and Beckn endpoints directly to the IES Secretariat at:
+* **Primary Email**: [IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org)
+* **Alternate Email**: [ies@recindia.com](mailto:ies@recindia.com)
 
-### References
+> [!IMPORTANT]
+> **Onboarding Lags**: Registration with the NFO is currently a manual email-based workflow. Turnaround times depend on the Secretariat's auditing cycles, which can take several business days.
+> **Improvement Area**: There is no self-service portal or automated smart-contract mechanism for immediate pre-production verification.
+
+### References & Anchors
+* [Required Registries § How to get added](../registries/required-registries.md#how-to-get-added)
 * [End-to-End Onboarding Checklist](../registries/required-registries.md#end-to-end-onboarding-checklist)
 </details>
 
@@ -167,17 +148,20 @@ Enable your customers to hold a tamper-evident digital passport of their connect
 ### Objective
 Deploy the OpenCred issuing service and integrate it with your core backend systems.
 
-### Sub-Steps
-* **6.1 Identify CRM Systems to Integrate**: Determine which customer data repositories (e.g., SAP IS-U, Oracle CC&B, or a custom SQL/billing system) contain the consumer profile, tariff categories, and asset mappings.
-* **6.2 User Input and Authentication**: Define the client-facing portals (e.g., consumer app or self-service web portal) where customers verify their identity (via OTP or Aadhaar) to authorize the credential generation.
-* **6.3 Setup OpenCred**: Deploy the OpenCred service (Docker containerized) containing your P-256 signing private keys (custodied in AWS KMS, Azure Key Vault, or local HSM).
-* **6.4 Save Credentials to CRM**: Determine where to log issuance metadata in your CRM database (e.g., transaction ID, date-time, and active credential UUID) to match against the revocation registry.
-* **6.5 Define Credential Website (Optional)**: Stand up a lightweight consumer-facing page where users can click a "Get My Energy Passport" button.
+### Sub-Steps & Gaps
+* **6.1 Identify CRM Systems**: Map data repositories (SAP IS-U, Oracle CC&B).
+  > [!IMPORTANT]
+  > **Integration Gap**: There are no standard API connectors or reference trigger configurations for popular utility CRM systems (like SAP IS-U). Every DISCOM must build custom database polling or event triggers from scratch to prompt credential re-issuance.
+* **6.2 User Authentication**: Choose customer login gateways (OTP/Aadhaar reference).
+* **6.3 Setup OpenCred**: Deploy the containerized OpenCred service.
+* **6.4 CRM Sync**: Track active VC statuses in your internal database.
+* **6.5 Customer Portal**: Design a web front-end to trigger passport pulls.
 
-### References
+### References & Anchors
 * [Energy Credentials Overview](../energy-credentials/README.md)
 * [Energy Credentials Deployment Guide](../energy-credentials/onboarding.md)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
+  * Refer to [Map your CIS + DER systems](../use-cases/consumer-energy-passport/README.md#3-map-your-cis-der-systems-to-the-passport-sub-profiles)
 * [Consumer Energy Passport Basic Checklist](../use-cases/consumer-energy-passport/basic-checklist.md)
 * [Consumer Energy Passport Schema Reference](../energy-credentials/consumer-energy-passport.md)
 </details>
@@ -188,12 +172,10 @@ Deploy the OpenCred issuing service and integrate it with your core backend syst
 ### Objective
 Integrate your OpenCred issuance pipelines with DigiLocker (via API Setu) so citizens can pull their passports into the national wallet.
 
-### Execution Guidance
-1. **API Setu Registration**: Register your DISCOM as an official Issuer on [API Setu](https://apisetu.gov.in).
-2. **Map Pull Schema**: Configure your OpenCred `/credentials/pull` endpoint to receive standard search parameters (e.g., Consumer Number + Aadhaar Name match) from DigiLocker.
-3. **Testing**: Validate that a citizen can open DigiLocker, search for your DISCOM, search their connection ID, and pull the `ConsumerEnergyPassport` into their app.
+> [!WARNING]
+> **API Setu Audit Friction**: Obtaining an active production Issuer ID on API Setu requires institutional compliance audits and legal approvals. Utilities must plan for a 2-4 week timeline for DigiLocker gateway clearance.
 
-### References
+### References & Anchors
 * [DigiLocker Integration Guide](../energy-credentials/digilocker-integration.md)
 * [Issuing Credentials Checklist](../energy-credentials/issuance.md)
 </details>
@@ -208,17 +190,12 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 <summary><b>Step 8: Setup Data Exchange Nodes (BECKN Network)</b></summary>
 
 ### Objective
-Deploy the ONIX protocol adapter and register your BPP (Beckn Provider Platform) node on the IES test and production networks.
+Deploy the ONIX protocol adapter and register your BPP (Beckn Provider Platform) node on the IES networks.
 
-### Execution Guidance
-1. **Deploy ONIX**: Setup the standard Docker-based Beckn ONIX container.
-2. **Generate Node Keys**: Use the ONIX key generator script to create your Ed25519 node keypair.
-3. **Publish Subscriber Record**: Publish your node configuration to your `subscribers-test` registry on DeDi.
-4. **IES Network Registration**: Request the IES Secretariat to add your subscriber registry/record to the canonical network references (`indiaenergystack.in/test-ies-data-sharing-network`).
-
-### References
+### References & Anchors
 * [Data Exchange Concepts](../data-exchange/concepts.md)
 * [Data Exchange Quick Start](../data-exchange/quick-start.md)
+  * Refer to [Onboarding Checklist](../data-exchange/quick-start.md#onboarding-checklist) for ONIX Docker configuration.
 * [ONIX Registry Setup](../data-exchange/registry-setup.md)
 * [Basic Data Exchange Checklist](../checklists/data-exchange-basic-checklist.md)
 </details>
@@ -229,13 +206,12 @@ Deploy the ONIX protocol adapter and register your BPP (Beckn Provider Platform)
 ### Objective
 Connect your BPP adapter to your core HES / MDMS (Meter Data Management System) to retrieve and package raw interval meter readings.
 
-### Execution Guidance
-Configure data connectors to map raw data from internal MDM databases into standard IES telemetry formats:
-* Convert HES DLMS-COSEM or IEC 61968-9 interval reads into standard compact **IntervalProfile**, **DailyProfile**, **InstantaneousProfile**, and **EventProfile** JSON arrays.
-* Resolve absolute GitHub `@context` schemas to allow ONIX adapters to auto-validate schemas on-the-fly.
+> [!NOTE]
+> **Implementation Gap (MDM API Lags)**: Real-time telemetry exchange requires high-performance APIs on the HES/MDMS side. However, legacy MDM databases are designed for batch processing and can introduce substantial latency, violating Beckn transaction response timeouts (usually 5 seconds).
 
-### References
+### References & Anchors
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
+  * Refer to [How It Works](../use-cases/smart-meter-data-exchange/README.md#how-it-works)
 * [Smart Meter Data Model Guide](../use-cases/smart-meter-data-exchange/ies-data-model.md)
 * [MeterData Schema Specification](../schemas/MeterData/v0.5/README.md)
 </details>
@@ -244,13 +220,10 @@ Configure data connectors to map raw data from internal MDM databases into stand
 <summary><b>Step 10: Integrate Customer Master Data</b></summary>
 
 ### Objective
-Map customer master tables to standard IES customer structures.
-
-### Schema Alignment
 Integrate billing and CIS platforms to structure customer details conforming to the **CustomerProfile** schema (e.g., sanctioned load, billing profile, tariff category).
 
-### References
-* [MeterData Attributes & Customer Schema](../schemas/MeterData/v0.5/attributes.yaml)
+### References & Anchors
+* [MeterData Attributes & Customer Schema](../schemas/MeterData/v0.5/attributes.yaml) (Target `CustomerProfile` definitions)
 </details>
 
 <details>
@@ -259,13 +232,11 @@ Integrate billing and CIS platforms to structure customer details conforming to 
 ### Objective
 Define granular data authorization policies based on cryptographic verifiable credentials presented by consumers or authorized third parties.
 
-### Suggestion
-Enforce token/credential scoped access:
-* When a BAP requests meter data via `confirm`, require the request to carry a valid consumer-signed consent token or a presentation of the consumer's **Consumer Energy Passport** mapping to that target meter DID.
-* Scope the access duration and profiles exactly matching the permission list inside the credential metadata.
+> [!IMPORTANT]
+> **Under-Specified Specification**: Standard authorization handshakes for B2B automated data exchange (where a third-party BAP requests data on behalf of a user) are currently under-specified. While conceptually relying on the Consumer Meter Digest, the exact runtime token-verification flow on BPP ONIX is not standardized out-of-the-box.
 
-### References
-* [Data Exchange Security & Auth](../data-exchange/concepts.md#context-invariants)
+### References & Anchors
+* [Data Exchange Security & Auth](../data-exchange/concepts.md#context-invariants) (Target encryption and signature verification guidelines)
 </details>
 
 <details>
@@ -274,7 +245,7 @@ Enforce token/credential scoped access:
 ### Objective
 Open your Beckn endpoints to production counterparties and run pilot transaction exchanges.
 
-### References
+### References & Anchors
 * [Detailed Data Exchange Checklist](../checklists/data-exchange-checklist-detailed.md)
 </details>
 
@@ -290,13 +261,12 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable electr
 ### Objective
 Build a processing pipeline that references smart meter telemetry, monthly billing summaries, and customer master files to output a verifiable billing digest.
 
-### System Flow
-1. **Query Telemetry & Billing**: Periodically extract the customer profile details, the active **BillingProfile** parameters (e.g., current cycle bill amount, due date, payment status), and last month's **IntervalProfile** blocks.
-2. **Compile the VC**: Structure this composite dataset into a new W3C Verifiable Credential payload of type `EnergyDigestCredential`.
-3. **Sign and Publish**: Sign the payload utilizing your OpenCred service. Add its status UUID to the `vc-revocation-registry`.
+> [!WARNING]
+> **Major Architectural Gap**: There is currently **no standardized IES schema** for a verifiable electricity bill (e.g., `EnergyDigestCredential` or `ElectricityBillCredential`) in the core repository. While the concept is defined, implementing this step requires the DISCOM to draft a custom schema, which limits cross-verifier interoperability.
 
-### References
+### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
+  * Refer to [How It Works](../use-cases/consumer-meter-digest/README.md#how-it-works) for system data-flows.
 * [Consumer Meter Digest Checklist](../use-cases/consumer-meter-digest/basic-checklist.md)
 </details>
 
@@ -306,7 +276,7 @@ Build a processing pipeline that references smart meter telemetry, monthly billi
 ### Objective
 Enable citizens to pull their monthly verifiable bill credentials straight into their DigiLocker wallets.
 
-### References
+### References & Anchors
 * [DigiLocker Issuer Setup](../energy-credentials/digilocker-integration.md)
 </details>
 
@@ -333,10 +303,8 @@ Map all distributed generation and storage points in your network, including DIS
 ### Objective
 Ingest daily solar generation and storage logs from inverter gateways or vendor cloud APIs.
 
-### Suggestion
-Align generation telemetry with IES structures:
-* Ingest daily totals and feed them into standard **DailyProfile** arrays.
-* Leverage IES JSON Schema validation to filter out incorrect or corrupt data.
+> [!NOTE]
+> **Data Quality Challenge**: Ingesting telemetry from heterogenous inverter APIs (e.g., Sungrow, Solis, Fronius) introduces formatting discrepancies. The ingestion engine must normalize diverse vendor structures to comply with the standard IES DailyProfile schema.
 </details>
 
 <details>
@@ -345,17 +313,8 @@ Align generation telemetry with IES structures:
 ### Objective
 Expose topological mappings to model the hierarchical relationship of substations, feeders, distribution transformers, smart meters, and DER assets.
 
-### Implementation Pattern
-Publish standard topology matrices mapping DIDs:
-```mermaid
-graph TD
-    sub[did:dedi:tpddl:assets:substation:SS_22OK] --> fdr[did:dedi:tpddl:assets:feeder:FDR_11KV_072]
-    fdr --> dt[did:dedi:tpddl:assets:transformer:DT_04572]
-    dt --> meter1[did:dedi:tpddl:assets:meter:GEN_89721]
-    dt --> meter2[did:dedi:tpddl:assets:meter:GEN_89722]
-    meter2 --> der1[did:dedi:tpddl:assets:inverter:INV_7718]
-```
-These relative structural maps are published under your local `assets` or `datasets` registries on DeDi.
+> [!IMPORTANT]
+> **Specification Gap**: The India Energy Stack does **not** yet define a canonical schema for representing grid topology (`FeederTopology` or `GridMap`). Sharing this structure requires custom key-value metadata pairings, presenting an area for future standardization.
 </details>
 
 <details>
@@ -364,10 +323,8 @@ These relative structural maps are published under your local `assets` or `datas
 ### Objective
 Implement an internal processing engine that consumes fine-grained meter telemetry and computes aggregated loading profiles per feeder/transformer.
 
-### Execution Guidance
-1. **Consume Input Profiles**: Fetch telemetry profiles (`IntervalProfile` or `InstantaneousProfile`) for all consumer meters connected under a given feeder.
-2. **Compute Aggregation**: Aggregate load and generation (active and reactive power) at regular intervals (e.g., hourly).
-3. **Publish Aggregations**: Expose these feeder-level datasets via your Beckn BPP using standard B2B telemetry formats so that grid operators or planners can search and fetch them.
+> [!WARNING]
+> **Verification Gap**: IES does not define standard validation rules for aggregated datasets. Computing aggregated values can hide faulty data points (e.g., zero-reading drops or missing periods) unless the aggregator implements robust data imputation standards internally.
 </details>
 
 <details>
@@ -375,8 +332,4 @@ Implement an internal processing engine that consumes fine-grained meter telemet
 
 ### Objective
 Build a central web dashboard (BAP) that queries feeder-level aggregations over Beckn and visualizes loading, peaks, and solar back-feeding in real time.
-
-### Implementation
-1. **Query Engine**: Connect your dashboard application to the Beckn network as a BAP.
-2. **Dashboard Visuals**: Plot live timeseries graphs showing feeder active power loading, reverse power flows from high solar generation, and battery state-of-charge distributions.
 </details>
