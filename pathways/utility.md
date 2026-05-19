@@ -281,15 +281,33 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 <summary><b>Step 5.1: Create the Consumer Meter Digest Verifiable Credential</b></summary>
 
 ### 💡 Phase Advice
-> Combine telemetry and billing summaries! By leveraging the secure **Data Exchange** pipelines established in Phase 4, you can programmatically compile billing credentials by querying and pulling last cycle's **IntervalProfile** and current **BillingProfile** parameters directly into a verifiable machine-readable bill.
+> We suggest utilizing a credential that directly includes the **MeterData** schema. When compiling the Digest for a billing cycle, the `CustomerProfile` and `BillingProfile` **must** be included. Additionally, an `IntervalProfile` containing intervals that span the entire billing period is strongly recommended to provide complete consumption transparency.
 
 ### Execution Guidance
-1. Query customer master records and monthly billing tables.
-2. Structure the data subject matching your billing fields.
-3. Sign and issue the verifiable credential utilizing your OpenCred service.
+1. **Request the Data**: Programmatically query your Data Exchange nodes with a `MeterDataRequest` spanning the billing duration and specifically targeting the required profiles.
+   
+   *Example `MeterDataRequest` for compiling a Digest:*
+   ```json
+   {
+       "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
+       "@type": "MeterDataRequest",
+       "resources": [
+           "did:dedi:ies:meter:IN-MH-MTR-89721"
+       ],
+       "scope": "ResourceOnly",
+       "from": "2026-04-01T00:00:00Z",
+       "duration": "P1M",
+       "includeDetails": [
+           "CustomerProfile",
+           "BillingProfile",
+           "IntervalProfile"
+       ]
+   }
+   ```
 
-> [!WARNING]
-> **Specification Gap**: There is currently no standardized IES schema taxonomy for a verifiable electricity bill (e.g. `ElectricityBillCredential` or billing summaries within the `ConsumerMeterDigest`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
+2. **Structure the Credential**: Package the resulting `MeterData` payload inside the data subject of your verifiable credential envelope.
+3. **Sign and Issue**: Sign and issue the verifiable credential utilizing your OpenCred service.
+
 
 ### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
@@ -352,8 +370,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.
 
-> [!WARNING]
-> **Clarity Gap**: The specifications currently lack clear guidelines or validation rules for aggregated datasets. Aggregators must independently enforce robust data imputation standards to handle missing periods or telemetry drops safely.
+> Since the **MeterData** schema is used for telemetry exchange, we strongly suggest utilizing the `AccumulationBehaviour` property for annotating aggregation datasets. Ensure that aggregated datasets explicitly annotate `SUMMATION` as the `accumulationBehaviour`. Refer to this [Aggregated Feeder Example](../schemas/MeterData/v0.5/examples/AggregatedFeeder_Example.json) showing a feeder-related aggregated `IntervalProfile` for a day.
 </details>
 
 <details>
@@ -369,7 +386,4 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 
 To help our core IES documentation and specification teams track areas for refinement, the active gaps identified across this pathway are summarized below:
 
-1. **Data Exchange Authorisation (Step 4.4)**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
-2. **Verifiable Electricity Bills (Step 5.1)**: There is currently no standardized IES schema taxonomy for a verifiable electricity bill (e.g. `ElectricityBillCredential` or billing summaries within the `ConsumerMeterDigest`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
-3. **Grid Topology (Step 6.3)**: The India Energy Stack does not yet define a standard schema representing grid hierarchy and feeder topology mappings (`FeederTopology` or `GridMap`). Sharing this structure currently requires custom key-value metadata pairings.
-4. **Telemetry Aggregation Validation (Step 6.4)**: The specifications currently lack clear guidelines or validation rules for aggregated datasets. Aggregators must independently enforce robust data imputation standards to handle missing periods or telemetry drops safely.
+1. **Grid Topology (Step 6.3)**: The India Energy Stack does not yet define a standard schema representing grid hierarchy and feeder topology mappings (`FeederTopology` or `GridMap`). Sharing this structure currently requires custom key-value metadata pairings.
