@@ -426,6 +426,10 @@ components:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
           $ref: "#/components/schemas/IdentifierList"
+        feederId:
+          $ref: "#/components/schemas/Identifier"
+        dtId:
+          $ref: "#/components/schemas/Identifier"
         installedAt:
           type: "string"
           format: "date-time"

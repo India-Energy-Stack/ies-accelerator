@@ -58,3 +58,101 @@ python scripts/validate_schema.py schemas/MeterData/v0.5/schema.json schemas/Met
 All example payloads in the `examples/` directory have been augmented to support Linked Data semantics:
 1. **`@context`** — Points to `../context.jsonld` for semantic property resolution.
 2. **`@type`** — Indicates the profile class shape (e.g. `CustomerProfile`, `IntervalProfile`, `DailyProfile`, etc.), aligning the compact profiles to the broader Beckn/IES semantic web ecosystem.
+
+---
+
+## OBIS Mapping and Identifiers
+
+The `MeterData` schema relies on flexible identifiers to reference physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in the [OBISMapping.json](./OBISMapping.json) file.
+
+### Interpreting OBISMapping.json
+The `OBISMapping` file serves as the canonical dictionary for interpreting IS 15959 standard meter registers. It contains both OBIS codes and detailed event taxonomies.
+
+**Snapshot:**
+```json
+"1.0.1.8.0.255": {
+  "name": "Active energy import - cumulative (kWh)",
+  "shortLabel": "kWh imp",
+  "unit": "kWh",
+  "flowDirection": "IMPORT",
+  "accumulationBehaviour": "CUMULATIVE",
+  "category": "energyCumulative",
+  "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+  "source": "IS 15959 Part 1 Table 22; Part 2 Table A14; Part 3 Table 1"
+}
+```
+
+### Identifier Flexibility (OBIS vs. Short Names)
+When structuring your payload descriptors or values, you have the flexibility to use either exact OBIS codes or human-readable short names.
+
+* **Using OBIS Codes**: `{"scheme": "OBIS", "value": "1.0.1.8.0.255"}`
+* **Using Short Names**: `{"scheme": "SHORT_CODE", "value": "kWh imp"}`
+
+*See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) for OBIS examples and [AggregatedFeeder.json](./examples/AggregatedFeeder.json) for Short Code examples.*
+
+---
+
+## Payload Shapes and Value Representation
+
+The schema offers two distinct mechanisms for representing telemetry values, balancing explicit clarity with high-efficiency transmission.
+
+### 1. Elaborated Representation
+Used primarily in the [`InstantaneousProfile`](./examples/InstantaneousProfile.json), each value explicitly declares its reading type, unit, and phase inline. This is highly descriptive but less compact.
+
+```json
+"values": [
+  {
+    "readingTypeRef": { "scheme": "OBIS", "value": "1.0.32.7.0.255" },
+    "value": 235.5,
+    "unit": "V",
+    "phase": "R"
+  }
+]
+```
+
+### 2. Compact `IntervalRow` Representation
+Used heavily in the [`IntervalProfile`](./examples/IntervalProfile.json) and [`DailyProfile`](./examples/DailyProfile.json). Descriptors are declared once in a `payloadDescriptors` array, and time-series data is transmitted as simple arrays of numbers (`IntervalRow`) that map positionally to the descriptors.
+
+```json
+"payloadDescriptors": [
+  { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
+  { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp block" } }
+],
+"intervals": [
+  { "id": 0, "values": [600, 0] },
+  { "id": 1, "values": [580, 0] }
+]
+```
+
+---
+
+## Data Annotations
+
+The schema supports sparse annotations to add metadata exactly where needed without bloating the payload.
+
+### Quality Overrides
+By default, all readings are assumed to be `{VALID, METER}`. If a specific interval was estimated or rejected, you can inject a sparse `QualityOverride` targeting its specific `intervalId`.
+
+```json
+"qualityOverrides": [
+  {
+    "intervalId": 45,
+    "descriptorIndex": 0,
+    "validationStatus": "ESTIMATED",
+    "source": "ESTIMATED"
+  }
+]
+```
+*See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse quality overrides.*
+
+### Maximum Demand Timestamps
+When transmitting Maximum Demand snapshots (e.g. inside a [`BillingProfile`](./examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
+
+```json
+{
+  "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
+  "value": 15.2,
+  "occurredAt": "2026-05-18T14:30:00+05:30",
+  "integrationPeriod": "PT30M"
+}
+```
