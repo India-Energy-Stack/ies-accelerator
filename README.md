@@ -29,6 +29,7 @@ This **Accelerator** is the developer hub for building on it. Five core sections
 | [IES Energy Credentials](./energy-credentials/README.md) | Issue, hold, and verify cryptographically signed digital credentials for energy assets and consumers |
 | [IES Data Exchange](./data-exchange/README.md) | Discover and contract dataset exchanges over Beckn — telemetry, regulatory filings, tariff policies. Payload rides **inline** for small / simple datasets, or Beckn delivers an **access method** (signed URL / SFTP / Kafka / MQTT / OpenADR endpoint) when an established channel already moves the bytes |
 | [IES Pathways](./pathways/README.md) | Structured, step-by-step onboarding roadmaps for utilities, regulators, and other sector participants to adopt capabilities |
+| [IES Schemas](./schemas/README.md) | Mirror of canonical schema specifications, JSON-LD contexts, and vocabularies (Credentials, Telemetry, Regulatory filings, and requests) |
 
 ---
 
