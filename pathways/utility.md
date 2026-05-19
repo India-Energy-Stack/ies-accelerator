@@ -370,7 +370,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.
 
-> Since the **MeterData** schema is used for telemetry exchange, we strongly suggest utilizing the `AccumulationBehaviour` property for annotating aggregation datasets. Ensure that aggregated datasets explicitly annotate `SUMMATION` as the `accumulationBehaviour`. Refer to this [Aggregated Feeder Example](../schemas/MeterData/v0.5/examples/AggregatedFeeder_Example.json) showing a feeder-related aggregated `IntervalProfile` for a day.
+> Since the **MeterData** schema is used for telemetry exchange, we strongly suggest utilizing the `AccumulationBehaviour` property for annotating aggregation datasets. Ensure that aggregated datasets explicitly annotate `SUMMATION` as the `accumulationBehaviour`. Refer to this [Aggregated Feeder Example](../schemas/MeterData/v0.5/examples/AggregatedFeeder.json) showing a feeder-related aggregated `IntervalProfile` for a day.
 </details>
 
 <details>
