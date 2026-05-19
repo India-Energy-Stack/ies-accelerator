@@ -242,10 +242,13 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **IntervalProfil
 </details>
 
 <details>
-<summary><b>Step 4.4: Establish Token & Credential Scoped Auth</b></summary>
+<summary><b>Step 4.4: Establish Data Exchange Authorisation</b></summary>
 
 ### 💡 Phase Advice
-> Verify consumer credentials at runtime! Ensure your BPP ONIX adapter checks that incoming third-party data requests carry a valid, unrevoked Consumer Energy Passport mapping exactly to the requested meter DID.
+> Leverage the **MeterDataRequest** schema to formalise incoming B2B third-party data requests. The scope of the actual request for sharing can be a subset of the broader data authorised.
+
+### Execution Guidance
+While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **credential version of MeterDataRequest** OR a **Consumer Energy Passport with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
 
 ### ⚠️ Caution
 > **Scoped Access Violations**: Never expose granular consumer interval data without verifying that the presented credential permits that specific access window and profile.
@@ -255,6 +258,7 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **IntervalProfil
 
 ### References & Anchors
 * [Data Exchange Security & Auth](../data-exchange/concepts.md#context-invariants)
+* [MeterDataRequest Schema](../schemas/MeterDataRequest/v0.5/README.md)
 </details>
 
 <details>
@@ -365,7 +369,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 
 To help our core IES documentation and specification teams track areas for refinement, the active gaps identified across this pathway are summarized below:
 
-1. **B2B Token Handshakes (Step 4.4)**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
+1. **Data Exchange Authorisation (Step 4.4)**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
 2. **Verifiable Electricity Bills (Step 5.1)**: There is currently no standardized IES schema taxonomy for a verifiable electricity bill (e.g. `ElectricityBillCredential` or billing summaries within the `ConsumerMeterDigest`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
 3. **Grid Topology (Step 6.3)**: The India Energy Stack does not yet define a standard schema representing grid hierarchy and feeder topology mappings (`FeederTopology` or `GridMap`). Sharing this structure currently requires custom key-value metadata pairings.
 4. **Telemetry Aggregation Validation (Step 6.4)**: The specifications currently lack clear guidelines or validation rules for aggregated datasets. Aggregators must independently enforce robust data imputation standards to handle missing periods or telemetry drops safely.
