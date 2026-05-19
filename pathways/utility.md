@@ -1,6 +1,6 @@
 # Utility Pathway: Step-by-Step IES Integration Roadmap
 
-Welcome to the **Utility Pathway**. This guide provides a highly actionable, positive, and structured roadmap for an electricity distribution utility to easily adopt the capabilities of the India Energy Stack (IES).
+Welcome to the **Utility Pathway**. This guide provides an actionable and structured roadmap for an electricity distribution utility to easily adopt the capabilities of the India Energy Stack (IES).
 
 To keep this guide extremely clean and focus on utility progress, technical specifications are referenced via hyperlinks rather than repeated. Expand any step to find actionable guidelines, cross-team advice, and prework checkpoints.
 
@@ -50,36 +50,11 @@ A `did:web` identifier leverages your existing DNS and SSL infrastructure to pub
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
 2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
-3. **Draft the did.json Document**:
-   Here is an illustrative example of what your `did.json` should look like. It exposes your public key P-256 JWK so other actors can verify your credentials:
-   ```json
-   {
-     "@context": [
-       "https://www.w3.org/ns/did/v1",
-       "https://w3id.org/security/suites/jws-2020/v1"
-     ],
-     "id": "did:web:ies.tpddl.co.in",
-     "verificationMethod": [
-       {
-         "id": "did:web:ies.tpddl.co.in#key-1",
-         "type": "JsonWebKey2020",
-         "controller": "did:web:ies.tpddl.co.in",
-         "publicKeyJwk": {
-           "kty": "EC",
-           "crv": "P-256",
-           "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
-           "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
-         }
-       }
-     ],
-     "assertionMethod": ["did:web:ies.tpddl.co.in#key-1"],
-     "authentication": ["did:web:ies.tpddl.co.in#key-1"]
-   }
-   ```
+3. **Reference Verification & Guidance**: Refer to the illustrative [did.json document example](../identifiers/resolution.md#illustrative-didjson-document-for-a-utility) to see what this document looks like, how it is structured, and how it exposes your public verification keys so other network participants can verify your claims.
 
 ### References & Anchors
 * [Identifiers & Addressing Overview](../identifiers/README.md)
-* [Resolution & Routing Specification](../identifiers/resolution.md#didweb) (Detailed guidance on constructing and verifying your `did:web` document)
+* [Resolution & Routing Specification](../identifiers/resolution.md#didweb) (Detailed resolution rules for `did:web` endpoints)
 * [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md#1-institutional-identity)
 </details>
 
@@ -120,7 +95,7 @@ Establish your administrative namespaces on the public Decentralized Directory (
 > Using an institutional role-mailbox (e.g., `registry-admin@tpddl.co.in`) instead of a personal account ensures that namespace controls remain securely managed by your IT department across staff rotations.
 
 ### ⚠️ Caution
-> **DNS Propagation Time**: Domain ownership verification requires adding a TXT record to your DNS server, which can take up to 24 hours to propagate globally. Complete this task early in your sprint!
+> **Namespace Domain Verification**: Domain ownership verification leverages your existing DNS TXT record or setup rather than requiring you to request a brand new record class from your network administrators, easing compliance boundaries.
 
 ### Execution Guidance
 1. Register a secure role-mailbox on the DeDi Portal.
@@ -275,6 +250,9 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **IntervalProfil
 ### ⚠️ Caution
 > **Scoped Access Violations**: Never expose granular consumer interval data without verifying that the presented credential permits that specific access window and profile.
 
+> [!WARNING]
+> **Clarity Gap**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
+
 ### References & Anchors
 * [Data Exchange Security & Auth](../data-exchange/concepts.md#context-invariants)
 </details>
@@ -305,6 +283,9 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 1. Query customer master records and monthly billing tables.
 2. Structure the data subject matching your billing fields.
 3. Sign and issue the verifiable credential utilizing your OpenCred service.
+
+> [!WARNING]
+> **Specification Gap**: There is currently no standardized IES schema for a verifiable electricity bill (e.g. `EnergyDigestCredential` or `ElectricityBillCredential`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
 
 ### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
@@ -351,6 +332,9 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### 💡 Phase Advice
 > Publish hierarchical relationships. By linking substations, feeders, distribution transformers, smart meters, and DER assets, grid operators can programmatically map downstream loading. Leveraging **Data Exchange** networks enables you to share these grid datasets securely.
 
+> [!WARNING]
+> **Specification Gap**: The India Energy Stack does not yet define a standard schema for representing grid hierarchy and feeder topology mappings (`FeederTopology` or `GridMap`). Sharing this structure currently requires custom key-value metadata pairings.
+
 ### References & Anchors
 * [Grid Identifiers & Hierarchy Guide](../identifiers/id-patterns.md#asset-reference-id)
 </details>
@@ -363,6 +347,9 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.
+
+> [!WARNING]
+> **Clarity Gap**: The specifications currently lack clear guidelines or validation rules for aggregated datasets. Aggregators must independently enforce robust data imputation standards to handle missing periods or telemetry drops safely.
 </details>
 
 <details>

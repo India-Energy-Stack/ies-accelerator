@@ -35,6 +35,35 @@ did:web:ies.tpddl.in
    →  parse as DID Document
 ```
 
+#### Illustrative `did.json` Document for a Utility
+
+When a resolver requests your utility's DID document, your web server must serve a valid JSON document exposing your public P-256 key (JWK) for signature validation. Here is a standard reference example:
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1"
+  ],
+  "id": "did:web:ies.tpddl.co.in",
+  "verificationMethod": [
+    {
+      "id": "did:web:ies.tpddl.co.in#key-1",
+      "type": "JsonWebKey2020",
+      "controller": "did:web:ies.tpddl.co.in",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
+        "y": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
+      }
+    }
+  ],
+  "assertionMethod": ["did:web:ies.tpddl.co.in#key-1"],
+  "authentication": ["did:web:ies.tpddl.co.in#key-1"]
+}
+```
+
 Path-suffixed:
 
 ```
