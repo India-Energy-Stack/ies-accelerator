@@ -565,6 +565,12 @@
         "meterRefs": {
           "$ref": "#/$defs/IdentifierList"
         },
+        "feederId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "dtId": {
+          "$ref": "#/$defs/Identifier"
+        },
         "installedAt": {
           "type": "string",
           "format": "date-time"

@@ -52,7 +52,15 @@
           "scheme": "METER_SERIAL",
           "value": "BESCOM-SM-2025-654321"
         }
-      ]
+      ],
+      "feederId": {
+        "scheme": "OTHER",
+        "value": "FDR-11KV-BLR-04"
+      },
+      "dtId": {
+        "scheme": "OTHER",
+        "value": "DT-BLR-A-400kVA-12"
+      }
     }
   ],
   "customerRefs": [

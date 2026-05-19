@@ -501,6 +501,18 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:feederId",
+            "@type": "rdf:Property",
+            "rdfs:label": "feeder Id",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:dtId",
+            "@type": "rdf:Property",
+            "rdfs:label": "dt Id",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:installedAt",
             "@type": "rdf:Property",
             "rdfs:label": "installed At",

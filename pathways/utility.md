@@ -355,9 +355,6 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### 💡 Phase Advice
 > Publish hierarchical relationships. By linking substations, feeders, distribution transformers, smart meters, and DER assets, grid operators can programmatically map downstream loading. Leveraging **Data Exchange** networks enables you to share these grid datasets securely.
 
-> [!WARNING]
-> **Specification Gap**: The India Energy Stack does not yet define a standard schema for representing grid hierarchy and feeder topology mappings (`FeederTopology` or `GridMap`). Sharing this structure currently requires custom key-value metadata pairings.
-
 ### References & Anchors
 * [Grid Identifiers & Hierarchy Guide](../identifiers/id-patterns.md#asset-reference-id)
 </details>
@@ -367,6 +364,8 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 
 ### 💡 Phase Advice
 > Keep fine-grained customer PII out of grid planning! By aggregating meter telemetry at the distribution transformer or feeder level, you can share real-time loading profiles without exposing individual customer details. These aggregated feeds are published securely via your **Data Exchange** nodes.
+
+> **Leveraging Associations for Aggregation**: Use the optional `feederId` and `dtId` properties within the `CustomerProfile`'s `Association` block to trace every smart meter to its upstream feeder and Distribution Transformer. This deterministic linkage allows you to programmatically sum individual telemetry feeds into a single `AggregatedFeeder` payload!
 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.
@@ -404,10 +403,4 @@ Publish your Annual Revenue Requirement data in a standardized, machine-readable
 * [ARR Filing Machine-Readable Example](../schemas/ArrFiling/v0.5/examples/arr_filings.json)
 </details>
 
----
 
-## 🛠️ Summary of Specification & Documentation Gaps
-
-To help our core IES documentation and specification teams track areas for refinement, the active gaps identified across this pathway are summarized below:
-
-1. **Grid Topology (Step 6.3)**: The India Energy Stack does not yet define a standard schema representing grid hierarchy and feeder topology mappings (`FeederTopology` or `GridMap`). Sharing this structure currently requires custom key-value metadata pairings.
