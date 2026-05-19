@@ -11,9 +11,9 @@ To keep this guide extremely clean and focus on utility progress, technical spec
 ```mermaid
 flowchart TD
     prep["Phase 1: Preparation (Step 1.1 - 1.2)"] --> init["Phase 2: Getting Started (Step 2.1 - 2.3)"]
-    init --> passport["Phase 3: Energy Passport (Step 3.1 - 3.2)"]
+    init --> passport["Phase 3: Consumer Energy Passport (Step 3.1 - 3.2)"]
     passport --> dex["Phase 4: Smart Meter Data Exchange (Step 4.1 - 4.5)"]
-    dex --> bill["Phase 5: Energy Digest (Step 5.1 - 5.2)"]
+    dex --> bill["Phase 5: Consumer Meter Digest (Step 5.1 - 5.2)"]
     bill --> der["Phase 6: DER Visibility (Step 6.1 - 6.5)"]
 ```
 
@@ -59,13 +59,13 @@ A `did:web` identifier leverages your existing DNS and SSL infrastructure to pub
 </details>
 
 <details>
-<summary><b>Step 1.2: Define Your Naming Grammars (DEDI Identifiers)</b></summary>
+<summary><b>Step 1.2: Define Your Naming Grammars (DeDi Identifiers)</b></summary>
 
 ### 💡 Phase Advice
 > Aligning your IES identifiers with your existing SAP, GIS, or CIS master codes avoids double-mapping. Wrap your existing internal serials rather than replacing them!
 
 ### Execution Guidance
-Map your internal customer numbers, SAP codes, and meter serial numbers to standard, DEDI-based naming grammars. We recommend adopting the suggested reference patterns shown below:
+Map your internal customer numbers, SAP codes, and meter serial numbers to standard, DeDi-based naming grammars. We recommend adopting the suggested reference patterns shown below:
 1. **Consumers**: `did:dedi:<utility>:consumers:<consumer number>`
    *(e.g., `did:dedi:tpddl:consumers:CN-89721345`)*
 2. **Grid Assets**: `did:dedi:<utility>:assets:<asset-class>:<internal id>`
@@ -148,12 +148,12 @@ Email your registration package (utility short-code, legal name, service area li
 
 ---
 
-## Phase 3: Energy Passport (Verifiable Credentials)
+## Phase 3: Consumer Energy Passport (Verifiable Credentials)
 
 Provide citizens with a secure, tamper-evident digital passport of their utility connection parameters, load limits, and registered assets.
 
 <details>
-<summary><b>Step 3.1: Setup Credential Issuance (Energy Passport)</b></summary>
+<summary><b>Step 3.1: Setup Credential Issuance (Consumer Energy Passport)</b></summary>
 
 ### 💡 Phase Advice
 > Leverage your existing Customer Relationship Management (CRM) tables. Since the Passport is a composite of standard customer master data, you only need to expose your existing billing/CIS databases to OpenCred.
@@ -170,7 +170,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
   * [Map your CIS + DER systems](../use-cases/consumer-energy-passport/README.md#3-map-your-cis-der-systems-to-the-passport-sub-profiles)
 * [Consumer Energy Passport Basic Checklist](../use-cases/consumer-energy-passport/basic-checklist.md)
-* [Consumer Energy Passport Schema Reference](../energy-credentials/consumer-energy-passport.md)
+* [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
 </details>
 
 <details>
@@ -269,12 +269,12 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **IntervalProfil
 
 ---
 
-## Phase 5: Energy Digest Credential (Electricity Bill)
+## Phase 5: Consumer Meter Digest (Electricity Bill)
 
 Move beyond static PDFs to compile and issue verifiable, machine-readable monthly electricity bills.
 
 <details>
-<summary><b>Step 5.1: Create the Electricity Bill Verifiable Credential</b></summary>
+<summary><b>Step 5.1: Create the Consumer Meter Digest Verifiable Credential</b></summary>
 
 ### 💡 Phase Advice
 > Combine telemetry and billing summaries! By leveraging the secure **Data Exchange** pipelines established in Phase 4, you can programmatically compile billing credentials by querying and pulling last cycle's **IntervalProfile** and current **BillingProfile** parameters directly into a verifiable machine-readable bill.
@@ -285,7 +285,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 3. Sign and issue the verifiable credential utilizing your OpenCred service.
 
 > [!WARNING]
-> **Specification Gap**: There is currently no standardized IES schema for a verifiable electricity bill (e.g. `EnergyDigestCredential` or `ElectricityBillCredential`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
+> **Specification Gap**: There is currently no standardized IES schema taxonomy for a verifiable electricity bill (e.g. `ElectricityBillCredential` or billing summaries within the `ConsumerMeterDigest`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
 
 ### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
@@ -366,6 +366,6 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 To help our core IES documentation and specification teams track areas for refinement, the active gaps identified across this pathway are summarized below:
 
 1. **B2B Token Handshakes (Step 4.4)**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
-2. **Verifiable Electricity Bills (Step 5.1)**: There is currently no standardized IES schema for a verifiable electricity bill (e.g. `EnergyDigestCredential` or `ElectricityBillCredential`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
+2. **Verifiable Electricity Bills (Step 5.1)**: There is currently no standardized IES schema taxonomy for a verifiable electricity bill (e.g. `ElectricityBillCredential` or billing summaries within the `ConsumerMeterDigest`) in the core repository. Utilities must currently design custom schemas for billing digests, which limits cross-verifier wallet compatibility.
 3. **Grid Topology (Step 6.3)**: The India Energy Stack does not yet define a standard schema representing grid hierarchy and feeder topology mappings (`FeederTopology` or `GridMap`). Sharing this structure currently requires custom key-value metadata pairings.
 4. **Telemetry Aggregation Validation (Step 6.4)**: The specifications currently lack clear guidelines or validation rules for aggregated datasets. Aggregators must independently enforce robust data imputation standards to handle missing periods or telemetry drops safely.
