@@ -149,7 +149,7 @@ Issuance reuses [the `CustomerCredential` issuance flow](./issuance.md) with two
 1. Pass `type: ["VerifiableCredential", "ConsumerEnergyPassport"]` in the issuance request.
 2. Include the `identityBinding` block in `credentialSubject`. If you don't yet capture consumer DIDs at onboarding, use the DigiLocker pull path to mint one and record the binding as `bindingMethod: "DIGILOCKER_PULL"`.
 
-OpenCred's built-in schema dispatch will validate against the `ConsumerEnergyPassport` schema once the canonical schema files land alongside [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/). Until then, pass `inlineSchema` referencing the JSON Schema fragment derived from this page.
+OpenCred's built-in schema dispatch will validate against the `ConsumerEnergyPassport` schema once the canonical schema files land alongside [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md). Until then, pass `inlineSchema` referencing the JSON Schema fragment derived from this page.
 
 ---
 

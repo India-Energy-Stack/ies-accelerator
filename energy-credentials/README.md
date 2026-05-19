@@ -29,7 +29,7 @@ sequenceDiagram
 
 ## What an Electricity Credential Is
 
-An **Electricity Credential** is a cryptographically signed digital attestation a DISCOM makes about a consumer's meter and the assets behind it. It follows the [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/) and the IES `ElectricityCredential` schema family — mirrored from Beckn DEG into this repo under [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/).
+An **Electricity Credential** is a cryptographically signed digital attestation a DISCOM makes about a consumer's meter and the assets behind it. It follows the [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/) and the IES `ElectricityCredential` schema family — mirrored from Beckn DEG into this repo under [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md).
 
 A credential is a JSON document with three things inside it:
 
@@ -151,7 +151,7 @@ Important properties of OpenCred that matter for DISCOMs:
 
 - [OpenCred documentation (GitBook)](https://opencred.gitbook.io/docs) — comprehensive reference for the credential service
 - [OpenCred API reference](https://opencred.gitbook.io/docs/docker-image/api-reference) — every HTTP endpoint with request/response schemas
-- IES `ElectricityCredential` schemas — canonical field definitions at [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/) (repo root: [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator))
+- IES `ElectricityCredential` schemas — canonical field definitions at [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md) (repo root: [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator))
 - [Beckn DEG `ElectricityCredential` (upstream)](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential)
 - [W3C Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/)
 - [W3C Decentralized Identifiers](https://www.w3.org/TR/did-core/)

@@ -231,7 +231,7 @@ The OpenCred call mirrors the [`CustomerCredential` issuance flow](./issuance.md
 3. A short `validUntil` (1d–7d depending on policy)
 4. The MDMS-derived `meterReference`/`period`/`granularity`/`readings`-or-`summary`/`dataQuality` block
 
-Until the canonical schema files land alongside [`/schemas/ElectricityCredential/v1.0/`](/schemas/ElectricityCredential/v1.0/), pass `inlineSchema` to OpenCred derived from this page.
+Until the canonical schema files land alongside [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md), pass `inlineSchema` to OpenCred derived from this page.
 
 ---
 
