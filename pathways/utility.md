@@ -38,7 +38,7 @@ Before commencing the integration pathway, we recommend aligning the following i
 In this phase, you will establish your institutional cryptographic identity and define clear naming grammars for your grid resources and consumers.
 
 <details>
-<summary><b>Step 1.1: Establish Your Institutional Identity (did:web)</b></summary>
+<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../identifiers/resolution.md#didweb))</b></summary>
 
 ### 💡 Phase Advice
 > Set up a quick call with your DNS administrator as your very first step. Securing a dedicated subdomain takes only a few minutes but forms the foundation of your secure cryptographic brand.
@@ -47,7 +47,7 @@ In this phase, you will establish your institutional cryptographic identity and 
 * Confirm that your web admin has write-access to your target domain (e.g., `ies.tpddl.co.in`) to host the verification path.
 
 ### Execution Guidance
-A `did:web` identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
+A [`did:web`](../identifiers/resolution.md#didweb) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
 2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
@@ -60,13 +60,13 @@ A `did:web` identifier leverages your existing DNS and SSL infrastructure to pub
 </details>
 
 <details>
-<summary><b>Step 1.2: Define Your Naming Grammars (DeDi Identifiers)</b></summary>
+<summary><b>Step 1.2: Define Your Naming Grammars ([DeDi Identifiers](../identifiers/id-patterns.md))</b></summary>
 
 ### 💡 Phase Advice
 > Aligning your IES identifiers with your existing SAP, GIS, or CIS master codes avoids double-mapping. Wrap your existing internal serials rather than replacing them!
 
 ### Execution Guidance
-Map your internal customer numbers, SAP codes, and meter serial numbers to standard, DeDi-based naming grammars. We recommend adopting the suggested reference patterns shown below:
+Map your internal customer numbers, SAP codes, and meter serial numbers to standard, [DeDi-based naming grammars](../identifiers/id-patterns.md). We recommend adopting the suggested reference patterns shown below:
 1. **Consumers**: `did:dedi:<utility>:consumers:<consumer number>`
    *(e.g., `did:dedi:tpddl:consumers:CN-89721345`)*
 2. **Grid Assets**: `did:dedi:<utility>:assets:<asset-class>:<internal id>`
@@ -87,7 +87,7 @@ Map your internal customer numbers, SAP codes, and meter serial numbers to stand
 
 ## Phase 2: Getting Started (Registry Setup)
 
-Establish your administrative namespaces on the public Decentralized Directory (DeDi) and register your active endpoints with the network.
+Establish your administrative namespaces on the public [Decentralized Directory (DeDi)](../registries/dedi-primer.md) and register your active endpoints with the network.
 
 <details>
 <summary><b>Step 2.1: Setup DeDi Namespace</b></summary>
@@ -117,9 +117,9 @@ Establish your administrative namespaces on the public Decentralized Directory (
 
 ### Execution Guidance
 Create and initialize the following registries under your namespace:
-* `public-keys` (tag `public_key`): Houses versioned P-256 signing keys.
-* `vc-revocation-registry` (tag `revoke`): Tracks real-time verifiable credential revocation.
-* `subscribers-test` & `subscribers-prod` (tag `beckn_subscriber`): Manages Beckn node configs.
+* [`public-keys`](../registries/required-registries.md#public-keys-registry) (tag `public_key`): Houses versioned P-256 signing keys.
+* [`vc-revocation-registry`](../registries/required-registries.md#revocation-registry) (tag `revoke`): Tracks real-time verifiable credential revocation.
+* [`subscribers-test` & `subscribers-prod`](../registries/required-registries.md#beckn-subscriber-registry) (tag `beckn_subscriber`): Manages Beckn node configs.
 
 ### References & Anchors
 * [Required Registries Catalog](../registries/required-registries.md)
@@ -154,7 +154,7 @@ Email your registration package (utility short-code, legal name, service area li
 Provide citizens with a secure, tamper-evident digital passport of their utility connection parameters, load limits, and registered assets.
 
 <details>
-<summary><b>Step 3.1: Setup Credential Issuance (Consumer Energy Passport)</b></summary>
+<summary><b>Step 3.1: Setup Credential Issuance ([Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md))</b></summary>
 
 ### 💡 Phase Advice
 > Leverage your existing Customer Relationship Management (CRM) tables. Since the Passport is a composite of standard customer master data, you only need to expose your existing billing/CIS databases to OpenCred.
@@ -175,13 +175,13 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 </details>
 
 <details>
-<summary><b>Step 3.2: Register with DigiLocker</b></summary>
+<summary><b>Step 3.2: Register with [DigiLocker](../energy-credentials/digilocker-integration.md)</b></summary>
 
 ### 💡 Phase Advice
-> API Setu compliance checks can take time. Start your legal and institutional registrations on API Setu early in Phase 3 so that production gateways are cleared by the time your code is ready.
+> [API Setu](../energy-credentials/digilocker-integration.md) compliance checks can take time. Start your legal and institutional registrations on API Setu early in Phase 3 so that production gateways are cleared by the time your code is ready.
 
 ### 📋 Prework Required
-* Secure authorization letters and corporate certificates from your legal department for API Setu access.
+* Secure authorization letters and corporate certificates from your legal department for [API Setu](../energy-credentials/digilocker-integration.md) access.
 
 ### References & Anchors
 * [DigiLocker Integration Guide](../energy-credentials/digilocker-integration.md)
@@ -190,12 +190,12 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 
 ---
 
-## Phase 4: Smart Meter Data Exchange (Beckn Data Pipes)
+## Phase 4: Smart Meter Data Exchange ([Beckn Data Pipes](../data-exchange/concepts.md))
 
 Enable federated, policy-governed data sharing of smart meter telemetry and master data with authorized third parties.
 
 <details>
-<summary><b>Step 4.1: Setup BPP Nodes (BECKN Network)</b></summary>
+<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../data-exchange/quick-start.md))</b></summary>
 
 ### 💡 Phase Advice
 > Deploying the ONIX adapter as a Docker service takes less than 10 minutes. Run the test sandbox local container first to easily verify your configurations before going to production.
@@ -203,7 +203,7 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 ### Execution Guidance
 1. Deploy the standard Docker-based Beckn ONIX container.
 2. Generate your Ed25519 node keypair.
-3. Register your BPP credentials in DeDi `subscribers-test`.
+3. Register your BPP credentials in DeDi [`subscribers-test`](../registries/required-registries.md#beckn-subscriber-registry).
 
 ### References & Anchors
 * [Data Exchange Concepts](../data-exchange/concepts.md)
@@ -223,7 +223,7 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 > **Batch Telemetry Latency**: MDM database queries can be slow and can violate Beckn's transaction timeouts (usually 5 seconds). Ensure your telemetry API is highly optimized.
 
 ### Execution Guidance
-Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **IntervalProfile**, **DailyProfile**, **InstantaneousProfile**, and **EventProfile** formats.
+Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfile](../schemas/MeterData/v0.5/README.md)**, **[DailyProfile](../schemas/MeterData/v0.5/README.md)**, **[InstantaneousProfile](../schemas/MeterData/v0.5/README.md)**, and **[EventProfile](../schemas/MeterData/v0.5/README.md)** formats.
 
 ### References & Anchors
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
@@ -236,7 +236,7 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **IntervalProfil
 <summary><b>Step 4.3: Integrate Customer Master Data</b></summary>
 
 ### 💡 Phase Advice
-> Billing and customer profile files map directly to the **CustomerProfile** schema. Ensure your CRM export script correctly aligns the tariff category, connection status, and sanctioned load.
+> Billing and customer profile files map directly to the **[CustomerProfile](../schemas/MeterData/v0.5/attributes.yaml)** schema. Ensure your CRM export script correctly aligns the tariff category, connection status, and sanctioned load.
 
 ### References & Anchors
 * [MeterData Attributes & Customer Schema](../schemas/MeterData/v0.5/attributes.yaml)
@@ -246,10 +246,10 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **IntervalProfil
 <summary><b>Step 4.4: Establish Data Exchange Authorisation</b></summary>
 
 ### 💡 Phase Advice
-> Leverage the **MeterDataRequest** schema to formalise incoming B2B third-party data requests. The scope of the actual request for sharing can be a subset of the broader data authorised.
+> Leverage the **[MeterDataRequest](../schemas/MeterDataRequest/v0.5/README.md)** schema to formalise incoming B2B third-party data requests. The scope of the actual request for sharing can be a subset of the broader data authorised.
 
 ### Execution Guidance
-While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **credential version of MeterDataRequest** OR a **Consumer Energy Passport with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
+While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **credential version of [MeterDataRequest](../schemas/MeterDataRequest/v0.5/README.md)** OR a **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
 
 ### ⚠️ Caution
 > **Scoped Access Violations**: Never expose granular consumer interval data without verifying that the presented credential permits that specific access window and profile.
@@ -274,7 +274,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 
 ---
 
-## Phase 5: Consumer Meter Digest (Electricity Bill)
+## Phase 5: [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (Electricity Bill)
 
 Move beyond static PDFs to compile and issue verifiable, machine-readable monthly electricity bills.
 
@@ -282,7 +282,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 <summary><b>Step 5.1: Create the Consumer Meter Digest Verifiable Credential</b></summary>
 
 ### 💡 Phase Advice
-> We suggest utilizing a credential that directly includes the **MeterData** schema. When compiling the Digest for a billing cycle, the `CustomerProfile` and `BillingProfile` **must** be included. Additionally, an `IntervalProfile` containing intervals that span the entire billing period is strongly recommended to provide complete consumption transparency.
+> We suggest utilizing a credential that directly includes the **[MeterData](../schemas/MeterData/v0.5/README.md)** schema. When compiling the Digest for a billing cycle, the `CustomerProfile` and `BillingProfile` **must** be included. Additionally, an `IntervalProfile` containing intervals that span the entire billing period is strongly recommended to provide complete consumption transparency.
 
 ### Execution Guidance
 1. **Request the Data**: Programmatically query your Data Exchange nodes with a `MeterDataRequest` spanning the billing duration and specifically targeting the required profiles.
@@ -306,7 +306,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
    }
    ```
 
-2. **Structure the Credential**: Package the resulting `MeterData` payload inside the data subject of your verifiable credential envelope.
+2. **Structure the Credential**: Package the resulting [`MeterData`](../schemas/MeterData/v0.5/README.md) payload inside the data subject of your verifiable credential envelope.
 3. **Sign and Issue**: Sign and issue the verifiable credential utilizing your OpenCred service.
 
 
@@ -317,7 +317,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 </details>
 
 <details>
-<summary><b>Step 5.2: Link Bills to DigiLocker</b></summary>
+<summary><b>Step 5.2: Link Bills to [DigiLocker](../energy-credentials/digilocker-integration.md)</b></summary>
 
 ### 💡 Phase Advice
 > Re-use your DigiLocker gateway! Since you cleared API Setu audits in Step 3.2, adding the verifiable bill credential is a simple path extension on your existing issuer record.
@@ -388,15 +388,15 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 Publish your Annual Revenue Requirement data in a standardized, machine-readable format to enable programmatic tariff analysis and regulatory transparency.
 
 <details>
-<summary><b>Step 7.1: Map Existing Data to ARR Schema</b></summary>
+<summary><b>Step 7.1: Map Existing Data to [ARR Schema](../schemas/ArrFiling/v0.5/README.md)</b></summary>
 
 ### 💡 Phase Advice
-> Rather than building new reporting pipelines from scratch, we suggest using your existing regulatory data sets and mapping them directly to the provided ARR schema.
+> Rather than building new reporting pipelines from scratch, we suggest using your existing regulatory data sets and mapping them directly to the provided [ARR schema](../schemas/ArrFiling/v0.5/README.md).
 
 ### Execution Guidance
 1. Extract historical, current, and forecasted monetary data from your existing tariff orders and regulatory filings.
 2. Focus strictly on providing **only machine-readable data related to monetary data**. Avoid embedding unstructured text or PDF blobs.
-3. Map this extracted monetary data directly to the canonical `ArrFiling` schema structure.
+3. Map this extracted monetary data directly to the canonical [`ArrFiling`](../schemas/ArrFiling/v0.5/README.md) schema structure.
 4. **Note your experiences**: Treat this as an iterative mapping exercise. Document your experiences, friction points, or any missing schema fields encountered during the data mapping process to help inform future specification refinements.
 
 ### References & Anchors
