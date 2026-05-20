@@ -164,6 +164,10 @@ components:
           type: "array"
           items:
             $ref: "#/components/schemas/Reading"
+        touBuckets:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Reading"
         intervalBlocks:
           type: "array"
           items:
@@ -358,6 +362,14 @@ components:
           $ref: "#/components/schemas/Identifier"
         value:
           type: "number"
+        openingValue:
+          type: "number"
+        closingValue:
+          type: "number"
+        integrationPeriod:
+          type: "string"
+          format: "duration"
+          description: "Demand integration period, e.g. PT30M or PT15M."
         zone:
           type: "integer"
           minimum: 1

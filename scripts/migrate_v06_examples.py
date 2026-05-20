@@ -33,7 +33,7 @@ def reorder_keys(node):
     order = [
         '@context', '@type', 'profileType', 'readingPurpose', 'customerRefs', 'meterRefs', 
         'serviceDeliveryPointRefs', 'timePeriod', 'timestamp', 'billNumber', 'billDate', 
-        'dueDate', 'currency', 'amountDue', 'readings', 'payloadDescriptors', 'intervals', 
+        'dueDate', 'currency', 'amountDue', 'readings', 'touBuckets', 'payloadDescriptors', 'intervals', 
         'overrides', 'events'
     ]
     
@@ -107,12 +107,9 @@ def process_node(node):
 
     if node.get('@type') in ['BillingProfile', 'InstantaneousProfile', 'BILLING', 'INSTANTANEOUS'] or node.get('profileType') in ['BILLING', 'INSTANTANEOUS']:
         readings = []
-        for k in ['totals', 'touBuckets', 'values']:
+        for k in ['totals', 'values']:
             if k in node:
                 for t in node[k]:
-                    t.pop('openingValue', None)
-                    t.pop('closingValue', None)
-                    t.pop('integrationPeriod', None)
                     t.pop('accumulationBehaviour', None)
                     t.pop('unit', None)
                     t.pop('phase', None)
@@ -120,6 +117,15 @@ def process_node(node):
                 node.pop(k)
         if readings:
             node['readings'] = readings
+
+        if 'touBuckets' in node:
+            tou_buckets = []
+            for t in node['touBuckets']:
+                t.pop('accumulationBehaviour', None)
+                t.pop('unit', None)
+                t.pop('phase', None)
+                tou_buckets.append(t)
+            node['touBuckets'] = tou_buckets
 
     for k, v in node.items():
         if isinstance(v, dict):

@@ -17,17 +17,24 @@
   "readings": [
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
-      "value": 412.5
+      "value": 412.5,
+      "openingValue": 18432.5,
+      "closingValue": 18845.0
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.9.8.0.255" },
-      "value": 421.8
+      "value": 421.8,
+      "openingValue": 18715.4,
+      "closingValue": 19137.2
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
       "value": 8.42,
-      "occurredAt": "2026-04-23T19:30:00+05:30"
-    },
+      "occurredAt": "2026-04-23T19:30:00+05:30",
+      "integrationPeriod": "PT30M"
+    }
+  ],
+  "touBuckets": [
     {
       "zone": 1,
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },

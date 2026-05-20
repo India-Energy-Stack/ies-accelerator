@@ -226,17 +226,24 @@
     "readings": [
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
-        "value": 5800.0
+        "value": 5800.0,
+        "openingValue": 18500.0,
+        "closingValue": 24300.0
       },
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp" },
-        "value": 6050.0
+        "value": 6050.0,
+        "openingValue": 18900.0,
+        "closingValue": 24950.0
       },
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
         "value": 42.5,
-        "occurredAt": "2026-04-18T14:30:00+05:30"
-      },
+        "occurredAt": "2026-04-18T14:30:00+05:30",
+        "integrationPeriod": "PT30M"
+      }
+    ],
+    "touBuckets": [
       {
         "zone": 1,
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
@@ -268,7 +275,9 @@
     "readings": [
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
-        "value": 950.0
+        "value": 950.0,
+        "openingValue": 3200.0,
+        "closingValue": 4150.0
       }
     ]
   },

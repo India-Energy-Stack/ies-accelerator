@@ -293,6 +293,18 @@
                             "@id": "ies:value",
                             "@type": "xsd:decimal"
                         },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
                         "zone": {
                             "@id": "ies:zone",
                             "@type": "xsd:integer"
@@ -513,6 +525,18 @@
                         "value": {
                             "@id": "ies:value",
                             "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
                         },
                         "zone": {
                             "@id": "ies:zone",
@@ -751,6 +775,87 @@
                             "@id": "ies:value",
                             "@type": "xsd:decimal"
                         },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "zone": {
+                            "@id": "ies:zone",
+                            "@type": "xsd:integer"
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "touBuckets": {
+                    "@id": "ies:touBuckets",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingTypeRef": {
+                            "@id": "ies:readingTypeRef",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "@id"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
                         "zone": {
                             "@id": "ies:zone",
                             "@type": "xsd:integer"
@@ -955,6 +1060,18 @@
                         "value": {
                             "@id": "ies:value",
                             "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
                         },
                         "zone": {
                             "@id": "ies:zone",
@@ -1460,6 +1577,18 @@
                 "value": {
                     "@id": "ies:value",
                     "@type": "xsd:decimal"
+                },
+                "openingValue": {
+                    "@id": "ies:openingValue",
+                    "@type": "xsd:decimal"
+                },
+                "closingValue": {
+                    "@id": "ies:closingValue",
+                    "@type": "xsd:decimal"
+                },
+                "integrationPeriod": {
+                    "@id": "ies:integrationPeriod",
+                    "@type": "xsd:string"
                 },
                 "zone": {
                     "@id": "ies:zone",

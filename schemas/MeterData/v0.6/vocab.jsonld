@@ -231,6 +231,12 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:touBuckets",
+            "@type": "rdf:Property",
+            "rdfs:label": "tou Buckets",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:timestamp",
             "@type": "rdf:Property",
             "rdfs:label": "timestamp",
@@ -373,6 +379,24 @@
             "@type": "rdf:Property",
             "rdfs:label": "fail Code",
             "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:openingValue",
+            "@type": "rdf:Property",
+            "rdfs:label": "opening Value",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:closingValue",
+            "@type": "rdf:Property",
+            "rdfs:label": "closing Value",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:integrationPeriod",
+            "@type": "rdf:Property",
+            "rdfs:label": "integration Period",
+            "rdfs:comment": "Demand integration period, e.g. PT30M or PT15M."
         },
         {
             "@id": "schema:name",
