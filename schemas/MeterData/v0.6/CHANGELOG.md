@@ -4,27 +4,35 @@ Version 0.6 introduces a major structural refactor to the `MeterData` schema. It
 
 ---
 
-## Summary of Changes
+## Schema Structural Changes
 
-### 1. Unified Time Terminology
-Previously, time windows and execution timestamps were fragmented (`billingPeriod`, `coveragePeriod`, `intervalPeriod`, `capturedAt`, `timestamp`).
-* All period objects are unified into **`timePeriod`**.
-* The `timePeriod` object strictly requires a `start` timestamp (ISO-8601 with timezone offset) and a **`duration`** (ISO-8601 duration), perfectly aligning with standard IEC/OpenADR patterns (e.g., `duration: "P1M"`, `duration: "PT30M"`).
-* All single point-in-time execution markers have been unified to the single property **`timestamp`** (replacing `capturedAt`).
+### 1. Unified Time Representation
+Previously, time windows and execution timestamps were fragmented across different profiles (`billingPeriod`, `coveragePeriod`, `intervalPeriod`, `capturedAt`, `timestamp`).
+* **Time Periods**: All period and coverage objects (`billingPeriod`, `coveragePeriod`, `intervalPeriod`) are replaced by the unified **`timePeriod`** object.
+  * In `v0.5`, time intervals were defined as `TimeInterval` (with `start` and `end`).
+  * In `v0.6`, `timePeriod` uses the `TimePeriod` definition, requiring `start` (timestamp) and **`duration`** (ISO-8601 duration), aligning with standard IEC/OpenADR telemetry patterns (e.g. `P1M`, `PT30M`, `PT1H`).
+* **Execution Timestamp**: All execution markers (`capturedAt`, `timestamp`) are unified to **`timestamp`** (replacing `capturedAt` in instantaneous profiles).
 
-### 2. Deprecation of Explicit Units & Phases from Inline Readings
-To reduce transmission bloat, inline `unit` and `phase` fields have been entirely removed from the reading schemas. Consumers are mandated to derive physical semantics (e.g. Volts, Amperes, Phase R/Y/B) from the canonical `OBISMapping.json` definitions using the provided `readingTypeRef` (OBIS or Short Codes).
+### 2. Removal of Explicit Units & Phases from Readings
+To reduce payload transmission size, inline `unit` and `phase` fields have been entirely removed from the schemas of reading records. Consumers must resolve these physical semantics using the `readingTypeRef` (OBIS or Short Codes) against the canonical lookup map.
 
-### 3. Restructured Time of Use (ToU) Buckets
-`touBuckets` inside `BillingProfile` has been reintroduced and structurally optimized:
-* Instead of keeping `zone` inside each reading object, readings are now grouped under a parent **`TouBucket`** object containing a `zone` key and a nested `readings` array of `Reading` objects.
-* Redundant `zone` fields are removed from the generic `Reading` model, ensuring a cleaner nested structure.
+### 3. Unified `Reading` Model & Restructured Register Fields
+The legacy `TotalsEntry`, `InstantaneousValue`, and ToU readings are unified under a single **`Reading`** schema:
+* Supported properties: `readingTypeRef`, `value`, `openingValue`, `closingValue`, `integrationPeriod`, `occurredAt`, `validationStatus`, `source`, `changeMethod`, `failCode`.
+* Removed redundant inline properties: `unit`, `phase`, and `zone` from the individual reading.
+* **Restructured Time of Use (ToU) Buckets**: Legacy flat `touBuckets` (where each reading record had its own `zone` property) are restructured into a nested **`TouBucket`** structure. A `TouBucket` contains a single parent `zone` (integer) and an array of nested `readings` (array of `Reading` objects), grouping multiple readings under a specific zone.
 
-### 4. Billing Register Metadata Support
-Three billing register properties are added back to the `Reading` object to support Indian utility billing calculations without data loss:
-* `openingValue` (number)
-* `closingValue` (number)
-* `integrationPeriod` (ISO-8601 duration)
+### 4. Compact Form Refinements (`IntervalBlock`)
+* **Cadence Consolidation**: Removed `intervalLength` from `IntervalBlock`. The block cadence is now derived from `timePeriod.duration`.
+* **Overrides Renaming & Expansion**: `qualityOverrides` has been renamed to **`overrides`** (referencing the `Override` component):
+  * In `v0.5`, `QualityOverride` required `validationStatus`. In `v0.6`, `Override` requires `descriptorIndex` (referencing the column in the matrix).
+  * Added optional fields `occurredAt` and `zone` inside the `Override` model, enabling sparse override of timestamps and zones inside the compact matrix rows without needing inline elaborated records.
+
+### 5. Universal Dual-Form Support across Profiles
+Every telemetry profile (Billing, Daily, Interval, Instantaneous, Event) now supports both paradigms:
+* **Form A (Elaborated)**: Uses the `readings` array of `Reading` objects.
+* **Form B (Compact)**: Uses the `intervalBlocks` array of `IntervalBlock` objects.
+* To support both forms, `intervalBlocks` is no longer a required field in `IntervalProfile` and `DailyProfile`, allowing them to use `readings` directly if desired.
 
 ---
 
