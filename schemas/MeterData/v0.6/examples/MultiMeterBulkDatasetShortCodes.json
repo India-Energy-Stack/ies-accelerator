@@ -1,6 +1,6 @@
 [
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "CustomerProfile",
     "profileType": "CUSTOMER",
     "customerRefs": [
@@ -70,7 +70,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
@@ -82,10 +82,7 @@
     "serviceDeliveryPointRefs": [
       { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-MAIN-01" }
     ],
-    "coveragePeriod": {
-      "start": "2026-05-18T10:00:00+05:30",
-      "end": "2026-05-18T11:00:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-05-18T10:00:00+05:30", "duration": "PT1H"  },
     "readings": [
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
@@ -110,7 +107,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
@@ -122,17 +119,10 @@
     "serviceDeliveryPointRefs": [
       { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-AUX-02" }
     ],
-    "coveragePeriod": {
-      "start": "2026-05-18T10:00:00+05:30",
-      "end": "2026-05-18T10:30:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M"  },
     "intervalBlocks": [
       {
-        "intervalPeriod": {
-          "start": "2026-05-18T10:00:00+05:30",
-          "duration": "PT30M"
-        },
-        "intervalLength": "PT15M",
+        "timePeriod": {  "start": "2026-05-18T10:00:00+05:30", "duration": "PT15M"  },
         "payloadDescriptors": [
           { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } }
         ],
@@ -144,7 +134,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "customerRefs": [
@@ -153,10 +143,7 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
-    "coveragePeriod": {
-      "start": "2026-05-17T00:00:00+05:30",
-      "end": "2026-05-18T00:00:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-05-17T00:00:00+05:30", "duration": "P1D"  },
     "readings": [
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
@@ -169,7 +156,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "customerRefs": [
@@ -178,17 +165,10 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
-    "coveragePeriod": {
-      "start": "2026-05-17T00:00:00+05:30",
-      "end": "2026-05-18T00:00:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-05-17T00:00:00+05:30", "duration": "P1D"  },
     "intervalBlocks": [
       {
-        "intervalPeriod": {
-          "start": "2026-05-17T00:00:00+05:30",
-          "duration": "P1D"
-        },
-        "intervalLength": "P1D",
+        "timePeriod": {  "start": "2026-05-17T00:00:00+05:30", "duration": "P1D"  },
         "payloadDescriptors": [
           { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" } }
         ],
@@ -199,7 +179,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "BillingProfile",
     "profileType": "BILLING",
     "customerRefs": [
@@ -208,16 +188,13 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
-    "billingPeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "end": "2026-05-01T00:00:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
     "billNumber": "BILL-ACME-MAIN-202604",
     "billDate": "2026-05-01",
     "dueDate": "2026-05-21",
     "currency": "INR",
     "amountDue": 224150.0,
-    "totals": [
+    "readings": [
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
         "value": 5800.0,
@@ -240,18 +217,26 @@
     "touBuckets": [
       {
         "zone": 1,
-        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
-        "value": 1500.0
+        "readings": [
+          {
+            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
+            "value": 1500.0
+          }
+        ]
       },
       {
         "zone": 2,
-        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ2" },
-        "value": 2400.0
+        "readings": [
+          {
+            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ2" },
+            "value": 2400.0
+          }
+        ]
       }
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "BillingProfile",
     "profileType": "BILLING",
     "customerRefs": [
@@ -260,10 +245,7 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
-    "billingPeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "end": "2026-05-01T00:00:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
     "billNumber": "BILL-ACME-AUX-202604",
     "billDate": "2026-05-01",
     "dueDate": "2026-05-21",
@@ -271,11 +253,7 @@
     "amountDue": 32450.0,
     "intervalBlocks": [
       {
-        "intervalPeriod": {
-          "start": "2026-04-01T00:00:00+05:30",
-          "duration": "P1M"
-        },
-        "intervalLength": "P1M",
+        "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
         "payloadDescriptors": [
           { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" } }
         ],
@@ -286,7 +264,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "customerRefs": [
@@ -295,8 +273,8 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
-    "capturedAt": "2026-05-18T12:00:00+05:30",
-    "values": [
+    "timestamp": "2026-05-18T12:00:00+05:30",
+    "readings": [
       {
         "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_R" },
         "value": 240.2,
@@ -320,7 +298,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "customerRefs": [
@@ -329,14 +307,10 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
-    "capturedAt": "2026-05-18T12:00:00+05:30",
+    "timestamp": "2026-05-18T12:00:00+05:30",
     "intervalBlocks": [
       {
-        "intervalPeriod": {
-          "start": "2026-05-18T12:00:00+05:30",
-          "duration": "PT0S"
-        },
-        "intervalLength": "PT0S",
+        "timePeriod": {  "start": "2026-05-18T12:00:00+05:30", "duration": "PT0S"  },
         "payloadDescriptors": [
           { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_1P" } },
           { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "I_Phase" } }
@@ -348,7 +322,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "EventProfile",
     "profileType": "EVENT",
     "customerRefs": [
@@ -357,10 +331,7 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
-    "coveragePeriod": {
-      "start": "2026-05-18T00:00:00+05:30",
-      "end": "2026-05-18T12:00:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H"  },
     "events": [
       {
         "timestamp": "2026-05-18T08:15:00+05:30",
@@ -375,7 +346,7 @@
     ]
   },
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
     "@type": "EventProfile",
     "profileType": "EVENT",
     "customerRefs": [
@@ -384,10 +355,7 @@
     "meterRefs": [
       { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
-    "coveragePeriod": {
-      "start": "2026-05-18T00:00:00+05:30",
-      "end": "2026-05-18T12:00:00+05:30"
-    },
+    "timePeriod": {  "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H"  },
     "events": [
       {
         "timestamp": "2026-05-18T09:30:00+05:30",
