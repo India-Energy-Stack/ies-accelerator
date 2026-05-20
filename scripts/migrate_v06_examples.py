@@ -119,12 +119,22 @@ def process_node(node):
             node['readings'] = readings
 
         if 'touBuckets' in node:
-            tou_buckets = []
+            by_zone = {}
             for t in node['touBuckets']:
+                zone = t.pop('zone', None)
+                if zone is None:
+                    continue
                 t.pop('accumulationBehaviour', None)
                 t.pop('unit', None)
                 t.pop('phase', None)
-                tou_buckets.append(t)
+                by_zone.setdefault(zone, []).append(t)
+            
+            tou_buckets = []
+            for zone in sorted(by_zone.keys()):
+                tou_buckets.append({
+                    'zone': zone,
+                    'readings': by_zone[zone]
+                })
             node['touBuckets'] = tou_buckets
 
     for k, v in node.items():

@@ -245,14 +245,22 @@
     ],
     "touBuckets": [
       {
-        "zone": 1,
-        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },
-        "value": 1500.0
+        "readings": [
+          {
+            "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },
+            "value": 1500.0
+          }
+        ],
+        "zone": 1
       },
       {
-        "zone": 2,
-        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.2.255" },
-        "value": 2400.0
+        "readings": [
+          {
+            "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.2.255" },
+            "value": 2400.0
+          }
+        ],
+        "zone": 2
       }
     ]
   },

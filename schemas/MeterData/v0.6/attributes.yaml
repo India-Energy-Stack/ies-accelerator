@@ -167,7 +167,7 @@ components:
         touBuckets:
           type: "array"
           items:
-            $ref: "#/components/schemas/Reading"
+            $ref: "#/components/schemas/TouBucket"
         intervalBlocks:
           type: "array"
           items:
@@ -370,10 +370,6 @@ components:
           type: "string"
           format: "duration"
           description: "Demand integration period, e.g. PT30M or PT15M."
-        zone:
-          type: "integer"
-          minimum: 1
-          maximum: 8
         occurredAt:
           type: "string"
           format: "date-time"
@@ -385,6 +381,22 @@ components:
           type: "string"
         failCode:
           type: "string"
+
+    TouBucket:
+      type: "object"
+      description: "Time of Use bucket separating readings by zone."
+      required:
+        - "zone"
+        - "readings"
+      properties:
+        zone:
+          type: "integer"
+          minimum: 1
+          maximum: 8
+        readings:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Reading"
 
     Customer:
       type: "object"

@@ -32,6 +32,29 @@ def diff_dict(d1, d2, path=""):
             continue
             
         v2 = d2[k]
+
+        if k == 'touBuckets':
+            flat_v5 = []
+            for item in v:
+                cleaned = {ki: vi for ki, vi in item.items() if ki not in DEPRECATED_KEYS}
+                flat_v5.append(cleaned)
+            flat_v5.sort(key=lambda x: (x.get('zone', 0), x.get('readingTypeRef', {}).get('value', '')))
+            
+            flat_v6 = []
+            for bucket in v2:
+                zone = bucket.get('zone', 0)
+                for r in bucket.get('readings', []):
+                    cleaned = {ki: vi for ki, vi in r.items() if ki not in DEPRECATED_KEYS}
+                    cleaned['zone'] = zone
+                    flat_v6.append(cleaned)
+            flat_v6.sort(key=lambda x: (x.get('zone', 0), x.get('readingTypeRef', {}).get('value', '')))
+            
+            if len(flat_v5) != len(flat_v6):
+                diffs.append((curr_path, "touBuckets_length_mismatch", len(flat_v5), len(flat_v6)))
+            else:
+                for idx, (item1, item2) in enumerate(zip(flat_v5, flat_v6)):
+                    diffs.extend(diff_dict(item1, item2, f"{curr_path}[{idx}]"))
+            continue
         
         if isinstance(v, dict) and isinstance(v2, dict):
             diffs.extend(diff_dict(v, v2, curr_path))

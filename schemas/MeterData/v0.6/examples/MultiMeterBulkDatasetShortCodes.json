@@ -245,14 +245,22 @@
     ],
     "touBuckets": [
       {
-        "zone": 1,
-        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
-        "value": 1500.0
+        "readings": [
+          {
+            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
+            "value": 1500.0
+          }
+        ],
+        "zone": 1
       },
       {
-        "zone": 2,
-        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ2" },
-        "value": 2400.0
+        "readings": [
+          {
+            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ2" },
+            "value": 2400.0
+          }
+        ],
+        "zone": 2
       }
     ]
   },

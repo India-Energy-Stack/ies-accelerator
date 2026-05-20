@@ -99,6 +99,12 @@
             "rdfs:comment": "Detailed, self-contained inline reading with full metadata support."
         },
         {
+            "@id": "ies:TouBucket",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Tou Bucket",
+            "rdfs:comment": "Time of Use bucket separating readings by zone."
+        },
+        {
             "@id": "ies:Customer",
             "@type": "rdfs:Class",
             "rdfs:label": "Customer",
