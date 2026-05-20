@@ -33,7 +33,7 @@ def reorder_keys(node):
     order = [
         '@context', '@type', 'profileType', 'readingPurpose', 'customerRefs', 'meterRefs', 
         'serviceDeliveryPointRefs', 'timePeriod', 'timestamp', 'billNumber', 'billDate', 
-        'dueDate', 'currency', 'amountDue', 'readings', 'touBuckets', 'payloadDescriptors', 'intervals', 
+        'dueDate', 'currency', 'amountDue', 'zone', 'readings', 'touBuckets', 'payloadDescriptors', 'intervals', 
         'overrides', 'events'
     ]
     
