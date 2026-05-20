@@ -95,8 +95,7 @@
       "required": [
         "profileType",
         "customerRefs",
-        "meterRefs",
-        "intervalBlocks"
+        "meterRefs"
       ],
       "properties": {
         "profileType": {
@@ -136,8 +135,7 @@
       "required": [
         "profileType",
         "customerRefs",
-        "meterRefs",
-        "intervalBlocks"
+        "meterRefs"
       ],
       "properties": {
         "profileType": {

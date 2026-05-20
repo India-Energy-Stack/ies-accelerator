@@ -76,7 +76,6 @@ components:
         - "profileType"
         - "customerRefs"
         - "meterRefs"
-        - "intervalBlocks"
       properties:
         profileType:
           type: "string"
@@ -106,7 +105,6 @@ components:
         - "profileType"
         - "customerRefs"
         - "meterRefs"
-        - "intervalBlocks"
       properties:
         profileType:
           type: "string"

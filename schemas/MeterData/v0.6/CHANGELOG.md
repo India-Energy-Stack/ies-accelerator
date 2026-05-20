@@ -1,88 +1,116 @@
 # MeterData v0.6 Changelog
 
-Version 0.6 introduces a major structural refactor to the `MeterData` schema, standardizing telemetry payloads, simplifying time terminology, and formalizing a **Universal Dual-Form Representation** that drastically increases flexibility.
+Version 0.6 introduces a major structural refactor to the `MeterData` schema. It unifies time representations, reduces redundant payload properties, reinstates Time of Use (ToU) buckets with an improved grouping structure, and formalizes a **Universal Dual-Form Representation** (Form A - Elaborated and Form B - Compact) across all profiles.
 
-## 1. Unified Time Terminology
-Previously, time windows and execution timestamps were fragmented (`billingPeriod`, `coveragePeriod`, `intervalPeriod`, `capturedAt`, `timestamp`). 
+---
 
-**Changes:**
-- All period objects (`billingPeriod`, `coveragePeriod`, `intervalPeriod`) have been unified into `timePeriod`.
-- The new `timePeriod` strictly requires a `start` timestamp and a `duration` (ISO-8601), perfectly aligning with standard IEC/OpenADR telemetry patterns.
-- All point-in-time execution markers have been unified to `timestamp`.
+## Summary of Changes
 
-## 2. Deprecation of Explicit Units & Phases
-To reduce payload bloat, the inline `unit` and `phase` properties have been entirely removed from the reading objects. Consumers must now strictly rely on the canonical `OBISMapping.json` dictionary to infer these physical semantics based on the `readingTypeRef` (e.g. `OBIS` or `SHORT_CODE`).
+### 1. Unified Time Terminology
+Previously, time windows and execution timestamps were fragmented (`billingPeriod`, `coveragePeriod`, `intervalPeriod`, `capturedAt`, `timestamp`).
+* All period objects are unified into **`timePeriod`**.
+* The `timePeriod` object strictly requires a `start` timestamp (ISO-8601 with timezone offset) and a **`duration`** (ISO-8601 duration), perfectly aligning with standard IEC/OpenADR patterns (e.g., `duration: "P1M"`, `duration: "PT30M"`).
+* All single point-in-time execution markers have been unified to the single property **`timestamp`** (replacing `capturedAt`).
 
-## 3. Universal Dual-Form Representation
-Every telemetry profile (Billing, Daily, Interval, Instantaneous, Event) now officially supports two structural paradigms for presenting data: **Form A (Elaborated)** and **Form B (Compact)**. 
+### 2. Deprecation of Explicit Units & Phases from Inline Readings
+To reduce transmission bloat, inline `unit` and `phase` fields have been entirely removed from the reading schemas. Consumers are mandated to derive physical semantics (e.g. Volts, Amperes, Phase R/Y/B) from the canonical `OBISMapping.json` definitions using the provided `readingTypeRef` (OBIS or Short Codes).
 
-### Form A: Elaborated Representation (`readings`)
-Ideal for sparse reads (e.g. `InstantaneousProfile` or `BillingProfile`). Data is presented as an array of discrete `Reading` objects, allowing complex metadata (zones, validation status, timestamps) to be annotated directly inline.
+### 3. Restructured Time of Use (ToU) Buckets
+`touBuckets` inside `BillingProfile` has been reintroduced and structurally optimized:
+* Instead of keeping `zone` inside each reading object, readings are now grouped under a parent **`TouBucket`** object containing a `zone` key and a nested `readings` array of `Reading` objects.
+* Redundant `zone` fields are removed from the generic `Reading` model, ensuring a cleaner nested structure.
 
-**Example: Billing Profile with Inline Max Demand and Quality**
+### 4. Billing Register Metadata Support
+Three billing register properties are added back to the `Reading` object to support Indian utility billing calculations without data loss:
+* `openingValue` (number)
+* `closingValue` (number)
+* `integrationPeriod` (ISO-8601 duration)
+
+---
+
+## Detailed Payload Examples
+
+### Form A: Elaborated Representation (`readings` / `touBuckets`)
+Ideal for sparse registers (e.g. `BillingProfile` or `InstantaneousProfile`). Telemetry is presented as a list of discrete `Reading` objects containing inline values, timestamps, and register details.
+
 ```json
 {
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
   "@type": "BillingProfile",
-  "timePeriod": {
-    "start": "2026-04-01T00:00:00+05:30",
-    "duration": "P1M"
-  },
+  "profileType": "BILLING",
+  "customerRefs": [
+    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+  ],
+  "meterRefs": [
+    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+  ],
+  "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
+  "billNumber": "BESCOM-RR-1234-202604",
+  "billDate": "2026-05-01",
+  "dueDate": "2026-05-21",
+  "currency": "INR",
+  "amountDue": 4287.5,
   "readings": [
     {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
-      "value": 1500.5
+      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+      "value": 412.5,
+      "openingValue": 18432.5,
+      "closingValue": 18845.0
     },
     {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
-      "value": 450.2,
-      "zone": 1
-    },
+      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+      "value": 8.42,
+      "occurredAt": "2026-04-23T19:30:00+05:30",
+      "integrationPeriod": "PT30M"
+    }
+  ],
+  "touBuckets": [
     {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
-      "value": 15.2,
-      "occurredAt": "2026-04-23T19:30:00+05:30"
-    },
-    {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kvarh Q1" },
-      "value": 12.0,
-      "validationStatus": "ESTIMATED"
+      "zone": 1,
+      "readings": [
+        {
+          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },
+          "value": 138.2
+        }
+      ]
     }
   ]
 }
 ```
 
-### Form B: Compact Representation (`intervals` + `overrides`)
-Ideal for dense time-series telemetry (e.g. 15-minute `IntervalProfile`). Descriptors are hoisted to an array, and data is transmitted as highly-efficient numerical arrays (`IntervalRow`). 
+### Form B: Compact Representation (`intervalBlocks` -> `intervals` + `overrides`)
+Ideal for dense time-series telemetry (e.g. `IntervalProfile` or `DailyProfile`). Descriptors are declared once in `payloadDescriptors`, and data values are transmitted positionally inside numerical matrices (`intervals`). Sparse metadata (timestamps, quality codes) is annotated using the `overrides` array mapping back to the row and column index.
 
-**Changes:**
-- `qualityOverrides` has been renamed and expanded to **`overrides`**.
-- You can now use `overrides` to inject exact timestamps (like Max Demand `occurredAt`) or `zone` flags directly into specific matrix cells.
-
-**Example: Interval Profile with Sparse Quality and Max Demand Overrides**
 ```json
 {
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
   "@type": "IntervalProfile",
-  "intervalLength": "PT30M",
-  "payloadDescriptors": [
-    { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
-    { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" } }
+  "profileType": "INTERVAL",
+  "customerRefs": [
+    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
   ],
-  "intervals": [
-    { "id": 0, "values": [12.5, 4.2] },
-    { "id": 1, "values": [14.0, 5.1] }
+  "meterRefs": [
+    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
   ],
-  "overrides": [
+  "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT2H"  },
+  "intervalBlocks": [
     {
-      "intervalId": 1,
-      "descriptorIndex": 1,
-      "occurredAt": "2026-05-18T14:30:00+05:30"
-    },
-    {
-      "intervalId": 0,
-      "descriptorIndex": 0,
-      "validationStatus": "ESTIMATED"
+      "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M"  },
+      "payloadDescriptors": [
+        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" } },
+        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" } }
+      ],
+      "intervals": [
+        { "id": 0, "values": [4.82, 9.15] },
+        { "id": 1, "values": [5.12, 8.42] }
+      ],
+      "overrides": [
+        {
+          "intervalId": 1,
+          "descriptorIndex": 1,
+          "occurredAt": "2026-05-04T09:45:00+05:30"
+        }
+      ]
     }
   ]
 }

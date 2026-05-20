@@ -4,17 +4,11 @@
     "@type": "CustomerProfile",
     "profileType": "CUSTOMER",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "timeZone": "Asia/Kolkata",
     "customer": {
-      "id": {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      },
+      "id": { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" },
       "name": "Acme Industries Pvt Ltd",
       "consumerCategory": "NDS",
       "sanctionedLoadKw": 45.0,
@@ -22,10 +16,7 @@
     },
     "serviceDeliveryPoints": [
       {
-        "id": {
-          "scheme": "SERVICE_DELIVERY_POINT",
-          "value": "SDP-ACME-MAIN-01"
-        },
+        "id": { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-MAIN-01" },
         "addressLine": "12 MG Road",
         "city": "Bengaluru",
         "postalCode": "560001",
@@ -33,10 +24,7 @@
         "longitude": 77.6064
       },
       {
-        "id": {
-          "scheme": "SERVICE_DELIVERY_POINT",
-          "value": "SDP-ACME-AUX-02"
-        },
+        "id": { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-AUX-02" },
         "addressLine": "456 Indiranagar",
         "city": "Bengaluru",
         "postalCode": "560038",
@@ -46,20 +34,14 @@
     ],
     "meters": [
       {
-        "id": {
-          "scheme": "METER_SERIAL",
-          "value": "METER-GENUS-01"
-        },
+        "id": { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" },
         "manufacturer": "Genus",
         "modelNumber": "SM-3PH-4W-WC",
         "meterCategory": "D2",
         "serviceKind": "ELECTRICITY"
       },
       {
-        "id": {
-          "scheme": "METER_SERIAL",
-          "value": "METER-HPL-02"
-        },
+        "id": { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" },
         "manufacturer": "HPL",
         "modelNumber": "SM-1PH-2W-WC",
         "meterCategory": "D1",
@@ -68,32 +50,20 @@
     ],
     "associations": [
       {
-        "serviceDeliveryPointRefs": [
-          {
-            "scheme": "SERVICE_DELIVERY_POINT",
-            "value": "SDP-ACME-MAIN-01"
-          }
-        ],
         "meterRefs": [
-          {
-            "scheme": "METER_SERIAL",
-            "value": "METER-GENUS-01"
-          }
+          { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
+        ],
+        "serviceDeliveryPointRefs": [
+          { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-MAIN-01" }
         ],
         "installedAt": "2026-05-04T10:00:00+05:30"
       },
       {
-        "serviceDeliveryPointRefs": [
-          {
-            "scheme": "SERVICE_DELIVERY_POINT",
-            "value": "SDP-ACME-AUX-02"
-          }
-        ],
         "meterRefs": [
-          {
-            "scheme": "METER_SERIAL",
-            "value": "METER-HPL-02"
-          }
+          { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
+        ],
+        "serviceDeliveryPointRefs": [
+          { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-AUX-02" }
         ],
         "installedAt": "2026-05-04T10:30:00+05:30"
       }
@@ -104,70 +74,38 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-GENUS-01"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
     "serviceDeliveryPointRefs": [
-      {
-        "scheme": "SERVICE_DELIVERY_POINT",
-        "value": "SDP-ACME-MAIN-01"
-      }
+      { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-MAIN-01" }
     ],
     "coveragePeriod": {
       "start": "2026-05-18T10:00:00+05:30",
       "end": "2026-05-18T11:00:00+05:30"
     },
-    "intervalBlocks": [
+    "readings": [
       {
-        "intervalPeriod": {
-          "start": "2026-05-18T10:00:00+05:30",
-          "duration": "PT1H"
-        },
-        "intervalLength": "PT30M",
-        "payloadDescriptors": [
-          {
-            "readingTypeRef": {
-              "scheme": "SHORT_CODE",
-              "value": "kWh imp block"
-            },
-            "unit": "kWh",
-            "accumulationBehaviour": "DELTA",
-            "phase": "ABC"
-          },
-          {
-            "readingTypeRef": {
-              "scheme": "SHORT_CODE",
-              "value": "kVAh imp block"
-            },
-            "unit": "kVAh",
-            "accumulationBehaviour": "DELTA",
-            "phase": "ABC"
-          }
-        ],
-        "intervals": [
-          {
-            "id": 0,
-            "values": [
-              14.5,
-              15.1
-            ]
-          },
-          {
-            "id": 1,
-            "values": [
-              16.2,
-              16.8
-            ]
-          }
-        ]
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
+        "value": 14.5,
+        "occurredAt": "2026-05-18T10:30:00+05:30"
+      },
+      {
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp block" },
+        "value": 15.1,
+        "occurredAt": "2026-05-18T10:30:00+05:30"
+      },
+      {
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
+        "value": 16.2,
+        "occurredAt": "2026-05-18T11:00:00+05:30"
+      },
+      {
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp block" },
+        "value": 16.8,
+        "occurredAt": "2026-05-18T11:00:00+05:30"
       }
     ]
   },
@@ -176,22 +114,13 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-HPL-02"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
     "serviceDeliveryPointRefs": [
-      {
-        "scheme": "SERVICE_DELIVERY_POINT",
-        "value": "SDP-ACME-AUX-02"
-      }
+      { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-ACME-AUX-02" }
     ],
     "coveragePeriod": {
       "start": "2026-05-18T10:00:00+05:30",
@@ -205,29 +134,11 @@
         },
         "intervalLength": "PT15M",
         "payloadDescriptors": [
-          {
-            "readingTypeRef": {
-              "scheme": "SHORT_CODE",
-              "value": "kWh imp block"
-            },
-            "unit": "kWh",
-            "accumulationBehaviour": "DELTA",
-            "phase": "NONE"
-          }
+          { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } }
         ],
         "intervals": [
-          {
-            "id": 0,
-            "values": [
-              2.1
-            ]
-          },
-          {
-            "id": 1,
-            "values": [
-              2.4
-            ]
-          }
+          { "id": 0, "values": [2.1] },
+          { "id": 1, "values": [2.4] }
         ]
       }
     ]
@@ -237,16 +148,35 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
+    ],
+    "coveragePeriod": {
+      "start": "2026-05-17T00:00:00+05:30",
+      "end": "2026-05-18T00:00:00+05:30"
+    },
+    "readings": [
       {
-        "scheme": "METER_SERIAL",
-        "value": "METER-GENUS-01"
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
+        "value": 24512.4
+      },
+      {
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp" },
+        "value": 25134.8
       }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "customerRefs": [
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
+    ],
+    "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
     "coveragePeriod": {
       "start": "2026-05-17T00:00:00+05:30",
@@ -260,82 +190,10 @@
         },
         "intervalLength": "P1D",
         "payloadDescriptors": [
-          {
-            "readingTypeRef": {
-              "scheme": "SHORT_CODE",
-              "value": "kWh imp"
-            },
-            "unit": "kWh",
-            "accumulationBehaviour": "CUMULATIVE",
-            "phase": "ABC"
-          },
-          {
-            "readingTypeRef": {
-              "scheme": "SHORT_CODE",
-              "value": "kVAh imp"
-            },
-            "unit": "kVAh",
-            "accumulationBehaviour": "CUMULATIVE",
-            "phase": "ABC"
-          }
+          { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" } }
         ],
         "intervals": [
-          {
-            "id": 0,
-            "values": [
-              24512.4,
-              25134.8
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/context.jsonld",
-    "@type": "DailyProfile",
-    "profileType": "DAILY",
-    "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
-    ],
-    "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-HPL-02"
-      }
-    ],
-    "coveragePeriod": {
-      "start": "2026-05-17T00:00:00+05:30",
-      "end": "2026-05-18T00:00:00+05:30"
-    },
-    "intervalBlocks": [
-      {
-        "intervalPeriod": {
-          "start": "2026-05-17T00:00:00+05:30",
-          "duration": "P1D"
-        },
-        "intervalLength": "P1D",
-        "payloadDescriptors": [
-          {
-            "readingTypeRef": {
-              "scheme": "SHORT_CODE",
-              "value": "kWh imp"
-            },
-            "unit": "kWh",
-            "accumulationBehaviour": "CUMULATIVE",
-            "phase": "NONE"
-          }
-        ],
-        "intervals": [
-          {
-            "id": 0,
-            "values": [
-              4325.7
-            ]
-          }
+          { "id": 0, "values": [4325.7] }
         ]
       }
     ]
@@ -345,16 +203,10 @@
     "@type": "BillingProfile",
     "profileType": "BILLING",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-GENUS-01"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
     "billingPeriod": {
       "start": "2026-04-01T00:00:00+05:30",
@@ -367,28 +219,19 @@
     "amountDue": 224150.0,
     "totals": [
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "kWh imp"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
         "value": 5800.0,
         "openingValue": 18500.0,
         "closingValue": 24300.0
       },
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "kVAh imp"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp" },
         "value": 6050.0,
         "openingValue": 18900.0,
         "closingValue": 24950.0
       },
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "MD kW"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
         "value": 42.5,
         "occurredAt": "2026-04-18T14:30:00+05:30",
         "integrationPeriod": "PT30M"
@@ -397,18 +240,12 @@
     "touBuckets": [
       {
         "zone": 1,
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "kWh TZ1"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
         "value": 1500.0
       },
       {
         "zone": 2,
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "kWh TZ2"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ2" },
         "value": 2400.0
       }
     ]
@@ -418,16 +255,10 @@
     "@type": "BillingProfile",
     "profileType": "BILLING",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-HPL-02"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
     "billingPeriod": {
       "start": "2026-04-01T00:00:00+05:30",
@@ -438,15 +269,19 @@
     "dueDate": "2026-05-21",
     "currency": "INR",
     "amountDue": 32450.0,
-    "totals": [
+    "intervalBlocks": [
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "kWh imp"
+        "intervalPeriod": {
+          "start": "2026-04-01T00:00:00+05:30",
+          "duration": "P1M"
         },
-        "value": 950.0,
-        "openingValue": 3200.0,
-        "closingValue": 4150.0
+        "intervalLength": "P1M",
+        "payloadDescriptors": [
+          { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" } }
+        ],
+        "intervals": [
+          { "id": 0, "values": [950.0] }
+        ]
       }
     ]
   },
@@ -455,61 +290,31 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-GENUS-01"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
     "capturedAt": "2026-05-18T12:00:00+05:30",
     "values": [
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "V_R"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_R" },
         "value": 240.2,
-        "unit": "V",
-        "phase": "R",
-        "accumulationBehaviour": "INSTANTANEOUS",
         "occurredAt": "2026-05-18T12:00:00+05:30"
       },
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "V_Y"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_Y" },
         "value": 239.8,
-        "unit": "V",
-        "phase": "Y",
-        "accumulationBehaviour": "INSTANTANEOUS",
         "occurredAt": "2026-05-18T12:00:00+05:30"
       },
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "V_B"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_B" },
         "value": 241.1,
-        "unit": "V",
-        "phase": "B",
-        "accumulationBehaviour": "INSTANTANEOUS",
         "occurredAt": "2026-05-18T12:00:00+05:30"
       },
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "I_R"
-        },
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "I_R" },
         "value": 58.4,
-        "unit": "A",
-        "phase": "R",
-        "accumulationBehaviour": "INSTANTANEOUS",
         "occurredAt": "2026-05-18T12:00:00+05:30"
       }
     ]
@@ -519,40 +324,26 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-HPL-02"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
     "capturedAt": "2026-05-18T12:00:00+05:30",
-    "values": [
+    "intervalBlocks": [
       {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "V_1P"
+        "intervalPeriod": {
+          "start": "2026-05-18T12:00:00+05:30",
+          "duration": "PT0S"
         },
-        "value": 238.5,
-        "unit": "V",
-        "phase": "NONE",
-        "accumulationBehaviour": "INSTANTANEOUS",
-        "occurredAt": "2026-05-18T12:00:00+05:30"
-      },
-      {
-        "readingTypeRef": {
-          "scheme": "SHORT_CODE",
-          "value": "I_Phase"
-        },
-        "value": 14.2,
-        "unit": "A",
-        "phase": "NONE",
-        "accumulationBehaviour": "INSTANTANEOUS",
-        "occurredAt": "2026-05-18T12:00:00+05:30"
+        "intervalLength": "PT0S",
+        "payloadDescriptors": [
+          { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_1P" } },
+          { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "I_Phase" } }
+        ],
+        "intervals": [
+          { "id": 0, "values": [238.5, 14.2] }
+        ]
       }
     ]
   },
@@ -561,16 +352,10 @@
     "@type": "EventProfile",
     "profileType": "EVENT",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-GENUS-01"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-GENUS-01-ELABORATED" }
     ],
     "coveragePeriod": {
       "start": "2026-05-18T00:00:00+05:30",
@@ -580,14 +365,12 @@
       {
         "timestamp": "2026-05-18T08:15:00+05:30",
         "eventId": 101,
-        "eventName": "Power Failure - occurrence",
-        "phase": "ABC"
+        "eventName": "Power Failure - occurrence"
       },
       {
         "timestamp": "2026-05-18T08:20:00+05:30",
         "eventId": 102,
-        "eventName": "Power Failure - restoration",
-        "phase": "ABC"
+        "eventName": "Power Failure - restoration"
       }
     ]
   },
@@ -596,16 +379,10 @@
     "@type": "EventProfile",
     "profileType": "EVENT",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "CONSUMER-ACME-8888"
-      }
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "METER-HPL-02"
-      }
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
     ],
     "coveragePeriod": {
       "start": "2026-05-18T00:00:00+05:30",
@@ -615,8 +392,7 @@
       {
         "timestamp": "2026-05-18T09:30:00+05:30",
         "eventId": 205,
-        "eventName": "Meter Cover Open - occurrence",
-        "phase": "NONE"
+        "eventName": "Meter Cover Open - occurrence"
       }
     ]
   }
