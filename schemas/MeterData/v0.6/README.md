@@ -1,6 +1,6 @@
-# Meter Data Compact Profiles (v0.5)
+# Meter Data Compact Profiles (v0.6)
 
-This directory contains the **Meter Data Compact Profiles** (v0.5) schema definitions and semantic models for telemetry data exchange. It is tailored for high-efficiency, data-only transmissions of smart meter readings and events, omitting the heavy cryptographic wrapping when only raw telemetry payload is being exchanged.
+This directory contains the **Meter Data Compact Profiles** (v0.6) schema definitions and semantic models for telemetry data exchange. It is tailored for high-efficiency, data-only transmissions of smart meter readings and events, omitting the heavy cryptographic wrapping when only raw telemetry payload is being exchanged.
 
 ## Overview
 
@@ -35,7 +35,7 @@ The `schema.json`, `context.jsonld`, and `vocab.jsonld` files are compiled autom
 To recompile schemas following modifications in `attributes.yaml`, run the following command from the repository root inside your virtual environment:
 
 ```bash
-python scripts/generate_schema.py schemas/MeterData/v0.5
+python scripts/generate_schema.py schemas/MeterData/v0.6
 ```
 
 ---
@@ -48,7 +48,7 @@ Example JSON files are validated for structural compliance against `schema.json`
 Run the following command from the repository root:
 
 ```bash
-python scripts/validate_schema.py schemas/MeterData/v0.5/schema.json schemas/MeterData/v0.5/examples
+python scripts/validate_schema.py schemas/MeterData/v0.6/schema.json schemas/MeterData/v0.6/examples
 ```
 
 ---
@@ -96,31 +96,36 @@ When structuring your payload descriptors or values, you have the flexibility to
 
 The schema offers two distinct mechanisms for representing telemetry values, balancing explicit clarity with high-efficiency transmission.
 
-### 1. Elaborated Representation
-Used primarily in the [`InstantaneousProfile`](./examples/InstantaneousProfile.json), each value explicitly declares its reading type, unit, and phase inline. This is highly descriptive but less compact.
+### 1. Form A: Elaborated Representation (`readings` / `touBuckets`)
+Telemetry is presented as an array of discrete `Reading` objects containing inline values, timestamps, and register details. Physical units and phases are resolved out-of-band via OBIS codes.
 
 ```json
-"values": [
+"readings": [
   {
-    "readingTypeRef": { "scheme": "OBIS", "value": "1.0.32.7.0.255" },
-    "value": 235.5,
-    "unit": "V",
-    "phase": "R"
+    "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+    "value": 412.5,
+    "openingValue": 18432.5,
+    "closingValue": 18845.0
   }
 ]
 ```
 
-### 2. Compact `IntervalRow` Representation
-Used heavily in the [`IntervalProfile`](./examples/IntervalProfile.json) and [`DailyProfile`](./examples/DailyProfile.json). Descriptors are declared once in a `payloadDescriptors` array, and time-series data is transmitted as simple arrays of numbers (`IntervalRow`) that map positionally to the descriptors.
+### 2. Form B: Compact Matrix Representation (`intervalBlocks`)
+Used heavily for dense time-series telemetry. Descriptors are declared once at the block level in `payloadDescriptors`, and time-series data is transmitted as simple arrays of numbers (`IntervalRow`) that map positionally to the descriptors.
 
 ```json
-"payloadDescriptors": [
-  { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
-  { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp block" } }
-],
-"intervals": [
-  { "id": 0, "values": [600, 0] },
-  { "id": 1, "values": [580, 0] }
+"intervalBlocks": [
+  {
+    "timePeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+    "payloadDescriptors": [
+      { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
+      { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp block" } }
+    ],
+    "intervals": [
+      { "id": 0, "values": [600, 0] },
+      { "id": 1, "values": [580, 0] }
+    ]
+  }
 ]
 ```
 
@@ -128,13 +133,13 @@ Used heavily in the [`IntervalProfile`](./examples/IntervalProfile.json) and [`D
 
 ## Data Annotations
 
-The schema supports sparse annotations to add metadata exactly where needed without bloating the payload.
+The schema supports sparse annotations to add metadata exactly where needed without bloating the compact matrix payload.
 
-### Quality Overrides
-By default, all readings are assumed to be `{VALID, METER}`. If a specific interval was estimated or rejected, you can inject a sparse `QualityOverride` targeting its specific `intervalId`.
+### Sparse Cell Overrides
+By default, all readings are assumed to be `{VALID, METER}`. If a specific interval was estimated or has a specific occurred timestamp (such as Maximum Demand), you can inject a sparse `Override` targeting its specific `intervalId` and column index (`descriptorIndex`).
 
 ```json
-"qualityOverrides": [
+"overrides": [
   {
     "intervalId": 45,
     "descriptorIndex": 0,
@@ -143,10 +148,10 @@ By default, all readings are assumed to be `{VALID, METER}`. If a specific inter
   }
 ]
 ```
-*See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse quality overrides.*
+*See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse overrides.*
 
-### Maximum Demand Timestamps
-When transmitting Maximum Demand snapshots (e.g. inside a [`BillingProfile`](./examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
+### Maximum Demand snapshoting
+When transmitting Maximum Demand snapshot aggregates in Elaborated form (e.g. inside a [`BillingProfile`](./examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
 
 ```json
 {
