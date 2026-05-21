@@ -12,15 +12,16 @@
 
 ---
 
-### 1. Infrastructure Setup
+### 1. Infrastructure Setup (OpenCred + DeDi combo)
 
-- [ ] **1.a** OpenCred service deployed (`ghcr.io/nfh-trust-labs/opencred/opencred-server:latest`) and `/v1/health` returns `ready: true, signingKeyLoaded: true`. (`dediConfigured: false` is normal until 1.d is done.)
-- [ ] **1.b** Signing key configured — method chosen: ☐ Self-generated ECDSA P-256 PEM (recommended for dev) &nbsp; ☐ DSC import (PFX/PEM) &nbsp; ☐ Cloud KMS (AWS/Azure/GCP) &nbsp; ☐ Hardware token
-- [ ] **1.c** Issuer DID established and noted: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-  - For dev: `did:key` derived from a self-generated PEM, read via `GET /v1/keys`
-  - For production: `did:web:<your-domain>` with `.well-known/did.json` published over HTTPS
-- [ ] **1.d** DeDi namespace registered and accessible (`dedi.global`); `OPENCRED_DEDI_*` env vars set; `dediConfigured: true` in `/v1/health`
-- [ ] **1.e** `credentialStatus` block embedding confirmed — revocation hash included in issued VCs with `type: "dedi"`, `statusPurpose: "revocation"`, and `statusListCredential` set
+- [ ] **1.a** DeDi namespace credentials in hand (base URL, `OPENCRED_DEDI_AUTH_TYPE`, API key or bearer pair, namespace ID) — this is part of the default setup, not an optional later phase
+- [ ] **1.b** OpenCred service deployed (`ghcr.io/nfh-trust-labs/opencred/opencred-server:latest`) with `OPENCRED_DEDI_*` env vars set, and `/v1/health` returns `ready: true, signingKeyLoaded: true, dediConfigured: true`
+- [ ] **1.c** Signing key configured — method chosen: ☐ Self-generated ECDSA P-256 PEM (recommended for dev) &nbsp; ☐ DSC import (PFX/PEM) &nbsp; ☐ Cloud KMS (AWS/Azure/GCP) &nbsp; ☐ Hardware token
+- [ ] **1.d** Issuer DID established and noted (with the `#fragment` stripped from `GET /v1/keys`): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+  - For dev: `did:key` derived from a self-generated PEM
+  - For production: `did:web:<your-domain>` with `.well-known/did.json` published over HTTPS, or `OPENCRED_DEDI_HOST_DID_DOC=true` to let DeDi host the DID document
+- [ ] **1.e** (Optional) DID document published to DeDi via `POST /v1/keys/publish` — confirms `did:web` discovery fallback works for verifier partners
+- [ ] **1.f** `credentialStatus` block embedding confirmed — revocation hash included in issued VCs with `type: "dedi"`, `statusPurpose: "revocation"`, and `statusListCredential` set
 
 ### 2. Credential Schema
 
@@ -46,10 +47,12 @@
 
 ### 4. Credential Verification
 
-- [ ] **4.a** Verification tested (`POST /v1/credentials/verify`). The `credential` field is always a string: for `vc-jwt` send the compact JWT; for `data-integrity` send the JSON-stringified VC.
-- [ ] **4.b** Response checks all `passed: true`. Names vary by proof format: `signature / vc-jwt-claims / date` for vc-jwt; `signature / notBefore / expiry / keyResolution` for data-integrity. Treat `valid: true` + `code: "VALID"` as the contract.
-- [ ] **4.c** Verification result codes handled: `VALID`, `INVALID`, `REVOKED`, `EXPIRED`, `UNRESOLVABLE`
+- [ ] **4.a** Verification tested (`POST /v1/credentials/verify`). The `credential` field is always a string: for `vc-jwt` send the **compact JWS string** (`.proof.jwt`), **not** the stringified envelope; for `data-integrity` send the JSON-stringified VC; for `sd-jwt-vc` send the compact `~`-separated token. PDF input also supported via `Content-Type: application/pdf` (v1.3.0+).
+- [ ] **4.b** Response checks all `passed: true`. Treat `valid: true` + `code: "VALID"` as the contract. The advisory `keyRotation` and `registryAnchor` checks (when present) do not flip `valid` and should not gate acceptance.
+- [ ] **4.c** Verification result codes handled: `VALID`, `INVALID`, `REVOKED`, `EXPIRED`, `UNRESOLVABLE`, `CONTEXT_MISSING`
 - [ ] **4.d** Offline verification confirmed for `did:key` credentials (no network required)
+- [ ] **4.e** Tamper test executed — flipping a character of the JWS signature (or editing a field for data-integrity) returns `valid: false`
+- [ ] **4.f** Verifier partners know about the **silent-skip-on-revocation** behaviour — a verifier without DeDi configured will not check revocation and a revoked VC will verify as `VALID`
 
 ### 5. Revocation
 
