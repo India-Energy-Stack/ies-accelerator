@@ -14,12 +14,12 @@
 
 ## Phase 0 — Pre-requisites
 
-- [ ] **0.a** Docker Engine (v24+) and Docker Compose installed (or Docker Desktop on Windows / macOS for dev evaluation)
-- [ ] **0.b** `openssl` and `curl` available in the terminal
+- [ ] **0.a** Docker Engine (v24+) and Docker Compose installed (or Docker Desktop on Windows / macOS for dev evaluation). The OpenCred image is multi-arch (linux/amd64 + linux/arm64) since v1.2.0 — no `--platform` flag needed on Apple Silicon.
+- [ ] **0.b** `openssl`, `curl`, and `jq` available in the terminal
 - [ ] **0.c** OpenCred Desktop Client installed on the operator workstation ([opencred.gitbook.io/docs/desktop-app/installation](https://opencred.gitbook.io/docs/desktop-app/installation))
 - [ ] **0.d** Access to CIS / billing database for consumer data lookups
 - [ ] **0.e** Access to MDMS / AMISP system for meter type and connection data
-- [ ] **0.f** DeDi namespace registration initiated at `dedi.global` (skip for initial dev evaluation)
+- [ ] **0.f** **DeDi namespace credentials** in hand (base URL, auth type, API key or bearer pair, namespace ID) — part of the default OpenCred + DeDi combo from day one
 
 ---
 
@@ -31,12 +31,16 @@
   ```bash
   openssl rand -base64 32   # → store as OPENCRED_API_KEY in secrets manager
   ```
-- [ ] **1.1.b** Start OpenCred container with security hardening:
+- [ ] **1.1.b** Start OpenCred container with security hardening **and DeDi env vars** in the same `docker run`:
   ```bash
   docker run -d --name opencred -p 3100:3100 \
     -e OPENCRED_PORT=3100 \
     -e OPENCRED_API_KEY=$OPENCRED_API_KEY \
     -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
+    -e OPENCRED_DEDI_BASE_URL=$OPENCRED_DEDI_BASE_URL \
+    -e OPENCRED_DEDI_AUTH_TYPE=$OPENCRED_DEDI_AUTH_TYPE \
+    -e OPENCRED_DEDI_API_KEY=$OPENCRED_DEDI_API_KEY \
+    -e OPENCRED_DEDI_NAMESPACE=$OPENCRED_DEDI_NAMESPACE \
     -v /path/to/issuer-key.pem:/secrets/issuer-key.pem:ro \
     --read-only \
     --tmpfs /tmp:noexec,nosuid,size=64m \
@@ -44,13 +48,13 @@
     --security-opt no-new-privileges:true \
     ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
   ```
-  > The public image lives on GitHub Container Registry; no auth is needed for `pull`. There is no `opencred:latest` on Docker Hub.
-- [ ] **1.1.c** Health check passes and signing key is loaded:
+  > The public image lives on GitHub Container Registry; no auth is needed for `pull`. There is no `opencred:latest` on Docker Hub. For bearer DeDi auth, replace `OPENCRED_DEDI_API_KEY` with `OPENCRED_DEDI_EMAIL` + `OPENCRED_DEDI_PASSWORD`.
+- [ ] **1.1.c** Health check passes — signing key loaded **and** DeDi configured:
   ```bash
-  curl http://localhost:3100/v1/health
-  # Expected: { "status": "ok", "ready": true, "signingKeyLoaded": true, "dediConfigured": <bool> }
+  curl -s http://localhost:3100/v1/health | jq
+  # Expected: { "status": "ok", "ready": true, "signingKeyLoaded": true, "dediConfigured": true }
   ```
-  > `dediConfigured` is `false` on a fresh install — it only flips to `true` after Phase 1.3 sets the `OPENCRED_DEDI_*` env vars. A `false` value here is **not** an error.
+  > If you intentionally skip DeDi (no creds yet), `dediConfigured: false` is acceptable — but `/v1/credentials/revoke`, `/revocation-status`, `/keys/publish`, `/keys/resolve` will all return `503 DEDI_NOT_CONFIGURED`.
 - [ ] **1.1.d** Image pinned to a SHA digest in production (not `latest`)
 - [ ] **1.1.e** TLS terminated upstream (nginx / Caddy / cloud load balancer) — OpenCred itself serves HTTP only
 
@@ -99,23 +103,39 @@ Choose one based on your organisation's posture. Refer to [trust chains docs](ht
 
 ### 1.3 DeDi Namespace Setup
 
-- [ ] **1.3.a** DeDi namespace registered at `dedi.global` for your DISCOM
-- [ ] **1.3.b** Namespace name noted (e.g. `tpddl`, `bescom`): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-- [ ] **1.3.c** DeDi write credentials stored in secrets manager
-- [ ] **1.3.d** DeDi namespace URL will appear in `credentialStatus` of all issued VCs:
+- [ ] **1.3.a** DeDi namespace credentials received from your DeDi operator (base URL, auth type, API key or bearer pair, namespace ID)
+- [ ] **1.3.b** Namespace name / ID noted (e.g. `tpddl`, `bescom`, or `did:web:did.cord.network:xyz`): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+- [ ] **1.3.c** DeDi write credentials stored in secrets manager (never committed to git, mounted via Docker secrets / SSM / Key Vault in production)
+- [ ] **1.3.d** `OPENCRED_DEDI_*` env vars passed into the container in Phase 1.1.b — `/v1/health` reports `dediConfigured: true`
+- [ ] **1.3.e** First-boot registries ensured. OpenCred calls `ensureRegistries()` automatically on startup. To re-run mid-session (e.g. when adding a second namespace):
+  ```bash
+  curl -X POST http://localhost:3100/v1/dedi/namespace/ensure \
+    -H "Authorization: Bearer $OPENCRED_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{"namespace": "tpddl"}'
+  # → {"namespace":"tpddl","registries":["vc-revocation-registry","public_key_registry","schema_registry","context_registry"]}
+  ```
+- [ ] **1.3.f** DeDi namespace URL appears in `credentialStatus` of all issued VCs:
   ```json
   {
     "credentialStatus": {
-      "id": "https://dedi.global/dedi/lookup/{namespace}/vc-revocation-registry/<credential-id>",
+      "id": "https://<your-dedi>/dedi/lookup/{namespace}/vc-revocation-registry/<credential-id>",
       "type": "dedi",
       "statusPurpose": "revocation",
-      "statusListCredential": "https://dedi.global/dedi/query/{namespace}/vc-revocation-registry"
+      "statusListCredential": "https://<your-dedi>/dedi/query/{namespace}/vc-revocation-registry"
     }
   }
   ```
-- [ ] **1.3.e** `dediConfigured: true` confirmed in `/v1/health` response
 
-> Note on `/v1/keys/resolve`: the current image requires DeDi to be configured for resolution to succeed, even for `did:key` (which encodes its public key in the DID string). If you skipped DeDi setup, `/v1/keys/resolve` returns `DEDI_NOT_CONFIGURED` — this does not block issuance or verification, only the standalone resolve endpoint.
+### 1.4 (Optional) DID-document discovery via DeDi
+
+For DISCOMs using `did:web` who'd rather not host `.well-known/did.json` themselves — or want DeDi as a fallback for transient `.well-known` outages — publish the DID document to DeDi:
+
+- [ ] **1.4.a** Either set `OPENCRED_DEDI_HOST_DID_DOC=true` on the container (auto-publishes at boot), or call `POST /v1/keys/publish` manually with your DID + DID Core document. Returns `{published: true, recordName, namespace}`.
+- [ ] **1.4.b** Confirm with `POST /v1/keys/resolve` — the response carries `document`, `keyStatus: "current"`, and (when the DeDi instance anchors) a `DediRecordProof2026` block.
+- [ ] **1.4.c** Verifier partners who rely on the DeDi fallback are running OpenCred (or any verifier that wires `createDeDiDIDWebFallback` into its DID resolver) — pure off-the-shelf `did:web` resolvers without DeDi awareness will still need the canonical HTTPS endpoint.
+
+> Note on `/v1/keys/resolve`: requires DeDi to be configured, even for `did:key`. If you skipped DeDi setup, this endpoint returns `503 DEDI_NOT_CONFIGURED` — it does not block issuance or verification, only the standalone resolve endpoint. With DeDi wired in, the response also carries `keyStatus` and (when CORD-anchored) a `proof` block (see [Concepts → keyStatus rotation](../energy-credentials/concepts.md#keystatus-rotation-flag-and-the-cord-anchor-proof)).
 
 ---
 

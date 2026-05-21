@@ -233,6 +233,8 @@ The OpenCred call mirrors the [`CustomerCredential` issuance flow](./issuance.md
 
 Until the canonical schema files land alongside [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md), pass `inlineSchema` to OpenCred derived from this page.
 
+Use `proofFormat: "vc-jwt"` (the bootcamp default since OpenCred PR #599) for the Digest. Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issuance → revoking](./issuance.md#publish-the-revocation).
+
 ---
 
 ## Verifying the Digest

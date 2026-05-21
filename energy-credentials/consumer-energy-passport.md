@@ -151,6 +151,8 @@ Issuance reuses [the `CustomerCredential` issuance flow](./issuance.md) with two
 
 OpenCred's built-in schema dispatch will validate against the `ConsumerEnergyPassport` schema once the canonical schema files land alongside [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md). Until then, pass `inlineSchema` referencing the JSON Schema fragment derived from this page.
 
+Use `proofFormat: "vc-jwt"` for the Passport (matches the bootcamp default since OpenCred PR #599) and remember the [vc-jwt verify shape](./verification.md#request-shapes-per-proof-format): the verify body's `credential` field is the compact JWS string at `credential.proof.jwt`, not the stringified JSON envelope.
+
 ---
 
 ## Selective Disclosure Presentations

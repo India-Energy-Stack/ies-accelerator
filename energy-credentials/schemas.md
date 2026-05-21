@@ -5,6 +5,8 @@ DISCOMs issue a single unified **`CustomerCredential`** (from the IES Electricit
 > **Schema files.** All canonical schema artefacts referenced on this page live under [`/schemas/ElectricityCredential/v1.0/`](../schemas/ElectricityCredential/v1.0/README.md) in this repository. Repository root: **https://github.com/India-Energy-Stack/ies-accelerator**. The directory contains `schema.json` (JSON Schema 2020-12), `context.jsonld` (JSON-LD context), `attributes.yaml` (field reference), and `examples/example.json`.
 >
 > **Upstream provenance.** The schema is sourced from the Beckn DEG [`ElectricityCredential` v1.0](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.0) specification and mirrored into this repo for offline reference. All field rules below are normative against the mirrored `schema.json`.
+>
+> **`$id` URL.** Since OpenCred v1.5.0 ([PR #570](https://github.com/nfh-trust-labs/opencred/pull/570)) the built-in `electricity/v1` schema's `$id` is `https://schema.beckn.io/ElectricityCredential/1.0/schema.json` — the canonical Beckn-hosted URL. This is the value OpenCred writes into every issued credential's `credentialSchema.id`. The schema **content** (properties, required fields, enums) is byte-identical to the IES mirror above; only the dereference URL differs. The JSON-LD context still resolves from the `opencred-vc-schemas` mirror via the bundled context loader.
 
 ```
 CustomerCredential
@@ -289,6 +291,16 @@ OpenCred can load the schema in three ways:
 3. **Inline context** — supply the JSON-LD `@context` fragment as `inlineContext`.
 
 Worked curls are in [Issuing Credentials](./issuance.md).
+
+### Three gotchas first-time issuers hit
+
+The OpenCred bootcamp's [§6d worked example](https://opencred.gitbook.io/docs/bootcamp/local-docker#6d-try-a-different-built-in-schema-electricityv1) calls out three field-shape traps that catch nearly every first attempt at `electricity/v1`. They are all already captured in the field tables on this page, but pulling them out here saves a debugging round:
+
+1. **`country` is an object, not a string.** Beckn's `installationAddress.country` is `{ name?: string, code: string }` with `code` matching ISO 3166-1 alpha-2 (`^[A-Z]{2}$`). Passing `"country": "IN"` returns `400 SCHEMA_VALIDATION_ERROR` with `must be object`. The correct shape is `"country": { "name": "India", "code": "IN" }`.
+2. **`serviceConnectionDate` is `date-time`, not `date`.** Pass a full ISO 8601 timestamp with timezone offset (e.g. `"2024-04-15T00:00:00+05:30"` or `"2024-04-15T00:00:00Z"`). A bare date (`"2024-04-15"`) returns `must match format "date-time"`.
+3. **`meterType` is an enum.** Valid values are exactly the [meterType enum](#metertype-enum) table above — `AMR`, `AMI`, `Electromechanical`, `Forward`, `Reverse`, `Bidirectional`, `Prepaid`, `NetMeter`, `Other`. Anything else is rejected at the schema-validation step. (Beckn's upstream lists the same set; the IES mirror inherits it.)
+
+`customerProfile` is the only required block under `credentialSubject`. `customerDetails`, `consumptionProfiles`, `generationProfiles`, and `storageProfiles` are all optional — you can issue a minimal credential with just `customerProfile` while you debug the rest of your CIS mapping.
 
 ---
 

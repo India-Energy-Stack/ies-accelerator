@@ -1,26 +1,28 @@
 # Deployment
 
-This page walks a DISCOM tech team from zero to a running OpenCred service that can sign electricity credentials. At the end you will have:
+This page walks a DISCOM tech team from zero to a running **OpenCred + DeDi combo** that can sign electricity credentials and publish revocations. At the end you will have:
 
 - The OpenCred server running on Linux (or on Docker Desktop for dev evaluation)
 - A signing key loaded — either from a file, an HSM, or your existing DSC
-- A `did:key` or `did:web` issuer DID resolvable
-- (Optional) A DeDi namespace configured for revocation
+- A `did:key` or `did:web` issuer DID resolvable, with the `#fragment` stripped from the value returned by `/v1/keys`
+- A DeDi namespace configured for revocation **and** (optionally) for `did:web` discovery — `/v1/health` reports `dediConfigured: true`
 
 You will issue your first credential in [Issuing Credentials](./issuance.md).
+
+> **For IES bootcamp attendees.** The page is written as a linear narrative; follow Steps 0–6 in order. DeDi is part of the happy path, not an optional Phase 2 — `OPENCRED_DEDI_*` is set in the same `docker run` as `OPENCRED_API_KEY`. If you are evaluating without DeDi access, the "skip if you don't have DeDi" notes inline still work; just expect `/v1/health` to report `dediConfigured: false` and any revocation-dependent demos to return `503 DEDI_NOT_CONFIGURED`.
 
 ---
 
 ## Prerequisites
 
-- A Linux host (cloud VM, on-prem, or Kubernetes node) with outbound HTTPS — **or Docker Desktop on Windows / macOS** for dev evaluation (its bundled Linux VM satisfies the host requirement)
+- A Linux host (cloud VM, on-prem, or Kubernetes node) with outbound HTTPS — **or Docker Desktop on Windows / macOS** for dev evaluation (its bundled Linux VM satisfies the host requirement). The published OpenCred image is multi-arch (linux/amd64 + linux/arm64) since v1.2.0, so Apple Silicon, AWS Graviton, and Raspberry Pi hosts `docker pull` without `--platform` flags.
 - Docker 20.10+
 - One of:
   - **Nothing extra** for the dev-friendly `did:key` from a self-generated software PEM (recommended for first deploy)
-  - A domain you control for `did:web` (recommended for production) — e.g. `ies.tpddl.in`
+  - A domain you control for `did:web` (recommended for production) — e.g. `ies.tpddl.in`. Or skip the domain and let DeDi host your DID document (`OPENCRED_DEDI_HOST_DID_DOC=true`, see Step 3 Option D below).
   - An existing Digital Signature Certificate (DSC) in PFX/PEM form
   - An AWS / Azure / GCP KMS key with appropriate IAM access
-- (Optional, for revocation) A DeDi namespace from [dedi.global](https://dedi.global) and either an API key or bearer credentials
+- A **DeDi namespace** — the base URL of the DeDi instance, plus either an API key or bearer credentials, plus the namespace ID. This is part of the default OpenCred + DeDi combo from the first run; contact your DeDi operator if you don't have one yet.
 - A secrets manager (Vault, AWS Secrets Manager, Azure Key Vault) for `OPENCRED_API_KEY` and DeDi credentials
 - A DISCOM short code and a registration in the **IES DISCOMs Reference Registry** (see Step 0 below) — required for credentials to be trusted on the IES network
 
@@ -107,11 +109,22 @@ No extra configuration needed beyond what you did in Step 2 — just boot OpenCr
 
 ```bash
 curl -s http://localhost:3100/v1/keys \
-  -H "Authorization: Bearer $OPENCRED_API_KEY"
-# → {"id":"did:key:zDnaei47pfd4...","algorithm":"P-256","source":"software-file","hasCertificateChain":false}
+  -H "Authorization: Bearer $OPENCRED_API_KEY" | jq
+# → {"keys":[{"id":"did:key:zDnaei47pfd4...#zDnaei47pfd4...","algorithm":"P-256","source":"software-file","hasCertificateChain":false}]}
 ```
 
-You will pass this DID as `issuerDid` in every issue call.
+> **Watch out:** the `.keys[0].id` returned is the **verification-method ID** — a DID followed by a `#fragment` identifying the specific key. Strip the fragment before using it as `issuerDid`:
+>
+> ```bash
+> export ISSUER_DID="$(curl -s http://localhost:3100/v1/keys \
+>   -H "Authorization: Bearer $OPENCRED_API_KEY" | jq -r '.keys[0].id | split("#")[0]')"
+> echo "$ISSUER_DID"
+> # → did:key:zDnaei47pfd4...
+> ```
+>
+> Passing the un-stripped value to `POST /v1/credentials/issue` writes a bogus fragment-bearing DID into the credential's `issuer.id` and breaks downstream verification.
+
+You will pass `$ISSUER_DID` as `issuerDid` in every issue call.
 
 ### Option B — `did:web` (recommended for production)
 
@@ -162,22 +175,53 @@ docker run -p 3100:3100 \
   ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
 ```
 
-Read the issuer DID from `GET /v1/keys`. You will pass it as `issuerDid` in every issue call.
+Read the issuer DID from `GET /v1/keys` (and strip the `#fragment` as in Option A). You will pass it as `issuerDid` in every issue call.
+
+### Option D — `did:web` hosted by DeDi (no `.well-known/did.json` needed)
+
+Since **OpenCred v1.4.0**, an issuer who doesn't want to host a static `.well-known/did.json` can let DeDi serve the DID document instead. Set on the container:
+
+```bash
+-e OPENCRED_ISSUER_DID_METHOD=web \
+-e OPENCRED_ISSUER_DOMAIN=ies.tpddl.in \
+-e OPENCRED_DEDI_HOST_DID_DOC=true
+```
+
+On startup, OpenCred publishes its DID document to the DeDi `public_key_registry`. Verifiers that use OpenCred (or any verifier with `createDeDiDIDWebFallback` wired in) try the canonical `https://ies.tpddl.in/.well-known/did.json` first; if that fails (no such endpoint, network error, redirect) they fall back to DeDi.
+
+Trade-offs:
+
+- Pure off-the-shelf `did:web` resolvers without DeDi awareness still need the canonical HTTPS endpoint. They are *not* helped by DeDi hosting on its own.
+- The flag is ignored when `OPENCRED_ISSUER_DID_METHOD=key` (a `did:key` already encodes its public key directly in the DID string).
+- The DeDi-hosted DID document carries the same `keyStatus` / CORD anchor signals as any other DeDi-published record — see [Concepts → keyStatus rotation and CORD anchor](./concepts.md#keystatus-rotation-flag-and-the-cord-anchor-proof).
 
 ---
 
-## Step 4 — Run OpenCred
+## Step 4 — Run OpenCred + DeDi together
 
-### Quick start (software key)
+The default IES bootcamp flow boots OpenCred with DeDi env vars already in scope, so `/v1/health` flips both `signingKeyLoaded` and `dediConfigured` to `true` on first start. If you do not yet have DeDi credentials, omit the four `OPENCRED_DEDI_*` lines — the container starts in DeDi-disabled mode and you can come back later.
+
+### Quick start (software key + DeDi)
 
 ```bash
 export OPENCRED_API_KEY=$(openssl rand -base64 32)
+
+# DeDi credentials issued by your DeDi operator (skip the export block to
+# start in DeDi-disabled mode).
+export OPENCRED_DEDI_BASE_URL="https://<your-dedi-instance>"
+export OPENCRED_DEDI_AUTH_TYPE="api-key"
+export OPENCRED_DEDI_API_KEY="<paste-from-dedi-admin>"
+export OPENCRED_DEDI_NAMESPACE="<your-namespace-id>"
 
 docker run -d --name opencred -p 3100:3100 \
   -e OPENCRED_PORT=3100 \
   -e OPENCRED_API_KEY=$OPENCRED_API_KEY \
   -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
   -e OPENCRED_LOG_LEVEL=info \
+  -e OPENCRED_DEDI_BASE_URL=$OPENCRED_DEDI_BASE_URL \
+  -e OPENCRED_DEDI_AUTH_TYPE=$OPENCRED_DEDI_AUTH_TYPE \
+  -e OPENCRED_DEDI_API_KEY=$OPENCRED_DEDI_API_KEY \
+  -e OPENCRED_DEDI_NAMESPACE=$OPENCRED_DEDI_NAMESPACE \
   -v /etc/opencred/issuer-key.pem:/secrets/issuer-key.pem:ro \
   --read-only \
   --tmpfs /tmp:noexec,nosuid,size=64m \
@@ -186,12 +230,27 @@ docker run -d --name opencred -p 3100:3100 \
   ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
 ```
 
+For **bearer auth** instead of api-key, set `OPENCRED_DEDI_AUTH_TYPE=bearer` and use `OPENCRED_DEDI_EMAIL` + `OPENCRED_DEDI_PASSWORD` in place of `OPENCRED_DEDI_API_KEY`.
+
+> **What goes in `OPENCRED_DEDI_NAMESPACE`?** Whatever the operator gave you. Two common shapes:
+>
+> - **Unverified namespace** — looks like `did:web:did.cord.network:xyz`. The DeDi instance's own `did:web` with your ID appended; this is the default when the operator provisions a new namespace without a domain-ownership challenge.
+> - **Verified namespace** — looks like `xyz.org`. Your own domain, used directly as the namespace ID after you've proved ownership to the DeDi operator.
+>
+> Both work identically with OpenCred; only the DID-resolution path that verifiers walk differs.
+
+OpenCred's startup hook calls `ensureRegistries()` on first boot — your namespace and the four registries inside it (`vc-revocation-registry`, `public_key_registry`, `schema_registry`, `context_registry`) get created if missing and reused if they already exist. No pre-provisioning required.
+
+> **Schema-collision caveat.** "Reused if they already exist" is only safe when the pre-existing registry was created by OpenCred (or with a schema-shape identical to what OpenCred publishes). DeDi backends ship built-in JSON Schemas for some registry names — notably `public_key.json` — that are **not** the shape OpenCred writes. If a DeDi operator pre-provisioned a `public_key_registry` using the built-in catalogue schema before OpenCred boots, every `/v1/keys/publish` call will fail with a `400 "Record data does not match the registry schema"`. Easiest mitigation: let OpenCred create the registries on first boot.
+
 Sanity check:
 
 ```bash
-curl -s http://localhost:3100/v1/health
-# {"status":"ok","ready":true,"signingKeyLoaded":true, ...}
+curl -s http://localhost:3100/v1/health | jq
+# {"status":"ok","ready":true,"signingKeyLoaded":true,"dediConfigured":true, ...}
 ```
+
+If `dediConfigured: false` and you exported the four env vars above, recheck the `docker run` — every var must be passed through with `-e`. The validator at startup fails closed if you set `OPENCRED_DEDI_BASE_URL` but forget `OPENCRED_DEDI_AUTH_TYPE` or `OPENCRED_DEDI_NAMESPACE` (the container exits within ~1 second with a `ConfigError`).
 
 ### Local dev on Windows / macOS (Docker Desktop)
 
@@ -301,7 +360,7 @@ Each variant uses the cloud's default credential chain (IAM role, workload ident
 |---|---|---|---|
 | `OPENCRED_PORT` | No | `3100` | HTTP listen port |
 | `OPENCRED_API_KEY` | Yes | — | Bearer token for protected endpoints. Fail-closed if missing. |
-| `OPENCRED_DEV_MODE_NO_AUTH` | No | `false` | Disables auth — **dev only**, do not set in production |
+| `OPENCRED_DEV_MODE_NO_AUTH` | No | `false` | Disables auth — **dev only**, refuses to start with `NODE_ENV=production` |
 | `OPENCRED_LOG_LEVEL` | No | `info` | `fatal/error/warn/info/debug/trace` |
 | `OPENCRED_KEY_PATH` | One of these | — | Path to PEM/JWK/PKCS#8/PFX file |
 | `OPENCRED_KEY_PASSWORD` | No | — | PFX password |
@@ -311,36 +370,84 @@ Each variant uses the cloud's default credential chain (IAM role, workload ident
 | `OPENCRED_AZURE_KEY_VAULT_URL` | If azure | — | Azure Key Vault URL |
 | `OPENCRED_AZURE_KEY_NAME` | If azure | — | Key name in vault |
 | `OPENCRED_GCP_KMS_KEY_NAME` | If gcp | — | Full GCP KMS resource name with version |
+| `OPENCRED_ISSUER_DID_METHOD` | No | `key` | `key` \| `web`. With `web`, the issuer DID is `did:web:<OPENCRED_ISSUER_DOMAIN>`. |
+| `OPENCRED_ISSUER_DOMAIN` | If `..._METHOD=web` | — | Domain for `did:web`. Required when `OPENCRED_ISSUER_DID_METHOD=web`. |
 | `OPENCRED_BATCH_ROW_LIMIT` | No | `1000` | Max rows per batch CSV |
+| `OPENCRED_BATCH_MAX_RECORD_BYTES` | No | `1048576` | v1.5.0 streaming CSV parser: max bytes per row before `StreamingCsvRecordSizeError` |
+| `OPENCRED_BATCH_DISPATCH` | No | `inline` | `inline` (run batch in API process) \| `queue` (enqueue BullMQ job; v1.5.0 worker-fleet mode — see [Multi-replica](#multi-replica-and-batch-worker-fleet)) |
+| `OPENCRED_WORKER_CONCURRENCY` | No | `min(4, cpus)` | BullMQ jobs per worker process. Only consulted with `OPENCRED_BATCH_DISPATCH=queue`. |
+| `OPENCRED_JOB_STORE` | No | `memory` | `memory` (default) \| `redis`. Redis-backed store survives container restarts and supports multi-replica deployments. |
+| `OPENCRED_REDIS_URL` | If Redis | — | `redis://` or `rediss://` (TLS). May embed credentials inline; the full URL is **never** logged. |
+| `OPENCRED_REDIS_TLS_REJECT_UNAUTHORIZED` | No | `true` | Whether to verify the Redis server's TLS cert with `rediss://`. |
+| `OPENCRED_WEBHOOK_SECRET` | If `webhookUrl` | — | Min 32 chars. Required when a batch body sets `webhookUrl`. HMAC-SHA256 signs the completion callback. |
 | `OPENCRED_SESSION_TTL` | No | `14400` | Seconds before ephemeral batch results expire |
 | `OPENCRED_CSCA_TRUST_STORE_PATH` | No | — | Directory of CSCA PEMs for DSC verification |
 | `OPENCRED_SCHEMA_UPDATE_URL` | No | — | HTTPS manifest for schema updates |
 | `OPENCRED_SCHEMA_CACHE_DIR` | No | — | Persistent schema cache directory |
-| `OPENCRED_DEDI_BASE_URL` | If revocation | — | DeDi instance endpoint |
+| `OPENCRED_DEDI_BASE_URL` | For bootcamp combo | — | DeDi instance endpoint |
 | `OPENCRED_DEDI_AUTH_TYPE` | If DeDi | — | `api-key` \| `bearer` |
 | `OPENCRED_DEDI_API_KEY` | If api-key | — | DeDi API key |
 | `OPENCRED_DEDI_EMAIL` | If bearer | — | DeDi bearer email |
 | `OPENCRED_DEDI_PASSWORD` | If bearer | — | DeDi bearer password |
 | `OPENCRED_DEDI_NAMESPACE` | If DeDi | — | Default namespace for your DISCOM |
+| `OPENCRED_DEDI_HOST_DID_DOC` | No | `false` | When `true` and DeDi is configured, the server publishes its DID document to DeDi at startup. Ignored when `OPENCRED_ISSUER_DID_METHOD=key`. |
 | `OPENCRED_DEDI_TIMEOUT_MS` | No | `10000` | DeDi request timeout (1000–30000) |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | No | — | v1.5.0 — when set, the server ships OpenTelemetry spans for issuance/verify/DeDi to your collector. Operationally relevant for DISCOM SRE teams. |
 
 ---
 
-## Step 6 — Configure DeDi for revocation (optional, recommended)
+## Step 6 — Confirm DeDi is wired in
 
-1. Register a namespace on [dedi.global](https://dedi.global) — typically your DISCOM short code (`tpddl`, `bescom`, etc.).
-2. Receive an API key or bearer credentials.
-3. Set the `OPENCRED_DEDI_*` env vars above.
-4. Ensure the namespace's required registries exist:
-   ```bash
-   curl -X POST http://localhost:3100/v1/dedi/namespace/ensure \
-     -H "Authorization: Bearer $OPENCRED_API_KEY" \
-     -H "Content-Type: application/json" \
-     -d '{"namespace": "tpddl"}'
-   ```
-   This idempotently creates `vc-revocation-registry`, `public_key_registry`, `schema_registry`, and `context_registry`.
+If you set the four `OPENCRED_DEDI_*` env vars in Step 4, OpenCred already called `ensureRegistries()` against your namespace during boot. Confirm:
 
-Restart `/v1/health` should now show `"dediConfigured": true`.
+```bash
+curl -s http://localhost:3100/v1/health | jq .dediConfigured
+# → true
+```
+
+If you skipped DeDi in Step 4 (or you want to ensure a different namespace mid-session), the runtime endpoint is idempotent:
+
+```bash
+curl -X POST http://localhost:3100/v1/dedi/namespace/ensure \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"namespace": "tpddl"}'
+# → {"namespace":"tpddl","registries":["vc-revocation-registry","public_key_registry","schema_registry","context_registry"]}
+```
+
+Calling it for an already-ensured namespace returns the same shape with `200 OK`. Returns `503 DEDI_NOT_CONFIGURED` if the container was started without DeDi env vars — in which case stop the container, re-export the four `OPENCRED_DEDI_*` vars, and re-run the `docker run` from Step 4.
+
+### `did:web` discovery via DeDi (optional)
+
+If your issuer DID is `did:web:<your-domain>` and you also want DeDi to act as the discovery fallback (or replace `.well-known/did.json` hosting entirely), publish your DID document:
+
+```bash
+curl -X POST http://localhost:3100/v1/keys/publish \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "did": "did:web:ies.tpddl.in",
+    "document": { /* W3C DID Core document */ }
+  }'
+# → {"published":true,"recordName":"…","namespace":"tpddl"}
+```
+
+Resolve to confirm:
+
+```bash
+curl -X POST http://localhost:3100/v1/keys/resolve \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"did":"did:web:ies.tpddl.in"}' | jq
+# → {
+#     "did": "did:web:ies.tpddl.in",
+#     "document": { … },
+#     "keyStatus": "current",
+#     "proof": { "type": "DediRecordProof2026", … }  // if your DeDi anchors to CORD
+#   }
+```
+
+If you'd rather not curl this by hand, set `OPENCRED_DEDI_HOST_DID_DOC=true` on the container (Step 4) and OpenCred publishes the DID document automatically at startup.
 
 ---
 
@@ -393,6 +500,25 @@ Mount the signing key from a `Secret` or use the cloud's CSI driver to project K
 
 ---
 
+## Multi-replica and batch worker fleet
+
+For a small DISCOM running ad-hoc issuance, the single-process Docker container is enough. For larger CIS migrations or multi-replica deployments (added in **OpenCred v1.5.0**), opt into two operational features:
+
+1. **Redis-backed jobs store** — set `OPENCRED_JOB_STORE=redis` + `OPENCRED_REDIS_URL=rediss://default:<pw>@redis.prod:6380/0`. Job state (batches in progress, results) survives container restarts and is shared across replicas. Use TLS (`rediss://`) when Redis is not in the same VPC; keep `OPENCRED_REDIS_TLS_REJECT_UNAUTHORIZED=true` (the default) unless you have a specific reason to relax it.
+2. **BullMQ worker fleet** — set `OPENCRED_BATCH_DISPATCH=queue` on both the API replicas and a separate worker process. API replicas enqueue `BatchJob` messages on the `opencred:batch` BullMQ queue; the worker process consumes them. Reasons-to-opt-in: batches survive an API replica restart; the issuance fleet can scale separately from the API tier; webhook delivery on completion (`webhookUrl` + `OPENCRED_WEBHOOK_SECRET`) becomes meaningful.
+
+The legacy `inline` dispatch (the default) still works for single-process deployments — `POST /v1/credentials/batch` runs the batch in-process and you poll `GET /v1/credentials/batch/<jobId>` for progress. Switch to `queue` only when you're past the "one container" stage.
+
+Operational notes:
+
+- Each replica's signing key still stays local — Redis only stores job metadata and batch state, never key material. The security invariant is preserved.
+- BullMQ guarantees at-least-once delivery: if a worker crashes mid-batch, the job is re-enqueued after `lockDuration` (~30s). Idempotency is the caller's job — generate `credential.id` (URN UUID) in your CIS glue and store the `meter_number → credential_id` mapping so duplicate rows can be detected.
+- For OTel observability, set `OTEL_EXPORTER_OTLP_ENDPOINT` — the server ships critical-path spans for issuance, verify, and DeDi calls to your collector.
+
+Full reference: OpenCred's [docs/docker/deployment.md → §queue-dispatch-worker-fleet](https://opencred.gitbook.io/docs/docker-image/deployment#queue-dispatch-worker-fleet).
+
+---
+
 ## Production checklist
 
 - [ ] `OPENCRED_API_KEY` rotated quarterly; stored in a secrets manager, never committed
@@ -437,7 +563,13 @@ curl -s -X POST http://localhost:3100/v1/keys/resolve \
   -d '{"did":"did:key:zDnaei47pfd4..."}'
 ```
 
-> **Note on `/v1/keys/resolve`.** The current OpenCred image requires DeDi to be configured for resolution to succeed — even for `did:key` (which encodes its public key in the DID string and would not normally need a registry) and for `did:web` (which fetches the DID document from the domain itself). If you skipped Step 6 below, this endpoint will return `DEDI_NOT_CONFIGURED`. This is a server limitation; it does not mean your DID or key are misconfigured. Steps 1–3 are sufficient to confirm the deployment is healthy and ready to issue credentials.
+> **Note on `/v1/keys/resolve`.** The current OpenCred image requires DeDi to be configured for resolution to succeed — even for `did:key` (which encodes its public key in the DID string and would not normally need a registry) and for `did:web` (which fetches the DID document from the domain itself). With DeDi wired in per Step 4, the resolve response now carries:
+>
+> - `document` — the W3C DID Core document (omitted for `did:key` records since the verifier derives it from the DID string)
+> - `keyStatus` — `"current"` for a freshly-published record; flips to `"rotated"` after the issuer's auto-rotation hook runs. Advisory only — see [Concepts → keyStatus rotation and CORD anchor](./concepts.md#keystatus-rotation-flag-and-the-cord-anchor-proof).
+> - `proof` (when the DeDi instance anchors records) — a `DediRecordProof2026` block attesting that the DID record was published on CORD by a named `creator_did`.
+>
+> If you started the container without DeDi, this endpoint returns `DEDI_NOT_CONFIGURED`. It does not block issuance or signature verification — only the standalone resolve endpoint.
 
 If steps 1–3 succeed, you are ready to issue your first credential. Move on to [Issuing Credentials](./issuance.md).
 
