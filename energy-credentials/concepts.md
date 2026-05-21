@@ -126,6 +126,30 @@ The **consumer's holder DID** is generated client-side (by their wallet or by Di
 
 OpenCred's `did:web` resolver enforces HTTPS-only, blocks redirects, rejects private-IP resolution targets, and times out at 10 seconds. Details: [OpenCred — DIDs](https://opencred.gitbook.io/docs/concepts/dids).
 
+### DeDi as a `did:web` discovery fallback
+
+Since **OpenCred v1.4.0**, an issuer that publishes its DID document to DeDi can let verifiers resolve it through DeDi when the canonical `https://<domain>/.well-known/did.json` is unreachable. Two equivalent ways to publish:
+
+- **Manually** — `POST /v1/keys/publish` with the constructed DID document. Returns `{published: true, recordName, namespace}`.
+- **Automatically at boot** — set `OPENCRED_DEDI_HOST_DID_DOC=true` on the container; OpenCred publishes its own DID document to the DeDi `public_key_registry` during startup. Ignored when `OPENCRED_ISSUER_DID_METHOD=key` (a `did:key` already encodes its public key directly in the DID string).
+
+When a verifier walks `did:web:<your-domain>`:
+
+1. The composite DID resolver tries `https://<your-domain>/.well-known/did.json` first.
+2. If that fails (network error, 404, redirect, etc.) **and** the verifier has DeDi configured (`OPENCRED_DEDI_*` set), OpenCred falls back to looking the DID up in the DeDi `public_key_registry`.
+3. The resolved DID document is the same shape in either path; the credential's `proof.verificationMethod` validates against the public key from whichever path succeeded.
+
+A `did:web` issuer who has both posted `.well-known/did.json` *and* published to DeDi gets the most robust setup — the canonical HTTPS endpoint stays the primary path, and DeDi covers transient outages. An issuer who never serves a `.well-known/did.json` and relies entirely on DeDi works too, but only against verifiers that themselves have OpenCred-style DeDi awareness wired in.
+
+### `keyStatus` rotation flag and the CORD anchor proof
+
+When OpenCred resolves a DID document through DeDi (either as the primary path or as the `did:web` fallback above), the response carries two extra fields beyond the canonical DID document:
+
+- **`keyStatus`** — `"current"` for a freshly-published record; flips to `"rotated"` after the issuer's auto-rotation hook runs (e.g. when a new signing key is generated). The flag is monotone (`current → rotated`, never back) and **advisory only**: a credential signed under a rotated key remains cryptographically valid because the signature is verified against the key in use at signing time. Verifier UIs typically surface a "key rotated since signing" badge — this is the `keyRotation` advisory check on the verify response. See [Verification → keyRotation](./verification.md#keyrotation-advisory).
+- **`proof`** (when present) — a `DediRecordProof2026` block attesting that the DID record was anchored on the [CORD blockchain](https://cord.network/) by a named `creator_did`. This is **supplementary provenance**, not VC-signature verification: it tells the verifier "DeDi reports this DID record was anchored on CORD by *this* party". The verifier's `registryAnchor` advisory check surfaces a badge when the `creator_did` matches the credential's issuer DID, and a suspicion badge when it does not. Absence of a proof is benign on DeDi instances that don't anchor; the check degrades open.
+
+Both fields are observational — neither failing flips the headline `valid` boolean. They exist so end-user verifier UIs can surface trust-relevant context that lives outside the cryptographic signature.
+
 ---
 
 ## Signing Keys and Trust
@@ -218,10 +242,12 @@ Where `JCS` is RFC 8785 JSON Canonicalization Scheme. OpenCred computes the hash
 | Phase | What happens |
 |---|---|
 | **At issuance** | OpenCred computes the hash and embeds `credentialStatus`. **Nothing is published to DeDi.** |
-| **At revocation** | The DISCOM calls `POST /v1/credentials/revoke`. OpenCred publishes the hash to your DeDi namespace using DISCOM-only credentials. |
+| **At revocation** | The DISCOM calls `POST /v1/credentials/revoke` with the hash and an optional `reason` (free-text descriptor; typical values are short tags like `"key-compromised"`, `"superseded"`, `"holder-request"`). OpenCred publishes the hash to your DeDi namespace using DISCOM-only credentials. DeDi stores the reason alongside the hash and `/v1/credentials/revocation-status` echoes it verbatim. |
 | **At verification** | Verifier GETs `credentialStatus.id`. Hash found → revoked. Hash absent → valid. |
 
 This means there is no central revocation list to maintain. Only DISCOMs with namespace credentials can publish to their own namespace.
+
+> **Silent-skip warning.** If a verifier does **not** have DeDi configured, it cannot query the revocation registry and **skips the revocation check entirely** — a revoked credential will verify as `VALID` because the signature is intact and the date window is open. The response shows two checks (`signature`, `date`) instead of three (`signature`, `date`, `revocation`). IES verifier partners (banks, marketplaces, regulators) must configure DeDi or accept that their tamper-evidence guarantee leaks for the revocation case. The verifier-side guidance for this lives in [Verification → silent-skip](./verification.md#silent-skip-warning).
 
 ### The `credentialStatus` block
 
@@ -246,9 +272,11 @@ OpenCred can package the same credential in three on-the-wire formats. You pick 
 
 | Format | What it looks like | Use when |
 |---|---|---|
-| `vc-jwt` | Compact JWT (`eyJhbGciOi...`) | **Recommended** when issuing against the built-in `electricity/v1` schema — currently the only format that interoperates cleanly with the bundled JSON-LD context. Also OpenCred's default if you omit `proofFormat`. |
-| `data-integrity` | JSON-LD with embedded `proof` block | Most human-readable. Use against schemas you register yourself with a clean context. Avoid passing `additionalTypes` alongside `data-integrity` against the bundled `electricity/v1` context — the protected-term collision returns `CRYPTO_ERROR: Invalid JSON-LD syntax`. |
-| `sd-jwt-vc` | Selective-disclosure JWT | When holders need to prove individual claims without revealing the whole credential |
+| `vc-jwt` | JSON-LD VC envelope with the compact JWS in `proof.jwt` | **Recommended default.** Matches OpenCred's bootcamp default (PR #599) and works for every bundled schema including `electricity/v1`. The credential is a normal JSON-LD object on disk; the cryptographic signature is the compact JWS string inside `proof.jwt`. |
+| `data-integrity` | JSON-LD with an embedded `proof` block | Most human-readable. Use against schemas you register yourself with a clean context. **Do not use against the bundled `electricity/v1` context** — the protected-term collision returns `CRYPTO_ERROR: Invalid JSON-LD syntax; tried to redefine a protected term` (tracked as OpenCred [#596](https://github.com/nfh-trust-labs/opencred/issues/596)). |
+| `sd-jwt-vc` | Compact `~`-separated selective-disclosure JWT | When holders need to prove individual claims without revealing the whole credential |
+
+> **Verifier-side gotcha for `vc-jwt`.** When you POST a `vc-jwt` credential to `/v1/credentials/verify`, the request body's `credential` field must be the **compact JWS string** (the `.proof.jwt` value), **not** the stringified JSON-LD envelope. Sending the stringified envelope silently fails the signature check. Worked example in [Issuance → Verify immediately after issue](./issuance.md#verify-immediately-after-issue) and [Verification → request shapes per proof format](./verification.md#request-shapes-per-proof-format).
 
 Selective disclosure is useful for energy: a consumer can prove "I have an active connection in Delhi" without revealing the exact address or meter number. To enable it, pass `selectiveDisclosureClaims: ["customerDetails.installationAddress.city", "customerDetails.installationAddress.state"]` at issuance.
 

@@ -1,8 +1,10 @@
 # Issuing Credentials
 
-This page covers the end-to-end mechanics of issuing electricity credentials from OpenCred: single issue, batch issue, integrating with your CIS / NMS, packaging output, and revoking.
+This page covers the end-to-end mechanics of issuing electricity credentials from the OpenCred + DeDi combo: single issue, **verify-immediately-after-issue**, batch issue, integrating with your CIS / NMS, packaging output, and revoking with a `reason`.
 
-You should have OpenCred running and a signing key loaded ([Deployment](./onboarding.md)).
+You should have OpenCred running with a signing key loaded **and DeDi wired in** (`/v1/health` reports both `signingKeyLoaded: true` and `dediConfigured: true`) — follow [Deployment](./onboarding.md) if you haven't. You should also have captured `$ISSUER_DID` with the `#fragment` stripped (`jq -r '.keys[0].id | split("#")[0]'`).
+
+> The OpenCred bootcamp's [§6d worked example](https://opencred.gitbook.io/docs/bootcamp/local-docker#6d-try-a-different-built-in-schema-electricityv1) walks the same `electricity/v1` issue request from the OpenCred side; this page extends it with the IES-specific `issuer.idRef` post-processing and the IES revocation loop.
 
 ---
 
@@ -59,15 +61,33 @@ Every step 1–5 is HTTP calls against OpenCred plus a thin glue layer in whiche
 | `credentialSchemaUrl` | string | | `credentialSchema.id` for the issued VC |
 | `packageFormats` | enum[] | | Any of `qr-png`, `qr-svg`, `pdf`, `json`, `json-compact` |
 
-> **Proof format note.** Worked examples below use `proofFormat: "vc-jwt"`. The built-in `electricity/v1` context currently collides with W3C V2 context terms when `additionalTypes` is passed together with `proofFormat: "data-integrity"` — the server returns `CRYPTO_ERROR: Invalid JSON-LD syntax; tried to redefine a protected term`. Use `vc-jwt` for the built-in schema until that's reconciled. `data-integrity` works against schemas you register yourself with a clean context.
+> **Proof format note.** Worked examples below use `proofFormat: "vc-jwt"` — the OpenCred bootcamp default since [PR #599](https://github.com/nfh-trust-labs/opencred/pull/599). `vc-jwt` works for every bundled schema, including `electricity/v1`. `data-integrity` against the built-in `electricity/v1` context still returns `CRYPTO_ERROR: Invalid JSON-LD syntax; tried to redefine a protected term` (OpenCred issue #596) — use it only against schemas you register yourself with a clean context.
 
 ### Response
 
+For `vc-jwt`, the response carries a JSON-LD envelope **with the compact JWS embedded as `proof.jwt`** (not a bare JWT string at the top level):
+
 ```json
 {
-  "credential": { /* signed VC JSON-LD, or compact JWT string */ },
+  "credential": {
+    "@context": ["…"],
+    "id": "urn:uuid:…",
+    "type": ["VerifiableCredential", "CustomerCredential"],
+    "issuer": "did:web:ies.tpddl.in",
+    "validFrom": "2026-05-01T00:00:00+05:30",
+    "credentialSubject": { /* … */ },
+    "credentialStatus": { /* DeDi block */ },
+    "credentialSchema": {
+      "id": "https://schema.beckn.io/ElectricityCredential/1.0/schema.json",
+      "type": "JsonSchema"
+    },
+    "proof": {
+      "type": "DataIntegrityProof",
+      "cryptosuite": "VC-JWT",
+      "jwt": "eyJhbGciOi…<compact JWS>…"
+    }
+  },
   "proofFormat": "vc-jwt",
-  "isCompactToken": true,
   "packagedOutputs": [
     { "format": "pdf", "contentBase64": "JVBERi0xLj..." },
     { "format": "qr-png", "contentBase64": "iVBORw0KG..." }
@@ -75,7 +95,7 @@ Every step 1–5 is HTTP calls against OpenCred plus a thin glue layer in whiche
 }
 ```
 
-Store the full `credential` payload — you will hand it to DigiLocker, to a DID wallet, or to a verifier.
+Store the full `credential` payload — you will hand it to DigiLocker, to a DID wallet, or to a verifier. To verify it later, you'll extract `proof.jwt` (the compact JWS) and pass that as the `credential` field on `/v1/credentials/verify` — see [§Verify immediately after issue](#verify-immediately-after-issue) below.
 
 ---
 
@@ -182,6 +202,61 @@ When a DER asset is commissioned for an existing connection, re-issue the creden
 For a battery commissioning, populate `storageProfiles[]` with the same pattern. Multiple solar arrays or batteries on the same meter sit as multiple entries in their respective arrays — one credential covers them all.
 
 The full field reference for every sub-profile is in [Schemas](./schemas.md).
+
+---
+
+## Verify immediately after issue
+
+The OpenCred bootcamp closes the issue → verify loop in the same step so you see the credential round-trip without leaving the page. Mirror it for `electricity/v1`:
+
+```bash
+# Save the issue response to disk so you can verify and inspect it.
+RESPONSE=$(curl -s -X POST http://localhost:3100/v1/credentials/issue \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d @issue-request.json)
+echo "$RESPONSE" > credential.json
+
+# For vc-jwt, the verify endpoint takes the compact JWS string — the
+# .credential.proof.jwt value — NOT the stringified JSON envelope.
+jq -n --arg c "$(jq -r '.credential.proof.jwt' credential.json)" '{credential: $c}' | \
+  curl -s -X POST http://localhost:3100/v1/credentials/verify \
+    -H "Authorization: Bearer $OPENCRED_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d @- | jq
+```
+
+You want:
+
+```json
+{
+  "valid": true,
+  "code": "VALID",
+  "checks": [
+    { "name": "signature",  "passed": true },
+    { "name": "date",       "passed": true },
+    { "name": "revocation", "passed": true }
+  ]
+}
+```
+
+If you started OpenCred without DeDi configured, the `revocation` check is missing from the response (silent-skip) and a revoked credential will verify as `VALID` — see [Verification → silent-skip warning](./verification.md#silent-skip-warning).
+
+**Tamper test** (the demo punchline):
+
+```bash
+# Flip the last character of the JWT signature segment.
+JWT=$(jq -r '.credential.proof.jwt' credential.json)
+jq -n --arg c "${JWT%?}X" '{credential: $c}' | \
+  curl -s -X POST http://localhost:3100/v1/credentials/verify \
+    -H "Authorization: Bearer $OPENCRED_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d @- | jq
+```
+
+`valid` flips to `false`, the `signature` check fails. The credential is portable but tamper-evident without phoning home.
+
+For data-integrity / sd-jwt-vc you'd pass different shapes; see [Verification → request shapes per proof format](./verification.md#request-shapes-per-proof-format).
 
 ---
 
@@ -364,6 +439,18 @@ Limits: default 1,000 rows per request (configurable via `OPENCRED_BATCH_ROW_LIM
 
 The CSV-to-credential mapping is configured server-side; flat columns are mapped into the nested `customerProfile` / `customerDetails` / `consumptionProfiles[0]` shape.
 
+### Batch issuance at scale (v1.5.0+)
+
+For DISCOMs running CIS migrations beyond a single container, OpenCred v1.5.0 adds three features worth knowing about:
+
+- **Streaming CSV parser.** The server consumes the upload body directly into a streaming parser instead of buffering the whole CSV. Per-row size caps via `OPENCRED_BATCH_MAX_RECORD_BYTES` (default 1 MiB); a row larger than the cap fails with `StreamingCsvRecordSizeError` without taking the whole job down.
+- **Queue dispatch (worker fleet).** Setting `OPENCRED_BATCH_DISPATCH=queue` on both the API replicas and a separate worker process enqueues each batch onto the BullMQ `opencred:batch` queue rather than running it in-process. The API call returns the `jobId` immediately; the worker process consumes the queue. Survives API restarts, scales horizontally. Requires Redis (`OPENCRED_JOB_STORE=redis` + `OPENCRED_REDIS_URL`). See [Deployment → multi-replica](./onboarding.md#multi-replica-and-batch-worker-fleet).
+- **Webhook completion callback.** Add `"webhookUrl": "https://your-cis/batch-done"` to the batch body and OpenCred POSTs an HMAC-SHA256-signed completion payload to that URL after the job finishes. The URL must be HTTPS; `OPENCRED_WEBHOOK_SECRET` (min 32 chars) must be configured or the request is rejected with `400 WEBHOOK_SECRET_REQUIRED`. Retries up to 5× with exponential backoff (2s, 4s, 8s, 16s, 32s) before landing in BullMQ's failed-set DLQ.
+
+These are opt-in — the legacy in-process `OPENCRED_BATCH_DISPATCH=inline` mode (the default) is the right choice for a DISCOM still on a single container.
+
+> **Postman alternative.** OpenCred ships [`docs/bootcamp/postman-collection.json`](https://github.com/nfh-trust-labs/opencred/blob/new-opencred-dev/docs/bootcamp/postman-collection.json) with pre/post scripts that thread `issuerDid`, `lastCredential`, and `lastRevocationHash` between requests. Import the file into Postman, set the `baseUrl` and `apiKey` collection variables, and you can drive issue → verify → revoke → verify-as-revoked through the GUI without touching the shell.
+
 ---
 
 ## Revoking a Credential
@@ -382,11 +469,13 @@ curl -X POST http://localhost:3100/v1/credentials/revocation-hash \
 
 ### Publish the revocation
 
+`POST /v1/credentials/revoke` accepts an optional `reason` field — free-text descriptor stored on the DeDi record alongside the hash, echoed back verbatim by `/v1/credentials/revocation-status`. Typical values are short tags: `"key-compromised"`, `"superseded"`, `"holder-request"`, `"connection-closed"`, etc.
+
 ```bash
 curl -X POST http://localhost:3100/v1/credentials/revoke \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"hash": "d6f4e2c9b7a8...e1f0"}'
+  -d '{"hash": "d6f4e2c9b7a8...e1f0", "reason": "superseded"}'
 # → {"hash":"d6f4...","revoked":true,"revokedAt":"2026-05-01T10:00:00.000Z"}
 ```
 
@@ -396,8 +485,20 @@ Or revoke by passing the full credential — OpenCred recomputes the hash:
 curl -X POST http://localhost:3100/v1/credentials/revoke \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"credential": { /* full signed VC */ }}'
+  -d '{"credential": { /* full signed VC */ }, "reason": "key-compromised"}'
 ```
+
+Confirm the revocation is visible to verifiers:
+
+```bash
+curl -X POST http://localhost:3100/v1/credentials/revocation-status \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"hash": "d6f4...e1f0"}'
+# → {"hash":"d6f4...","revoked":true,"reason":"superseded"}
+```
+
+Re-run the verify call from [§Verify immediately after issue](#verify-immediately-after-issue) — `valid` is now `false`, `code: "REVOKED"`, and the `revocation` check is the one that failed. The `signature` check still passes because revocation isn't tampering; it's "the issuer changed their mind."
 
 Only the namespace owner (your DISCOM, holding the DeDi API key configured on this OpenCred instance) can revoke into your namespace.
 
@@ -489,12 +590,12 @@ The consumer's wallet decides which claims to reveal at presentation time.
 | `GET` | `/v1/credentials/batch/:jobId/results` | yes | Fetch batch results (errors `409 JOB_RUNNING` while in-flight) |
 | `POST` | `/v1/credentials/package` | yes | Re-package an existing credential into QR/PDF/JSON |
 | `POST` | `/v1/schemas/generate` | yes | Generate a JSON Schema from a set of example fields |
-| `POST` | `/v1/credentials/verify` | yes | Verify a credential (see [Verification](./verification.md)) |
+| `POST` | `/v1/credentials/verify` | yes | Verify a credential (see [Verification](./verification.md)) — also accepts raw PDF body with `Content-Type: application/pdf` (v1.3.0+) |
 | `POST` | `/v1/credentials/revocation-hash` | yes | Compute revocation hash |
 | `POST` | `/v1/credentials/revocation-hash/batch` | yes | Batch hashes |
-| `POST` | `/v1/credentials/revoke` | yes | Publish revocation |
-| `POST` | `/v1/credentials/revocation-status` | yes | Look up revocation status |
-| `POST` | `/v1/dedi/namespace/ensure` | yes | Ensure DeDi namespace + registries |
+| `POST` | `/v1/credentials/revoke` | yes | Publish revocation (optional `reason` stored on the DeDi record) |
+| `POST` | `/v1/credentials/revocation-status` | yes | Look up revocation status (echoes `reason` if one was supplied) |
+| `POST` | `/v1/dedi/namespace/ensure` | yes | Ensure DeDi namespace + registries (idempotent; v1.4.0+) |
 
 ---
 

@@ -30,12 +30,13 @@ Work with your commercial team to map the relevant fields from your existing sys
 - [ ] Field mapping completed for each Phase 1 credential type
 - [ ] Sample credential issued and reviewed internally
 
-### 4. Set up a way to revoke credentials when facts change
+### 4. Stand up DeDi for revocation (and optionally for DID-document discovery)
 
-Customers move, meters get replaced, tariffs change, accounts are closed. Set up a simple revocation registry so that any verifier checking a credential can see whether it is still valid.
+The IES setup runs OpenCred and DeDi together from day one. DeDi is the public hash registry that records revocations — any verifier checking a credential queries DeDi to see whether it has been revoked. The same DeDi namespace can also host your DISCOM's DID document, which means you do not need to set up a separate web server for `.well-known/did.json` if you prefer not to.
 
-- [ ] Revocation registry set up
-- [ ] Operational triggers documented (disconnection, meter swap, tariff change, fraud)
+- [ ] DeDi namespace credentials in hand (base URL, API key or bearer credentials, namespace ID)
+- [ ] Revocation triggers documented (disconnection, meter swap, tariff change, fraud)
+- [ ] Decision on DID-document hosting: own domain (`did:web`) vs DeDi-hosted
 
 ### 5. Decide how credentials reach the consumer
 
