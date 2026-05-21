@@ -51,12 +51,12 @@ A [`did:web`](../identifiers/resolution.md#didweb) identifier leverages your exi
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
 2. **Expose the DID Document (First Step)**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
-   Construct the `did.json` document according to the W3C DID Core specification, ensuring your public verification key is correctly mapped and referenced. Refer to [Constructing a did.json Document](../identifiers/resolution.md#constructing-a-didjson-document) for the step-by-step structural checklist.
+   Construct the `did.json` document according to the W3C DID Core specification, ensuring your public verification key is correctly mapped and referenced. Refer to [Step 1 — Mint the issuer DID (did:web)](../identifiers/issuance-reference.md#step-1--mint-the-issuer-did-didweb) for the step-by-step structural checklist.
 
 ### References & Anchors
 * [Identifiers & Addressing Overview](../identifiers/README.md)
 * [Resolution & Routing Specification](../identifiers/resolution.md#didweb) (Detailed resolution rules for `did:web` endpoints)
-* [Constructing a did.json Document](../identifiers/resolution.md#constructing-a-didjson-document) (Step-by-step document parameters)
+* [Step 1 — Mint the issuer DID (did:web)](../identifiers/issuance-reference.md#step-1--mint-the-issuer-did-didweb) (Step-by-step document parameters)
 * [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md#1-institutional-identity)
 </details>
 
