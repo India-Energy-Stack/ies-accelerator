@@ -146,6 +146,10 @@ A JWK encoded directly into the DID string. Functionally similar to `did:key`, u
 
 ### `did:dedi` (DeDi-anchored)
 
+<a id="diddedi-standards-note"></a>
+> [!IMPORTANT]
+> **Non-Standard DID Method & Resolution Note**: `did:dedi` is currently **not** a W3C standard DID method. Resolving these identifiers requires utilizing `dedi.global` resolvers or a compliant Decentralised Directory API endpoint directly. For details on how the coordinate string maps to DeDi lookup API endpoints, see [Resolution and Routing](../registries/resolution.md#diddedi) and [Public vs Private Resolution of Identifiers via Registries](../registries/private_resolution.md).
+
 > **Naming note.** "DeDi" in this stack is the Decentralised Data Infrastructure hosted at [`dedi.global`](https://dedi.global). The DeDi registry entries themselves are addressed by a URL path under a **namespace DID** (which is itself a `did:web` pointing at a CORD-network anchor). Throughout this section we use the term "DeDi-anchored identifier" or the shorthand `did:dedi:…` to mean **an identifier that resolves to a record inside a DeDi namespace** — whether that record is a DISCOM trust entry, a consumer profile, an asset, or a revocation entry.
 
 **Anatomy of a DeDi-anchored identifier**

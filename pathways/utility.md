@@ -67,7 +67,9 @@ A [`did:web`](../registries/resolution.md#didweb) identifier leverages your exis
 > Aligning your IES identifiers with your existing SAP, GIS, or CIS master codes avoids double-mapping. Wrap your existing internal serials rather than replacing them!
 
 ### Execution Guidance
-Map your internal customer numbers, SAP codes, and meter serial numbers to standard, [DeDi-based naming grammars](../identifiers/id-patterns.md). We recommend adopting the suggested reference patterns shown below:
+Map your internal customer numbers, SAP codes, and meter serial numbers to standard, [DeDi-based naming grammars](../identifiers/id-patterns.md). Before constructing your identifiers, ensure you review the core rules in [Identifier Concepts: Identifiers as Names and Resolution Details](../identifiers/concepts.md#identifiers-as-names-and-resolution-details) (which clarify that identifiers are names carrying no inherent business meaning, and all must resolve to a DID Document).
+
+We recommend adopting the suggested reference patterns shown below:
 1. **Consumers**: `did:dedi:<utility>:consumers:<consumer number>`
    *(e.g., `did:dedi:tpddl:consumers:CN-89721345`)*
 2. **Grid Assets**: `did:dedi:<utility>:assets:<asset-class>:<internal id>`
@@ -77,7 +79,12 @@ Map your internal customer numbers, SAP codes, and meter serial numbers to stand
 4. **Service Connections**: `did:dedi:<utility>:connections:<connection id>`
    *(e.g., `did:dedi:tpddl:connections:CON-90234`)*
 
+> [!WARNING]
+> `did:dedi` is currently **not** a W3C standard DID method. Resolving these identifiers requires utilizing `dedi.global` resolvers or a compliant Decentralised Directory API endpoint directly. Make sure to review the [did:dedi Non-Standard DID Method Note](../identifiers/concepts.md#diddedi-standards-note) before deploying them.
+
 ### References & Anchors
+* [Identifier Concepts: Identifiers as Names and Resolution Details](../identifiers/concepts.md#identifiers-as-names-and-resolution-details)
+* [did:dedi Non-Standard DID Method Note](../identifiers/concepts.md#diddedi-standards-note)
 * [Identifier Patterns and Grammars](../identifiers/id-patterns.md)
   * [Consumer Reference ID](../identifiers/id-patterns.md#consumer-reference-id)
   * [Asset Reference ID](../identifiers/id-patterns.md#asset-reference-id)

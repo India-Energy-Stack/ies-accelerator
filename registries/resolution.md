@@ -94,6 +94,9 @@ No network or directory lookup is required. The public key is mathematically enc
 
 ### `did:dedi:<ns>:<reg>:<id>`
 
+> [!WARNING]
+> `did:dedi` is currently **not** a W3C standard DID method. Resolving these identifiers requires utilizing `dedi.global` resolvers or a compliant Decentralised Directory API endpoint directly. Make sure to review the [did:dedi Non-Standard DID Method Note](../identifiers/concepts.md#diddedi-standards-note) before deploying them.
+
 Translate to a URL and GET:
 
 ```

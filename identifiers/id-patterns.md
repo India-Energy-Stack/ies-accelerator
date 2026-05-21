@@ -4,6 +4,9 @@ This page is a cookbook. For each kind of subject in IES — DISCOM, regulator, 
 
 The rule that ties everything together: a DISCOM's **internal numbering is preserved as the tail of the DID**. You do not throw away your CIS consumer numbers, your SAP asset codes, your meter SLNOs. You wrap them.
 
+> [!WARNING]
+> Many patterns in this guide utilize the `did:dedi` scheme. Please note that `did:dedi` is currently **not** a W3C standard DID method. Resolving these identifiers requires utilizing `dedi.global` resolvers or a compliant Decentralised Directory API endpoint. Make sure to review the [did:dedi Non-Standard DID Method Note](./concepts.md#diddedi-standards-note) before deploying them.
+
 ---
 
 ## Conventions used in this section
