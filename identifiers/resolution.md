@@ -64,6 +64,26 @@ When a resolver requests your utility's DID document, your web server must serve
 }
 ```
 
+### Constructing a did.json Document
+
+A `did:web` DID document (typically served as `did.json` under the `.well-known` directory) bridges your utility's DNS-based identifier and your cryptographic keys. It is constructed using the standard W3C DID Core specification parameters:
+
+1. **`@context`**: Links to the JSON-LD schemas defining standard DID and cryptographic properties.
+   - Typically: `["https://www.w3.org/ns/did/v1", "https://w3id.org/security/suites/jws-2020/v1"]`.
+2. **`id`**: Your utility's public W3C identifier (e.g., `did:web:ies.tpddl.co.in`).
+3. **`verificationMethod`**: An array of key objects that verifiers use to validate your cryptographic claims.
+   - **`id`**: A unique URI identifying the key, formed by appending a fragment string to your DID (e.g., `did:web:ies.tpddl.co.in#key-1`).
+   - **`type`**: The key type identifier. Standard OpenCred deployments use `"JsonWebKey2020"`.
+   - **`controller`**: The DID that controls this key (typically matches the root `id` parameter).
+   - **`publicKeyJwk`**: The standard JSON Web Key representation of your public signature validation key:
+     - `kty`: `"EC"` (Elliptic Curve).
+     - `crv`: `"P-256"` (NIST P-256 curve).
+     - `x` and `y`: Base64URL-encoded coordinates of the public key.
+4. **`assertionMethod`**: An array listing the key verificationMethod IDs (e.g., `["did:web:ies.tpddl.co.in#key-1"]`) authorized to sign Verifiable Credentials.
+5. **`authentication`**: An array listing the key IDs authorized to authenticate your endpoints.
+6. **`service`** (Optional): A list of service endpoints, mapping where OpenCred (`OpenCredIssuer`) or Beckn node adapters (`BecknBPP`) reside.
+
+
 Path-suffixed:
 
 ```
