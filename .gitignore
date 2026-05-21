@@ -1,0 +1,6 @@
+# Validation stamps
+.validate_stamp
+
+# Python cache
+__pycache__/
+*.pyc

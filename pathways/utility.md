@@ -49,13 +49,14 @@ In this phase, you will establish your institutional cryptographic identity and 
 ### Execution Guidance
 A [`did:web`](../identifiers/resolution.md#didweb) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
-2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
+2. **Expose the DID Document (First Step)**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
-3. **Reference Verification & Guidance**: Refer to the illustrative [did.json document example](../identifiers/resolution.md#illustrative-didjson-document-for-a-utility) to see what this document looks like, how it is structured, and how it exposes your public verification keys so other network participants can verify your claims.
+   Construct the `did.json` document according to the W3C DID Core specification, ensuring your public verification key is correctly mapped and referenced. Refer to [Constructing a did.json Document](../identifiers/resolution.md#constructing-a-didjson-document) for the step-by-step structural checklist.
 
 ### References & Anchors
 * [Identifiers & Addressing Overview](../identifiers/README.md)
 * [Resolution & Routing Specification](../identifiers/resolution.md#didweb) (Detailed resolution rules for `did:web` endpoints)
+* [Constructing a did.json Document](../identifiers/resolution.md#constructing-a-didjson-document) (Step-by-step document parameters)
 * [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md#1-institutional-identity)
 </details>
 
@@ -120,12 +121,14 @@ Create and initialize the following registries under your namespace:
 * [`public-keys`](../registries/required-registries.md#public-keys-registry) (tag `public_key`): Houses versioned P-256 signing keys.
 * [`vc-revocation-registry`](../registries/required-registries.md#revocation-registry) (tag `revoke`): Tracks real-time verifiable credential revocation.
 * [`subscribers-test` & `subscribers-prod`](../registries/required-registries.md#beckn-subscriber-registry) (tag `beckn_subscriber`): Manages Beckn node configs.
+* **Configure Backup Resolution via DeDi (Fallback Step)**: Once your DeDi namespace and registries are established, configure your OpenCred deployment to publish your primary DID document to DeDi. Set `OPENCRED_DEDI_HOST_DID_DOC=true` on the container (or by programmatically calling `/v1/keys/publish`). This registers your DID document within the DeDi `public-keys` registry, providing a fallback discovery mechanism for network participants if the primary HTTPS endpoint becomes temporarily unreachable.
 
 ### References & Anchors
 * [Required Registries Catalog](../registries/required-registries.md)
   * [Public-keys registry](../registries/required-registries.md#public-keys-registry)
   * [Revocation registry](../registries/required-registries.md#revocation-registry)
   * [Beckn subscriber registry](../registries/required-registries.md#beckn-subscriber-registry)
+* [OpenCred Key & DID Publishing Configuration](../energy-credentials/onboarding.md#deploy-opencred)
 </details>
 
 <details>
@@ -138,9 +141,11 @@ Create and initialize the following registries under your namespace:
 * Stand up your subscriber registries (from Step 2.2) and prepare your endpoint URL payloads.
 
 ### Execution Guidance
-Email your registration package (utility short-code, legal name, service area list, endpoints, and `did:web` JWK) to the IES Secretariat to whitelist your registries inside the authoritative `ies-discoms-reference-registry` path:
+Email your registration package (utility short-code, legal name, service area list, endpoints, and `did:web` JWK) to the IES Secretariat:
 * **Primary Email**: [IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org)
 * **Alternate Email**: [ies@recindia.com](mailto:ies@recindia.com)
+
+The Secretariat will verify your credentials and register your endpoints inside the authoritative `ies-discoms-reference-registry` path.
 
 ### References & Anchors
 * [Required Registries § How to get added](../registries/required-registries.md#how-to-get-added)
@@ -163,13 +168,18 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 1. **Connect CRM Systems**: Map customer master data (sanctioned load, tariff slabs, connection status) from your CRM (e.g., SAP IS-U) to OpenCred.
 2. **Configure Authentication**: Setup OTP or Aadhaar reference authentication gateways on your client portal.
 3. **Deploy OpenCred**: Deploy the containerized OpenCred service using your secured P-256 signing keys.
-4. **CRM Status Logging**: Store active credential UUIDs in your database to coordinate revocations.
+4. **CRM Status Logging & Issuance**: Store active credential UUIDs in your database to coordinate revocations. Format and trigger credential issuance via OpenCred's `/v1/credentials/issue` API using the `ElectricityCredential` JSON shape.
+5. **Verify Revocation Handling**: Ensure the verifier's revocation check logic is active. Be mindful of the silent-skip behavior if DeDi namespaces are misconfigured (refer to the [OpenCred Silent-Skip Warning](../energy-credentials/verification.md#silent-skip-warning)).
+6. **Validate the Issued Credential**: Call the OpenCred verification endpoint (`/v1/credentials/verify`) using the issued VC to test the full verification cycle. This confirms that the verifier can successfully resolve the issuer's DID and validate the cryptographic signature. Note that if DeDi is disabled or the namespaces are not fully synchronized, the validation engine might exhibit specific resolve behaviors (refer to the [OpenCred Resolve Verification Check](../energy-credentials/onboarding.md#verifying-the-deployment)).
 
 ### References & Anchors
 * [Energy Credentials Overview](../energy-credentials/README.md)
 * [Energy Credentials Deployment Guide](../energy-credentials/onboarding.md)
+* [OpenCred Resolve Verification Check & Env Options](../energy-credentials/onboarding.md#verifying-the-deployment)
+* [OpenCred Silent-Skip Revocation Warning](../energy-credentials/verification.md#silent-skip-warning)
+* [Batch Issuance at Scale (Queue & Workers)](../energy-credentials/issuance.md#batch-issuance-at-scale)
+* [Multi-Replica Deployment Guidance](../energy-credentials/onboarding.md#multi-replica-and-batch-worker-fleet)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
-  * [Map your CIS + DER systems](../use-cases/consumer-energy-passport/README.md#3-map-your-cis-der-systems-to-the-passport-sub-profiles)
 * [Consumer Energy Passport Basic Checklist](../use-cases/consumer-energy-passport/basic-checklist.md)
 * [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
 </details>
@@ -223,23 +233,23 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 > **Batch Telemetry Latency**: MDM database queries can be slow and can violate Beckn's transaction timeouts (usually 5 seconds). Ensure your telemetry API is highly optimized.
 
 ### Execution Guidance
-Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfile](../schemas/MeterData/v0.5/README.md)**, **[DailyProfile](../schemas/MeterData/v0.5/README.md)**, **[InstantaneousProfile](../schemas/MeterData/v0.5/README.md)**, and **[EventProfile](../schemas/MeterData/v0.5/README.md)** formats.
+Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfile](../schemas/MeterData/v0.6/README.md)**, **[DailyProfile](../schemas/MeterData/v0.6/README.md)**, **[InstantaneousProfile](../schemas/MeterData/v0.6/README.md)**, and **[EventProfile](../schemas/MeterData/v0.6/README.md)** formats.
 
 ### References & Anchors
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
   * [How It Works](../use-cases/smart-meter-data-exchange/README.md#how-it-works)
 * [Smart Meter Data Model Guide](../use-cases/smart-meter-data-exchange/ies-data-model.md)
-* [MeterData Schema Specification](../schemas/MeterData/v0.5/README.md)
+* [MeterData Schema Specification](../schemas/MeterData/v0.6/README.md)
 </details>
 
 <details>
 <summary><b>Step 4.3: Integrate Customer Master Data</b></summary>
 
 ### 💡 Phase Advice
-> Billing and customer profile files map directly to the **[CustomerProfile](../schemas/MeterData/v0.5/attributes.yaml)** schema. Ensure your CRM export script correctly aligns the tariff category, connection status, and sanctioned load.
+> Billing and customer profile files map directly to the **[CustomerProfile](../schemas/MeterData/v0.6/attributes.yaml)** schema. Ensure your CRM export script correctly aligns the tariff category, connection status, and sanctioned load.
 
 ### References & Anchors
-* [MeterData Attributes & Customer Schema](../schemas/MeterData/v0.5/attributes.yaml)
+* [MeterData Attributes & Customer Schema](../schemas/MeterData/v0.6/attributes.yaml)
 </details>
 
 <details>
@@ -282,7 +292,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 <summary><b>Step 5.1: Create the Consumer Meter Digest Verifiable Credential</b></summary>
 
 ### 💡 Phase Advice
-> We suggest utilizing a credential that directly includes the **[MeterData](../schemas/MeterData/v0.5/README.md)** schema. When compiling the Digest for a billing cycle, the `CustomerProfile` and `BillingProfile` **must** be included. Additionally, an `IntervalProfile` containing intervals that span the entire billing period is strongly recommended to provide complete consumption transparency.
+> We suggest utilizing a credential that directly includes the **[MeterData](../schemas/MeterData/v0.6/README.md)** schema. When compiling the Digest for a billing cycle, the `CustomerProfile` and `BillingProfile` **must** be included. Additionally, an `IntervalProfile` containing intervals that span the entire billing period is strongly recommended to provide complete consumption transparency.
 
 ### Execution Guidance
 1. **Request the Data**: Programmatically query your Data Exchange nodes with a `MeterDataRequest` spanning the billing duration and specifically targeting the required profiles.
@@ -306,7 +316,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
    }
    ```
 
-2. **Structure the Credential**: Package the resulting [`MeterData`](../schemas/MeterData/v0.5/README.md) payload inside the data subject of your verifiable credential envelope.
+2. **Structure the Credential**: Package the resulting [`MeterData`](../schemas/MeterData/v0.6/README.md) payload inside the data subject of your verifiable credential envelope.
 3. **Sign and Issue**: Sign and issue the verifiable credential utilizing your OpenCred service.
 
 
@@ -370,7 +380,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.
 
-> Since the **MeterData** schema is used for telemetry exchange, we strongly suggest utilizing the `AccumulationBehaviour` property for annotating aggregation datasets. Ensure that aggregated datasets explicitly annotate `SUMMATION` as the `accumulationBehaviour`. Refer to this [Aggregated Feeder Example](../schemas/MeterData/v0.5/examples/AggregatedFeeder.json) showing a feeder-related aggregated `IntervalProfile` for a day.
+> Since the **MeterData** schema is used for telemetry exchange, we strongly suggest utilizing the `AccumulationBehaviour` property for annotating aggregation datasets. Ensure that aggregated datasets explicitly annotate `SUMMATION` as the `accumulationBehaviour`. Refer to this [Aggregated Feeder Example](../schemas/MeterData/v0.6/examples/AggregatedFeeder.json) showing a feeder-related aggregated `IntervalProfile` for a day.
 </details>
 
 <details>
