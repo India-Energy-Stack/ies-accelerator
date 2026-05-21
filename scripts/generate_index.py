@@ -41,11 +41,33 @@ def generate_file_entry(root_dir, rel_path, summary_text):
     output += f"  - *Summary*: {summary_text}\n"
     if headings:
         output += "  <details>\n"
-        output += "  <summary><b>Show Outline / Headings</b></summary>\n\n"
+        output += "  <summary><b>Show Outline / Headings</b></summary>\n"
+        
+        current_level = 0
         for level, title in headings:
-            indent = "  " * (level - 1)
             anchor = slugify(title)
-            output += f"{indent}- [{title}]({rel_path}#{anchor})\n"
+            href = f"{rel_path}#{anchor}"
+            link = f'<a href="{href}">{title}</a>'
+            
+            if level > current_level:
+                while level > current_level:
+                    output += "  " * current_level + "  <ul>\n"
+                    current_level += 1
+                output += "  " * current_level + f"  <li>{link}"
+            elif level < current_level:
+                while level < current_level:
+                    output += "\n" + "  " * (current_level - 1) + "  </li>\n"
+                    output += "  " * (current_level - 1) + "  </ul>"
+                    current_level -= 1
+                output += "\n" + "  " * current_level + f"  <li>{link}"
+            else:
+                output += f"</li>\n" + "  " * current_level + f"  <li>{link}"
+                
+        while current_level > 0:
+            output += "\n" + "  " * (current_level - 1) + "  </li>\n"
+            output += "  " * (current_level - 1) + "  </ul>"
+            current_level -= 1
+            
         output += "\n  </details>\n"
     return output
 
@@ -142,9 +164,6 @@ def main():
     content = """# India Energy Stack (IES) Documentation Index
 
 Welcome to the India Energy Stack (IES) documentation map. This index organizes all documentation files in the `ies-accelerator` repository sequentially and systematically by building blocks and phases.
-
-> [!NOTE]
-> For the latest architectural assessment, documentation suggestions, and details on duplicate or overlapping information, please see the separate [Documentation Review and Assessments](review.md) document.
 
 ---
 
