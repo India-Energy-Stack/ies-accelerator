@@ -235,4 +235,4 @@ For the DeDi reference registry entry — the IES network operator updates the e
 | **PII** | Never publish PII to the public namespace. Use the private mirror. |
 | **Backup** | Treat private-mirror data as part of your CIS backup scope. The public DeDi side is re-derivable from internal state. |
 
-Next: [Resolution](./resolution.md) — the request-time workflows that consume these registries.
+Next: [Resolution](../registries/resolution.md) — the request-time workflows that consume these registries.

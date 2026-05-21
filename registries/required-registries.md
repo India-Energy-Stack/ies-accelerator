@@ -361,4 +361,4 @@ That sequence is the minimum to be a fully participating, credentialled, Beckn-r
 
 ---
 
-Next: [Resolution and Routing](../identifiers/resolution.md) — once these registries are in place, how requests are resolved against them.
+Next: [Resolution and Routing](./resolution.md) — once these registries are in place, how requests are resolved against them.

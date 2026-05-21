@@ -1,6 +1,6 @@
 # Identifier Concepts
 
-This page is the conceptual ground for [ID Patterns](./id-patterns.md), [Registries](./registries.md), and [Resolution](./resolution.md). If you already know DIDs and just need IES-specific addressing rules, skim this and jump ahead.
+This page is the conceptual ground for [ID Patterns](./id-patterns.md), [Registries](./registries.md), and [Resolution](../registries/resolution.md). If you already know DIDs and just need IES-specific addressing rules, skim this and jump ahead.
 
 ---
 

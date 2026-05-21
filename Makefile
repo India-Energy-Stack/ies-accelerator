@@ -5,7 +5,7 @@ ifeq ($(shell python3 -c "import yaml, jsonschema" >/dev/null 2>&1 && echo ok ||
   $(error Error: Required Python packages (PyYAML, jsonschema) are missing. Please activate your virtual environment or install them: pip install pyyaml jsonschema)
 endif
 
-.PHONY: all clean build validate
+.PHONY: all clean build validate index
 
 # Find all directories under schemas/ that contain attributes.yaml, excluding ElectricityCredential
 ALL_SCHEMA_DIRS := $(dir $(shell find schemas -name attributes.yaml))
@@ -18,7 +18,7 @@ COMPILED_SCHEMAS := $(foreach dir,$(SCHEMA_DIRS),$(dir)schema.json $(dir)context
 VALIDATION_STAMPS := $(foreach dir,$(SCHEMA_DIRS),$(dir).validate_stamp)
 
 # Default target builds and validates everything
-all: build validate
+all: build validate index
 
 # Build target compiles all schemas whose attributes.yaml has changed
 build: $(COMPILED_SCHEMAS)
@@ -40,6 +40,11 @@ validate: $(VALIDATION_STAMPS)
 	fi
 	@touch $@
 
+index:
+	@echo "Generating collapsible index.md..."
+	@python3 scripts/generate_index.py
+
 # Clean up compiled assets and validation stamps
 clean:
 	rm -f $(COMPILED_SCHEMAS) $(VALIDATION_STAMPS)
+

@@ -90,8 +90,8 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`public-keys`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
 
 ### References & Anchors
-* [Resolution & Routing — did:web resolution rules](../identifiers/resolution.md#didweb)
-* [Resolution & Routing — Constructing did.json](../identifiers/resolution.md#constructing-a-didjson-document)
+* [Resolution & Routing — did:web resolution rules](../registries/resolution.md#didweb)
+* [Resolution & Routing — Constructing did.json](../identifiers/issuance-reference.md#step-1--mint-the-issuer-did-didweb)
 </details>
 
 ---
