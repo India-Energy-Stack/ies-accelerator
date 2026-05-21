@@ -10,10 +10,10 @@ During our audit of the `ies-accelerator` documentation, we identified several i
 
 ### 1. Public Registry Definitions
 * **Overlapping Files & Sections**:
-  - Link: [Registries — Public and Private](identifiers/registries.md#the-public-ies-registries) (Raw reference: `identifiers/registries.md#the-public-ies-registries`)
+  - Link: [Public vs Private Resolution of Identifiers via Registries](registries/private_resolution.md#the-public-ies-registries) (Raw reference: `registries/private_resolution.md#the-public-ies-registries`)
   - Link: [Required Registries for IES Onboarding](registries/required-registries.md#discom-reference-registry) (Raw reference: `registries/required-registries.md#discom-reference-registry`)
 * **Description**: Both sections define the properties of the authoritative `india-energy-stack` registries (DISCOMs Reference Registry, Regulators Reference Registry, and Schemas Registry), even copy-pasting the exact same JSON payload schemas and field tables.
-* **Suggested Corrective Action**: Centralize the canonical record schemas and lookup field tables in `registries/required-registries.md`. Update `identifiers/registries.md` to focus strictly on the conceptual routing and resolution mapping, replacing duplicate JSON examples with direct links.
+* **Suggested Corrective Action**: Centralize the canonical record schemas and lookup field tables in `registries/required-registries.md`. Update `registries/private_resolution.md` to focus strictly on the conceptual routing and resolution mapping, replacing duplicate JSON examples with direct links.
 
 ### 2. Beckn Node Registration and Onboarding
 * **Overlapping Files & Sections**:

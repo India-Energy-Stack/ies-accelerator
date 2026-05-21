@@ -156,7 +156,10 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="identifiers/concepts.md#identifier-concepts">Identifier Concepts</a>    <ul>
-      <li><a href="identifiers/concepts.md#what-is-a-did">What is a DID?</a></li>
+      <li><a href="identifiers/concepts.md#what-is-a-did">What is a DID?</a>      <ul>
+        <li><a href="identifiers/concepts.md#identifiers-as-names-and-resolution-details">Identifiers as Names and Resolution Details</a>
+      </li>
+      </ul>
       <li><a href="identifiers/concepts.md#what-a-did-document-contains">What a DID Document contains</a></li>
       <li><a href="identifiers/concepts.md#did-methods-used-in-ies">DID methods used in IES</a>      <ul>
         <li><a href="identifiers/concepts.md#didweb">`did:web`</a></li>
@@ -213,45 +216,6 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
       <li><a href="identifiers/id-patterns.md#6-credential-identifiers-and-revocation-handles">6. Credential identifiers and revocation handles</a></li>
       <li><a href="identifiers/id-patterns.md#7-dataset-beckn-datasetitem">7. Dataset (Beckn `DatasetItem`)</a></li>
       <li><a href="identifiers/id-patterns.md#summary-table">Summary table</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[registries.md](identifiers/registries.md)**
-  - *Summary*: Overview of namespace registry mappings and layout conventions for public and private DeDi tables.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="identifiers/registries.md#registries-public-and-private">Registries — Public and Private</a>    <ul>
-      <li><a href="identifiers/registries.md#dedi-registry-model-in-30-seconds">DeDi registry model in 30 seconds</a></li>
-      <li><a href="identifiers/registries.md#the-public-ies-registries">The public IES registries</a>      <ul>
-        <li><a href="identifiers/registries.md#ies-discoms-reference-registry">IES DISCOMs Reference Registry</a></li>
-        <li><a href="identifiers/registries.md#ies-regulators-reference-registry">IES Regulators Reference Registry</a></li>
-        <li><a href="identifiers/registries.md#ies-schemas-registry-forthcoming">IES Schemas Registry (forthcoming)</a>
-      </li>
-      </ul>
-      <li><a href="identifiers/registries.md#per-discom-public-registries">Per-DISCOM public registries</a>      <ul>
-        <li><a href="identifiers/registries.md#required-revocation-registry">Required: revocation registry</a></li>
-        <li><a href="identifiers/registries.md#recommended-asset-registry">Recommended: asset registry</a></li>
-        <li><a href="identifiers/registries.md#optional-consumer-reference-registry">Optional: consumer reference registry</a></li>
-        <li><a href="identifiers/registries.md#optional-dataset-registry">Optional: dataset registry</a>
-      </li>
-      </ul>
-      <li><a href="identifiers/registries.md#private-registries-inside-the-discom">Private registries inside the DISCOM</a>      <ul>
-        <li><a href="identifiers/registries.md#what-to-host-privately">What to host privately</a></li>
-        <li><a href="identifiers/registries.md#structure">Structure</a></li>
-        <li><a href="identifiers/registries.md#implementation-options">Implementation options</a></li>
-        <li><a href="identifiers/registries.md#promotion-private-public">Promotion: private → public</a></li>
-        <li><a href="identifiers/registries.md#linkage-between-private-and-public-records">Linkage between private and public records</a>
-      </li>
-      </ul>
-      <li><a href="identifiers/registries.md#governance-and-key-management-for-namespaces">Governance and key management for namespaces</a>      <ul>
-        <li><a href="identifiers/registries.md#recommended-posture">Recommended posture</a></li>
-        <li><a href="identifiers/registries.md#key-rotation">Key rotation</a>
-      </li>
-      </ul>
-      <li><a href="identifiers/registries.md#operational-guidance">Operational guidance</a>
     </li>
     </ul>
   </li>
@@ -432,6 +396,45 @@ This block describes the directories that store and resolve identifiers to parti
       <li><a href="registries/required-registries.md#private-registries-pii-billing-internal-asset-attributes">Private registries (PII, billing, internal asset attributes)</a></li>
       <li><a href="registries/required-registries.md#governance-and-key-custody">Governance and key custody</a></li>
       <li><a href="registries/required-registries.md#end-to-end-onboarding-checklist">End-to-end onboarding checklist</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[private_resolution.md](registries/private_resolution.md)**
+  - *Summary*: Overview of public vs. private resolution and namespace layout conventions for DeDi tables.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="registries/private_resolution.md#public-vs-private-resolution-of-identifiers-via-registries">Public vs Private Resolution of Identifiers via Registries</a>    <ul>
+      <li><a href="registries/private_resolution.md#dedi-registry-model-in-30-seconds">DeDi registry model in 30 seconds</a></li>
+      <li><a href="registries/private_resolution.md#the-public-ies-registries">The public IES registries</a>      <ul>
+        <li><a href="registries/private_resolution.md#ies-discoms-reference-registry">IES DISCOMs Reference Registry</a></li>
+        <li><a href="registries/private_resolution.md#ies-regulators-reference-registry">IES Regulators Reference Registry</a></li>
+        <li><a href="registries/private_resolution.md#ies-schemas-registry-forthcoming">IES Schemas Registry (forthcoming)</a>
+      </li>
+      </ul>
+      <li><a href="registries/private_resolution.md#per-discom-public-registries">Per-DISCOM public registries</a>      <ul>
+        <li><a href="registries/private_resolution.md#required-revocation-registry">Required: revocation registry</a></li>
+        <li><a href="registries/private_resolution.md#recommended-asset-registry">Recommended: asset registry</a></li>
+        <li><a href="registries/private_resolution.md#optional-consumer-reference-registry">Optional: consumer reference registry</a></li>
+        <li><a href="registries/private_resolution.md#optional-dataset-registry">Optional: dataset registry</a>
+      </li>
+      </ul>
+      <li><a href="registries/private_resolution.md#private-registries-inside-the-discom">Private registries inside the DISCOM</a>      <ul>
+        <li><a href="registries/private_resolution.md#what-to-host-privately">What to host privately</a></li>
+        <li><a href="registries/private_resolution.md#structure">Structure</a></li>
+        <li><a href="registries/private_resolution.md#implementation-options">Implementation options</a></li>
+        <li><a href="registries/private_resolution.md#promotion-private-public">Promotion: private → public</a></li>
+        <li><a href="registries/private_resolution.md#linkage-between-private-and-public-records">Linkage between private and public records</a>
+      </li>
+      </ul>
+      <li><a href="registries/private_resolution.md#governance-and-key-management-for-namespaces">Governance and key management for namespaces</a>      <ul>
+        <li><a href="registries/private_resolution.md#recommended-posture">Recommended posture</a></li>
+        <li><a href="registries/private_resolution.md#key-rotation">Key rotation</a>
+      </li>
+      </ul>
+      <li><a href="registries/private_resolution.md#operational-guidance">Operational guidance</a>
     </li>
     </ul>
   </li>

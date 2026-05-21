@@ -10,7 +10,6 @@
 * [Identifiers and Addressing](identifiers/README.md)
   * [Concepts](identifiers/concepts.md)
   * [ID Patterns](identifiers/id-patterns.md)
-  * [Registries](identifiers/registries.md)
   * [Issuance Reference](identifiers/issuance-reference.md)
   * [Basic Checklist](checklists/identifiers-basic-checklist.md)
 
@@ -19,6 +18,7 @@
   * [Registry Creation](registries/registry-creation.md)
   * [Required Registries for Onboarding](registries/required-registries.md)
   * [Resolution and Routing](registries/resolution.md)
+  * [Private Resolution](registries/private_resolution.md)
   * [Basic Checklist](checklists/registries-basic-checklist.md)
 
 * [Energy Credentials](energy-credentials/README.md)

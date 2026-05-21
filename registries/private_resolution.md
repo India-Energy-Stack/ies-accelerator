@@ -1,4 +1,4 @@
-# Registries — Public and Private
+# Public vs Private Resolution of Identifiers via Registries
 
 A DID resolves to a record. **Registries are where records live.** This page covers:
 
@@ -199,7 +199,7 @@ The public record holds a pointer to the private one, but **only resolvable insi
 }
 ```
 
-A public verifier ignores `privateRef`. An internal client follows it (for details on how the client-side SDK resolver intercepts and automatically traverses this pointer, see [Unification of Public vs. Private Resolution Details](../registries/resolution.md#unification-of-public-vs-private-resolution-details)).
+A public verifier ignores `privateRef`. An internal client follows it (for details on how the client-side SDK resolver intercepts and automatically traverses this pointer, see [Unification of Public vs. Private Resolution Details](./resolution.md#unification-of-public-vs-private-resolution-details)).
 
 ---
 
@@ -235,4 +235,4 @@ For the DeDi reference registry entry — the IES network operator updates the e
 | **PII** | Never publish PII to the public namespace. Use the private mirror. |
 | **Backup** | Treat private-mirror data as part of your CIS backup scope. The public DeDi side is re-derivable from internal state. |
 
-Next: [Resolution](../registries/resolution.md) — the request-time workflows that consume these registries.
+Next: [Resolution](./resolution.md) — the request-time workflows that consume these registries.

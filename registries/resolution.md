@@ -126,7 +126,7 @@ An identifier like `did:dedi:tpddl:consumers:CN-123` represents the same consume
 2.  **Private Resolution**: Authorized internal clients (like the utility's billing SCADA systems) query the utility's internal private DeDi resolver mirror (e.g., `internal-dedi.tpddl.in` via authenticated mTLS). This queries the internal database and returns the full record containing sensitive PII (name, address, billing details, meter numbers).
 
 ### Unification via `privateRef`
-To link the public and private views without exposing PII on the public directory (for the record schema and structure details, see [Private Registries in Required Registries](./required-registries.md#private-registries-pii-billing-internal-asset-attributes) and [Record Linkage in Identifiers Registries](../identifiers/registries.md#linkage-between-private-and-public-records)):
+To link the public and private views without exposing PII on the public directory (for the record schema and structure details, see [Private Registries in Required Registries](./required-registries.md#private-registries-pii-billing-internal-asset-attributes) and [Record Linkage in Private Resolution](./private_resolution.md#linkage-between-private-and-public-records)):
 *   The public DeDi record includes a `privateRef` pointer (typically a secure HTTPS endpoint or private directory URI, e.g., `https://internal-dedi.tpddl.in/dedi/lookup/tpddl-private/consumers/CN-123`).
 *   **Resolver Mechanics**:
     - When a public verifier processes a credential, it resolves the public record and ignores `privateRef`.

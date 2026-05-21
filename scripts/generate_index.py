@@ -84,8 +84,7 @@ def main():
         "identifiers_setup": [
             ("identifiers/README.md", "Introduction to the IES addressing layer, design principles, and role-based onboarding paths."),
             ("identifiers/concepts.md", "Cryptographic theory behind DIDs (did:web, did:key, did:dedi) and identifier vs. record separation."),
-            ("identifiers/id-patterns.md", "Grammar conventions and syntax rules for minting identifiers for DISCOMs, consumers, regulators, and assets."),
-            ("identifiers/registries.md", "Overview of namespace registry mappings and layout conventions for public and private DeDi tables.")
+            ("identifiers/id-patterns.md", "Grammar conventions and syntax rules for minting identifiers for DISCOMs, consumers, regulators, and assets.")
         ],
         "identifiers_ops": [
             ("identifiers/issuance-reference.md", "Worked reference implementation (Python/OpenSSL) for key generation, did.json creation, and credential issuance."),
@@ -95,7 +94,8 @@ def main():
             ("registries/README.md", "Introduction to the trust registry layer and related building blocks."),
             ("registries/dedi-primer.md", "Conceptual primer on Decentralized Directories, namespace control, and trust pillars."),
             ("registries/registry-creation.md", "Developer walkthrough for creating namespaces, verification, and managing DeDi records via UI/API."),
-            ("registries/required-registries.md", "Detailed specification of schemas, record shapes, and onboarding channels for public/private registries.")
+            ("registries/required-registries.md", "Detailed specification of schemas, record shapes, and onboarding channels for public/private registries."),
+            ("registries/private_resolution.md", "Overview of public vs. private resolution and namespace layout conventions for DeDi tables.")
         ],
         "registries_ops": [
             ("registries/resolution.md", "Detailed specification of did:web, did:key, and did:dedi resolvers, error matrices, and caching rules."),
