@@ -324,7 +324,7 @@ The public record may carry a `privateRef` pointing at the private resolver:
 }
 ```
 
-External verifiers ignore `privateRef`; internal clients follow it.
+External verifiers ignore `privateRef`; internal clients follow it (for details on the runtime resolver lookup mechanics, see [Unification of Public vs. Private Resolution Details](./resolution.md#unification-of-public-vs-private-resolution-details)).
 
 ---
 

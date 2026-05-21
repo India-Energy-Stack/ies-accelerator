@@ -78,9 +78,19 @@ did:web:example.gov.in:agency:branch
 - 10-second timeout.
 - Reject if the served `id` field doesn't match the requested DID.
 
-### `did:key` and `did:jwk`
+### `did:key` and `did:jwk` (Offline Cryptographic)
 
-No network call. Decode the multibase / JWK from the identifier and synthesise a DID Document with a single `verificationMethod`.
+No network or directory lookup is required. The public key is mathematically encoded inside the identifier string itself. Resolution is performed entirely offline using local client SDK functions:
+
+*   **`did:key` Extraction Flow**:
+    1.  **Parse the Prefix**: Identify the multibase-encoded key string after the `did:key:` prefix (e.g., `did:key:z6MkjVQ8...` starts with `z`).
+    2.  **Decode Multibase**: Decode the remaining string (typically using a Base58-BTC decoder) to extract the raw byte array.
+    3.  **Identify Key Type**: Read the multicodec prefix bytes (e.g., `0xed` for Ed25519, `0x1200` for NIST P-256) to identify the curve and algorithm.
+    4.  **Synthesize DID Document**: Generate a standard DID Document containing a single `verificationMethod` populated with the decoded public key parameters.
+*   **`did:jwk` Extraction Flow**:
+    1.  **Extract Base64url Segment**: Strip the `did:jwk:` prefix to obtain the raw Base64url-encoded string.
+    2.  **Decode JSON Payload**: Decode the Base64url string into the original JSON Web Key (JWK) structure.
+    3.  **Synthesize DID Document**: Construct a DID Document mapping the decoded JWK to the primary `verificationMethod` and authorization verification relationships (`assertionMethod`, `authentication`).
 
 ### `did:dedi:<ns>:<reg>:<id>`
 
@@ -102,6 +112,25 @@ tpddl-private         → internal-dedi.tpddl.in   (with mTLS)
 ```
 
 This means the **same identifier** resolves through the right host based on its namespace — calling code doesn't need to know whether a record is public or private.
+
+---
+
+## Unification of Public vs. Private Resolution Details
+
+Resolution is the logical point where public and private views of network data converge. The IES architecture addresses this through the **Two-Resolver Model** and the **`privateRef`** pointer:
+
+### The Two-Resolver Model
+An identifier like `did:dedi:tpddl:consumers:CN-123` represents the same consumer entity in both public and private contexts. To comply with the Digital Personal Data Protection (DPDP) Act, the resolver routes the lookup depending on the caller's authorization context:
+
+1.  **Public Resolution**: Queries the public DeDi directory (e.g., `api.dedi.global`). This returns a redacted record containing only non-sensitive metadata (e.g., utility membership status, state code, active keys, or a hash of the connection), ensuring zero PII leak to the public internet.
+2.  **Private Resolution**: Authorized internal clients (like the utility's billing SCADA systems) query the utility's internal private DeDi resolver mirror (e.g., `internal-dedi.tpddl.in` via authenticated mTLS). This queries the internal database and returns the full record containing sensitive PII (name, address, billing details, meter numbers).
+
+### Unification via `privateRef`
+To link the public and private views without exposing PII on the public directory (for the record schema and structure details, see [Private Registries in Required Registries](./required-registries.md#private-registries-pii-billing-internal-asset-attributes) and [Record Linkage in Identifiers Registries](../identifiers/registries.md#linkage-between-private-and-public-records)):
+*   The public DeDi record includes a `privateRef` pointer (typically a secure HTTPS endpoint or private directory URI, e.g., `https://internal-dedi.tpddl.in/dedi/lookup/tpddl-private/consumers/CN-123`).
+*   **Resolver Mechanics**:
+    - When a public verifier processes a credential, it resolves the public record and ignores `privateRef`.
+    - When an authorized internal client (such as a customer-facing app with valid API tokens or mTLS client certificates) resolves the public record, it detects the `privateRef` pointer. The client SDK then automatically follows the `privateRef` URI to fetch the private record, unifying the public identity and private data planes into a single query flow.
 
 ---
 

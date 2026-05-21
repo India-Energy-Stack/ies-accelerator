@@ -199,7 +199,7 @@ The public record holds a pointer to the private one, but **only resolvable insi
 }
 ```
 
-A public verifier ignores `privateRef`. An internal client follows it.
+A public verifier ignores `privateRef`. An internal client follows it (for details on how the client-side SDK resolver intercepts and automatically traverses this pointer, see [Unification of Public vs. Private Resolution Details](../registries/resolution.md#unification-of-public-vs-private-resolution-details)).
 
 ---
 
