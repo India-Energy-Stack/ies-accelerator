@@ -195,22 +195,30 @@ During our audit of the `ies-accelerator` documentation, we identified several i
 
 ### 1. Public Registry Definitions
 * **Overlapping Files & Sections**:
-  - `[Registries — Public and Private](identifiers/registries.md#the-public-ies-registries)`
-  - `[Required Registries for IES Onboarding](registries/required-registries.md#discom-reference-registry)`
+  - Link: [Registries — Public and Private](identifiers/registries.md#the-public-ies-registries) (Raw reference: `identifiers/registries.md#the-public-ies-registries`)
+  - Link: [Required Registries for IES Onboarding](registries/required-registries.md#discom-reference-registry) (Raw reference: `registries/required-registries.md#discom-reference-registry`)
 * **Description**: Both sections define the properties of the authoritative `india-energy-stack` registries (DISCOMs Reference Registry, Regulators Reference Registry, and Schemas Registry), even copy-pasting the exact same JSON payload schemas and field tables.
 * **Suggested Corrective Action**: Centralize the canonical record schemas and lookup field tables in `registries/required-registries.md`. Update `identifiers/registries.md` to focus strictly on the conceptual routing and resolution mapping, replacing duplicate JSON examples with direct links.
 
 ### 2. Beckn Node Registration and Onboarding
 * **Overlapping Files & Sections**:
-  - `[Required Registries: Beckn subscriber registry](registries/required-registries.md#beckn-subscriber-registry)`
-  - `[Data Exchange: Registry Setup](data-exchange/registry-setup.md)`
+  - Link: [Required Registries: Beckn subscriber registry](registries/required-registries.md#beckn-subscriber-registry) (Raw reference: `registries/required-registries.md#beckn-subscriber-registry`)
+  - Link: [Data Exchange: Registry Setup](data-exchange/registry-setup.md) (Raw reference: `data-exchange/registry-setup.md`)
 * **Description**: Both guides describe how to generate signature/encryption keys for Beckn adapters, write the subscriber record under the `<your-namespace>/subscribers-test` registry path, and email the IES Secretariat for whitelisting.
 * **Suggested Corrective Action**: Keep the high-level registry requirements in `registries/required-registries.md`, but move all technical steps (such as Ed25519 key generation commands, base64 formatting, and ONIX configuration options) into `data-exchange/registry-setup.md`.
 
 ### 3. Checklist Redundancies
 * **Overlapping Files & Sections**:
-  - Multiple checklists under the `checklists/` directory: `energy-credentials-basic-checklist.md`, `energy-credentials-checklist.md`, `energy-credentials-checklist-detailed.md`.
-  - Use-case-specific checklists: `use-cases/smart-meter-data-exchange/basic-checklist.md`, `use-cases/consumer-meter-digest/basic-checklist.md`, `use-cases/consumer-energy-passport/basic-checklist.md`, `use-cases/discom-regulatory-filing/basic-checklist.md`, and `use-cases/tariff-intelligence/basic-checklist.md`.
+  - Link: [Checklists Directory](checklists/) (Raw reference: `checklists/`)
+    - [Energy Credentials Basic Checklist](checklists/energy-credentials-basic-checklist.md) (Raw reference: `checklists/energy-credentials-basic-checklist.md`)
+    - [Energy Credentials Simple Checklist](checklists/energy-credentials-checklist.md) (Raw reference: `checklists/energy-credentials-checklist.md`)
+    - [Energy Credentials Detailed Checklist](checklists/energy-credentials-checklist-detailed.md) (Raw reference: `checklists/energy-credentials-checklist-detailed.md`)
+  - Link: [Use Cases Directory](use-cases/) (Raw reference: `use-cases/`)
+    - [Smart Meter Basic Checklist](use-cases/smart-meter-data-exchange/basic-checklist.md) (Raw reference: `use-cases/smart-meter-data-exchange/basic-checklist.md`)
+    - [Consumer Meter Digest Basic Checklist](use-cases/consumer-meter-digest/basic-checklist.md) (Raw reference: `use-cases/consumer-meter-digest/basic-checklist.md`)
+    - [Consumer Energy Passport Basic Checklist](use-cases/consumer-energy-passport/basic-checklist.md) (Raw reference: `use-cases/consumer-energy-passport/basic-checklist.md`)
+    - [Regulatory Filing Basic Checklist](use-cases/discom-regulatory-filing/basic-checklist.md) (Raw reference: `use-cases/discom-regulatory-filing/basic-checklist.md`)
+    - [Tariff Intelligence Basic Checklist](use-cases/tariff-intelligence/basic-checklist.md) (Raw reference: `use-cases/tariff-intelligence/basic-checklist.md`)
 * **Description**: The generic checklists duplicate domain allocation, Docker configurations, and registry checks. Additionally, every use-case-specific basic checklist duplicates identical organizational registration steps.
 * **Suggested Corrective Action**: Consolidate generic onboarding audits into a single, multi-tier checklist under `checklists/` (e.g., Identity Setup, Credentials Setup, Exchange Setup). Replace individual use-case checklist files with short, use-case-specific checklists embedded directly in their respective `README.md` files.
 
@@ -221,17 +229,17 @@ During our audit of the `ies-accelerator` documentation, we identified several i
 To enable a new utility to onboard and integrate with minimal external support, we suggest implementing the following documentation enhancements in the repository:
 
 ### 1. Add a Private DeDi Resolver Implementation Guide
-* **Target Location**: `[Registry Creation Guide](registries/registry-creation.md)`
+* **Target Location**: [Registry Creation Guide](registries/registry-creation.md) (Raw reference: `registries/registry-creation.md`)
 * **Improvement Proposal**: While private registries are conceptually introduced as "FastAPI or PostgreSQL thin wrappers", there are no concrete instructions. We should add a minimal, copy-pasteable FastAPI code snippet showing how to implement the lookup endpoint (`GET /lookup/{namespace}/{registry}/{record-id}`) and authenticate incoming internal queries using mTLS.
 
 ### 2. Add Code Examples for DigiLocker Webhook Signature Verification
-* **Target Location**: `[DigiLocker Integration](energy-credentials/digilocker-integration.md)`
+* **Target Location**: [DigiLocker Integration](energy-credentials/digilocker-integration.md) (Raw reference: `energy-credentials/digilocker-integration.md`)
 * **Improvement Proposal**: Utilities must secure their DigiLocker callback endpoints to prevent webhook spoofing. We should document the exact HMAC-SHA256 signature verification steps, providing a Python/NodeJS example showing how to compute and compare the signature header against the API Setu shared secret.
 
 ### 3. Consolidate Credential Revocation Hash Logic
-* **Target Location**: `[Verifying Credentials](energy-credentials/verification.md#status-list)`
+* **Target Location**: [Verifying Credentials](energy-credentials/verification.md#status-list) (Raw reference: `energy-credentials/verification.md#status-list`)
 * **Improvement Proposal**: The method for generating credential hashes (published to DeDi revocation lists) is fragmented across multiple guides. We should add a unified section demonstrating how to generate the hash (e.g., canonicalizing JSON via JCS RFC 8785, omitting signature blocks, and hashing via SHA-256) with a runnable script to avoid syntax and sorting discrepancies during verification.
 
 ### 4. Provide a Single Master Onboarding Quickstart Flow
-* **Target Location**: `[Getting Started](getting-started.md)`
+* **Target Location**: [Getting Started](getting-started.md) (Raw reference: `getting-started.md`)
 * **Improvement Proposal**: Introduce a visual onboarding timeline diagram (using Mermaid) at the top of "Getting Started". This diagram will lay out the precise sequence of tasks (DNS setup -> Key generation -> Registry request -> Service deployment) so that a new utility has a clear, unified project-management blueprint from day one.
