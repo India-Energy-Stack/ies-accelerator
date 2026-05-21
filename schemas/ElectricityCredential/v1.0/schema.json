@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://github.com/beckn/DEG/blob/main/specification/schema/ElectricityCredential/v1.0/schema.json",
-    "title": "Customer Credential Schema",
-    "description": "JSON Schema for a unified customer credential that combines customer identity, customer details, consumption characteristics, generation capability, and storage capability as equal-level properties within a single W3C Verifiable Credential (VC Data Model 2.0). Issued by energy providers.",
+    "title": "ElectricityCredential Schema",
+    "description": "JSON Schema for the unified ElectricityCredential — a W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electricity distribution utilities. Combines customer identity, customer details, consumption characteristics, generation capability, and storage capability as equal-level properties within the credentialSubject. Bundled (self-contained, no external $refs) for distribution alongside the modular attributes.yaml.",
     "type": "object",
     "required": [
         "@context",
@@ -35,7 +35,7 @@
                 "type": "string"
             },
             "contains": {
-                "const": "CustomerCredential"
+                "const": "ElectricityCredential"
             },
             "minItems": 2
         },
@@ -105,8 +105,8 @@
                 },
                 "type": {
                     "type": "string",
-                    "const": "dedi",
-                    "description": "Type of status check mechanism (DeDi)"
+                    "const": "dediregistry",
+                    "description": "Type of status check mechanism (DeDi Registry)"
                 },
                 "statusPurpose": {
                     "type": "string",
@@ -450,14 +450,33 @@
         },
         "ConsumptionProfile": {
             "type": "object",
-            "description": "Connection and consumption characteristics for load management and tariff purposes",
+            "description": "Connection and consumption characteristics for load management and tariff purposes. Mirrors ConsumptionProfileCredential.credentialSubject.",
             "required": [
+                "id",
+                "consumerNumber",
+                "fullName",
                 "premisesType",
                 "connectionType",
                 "sanctionedLoadKW",
                 "tariffCategoryCode"
             ],
             "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "DID of the customer/credential subject (links to customer)"
+                },
+                "consumerNumber": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Full consumer account number assigned by the utility"
+                },
+                "fullName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "Consumer name"
+                },
                 "premisesType": {
                     "type": "string",
                     "enum": [
@@ -486,18 +505,48 @@
                     "type": "string",
                     "minLength": 1,
                     "description": "Billing/tariff category code assigned by the utility"
+                },
+                "meterNumber": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "description": "Meter serial number (optional, for linking to specific meter)"
                 }
             }
         },
         "GenerationProfile": {
             "type": "object",
-            "description": "DER (Distributed Energy Resource) generation capability",
+            "description": "DER (Distributed Energy Resource) generation capability. Mirrors GenerationProfileCredential.credentialSubject.",
             "required": [
+                "id",
+                "consumerNumber",
                 "generationType",
                 "capacityKW",
                 "commissioningDate"
             ],
             "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "DID of the customer/credential subject (links to customer)"
+                },
+                "consumerNumber": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Consumer account number assigned by the utility"
+                },
+                "fullName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "Consumer name (optional)"
+                },
+                "meterNumber": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "description": "Meter serial number associated with this generation asset (optional)"
+                },
                 "assetId": {
                     "type": "string",
                     "minLength": 1,
@@ -521,8 +570,8 @@
                 },
                 "commissioningDate": {
                     "type": "string",
-                    "format": "date-time",
-                    "description": "Date and time when the generation system was activated (with timezone offset)"
+                    "format": "date",
+                    "description": "Date when the generation system was activated"
                 },
                 "manufacturer": {
                     "type": "string",
@@ -540,13 +589,37 @@
         },
         "StorageProfile": {
             "type": "object",
-            "description": "Battery/energy storage capability",
+            "description": "Battery/energy storage capability. Mirrors StorageProfileCredential.credentialSubject.",
             "required": [
+                "id",
+                "consumerNumber",
                 "storageCapacityKWh",
                 "powerRatingKW",
                 "commissioningDate"
             ],
             "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "DID of the customer/credential subject (links to customer)"
+                },
+                "consumerNumber": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Consumer account number assigned by the utility"
+                },
+                "fullName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "Consumer name (optional)"
+                },
+                "meterNumber": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "description": "Meter serial number associated with this storage asset (optional)"
+                },
                 "assetId": {
                     "type": "string",
                     "minLength": 1,
@@ -566,8 +639,8 @@
                 },
                 "commissioningDate": {
                     "type": "string",
-                    "format": "date-time",
-                    "description": "Date and time when the storage system was activated (with timezone offset)"
+                    "format": "date",
+                    "description": "Date when the storage system was activated"
                 },
                 "storageType": {
                     "type": "string",
