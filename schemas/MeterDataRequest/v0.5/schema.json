@@ -52,9 +52,11 @@
           "CustomerProfile",
           "IntervalProfile",
           "DailyProfile",
-          "BillingProfile",
+          "MonthlyProfile",
+          "BillDetails",
           "InstantaneousProfile",
-          "EventProfile"
+          "EventProfile",
+          "AlarmProfile"
         ]
       }
     }

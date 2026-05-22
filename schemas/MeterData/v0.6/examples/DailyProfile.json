@@ -14,15 +14,15 @@
       "timePeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P1D"  },
       "payloadDescriptors": [
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
           "accumulationBehaviour": "DELTA"
         },
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.2.8.0.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp" },
           "accumulationBehaviour": "DELTA"
         },
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
           "accumulationBehaviour": "INSTANTANEOUS"
         }
       ],

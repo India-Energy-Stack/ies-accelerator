@@ -2,16 +2,16 @@
 
 This directory contains the **Meter Data Compact Profiles** (v0.6) schema definitions and semantic models for telemetry data exchange. It is tailored for high-efficiency, data-only transmissions of smart meter readings and events, omitting the heavy cryptographic wrapping when only raw telemetry payload is being exchanged.
 
-## Overview
-
-The `MeterData` schema standardizes telemetry exchanges into **six compact profile shapes** representing different read cadences and data structures from smart meters:
+The `MeterData` schema standardizes telemetry exchanges into **eight compact profile shapes** representing different read cadences and data structures from smart meters:
 
 1. **`CUSTOMER`** — Slow-changing customer metadata, service points, and meter installations.
 2. **`INTERVAL`** — Block load survey profile at high-resolution intervals (e.g., 15-minute or 30-minute blocks).
 3. **`DAILY`** — Daily accumulated load survey profiles.
-4. **`BILLING`** — Monthly billing summaries, including billing registers, tariff buckets (Time-of-Use), and billing values.
-5. **`INSTANTANEOUS`** — Real-time snapshots of electrical quantities (voltages, currents, active/reactive powers) at a specific moment.
-6. **`EVENT`** — Event logs matching standard IS 15959 diagnostic codes and tamper events.
+4. **`MONTHLY`** — Monthly billing resets (billing history cumulative total energy registers, ToU buckets, and Maximum Demand).
+5. **`BILL_DETAILS`** — Utility billing computed details (billing amount, bill number, due dates, currency, prepaid balance, and payment status).
+6. **`INSTANTANEOUS`** — Real-time snapshots of electrical quantities (voltages, currents, active/reactive powers) at a specific moment.
+7. **`EVENT`** — Event logs matching standard IS 15959 diagnostic codes and tamper events.
+8. **`ALARM`** — Real-time active alerts representing immediate state conditions (tamper, low prepayment credit, voltage sag, overload) from the meter.
 
 ---
 
@@ -35,7 +35,7 @@ The `schema.json`, `context.jsonld`, and `vocab.jsonld` files are compiled autom
 To recompile schemas following modifications in `attributes.yaml`, run the following command from the repository root inside your virtual environment:
 
 ```bash
-python scripts/generate_schema.py schemas/MeterData/v0.6
+python scripts/generate_schema_permissive.py schemas/MeterData/v0.6
 ```
 
 ---
@@ -61,6 +61,22 @@ All example payloads in the `examples/` directory have been augmented to support
 
 ---
 
+## Example Payloads and Scenarios
+This directory includes standard example payloads representing different profiles and encoding formats:
+* [CustomerProfile.json](./examples/CustomerProfile.json): Slow-changing customer metadata, service points, and meter installations.
+* [IntervalProfile.json](./examples/IntervalProfile.json): Block load survey telemetry represented in compact Form B (matrix with overrides) using short codes.
+* [DailyProfile.json](./examples/DailyProfile.json): Daily accumulated active and reactive energy registers represented in compact Form B using short codes.
+* [MonthlyProfile.json](./examples/MonthlyProfile.json): Monthly physical register reset cumulative readings and Time-of-Use (ToU) buckets represented in Form A using short codes.
+* [BillDetails.json](./examples/BillDetails.json): Computed out-of-band billing details including invoice amount due, currency, and prepayment balance.
+* [InstantaneousProfile.json](./examples/InstantaneousProfile.json): Real-time snapshot of electrical quantities (voltages, currents, power factors) represented in Form A using short codes.
+* [EventProfile.json](./examples/EventProfile.json): Tamper logs and diagnostic event history mapped to standard IS 15959 event records.
+* [AlarmProfile.json](./examples/AlarmProfile.json): Immediate, active meter alarm conditions (e.g. cover open, neutral disturbance, voltage sag).
+* [AggregatedFeeder.json](./examples/AggregatedFeeder.json): Feeder-level summary readings represented in Form A using short codes.
+* [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json): Bulk smart meter telemetry data for multiple meters using exact OBIS codes.
+* [MultiMeterBulkDatasetShortCodes.json](./examples/MultiMeterBulkDatasetShortCodes.json): Bulk smart meter telemetry data for multiple meters using human-readable short codes.
+
+---
+
 ## OBIS Mapping and Identifiers
 
 The `MeterData` schema relies on flexible identifiers to reference physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in the [OBISMapping.json](./OBISMapping.json) file.
@@ -70,7 +86,8 @@ The `OBISMapping` file serves as the canonical dictionary for interpreting IS 15
 
 **Snapshot:**
 ```json
-"1.0.1.8.0.255": {
+{
+  "obis": "1.0.1.8.0.255",
   "name": "Active energy import - cumulative (kWh)",
   "shortLabel": "kWh imp",
   "unit": "kWh",
@@ -78,6 +95,7 @@ The `OBISMapping` file serves as the canonical dictionary for interpreting IS 15
   "accumulationBehaviour": "CUMULATIVE",
   "category": "energyCumulative",
   "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+  "profiles": ["DAILY", "MONTHLY"],
   "source": "IS 15959 Part 1 Table 22; Part 2 Table A14; Part 3 Table 1"
 }
 ```
@@ -88,7 +106,7 @@ When structuring your payload descriptors or values, you have the flexibility to
 * **Using OBIS Codes**: `{"scheme": "OBIS", "value": "1.0.1.8.0.255"}`
 * **Using Short Names**: `{"scheme": "SHORT_CODE", "value": "kWh imp"}`
 
-*See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) for OBIS examples and [AggregatedFeeder.json](./examples/AggregatedFeeder.json) for Short Code examples.*
+*See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) (OBIS Codes) and [MultiMeterBulkDatasetShortCodes.json](./examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) for bulk examples of both representations.*
 
 ---
 
@@ -97,12 +115,12 @@ When structuring your payload descriptors or values, you have the flexibility to
 The schema offers two distinct mechanisms for representing telemetry values, balancing explicit clarity with high-efficiency transmission.
 
 ### 1. Form A: Elaborated Representation (`readings` / `touBuckets`)
-Telemetry is presented as an array of discrete `Reading` objects containing inline values, timestamps, and register details. Physical units and phases are resolved out-of-band via OBIS codes.
+Telemetry is presented as an array of discrete `Reading` objects containing inline values, timestamps, and register details. Physical units and phases are resolved out-of-band via short codes (or OBIS codes).
 
 ```json
 "readings": [
   {
-    "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+    "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
     "value": 412.5,
     "openingValue": 18432.5,
     "closingValue": 18845.0
@@ -148,10 +166,10 @@ By default, all readings are assumed to be `{VALID, METER}`. If a specific inter
   }
 ]
 ```
-*See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse overrides.*
+*See [`MultiMeterBulkDatasetShortCodes.json`](./examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) or [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) (OBIS Codes) for full examples of sparse overrides.*
 
 ### Maximum Demand snapshoting
-When transmitting Maximum Demand snapshot aggregates in Elaborated form (e.g. inside a [`BillingProfile`](./examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
+When transmitting Maximum Demand snapshot aggregates in Elaborated form (e.g. inside a [`MonthlyProfile`](./examples/MonthlyProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
 
 ```json
 {

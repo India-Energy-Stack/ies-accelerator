@@ -1,7 +1,7 @@
 {
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "BillingProfile",
-  "profileType": "BILLING",
+  "@type": "MonthlyProfile",
+  "profileType": "MONTHLY",
   "customerRefs": [
     { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
   ],
@@ -9,26 +9,21 @@
     { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
   ],
   "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
-  "billNumber": "BESCOM-RR-1234-202604",
-  "billDate": "2026-05-01",
-  "dueDate": "2026-05-21",
-  "currency": "INR",
-  "amountDue": 4287.5,
   "readings": [
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
       "value": 412.5,
       "openingValue": 18432.5,
       "closingValue": 18845.0
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.9.8.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp" },
       "value": 421.8,
       "openingValue": 18715.4,
       "closingValue": 19137.2
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
       "value": 8.42,
       "occurredAt": "2026-04-23T19:30:00+05:30",
       "integrationPeriod": "PT30M"
@@ -39,7 +34,7 @@
       "zone": 1,
       "readings": [
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
           "value": 138.2
         }
       ]
@@ -48,7 +43,7 @@
       "zone": 2,
       "readings": [
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.2.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ2" },
           "value": 62.4
         }
       ]
@@ -57,7 +52,7 @@
       "zone": 3,
       "readings": [
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.3.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ3" },
           "value": 174.0
         }
       ]
@@ -66,7 +61,7 @@
       "zone": 4,
       "readings": [
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.4.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ4" },
           "value": 37.9
         }
       ]

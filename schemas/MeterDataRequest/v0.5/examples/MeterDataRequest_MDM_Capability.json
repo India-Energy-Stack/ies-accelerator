@@ -1,0 +1,15 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
+  "@type": "MeterDataRequest",
+  "resources": ["did:dedi:ies:substation:IN-MH-SUB-50"],
+  "scope": "ResourceAndChildren",
+  "from": "2020-01-01T00:00:00Z",
+  "duration": "P10Y",
+  "includeDetails": [
+    "IntervalProfile",
+    "DailyProfile",
+    "InstantaneousProfile",
+    "AlarmProfile",
+    "EventProfile"
+  ]
+}

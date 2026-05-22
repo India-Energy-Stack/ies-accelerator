@@ -29,7 +29,7 @@ validate: $(VALIDATION_STAMPS)
 # Generic rule to compile schema files from attributes.yaml
 %/schema.json %/context.jsonld %/vocab.jsonld: %/attributes.yaml
 	@echo "Compiling schema in $*..."
-	@python3 scripts/generate_schema.py $*
+	@python3 scripts/generate_schema_permissive.py $*
 
 # Enable secondary expansion to match wildcard files under examples/ dynamically
 .SECONDEXPANSION:

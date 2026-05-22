@@ -209,8 +209,8 @@
   },
   {
     "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-    "@type": "BillingProfile",
-    "profileType": "BILLING",
+    "@type": "MonthlyProfile",
+    "profileType": "MONTHLY",
     "customerRefs": [
       { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
@@ -218,11 +218,6 @@
       { "scheme": "METER_SERIAL", "value": "METER-GENUS-01" }
     ],
     "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
-    "billNumber": "BILL-ACME-MAIN-202604",
-    "billDate": "2026-05-01",
-    "dueDate": "2026-05-21",
-    "currency": "INR",
-    "amountDue": 224150.0,
     "readings": [
       {
         "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
@@ -266,8 +261,47 @@
   },
   {
     "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-    "@type": "BillingProfile",
-    "profileType": "BILLING",
+    "@type": "BillDetails",
+    "profileType": "BILL_DETAILS",
+    "customerRefs": [
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
+    ],
+    "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "METER-GENUS-01" }
+    ],
+    "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
+    "billNumber": "BILL-ACME-MAIN-202604",
+    "billDate": "2026-05-01",
+    "dueDate": "2026-05-21",
+    "currency": "INR",
+    "amountDue": 224150.0,
+    "prepaidBalance": 0.0,
+    "paymentStatus": "UNPAID"
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+    "@type": "MonthlyProfile",
+    "profileType": "MONTHLY",
+    "customerRefs": [
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
+    ],
+    "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02" }
+    ],
+    "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
+    "readings": [
+      {
+        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+        "value": 950.0,
+        "openingValue": 3200.0,
+        "closingValue": 4150.0
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+    "@type": "BillDetails",
+    "profileType": "BILL_DETAILS",
     "customerRefs": [
       { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
     ],
@@ -280,14 +314,8 @@
     "dueDate": "2026-05-21",
     "currency": "INR",
     "amountDue": 32450.0,
-    "readings": [
-      {
-        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
-        "value": 950.0,
-        "openingValue": 3200.0,
-        "closingValue": 4150.0
-      }
-    ]
+    "prepaidBalance": 1200.0,
+    "paymentStatus": "PAID"
   },
   {
     "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
@@ -387,6 +415,26 @@
         "timestamp": "2026-05-18T09:30:00+05:30",
         "eventId": 205,
         "eventName": "Meter Cover Open - occurrence"
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+    "@type": "AlarmProfile",
+    "profileType": "ALARM",
+    "customerRefs": [
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
+    ],
+    "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02" }
+    ],
+    "alarms": [
+      {
+        "timestamp": "2026-05-18T09:30:00+05:30",
+        "alarmId": 6,
+        "alarmName": "Meter Cover Open",
+        "status": "ACTIVE",
+        "severity": "CRITICAL"
       }
     ]
   }

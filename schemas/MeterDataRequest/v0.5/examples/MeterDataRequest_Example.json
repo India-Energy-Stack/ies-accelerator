@@ -12,6 +12,8 @@
     "includeDetails": [
         "IntervalProfile",
         "InstantaneousProfile",
-        "EventProfile"
+        "EventProfile",
+        "AlarmProfile",
+        "BillDetails"
     ]
 }

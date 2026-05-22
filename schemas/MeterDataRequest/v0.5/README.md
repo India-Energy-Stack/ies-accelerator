@@ -1,5 +1,7 @@
 # MeterDataRequest Schema (v0.5)
 
+The smart meter telemetry data defined in [MeterData (v0.6)](../../MeterData/v0.6) is complemented with the `MeterDataRequest` schema – specifying **what meters**, **what data**, and **for how long** the query or permission spans.
+
 This directory houses the **`MeterDataRequest` (v0.5)** schema for the India Energy Stack. This schema defines structural parameters for selecting and querying smart meter telemetry and profiles.
 
 ## Schema Overview
@@ -22,13 +24,38 @@ The `MeterDataRequest` schema allows a Data Consumer (BAP) to request precise da
 5. **`maxRecordsShared`** (Optional, integer):
    * Maximum number of records that should be shared or returned in a single batch/page. Must be $\ge 1$.
 6. **`includeDetails`** (Optional, array of strings):
-   * List of specific profile types to include in the query result. Allowed types:
+   * List of specific profile types to include in the query result. Allowed types (corresponding to [MeterData (v0.6)](../../MeterData/v0.6) profiles):
      * `CustomerProfile`
      * `IntervalProfile`
      * `DailyProfile`
-     * `BillingProfile`
+     * `MonthlyProfile`
+     * `BillDetails`
      * `InstantaneousProfile`
      * `EventProfile`
+     * `AlarmProfile`
+
+---
+
+## Examples of Usage
+
+To avoid clutter and maintain 100% compliance audits, the usage examples for this schema are saved as standalone JSON files in the `examples/` directory:
+
+### 1. Embedded in a Credential (DISCOM-to-TSP Data Sharing Allowance)
+* **Goal**: A DISCOM grants permission to a Third Party Service Provider (TSP) to access smart meter telemetry on behalf of a consumer, restricted to **only interval (block load survey) data** for **all child meters** under a specific feeder (`did:dedi:ies:feeder:IN-MH-FDR-101`).
+* **Implementation**: The credential embeds a `MeterDataRequest` object defining the allowed query boundaries.
+* **Telemetry Query Profile**: [MeterDataRequest_FeederAllowance.json](./examples/MeterDataRequest_FeederAllowance.json)
+
+### 2. Provider Capabilities (Advertised Capability Profiles)
+Data providers advertise what subset of profile queries they support relative to specific electrical hierarchy nodes:
+* **MDM (Meter Data Management System) Capability**: Hosts raw meter readings (Interval, Daily, Instantaneous, Event, and Alarm profiles) for all target substations and their child elements.
+  * **Capability Profile**: [MeterDataRequest_MDM_Capability.json](./examples/MeterDataRequest_MDM_Capability.json)
+* **Billing System Capability**: Hosts customer profile metadata and detailed invoice/prepayment records.
+  * **Capability Profile**: [MeterDataRequest_Billing_Capability.json](./examples/MeterDataRequest_Billing_Capability.json)
+
+### 3. Requesting Data (As a Query Filter)
+* **Goal**: An authorized application requests the exact telemetry dataset needed to compile a **Meter Digest Credential** for a single customer (querying the customer profile, billing details, monthly registers, and daily summaries for the last 30 days).
+* **Telemetry Query Filter**: [MeterDataRequest_DigestCredentialFilter.json](./examples/MeterDataRequest_DigestCredentialFilter.json)
+* **Standard Query Filter**: [MeterDataRequest_Example.json](./examples/MeterDataRequest_Example.json)
 
 ---
 

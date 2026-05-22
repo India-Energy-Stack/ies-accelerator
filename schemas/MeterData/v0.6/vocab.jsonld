@@ -18,13 +18,19 @@
             "@id": "ies:EnergyData",
             "@type": "rdfs:Class",
             "rdfs:label": "Energy Data",
-            "rdfs:comment": "A single compact data-only profile record. Must be one of the six standard types."
+            "rdfs:comment": "A single compact data-only profile record. Must be one of the eight standard types."
         },
         {
             "@id": "ies:CustomerProfile",
             "@type": "rdfs:Class",
             "rdfs:label": "Customer Profile",
             "rdfs:comment": "Slow-changing customer + service-point + meter-list summary."
+        },
+        {
+            "@id": "ies:BaseTelemetryProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Base Telemetry Profile",
+            "rdfs:comment": ""
         },
         {
             "@id": "ies:IntervalProfile",
@@ -39,16 +45,28 @@
             "rdfs:comment": "Daily Load Profile — P1D intervalBlocks. Same per-meter shape as IntervalProfile."
         },
         {
-            "@id": "ies:BillingProfile",
+            "@id": "ies:MonthlyProfile",
             "@type": "rdfs:Class",
-            "rdfs:label": "Billing Profile",
-            "rdfs:comment": "Monthly billing summary — energy + max-demand entries in totals[], ToU buckets, bill amount."
+            "rdfs:label": "Monthly Profile",
+            "rdfs:comment": "Monthly profile readings from the meter at billing reset time (billing history)."
+        },
+        {
+            "@id": "ies:BillDetails",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Bill Details",
+            "rdfs:comment": "Utility billing computed details, such as billing amount, bill number, due dates, and prepaid balance."
         },
         {
             "@id": "ies:InstantaneousProfile",
             "@type": "rdfs:Class",
             "rdfs:label": "Instantaneous Profile",
             "rdfs:comment": "Snapshot of a meter's electrical quantities at one captured moment."
+        },
+        {
+            "@id": "ies:AlarmProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Alarm Profile",
+            "rdfs:comment": "Real-time active indicators/alerts representing immediate state conditions from the meter."
         },
         {
             "@id": "ies:EventProfile",
@@ -135,6 +153,12 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:MeterAlarm",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Alarm",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:profileType",
             "@type": "rdf:Property",
             "rdfs:label": "profile Type",
@@ -207,6 +231,12 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:touBuckets",
+            "@type": "rdf:Property",
+            "rdfs:label": "tou Buckets",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:billNumber",
             "@type": "rdf:Property",
             "rdfs:label": "bill Number",
@@ -237,15 +267,27 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:touBuckets",
+            "@id": "ies:prepaidBalance",
             "@type": "rdf:Property",
-            "rdfs:label": "tou Buckets",
-            "rdfs:comment": ""
+            "rdfs:label": "prepaid Balance",
+            "rdfs:comment": "Prepaid remaining balance/credit amount on the account/meter, if applicable."
+        },
+        {
+            "@id": "ies:paymentStatus",
+            "@type": "rdf:Property",
+            "rdfs:label": "payment Status",
+            "rdfs:comment": "Status of the payment, e.g. PAID, UNPAID, PARTIAL."
         },
         {
             "@id": "ies:timestamp",
             "@type": "rdf:Property",
             "rdfs:label": "timestamp",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:alarms",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarms",
             "rdfs:comment": ""
         },
         {
@@ -528,6 +570,30 @@
             "@id": "ies:magnitude",
             "@type": "rdf:Property",
             "rdfs:label": "magnitude",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:alarmId",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarm Id",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:alarmName",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarm Name",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:status",
+            "@type": "rdf:Property",
+            "rdfs:label": "status",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:severity",
+            "@type": "rdf:Property",
+            "rdfs:label": "severity",
             "rdfs:comment": ""
         }
     ]
