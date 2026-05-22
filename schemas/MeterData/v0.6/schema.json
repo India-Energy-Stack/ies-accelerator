@@ -19,7 +19,7 @@
     "EnergyData": {
       "type": "object",
       "title": "EnergyData",
-      "description": "A single compact data-only profile record. Must be one of the six standard types.",
+      "description": "A single compact data-only profile record. Must be one of the eight standard types.",
       "oneOf": [
         {
           "$ref": "#/$defs/CustomerProfile"
@@ -31,13 +31,19 @@
           "$ref": "#/$defs/DailyProfile"
         },
         {
-          "$ref": "#/$defs/BillingProfile"
+          "$ref": "#/$defs/MonthlyProfile"
+        },
+        {
+          "$ref": "#/$defs/BillDetails"
         },
         {
           "$ref": "#/$defs/InstantaneousProfile"
         },
         {
           "$ref": "#/$defs/EventProfile"
+        },
+        {
+          "$ref": "#/$defs/AlarmProfile"
         }
       ]
     },
@@ -88,10 +94,8 @@
         }
       }
     },
-    "IntervalProfile": {
+    "BaseTelemetryProfile": {
       "type": "object",
-      "title": "IntervalProfile",
-      "description": "Block Load Survey — PT15M / PT30M cadence intervalBlocks for one meter.",
       "required": [
         "profileType",
         "customerRefs",
@@ -99,8 +103,7 @@
       ],
       "properties": {
         "profileType": {
-          "type": "string",
-          "const": "INTERVAL"
+          "type": "string"
         },
         "customerRefs": {
           "$ref": "#/$defs/IdentifierList"
@@ -127,61 +130,87 @@
           }
         }
       }
+    },
+    "IntervalProfile": {
+      "type": "object",
+      "title": "IntervalProfile",
+      "description": "Block Load Survey — PT15M / PT30M cadence intervalBlocks for one meter.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/BaseTelemetryProfile"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "profileType": {
+              "type": "string",
+              "const": "INTERVAL"
+            }
+          }
+        }
+      ]
     },
     "DailyProfile": {
       "type": "object",
       "title": "DailyProfile",
       "description": "Daily Load Profile — P1D intervalBlocks. Same per-meter shape as IntervalProfile.",
-      "required": [
-        "profileType",
-        "customerRefs",
-        "meterRefs"
-      ],
-      "properties": {
-        "profileType": {
-          "type": "string",
-          "const": "DAILY"
+      "allOf": [
+        {
+          "$ref": "#/$defs/BaseTelemetryProfile"
         },
-        "customerRefs": {
-          "$ref": "#/$defs/IdentifierList"
-        },
-        "meterRefs": {
-          "$ref": "#/$defs/IdentifierList"
-        },
-        "serviceDeliveryPointRefs": {
-          "$ref": "#/$defs/IdentifierList"
-        },
-        "timePeriod": {
-          "$ref": "#/$defs/TimePeriod"
-        },
-        "readings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Reading"
-          }
-        },
-        "intervalBlocks": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/IntervalBlock"
+        {
+          "type": "object",
+          "properties": {
+            "profileType": {
+              "type": "string",
+              "const": "DAILY"
+            }
           }
         }
-      }
+      ]
     },
-    "BillingProfile": {
+    "MonthlyProfile": {
       "type": "object",
-      "title": "BillingProfile",
-      "description": "Monthly billing summary — energy + max-demand entries in totals[], ToU buckets, bill amount.",
+      "title": "MonthlyProfile",
+      "description": "Monthly profile readings from the meter at billing reset time (billing history).",
+      "allOf": [
+        {
+          "$ref": "#/$defs/BaseTelemetryProfile"
+        },
+        {
+          "type": "object",
+          "required": [
+            "timePeriod"
+          ],
+          "properties": {
+            "profileType": {
+              "type": "string",
+              "const": "MONTHLY"
+            },
+            "touBuckets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/TouBucket"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "BillDetails": {
+      "type": "object",
+      "title": "BillDetails",
+      "description": "Utility billing computed details, such as billing amount, bill number, due dates, and prepaid balance.",
       "required": [
         "profileType",
         "customerRefs",
-        "meterRefs",
-        "timePeriod"
+        "timePeriod",
+        "amountDue"
       ],
       "properties": {
         "profileType": {
           "type": "string",
-          "const": "BILLING"
+          "const": "BILL_DETAILS"
         },
         "customerRefs": {
           "$ref": "#/$defs/IdentifierList"
@@ -210,23 +239,13 @@
         "amountDue": {
           "type": "number"
         },
-        "readings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Reading"
-          }
+        "prepaidBalance": {
+          "type": "number",
+          "description": "Prepaid remaining balance/credit amount on the account/meter, if applicable."
         },
-        "touBuckets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/TouBucket"
-          }
-        },
-        "intervalBlocks": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/IntervalBlock"
-          }
+        "paymentStatus": {
+          "type": "string",
+          "description": "Status of the payment, e.g. PAID, UNPAID, PARTIAL."
         }
       }
     },
@@ -234,16 +253,42 @@
       "type": "object",
       "title": "InstantaneousProfile",
       "description": "Snapshot of a meter's electrical quantities at one captured moment.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/BaseTelemetryProfile"
+        },
+        {
+          "type": "object",
+          "required": [
+            "timestamp"
+          ],
+          "properties": {
+            "profileType": {
+              "type": "string",
+              "const": "INSTANTANEOUS"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "AlarmProfile": {
+      "type": "object",
+      "title": "AlarmProfile",
+      "description": "Real-time active indicators/alerts representing immediate state conditions from the meter.",
       "required": [
         "profileType",
         "customerRefs",
         "meterRefs",
-        "timestamp"
+        "alarms"
       ],
       "properties": {
         "profileType": {
           "type": "string",
-          "const": "INSTANTANEOUS"
+          "const": "ALARM"
         },
         "customerRefs": {
           "$ref": "#/$defs/IdentifierList"
@@ -251,20 +296,10 @@
         "meterRefs": {
           "$ref": "#/$defs/IdentifierList"
         },
-        "timestamp": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "readings": {
+        "alarms": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Reading"
-          }
-        },
-        "intervalBlocks": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/IntervalBlock"
+            "$ref": "#/$defs/MeterAlarm"
           }
         }
       }
@@ -667,6 +702,42 @@
         "duration": {
           "type": "string",
           "format": "duration"
+        }
+      }
+    },
+    "MeterAlarm": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "alarmId",
+        "status"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "alarmId": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "alarmName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "CLEARED"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "CRITICAL",
+            "WARNING",
+            "INFO"
+          ]
         }
       }
     },

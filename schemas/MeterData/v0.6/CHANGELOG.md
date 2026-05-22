@@ -1,8 +1,33 @@
 # MeterData v0.6 Changelog
 
-Version 0.6 introduces a major structural refactor to the `MeterData` schema. It unifies time representations, reduces redundant payload properties, reinstates Time of Use (ToU) buckets with an improved grouping structure, and formalizes a **Universal Dual-Form Representation** (Form A - Elaborated and Form B - Compact) across all profiles.
+Version 0.6 introduces a major structural refactor to the `MeterData` schema. It unifies time representations, reduces redundant payload properties, reinstates Time of Use (ToU) buckets with an improved grouping structure, formalizes a **Universal Dual-Form Representation** (Form A - Elaborated and Form B - Compact) across all profiles, introduces prepayment balance attributes, and implements modular composition-based profile schemas alongside real-time active alarms.
 
 ---
+
+## What's New in v0.6 (Latest Updates)
+
+### 1. Split of Billing Profile into Monthly Profile and Bill Details
+The legacy `BillingProfile` has been separated into:
+* **`MonthlyProfile`**: Represents reset data expected from the physical meter on a monthly basis (cumulative energy registers, Time-of-Use buckets, and Maximum Demand).
+* **`BillDetails`**: Represents utility billing and commercial details computed out-of-band (billing amount, currency, bill number, bill date, due date, payment status, and prepaid balance).
+
+### 2. Composition-Based Inheritance for Profiles
+Introduced a unified base schema **`BaseTelemetryProfile`** containing standard attributes (`customerRefs`, `meterRefs`, `serviceDeliveryPointRefs`, `timePeriod`, `readings`, and `intervalBlocks`). The derived profiles (`IntervalProfile`, `DailyProfile`, `MonthlyProfile`, and `InstantaneousProfile`) are refactored to inherit from `BaseTelemetryProfile` using JSON Schema `allOf`. This ensures optimal reuse, consistency, and a modular schema design.
+
+### 3. Dedicated Alarm Profile & Real-Time Active Alarms
+Added **`AlarmProfile`** (`profileType: "ALARM"`) and **`MeterAlarm`** types to capture active real-time conditions (e.g. voltage sag, overload, cover open, neutral disturbance) on the meter, complementing the periodic batch `EventProfile`.
+
+### 4. OBIS Mapping Refactoring & Alarm Register mapping
+* Transformed `"codes"` in `OBISMapping.json` from a key-value dictionary to a record array structure with the key `"obis"`.
+* Added a list of target `"profiles"` to each code record to specify where it is valid.
+* Added an `"attributes"` array for peak-occurrence metadata (e.g., peak demand timestamp) on Maximum Demand registers.
+* Added standard Alarm Register OBIS code `0.0.97.98.0.255` and a standard alarm taxonomy mapping block under `"alarms"`.
+
+### 5. Permissive Schema Compiler
+Implemented a schema compiler `scripts/generate_schema_permissive.py` to handle nested `allOf` and `$ref` inheritances, resolving flat properties correctly during context and vocab compilation.
+
+---
+
 
 ## Schema Structural Changes
 
@@ -39,13 +64,14 @@ Every telemetry profile (Billing, Daily, Interval, Instantaneous, Event) now sup
 ## Detailed Payload Examples
 
 ### Form A: Elaborated Representation (`readings` / `touBuckets`)
-Ideal for sparse registers (e.g. `BillingProfile` or `InstantaneousProfile`). Telemetry is presented as a list of discrete `Reading` objects containing inline values, timestamps, and register details.
+Ideal for sparse registers (e.g. `MonthlyProfile`, `BillDetails`, or `InstantaneousProfile`). Telemetry is presented as a list of discrete `Reading` objects containing inline values, timestamps, and register details.
 
+#### Monthly Profile Example:
 ```json
 {
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "BillingProfile",
-  "profileType": "BILLING",
+  "@type": "MonthlyProfile",
+  "profileType": "MONTHLY",
   "customerRefs": [
     { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
   ],
@@ -53,17 +79,18 @@ Ideal for sparse registers (e.g. `BillingProfile` or `InstantaneousProfile`). Te
     { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
   ],
   "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
-  "billNumber": "BESCOM-RR-1234-202604",
-  "billDate": "2026-05-01",
-  "dueDate": "2026-05-21",
-  "currency": "INR",
-  "amountDue": 4287.5,
   "readings": [
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
       "value": 412.5,
       "openingValue": 18432.5,
       "closingValue": 18845.0
+    },
+    {
+      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.9.8.0.255" },
+      "value": 421.8,
+      "openingValue": 18715.4,
+      "closingValue": 19137.2
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
@@ -83,6 +110,29 @@ Ideal for sparse registers (e.g. `BillingProfile` or `InstantaneousProfile`). Te
       ]
     }
   ]
+}
+```
+
+#### Bill Details Example:
+```json
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+  "@type": "BillDetails",
+  "profileType": "BILL_DETAILS",
+  "customerRefs": [
+    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+  ],
+  "meterRefs": [
+    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+  ],
+  "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
+  "billNumber": "BESCOM-RR-1234-202604",
+  "billDate": "2026-05-01",
+  "dueDate": "2026-05-21",
+  "currency": "INR",
+  "amountDue": 4287.50,
+  "prepaidBalance": 500.00,
+  "paymentStatus": "UNPAID"
 }
 ```
 

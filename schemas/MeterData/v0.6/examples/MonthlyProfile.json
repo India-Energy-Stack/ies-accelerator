@@ -1,7 +1,7 @@
 {
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "BillingProfile",
-  "profileType": "BILLING",
+  "@type": "MonthlyProfile",
+  "profileType": "MONTHLY",
   "customerRefs": [
     { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
   ],
@@ -9,11 +9,6 @@
     { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
   ],
   "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
-  "billNumber": "BESCOM-RR-1234-202604",
-  "billDate": "2026-05-01",
-  "dueDate": "2026-05-21",
-  "currency": "INR",
-  "amountDue": 4287.5,
   "readings": [
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },

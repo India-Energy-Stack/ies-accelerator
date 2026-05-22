@@ -24,14 +24,16 @@ components:
     EnergyData:
       type: "object"
       title: "EnergyData"
-      description: "A single compact data-only profile record. Must be one of the six standard types."
+      description: "A single compact data-only profile record. Must be one of the eight standard types."
       oneOf:
         - $ref: "#/components/schemas/CustomerProfile"
         - $ref: "#/components/schemas/IntervalProfile"
         - $ref: "#/components/schemas/DailyProfile"
-        - $ref: "#/components/schemas/BillingProfile"
+        - $ref: "#/components/schemas/MonthlyProfile"
+        - $ref: "#/components/schemas/BillDetails"
         - $ref: "#/components/schemas/InstantaneousProfile"
         - $ref: "#/components/schemas/EventProfile"
+        - $ref: "#/components/schemas/AlarmProfile"
 
     CustomerProfile:
       type: "object"
@@ -68,10 +70,8 @@ components:
           items:
             $ref: "#/components/schemas/Association"
 
-    IntervalProfile:
+    BaseTelemetryProfile:
       type: "object"
-      title: "IntervalProfile"
-      description: "Block Load Survey — PT15M / PT30M cadence intervalBlocks for one meter."
       required:
         - "profileType"
         - "customerRefs"
@@ -79,7 +79,6 @@ components:
       properties:
         profileType:
           type: "string"
-          const: "INTERVAL"
         customerRefs:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
@@ -96,49 +95,62 @@ components:
           type: "array"
           items:
             $ref: "#/components/schemas/IntervalBlock"
+
+    IntervalProfile:
+      type: "object"
+      title: "IntervalProfile"
+      description: "Block Load Survey — PT15M / PT30M cadence intervalBlocks for one meter."
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          properties:
+            profileType:
+              type: "string"
+              const: "INTERVAL"
 
     DailyProfile:
       type: "object"
       title: "DailyProfile"
       description: "Daily Load Profile — P1D intervalBlocks. Same per-meter shape as IntervalProfile."
-      required:
-        - "profileType"
-        - "customerRefs"
-        - "meterRefs"
-      properties:
-        profileType:
-          type: "string"
-          const: "DAILY"
-        customerRefs:
-          $ref: "#/components/schemas/IdentifierList"
-        meterRefs:
-          $ref: "#/components/schemas/IdentifierList"
-        serviceDeliveryPointRefs:
-          $ref: "#/components/schemas/IdentifierList"
-        timePeriod:
-          $ref: "#/components/schemas/TimePeriod"
-        readings:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Reading"
-        intervalBlocks:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/IntervalBlock"
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          properties:
+            profileType:
+              type: "string"
+              const: "DAILY"
 
-    BillingProfile:
+    MonthlyProfile:
       type: "object"
-      title: "BillingProfile"
-      description: "Monthly billing summary — energy + max-demand entries in totals[], ToU buckets, bill amount."
+      title: "MonthlyProfile"
+      description: "Monthly profile readings from the meter at billing reset time (billing history)."
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          required:
+            - "timePeriod"
+          properties:
+            profileType:
+              type: "string"
+              const: "MONTHLY"
+            touBuckets:
+              type: "array"
+              items:
+                $ref: "#/components/schemas/TouBucket"
+
+    BillDetails:
+      type: "object"
+      title: "BillDetails"
+      description: "Utility billing computed details, such as billing amount, bill number, due dates, and prepaid balance."
       required:
         - "profileType"
         - "customerRefs"
-        - "meterRefs"
         - "timePeriod"
+        - "amountDue"
       properties:
         profileType:
           type: "string"
-          const: "BILLING"
+          const: "BILL_DETAILS"
         customerRefs:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
@@ -158,47 +170,52 @@ components:
           description: "ISO 4217 (INR, USD, ...)."
         amountDue:
           type: "number"
-        readings:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Reading"
-        touBuckets:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/TouBucket"
-        intervalBlocks:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/IntervalBlock"
+        prepaidBalance:
+          type: "number"
+          description: "Prepaid remaining balance/credit amount on the account/meter, if applicable."
+        paymentStatus:
+          type: "string"
+          description: "Status of the payment, e.g. PAID, UNPAID, PARTIAL."
 
     InstantaneousProfile:
       type: "object"
       title: "InstantaneousProfile"
       description: "Snapshot of a meter's electrical quantities at one captured moment."
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          required:
+            - "timestamp"
+          properties:
+            profileType:
+              type: "string"
+              const: "INSTANTANEOUS"
+            timestamp:
+              type: "string"
+              format: "date-time"
+
+    AlarmProfile:
+      type: "object"
+      title: "AlarmProfile"
+      description: "Real-time active indicators/alerts representing immediate state conditions from the meter."
       required:
         - "profileType"
         - "customerRefs"
         - "meterRefs"
-        - "timestamp"
+        - "alarms"
       properties:
         profileType:
           type: "string"
-          const: "INSTANTANEOUS"
+          const: "ALARM"
         customerRefs:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
           $ref: "#/components/schemas/IdentifierList"
-        timestamp:
-          type: "string"
-          format: "date-time"
-        readings:
+        alarms:
           type: "array"
           items:
-            $ref: "#/components/schemas/Reading"
-        intervalBlocks:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/IntervalBlock"
+            $ref: "#/components/schemas/MeterAlarm"
+
 
     EventProfile:
       type: "object"
@@ -499,6 +516,33 @@ components:
         duration:
           type: "string"
           format: "duration"
+
+    MeterAlarm:
+      type: "object"
+      required:
+        - "timestamp"
+        - "alarmId"
+        - "status"
+      properties:
+        timestamp:
+          type: "string"
+          format: "date-time"
+        alarmId:
+          type: "integer"
+          minimum: 1
+        alarmName:
+          type: "string"
+        status:
+          type: "string"
+          enum:
+            - "ACTIVE"
+            - "CLEARED"
+        severity:
+          type: "string"
+          enum:
+            - "CRITICAL"
+            - "WARNING"
+            - "INFO"
 
     IdentifierScheme:
       type: "string"

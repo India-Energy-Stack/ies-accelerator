@@ -2,16 +2,16 @@
 
 This directory contains the **Meter Data Compact Profiles** (v0.6) schema definitions and semantic models for telemetry data exchange. It is tailored for high-efficiency, data-only transmissions of smart meter readings and events, omitting the heavy cryptographic wrapping when only raw telemetry payload is being exchanged.
 
-## Overview
-
-The `MeterData` schema standardizes telemetry exchanges into **six compact profile shapes** representing different read cadences and data structures from smart meters:
+The `MeterData` schema standardizes telemetry exchanges into **eight compact profile shapes** representing different read cadences and data structures from smart meters:
 
 1. **`CUSTOMER`** — Slow-changing customer metadata, service points, and meter installations.
 2. **`INTERVAL`** — Block load survey profile at high-resolution intervals (e.g., 15-minute or 30-minute blocks).
 3. **`DAILY`** — Daily accumulated load survey profiles.
-4. **`BILLING`** — Monthly billing summaries, including billing registers, tariff buckets (Time-of-Use), and billing values.
-5. **`INSTANTANEOUS`** — Real-time snapshots of electrical quantities (voltages, currents, active/reactive powers) at a specific moment.
-6. **`EVENT`** — Event logs matching standard IS 15959 diagnostic codes and tamper events.
+4. **`MONTHLY`** — Monthly billing resets (billing history cumulative total energy registers, ToU buckets, and Maximum Demand).
+5. **`BILL_DETAILS`** — Utility billing computed details (billing amount, bill number, due dates, currency, prepaid balance, and payment status).
+6. **`INSTANTANEOUS`** — Real-time snapshots of electrical quantities (voltages, currents, active/reactive powers) at a specific moment.
+7. **`EVENT`** — Event logs matching standard IS 15959 diagnostic codes and tamper events.
+8. **`ALARM`** — Real-time active alerts representing immediate state conditions (tamper, low prepayment credit, voltage sag, overload) from the meter.
 
 ---
 
@@ -35,7 +35,7 @@ The `schema.json`, `context.jsonld`, and `vocab.jsonld` files are compiled autom
 To recompile schemas following modifications in `attributes.yaml`, run the following command from the repository root inside your virtual environment:
 
 ```bash
-python scripts/generate_schema.py schemas/MeterData/v0.6
+python scripts/generate_schema_permissive.py schemas/MeterData/v0.6
 ```
 
 ---
@@ -70,7 +70,8 @@ The `OBISMapping` file serves as the canonical dictionary for interpreting IS 15
 
 **Snapshot:**
 ```json
-"1.0.1.8.0.255": {
+{
+  "obis": "1.0.1.8.0.255",
   "name": "Active energy import - cumulative (kWh)",
   "shortLabel": "kWh imp",
   "unit": "kWh",
@@ -78,6 +79,7 @@ The `OBISMapping` file serves as the canonical dictionary for interpreting IS 15
   "accumulationBehaviour": "CUMULATIVE",
   "category": "energyCumulative",
   "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+  "profiles": ["DAILY", "MONTHLY"],
   "source": "IS 15959 Part 1 Table 22; Part 2 Table A14; Part 3 Table 1"
 }
 ```
@@ -151,7 +153,7 @@ By default, all readings are assumed to be `{VALID, METER}`. If a specific inter
 *See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse overrides.*
 
 ### Maximum Demand snapshoting
-When transmitting Maximum Demand snapshot aggregates in Elaborated form (e.g. inside a [`BillingProfile`](./examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
+When transmitting Maximum Demand snapshot aggregates in Elaborated form (e.g. inside a [`MonthlyProfile`](./examples/MonthlyProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
 
 ```json
 {
