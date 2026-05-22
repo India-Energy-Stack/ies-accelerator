@@ -28,8 +28,8 @@ This section is the developer reference for **how IDs are minted, structured, re
 |---|---|
 | [Concepts](./concepts.md) | DID 101 — methods, structure, how `did:web` and `did:dedi` work in IES |
 | [ID Patterns](./id-patterns.md) | How to ID DISCOMs, consumers, assets, meters, regulators, credentials |
-| [Registries](./registries.md) | Hosting a public DeDi registry; running a parallel private registry inside the DISCOM |
-| [Resolution](./resolution.md) | Workflows to resolve a DID and route a request to the right endpoint |
+| [Private Resolution](../registries/private_resolution.md) | Resolving identifiers across public registries vs. private internal mirrors |
+| [Resolution](../registries/resolution.md) | Workflows to resolve a DID and route a request to the right endpoint |
 | [Issuance Reference](./issuance-reference.md) | Reference implementation: minting and registering IDs end-to-end |
 
 ---
@@ -48,8 +48,8 @@ These principles drive every choice in this section. If a future identifier does
 
 ## Quick orientation by role
 
-**DISCOM building integration** — start with [ID Patterns](./id-patterns.md), then [Registries](./registries.md).
+**DISCOM building integration** — start with [ID Patterns](./id-patterns.md), then [Private Resolution](../registries/private_resolution.md).
 
-**Verifier or wallet developer** — start with [Resolution](./resolution.md).
+**Verifier or wallet developer** — start with [Resolution](../registries/resolution.md).
 
-**Regulator or network operator** — start with [Concepts](./concepts.md), then [Registries](./registries.md) for the governance model.
+**Regulator or network operator** — start with [Concepts](./concepts.md), then [Private Resolution](../registries/private_resolution.md) for the governance model.
