@@ -18,7 +18,7 @@
       "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M"  },
       "payloadDescriptors": [
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
           "accumulationBehaviour": "DELTA"
         }
       ],

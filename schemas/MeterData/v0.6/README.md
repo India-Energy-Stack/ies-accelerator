@@ -61,6 +61,22 @@ All example payloads in the `examples/` directory have been augmented to support
 
 ---
 
+## Example Payloads and Scenarios
+This directory includes standard example payloads representing different profiles and encoding formats:
+* [CustomerProfile.json](./examples/CustomerProfile.json): Slow-changing customer metadata, service points, and meter installations.
+* [IntervalProfile.json](./examples/IntervalProfile.json): Block load survey telemetry represented in compact Form B (matrix with overrides) using short codes.
+* [DailyProfile.json](./examples/DailyProfile.json): Daily accumulated active and reactive energy registers represented in compact Form B using short codes.
+* [MonthlyProfile.json](./examples/MonthlyProfile.json): Monthly physical register reset cumulative readings and Time-of-Use (ToU) buckets represented in Form A using short codes.
+* [BillDetails.json](./examples/BillDetails.json): Computed out-of-band billing details including invoice amount due, currency, and prepayment balance.
+* [InstantaneousProfile.json](./examples/InstantaneousProfile.json): Real-time snapshot of electrical quantities (voltages, currents, power factors) represented in Form A using short codes.
+* [EventProfile.json](./examples/EventProfile.json): Tamper logs and diagnostic event history mapped to standard IS 15959 event records.
+* [AlarmProfile.json](./examples/AlarmProfile.json): Immediate, active meter alarm conditions (e.g. cover open, neutral disturbance, voltage sag).
+* [AggregatedFeeder.json](./examples/AggregatedFeeder.json): Feeder-level summary readings represented in Form A using short codes.
+* [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json): Bulk smart meter telemetry data for multiple meters using exact OBIS codes.
+* [MultiMeterBulkDatasetShortCodes.json](./examples/MultiMeterBulkDatasetShortCodes.json): Bulk smart meter telemetry data for multiple meters using human-readable short codes.
+
+---
+
 ## OBIS Mapping and Identifiers
 
 The `MeterData` schema relies on flexible identifiers to reference physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in the [OBISMapping.json](./OBISMapping.json) file.
@@ -90,7 +106,7 @@ When structuring your payload descriptors or values, you have the flexibility to
 * **Using OBIS Codes**: `{"scheme": "OBIS", "value": "1.0.1.8.0.255"}`
 * **Using Short Names**: `{"scheme": "SHORT_CODE", "value": "kWh imp"}`
 
-*See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) for OBIS examples and [AggregatedFeeder.json](./examples/AggregatedFeeder.json) for Short Code examples.*
+*See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) (OBIS Codes) and [MultiMeterBulkDatasetShortCodes.json](./examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) for bulk examples of both representations.*
 
 ---
 
@@ -99,12 +115,12 @@ When structuring your payload descriptors or values, you have the flexibility to
 The schema offers two distinct mechanisms for representing telemetry values, balancing explicit clarity with high-efficiency transmission.
 
 ### 1. Form A: Elaborated Representation (`readings` / `touBuckets`)
-Telemetry is presented as an array of discrete `Reading` objects containing inline values, timestamps, and register details. Physical units and phases are resolved out-of-band via OBIS codes.
+Telemetry is presented as an array of discrete `Reading` objects containing inline values, timestamps, and register details. Physical units and phases are resolved out-of-band via short codes (or OBIS codes).
 
 ```json
 "readings": [
   {
-    "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+    "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
     "value": 412.5,
     "openingValue": 18432.5,
     "closingValue": 18845.0
@@ -150,7 +166,7 @@ By default, all readings are assumed to be `{VALID, METER}`. If a specific inter
   }
 ]
 ```
-*See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse overrides.*
+*See [`MultiMeterBulkDatasetShortCodes.json`](./examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) or [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) (OBIS Codes) for full examples of sparse overrides.*
 
 ### Maximum Demand snapshoting
 When transmitting Maximum Demand snapshot aggregates in Elaborated form (e.g. inside a [`MonthlyProfile`](./examples/MonthlyProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.

@@ -1,5 +1,7 @@
 # MeterDataRequest Schema (v0.5)
 
+The smart meter telemetry data defined in [MeterData (v0.6)](../../MeterData/v0.6) is complemented with the `MeterDataRequest` schema – specifying **what meters**, **what data**, and **for how long** the query or permission spans.
+
 This directory houses the **`MeterDataRequest` (v0.5)** schema for the India Energy Stack. This schema defines structural parameters for selecting and querying smart meter telemetry and profiles.
 
 ## Schema Overview
@@ -22,13 +24,103 @@ The `MeterDataRequest` schema allows a Data Consumer (BAP) to request precise da
 5. **`maxRecordsShared`** (Optional, integer):
    * Maximum number of records that should be shared or returned in a single batch/page. Must be $\ge 1$.
 6. **`includeDetails`** (Optional, array of strings):
-   * List of specific profile types to include in the query result. Allowed types:
+   * List of specific profile types to include in the query result. Allowed types (corresponding to [MeterData (v0.6)](../../MeterData/v0.6) profiles):
      * `CustomerProfile`
      * `IntervalProfile`
      * `DailyProfile`
-     * `BillingProfile`
+     * `MonthlyProfile`
+     * `BillDetails`
      * `InstantaneousProfile`
      * `EventProfile`
+     * `AlarmProfile`
+
+---
+
+## Examples of Usage
+
+### 1. Embedded in a Credential (DISCOM-to-TSP Data Sharing Allowance)
+When a DISCOM grants permission to a Third Party Service Provider (TSP) to access telemetry on behalf of a consumer, the DISCOM issues a Verifiable Credential containing the `MeterDataRequest` query parameters as the allowed access boundary.
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld"
+  ],
+  "id": "urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456",
+  "type": ["VerifiableCredential", "MeterDataAllowanceCredential"],
+  "issuer": "did:web:discom.example.com",
+  "validFrom": "2026-05-22T12:00:00Z",
+  "credentialSubject": {
+    "id": "did:web:tsp.example.com",
+    "allowedMeterDataRequest": {
+      "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
+      "scope": "ResourceOnly",
+      "from": "2026-05-01T00:00:00Z",
+      "duration": "P30D",
+      "includeDetails": ["IntervalProfile", "DailyProfile"]
+    }
+  }
+}
+```
+
+### 2. Provider Capabilities (Advertised Capability Profiles)
+Data providers (e.g. an MDM system or a Customer Information/Billing system) use the `includeDetails` array to advertise what profiles they host.
+
+#### MDM (Meter Data Management) Capability:
+An MDM typically handles high-frequency interval load surveys, instant electrical quantities, and diagnostic logs.
+```json
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
+  "@type": "MeterDataRequest",
+  "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
+  "scope": "ResourceOnly",
+  "from": "2020-01-01T00:00:00Z",
+  "duration": "P10Y",
+  "includeDetails": [
+    "IntervalProfile",
+    "DailyProfile",
+    "InstantaneousProfile",
+    "AlarmProfile",
+    "EventProfile"
+  ]
+}
+```
+
+#### Billing System Capability:
+A billing system hosts computed financial parameters, billing registers, and invoice records.
+```json
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
+  "@type": "MeterDataRequest",
+  "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
+  "scope": "ResourceOnly",
+  "from": "2020-01-01T00:00:00Z",
+  "duration": "P10Y",
+  "includeDetails": [
+    "MonthlyProfile",
+    "BillDetails"
+  ]
+}
+```
+
+### 3. Requesting Data (As a Query Filter)
+Consumers or authorized clients submit a `MeterDataRequest` directly inside their query payloads to filter for specific telemetry windows and profiles.
+
+```json
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
+  "@type": "MeterDataRequest",
+  "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
+  "scope": "ResourceOnly",
+  "from": "2026-05-18T00:00:00Z",
+  "duration": "P1D",
+  "maxRecordsShared": 100,
+  "includeDetails": [
+    "IntervalProfile"
+  ]
+}
+```
 
 ---
 

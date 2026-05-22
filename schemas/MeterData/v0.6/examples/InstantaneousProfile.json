@@ -11,71 +11,71 @@
   "timestamp": "2026-05-11T14:32:00+05:30",
   "readings": [
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.32.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_R" },
       "value": 231.2
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.52.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_Y" },
       "value": 230.8
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.72.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "V_B" },
       "value": 232.1
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.31.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "I_R" },
       "value": 12.4
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.51.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "I_Y" },
       "value": 11.9
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.71.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "I_B" },
       "value": 12.8
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.33.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "PF_R" },
       "value": 0.93
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.53.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "PF_Y" },
       "value": 0.95
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.73.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "PF_B" },
       "value": 0.94
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.13.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "PF_3P" },
       "value": 0.94
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.14.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "Freq" },
       "value": 50.02
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "P_Import" },
       "value": 8.32
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.3.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "Q_Lag" },
       "value": 2.1
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.9.7.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "S_Total" },
       "value": 8.58
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
       "value": 18723.4
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.2.8.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp" },
       "value": 0.0
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
       "value": 8.42,
       "occurredAt": "2026-04-23T19:30:00+05:30"
     }

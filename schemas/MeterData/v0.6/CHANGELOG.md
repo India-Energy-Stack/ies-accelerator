@@ -81,19 +81,19 @@ Ideal for sparse registers (e.g. `MonthlyProfile`, `BillDetails`, or `Instantane
   "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
   "readings": [
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
       "value": 412.5,
       "openingValue": 18432.5,
       "closingValue": 18845.0
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.9.8.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp" },
       "value": 421.8,
       "openingValue": 18715.4,
       "closingValue": 19137.2
     },
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
       "value": 8.42,
       "occurredAt": "2026-04-23T19:30:00+05:30",
       "integrationPeriod": "PT30M"
@@ -104,7 +104,7 @@ Ideal for sparse registers (e.g. `MonthlyProfile`, `BillDetails`, or `Instantane
       "zone": 1,
       "readings": [
         {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },
+          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
           "value": 138.2
         }
       ]
@@ -155,8 +155,8 @@ Ideal for dense time-series telemetry (e.g. `IntervalProfile` or `DailyProfile`)
     {
       "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M"  },
       "payloadDescriptors": [
-        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" } },
-        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" } }
+        { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
+        { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp block" } }
       ],
       "intervals": [
         { "id": 0, "values": [4.82, 9.15] },
