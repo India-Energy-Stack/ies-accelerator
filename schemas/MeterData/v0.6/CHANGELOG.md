@@ -4,7 +4,7 @@ Version 0.6 introduces a major structural refactor to the `MeterData` schema. It
 
 ---
 
-## What's New in v0.6 (Latest Updates)
+## What's New in v0.6 (vs 0.5)
 
 ### 1. Split of Billing Profile into Monthly Profile and Bill Details
 The legacy `BillingProfile` has been separated into:
@@ -22,9 +22,6 @@ Added **`AlarmProfile`** (`profileType: "ALARM"`) and **`MeterAlarm`** types to 
 * Added a list of target `"profiles"` to each code record to specify where it is valid.
 * Added an `"attributes"` array for peak-occurrence metadata (e.g., peak demand timestamp) on Maximum Demand registers.
 * Added standard Alarm Register OBIS code `0.0.97.98.0.255` and a standard alarm taxonomy mapping block under `"alarms"`.
-
-### 5. Permissive Schema Compiler
-Implemented a schema compiler `scripts/generate_schema_permissive.py` to handle nested `allOf` and `$ref` inheritances, resolving flat properties correctly during context and vocab compilation.
 
 ---
 
@@ -81,19 +78,19 @@ Ideal for sparse registers (e.g. `MonthlyProfile`, `BillDetails`, or `Instantane
   "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
   "readings": [
     {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
+      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
       "value": 412.5,
       "openingValue": 18432.5,
       "closingValue": 18845.0
     },
     {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp" },
+      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.9.8.0.255" },
       "value": 421.8,
       "openingValue": 18715.4,
       "closingValue": 19137.2
     },
     {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
+      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
       "value": 8.42,
       "occurredAt": "2026-04-23T19:30:00+05:30",
       "integrationPeriod": "PT30M"
@@ -104,7 +101,7 @@ Ideal for sparse registers (e.g. `MonthlyProfile`, `BillDetails`, or `Instantane
       "zone": 1,
       "readings": [
         {
-          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh TZ1" },
+          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },
           "value": 138.2
         }
       ]
@@ -155,8 +152,8 @@ Ideal for dense time-series telemetry (e.g. `IntervalProfile` or `DailyProfile`)
     {
       "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M"  },
       "payloadDescriptors": [
-        { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
-        { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp block" } }
+        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" } },
+        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" } }
       ],
       "intervals": [
         { "id": 0, "values": [4.82, 9.15] },

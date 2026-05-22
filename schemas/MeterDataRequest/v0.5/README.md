@@ -38,89 +38,24 @@ The `MeterDataRequest` schema allows a Data Consumer (BAP) to request precise da
 
 ## Examples of Usage
 
-### 1. Embedded in a Credential (DISCOM-to-TSP Data Sharing Allowance)
-When a DISCOM grants permission to a Third Party Service Provider (TSP) to access telemetry on behalf of a consumer, the DISCOM issues a Verifiable Credential containing the `MeterDataRequest` query parameters as the allowed access boundary.
+To avoid clutter and maintain 100% compliance audits, the usage examples for this schema are saved as standalone JSON files in the `examples/` directory:
 
-```json
-{
-  "@context": [
-    "https://www.w3.org/ns/credentials/v2",
-    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld"
-  ],
-  "id": "urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456",
-  "type": ["VerifiableCredential", "MeterDataAllowanceCredential"],
-  "issuer": "did:web:discom.example.com",
-  "validFrom": "2026-05-22T12:00:00Z",
-  "credentialSubject": {
-    "id": "did:web:tsp.example.com",
-    "allowedMeterDataRequest": {
-      "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
-      "scope": "ResourceOnly",
-      "from": "2026-05-01T00:00:00Z",
-      "duration": "P30D",
-      "includeDetails": ["IntervalProfile", "DailyProfile"]
-    }
-  }
-}
-```
+### 1. Embedded in a Credential (DISCOM-to-TSP Data Sharing Allowance)
+* **Goal**: A DISCOM grants permission to a Third Party Service Provider (TSP) to access smart meter telemetry on behalf of a consumer, restricted to **only interval (block load survey) data** for **all child meters** under a specific feeder (`did:dedi:ies:feeder:IN-MH-FDR-101`).
+* **Implementation**: The credential embeds a `MeterDataRequest` object defining the allowed query boundaries.
+* **Telemetry Query Profile**: [MeterDataRequest_FeederAllowance.json](./examples/MeterDataRequest_FeederAllowance.json)
 
 ### 2. Provider Capabilities (Advertised Capability Profiles)
-Data providers (e.g. an MDM system or a Customer Information/Billing system) use the `includeDetails` array to advertise what profiles they host.
-
-#### MDM (Meter Data Management) Capability:
-An MDM typically handles high-frequency interval load surveys, instant electrical quantities, and diagnostic logs.
-```json
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
-  "@type": "MeterDataRequest",
-  "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
-  "scope": "ResourceOnly",
-  "from": "2020-01-01T00:00:00Z",
-  "duration": "P10Y",
-  "includeDetails": [
-    "IntervalProfile",
-    "DailyProfile",
-    "InstantaneousProfile",
-    "AlarmProfile",
-    "EventProfile"
-  ]
-}
-```
-
-#### Billing System Capability:
-A billing system hosts computed financial parameters, billing registers, and invoice records.
-```json
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
-  "@type": "MeterDataRequest",
-  "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
-  "scope": "ResourceOnly",
-  "from": "2020-01-01T00:00:00Z",
-  "duration": "P10Y",
-  "includeDetails": [
-    "MonthlyProfile",
-    "BillDetails"
-  ]
-}
-```
+Data providers advertise what subset of profile queries they support relative to specific electrical hierarchy nodes:
+* **MDM (Meter Data Management System) Capability**: Hosts raw meter readings (Interval, Daily, Instantaneous, Event, and Alarm profiles) for all target substations and their child elements.
+  * **Capability Profile**: [MeterDataRequest_MDM_Capability.json](./examples/MeterDataRequest_MDM_Capability.json)
+* **Billing System Capability**: Hosts customer profile metadata and detailed invoice/prepayment records.
+  * **Capability Profile**: [MeterDataRequest_Billing_Capability.json](./examples/MeterDataRequest_Billing_Capability.json)
 
 ### 3. Requesting Data (As a Query Filter)
-Consumers or authorized clients submit a `MeterDataRequest` directly inside their query payloads to filter for specific telemetry windows and profiles.
-
-```json
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
-  "@type": "MeterDataRequest",
-  "resources": ["did:dedi:ies:meter:IN-MH-MTR-89721"],
-  "scope": "ResourceOnly",
-  "from": "2026-05-18T00:00:00Z",
-  "duration": "P1D",
-  "maxRecordsShared": 100,
-  "includeDetails": [
-    "IntervalProfile"
-  ]
-}
-```
+* **Goal**: An authorized application requests the exact telemetry dataset needed to compile a **Meter Digest Credential** for a single customer (querying the customer profile, billing details, monthly registers, and daily summaries for the last 30 days).
+* **Telemetry Query Filter**: [MeterDataRequest_DigestCredentialFilter.json](./examples/MeterDataRequest_DigestCredentialFilter.json)
+* **Standard Query Filter**: [MeterDataRequest_Example.json](./examples/MeterDataRequest_Example.json)
 
 ---
 
