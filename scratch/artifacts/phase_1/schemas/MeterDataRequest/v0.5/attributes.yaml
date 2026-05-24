@@ -1,0 +1,87 @@
+openapi: 3.1.1
+info:
+  title: "MeterDataRequest"
+  version: "0.5.0"
+  description: "Structural JSON Schema for selecting meter data (MeterDataRequest)."
+jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
+servers:
+  - url: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas"
+    description: "Canonical schema registry"
+paths: {}
+components:
+  schemas:
+    MeterDataRequest:
+      $id: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/schema.json"
+      title: "MeterDataRequest"
+      description: "Request parameters for selecting smart meter telemetry and profiles."
+      type: "object"
+      required:
+        - "resources"
+        - "scope"
+        - "from"
+        - "duration"
+      properties:
+        resources:
+          type: "array"
+          description: "List of resource identifiers (e.g., meter DIDs, service point IDs, or customer IDs) to query."
+          items:
+            type: "string"
+            format: "uri"
+        scope:
+          type: "string"
+          description: "Defines the hierarchical scope of the query relative to the target resources."
+          enum:
+            - "ResourceOnly"
+            - "ResourceAndChildren"
+            - "ChildrenOnly"
+        from:
+          type: "string"
+          format: "date-time"
+          description: "ISO 8601 UTC date-time indicating the start time of the requested data window."
+        duration:
+          type: "string"
+          format: "duration"
+          description: "ISO 8601 duration string representing the length of the requested data window (e.g., PT15M, P1D, P30D)."
+        maxRecordsShared:
+          type: "integer"
+          minimum: 1
+          description: "Maximum number of records that should be shared or returned in a single batch/page."
+        includeDetails:
+          type: "array"
+          description: "List of profile requests specifying profiles, optional values and modes."
+          items:
+            $ref: "#/components/schemas/ProfileRequest"
+
+    TelemetryMode:
+      type: "string"
+      enum:
+        - "READING"
+        - "USAGE"
+
+    ProfileRequest:
+      type: "object"
+      required:
+        - "profileType"
+      properties:
+        profileType:
+          type: "string"
+          enum:
+            - "CustomerProfile"
+            - "IntervalProfile"
+            - "DailyProfile"
+            - "BillingProfile"
+            - "InstantaneousProfile"
+            - "EventProfile"
+        values:
+          type: "array"
+          items:
+            type: "string"
+          description: "List of requested reading/OBIS codes or value names."
+        supportedModes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/TelemetryMode"
+          description: "Modes supported by the consumer."
+        requestedMode:
+          $ref: "#/components/schemas/TelemetryMode"
+          description: "The specific mode requested. Multiple modes may be supported, but only one may be requested."

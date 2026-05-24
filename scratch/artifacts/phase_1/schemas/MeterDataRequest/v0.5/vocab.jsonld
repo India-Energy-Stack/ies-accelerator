@@ -1,0 +1,48 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "schema": "https://schema.org/"
+    },
+    "@graph": [
+        {
+            "@id": "ies:MeterDataRequest",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Request",
+            "rdfs:comment": "Request parameters for selecting smart meter telemetry and profiles."
+        },
+        {
+            "@id": "ies:ProfileRequest",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Profile Request",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:profileType",
+            "@type": "rdf:Property",
+            "rdfs:label": "profile Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:values",
+            "@type": "rdf:Property",
+            "rdfs:label": "values",
+            "rdfs:comment": "List of requested reading/OBIS codes or value names."
+        },
+        {
+            "@id": "ies:supportedModes",
+            "@type": "rdf:Property",
+            "rdfs:label": "supported Modes",
+            "rdfs:comment": "Modes supported by the consumer."
+        },
+        {
+            "@id": "ies:requestedMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "requested Mode",
+            "rdfs:comment": "The specific mode requested. Multiple modes may be supported, but only one may be requested."
+        }
+    ]
+}
