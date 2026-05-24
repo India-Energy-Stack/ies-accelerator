@@ -6,6 +6,31 @@
         "type": "@type",
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#"
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+        "ProfileRequest": {
+            "@id": "ies:ProfileRequest",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "values": {
+                    "@id": "ies:values",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "supportedModes": {
+                    "@id": "ies:supportedModes",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "requestedMode": {
+                    "@id": "ies:requestedMode",
+                    "@type": "@id"
+                }
+            }
+        }
     }
 }

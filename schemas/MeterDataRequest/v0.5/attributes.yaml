@@ -48,13 +48,40 @@ components:
           description: "Maximum number of records that should be shared or returned in a single batch/page."
         includeDetails:
           type: "array"
-          description: "List of specific profile types to include in the response."
+          description: "List of profile requests specifying profiles, optional values and modes."
+          items:
+            $ref: "#/components/schemas/ProfileRequest"
+
+    TelemetryMode:
+      type: "string"
+      enum:
+        - "READING"
+        - "USAGE"
+
+    ProfileRequest:
+      type: "object"
+      required:
+        - "profileType"
+      properties:
+        profileType:
+          type: "string"
+          enum:
+            - "CustomerProfile"
+            - "IntervalProfile"
+            - "DailyProfile"
+            - "BillingProfile"
+            - "InstantaneousProfile"
+            - "EventProfile"
+        values:
+          type: "array"
           items:
             type: "string"
-            enum:
-              - "CustomerProfile"
-              - "IntervalProfile"
-              - "DailyProfile"
-              - "BillingProfile"
-              - "InstantaneousProfile"
-              - "EventProfile"
+          description: "List of requested reading/OBIS codes or value names."
+        supportedModes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/TelemetryMode"
+          description: "Modes supported by the consumer."
+        requestedMode:
+          $ref: "#/components/schemas/TelemetryMode"
+          description: "The specific mode requested. Multiple modes may be supported, but only one may be requested."
