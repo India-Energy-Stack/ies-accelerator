@@ -84,7 +84,8 @@ def run_parity_check(v6_path, openadr_path):
     OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/OBISMapping.json"
     if os.path.exists(OBIS_MAPPING_PATH):
         with open(OBIS_MAPPING_PATH, "r") as f:
-            mapping = json.load(f).get("codes", {})
+            data = json.load(f).get("codes", [])
+            mapping = {item["obis"]: item for item in data}
     else:
         mapping = {}
         
