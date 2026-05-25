@@ -1,0 +1,73 @@
+{
+  "id": "report-daily-BESCOM-SM-2025-654321",
+  "createdDateTime": "2026-05-25T00:00:00Z",
+  "modificationDateTime": "2026-05-25T00:00:00Z",
+  "objectType": "REPORT",
+  "clientID": "client-BESCOM-SM-2025-654321",
+  "eventID": "event-000",
+  "clientName": "BESCOM-SM-2025-654321",
+  "reportName": "DAILY_Report",
+  "payloadDescriptors": [
+    {
+      "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
+      "payloadType": "USAGE",
+      "readingType": "DIRECT_READ",
+      "units": "KWH"
+    }
+  ],
+  "resources": [
+    {
+      "resourceName": "BESCOM-SM-2025-654321",
+      "intervals": [
+        {
+          "id": 0,
+          "payloads": [
+            {
+              "type": "USAGE",
+              "values": [
+                "1000.0"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "payloads": [
+            {
+              "type": "USAGE",
+              "values": [
+                "1005.5"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "payloads": [
+            {
+              "type": "USAGE",
+              "values": [
+                "1012.3"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "payloads": [
+            {
+              "type": "USAGE",
+              "values": [
+                "1018.0"
+              ]
+            }
+          ]
+        }
+      ],
+      "intervalPeriod": {
+        "start": "2026-05-04T00:00:00+05:30",
+        "duration": "P1D"
+      }
+    }
+  ]
+}

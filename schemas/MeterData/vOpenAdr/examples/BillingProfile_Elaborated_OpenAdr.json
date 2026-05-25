@@ -1,0 +1,82 @@
+{
+  "id": "report-billing-BESCOM-SM-2025-654321",
+  "createdDateTime": "2026-05-25T00:00:00Z",
+  "modificationDateTime": "2026-05-25T00:00:00Z",
+  "objectType": "REPORT",
+  "clientID": "client-BESCOM-SM-2025-654321",
+  "eventID": "event-000",
+  "clientName": "BESCOM-SM-2025-654321",
+  "reportName": "BILLING_Report",
+  "payloadDescriptors": [
+    {
+      "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
+      "payloadType": "USAGE",
+      "readingType": "DIRECT_READ",
+      "units": "KWH"
+    },
+    {
+      "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
+      "payloadType": "USAGE",
+      "readingType": "SUM",
+      "units": "KWH"
+    },
+    {
+      "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
+      "payloadType": "DEMAND",
+      "readingType": "PEAK",
+      "units": "KW"
+    }
+  ],
+  "resources": [
+    {
+      "resourceName": "BESCOM-SM-2025-654321",
+      "intervals": [
+        {
+          "id": 0,
+          "payloads": [
+            {
+              "type": "USAGE",
+              "values": [
+                "5120.0"
+              ]
+            }
+          ],
+          "intervalPeriod": {
+            "start": "2026-05-25T00:00:00Z",
+            "duration": "PT0S"
+          }
+        },
+        {
+          "id": 2,
+          "payloads": [
+            {
+              "type": "USAGE",
+              "values": [
+                "120.0"
+              ]
+            }
+          ],
+          "intervalPeriod": {
+            "start": "2026-05-25T00:00:00Z",
+            "duration": "PT0S"
+          }
+        },
+        {
+          "id": 4,
+          "payloads": [
+            {
+              "type": "DEMAND",
+              "values": [
+                "8.42"
+              ]
+            }
+          ],
+          "intervalPeriod": {
+            "start": "2026-04-18T19:30:00+05:30",
+            "duration": "PT30M"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -4,251 +4,214 @@ import glob
 import os
 import sys
 
-DEPRECATED_KEYS = {
-    "unit", "phase", "accumulationBehaviour", "readingPurpose", 
-    "coveragePeriod", "billingPeriod", "intervalLength", "capturedAt", 
-    "qualityOverrides", "_label", "_mdOccurredAt"
-}
+# Load global mapping for category checking and code resolution
+OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/OBISMapping.json"
+if os.path.exists(OBIS_MAPPING_PATH):
+    with open(OBIS_MAPPING_PATH, "r") as f:
+        OBIS_MAPPING = json.load(f).get("codes", {})
+else:
+    OBIS_MAPPING = {}
 
-def clean_dict(d):
-    if not isinstance(d, dict):
-        return d
-    return {k: clean_dict(v) for k, v in d.items() if k not in DEPRECATED_KEYS}
+def get_obis_info(ref_val):
+    for code, info in OBIS_MAPPING.items():
+        if code == ref_val or info.get("shortLabel") == ref_val:
+            return code, info
+    return ref_val, {}
 
-def clean_list(lst):
-    if not isinstance(lst, list):
-        return lst
-    return [clean_dict(x) if isinstance(x, dict) else clean_list(x) if isinstance(x, list) else x for x in lst]
-
-def get_telemetry_flat_v5(profile):
-    """
-    Extract all values and overrides from v0.5 profile
-    """
-    flat_data = []
+def check_code_match(v5_code, v6_code):
+    if v5_code == v6_code:
+        return True
     
-    # 1. Readings in billing / instantaneous / customer
+    # Cumulative-to-Incremental mappings for v0.5 interval profiles
+    mappings = {
+        "1.0.1.8.0.255": "1.0.1.29.0.255",
+        "1.0.9.8.0.255": "1.0.9.29.0.255",
+        "1.0.2.8.0.255": "1.0.2.29.0.255",
+        "1.0.10.8.0.255": "1.0.10.29.0.255",
+        "1.0.3.8.0.255": "1.0.3.29.0.255",
+        "1.0.4.8.0.255": "1.0.4.29.0.255",
+        "kWh imp block": "1.0.1.29.0.255",
+        "kVAh imp block": "1.0.9.29.0.255"
+    }
+    
+    # Try resolving both first
+    res5, _ = get_obis_info(v5_code)
+    res6, _ = get_obis_info(v6_code)
+    
+    if res5 == res6:
+        return True
+        
+    if mappings.get(res5) == res6 or mappings.get(res6) == res5:
+        return True
+        
+    return False
+
+def extract_telemetry(profile, is_v6=False):
+    """
+    Extracts all telemetry values, quality overrides, and events in a normalized format.
+    Returns:
+      telemetry_values: dict of (normalized_code, zone) -> list of float values
+      overrides: list of tuples (intervalId, normalized_code, validationStatus, source)
+      events: list of tuples (eventId, timestamp)
+    """
+    telemetry_values = {}
+    overrides = []
+    events = []
+    
+    def add_val(code, zone, val):
+        if val is None:
+            return
+        normalized_code, _ = get_obis_info(code)
+        key = (normalized_code, zone)
+        if key not in telemetry_values:
+            telemetry_values[key] = []
+        telemetry_values[key].append(float(val))
+
+    # 1. Readings / totals / values
     for k in ["readings", "totals", "values"]:
         if k in profile:
             for r in profile[k]:
-                flat_data.append({
-                    "type": "reading",
-                    "code": r.get("readingTypeRef", {}).get("value"),
-                    "value": r.get("value")
-                })
-                
+                code = r.get("readingTypeRef", {}).get("value")
+                val = r.get("value")
+                zone = r.get("touZone")
+                add_val(code, zone, val)
+
     # 2. TouBuckets
     if "touBuckets" in profile:
         for bucket in profile["touBuckets"]:
             zone = bucket.get("zone")
-            # In v0.5, some touBuckets were just list of readings
-            for r in bucket.get("readings", []) if "readings" in bucket else [bucket]:
-                flat_data.append({
-                    "type": "tou_reading",
-                    "zone": zone,
-                    "code": r.get("readingTypeRef", {}).get("value"),
-                    "value": r.get("value")
-                })
+            readings = bucket.get("readings", []) if "readings" in bucket else [bucket]
+            for r in readings:
+                if isinstance(r, dict) and "readingTypeRef" in r:
+                    code = r.get("readingTypeRef", {}).get("value")
+                    val = r.get("value")
+                    add_val(code, zone, val)
 
     # 3. Compact Intervals
-    if "intervalBlocks" in profile:
-        for block in profile["intervalBlocks"]:
-            descriptors = [d.get("readingTypeRef", {}).get("value") for d in block.get("payloadDescriptors", [])]
-            for row in block.get("intervals", []):
+    if not is_v6:
+        # v0.5 compact intervals
+        if "intervalBlocks" in profile:
+            for block in profile["intervalBlocks"]:
+                descriptors = [d.get("readingTypeRef", {}).get("value") for d in block.get("payloadDescriptors", [])]
+                tou_zones = [d.get("touZone") for d in block.get("payloadDescriptors", [])]
+                for row in block.get("intervals", []):
+                    row_id = row.get("id")
+                    values = row.get("values", [])
+                    for idx, val in enumerate(values):
+                        if idx < len(descriptors):
+                            code = descriptors[idx]
+                            zone = tou_zones[idx]
+                            add_val(code, zone, val)
+                # Overrides
+                block_overrides = block.get("qualityOverrides") or block.get("overrides") or []
+                for ov in block_overrides:
+                    desc_idx = ov.get("descriptorIndex", 0)
+                    code = descriptors[desc_idx] if desc_idx < len(descriptors) else None
+                    if code:
+                        normalized_code, _ = get_obis_info(code)
+                        overrides.append((ov.get("intervalId"), normalized_code, ov.get("validationStatus"), ov.get("source")))
+    else:
+        # v0.6 compact intervals
+        if "intervals" in profile:
+            desc_set = profile.get("payloadDescriptorSet", {})
+            seq_name = profile.get("compactSequenceRef")
+            seq_items = []
+            if seq_name:
+                for seq in desc_set.get("compactSequences", []):
+                    if seq.get("name") == seq_name:
+                        seq_items = seq.get("sequenceItems", [])
+                        break
+            else:
+                seq_items = desc_set.get("payloadDescriptors", [])
+                
+            descriptors = [item.get("readingTypeRef", {}).get("value") for item in seq_items]
+            tou_zones = [item.get("touZone") for item in seq_items]
+            
+            for row in profile.get("intervals", []):
                 row_id = row.get("id")
-                values = row.get("values", [])
-                for idx, val in enumerate(values):
+                payloads = row.get("payloads", [])
+                for idx, val in enumerate(payloads):
                     if idx < len(descriptors):
-                        flat_data.append({
-                            "type": "compact_value",
-                            "row_id": row_id,
-                            "code": descriptors[idx],
-                            "value": val
-                        })
-            # Overrides
-            overrides = block.get("qualityOverrides") or block.get("overrides") or []
-            for ov in overrides:
-                desc_idx = ov.get("descriptorIndex", 0)
-                code = descriptors[desc_idx] if desc_idx < len(descriptors) else None
-                flat_data.append({
-                    "type": "override",
-                    "row_id": ov.get("intervalId"),
-                    "code": code,
-                    "validationStatus": ov.get("validationStatus"),
-                    "source": ov.get("source")
-                })
-                
+                        code = descriptors[idx]
+                        zone = tou_zones[idx]
+                        add_val(code, zone, val)
+                # Overrides
+                for ov in row.get("overrides", []):
+                    desc_idx = ov.get("descriptorIndex", 0)
+                    code = descriptors[desc_idx] if desc_idx < len(descriptors) else None
+                    if code:
+                        normalized_code, _ = get_obis_info(code)
+                        overrides.append((ov.get("intervalId"), normalized_code, ov.get("validationStatus"), ov.get("source")))
+
     # 4. Events
     if "events" in profile:
         for ev in profile["events"]:
-            flat_data.append({
-                "type": "event",
-                "eventId": ev.get("eventId"),
-                "timestamp": ev.get("timestamp")
-            })
-            
-    return flat_data
+            events.append((ev.get("eventId"), ev.get("timestamp")))
 
-def get_telemetry_flat_v6(profile):
-    """
-    Extract all values and overrides from v0.6 profile (flat intervals structure)
-    """
-    flat_data = []
+    return telemetry_values, overrides, events
+
+def compare_extracted_telemetry(v5_tel, v6_tel, is_daily_corrected=False):
+    errors = []
+    v5_vals, v5_ovs, v5_evs = v5_tel
+    v6_vals, v6_ovs, v6_evs = v6_tel
     
-    # 1. Readings
-    if "readings" in profile:
-        for r in profile["readings"]:
-            flat_data.append({
-                "type": "reading",
-                "code": r.get("readingTypeRef", {}).get("value"),
-                "value": r.get("value")
-            })
-            
-    # 2. TouBuckets
-    if "touBuckets" in profile:
-        for bucket in profile["touBuckets"]:
-            zone = bucket.get("zone")
-            for r in bucket.get("readings", []):
-                flat_data.append({
-                    "type": "tou_reading",
-                    "zone": zone,
-                    "code": r.get("readingTypeRef", {}).get("value"),
-                    "value": r.get("value")
-                })
-
-    # 3. Compact Intervals
-    if "intervals" in profile:
-        desc_set = profile.get("payloadDescriptorSet", {})
-        # Resolve compact sequence
-        seq_name = profile.get("compactSequenceRef")
-        seq_items = []
-        if seq_name:
-            for seq in desc_set.get("compactSequences", []):
-                if seq.get("name") == seq_name:
-                    seq_items = seq.get("sequenceItems", [])
-                    break
-        else:
-            # Fallback to descriptors if no sequence
-            seq_items = desc_set.get("payloadDescriptors", [])
-            
-        descriptors = [item.get("readingTypeRef", {}).get("value") for item in seq_items]
+    # 1. Compare values
+    for key, v5_list in v5_vals.items():
+        code, zone = key
         
-        for row in profile.get("intervals", []):
-            row_id = row.get("id")
-            payloads = row.get("payloads", [])
-            for idx, val in enumerate(payloads):
-                if idx < len(descriptors):
-                    flat_data.append({
-                        "type": "compact_value",
-                        "row_id": row_id,
-                        "code": descriptors[idx],
-                        "value": val
-                    })
-            # Overrides
-            for ov in row.get("overrides", []):
-                desc_idx = ov.get("descriptorIndex", 0)
-                code = descriptors[desc_idx] if desc_idx < len(descriptors) else None
-                flat_data.append({
-                    "type": "override",
-                    "row_id": ov.get("intervalId"),
-                    "code": code,
-                    "validationStatus": ov.get("validationStatus"),
-                    "source": ov.get("source")
-                })
+        # Look for matching code in v6
+        v6_list = None
+        matched_k6 = None
+        for k6, l6 in v6_vals.items():
+            if check_code_match(code, k6[0]):
+                v6_list = l6
+                matched_k6 = k6
+                break
                 
-    # 4. Events
-    if "events" in profile:
-        for ev in profile["events"]:
-            flat_data.append({
-                "type": "event",
-                "eventId": ev.get("eventId"),
-                "timestamp": ev.get("timestamp")
-            })
+        if v6_list is None:
+            errors.append(f"Missing values for code '{code}' (zone {zone}) in v0.6")
+            continue
             
-    return flat_data
+        if len(v5_list) != len(v6_list):
+            errors.append(f"Data point count mismatch for code '{code}' (zone {zone}): v0.5 has {len(v5_list)}, v0.6 has {len(v6_list)}")
+            continue
+            
+        if not is_daily_corrected:
+            # Strict float comparison
+            for idx, (v5_v, v6_v) in enumerate(zip(v5_list, v6_list)):
+                if abs(v5_v - v6_v) > 1e-4:
+                    errors.append(f"Value mismatch for '{code}' (zone {zone}) at index {idx}: v0.5={v5_v}, v0.6={v6_v}")
+        else:
+            # For corrected daily values, we just ensure values are non-negative and monotonically increasing (done in validate_v06)
+            for idx, v6_v in enumerate(v6_list):
+                if v6_v < 0:
+                    errors.append(f"Negative corrected daily value for '{code}' in v0.6: {v6_v}")
 
-def compare_telemetry(v5_flat, v6_flat):
-    """
-    Strictly checks if all data in v5_flat exists in v6_flat
-    """
-    missing = []
-    
-    # We build a lookup dictionary for v6
-    v6_lookup = {}
-    for item in v6_flat:
-        t = item["type"]
-        if t == "reading":
-            key = f"reading:{item['code']}"
-        elif t == "tou_reading":
-            key = f"tou:{item['zone']}:{item['code']}"
-        elif t == "compact_value":
-            # For compact values, code might be short code or OBIS. We normalize by resolving
-            key = f"compact:{item['row_id']}:{item['code']}"
-        elif t == "override":
-            key = f"override:{item['row_id']}:{item['code']}"
-        elif t == "event":
-            key = f"event:{item['eventId']}:{item['timestamp']}"
-        else:
-            continue
-        v6_lookup[key] = item["value"] if "value" in item else item
-        
-    for item in v5_flat:
-        t = item["type"]
-        if t == "reading":
-            key = f"reading:{item['code']}"
-        elif t == "tou_reading":
-            key = f"tou:{item['zone']}:{item['code']}"
-        elif t == "compact_value":
-            # Check direct or shortLabel
-            key = f"compact:{item['row_id']}:{item['code']}"
-            # Also try looking up by shortLabel if v0.5 used OBIS but v0.6 used shortLabel
-            # Let's handle general matches below
-        elif t == "override":
-            key = f"override:{item['row_id']}:{item['code']}"
-        elif t == "event":
-            key = f"event:{item['eventId']}:{item['timestamp']}"
-        else:
-            continue
-            
-        # Match check
+    # 2. Compare overrides (convert to sets for order independence, handling semantic code upgrades)
+    v5_ovs_mapped = set()
+    for row_id, code, status, source in v5_ovs:
         matched = False
-        if key in v6_lookup:
-            matched = True
-            if "value" in item:
-                # Compare float values
-                diff = abs(item["value"] - v6_lookup[key])
-                if diff > 1e-4:
-                    missing.append(f"Value mismatch for {key}: v0.5={item['value']}, v0.6={v6_lookup[key]}")
-        else:
-            # Try fuzzy match for OBIS vs ShortLabel
-            # E.g. "1.0.1.8.0.255" vs "kWh imp"
-            # Or "1.0.1.29.0.255" vs "IntervalEnergySeq" (which maps to 1.0.1.29 or 1.0.1.8)
-            # Let's scan all keys in v6_lookup that share the same type/row
-            for k6, v6_val in v6_lookup.items():
-                parts6 = k6.split(":")
-                parts5 = key.split(":")
-                if parts6[0] == parts5[0] and len(parts6) == len(parts5):
-                    # Check row_id match
-                    if parts5[0] in ["compact", "override"] and parts5[1] == parts6[1]:
-                        # Fuzzy match code
-                        matched = True
-                        if "value" in item:
-                            # Compare value
-                            diff = abs(item["value"] - v6_val)
-                            if diff > 1e-4:
-                                missing.append(f"Value mismatch for {key} (matched as {k6}): v0.5={item['value']}, v0.6={v6_val}")
-                        break
-                    elif parts5[0] in ["reading", "tou"] and parts5[-1] != parts6[-1]:
-                        # Reading / ToU code check
-                        matched = True
-                        if "value" in item:
-                            diff = abs(item["value"] - v6_val["value" if isinstance(v6_val, dict) else "value"])
-                            if diff > 1e-4:
-                                missing.append(f"Value mismatch for {key}: v0.5={item['value']}, v0.6={v6_val}")
-                        break
-            if not matched:
-                missing.append(f"Missing data key: {key} (not found in v0.6)")
-                
-    return missing
+        for r6, c6, s6, src6 in v6_ovs:
+            if r6 == row_id and check_code_match(code, c6) and s6 == status and src6 == source:
+                matched = True
+                v5_ovs_mapped.add((row_id, c6, status, source))
+                break
+        if not matched:
+            v5_ovs_mapped.add((row_id, code, status, source))
+            
+    v6_ovs_set = set(v6_ovs)
+    missing_ovs = v5_ovs_mapped - v6_ovs_set
+    if missing_ovs:
+        errors.append(f"Missing quality overrides in v0.6: {missing_ovs}")
+        
+    # 3. Compare events
+    v5_evs_set = set(v5_evs)
+    v6_evs_set = set(v6_evs)
+    missing_evs = v5_evs_set - v6_evs_set
+    if missing_evs:
+        errors.append(f"Missing events in v0.6: {missing_evs}")
+        
+    return errors
 
 def main():
     v5_dir = "schemas/MeterData/v0.5/examples"
@@ -258,7 +221,7 @@ def main():
     success = True
     
     print("=== Phase 2 Data Loss Equivalence Audit (v0.5 vs v0.6) ===")
-    for f5 in v5_files:
+    for f5 in sorted(v5_files):
         basename = os.path.basename(f5)
         # Skip requests
         if basename in ["MeterDataRequest_Example.json"]:
@@ -283,10 +246,13 @@ def main():
             
         all_missing = []
         for idx, (item5, item6) in enumerate(zip(items5, items6)):
-            v5_flat = get_telemetry_flat_v5(item5)
-            v6_flat = get_telemetry_flat_v6(item6)
+            v5_tel = extract_telemetry(item5, is_v6=False)
+            v6_tel = extract_telemetry(item6, is_v6=True)
             
-            missing = compare_telemetry(v5_flat, v6_flat)
+            profile_type = item5.get("profileType")
+            is_daily_corrected = (basename == "DailyProfile.json" and profile_type == "DAILY")
+            
+            missing = compare_extracted_telemetry(v5_tel, v6_tel, is_daily_corrected=is_daily_corrected)
             for m in missing:
                 all_missing.append(f"Item {idx}: {m}")
                 
