@@ -76,10 +76,20 @@ Integrating third-party Technical Service Providers (TSPs) or internal analytica
 - **The Solution**: TSPs ingest near real-time active/reactive power intervals using `IntervalProfile` (Form B). By analyzing load survey trends, utilities can detect over-generation or excessive localized demand, triggering demand response events or planning infrastructure reinforcements.
 - **Key Fields**: Use `IntervalProfile` with block energy or average power values, mapping parameters (e.g., `kW imp`, `kvarh Q1`) to index-based compact sequences.
 
-### B. Rooftop Solar & Third-Party (3P) Net-Metering
-- **The Challenge**: Correlating utility meters with 3P rooftop solar generation systems to manage feed-in tariffs and local grid stability.
-- **The Solution**: Net-metered connections record both import and export energies. In `MeterData` v0.6, import (`kWh imp`) and export (`kWh exp`) registers are modeled together inside the same descriptor set, allowing TSPs to calculate net consumer contribution per interval.
+### B. Rooftop Solar & Third-Party (3P) Integration
+- **The Challenge**: Correlating utility meters with 3P rooftop solar generation systems to manage feed-in tariffs and grid stability.
+- **The Solution**: Both utility meters and 3P solar inverters can publish telemetry using the same `MeterData` v0.6 architecture. Whether the data originates from a utility revenue meter or a third-party solar monitoring gateway, it uses a unified descriptor-based schema. This provides a unified framework for TSPs to calculate net consumer contribution per interval.
 - **Key Fields**: Define two separate descriptors under the same `PayloadDescriptorSet` – one for `flowDirection: IMPORT` and another for `flowDirection: EXPORT`.
+- **Unified Ingestion Flow**:
+```mermaid
+graph TD
+    subgraph Data Sources
+        UM[Utility Smart Meter] -->|Import/Export Telemetry| MD1[MeterData Payload]
+        3P[3P Solar Inverter] -->|Generation Telemetry| MD2[MeterData Payload]
+    end
+    MD1 -->|Unified Schema v0.6| TSP[TSP Analytics / Netting Engine]
+    MD2 -->|Unified Schema v0.6| TSP
+```
 
 ### C. Theft & Incident Detection
 - **The Challenge**: Detecting unauthorized meter bypasses, cover-open tampers, or phase failures to prevent revenue loss.
@@ -114,7 +124,9 @@ Utilities can package verified metering data into cryptographically signed W3C V
 
 ## 6. Data Lakes and On-Demand Sharing Architecture
 
-To prevent high-volume sharing requests from impacting operational databases (HES and MDM), utilities are encouraged to adopt a **data lake** architecture:
+{% hint style="info" %}
+To prevent high-volume sharing requests from impacting operational databases (HES and MDM), utilities could consider a **data lake** architecture. The IES architecture fully supports offloading historical data to support on-demand queries.
+{% endhint %}
 
 ```mermaid
 graph LR
