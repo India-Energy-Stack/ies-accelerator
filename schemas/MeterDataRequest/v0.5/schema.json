@@ -45,55 +45,19 @@
     },
     "includeDetails": {
       "type": "array",
-      "description": "List of profile requests specifying profiles, optional values and modes.",
+      "description": "List of specific profile types to include in the response.",
       "items": {
-        "$ref": "#/$defs/ProfileRequest"
-      }
-    }
-  },
-  "$defs": {
-    "TelemetryMode": {
-      "type": "string",
-      "enum": [
-        "READING",
-        "USAGE"
-      ]
-    },
-    "ProfileRequest": {
-      "type": "object",
-      "required": [
-        "profileType"
-      ],
-      "properties": {
-        "profileType": {
-          "type": "string",
-          "enum": [
-            "CustomerProfile",
-            "IntervalProfile",
-            "DailyProfile",
-            "BillingProfile",
-            "InstantaneousProfile",
-            "EventProfile"
-          ]
-        },
-        "values": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of requested reading/OBIS codes or value names."
-        },
-        "supportedModes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/TelemetryMode"
-          },
-          "description": "Modes supported by the consumer."
-        },
-        "requestedMode": {
-          "$ref": "#/$defs/TelemetryMode",
-          "description": "The specific mode requested. Multiple modes may be supported, but only one may be requested."
-        }
+        "type": "string",
+        "enum": [
+          "CustomerProfile",
+          "IntervalProfile",
+          "DailyProfile",
+          "MonthlyProfile",
+          "BillDetails",
+          "InstantaneousProfile",
+          "EventProfile",
+          "AlarmProfile"
+        ]
       }
     }
   }

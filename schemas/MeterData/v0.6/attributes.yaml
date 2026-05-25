@@ -24,14 +24,16 @@ components:
     EnergyData:
       type: "object"
       title: "EnergyData"
-      description: "A single compact data-only profile record. Must be one of the six standard types."
+      description: "A single compact data-only profile record. Must be one of the eight standard types."
       oneOf:
         - $ref: "#/components/schemas/CustomerProfile"
         - $ref: "#/components/schemas/IntervalProfile"
         - $ref: "#/components/schemas/DailyProfile"
-        - $ref: "#/components/schemas/BillingProfile"
+        - $ref: "#/components/schemas/MonthlyProfile"
+        - $ref: "#/components/schemas/BillDetails"
         - $ref: "#/components/schemas/InstantaneousProfile"
         - $ref: "#/components/schemas/EventProfile"
+        - $ref: "#/components/schemas/AlarmProfile"
 
     CustomerProfile:
       type: "object"
@@ -68,10 +70,8 @@ components:
           items:
             $ref: "#/components/schemas/Association"
 
-    IntervalProfile:
+    BaseTelemetryProfile:
       type: "object"
-      title: "IntervalProfile"
-      description: "Block Load Survey — OpenADR-aligned flat intervals for one meter."
       required:
         - "profileType"
         - "customerRefs"
@@ -79,79 +79,84 @@ components:
       properties:
         profileType:
           type: "string"
-          const: "INTERVAL"
         customerRefs:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
           $ref: "#/components/schemas/IdentifierList"
         serviceDeliveryPointRefs:
           $ref: "#/components/schemas/IdentifierList"
-        payloadDescriptorSet:
-          $ref: "#/components/schemas/PayloadDescriptorSet"
-        compactSequenceRef:
-          type: "string"
-          description: "Name of the compact sequence to use from the descriptor set."
-        intervalPeriod:
-          $ref: "#/components/schemas/IntervalPeriod"
+        timePeriod:
+          $ref: "#/components/schemas/TimePeriod"
         readings:
           type: "array"
           items:
             $ref: "#/components/schemas/Reading"
-        intervals:
+        intervalBlocks:
           type: "array"
           items:
-            $ref: "#/components/schemas/Interval"
+            $ref: "#/components/schemas/IntervalBlock"
+
+    IntervalProfile:
+      type: "object"
+      title: "IntervalProfile"
+      description: "Block Load Survey — PT15M / PT30M cadence intervalBlocks for one meter."
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          properties:
+            profileType:
+              type: "string"
+              const: "INTERVAL"
 
     DailyProfile:
       type: "object"
       title: "DailyProfile"
-      description: "Daily Load Profile — OpenADR-aligned flat intervals at daily/midnight cadence."
-      required:
-        - "profileType"
-        - "customerRefs"
-        - "meterRefs"
-      properties:
-        profileType:
-          type: "string"
-          const: "DAILY"
-        customerRefs:
-          $ref: "#/components/schemas/IdentifierList"
-        meterRefs:
-          $ref: "#/components/schemas/IdentifierList"
-        serviceDeliveryPointRefs:
-          $ref: "#/components/schemas/IdentifierList"
-        payloadDescriptorSet:
-          $ref: "#/components/schemas/PayloadDescriptorSet"
-        compactSequenceRef:
-          type: "string"
-          description: "Name of the compact sequence to use from the descriptor set."
-        intervalPeriod:
-          $ref: "#/components/schemas/IntervalPeriod"
-        readings:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Reading"
-        intervals:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Interval"
+      description: "Daily Load Profile — P1D intervalBlocks. Same per-meter shape as IntervalProfile."
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          properties:
+            profileType:
+              type: "string"
+              const: "DAILY"
 
-    BillingProfile:
+    MonthlyProfile:
       type: "object"
-      title: "BillingProfile"
-      description: "Monthly billing summary — energy + max-demand entries in totals[], ToU buckets, bill amount."
+      title: "MonthlyProfile"
+      description: "Monthly profile readings from the meter at billing reset time (billing history)."
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          required:
+            - "timePeriod"
+          properties:
+            profileType:
+              type: "string"
+              const: "MONTHLY"
+            touBuckets:
+              type: "array"
+              items:
+                $ref: "#/components/schemas/TouBucket"
+
+    BillDetails:
+      type: "object"
+      title: "BillDetails"
+      description: "Utility billing computed details, such as billing amount, bill number, due dates, and prepaid balance."
       required:
         - "profileType"
         - "customerRefs"
-        - "meterRefs"
+        - "timePeriod"
+        - "amountDue"
       properties:
         profileType:
           type: "string"
-          const: "BILLING"
+          const: "BILL_DETAILS"
         customerRefs:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
           $ref: "#/components/schemas/IdentifierList"
+        timePeriod:
+          $ref: "#/components/schemas/TimePeriod"
         billNumber:
           type: "string"
         billDate:
@@ -165,59 +170,52 @@ components:
           description: "ISO 4217 (INR, USD, ...)."
         amountDue:
           type: "number"
-        payloadDescriptorSet:
-          $ref: "#/components/schemas/PayloadDescriptorSet"
-        compactSequenceRef:
+        prepaidBalance:
+          type: "number"
+          description: "Prepaid remaining balance/credit amount on the account/meter, if applicable."
+        paymentStatus:
           type: "string"
-          description: "Name of the compact sequence to use from the descriptor set."
-        intervalPeriod:
-          $ref: "#/components/schemas/IntervalPeriod"
-        readings:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Reading"
-        touBuckets:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/TouBucket"
-        intervals:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Interval"
+          description: "Status of the payment, e.g. PAID, UNPAID, PARTIAL."
 
     InstantaneousProfile:
       type: "object"
       title: "InstantaneousProfile"
       description: "Snapshot of a meter's electrical quantities at one captured moment."
+      allOf:
+        - $ref: "#/components/schemas/BaseTelemetryProfile"
+        - type: "object"
+          required:
+            - "timestamp"
+          properties:
+            profileType:
+              type: "string"
+              const: "INSTANTANEOUS"
+            timestamp:
+              type: "string"
+              format: "date-time"
+
+    AlarmProfile:
+      type: "object"
+      title: "AlarmProfile"
+      description: "Real-time active indicators/alerts representing immediate state conditions from the meter."
       required:
         - "profileType"
         - "customerRefs"
         - "meterRefs"
-        - "timestamp"
+        - "alarms"
       properties:
         profileType:
           type: "string"
-          const: "INSTANTANEOUS"
+          const: "ALARM"
         customerRefs:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
           $ref: "#/components/schemas/IdentifierList"
-        timestamp:
-          type: "string"
-          format: "date-time"
-        payloadDescriptorSet:
-          $ref: "#/components/schemas/PayloadDescriptorSet"
-        compactSequenceRef:
-          type: "string"
-          description: "Name of the compact sequence to use from the descriptor set."
-        readings:
+        alarms:
           type: "array"
           items:
-            $ref: "#/components/schemas/Reading"
-        intervals:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Interval"
+            $ref: "#/components/schemas/MeterAlarm"
+
 
     EventProfile:
       type: "object"
@@ -281,97 +279,41 @@ components:
           type: "string"
           format: "duration"
 
-    TelemetryMode:
-      type: "string"
-      enum:
-        - "READING"
-        - "USAGE"
-
-    ReadingDefinition:
+    IntervalBlock:
       type: "object"
+      description: "OpenADR-inspired compact block: descriptors once + positional values per row + sparse quality overrides."
       required:
-        - "readingTypeRef"
-        - "supportedModes"
-        - "defaultMode"
+        - "timePeriod"
+        - "payloadDescriptors"
+        - "intervals"
       properties:
-        readingTypeRef:
-          $ref: "#/components/schemas/Identifier"
-        supportedModes:
+        timePeriod:
+          $ref: "#/components/schemas/TimePeriod"
+        payloadDescriptors:
           type: "array"
           minItems: 1
           items:
-            $ref: "#/components/schemas/TelemetryMode"
-        defaultMode:
-          $ref: "#/components/schemas/TelemetryMode"
-        name:
-          type: "string"
-        shortLabel:
-          type: "string"
-        unit:
-          $ref: "#/components/schemas/UnitOfMeasure"
-        phase:
-          $ref: "#/components/schemas/Phase"
-        flowDirection:
-          type: "string"
-          enum: ["IMPORT", "EXPORT", "NONE"]
-        accumulationBehaviour:
-          $ref: "#/components/schemas/AccumulationBehaviour"
-        touZone:
-          type: "integer"
-          minimum: 0
-          maximum: 8
-
-    PayloadDescriptorSet:
-      type: "object"
-      required:
-        - "name"
-        - "payloadDescriptors"
-      properties:
-        name:
-          type: "string"
-        payloadDescriptors:
-          type: "array"
-          items:
             $ref: "#/components/schemas/PayloadDescriptor"
-        compactSequences:
+        intervals:
+          type: "array"
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/IntervalRow"
+        overrides:
           type: "array"
           items:
-            $ref: "#/components/schemas/CompactSequence"
-
-    CompactSequence:
-      type: "object"
-      required:
-        - "name"
-        - "sequenceItems"
-      properties:
-        name:
-          type: "string"
-        sequenceItems:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/SequenceItem"
-
-    SequenceItem:
-      type: "object"
-      required:
-        - "readingTypeRef"
-      properties:
-        readingTypeRef:
-          $ref: "#/components/schemas/Identifier"
-        reportedMode:
-          $ref: "#/components/schemas/TelemetryMode"
-        powerOfTenMultiplier:
-          type: "integer"
+            $ref: "#/components/schemas/Override"
 
     PayloadDescriptor:
       type: "object"
+      description: "One quantity declared once per block; rows' values[] align positionally with descriptors[]."
       required:
         - "readingTypeRef"
       properties:
         readingTypeRef:
           $ref: "#/components/schemas/Identifier"
-        reportedMode:
-          $ref: "#/components/schemas/TelemetryMode"
+        accumulationBehaviour:
+          $ref: "#/components/schemas/AccumulationBehaviour"
         powerOfTenMultiplier:
           type: "integer"
         touZone:
@@ -379,33 +321,17 @@ components:
           minimum: 0
           maximum: 8
 
-    IntervalPeriod:
-      type: "object"
-      description: "Period defined by a start time and a duration."
-      required:
-        - "start"
-        - "duration"
-      properties:
-        start:
-          type: "string"
-          format: "date-time"
-        duration:
-          type: "string"
-          format: "duration"
-
-    Interval:
-      type: "object"
-      description: "One time-series interval row. payloads[k] is the value for compactSequence[k]."
+    IntervalRow:
+      type: object
+      description: "One time-series row. values[k] is the value for payloadDescriptors[k]."
       required:
         - "id"
-        - "payloads"
+        - "values"
       properties:
         id:
           type: "integer"
           minimum: 0
-        intervalPeriod:
-          $ref: "#/components/schemas/IntervalPeriod"
-        payloads:
+        values:
           type: "array"
           minItems: 1
           items:
@@ -451,8 +377,6 @@ components:
           $ref: "#/components/schemas/Identifier"
         value:
           type: "number"
-        reportedMode:
-          $ref: "#/components/schemas/TelemetryMode"
         openingValue:
           type: "number"
         closingValue:
@@ -592,6 +516,33 @@ components:
         duration:
           type: "string"
           format: "duration"
+
+    MeterAlarm:
+      type: "object"
+      required:
+        - "timestamp"
+        - "alarmId"
+        - "status"
+      properties:
+        timestamp:
+          type: "string"
+          format: "date-time"
+        alarmId:
+          type: "integer"
+          minimum: 1
+        alarmName:
+          type: "string"
+        status:
+          type: "string"
+          enum:
+            - "ACTIVE"
+            - "CLEARED"
+        severity:
+          type: "string"
+          enum:
+            - "CRITICAL"
+            - "WARNING"
+            - "INFO"
 
     IdentifierScheme:
       type: "string"
