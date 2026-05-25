@@ -30,19 +30,13 @@
             "@id": "ies:values",
             "@type": "rdf:Property",
             "rdfs:label": "values",
-            "rdfs:comment": "List of requested reading/OBIS codes or value names."
-        },
-        {
-            "@id": "ies:supportedModes",
-            "@type": "rdf:Property",
-            "rdfs:label": "supported Modes",
-            "rdfs:comment": "Modes supported by the consumer."
+            "rdfs:comment": "List of requested reading/OBIS short codes or value names."
         },
         {
             "@id": "ies:requestedMode",
             "@type": "rdf:Property",
             "rdfs:label": "requested Mode",
-            "rdfs:comment": "The specific mode requested. Multiple modes may be supported, but only one may be requested."
+            "rdfs:comment": "The specific mode requested for these values. Defaults to the code's default mode if omitted."
         }
     ]
 }

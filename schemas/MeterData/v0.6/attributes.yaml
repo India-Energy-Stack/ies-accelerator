@@ -85,16 +85,21 @@ components:
           $ref: "#/components/schemas/IdentifierList"
         serviceDeliveryPointRefs:
           $ref: "#/components/schemas/IdentifierList"
-        timePeriod:
-          $ref: "#/components/schemas/TimePeriod"
+        payloadDescriptorSet:
+          $ref: "#/components/schemas/PayloadDescriptorSet"
+        compactSequenceRef:
+          type: "string"
+          description: "Name of the compact sequence to use from the descriptor set."
+        intervalPeriod:
+          $ref: "#/components/schemas/IntervalPeriod"
         readings:
           type: "array"
           items:
             $ref: "#/components/schemas/Reading"
-        intervalBlocks:
+        intervals:
           type: "array"
           items:
-            $ref: "#/components/schemas/IntervalBlock"
+            $ref: "#/components/schemas/Interval"
 
     IntervalProfile:
       type: "object"
@@ -155,8 +160,25 @@ components:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
           $ref: "#/components/schemas/IdentifierList"
-        timePeriod:
-          $ref: "#/components/schemas/TimePeriod"
+        payloadDescriptorSet:
+          $ref: "#/components/schemas/PayloadDescriptorSet"
+        compactSequenceRef:
+          type: "string"
+          description: "Name of the compact sequence to use from the descriptor set."
+        intervalPeriod:
+          $ref: "#/components/schemas/IntervalPeriod"
+        readings:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Reading"
+        intervals:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Interval"
+        touBuckets:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/TouBucket"
         billNumber:
           type: "string"
         billDate:
@@ -211,6 +233,22 @@ components:
           $ref: "#/components/schemas/IdentifierList"
         meterRefs:
           $ref: "#/components/schemas/IdentifierList"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        payloadDescriptorSet:
+          $ref: "#/components/schemas/PayloadDescriptorSet"
+        compactSequenceRef:
+          type: "string"
+          description: "Name of the compact sequence to use from the descriptor set."
+        readings:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Reading"
+        intervals:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Interval"
         alarms:
           type: "array"
           items:
@@ -279,30 +317,87 @@ components:
           type: "string"
           format: "duration"
 
-    IntervalBlock:
+    TelemetryMode:
+      type: "string"
+      enum:
+        - "READING"
+        - "USAGE"
+
+    ReadingDefinition:
       type: "object"
-      description: "OpenADR-inspired compact block: descriptors once + positional values per row + sparse quality overrides."
       required:
-        - "timePeriod"
-        - "payloadDescriptors"
-        - "intervals"
+        - "readingTypeRef"
+        - "supportedModes"
+        - "defaultMode"
       properties:
-        timePeriod:
-          $ref: "#/components/schemas/TimePeriod"
+        readingTypeRef:
+          $ref: "#/components/schemas/Identifier"
+        supportedModes:
+          type: "array"
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/TelemetryMode"
+        defaultMode:
+          $ref: "#/components/schemas/TelemetryMode"
+        name:
+          type: "string"
+        shortLabel:
+          type: "string"
+        unit:
+          $ref: "#/components/schemas/UnitOfMeasure"
+        phase:
+          $ref: "#/components/schemas/Phase"
+        flowDirection:
+          type: "string"
+          enum: ["IMPORT", "EXPORT", "NONE"]
+        accumulationBehaviour:
+          $ref: "#/components/schemas/AccumulationBehaviour"
+        touZone:
+          type: "integer"
+          minimum: 0
+          maximum: 8
+
+    PayloadDescriptorSet:
+      type: "object"
+      required:
+        - "name"
+        - "payloadDescriptors"
+      properties:
+        name:
+          type: "string"
         payloadDescriptors:
           type: "array"
-          minItems: 1
           items:
             $ref: "#/components/schemas/PayloadDescriptor"
-        intervals:
-          type: "array"
-          minItems: 1
-          items:
-            $ref: "#/components/schemas/IntervalRow"
-        overrides:
+        compactSequences:
           type: "array"
           items:
-            $ref: "#/components/schemas/Override"
+            $ref: "#/components/schemas/CompactSequence"
+
+    CompactSequence:
+      type: "object"
+      required:
+        - "name"
+        - "sequenceItems"
+      properties:
+        name:
+          type: "string"
+        sequenceItems:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/SequenceItem"
+
+    SequenceItem:
+      type: "object"
+      required:
+        - "readingTypeRef"
+      properties:
+        readingTypeRef:
+          $ref: "#/components/schemas/Identifier"
+        reportedMode:
+          $ref: "#/components/schemas/TelemetryMode"
+        powerOfTenMultiplier:
+          type: "integer"
 
     PayloadDescriptor:
       type: "object"
@@ -312,8 +407,8 @@ components:
       properties:
         readingTypeRef:
           $ref: "#/components/schemas/Identifier"
-        accumulationBehaviour:
-          $ref: "#/components/schemas/AccumulationBehaviour"
+        reportedMode:
+          $ref: "#/components/schemas/TelemetryMode"
         powerOfTenMultiplier:
           type: "integer"
         touZone:
@@ -321,17 +416,33 @@ components:
           minimum: 0
           maximum: 8
 
-    IntervalRow:
-      type: object
-      description: "One time-series row. values[k] is the value for payloadDescriptors[k]."
+    IntervalPeriod:
+      type: "object"
+      description: "Period defined by a start time and a duration."
+      required:
+        - "start"
+        - "duration"
+      properties:
+        start:
+          type: "string"
+          format: "date-time"
+        duration:
+          type: "string"
+          format: "duration"
+
+    Interval:
+      type: "object"
+      description: "One time-series interval row. payloads[k] is the value for compactSequence[k]."
       required:
         - "id"
-        - "values"
+        - "payloads"
       properties:
         id:
           type: "integer"
           minimum: 0
-        values:
+        intervalPeriod:
+          $ref: "#/components/schemas/IntervalPeriod"
+        payloads:
           type: "array"
           minItems: 1
           items:
@@ -377,6 +488,8 @@ components:
           $ref: "#/components/schemas/Identifier"
         value:
           type: "number"
+        reportedMode:
+          $ref: "#/components/schemas/TelemetryMode"
         openingValue:
           type: "number"
         closingValue:

@@ -87,10 +87,28 @@
             "rdfs:comment": "Period defined by a start time and a duration."
         },
         {
-            "@id": "ies:IntervalBlock",
+            "@id": "ies:ReadingDefinition",
             "@type": "rdfs:Class",
-            "rdfs:label": "Interval Block",
-            "rdfs:comment": "OpenADR-inspired compact block: descriptors once + positional values per row + sparse quality overrides."
+            "rdfs:label": "Reading Definition",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:PayloadDescriptorSet",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Payload Descriptor Set",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:CompactSequence",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Compact Sequence",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:SequenceItem",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Sequence Item",
+            "rdfs:comment": ""
         },
         {
             "@id": "ies:PayloadDescriptor",
@@ -99,10 +117,16 @@
             "rdfs:comment": "One quantity declared once per block; rows' values[] align positionally with descriptors[]."
         },
         {
-            "@id": "ies:IntervalRow",
+            "@id": "ies:IntervalPeriod",
             "@type": "rdfs:Class",
-            "rdfs:label": "Interval Row",
-            "rdfs:comment": "One time-series row. values[k] is the value for payloadDescriptors[k]."
+            "rdfs:label": "Interval Period",
+            "rdfs:comment": "Period defined by a start time and a duration."
+        },
+        {
+            "@id": "ies:Interval",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Interval",
+            "rdfs:comment": "One time-series interval row. payloads[k] is the value for compactSequence[k]."
         },
         {
             "@id": "ies:Override",
@@ -213,9 +237,21 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:timePeriod",
+            "@id": "ies:payloadDescriptorSet",
             "@type": "rdf:Property",
-            "rdfs:label": "time Period",
+            "rdfs:label": "payload Descriptor Set",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:compactSequenceRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "compact Sequence Ref",
+            "rdfs:comment": "Name of the compact sequence to use from the descriptor set."
+        },
+        {
+            "@id": "ies:intervalPeriod",
+            "@type": "rdf:Property",
+            "rdfs:label": "interval Period",
             "rdfs:comment": ""
         },
         {
@@ -225,9 +261,9 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:intervalBlocks",
+            "@id": "ies:intervals",
             "@type": "rdf:Property",
-            "rdfs:label": "interval Blocks",
+            "rdfs:label": "intervals",
             "rdfs:comment": ""
         },
         {
@@ -291,6 +327,12 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:timePeriod",
+            "@type": "rdf:Property",
+            "rdfs:label": "time Period",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:events",
             "@type": "rdf:Property",
             "rdfs:label": "events",
@@ -327,27 +369,51 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:payloadDescriptors",
-            "@type": "rdf:Property",
-            "rdfs:label": "payload Descriptors",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:intervals",
-            "@type": "rdf:Property",
-            "rdfs:label": "intervals",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:overrides",
-            "@type": "rdf:Property",
-            "rdfs:label": "overrides",
-            "rdfs:comment": ""
-        },
-        {
             "@id": "ies:readingTypeRef",
             "@type": "rdf:Property",
             "rdfs:label": "reading Type Ref",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:supportedModes",
+            "@type": "rdf:Property",
+            "rdfs:label": "supported Modes",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:defaultMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "default Mode",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "schema:name",
+            "@type": "rdf:Property",
+            "rdfs:label": "name",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:shortLabel",
+            "@type": "rdf:Property",
+            "rdfs:label": "short Label",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:unit",
+            "@type": "rdf:Property",
+            "rdfs:label": "unit",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:phase",
+            "@type": "rdf:Property",
+            "rdfs:label": "phase",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:flowDirection",
+            "@type": "rdf:Property",
+            "rdfs:label": "flow Direction",
             "rdfs:comment": ""
         },
         {
@@ -357,15 +423,39 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:powerOfTenMultiplier",
-            "@type": "rdf:Property",
-            "rdfs:label": "power Of Ten Multiplier",
-            "rdfs:comment": ""
-        },
-        {
             "@id": "ies:touZone",
             "@type": "rdf:Property",
             "rdfs:label": "tou Zone",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:payloadDescriptors",
+            "@type": "rdf:Property",
+            "rdfs:label": "payload Descriptors",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:compactSequences",
+            "@type": "rdf:Property",
+            "rdfs:label": "compact Sequences",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:sequenceItems",
+            "@type": "rdf:Property",
+            "rdfs:label": "sequence Items",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:reportedMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "reported Mode",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:powerOfTenMultiplier",
+            "@type": "rdf:Property",
+            "rdfs:label": "power Of Ten Multiplier",
             "rdfs:comment": ""
         },
         {
@@ -375,9 +465,9 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:values",
+            "@id": "ies:payloads",
             "@type": "rdf:Property",
-            "rdfs:label": "values",
+            "rdfs:label": "payloads",
             "rdfs:comment": ""
         },
         {
@@ -445,12 +535,6 @@
             "@type": "rdf:Property",
             "rdfs:label": "integration Period",
             "rdfs:comment": "Demand integration period, e.g. PT30M or PT15M."
-        },
-        {
-            "@id": "schema:name",
-            "@type": "rdf:Property",
-            "rdfs:label": "name",
-            "rdfs:comment": ""
         },
         {
             "@id": "ies:consumerCategory",
@@ -552,12 +636,6 @@
             "@id": "ies:eventName",
             "@type": "rdf:Property",
             "rdfs:label": "event Name",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:phase",
-            "@type": "rdf:Property",
-            "rdfs:label": "phase",
             "rdfs:comment": ""
         },
         {

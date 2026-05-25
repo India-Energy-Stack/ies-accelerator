@@ -21,11 +21,6 @@
                     "@type": "@id",
                     "@container": "@set"
                 },
-                "supportedModes": {
-                    "@id": "ies:supportedModes",
-                    "@type": "@id",
-                    "@container": "@set"
-                },
                 "requestedMode": {
                     "@id": "ies:requestedMode",
                     "@type": "@id"
