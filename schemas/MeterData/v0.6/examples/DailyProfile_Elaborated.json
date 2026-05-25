@@ -1,0 +1,197 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+  "@type": "MeterDataset",
+  "payloadDescriptorSets": [],
+  "data": [
+    {
+      "@type": "DailyProfile",
+      "profileType": "DAILY",
+      "customerRefs": [
+        {
+          "scheme": "CONSUMER_NUMBER",
+          "value": "RR-1234"
+        }
+      ],
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "BESCOM-SM-2025-654321"
+        }
+      ],
+      "intervalPeriod": {
+        "start": "2026-05-04T00:00:00+05:30",
+        "duration": "P1D"
+      },
+      "readings": [
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "value": 1000.0,
+          "occurredAt": "2026-05-05T00:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-05T00:00:00+05:30"
+        },
+        {
+          "readingType": "kvarh Q1",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-05T00:00:00+05:30"
+        },
+        {
+          "readingType": "MD kW",
+          "reportedMode": "USAGE",
+          "value": 8.42,
+          "occurredAt": "2026-05-04T19:30:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "value": 1005.2,
+          "occurredAt": "2026-05-06T00:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-06T00:00:00+05:30"
+        },
+        {
+          "readingType": "kvarh Q1",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-06T00:00:00+05:30"
+        },
+        {
+          "readingType": "MD kW",
+          "reportedMode": "USAGE",
+          "value": 9.15,
+          "occurredAt": "2026-05-05T20:00:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "value": 1011.8,
+          "occurredAt": "2026-05-07T00:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-07T00:00:00+05:30"
+        },
+        {
+          "readingType": "kvarh Q1",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-07T00:00:00+05:30"
+        },
+        {
+          "readingType": "MD kW",
+          "reportedMode": "USAGE",
+          "value": 8.74,
+          "occurredAt": "2026-05-06T19:00:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "value": 1016.5,
+          "occurredAt": "2026-05-08T00:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-08T00:00:00+05:30"
+        },
+        {
+          "readingType": "kvarh Q1",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-08T00:00:00+05:30"
+        },
+        {
+          "readingType": "MD kW",
+          "reportedMode": "USAGE",
+          "value": 7.92,
+          "occurredAt": "2026-05-07T18:30:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "value": 1022.7,
+          "occurredAt": "2026-05-09T00:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-09T00:00:00+05:30"
+        },
+        {
+          "readingType": "kvarh Q1",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-09T00:00:00+05:30"
+        },
+        {
+          "readingType": "MD kW",
+          "reportedMode": "USAGE",
+          "value": 9.41,
+          "occurredAt": "2026-05-08T20:15:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "value": 1028.3,
+          "occurredAt": "2026-05-10T00:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-10T00:00:00+05:30"
+        },
+        {
+          "readingType": "kvarh Q1",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-10T00:00:00+05:30"
+        },
+        {
+          "readingType": "MD kW",
+          "reportedMode": "USAGE",
+          "value": 6.18,
+          "occurredAt": "2026-05-09T13:45:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "value": 1034.9,
+          "occurredAt": "2026-05-11T00:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-11T00:00:00+05:30"
+        },
+        {
+          "readingType": "kvarh Q1",
+          "reportedMode": "READING",
+          "value": 0.0,
+          "occurredAt": "2026-05-11T00:00:00+05:30"
+        },
+        {
+          "readingType": "MD kW",
+          "reportedMode": "USAGE",
+          "value": 6.02,
+          "occurredAt": "2026-05-10T14:00:00+05:30"
+        }
+      ]
+    }
+  ]
+}

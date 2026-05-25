@@ -87,7 +87,6 @@ components:
       description: "Root base profile carrying common identifiers across all shapes."
       required:
         - "profileType"
-        - "customerRefs"
         - "meterRefs"
       properties:
         profileType:
@@ -108,8 +107,6 @@ components:
         - type: "object"
           required:
             - "intervalPeriod"
-            - "compactSequenceRef"
-            - "intervals"
           properties:
             profileType:
               type: "string"
@@ -123,6 +120,10 @@ components:
               type: "array"
               items:
                 $ref: "#/components/schemas/Interval"
+            readings:
+              type: "array"
+              items:
+                $ref: "#/components/schemas/Reading"
 
     DailyProfile:
       type: "object"
@@ -133,8 +134,6 @@ components:
         - type: "object"
           required:
             - "intervalPeriod"
-            - "compactSequenceRef"
-            - "intervals"
           properties:
             profileType:
               type: "string"
@@ -148,6 +147,10 @@ components:
               type: "array"
               items:
                 $ref: "#/components/schemas/Interval"
+            readings:
+              type: "array"
+              items:
+                $ref: "#/components/schemas/Reading"
 
     MonthlyProfile:
       type: "object"
@@ -420,6 +423,9 @@ components:
       properties:
         readingType:
           type: "string"
+        obis:
+          type: "string"
+          description: "Optional canonical OBIS code when readingType uses a short code."
         name:
           type: "string"
         unit:
@@ -745,6 +751,8 @@ components:
         - "ESTIMATED"
         - "MANUAL"
         - "IMPORT"
+        - "MDM_COMPUTED"
+        - "CIS_COMPUTED"
 
     MeterCategory:
       type: "string"

@@ -36,6 +36,12 @@
           "readingType": "kVAh imp"
         },
         {
+          "value": 0.0,
+          "openingValue": 0.0,
+          "closingValue": 0.0,
+          "readingType": "kWh exp"
+        },
+        {
           "value": 8.42,
           "reportedMode": "USAGE",
           "occurredAt": "2026-04-23T19:30:00+05:30",

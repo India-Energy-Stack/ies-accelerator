@@ -12,7 +12,13 @@
             "@id": "ies:MeterData",
             "@type": "rdfs:Class",
             "rdfs:label": "Meter Data",
-            "rdfs:comment": "Structural JSON Schema for the six compact profile shapes (CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT). Discriminated by `profileType`. Sibling to ae-ies-mdm-3rdparty-v0.schema.json (which validates the credential-wrapped form). Both forms share semantics via the JSON-LD context but live in separate schemas because their structural shapes differ (compact omits the W3C VC envelope)."
+            "rdfs:comment": "Structural JSON Schema for MeterData (v0.6). Defines the MeterDataset envelope containing parallel descriptors and energy data."
+        },
+        {
+            "@id": "ies:MeterDataset",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Dataset",
+            "rdfs:comment": "Top-level envelope for telemetry profiles, defining shared payload descriptors parallel to the data arrays."
         },
         {
             "@id": "ies:EnergyData",
@@ -27,10 +33,10 @@
             "rdfs:comment": "Slow-changing customer + service-point + meter-list summary."
         },
         {
-            "@id": "ies:BaseTelemetryProfile",
+            "@id": "ies:BaseProfile",
             "@type": "rdfs:Class",
-            "rdfs:label": "Base Telemetry Profile",
-            "rdfs:comment": ""
+            "rdfs:label": "Base Profile",
+            "rdfs:comment": "Root base profile carrying common identifiers across all shapes."
         },
         {
             "@id": "ies:IntervalProfile",
@@ -183,6 +189,18 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:payloadDescriptorSets",
+            "@type": "rdf:Property",
+            "rdfs:label": "payload Descriptor Sets",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:data",
+            "@type": "rdf:Property",
+            "rdfs:label": "data",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:profileType",
             "@type": "rdf:Property",
             "rdfs:label": "profile Type",
@@ -237,21 +255,21 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:payloadDescriptorSet",
-            "@type": "rdf:Property",
-            "rdfs:label": "payload Descriptor Set",
-            "rdfs:comment": ""
-        },
-        {
             "@id": "ies:compactSequenceRef",
             "@type": "rdf:Property",
             "rdfs:label": "compact Sequence Ref",
-            "rdfs:comment": "Name of the compact sequence to use from the descriptor set."
+            "rdfs:comment": "Name of the compact sequence to use from the payloadDescriptorSets."
         },
         {
             "@id": "ies:intervalPeriod",
             "@type": "rdf:Property",
             "rdfs:label": "interval Period",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:intervals",
+            "@type": "rdf:Property",
+            "rdfs:label": "intervals",
             "rdfs:comment": ""
         },
         {
@@ -261,9 +279,9 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:intervals",
+            "@id": "ies:timePeriod",
             "@type": "rdf:Property",
-            "rdfs:label": "intervals",
+            "rdfs:label": "time Period",
             "rdfs:comment": ""
         },
         {
@@ -327,12 +345,6 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:timePeriod",
-            "@type": "rdf:Property",
-            "rdfs:label": "time Period",
-            "rdfs:comment": ""
-        },
-        {
             "@id": "ies:events",
             "@type": "rdf:Property",
             "rdfs:label": "events",
@@ -369,9 +381,9 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:readingTypeRef",
+            "@id": "ies:readingType",
             "@type": "rdf:Property",
-            "rdfs:label": "reading Type Ref",
+            "rdfs:label": "reading Type",
             "rdfs:comment": ""
         },
         {
@@ -447,6 +459,12 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:attribute",
+            "@type": "rdf:Property",
+            "rdfs:label": "attribute",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:reportedMode",
             "@type": "rdf:Property",
             "rdfs:label": "reported Mode",
@@ -456,6 +474,18 @@
             "@id": "ies:powerOfTenMultiplier",
             "@type": "rdf:Property",
             "rdfs:label": "power Of Ten Multiplier",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:obis",
+            "@type": "rdf:Property",
+            "rdfs:label": "obis",
+            "rdfs:comment": "Optional canonical OBIS code when readingType uses a short code."
+        },
+        {
+            "@id": "ies:category",
+            "@type": "rdf:Property",
+            "rdfs:label": "category",
             "rdfs:comment": ""
         },
         {
@@ -471,9 +501,9 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:intervalId",
+            "@id": "ies:overrides",
             "@type": "rdf:Property",
-            "rdfs:label": "interval Id",
+            "rdfs:label": "overrides",
             "rdfs:comment": ""
         },
         {

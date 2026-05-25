@@ -1,0 +1,90 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+  "@type": "MeterDataset",
+  "payloadDescriptorSets": [],
+  "data": [
+    {
+      "@type": "MonthlyProfile",
+      "profileType": "MONTHLY",
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "OLD-METER-12345"
+        }
+      ],
+      "timePeriod": {
+        "start": "2026-04-01T00:00:00+05:30",
+        "duration": "P15D"
+      },
+      "readings": [
+        {
+          "value": 150.0,
+          "openingValue": 10000.0,
+          "closingValue": 10150.0,
+          "readingType": "kWh imp"
+        }
+      ]
+    },
+    {
+      "@type": "MonthlyProfile",
+      "profileType": "MONTHLY",
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "NEW-METER-67890"
+        }
+      ],
+      "timePeriod": {
+        "start": "2026-04-15T14:30:00+05:30",
+        "duration": "PT345H30M"
+      },
+      "readings": [
+        {
+          "value": 262.5,
+          "openingValue": 0.0,
+          "closingValue": 262.5,
+          "readingType": "kWh imp"
+        }
+      ]
+    },
+    {
+      "@type": "BillDetails",
+      "profileType": "BILL_DETAILS",
+      "customerRefs": [
+        {
+          "scheme": "CONSUMER_NUMBER",
+          "value": "RR-1234"
+        }
+      ],
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "OLD-METER-12345"
+        },
+        {
+          "scheme": "METER_SERIAL",
+          "value": "NEW-METER-67890"
+        }
+      ],
+      "timePeriod": {
+        "start": "2026-04-01T00:00:00+05:30",
+        "duration": "P1M"
+      },
+      "billNumber": "BESCOM-RR-1234-202604",
+      "billDate": "2026-05-01",
+      "dueDate": "2026-05-21",
+      "currency": "INR",
+      "amountDue": 4125.00,
+      "prepaidBalance": 0.0,
+      "paymentStatus": "UNPAID",
+      "readings": [
+        {
+          "value": 412.5,
+          "reportedMode": "USAGE",
+          "readingType": "kWh imp",
+          "source": "CIS_COMPUTED"
+        }
+      ]
+    }
+  ]
+}

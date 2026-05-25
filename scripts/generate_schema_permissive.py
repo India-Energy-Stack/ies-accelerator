@@ -21,6 +21,9 @@ def convert_refs(obj):
             else:
                 new_dict[k] = convert_refs(v)
         return new_dict
+    elif isinstance(obj, str):
+        if obj.startswith("#/components/schemas/"):
+            return obj.replace("#/components/schemas/", "#/$defs/")
     return obj
 
 def resolve_properties(schema_def, all_schemas):

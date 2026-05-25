@@ -1,0 +1,87 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+  "@type": "MeterDataset",
+  "payloadDescriptorSets": [],
+  "data": [
+    {
+      "@type": "IntervalProfile",
+      "profileType": "INTERVAL",
+      "customerRefs": [
+        {
+          "scheme": "CONSUMER_NUMBER",
+          "value": "RR-1234"
+        }
+      ],
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "BESCOM-SM-2025-654321"
+        }
+      ],
+      "serviceDeliveryPointRefs": [
+        {
+          "scheme": "SERVICE_DELIVERY_POINT",
+          "value": "SDP-BLR-A-12345"
+        }
+      ],
+      "intervalPeriod": {
+        "start": "2026-05-04T09:00:00+05:30",
+        "duration": "PT30M"
+      },
+      "readings": [
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "USAGE",
+          "value": 4.62,
+          "occurredAt": "2026-05-04T09:30:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "USAGE",
+          "value": 0.0,
+          "occurredAt": "2026-05-04T09:30:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "USAGE",
+          "value": 4.85,
+          "occurredAt": "2026-05-04T10:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "USAGE",
+          "value": 0.0,
+          "occurredAt": "2026-05-04T10:00:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "USAGE",
+          "value": 5.21,
+          "validationStatus": "ESTIMATED",
+          "source": "ESTIMATED",
+          "changeMethod": "linear-interpolation",
+          "failCode": "VEE-MISSING-INTERVAL",
+          "occurredAt": "2026-05-04T10:30:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "USAGE",
+          "value": 0.12,
+          "occurredAt": "2026-05-04T10:30:00+05:30"
+        },
+        {
+          "readingType": "kWh imp",
+          "reportedMode": "USAGE",
+          "value": 5.04,
+          "occurredAt": "2026-05-04T11:00:00+05:30"
+        },
+        {
+          "readingType": "kWh exp",
+          "reportedMode": "USAGE",
+          "value": 0.0,
+          "occurredAt": "2026-05-04T11:00:00+05:30"
+        }
+      ]
+    }
+  ]
+}

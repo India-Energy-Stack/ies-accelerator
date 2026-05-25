@@ -7,7 +7,8 @@
       "payloadDescriptors": [
         {
           "reportedMode": "USAGE",
-          "readingType": "kWh imp block"
+          "readingType": "kWh imp block",
+          "obis": "1.0.1.29.0.255"
         }
       ],
       "compactSequences": [
@@ -27,7 +28,16 @@
       "payloadDescriptors": [
         {
           "reportedMode": "READING",
-          "readingType": "kWh imp"
+          "readingType": "kWh imp",
+          "obis": "1.0.1.8.0.255"
+        },
+        {
+          "readingType": "kWh exp",
+          "obis": "1.0.2.8.0.255",
+          "name": "Active Energy Export",
+          "unit": "kWh",
+          "flowDirection": "EXPORT",
+          "reportedMode": "READING"
         }
       ],
       "compactSequences": [
@@ -37,6 +47,11 @@
             {
               "reportedMode": "READING",
               "readingType": "kWh imp"
+            },
+            {
+              "readingType": "kWh exp",
+              "attribute": "value",
+              "reportedMode": "READING"
             }
           ]
         }
@@ -47,7 +62,16 @@
       "payloadDescriptors": [
         {
           "reportedMode": "READING",
-          "readingType": "kWh imp"
+          "readingType": "kWh imp",
+          "obis": "1.0.1.8.0.255"
+        },
+        {
+          "readingType": "kWh exp",
+          "obis": "1.0.2.8.0.255",
+          "name": "Active Energy Export",
+          "unit": "kWh",
+          "flowDirection": "EXPORT",
+          "reportedMode": "READING"
         }
       ],
       "compactSequences": [
@@ -57,6 +81,11 @@
             {
               "reportedMode": "READING",
               "readingType": "kWh imp"
+            },
+            {
+              "readingType": "kWh exp",
+              "attribute": "value",
+              "reportedMode": "READING"
             }
           ]
         }
@@ -67,11 +96,13 @@
       "payloadDescriptors": [
         {
           "reportedMode": "READING",
-          "readingType": "V_1P"
+          "readingType": "V_1P",
+          "obis": "1.0.12.7.0.255"
         },
         {
           "reportedMode": "READING",
-          "readingType": "I_Phase"
+          "readingType": "I_Phase",
+          "obis": "1.0.11.7.0.255"
         }
       ],
       "compactSequences": [
@@ -95,11 +126,13 @@
       "payloadDescriptors": [
         {
           "readingType": "kWh imp block",
-          "reportedMode": "USAGE"
+          "reportedMode": "USAGE",
+          "obis": "1.0.1.29.0.255"
         },
         {
           "readingType": "kVAh imp block",
-          "reportedMode": "USAGE"
+          "reportedMode": "USAGE",
+          "obis": "1.0.9.29.0.255"
         }
       ],
       "compactSequences": [
@@ -125,11 +158,21 @@
       "payloadDescriptors": [
         {
           "readingType": "kWh imp",
+          "reportedMode": "READING",
+          "obis": "1.0.1.8.0.255"
+        },
+        {
+          "readingType": "kWh exp",
+          "obis": "1.0.2.8.0.255",
+          "name": "Active Energy Export",
+          "unit": "kWh",
+          "flowDirection": "EXPORT",
           "reportedMode": "READING"
         },
         {
           "readingType": "kVAh imp",
-          "reportedMode": "READING"
+          "reportedMode": "READING",
+          "obis": "1.0.9.8.0.255"
         }
       ],
       "compactSequences": [
@@ -140,6 +183,11 @@
               "readingType": "kWh imp",
               "reportedMode": "READING",
               "attribute": "value"
+            },
+            {
+              "readingType": "kWh exp",
+              "attribute": "value",
+              "reportedMode": "READING"
             },
             {
               "readingType": "kVAh imp",
@@ -360,6 +408,7 @@
           "id": 0,
           "payloads": [
             24512.4,
+            0.0,
             25134.8
           ]
         }
@@ -389,7 +438,8 @@
         {
           "id": 0,
           "payloads": [
-            4325.7
+            4325.7,
+            0.0
           ]
         }
       ]

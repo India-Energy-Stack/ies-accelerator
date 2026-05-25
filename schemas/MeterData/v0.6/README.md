@@ -50,6 +50,12 @@ Because `payloads` allows mixed arrays of `number` and `string`, metadata is map
 ### Strict Derived Profiles
 Inside the `data` array of the dataset, individual profiles inherit strictly from `BaseProfile`. `BaseProfile` only contains identity (`meterRefs`, `customerRefs`). Derived profiles (like `IntervalProfile`) strictly allow **only** their relevant properties (`intervals`, `compactSequenceRef`, `intervalPeriod`).
 
+> [!NOTE]
+> **Why doesn't `MonthlyProfile` use the compact matrix?**
+> The compact form is prevented natively by the schema for `MonthlyProfile`. It strictly requires `readings` and `touBuckets`, and does not permit `intervals`. The compact matrix shines for dense, highly symmetrical time-series data. A `MonthlyProfile` typically captures a single sparse snapshot of total registers, ToU buckets, and Maximum Demand peaks at the end of the month. Encoding sparse, highly variable metadata (e.g., MD timestamps) into a flat numerical array offers negligible compression and becomes extremely brittle when dealing with **ad-hoc billing resets** or **meter swaps mid-cycle**.
+> 
+> *See [MonthlyProfile_MultipleResets.json](./examples/MonthlyProfile_MultipleResets.json) and [Billing_MeterChange.json](./examples/Billing_MeterChange.json) for examples of how the elaborated representation cleanly handles these edge cases.*
+
 ---
 
 ## Identifier Flexibility (OBIS vs. Short Codes)
@@ -59,6 +65,7 @@ The schema relies on `OBISMapping.json` as the canonical registry for interpreti
 When transmitting telemetry, you specify a simple **`readingType`** string. This can be:
 * **Using OBIS Codes**: `"1.0.1.8.0.255"`
 * **Using Short Names**: `"kWh imp"`
+* **Using Canonical Links**: Payload descriptors can optionally include an `obis` string parameter to provide a direct physical mapping when a short name is used as the `readingType`.
 
 *See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) (OBIS Codes) and [MultiMeterBulkDatasetShortCodes.json](./examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) for bulk examples of both representations.*
 

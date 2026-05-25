@@ -16,11 +16,12 @@ The telemetry architecture has transitioned from standalone independent profiles
 The compact representation (`IntervalProfile` and `DailyProfile`) has been fundamentally reimagined:
 * **The `attribute` Enum**: `SequenceItem` definitions in the `compactSequences` now map directly to specific reading attributes (e.g., `value`, `occurredAt`, `openingValue`, `validationStatus`).
 * **Multi-Type `payloads`**: The numerical `values` array in intervals has been replaced by `payloads` which supports both `number` and `string`. 
-* **Deprecation of Sparse Overrides**: Because `payloads` can mix numbers (for energy) and strings (for timestamps or validation codes), metadata that previously required verbose sparse `overrides` arrays is now mapped as a native, dense column in the sequence matrix. The `overrides` array has been largely eliminated in favor of strict matrix arity.
+* **Targeted use of Overrides**: Because `payloads` can mix numbers (for energy) and strings (for timestamps or validation codes), metadata that previously required verbose sparse `overrides` arrays is now mapped as a native, dense column in the sequence matrix. The `overrides` array is now strictly retained for **quality deviance indication** (e.g., specific estimation methods `changeMethod` and failure codes `failCode` on a single bad interval), rather than routine timestamps.
 
-### 3. Simplification of Identifiers (Short Codes)
+### 3. Simplification of Identifiers (Short Codes & OBIS)
 * The verbose `readingTypeRef` object (`{"scheme": "OBIS", "value": "..."}`) has been replaced by a flat **`readingType`** string across all schemas.
-* Short codes (e.g., `"kWh imp"`, `"V_1P"`) are now heavily favored over raw OBIS codes for readability and bandwidth savings, with the system resolving the exact semantics against the central `OBISMapping.json` registry.
+* Short codes (e.g., `"kWh imp"`, `"V_1P"`) are now heavily favored over raw OBIS codes for readability and bandwidth savings.
+* **Resolution Flow**: Payload parsers first resolve semantics against the **local payload descriptor** inside the dataset. For strict mathematical compliance, this local descriptor is then validated against the central `OBISMapping.json` registry. Payload descriptors now optionally include an `obis` property for direct canonical linkage when a short code is used.
 
 ### 4. Strict Composition-Based Inheritance
 The inheritance model in `attributes.yaml` has been strictly refactored:

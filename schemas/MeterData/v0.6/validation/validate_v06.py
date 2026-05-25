@@ -68,6 +68,11 @@ def validate_dataset_semantics(dataset, obis_mapping, meter_categories_map):
             rt = desc.get("readingType")
             code, info = resolve_reading_type(rt, obis_mapping)
             if code:
+                # Check optional obis field matches
+                inline_obis = desc.get("obis")
+                if inline_obis and inline_obis != code:
+                    errors.append(f"Descriptor '{rt}' obis mismatch: Inline '{inline_obis}', Canonical '{code}'")
+                    
                 # Check properties if they exist
                 if "unit" in desc and "unit" in info and desc["unit"] != info["unit"]:
                     errors.append(f"Descriptor '{rt}' unit mismatch: Inline '{desc['unit']}', Canonical '{info['unit']}'")
@@ -90,6 +95,8 @@ def validate_dataset_semantics(dataset, obis_mapping, meter_categories_map):
         # Matrix Validation
         if p_type in ["INTERVAL", "DAILY"]:
             compact_seq_ref = profile.get("compactSequenceRef")
+            if not compact_seq_ref:
+                continue # Elaborated format, skip matrix validation
             resolved_seq = None
             for ds in descriptor_sets:
                 for seq in ds.get("compactSequences", []):
@@ -234,11 +241,7 @@ def main():
             continue
             
         # 1. Structural Schema Validation
-        wrapper_schema = {
-            "$ref": "#/components/schemas/MeterDataset",
-            "components": schema.get("components", {})
-        }
-        validator = jsonschema.Draft202012Validator(wrapper_schema)
+        # (validator is already initialized with schema outside the loop)
         
         errors = sorted(validator.iter_errors(data), key=lambda e: e.path)
         if errors:
