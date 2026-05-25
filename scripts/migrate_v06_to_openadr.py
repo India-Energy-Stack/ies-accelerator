@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
 import json
-import glob
 import os
 import sys
 
 # Load global mapping
 OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/IES codes.json"
 if os.path.exists(OBIS_MAPPING_PATH):
-    with open(OBIS_MAPPING_PATH, "r") as f:
-        OBIS_MAPPING = json.load(f).get("codes", {})
+    with open(OBIS_MAPPING_PATH, "r", encoding="utf-8") as f:
+        codes_data = json.load(f).get("codes", [])
 else:
-    OBIS_MAPPING = {}
+    codes_data = []
+
+OBIS_MAPPING = {}
+for item in codes_data:
+    OBIS_MAPPING[item["obis"]] = item
+    if "shortLabel" in item:
+        OBIS_MAPPING[item["shortLabel"]] = item
 
 def get_obis_info(ref_val):
-    for code, info in OBIS_MAPPING.items():
-        if code == ref_val or info.get("shortLabel") == ref_val:
-            return code, info
-    return ref_val, {}
+    info = OBIS_MAPPING.get(ref_val, {})
+    return ref_val, info
 
 def map_payload_type(category):
     if category in ["energyCumulative", "energyIncremental"]:
@@ -40,9 +43,32 @@ def map_reading_type(mode, category):
         return "SUM"
     return "DIRECT_READ"
 
-def migrate_profile_to_openadr(profile):
-    p_type = profile.get("profileType")
-    meter_serial = profile.get("meterRefs", [{}])[0].get("value", "UNKNOWN_METER")
+def migrate_v06_file_to_openadr(v6_filepath):
+    with open(v6_filepath, "r", encoding="utf-8") as f:
+        v6_data = json.load(f)
+        
+    v6_profiles = v6_data if isinstance(v6_data, list) else [v6_data]
+    
+    descriptor_sets = {}
+    data_profiles = []
+    
+    for p in v6_profiles:
+        if p.get("profileType") == "DESCRIPTOR":
+            for ds in p.get("payloadDescriptorSets", []):
+                name = ds.get("name")
+                if name:
+                    descriptor_sets[name] = ds
+        else:
+            data_profiles.append(p)
+            
+    if not data_profiles:
+        print(f"Warning: No data profiles found in {v6_filepath}")
+        return None
+        
+    # We take metadata from the first profile
+    first_profile = data_profiles[0]
+    p_type = first_profile.get("profileType", "UNKNOWN")
+    meter_serial = first_profile.get("meterRefs", [{}])[0].get("value", "UNKNOWN_METER")
     
     report = {
         "id": f"report-{p_type.lower()}-{meter_serial}",
@@ -57,181 +83,197 @@ def migrate_profile_to_openadr(profile):
         "resources": []
     }
     
-    # 1. Process Descriptors
-    descriptors = []
-    desc_set = profile.get("payloadDescriptorSet", {})
-    seq_name = profile.get("compactSequenceRef")
+    global_descriptors = []
     
-    # Identify sequence items
-    seq_items = []
-    if seq_name:
-        for seq in desc_set.get("compactSequences", []):
-            if seq.get("name") == seq_name:
-                seq_items = seq.get("sequenceItems", [])
-                break
-    else:
-        seq_items = desc_set.get("payloadDescriptors", [])
+    for profile in data_profiles:
+        ds_ref = profile.get("payloadDescriptorSetRef")
+        seq_name = profile.get("compactSequenceRef")
         
-    resolved_desc_info = []
-    for idx, item in enumerate(seq_items):
-        ref_val = item.get("readingTypeRef", {}).get("value")
-        code, info = get_obis_info(ref_val)
-        category = info.get("category", "")
-        mode = item.get("reportedMode", "READING")
+        desc_set = descriptor_sets.get(ds_ref) if ds_ref else {}
         
-        p_type_mapped = map_payload_type(category)
-        r_type_mapped = map_reading_type(mode, category)
-        unit = info.get("unit", "KWH").upper()
-        
-        descriptors.append({
-            "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
-            "payloadType": p_type_mapped,
-            "readingType": r_type_mapped,
-            "units": unit
-        })
-        resolved_desc_info.append((p_type_mapped, code, info))
-        
-    # Also handle elaborated readings if present (Billing / Instantaneous)
-    readings = profile.get("readings", [])
-    elaborated_desc_info = []
-    for idx, r in enumerate(readings):
-        ref_val = r.get("readingTypeRef", {}).get("value")
-        code, info = get_obis_info(ref_val)
-        category = info.get("category", "")
-        mode = r.get("reportedMode", "READING")
-        
-        p_type_mapped = map_payload_type(category)
-        r_type_mapped = map_reading_type(mode, category)
-        unit = info.get("unit", "KWH").upper()
-        
-        # Avoid duplicate descriptors
-        desc_exists = False
-        for d in descriptors:
-            if d["payloadType"] == p_type_mapped and d["readingType"] == r_type_mapped:
-                desc_exists = True
-                break
-        if not desc_exists:
-            descriptors.append({
+        seq_items = []
+        if seq_name:
+            for seq in desc_set.get("compactSequences", []):
+                if seq.get("name") == seq_name:
+                    seq_items = seq.get("sequenceItems", [])
+                    break
+        else:
+            seq_items = desc_set.get("payloadDescriptors", [])
+            
+        resolved_desc_info = []
+        for idx, item in enumerate(seq_items):
+            ref_val = item.get("readingType")
+            _, info = get_obis_info(ref_val)
+            category = info.get("category", "")
+            
+            # Find reportedMode in payloadDescriptors
+            reported_mode = "READING"
+            for pd in desc_set.get("payloadDescriptors", []):
+                if pd.get("readingType") == ref_val:
+                    reported_mode = pd.get("reportedMode", "READING")
+                    break
+            
+            p_type_mapped = map_payload_type(category)
+            r_type_mapped = map_reading_type(reported_mode, category)
+            unit = info.get("unit", "KWH").upper()
+            if not unit:
+                unit = "KWH"
+            
+            desc_obj = {
                 "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
                 "payloadType": p_type_mapped,
                 "readingType": r_type_mapped,
                 "units": unit
-            })
-        elaborated_desc_info.append((p_type_mapped, r_type_mapped))
-        
-    report["payloadDescriptors"] = descriptors
-
-    # 2. Build Resource Payload
-    res_intervals = []
-    
-    # 2a. Map flat intervals if present (Form B)
-    v6_intervals = profile.get("intervals", [])
-    for row in v6_intervals:
-        row_id = row.get("id")
-        payloads = row.get("payloads", [])
-        
-        openadr_payloads = []
-        for idx, val in enumerate(payloads):
-            if idx < len(resolved_desc_info):
-                p_type_mapped, _, _ = resolved_desc_info[idx]
-                openadr_payloads.append({
-                    "type": p_type_mapped,
-                    "values": [str(val)]
-                })
+            }
+            if desc_obj not in global_descriptors:
+                global_descriptors.append(desc_obj)
                 
-        int_obj = {
-            "id": row_id,
-            "payloads": openadr_payloads
-        }
+            resolved_desc_info.append((p_type_mapped, ref_val, info))
+            
+        readings = profile.get("readings", [])
+        elaborated_desc_info = []
+        for idx, r in enumerate(readings):
+            ref_val = r.get("readingType")
+            _, info = get_obis_info(ref_val)
+            category = info.get("category", "")
+            
+            reported_mode = "READING"
+            for pd in desc_set.get("payloadDescriptors", []):
+                if pd.get("readingType") == ref_val:
+                    reported_mode = pd.get("reportedMode", "READING")
+                    break
+                    
+            p_type_mapped = map_payload_type(category)
+            r_type_mapped = map_reading_type(reported_mode, category)
+            unit = info.get("unit", "KWH").upper()
+            if not unit:
+                unit = "KWH"
+            
+            desc_obj = {
+                "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
+                "payloadType": p_type_mapped,
+                "readingType": r_type_mapped,
+                "units": unit
+            }
+            if desc_obj not in global_descriptors:
+                global_descriptors.append(desc_obj)
+                
+            elaborated_desc_info.append((p_type_mapped, r_type_mapped))
+            
+        # Build resource intervals
+        res_intervals = []
         
-        # Map overrides to intervalPeriod if occurredAt is present
-        if "overrides" in row:
-            for ov in row["overrides"]:
-                if "occurredAt" in ov:
-                    int_obj["intervalPeriod"] = {
-                        "start": ov["occurredAt"],
-                        "duration": "PT0S"
+        # Map compact intervals (Form B)
+        v6_intervals = profile.get("intervals", [])
+        for row in v6_intervals:
+            row_id = row.get("id")
+            payloads = row.get("payloads", [])
+            
+            openadr_payloads = []
+            for idx, val in enumerate(payloads):
+                if idx < len(resolved_desc_info):
+                    p_type_mapped, _, _ = resolved_desc_info[idx]
+                    openadr_payloads.append({
+                        "type": p_type_mapped,
+                        "values": [str(val)]
+                    })
+                    
+            int_obj = {
+                "id": row_id,
+                "payloads": openadr_payloads
+            }
+            
+            # Map overrides to intervalPeriod if occurredAt is present
+            if "overrides" in row:
+                for ov in row["overrides"]:
+                    if "occurredAt" in ov:
+                        int_obj["intervalPeriod"] = {
+                            "start": ov["occurredAt"],
+                            "duration": "PT0S"
+                        }
+            res_intervals.append(int_obj)
+            
+        # Map elaborated readings if present (Form A)
+        for idx, r in enumerate(readings):
+            p_type_mapped, r_type_mapped = elaborated_desc_info[idx]
+            val = r.get("value")
+            
+            int_obj = {
+                "id": len(res_intervals) + idx,
+                "payloads": [
+                    {
+                        "type": p_type_mapped,
+                        "values": [str(val)]
                     }
-        res_intervals.append(int_obj)
-        
-    # 2b. Map elaborated readings if present (Form A)
-    for idx, r in enumerate(readings):
-        p_type_mapped, r_type_mapped = elaborated_desc_info[idx]
-        val = r.get("value")
-        
-        int_obj = {
-            "id": len(res_intervals) + idx,
-            "payloads": [
-                {
-                    "type": p_type_mapped,
-                    "values": [str(val)]
-                }
-            ]
+                ]
+            }
+            
+            # Determine timePeriod for this reading
+            start_time = r.get("occurredAt") or profile.get("timestamp") or "2026-05-25T00:00:00Z"
+            duration = r.get("integrationPeriod") or "PT0S"
+            int_obj["intervalPeriod"] = {
+                "start": start_time,
+                "duration": duration
+            }
+            res_intervals.append(int_obj)
+            
+        res_meter_serial = profile.get("meterRefs", [{}])[0].get("value", "UNKNOWN_METER")
+        resource_block = {
+            "resourceName": res_meter_serial,
+            "intervals": res_intervals
         }
         
-        # Determine timePeriod for this reading
-        start_time = r.get("occurredAt") or profile.get("timestamp") or "2026-05-25T00:00:00Z"
-        duration = r.get("integrationPeriod") or "PT0S"
-        int_obj["intervalPeriod"] = {
-            "start": start_time,
-            "duration": duration
-        }
-        res_intervals.append(int_obj)
+        # Setup intervalPeriod default
+        v6_period = profile.get("intervalPeriod") or profile.get("timePeriod")
+        if v6_period:
+            resource_block["intervalPeriod"] = {
+                "start": v6_period["start"],
+                "duration": v6_period["duration"]
+            }
+            
+        report["resources"].append(resource_block)
         
-    # Build resources block
-    resource_block = {
-        "resourceName": meter_serial,
-        "intervals": res_intervals
-    }
-    
-    # Setup intervalPeriod default
-    v6_period = profile.get("intervalPeriod") or profile.get("timePeriod")
-    if v6_period:
-        resource_block["intervalPeriod"] = {
-            "start": v6_period["start"],
-            "duration": v6_period["duration"]
-        }
-        
-    report["resources"] = [resource_block]
-    
+    report["payloadDescriptors"] = global_descriptors
     return report
 
 def main():
-    v6_examples = [
-        "schemas/MeterData/v0.6/examples/IntervalProfile_UsageMode.json",
-        "schemas/MeterData/v0.6/examples/DailyProfile_ReadingMode.json",
-        "schemas/MeterData/v0.6/examples/BillingProfile_Elaborated.json"
+    v6_mappings = [
+        ("schemas/MeterData/v0.6/examples/IntervalProfile.json", "IntervalProfile_OpenAdr.json"),
+        ("schemas/MeterData/v0.6/examples/DailyProfile_ReadingMode.json", "DailyProfile_ReadingMode_OpenAdr.json"),
+        ("schemas/MeterData/v0.6/examples/BillingProfile.json", "BillingProfile_OpenAdr.json")
     ]
     
     out_dir = "schemas/MeterData/vOpenAdr/examples"
     os.makedirs(out_dir, exist_ok=True)
     
-    for f in v6_examples:
+    # Clean up outdated example files first
+    stale_files = ["BillingProfile_Elaborated_OpenAdr.json", "IntervalProfile_UsageMode_OpenAdr.json"]
+    for sf in stale_files:
+        p = os.path.join(out_dir, sf)
+        if os.path.exists(p):
+            os.remove(p)
+            print(f"Cleaned up stale file: {p}")
+            
+    for f, out_name in v6_mappings:
         if not os.path.exists(f):
             print(f"Warning: v0.6 example '{f}' not found.")
             continue
             
-        basename = os.path.basename(f)
-        print(f"Migrating {basename} to OpenADR report...")
+        print(f"Migrating {f} to OpenADR report...")
+        openadr_report = migrate_v06_file_to_openadr(f)
         
-        with open(f, "r") as file:
-            data = json.load(file)
+        if openadr_report:
+            out_path = os.path.join(out_dir, out_name)
+            with open(out_path, "w", encoding="utf-8") as file:
+                json.dump(openadr_report, file, indent=2, ensure_ascii=False)
+            print(f"✅ Converted OpenADR report saved to: {out_path}")
             
-        openadr_report = migrate_profile_to_openadr(data)
-        
-        out_name = basename.replace(".json", "_OpenAdr.json")
-        out_path = os.path.join(out_dir, out_name)
-        
-        with open(out_path, "w") as file:
-            json.dump(openadr_report, file, indent=2)
-            
-        print(f"✅ Converted OpenADR report saved to: {out_path}")
-        
-        if basename == "IntervalProfile_UsageMode.json":
-            example_path = os.path.join(out_dir, "vOpenAdr_Example.json")
-            with open(example_path, "w") as file:
-                json.dump(openadr_report, file, indent=2)
-            print(f"✅ Converted OpenADR report example saved to: {example_path}")
+            # Also save IntervalProfile to vOpenAdr_Example.json
+            if out_name == "IntervalProfile_OpenAdr.json":
+                example_path = os.path.join(out_dir, "vOpenAdr_Example.json")
+                with open(example_path, "w", encoding="utf-8") as file:
+                    json.dump(openadr_report, file, indent=2, ensure_ascii=False)
+                print(f"✅ Converted OpenADR report example saved to: {example_path}")
         
     print("OpenADR migration complete!")
 

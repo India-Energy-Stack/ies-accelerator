@@ -13,12 +13,6 @@
       "payloadType": "USAGE",
       "readingType": "SUM",
       "units": "KWH"
-    },
-    {
-      "objectType": "REPORT_PAYLOAD_DESCRIPTOR",
-      "payloadType": "USAGE",
-      "readingType": "SUM",
-      "units": "KVAH"
     }
   ],
   "resources": [
@@ -31,13 +25,13 @@
             {
               "type": "USAGE",
               "values": [
-                "1.2"
+                "4.62"
               ]
             },
             {
               "type": "USAGE",
               "values": [
-                "1.3"
+                "0.0"
               ]
             }
           ]
@@ -48,13 +42,13 @@
             {
               "type": "USAGE",
               "values": [
-                "1.4"
+                "4.85"
               ]
             },
             {
               "type": "USAGE",
               "values": [
-                "1.5"
+                "0.0"
               ]
             }
           ]
@@ -65,21 +59,38 @@
             {
               "type": "USAGE",
               "values": [
-                "1.1"
+                "5.21"
               ]
             },
             {
               "type": "USAGE",
               "values": [
-                "1.2"
+                "0.12"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "payloads": [
+            {
+              "type": "USAGE",
+              "values": [
+                "5.04"
+              ]
+            },
+            {
+              "type": "USAGE",
+              "values": [
+                "0.0"
               ]
             }
           ]
         }
       ],
       "intervalPeriod": {
-        "start": "2026-05-04T00:00:00+05:30",
-        "duration": "PT15M"
+        "start": "2026-05-04T09:00:00+05:30",
+        "duration": "PT30M"
       }
     }
   ]

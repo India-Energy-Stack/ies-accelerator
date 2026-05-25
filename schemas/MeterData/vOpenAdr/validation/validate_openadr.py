@@ -8,14 +8,34 @@ def load_json(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def run_parity_check(v6_path, openadr_path):
+def run_parity_check(v6_path, openadr_path, obis_mapping):
     v6_data = load_json(v6_path)
     oadr_data = load_json(openadr_path)
     
     errors = []
     
-    # 1. Verify metadata mapping
-    meter_serial_v6 = v6_data.get("meterRefs", [{}])[0].get("value")
+    # 1. Parse v0.6 profiles list
+    v6_profiles = v6_data if isinstance(v6_data, list) else [v6_data]
+    
+    descriptor_sets = {}
+    data_profiles = []
+    
+    for p in v6_profiles:
+        if p.get("profileType") == "DESCRIPTOR":
+            for ds in p.get("payloadDescriptorSets", []):
+                name = ds.get("name")
+                if name:
+                    descriptor_sets[name] = ds
+        else:
+            data_profiles.append(p)
+            
+    if not data_profiles:
+        errors.append("No data profiles found in v0.6 payload.")
+        return errors
+        
+    # Verify metadata mapping against first data profile
+    main_profile = data_profiles[0]
+    meter_serial_v6 = main_profile.get("meterRefs", [{}])[0].get("value")
     client_name_oadr = oadr_data.get("clientName")
     if meter_serial_v6 != client_name_oadr:
         errors.append(f"Meter serial / Client name mismatch: v0.6='{meter_serial_v6}', OpenADR='{client_name_oadr}'")
@@ -24,48 +44,58 @@ def run_parity_check(v6_path, openadr_path):
     if meter_serial_v6 != resource_name:
         errors.append(f"Resource name mismatch: v0.6='{meter_serial_v6}', OpenADR='{resource_name}'")
         
-    # 2. Extract and sum values in v0.6
+    # 2. Extract and sum values in v0.6 across all data profiles
     v6_sums = {}
     
-    # Check compact intervals (Form B)
-    if "intervals" in v6_data:
-        desc_set = v6_data.get("payloadDescriptorSet", {})
-        seq_name = v6_data.get("compactSequenceRef")
-        seq_items = []
-        if seq_name:
-            for seq in desc_set.get("compactSequences", []):
-                if seq.get("name") == seq_name:
-                    seq_items = seq.get("sequenceItems", [])
-                    break
-        else:
-            seq_items = desc_set.get("payloadDescriptors", [])
+    for profile in data_profiles:
+        # Check compact intervals (Form B)
+        if "intervals" in profile:
+            ds_ref = profile.get("payloadDescriptorSetRef")
+            seq_name = profile.get("compactSequenceRef")
             
-        descriptors = [item.get("readingTypeRef", {}).get("value") for item in seq_items]
-        
-        for idx, code in enumerate(descriptors):
-            val_sum = 0.0
-            count = 0
-            for row in v6_data.get("intervals", []):
-                payloads = row.get("payloads", [])
-                if idx < len(payloads):
-                    val_sum += float(payloads[idx])
-                    count += 1
-            v6_sums[code] = (val_sum, count)
+            desc_set = descriptor_sets.get(ds_ref) if ds_ref else {}
+            seq_items = []
+            if seq_name:
+                for seq in desc_set.get("compactSequences", []):
+                    if seq.get("name") == seq_name:
+                        seq_items = seq.get("sequenceItems", [])
+                        break
+            else:
+                seq_items = desc_set.get("payloadDescriptors", [])
+                
+            descriptors = [item.get("readingType") for item in seq_items]
             
-    # Check elaborated readings (Form A)
-    for r in v6_data.get("readings", []):
-        code = r.get("readingTypeRef", {}).get("value")
-        val = float(r.get("value", 0.0))
-        if code in v6_sums:
-            current_sum, current_count = v6_sums[code]
-            v6_sums[code] = (current_sum + val, current_count + 1)
-        else:
-            v6_sums[code] = (val, 1)
+            for idx, code in enumerate(descriptors):
+                if not code:
+                    continue
+                val_sum = 0.0
+                count = 0
+                for row in profile.get("intervals", []):
+                    payloads = row.get("payloads", [])
+                    if idx < len(payloads):
+                        val_sum += float(payloads[idx])
+                        count += 1
+                if code in v6_sums:
+                    current_sum, current_count = v6_sums[code]
+                    v6_sums[code] = (current_sum + val_sum, current_count + count)
+                else:
+                    v6_sums[code] = (val_sum, count)
+                    
+        # Check elaborated readings (Form A)
+        for r in profile.get("readings", []):
+            code = r.get("readingType")
+            val = float(r.get("value", 0.0))
+            if not code:
+                continue
+            if code in v6_sums:
+                current_sum, current_count = v6_sums[code]
+                v6_sums[code] = (current_sum + val, current_count + 1)
+            else:
+                v6_sums[code] = (val, 1)
 
     # 3. Extract and sum values in OpenADR
     oadr_sums = {}
     
-    # In OpenADR, everything is grouped inside intervals
     for resource in oadr_data.get("resources", []):
         for interval in resource.get("intervals", []):
             for payload in interval.get("payloads", []):
@@ -79,26 +109,10 @@ def run_parity_check(v6_path, openadr_path):
                         oadr_sums[p_type] = (val_float, 1)
                         
     # 4. Compare sums (auditing zero data loss)
-    # Since OpenADR uses upper-case categories (like USAGE, VOLTAGE, DEMAND) for type,
-    # we map v0.6 codes to category names
-    OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/IES codes.json"
-    if os.path.exists(OBIS_MAPPING_PATH):
-        with open(OBIS_MAPPING_PATH, "r") as f:
-            data = json.load(f).get("codes", [])
-            mapping = {item["obis"]: item for item in data}
-    else:
-        mapping = {}
-        
     v6_mapped_sums = {}
     for code, (v6_sum, v6_count) in v6_sums.items():
         # Resolve code to category
-        resolved_info = mapping.get(code, {})
-        if not resolved_info:
-            # Try matching short label
-            for c, info in mapping.items():
-                if info.get("shortLabel") == code:
-                    resolved_info = info
-                    break
+        resolved_info = obis_mapping.get(code, {})
         category = resolved_info.get("category", "")
         
         # Map category to OpenADR type
@@ -108,6 +122,10 @@ def run_parity_check(v6_path, openadr_path):
             oadr_type = "DEMAND"
         elif category == "voltage":
             oadr_type = "VOLTAGE"
+        elif category == "current":
+            oadr_type = "CURRENT"
+        elif category == "power":
+            oadr_type = "POWER"
         else:
             oadr_type = category.upper() if category else "USAGE"
             
@@ -145,10 +163,21 @@ def main():
     schema = load_json(schema_path)
     validator = jsonschema.Draft202012Validator(schema)
     
+    # Load central codes mapping
+    v6_dir = os.path.join(os.path.dirname(base_dir), "v0.6")
+    obis_mapping_path = os.path.join(v6_dir, "IES codes.json")
+    with open(obis_mapping_path, "r", encoding="utf-8") as f:
+        codes_data = json.load(f).get("codes", [])
+    obis_mapping = {}
+    for item in codes_data:
+        obis_mapping[item["obis"]] = item
+        if "shortLabel" in item:
+            obis_mapping[item["shortLabel"]] = item
+            
     success = True
     
     # Locate matching v0.6 files for parity verification
-    v6_examples_dir = "schemas/MeterData/v0.6/examples"
+    v6_examples_dir = os.path.join(v6_dir, "examples")
     
     for filename in sorted(os.listdir(examples_dir)):
         if filename.endswith(".json"):
@@ -175,13 +204,13 @@ def main():
             
             # Map OpenADR example name back to v0.6 example name
             if filename == "vOpenAdr_Example.json":
-                v6_filename = "IntervalProfile_UsageMode.json"
+                v6_filename = "IntervalProfile.json"
             else:
                 v6_filename = filename.replace("_OpenAdr.json", ".json")
             v6_filepath = os.path.join(v6_examples_dir, v6_filename)
             
             if os.path.exists(v6_filepath):
-                parity_errors = run_parity_check(v6_filepath, filepath)
+                parity_errors = run_parity_check(v6_filepath, filepath, obis_mapping)
                 if parity_errors:
                     print("❌ Zero Data Loss Parity Check Failed:")
                     for err in parity_errors:
