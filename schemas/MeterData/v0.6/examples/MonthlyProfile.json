@@ -23,8 +23,12 @@
       "closingValue": 19137.2
     },
     {
-      "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
+      "readingTypeRef": {
+        "scheme": "OBIS",
+        "value": "1.0.1.6.0.255"
+      },
       "value": 8.42,
+      "reportedMode": "USAGE",
       "occurredAt": "2026-04-23T19:30:00+05:30",
       "integrationPeriod": "PT30M"
     }

@@ -4,26 +4,15 @@ import sys
 import json
 import jsonschema
 
-# Global constants for telemetry mode support
-CATEGORY_MODES = {
-    "energyCumulative": ["READING", "USAGE"],
-    "energyIncremental": ["USAGE"],
-    "energyToU": ["READING", "USAGE"],
-    "demand": ["USAGE"],
-    "voltage": ["READING"],
-    "current": ["READING"],
-    "power": ["READING"],
-    "general": ["READING"],
-    "identification": ["READING"],
-    "programmable": ["READING"]
-}
+# Removed CATEGORY_MODES, using OBISMapping directly.
 
 def load_obis_mapping(mapping_path):
     if not os.path.exists(mapping_path):
         print(f"Error: OBIS mapping file {mapping_path} not found.")
         sys.exit(1)
     with open(mapping_path, "r", encoding="utf-8") as f:
-        return json.load(f).get("codes", {})
+        data = json.load(f).get("codes", [])
+        return {item["obis"]: item for item in data}
 
 def resolve_reading_type(reading_type_ref, obis_mapping):
     scheme = reading_type_ref.get("scheme")
@@ -103,7 +92,7 @@ def validate_profile_semantics(profile, obis_mapping, meter_categories_map):
             
         reported_mode = desc.get("reportedMode", "READING")
         category = info.get("category", "")
-        allowed_modes = CATEGORY_MODES.get(category, ["READING"])
+        allowed_modes = info.get("supportedModes", ["READING"])
         
         if reported_mode not in allowed_modes:
             errors.append(f"PayloadDescriptor index {idx} ({code}): Mode '{reported_mode}' not supported for category '{category}'. Allowed: {allowed_modes}")
@@ -185,7 +174,7 @@ def validate_profile_semantics(profile, obis_mapping, meter_categories_map):
             
         reported_mode = r.get("reportedMode", "READING")
         category = info.get("category", "")
-        allowed_modes = CATEGORY_MODES.get(category, ["READING"])
+        allowed_modes = info.get("supportedModes", ["READING"])
         if reported_mode not in allowed_modes:
             errors.append(f"Reading index {idx} ({code}): Mode '{reported_mode}' not supported for category '{category}'. Allowed: {allowed_modes}")
             
