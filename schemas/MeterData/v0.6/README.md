@@ -23,19 +23,24 @@ The `MeterData` schema standardizes telemetry exchanges into **eight compact pro
 | [`schema.json`](./schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
 | [`context.jsonld`](./context.jsonld) | Compiled JSON-LD context mapping telemetry attributes to semantic terms under `ies:` or `schema:` namespaces. |
 | [`vocab.jsonld`](./vocab.jsonld) | Compiled JSON-LD vocabulary (ontology graph) defining all classes and properties. |
+| [`IES codes.json`](./IES%20codes.json) | Canonical registry of OBIS and Short Codes mapping physical quantities to units, categories, and categories of meters. |
 | [`examples/`](./examples) | Standard, JSON-LD augmented telemetry payload example files for all profile types. |
+
+### Documentation Guides
+* [User Guide](./UserGuide.md): Detailed guidelines on HES, MDM, and Billing system interactions, advertising system capabilities via request mechanisms, and verification scenarios.
+* [Reference Guide](./ReferenceGuide.md): Top-down reference documentation detailing different profile roles, centralised codes, and telemetry vs. non-telemetry handling.
 
 ---
 
 ## Data Descriptor Engine & The Array Envelope
 
-In v0.6, telemetry architecture has transitioned to a highly optimized, strict inheritance structure powered by the **Data Descriptor Engine**. 
+In v0.6, the telemetry architecture uses an optimized, strict inheritance structure powered by the **Data Descriptor Engine**. 
 
 Instead of transmitting bulky metadata inline with every physical reading, telemetry can be wrapped in a **JSON Array**.
 
 ### Centralized `PayloadDescriptorProfile`
 A JSON array payload can contain one or more `PayloadDescriptorProfile` objects. This serves as the dictionary for all compact profiles inside the payload array:
-* **`payloadDescriptors`**: Defines the metadata for specific registers (e.g., `readingType`, `unit`, `flowDirection`, `category`).
+* **`payloadDescriptors`**: Defines the metadata for specific registers (e.g., `readingType`, `unit`, `flowDirection`, `category`, and `multiplier`).
 * **`compactSequences`**: Defines the physical column layout of the dense numerical payload matrices.
 
 ### Dynamic `SequenceItem` Columns (`attribute`)
@@ -45,14 +50,14 @@ A sequence defines what each column in the `payloads` array represents using the
 * `openingValue` / `closingValue`: To provide mathematical proofs for `USAGE` deltas.
 * `validationStatus`: Standard validation flags (e.g. `ESTIMATED`, `VALID`).
 
-Because `payloads` allows mixed arrays of `number` and `string`, metadata is mapped densely alongside values without needing sparse overrides.
+Because `payloads` allows mixed arrays of `number` and `string`, metadata is mapped densely alongside values, while sparse overrides are used for quality indications (such as validation status or fail codes in specific intervals).
 
 ### Strict Derived Profiles
 Inside the array, individual profiles inherit strictly from `BaseProfile`. `BaseProfile` only contains identity (`meterRefs`, `customerRefs`, `serviceDeliveryPointRefs`). Derived profiles (like `IntervalProfile`) strictly allow **only** their relevant properties (`intervals`, `payloadDescriptorSetRef`, `intervalPeriod`).
 
 > [!NOTE]
-> **Why doesn't `MonthlyProfile` use the compact matrix?**
-> The compact form is prevented natively by the schema for `MonthlyProfile`. It strictly requires `readings` and `touBuckets`, and does not permit `intervals`. The compact matrix shines for dense, highly symmetrical time-series data. A `MonthlyProfile` typically captures a single sparse snapshot of total registers, ToU buckets, and Maximum Demand peaks at the end of the month. Encoding sparse, highly variable metadata (e.g., MD timestamps) into a flat numerical array offers negligible compression and becomes extremely brittle when dealing with **ad-hoc billing resets** or **meter swaps mid-cycle**.
+> ### Rationale for MonthlyProfile not using the compact matrix
+> The compact form is prevented natively by the schema for `MonthlyProfile`. It strictly requires `readings` and `touBuckets`, and does not permit `intervals`. The compact matrix is designed for dense, highly symmetrical time-series data. A `MonthlyProfile` typically captures a single sparse snapshot of total registers, ToU buckets, and Maximum Demand peaks at the end of the month. Encoding sparse, highly variable metadata (e.g., MD timestamps) into a flat numerical array offers negligible compression and becomes extremely brittle when dealing with ad-hoc billing resets or meter swaps mid-cycle.
 > 
 > *See [MonthlyProfile_MultipleResets.json](./examples/MonthlyProfile_MultipleResets.json) and [Billing_MeterChange.json](./examples/Billing_MeterChange.json) for examples of how the elaborated representation cleanly handles these edge cases.*
 
@@ -60,7 +65,7 @@ Inside the array, individual profiles inherit strictly from `BaseProfile`. `Base
 
 ## Identifier Flexibility (OBIS vs. Short Codes)
 
-The schema relies on `OBISMapping.json` as the canonical registry for interpreting physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in this file.
+The schema relies on [`IES codes.json`](./IES%20codes.json) as the canonical registry for interpreting physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in this file.
 
 When transmitting telemetry, you specify a simple **`readingType`** string. This can be:
 * **Using OBIS Codes**: `"1.0.1.8.0.255"`
@@ -74,10 +79,10 @@ When transmitting telemetry, you specify a simple **`readingType`** string. This
 ## TelemetryMode (READING vs USAGE)
 
 The schema natively distinguishes between raw register readings and calculated usage:
-- **`READING`**: Represents the physical register value at a point in time. For cumulative registers, this strictly increases monotonically.
+- **`READING`**: Represents the physical register value at a point in time. For cumulative registers, this strictly increases dynamically.
 - **`USAGE`**: Represents the delta or consumed amount over a period. Demand registers inherently use `USAGE` mode. For energy, this represents the exact block consumption.
 
-Modes are indicated per-descriptor or per-reading via the `reportedMode` property.
+Modes are indicated inside the payload descriptor only via the `reportedMode` property.
 
 ---
 
@@ -100,32 +105,38 @@ These examples cover a wide variety of scenarios, organized by the system they t
 
 ### MDM (Meter Data Management) Examples
 MDM datasets are meter-centric and intentionally omit `customerRefs` to decouple the technical metering domain from the commercial billing domain.
-* `IntervalProfile.json`: Block load survey.
-* `DailyProfile.json`: Daily midnight snapshots.
-* `MDM_MonthlyProfile.json`: End of billing cycle snapshots across multiple meters.
-* `InstantaneousProfile.json`: Snapshot of voltage, current, power factor, etc.
-* `EventProfile.json`: Meter tampers, diagnostics, power outages.
-* `AlarmProfile.json`: Critical thresholds being crossed.
-* `MultiMeterBulkDataset.json`: Large scale transmission of intervals across many meters.
+* [`IntervalProfile.json`](./examples/IntervalProfile.json): Block load survey.
+* [`DailyProfile.json`](./examples/DailyProfile.json): Daily midnight snapshots.
+* [`MDM_MonthlyProfile.json`](./examples/MDM_MonthlyProfile.json): End of billing cycle snapshots across multiple meters.
+* [`InstantaneousProfile.json`](./examples/InstantaneousProfile.json): Snapshot of voltage, current, power factor, etc.
+* [`EventProfile.json`](./examples/EventProfile.json): Meter tampers, diagnostics, power outages.
+* [`AlarmProfile.json`](./examples/AlarmProfile.json): Critical thresholds being crossed.
+* [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json): Large scale transmission of intervals across many meters.
 
 ### CIS / Billing Examples
 Billing and CIS examples enrich technical meter data with `customerRefs`, Tou buckets, and monetary calculations.
-* `Billing_MonthlyProfile.json`: Usage-centric monthly consumption linked to consumers.
-* `CustomerProfile.json`: Linking meters, service delivery points, and customers.
-* `BillDetails.json`: Computed monetary bill with due dates and calculated consumption.
-* `CustomerBillingSummary.json`: Historic billing trends for a consumer dashboard.
+* [`Billing_MonthlyProfile.json`](./examples/Billing_MonthlyProfile.json): Usage-centric monthly consumption linked to consumers.
+* [`CustomerProfile.json`](./examples/CustomerProfile.json): Linking meters, service delivery points, and customers.
+* [`BillDetails.json`](./examples/BillDetails.json): Computed monetary bill with due dates and calculated consumption.
+* [`CustomerBillingSummary.json`](./examples/CustomerBillingSummary.json): Historic billing trends for a consumer dashboard.
+* [`CustomerMapping.json`](./examples/CustomerMapping.json): Mapping of meter serial numbers to commercial customer accounts.
+
+### Highlighted Examples
+* **Meter Swap Mid-Cycle**: [`Billing_MeterChange.json`](./examples/Billing_MeterChange.json) demonstrates how to handle a meter replacement in the middle of a billing period by chaining multiple monthly profiles under different meter serials.
+* **Multiple Monthly Resets**: [`MonthlyProfile_MultipleResets.json`](./examples/MonthlyProfile_MultipleResets.json) demonstrates how to represent multiple billing resets triggered in the same calendar month.
+* **Identifier Representation Comparison**: Compare [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) (using raw OBIS codes) with [`MultiMeterBulkDatasetShortCodes.json`](./examples/MultiMeterBulkDatasetShortCodes.json) (using Short Names) to see how the payload descriptor engine abstracts identifier models.
 
 ---
 
 ## Telemetry Verification & Validation
 
-Example JSON files are validated for structural compliance against `schema.json` and semantic compliance against `OBISMapping.json` using the v0.6 validator.
+The validator is not limited to example files; it can be used to validate any `MeterData` payload. In this repository, all example JSON files are validated for structural compliance against `schema.json` and semantic compliance against `IES codes.json` using the v0.6 validator.
 
-### To Validate Example Payloads
+### To Validate Payloads
 Run the following command from the `validation/` directory:
 
 ```bash
-python validate_v06.py ../examples
+python validate_v06.py <path_to_json_file_or_directory>
 ```
 
 The validator dynamically parses JSON files. If they are arrays containing a `PayloadDescriptorProfile`, it matches `payloadDescriptorSetRef` against the array's descriptors, and asserts both matrix arity and strict column types based on the `attribute` enum.

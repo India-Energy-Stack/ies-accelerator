@@ -81,7 +81,7 @@ def run_parity_check(v6_path, openadr_path):
     # 4. Compare sums (auditing zero data loss)
     # Since OpenADR uses upper-case categories (like USAGE, VOLTAGE, DEMAND) for type,
     # we map v0.6 codes to category names
-    OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/OBISMapping.json"
+    OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/IES codes.json"
     if os.path.exists(OBIS_MAPPING_PATH):
         with open(OBIS_MAPPING_PATH, "r") as f:
             data = json.load(f).get("codes", [])

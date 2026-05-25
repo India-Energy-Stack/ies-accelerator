@@ -5,7 +5,7 @@ import os
 import re
 
 # Load global mapping for category checking
-OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/OBISMapping.json"
+OBIS_MAPPING_PATH = "schemas/MeterData/v0.6/IES codes.json"
 if os.path.exists(OBIS_MAPPING_PATH):
     with open(OBIS_MAPPING_PATH, "r") as f:
         OBIS_MAPPING = json.load(f).get("codes", {})

@@ -177,13 +177,13 @@ def main():
     target_path = sys.argv[1]
     
     base_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "schemas", "MeterData", "v0.6")
-    obis_mapping_path = os.path.join(base_dir, "OBISMapping.json")
+    obis_mapping_path = os.path.join(base_dir, "IES codes.json")
     obis_mapping = load_obis_mapping(obis_mapping_path)
     
     files_to_process = []
     if os.path.isdir(target_path):
         for filename in sorted(os.listdir(target_path)):
-            if filename.endswith(".json") and not filename.endswith("_Elaborated.json") and filename != "OBISMapping.json" and filename != "MeterCategories.json":
+            if filename.endswith(".json") and not filename.endswith("_Elaborated.json") and filename != "IES codes.json" and filename != "MeterCategories.json":
                 files_to_process.append(os.path.join(target_path, filename))
     else:
         files_to_process.append(target_path)

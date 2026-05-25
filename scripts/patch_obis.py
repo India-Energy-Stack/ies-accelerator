@@ -2,7 +2,7 @@ import json
 import sys
 
 def patch_obis():
-    with open('schemas/MeterData/v0.6/OBISMapping.json', 'r') as f:
+    with open('schemas/MeterData/v0.6/IES codes.json', 'r') as f:
         data = json.load(f)
         
     for c in data['codes']:
@@ -25,7 +25,7 @@ def patch_obis():
         
         c["allowedAttributes"] = allowed
         
-    with open('schemas/MeterData/v0.6/OBISMapping.json', 'w') as f:
+    with open('schemas/MeterData/v0.6/IES codes.json', 'w') as f:
         json.dump(data, f, indent=2)
         
 if __name__ == "__main__":

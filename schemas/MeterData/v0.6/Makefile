@@ -13,6 +13,7 @@ format:
 
 validate:
 	cd validation && ~/learn/ies/venv/bin/python3 validate_v06.py ../examples
+	~/learn/ies/venv/bin/python3 ../../../scripts/validate_links.py
 
 clean:
 	rm -f examples/*_Elaborated.json

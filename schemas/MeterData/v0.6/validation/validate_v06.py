@@ -54,7 +54,7 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                     if prop in desc and prop in info and desc[prop] != info[prop]:
                         errors.append(f"DescriptorSet '{ds_name}' Descriptor '{rt}' {prop} mismatch: Inline '{desc[prop]}', Canonical '{info[prop]}'")
             else:
-                errors.append(f"DescriptorSet '{ds_name}', Descriptor '{rt}': readingType could not be resolved in OBISMapping.json")
+                errors.append(f"DescriptorSet '{ds_name}', Descriptor '{rt}': readingType could not be resolved in IES codes.json")
                 
     # 3. Validate Data Profiles
     for p_idx, profile in enumerate(profiles):
@@ -230,7 +230,7 @@ def main():
     target_path = sys.argv[1]
     
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    obis_mapping_path = os.path.join(base_dir, "OBISMapping.json")
+    obis_mapping_path = os.path.join(base_dir, "IES codes.json")
     obis_mapping = load_obis_mapping(obis_mapping_path)
     
     dir_to_search = os.path.dirname(target_path) if os.path.isfile(target_path) else target_path
@@ -251,7 +251,7 @@ def main():
     files_to_validate = []
     if os.path.isdir(target_path):
         for filename in sorted(os.listdir(target_path)):
-            if filename.endswith(".json") and filename not in ["OBISMapping.json", "MeterCategories.json", "CustomerMapping.json"]:
+            if filename.endswith(".json") and filename not in ["IES codes.json", "MeterCategories.json", "CustomerMapping.json"]:
                 files_to_validate.append(os.path.join(target_path, filename))
     else:
         files_to_validate.append(target_path)

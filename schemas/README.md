@@ -32,6 +32,6 @@ If you find a discrepancy between a mirrored file and the upstream source, treat
 | Family | Version | Upstream | Status |
 |---|---|---|---|
 | [`ElectricityCredential`](ElectricityCredential/README.md) | [v1.0](ElectricityCredential/v1.0/README.md) | [`beckn/DEG`](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential) | Current |
-| [`MeterData`](MeterData/README.md) | [v0.5](MeterData/v0.5/README.md) | [`contributions/apparent`](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange) | Current |
-| [`ArrFiling`](ArrFiling/README.md) | [v0.5](ArrFiling/v0.5/README.md) | [`ies-docs/IesArrFiling`](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange/specs/IesArrFiling) | Current |
-| [`MeterDataRequest`](MeterDataRequest/README.md) | [v0.5](MeterDataRequest/v0.5/README.md) | [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator) | Current |
+| [`MeterData`](MeterData/v0.6/README.md) | [v0.6](MeterData/v0.6/README.md) | [`contributions/apparent`](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange) | Current |
+| [`ArrFiling`](ArrFiling/v0.5/README.md) | [v0.5](ArrFiling/v0.5/README.md) | [`ies-docs/IesArrFiling`](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange/specs/IesArrFiling) | Current |
+| [`MeterDataRequest`](MeterDataRequest/v0.5/README.md) | [v0.5](MeterDataRequest/v0.5/README.md) | [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator) | Current |
