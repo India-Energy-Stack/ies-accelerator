@@ -6,8 +6,8 @@
   "from": "2020-01-01T00:00:00Z",
   "duration": "P10Y",
   "includeDetails": [
-    "CustomerProfile",
-    "MonthlyProfile",
-    "BillDetails"
+    { "profileType": "CustomerProfile" },
+    { "profileType": "MonthlyProfile" },
+    { "profileType": "BillDetails" }
   ]
 }

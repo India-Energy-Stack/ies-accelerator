@@ -1287,17 +1287,19 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#meterdata-v06-changelog">MeterData v0.6 Changelog</a>    <ul>
-      <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#schema-structural-changes">Schema Structural Changes</a>      <ul>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#1-unified-time-representation">1. Unified Time Representation</a></li>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#2-removal-of-explicit-units-phases-from-readings">2. Removal of Explicit Units & Phases from Readings</a></li>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#3-unified-reading-model-restructured-register-fields">3. Unified `Reading` Model & Restructured Register Fields</a></li>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#4-compact-form-refinements-intervalblock">4. Compact Form Refinements (`IntervalBlock`)</a></li>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#5-universal-dual-form-support-across-profiles">5. Universal Dual-Form Support across Profiles</a>
+      <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#whats-new-in-v06-vs-05">What's New in v0.6 (vs 0.5)</a>      <ul>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#1-removal-of-meterdataset-array-based-data-descriptors">1. Removal of `MeterDataset` & Array-based Data Descriptors</a></li>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#2-hyper-optimized-compactsequence-with-multi-type-payloads">2. Hyper-Optimized `CompactSequence` with Multi-Type Payloads</a></li>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#3-simplification-of-identifiers-short-codes-obis">3. Simplification of Identifiers (Short Codes & OBIS)</a></li>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#4-strict-composition-based-inheritance">4. Strict Composition-Based Inheritance</a></li>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#5-obismappingjson-registry-enforcement">5. `OBISMapping.json` Registry Enforcement</a>
       </li>
       </ul>
       <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#detailed-payload-examples">Detailed Payload Examples</a>      <ul>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#form-a-elaborated-representation-readings-toubuckets">Form A: Elaborated Representation (`readings` / `touBuckets`)</a></li>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#form-b-compact-representation-intervalblocks---intervals-overrides">Form B: Compact Representation (`intervalBlocks` -> `intervals` + `overrides`)</a>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#array-based-profile-exchange">Array-Based Profile Exchange</a>        <ul>
+          <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#monthly-profile-example">Monthly Profile Example:</a>
+        </li>
+        </ul>
       </li>
       </ul>
     </li>
@@ -1311,30 +1313,30 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="schemas/MeterData/v0.6/README.md#meter-data-compact-profiles-v06">Meter Data Compact Profiles (v0.6)</a>    <ul>
-      <li><a href="schemas/MeterData/v0.6/README.md#overview">Overview</a></li>
-      <li><a href="schemas/MeterData/v0.6/README.md#directory-structure-and-files">Directory Structure and Files</a></li>
+      <li><a href="schemas/MeterData/v0.6/README.md#directory-structure-and-files">Directory Structure and Files</a>      <ul>
+        <li><a href="schemas/MeterData/v0.6/README.md#documentation-guides">Documentation Guides</a>
+      </li>
+      </ul>
+      <li><a href="schemas/MeterData/v0.6/README.md#data-descriptor-engine-the-array-envelope">Data Descriptor Engine & The Array Envelope</a>      <ul>
+        <li><a href="schemas/MeterData/v0.6/README.md#centralized-payloaddescriptorprofile">Centralized `PayloadDescriptorProfile`</a></li>
+        <li><a href="schemas/MeterData/v0.6/README.md#dynamic-sequenceitem-columns-attribute">Dynamic `SequenceItem` Columns (`attribute`)</a></li>
+        <li><a href="schemas/MeterData/v0.6/README.md#strict-derived-profiles">Strict Derived Profiles</a>
+      </li>
+      </ul>
+      <li><a href="schemas/MeterData/v0.6/README.md#identifier-flexibility-obis-vs-short-codes">Identifier Flexibility (OBIS vs. Short Codes)</a></li>
+      <li><a href="schemas/MeterData/v0.6/README.md#telemetrymode-reading-vs-usage">TelemetryMode (READING vs USAGE)</a></li>
       <li><a href="schemas/MeterData/v0.6/README.md#schema-generation-and-compilation">Schema Generation and Compilation</a>      <ul>
         <li><a href="schemas/MeterData/v0.6/README.md#to-compile-schemas">To Compile Schemas</a>
       </li>
       </ul>
+      <li><a href="schemas/MeterData/v0.6/README.md#examples">Examples</a>      <ul>
+        <li><a href="schemas/MeterData/v0.6/README.md#mdm-meter-data-management-examples">MDM (Meter Data Management) Examples</a></li>
+        <li><a href="schemas/MeterData/v0.6/README.md#cis-billing-examples">CIS / Billing Examples</a></li>
+        <li><a href="schemas/MeterData/v0.6/README.md#highlighted-examples">Highlighted Examples</a>
+      </li>
+      </ul>
       <li><a href="schemas/MeterData/v0.6/README.md#telemetry-verification-validation">Telemetry Verification & Validation</a>      <ul>
-        <li><a href="schemas/MeterData/v0.6/README.md#to-validate-example-payloads">To Validate Example Payloads</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.6/README.md#json-ld-integration">JSON-LD Integration</a></li>
-      <li><a href="schemas/MeterData/v0.6/README.md#obis-mapping-and-identifiers">OBIS Mapping and Identifiers</a>      <ul>
-        <li><a href="schemas/MeterData/v0.6/README.md#interpreting-obismappingjson">Interpreting OBISMapping.json</a></li>
-        <li><a href="schemas/MeterData/v0.6/README.md#identifier-flexibility-obis-vs-short-names">Identifier Flexibility (OBIS vs. Short Names)</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.6/README.md#payload-shapes-and-value-representation">Payload Shapes and Value Representation</a>      <ul>
-        <li><a href="schemas/MeterData/v0.6/README.md#1-form-a-elaborated-representation-readings-toubuckets">1. Form A: Elaborated Representation (`readings` / `touBuckets`)</a></li>
-        <li><a href="schemas/MeterData/v0.6/README.md#2-form-b-compact-matrix-representation-intervalblocks">2. Form B: Compact Matrix Representation (`intervalBlocks`)</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.6/README.md#data-annotations">Data Annotations</a>      <ul>
-        <li><a href="schemas/MeterData/v0.6/README.md#sparse-cell-overrides">Sparse Cell Overrides</a></li>
-        <li><a href="schemas/MeterData/v0.6/README.md#maximum-demand-snapshoting">Maximum Demand snapshoting</a>
+        <li><a href="schemas/MeterData/v0.6/README.md#to-validate-payloads">To Validate Payloads</a>
       </li>
       </ul>
     </li>
@@ -1350,6 +1352,12 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
     <li><a href="schemas/MeterDataRequest/v0.5/README.md#meterdatarequest-schema-v05">MeterDataRequest Schema (v0.5)</a>    <ul>
       <li><a href="schemas/MeterDataRequest/v0.5/README.md#schema-overview">Schema Overview</a>      <ul>
         <li><a href="schemas/MeterDataRequest/v0.5/README.md#fields-and-definitions">Fields and Definitions</a>
+      </li>
+      </ul>
+      <li><a href="schemas/MeterDataRequest/v0.5/README.md#examples-of-usage">Examples of Usage</a>      <ul>
+        <li><a href="schemas/MeterDataRequest/v0.5/README.md#1-embedded-in-a-credential-discom-to-tsp-data-sharing-allowance">1. Embedded in a Credential (DISCOM-to-TSP Data Sharing Allowance)</a></li>
+        <li><a href="schemas/MeterDataRequest/v0.5/README.md#2-provider-capabilities-advertised-capability-profiles">2. Provider Capabilities (Advertised Capability Profiles)</a></li>
+        <li><a href="schemas/MeterDataRequest/v0.5/README.md#3-requesting-data-as-a-query-filter">3. Requesting Data (As a Query Filter)</a>
       </li>
       </ul>
       <li><a href="schemas/MeterDataRequest/v0.5/README.md#build-and-compilation">Build and Compilation</a></li>

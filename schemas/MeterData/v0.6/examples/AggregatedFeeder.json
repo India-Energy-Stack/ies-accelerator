@@ -1,223 +1,232 @@
 [
   {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-    "@type": "IntervalProfile",
-    "profileType": "INTERVAL",
-    "customerRefs": [
-      { "scheme": "ORG", "value": "UTILITY-01" }
-    ],
-    "meterRefs": [
-      { "scheme": "OTHER", "value": "FDR-11KV-NDL-072" }
-    ],
-    "timePeriod": {  "start": "2026-05-18T00:00:00+05:30", "duration": "P1D"  },
-    "intervalBlocks": [
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-AGGREGATEDFEEDER",
+    "payloadDescriptorSets": [
       {
-        "timePeriod": {  "start": "2026-05-18T00:00:00+05:30", "duration": "PT30M"  },
+        "name": "IntervalLoadSurveySet",
         "payloadDescriptors": [
-          {
-            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
-            "accumulationBehaviour": "SUMMATION"
-          },
-          {
-            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp block" },
-            "accumulationBehaviour": "SUMMATION"
-          }
+          { "readingType": "kWh imp block", "reportedMode": "USAGE" },
+          { "readingType": "kWh exp block", "reportedMode": "USAGE" }
         ],
-        "intervals": [
+        "compactSequences": [
           {
-            "id": 0,
-            "values": [600, 0]
-          },
-          {
-            "id": 1,
-            "values": [580, 0]
-          },
-          {
-            "id": 2,
-            "values": [560, 0]
-          },
-          {
-            "id": 3,
-            "values": [550, 0]
-          },
-          {
-            "id": 4,
-            "values": [540, 0]
-          },
-          {
-            "id": 5,
-            "values": [530, 0]
-          },
-          {
-            "id": 6,
-            "values": [520, 0]
-          },
-          {
-            "id": 7,
-            "values": [510, 0]
-          },
-          {
-            "id": 8,
-            "values": [500, 0]
-          },
-          {
-            "id": 9,
-            "values": [510, 0]
-          },
-          {
-            "id": 10,
-            "values": [550, 0]
-          },
-          {
-            "id": 11,
-            "values": [600, 0]
-          },
-          {
-            "id": 12,
-            "values": [650, 0]
-          },
-          {
-            "id": 13,
-            "values": [700, 20]
-          },
-          {
-            "id": 14,
-            "values": [750, 50]
-          },
-          {
-            "id": 15,
-            "values": [800, 100]
-          },
-          {
-            "id": 16,
-            "values": [850, 200]
-          },
-          {
-            "id": 17,
-            "values": [900, 350]
-          },
-          {
-            "id": 18,
-            "values": [950, 500]
-          },
-          {
-            "id": 19,
-            "values": [980, 650]
-          },
-          {
-            "id": 20,
-            "values": [1000, 750]
-          },
-          {
-            "id": 21,
-            "values": [990, 800]
-          },
-          {
-            "id": 22,
-            "values": [980, 820]
-          },
-          {
-            "id": 23,
-            "values": [960, 840]
-          },
-          {
-            "id": 24,
-            "values": [950, 850]
-          },
-          {
-            "id": 25,
-            "values": [940, 840]
-          },
-          {
-            "id": 26,
-            "values": [930, 800]
-          },
-          {
-            "id": 27,
-            "values": [920, 700]
-          },
-          {
-            "id": 28,
-            "values": [930, 550]
-          },
-          {
-            "id": 29,
-            "values": [950, 400]
-          },
-          {
-            "id": 30,
-            "values": [980, 250]
-          },
-          {
-            "id": 31,
-            "values": [1000, 100]
-          },
-          {
-            "id": 32,
-            "values": [1020, 30]
-          },
-          {
-            "id": 33,
-            "values": [1050, 0]
-          },
-          {
-            "id": 34,
-            "values": [1080, 0]
-          },
-          {
-            "id": 35,
-            "values": [1100, 0]
-          },
-          {
-            "id": 36,
-            "values": [1150, 0]
-          },
-          {
-            "id": 37,
-            "values": [1200, 0]
-          },
-          {
-            "id": 38,
-            "values": [1250, 0]
-          },
-          {
-            "id": 39,
-            "values": [1200, 0]
-          },
-          {
-            "id": 40,
-            "values": [1100, 0]
-          },
-          {
-            "id": 41,
-            "values": [1000, 0]
-          },
-          {
-            "id": 42,
-            "values": [900, 0]
-          },
-          {
-            "id": 43,
-            "values": [800, 0]
-          },
-          {
-            "id": 44,
-            "values": [750, 0]
-          },
-          {
-            "id": 45,
-            "values": [700, 0]
-          },
-          {
-            "id": 46,
-            "values": [650, 0]
-          },
-          {
-            "id": 47,
-            "values": [620, 0]
+            "name": "IntervalEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp block" },
+              { "readingType": "kWh exp block" }
+            ]
           }
         ]
       }
     ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "customerRefs": [
+      { "value": "UTILITY-01", "scheme": "ORG" }
+    ],
+    "meterRefs": [
+      { "value": "FDR-11KV-NDL-072", "scheme": "OTHER" }
+    ],
+    "payloadDescriptorSetRef": "IntervalLoadSurveySet",
+    "intervalPeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 600, 0 ]
+      },
+      {
+        "id": 1,
+        "payloads": [ 580, 0 ]
+      },
+      {
+        "id": 2,
+        "payloads": [ 560, 0 ]
+      },
+      {
+        "id": 3,
+        "payloads": [ 550, 0 ]
+      },
+      {
+        "id": 4,
+        "payloads": [ 540, 0 ]
+      },
+      {
+        "id": 5,
+        "payloads": [ 530, 0 ]
+      },
+      {
+        "id": 6,
+        "payloads": [ 520, 0 ]
+      },
+      {
+        "id": 7,
+        "payloads": [ 510, 0 ]
+      },
+      {
+        "id": 8,
+        "payloads": [ 500, 0 ]
+      },
+      {
+        "id": 9,
+        "payloads": [ 510, 0 ]
+      },
+      {
+        "id": 10,
+        "payloads": [ 550, 0 ]
+      },
+      {
+        "id": 11,
+        "payloads": [ 600, 0 ]
+      },
+      {
+        "id": 12,
+        "payloads": [ 650, 0 ]
+      },
+      {
+        "id": 13,
+        "payloads": [ 700, 20 ]
+      },
+      {
+        "id": 14,
+        "payloads": [ 750, 50 ]
+      },
+      {
+        "id": 15,
+        "payloads": [ 800, 100 ]
+      },
+      {
+        "id": 16,
+        "payloads": [ 850, 200 ]
+      },
+      {
+        "id": 17,
+        "payloads": [ 900, 350 ]
+      },
+      {
+        "id": 18,
+        "payloads": [ 950, 500 ]
+      },
+      {
+        "id": 19,
+        "payloads": [ 980, 650 ]
+      },
+      {
+        "id": 20,
+        "payloads": [ 1000, 750 ]
+      },
+      {
+        "id": 21,
+        "payloads": [ 990, 800 ]
+      },
+      {
+        "id": 22,
+        "payloads": [ 980, 820 ]
+      },
+      {
+        "id": 23,
+        "payloads": [ 960, 840 ]
+      },
+      {
+        "id": 24,
+        "payloads": [ 950, 850 ]
+      },
+      {
+        "id": 25,
+        "payloads": [ 940, 840 ]
+      },
+      {
+        "id": 26,
+        "payloads": [ 930, 800 ]
+      },
+      {
+        "id": 27,
+        "payloads": [ 920, 700 ]
+      },
+      {
+        "id": 28,
+        "payloads": [ 930, 550 ]
+      },
+      {
+        "id": 29,
+        "payloads": [ 950, 400 ]
+      },
+      {
+        "id": 30,
+        "payloads": [ 980, 250 ]
+      },
+      {
+        "id": 31,
+        "payloads": [ 1000, 100 ]
+      },
+      {
+        "id": 32,
+        "payloads": [ 1020, 30 ]
+      },
+      {
+        "id": 33,
+        "payloads": [ 1050, 0 ]
+      },
+      {
+        "id": 34,
+        "payloads": [ 1080, 0 ]
+      },
+      {
+        "id": 35,
+        "payloads": [ 1100, 0 ]
+      },
+      {
+        "id": 36,
+        "payloads": [ 1150, 0 ]
+      },
+      {
+        "id": 37,
+        "payloads": [ 1200, 0 ]
+      },
+      {
+        "id": 38,
+        "payloads": [ 1250, 0 ]
+      },
+      {
+        "id": 39,
+        "payloads": [ 1200, 0 ]
+      },
+      {
+        "id": 40,
+        "payloads": [ 1100, 0 ]
+      },
+      {
+        "id": 41,
+        "payloads": [ 1000, 0 ]
+      },
+      {
+        "id": 42,
+        "payloads": [ 900, 0 ]
+      },
+      {
+        "id": 43,
+        "payloads": [ 800, 0 ]
+      },
+      {
+        "id": 44,
+        "payloads": [ 750, 0 ]
+      },
+      {
+        "id": 45,
+        "payloads": [ 700, 0 ]
+      },
+      {
+        "id": 46,
+        "payloads": [ 650, 0 ]
+      },
+      {
+        "id": 47,
+        "payloads": [ 620, 0 ]
+      }
+    ],
+    "compactSequenceRef": "IntervalEnergySeq"
   }
 ]

@@ -1,98 +1,98 @@
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "DailyProfile",
-  "profileType": "DAILY",
-  "customerRefs": [
-    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
-  ],
-  "meterRefs": [
-    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-  ],
-  "timePeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P7D"  },
-  "intervalBlocks": [
-    {
-      "timePeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P1D"  },
-      "payloadDescriptors": [
-        {
-          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
-          "accumulationBehaviour": "DELTA"
-        },
-        {
-          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp" },
-          "accumulationBehaviour": "DELTA"
-        },
-        {
-          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
-          "accumulationBehaviour": "INSTANTANEOUS"
-        }
-      ],
-      "intervals": [
-        {
-          "id": 0,
-          "values": [98.4, 0.0, 8.42]
-        },
-        {
-          "id": 1,
-          "values": [105.2, 0.0, 9.15]
-        },
-        {
-          "id": 2,
-          "values": [101.8, 0.0, 8.74]
-        },
-        {
-          "id": 3,
-          "values": [96.5, 0.0, 7.92]
-        },
-        {
-          "id": 4,
-          "values": [108.7, 0.0, 9.41]
-        },
-        {
-          "id": 5,
-          "values": [74.3, 0.0, 6.18]
-        },
-        {
-          "id": 6,
-          "values": [71.9, 0.0, 6.02]
-        }
-      ],
-      "overrides": [
-        {
-          "intervalId": 0,
-          "descriptorIndex": 2,
-          "occurredAt": "2026-05-04T19:30:00+05:30"
-        },
-        {
-          "intervalId": 1,
-          "descriptorIndex": 2,
-          "occurredAt": "2026-05-05T20:00:00+05:30"
-        },
-        {
-          "intervalId": 2,
-          "descriptorIndex": 2,
-          "occurredAt": "2026-05-06T19:00:00+05:30"
-        },
-        {
-          "intervalId": 3,
-          "descriptorIndex": 2,
-          "occurredAt": "2026-05-07T18:30:00+05:30"
-        },
-        {
-          "intervalId": 4,
-          "descriptorIndex": 2,
-          "occurredAt": "2026-05-08T20:15:00+05:30"
-        },
-        {
-          "intervalId": 5,
-          "descriptorIndex": 2,
-          "occurredAt": "2026-05-09T13:45:00+05:30"
-        },
-        {
-          "intervalId": 6,
-          "descriptorIndex": 2,
-          "occurredAt": "2026-05-10T14:00:00+05:30"
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-DAILYPROFILE",
+    "payloadDescriptorSets": [
+      {
+        "name": "DailyLoadSurveySet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.1.8.0.255"
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.2.8.0.255"
+          },
+          {
+            "name": "Reactive energy Q1 - cumulative (kvarh)",
+            "readingType": "kvarh Q1",
+            "unit": "kvarh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.5.8.0.255"
+          },
+          {
+            "name": "Maximum demand (kW) - current billing period",
+            "readingType": "MD kW",
+            "unit": "kW",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.6.0.255"
+          }
+        ],
+        "compactSequences": [
+          {
+            "name": "DailyEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp", "attribute": "value" },
+              { "readingType": "kWh exp", "attribute": "value" },
+              { "readingType": "kvarh Q1", "attribute": "value" },
+              { "readingType": "MD kW", "attribute": "value" },
+              { "readingType": "MD kW", "attribute": "occurredAt" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "DailyLoadSurveySet",
+    "intervalPeriod": { "start": "2026-05-04T00:00:00+05:30", "duration": "P1D" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 1000.0, 0.0, 0.0, 8.42, "2026-05-04T19:30:00+05:30" ]
+      },
+      {
+        "id": 1,
+        "payloads": [ 1005.2, 0.0, 0.0, 9.15, "2026-05-05T20:00:00+05:30" ]
+      },
+      {
+        "id": 2,
+        "payloads": [ 1011.8, 0.0, 0.0, 8.74, "2026-05-06T19:00:00+05:30" ]
+      },
+      {
+        "id": 3,
+        "payloads": [ 1016.5, 0.0, 0.0, 7.92, "2026-05-07T18:30:00+05:30" ]
+      },
+      {
+        "id": 4,
+        "payloads": [ 1022.7, 0.0, 0.0, 9.41, "2026-05-08T20:15:00+05:30" ]
+      },
+      {
+        "id": 5,
+        "payloads": [ 1028.3, 0.0, 0.0, 6.18, "2026-05-09T13:45:00+05:30" ]
+      },
+      {
+        "id": 6,
+        "payloads": [ 1034.9, 0.0, 0.0, 6.02, "2026-05-10T14:00:00+05:30" ]
+      }
+    ],
+    "compactSequenceRef": "DailyEnergySeq"
+  }
+]

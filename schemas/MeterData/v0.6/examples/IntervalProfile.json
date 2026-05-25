@@ -1,55 +1,73 @@
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "IntervalProfile",
-  "profileType": "INTERVAL",
-  "readingPurpose": "BLOCK_LOAD_PROFILE",
-  "customerRefs": [
-    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
-  ],
-  "meterRefs": [
-    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-  ],
-  "serviceDeliveryPointRefs": [
-    { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-BLR-A-12345" }
-  ],
-  "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT2H"  },
-  "intervalBlocks": [
-    {
-      "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M"  },
-      "payloadDescriptors": [
-        {
-          "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
-          "accumulationBehaviour": "DELTA"
-        }
-      ],
-      "intervals": [
-        {
-          "id": 0,
-          "values": [4.62]
-        },
-        {
-          "id": 1,
-          "values": [4.85]
-        },
-        {
-          "id": 2,
-          "values": [5.21]
-        },
-        {
-          "id": 3,
-          "values": [5.04]
-        }
-      ],
-      "overrides": [
-        {
-          "intervalId": 2,
-          "validationStatus": "ESTIMATED",
-          "source": "ESTIMATED",
-          "changeMethod": "linear-interpolation",
-          "failCode": "VEE-MISSING-INTERVAL",
-          "descriptorIndex": 0
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-INTERVALPROFILE",
+    "payloadDescriptorSets": [
+      {
+        "name": "IntervalLoadSurveySet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255"
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.2.8.0.255"
+          }
+        ],
+        "compactSequences": [
+          {
+            "name": "IntervalEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp", "attribute": "value" },
+              { "readingType": "kWh exp", "attribute": "value" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "serviceDeliveryPointRefs": [
+      { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" }
+    ],
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "IntervalLoadSurveySet",
+    "intervalPeriod": { "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 4.62, 0.0 ]
+      },
+      {
+        "id": 1,
+        "payloads": [ 4.85, 0.0 ]
+      },
+      {
+        "id": 2,
+        "payloads": [ 5.21, 0.12 ],
+        "overrides": [
+          { "descriptorIndex": 0, "validationStatus": "ESTIMATED", "source": "ESTIMATED", "changeMethod": "linear-interpolation", "failCode": "VEE-MISSING-INTERVAL" }
+        ]
+      },
+      {
+        "id": 3,
+        "payloads": [ 5.04, 0.0 ]
+      }
+    ],
+    "compactSequenceRef": "IntervalEnergySeq"
+  }
+]
