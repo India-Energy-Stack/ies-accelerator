@@ -111,14 +111,7 @@ def expand_profile(profile, descriptor_sets, obis_mapping):
                     }
                 
                 reading = merged_readings[rt]
-                
-                if sinfo["accBehaviour"] == "CUMULATIVE" and sinfo["reportedMode"] == "READING" and attr == "value":
-                    reading["closingValue"] = val
-                    reading["openingValue"] = last_values.get(col_idx, 0.0)
-                    reading["value"] = val - reading["openingValue"]
-                    last_values[col_idx] = val
-                else:
-                    reading[attr] = val
+                reading[attr] = val
                     
                 # Add override info if any
                 ov = overrides_map.get((int_id, col_idx))

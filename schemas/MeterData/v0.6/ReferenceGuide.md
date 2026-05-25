@@ -72,6 +72,11 @@ The schema unifies all time cadences using OpenADR-aligned `intervalPeriod` (con
 - **Cadence**: `P1M` (triggered by billing reset date).
 - **Primary Telemetry Mode**: Mix of `READING` (cumulative energy) and `USAGE` (Maximum Demand peak average with an integration window).
 
+### D. Multiplier & Accuracy
+Payload descriptors can declare scaling factors and precision constraints:
+- **`multiplier`**: Decimal scaling factor (e.g. `0.001` for milli, `1000` for kilo) applied to the reading's value. The default value is `1`.
+- **`accuracy`**: Accuracy class or precision value, applied after the multiplier.
+
 ---
 
 ## 4. Formal Reference Specifications

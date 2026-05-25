@@ -13,7 +13,8 @@
             "unit": "kWh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0
           },
           {
             "name": "Apparent energy import - cumulative (kVAh)",
@@ -21,7 +22,8 @@
             "unit": "kVAh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.9.8.0.255"
+            "obis": "1.0.9.8.0.255",
+            "multiplier": 1.0
           },
           {
             "name": "Active energy export - cumulative (kWh)",
@@ -29,7 +31,8 @@
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0
           },
           {
             "name": "Maximum demand (kW) - current billing period",
@@ -37,7 +40,8 @@
             "unit": "kW",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.6.0.255"
+            "obis": "1.0.1.6.0.255",
+            "multiplier": 1.0
           }
         ]
       }

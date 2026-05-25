@@ -1,10 +1,31 @@
 [
   {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-MONTHLY",
+    "payloadDescriptorSets": [
+      {
+        "name": "MonthlyBillingSet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "@type": "MonthlyProfile",
     "profileType": "MONTHLY",
     "meterRefs": [
       { "value": "OLD-METER-12345", "scheme": "METER_SERIAL" }
     ],
+    "payloadDescriptorSetRef": "MonthlyBillingSet",
     "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P15D" },
     "readings": [
       { "readingType": "kWh imp", "value": 150.0, "openingValue": 10000.0, "closingValue": 10150.0 }
@@ -16,6 +37,7 @@
     "meterRefs": [
       { "value": "NEW-METER-67890", "scheme": "METER_SERIAL" }
     ],
+    "payloadDescriptorSetRef": "MonthlyBillingSet",
     "timePeriod": { "start": "2026-04-15T14:30:00+05:30", "duration": "PT345H30M" },
     "readings": [
       { "readingType": "kWh imp", "value": 262.5, "openingValue": 0.0, "closingValue": 262.5 }
@@ -31,6 +53,7 @@
       { "value": "OLD-METER-12345", "scheme": "METER_SERIAL" },
       { "value": "NEW-METER-67890", "scheme": "METER_SERIAL" }
     ],
+    "payloadDescriptorSetRef": "MonthlyBillingSet",
     "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
     "readings": [
       { "readingType": "kWh imp", "value": 412.5, "source": "CIS_COMPUTED" }

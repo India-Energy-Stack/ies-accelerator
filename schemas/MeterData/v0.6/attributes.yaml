@@ -429,7 +429,8 @@ components:
           maximum: 8
         multiplier:
           type: number
-          description: Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo).
+          description: Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo). Default value is 1.
+          default: 1
         accuracy:
           type: number
           description: Accuracy class or precision value, applied after the multiplier.
@@ -511,10 +512,10 @@ components:
           type: number
         openingValue:
           type: number
-          description: MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING.
+          description: MUST ONLY be provided when the associated payload descriptor specifies reportedMode=USAGE.
         closingValue:
           type: number
-          description: MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING.
+          description: MUST ONLY be provided when the associated payload descriptor specifies reportedMode=USAGE.
         integrationPeriod:
           type: string
           format: duration

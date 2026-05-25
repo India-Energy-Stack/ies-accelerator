@@ -32,25 +32,25 @@
       {
         "id": 0,
         "readings": [
-          { "readingType": "kWh imp", "value": 1000.0, "openingValue": 0.0, "closingValue": 1000.0 }
+          { "readingType": "kWh imp", "value": 1000.0 }
         ]
       },
       {
         "id": 1,
         "readings": [
-          { "readingType": "kWh imp", "value": 5.5, "openingValue": 1000.0, "closingValue": 1005.5 }
+          { "readingType": "kWh imp", "value": 1005.5 }
         ]
       },
       {
         "id": 2,
         "readings": [
-          { "readingType": "kWh imp", "value": 6.7999999999999545, "openingValue": 1005.5, "closingValue": 1012.3 }
+          { "readingType": "kWh imp", "value": 1012.3 }
         ]
       },
       {
         "id": 3,
         "readings": [
-          { "readingType": "kWh imp", "value": 5.7000000000000455, "openingValue": 1012.3, "closingValue": 1018.0 }
+          { "readingType": "kWh imp", "value": 1018.0 }
         ]
       }
     ]

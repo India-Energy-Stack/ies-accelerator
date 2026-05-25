@@ -480,7 +480,7 @@
             "@id": "ies:multiplier",
             "@type": "rdf:Property",
             "rdfs:label": "multiplier",
-            "rdfs:comment": "Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo)."
+            "rdfs:comment": "Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo). Default value is 1."
         },
         {
             "@id": "ies:accuracy",
@@ -552,13 +552,13 @@
             "@id": "ies:openingValue",
             "@type": "rdf:Property",
             "rdfs:label": "opening Value",
-            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING."
+            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=USAGE."
         },
         {
             "@id": "ies:closingValue",
             "@type": "rdf:Property",
             "rdfs:label": "closing Value",
-            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING."
+            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=USAGE."
         },
         {
             "@id": "ies:integrationPeriod",

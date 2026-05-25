@@ -183,10 +183,22 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                     errors.append(f"Profile {p_idx} Reading '{rt}': Meter Category '{meter_category}' is not in supported categories {supported_cats}.")
             
             if info:
-                # We can't know reportedMode easily here unless we pass down the descriptor context.
-                # However, we can strictly check allowedAttributes from OBISMapping.
+                # Resolve reportedMode from descriptor set or fall back to defaultMode
+                ds_ref = profile.get("payloadDescriptorSetRef")
+                ds = descriptor_sets.get(ds_ref) if ds_ref else None
+                reported_mode = None
+                if ds:
+                    for desc in ds.get("payloadDescriptors", []):
+                        desc_rt = desc.get("readingType")
+                        desc_code, _ = resolve_reading_type(desc_rt, obis_mapping)
+                        if desc_rt == rt or (desc_code and desc_code == code):
+                            reported_mode = desc.get("reportedMode")
+                            break
+                if not reported_mode:
+                    reported_mode = info.get("defaultMode", "READING")
+
                 allowed_attrs = info.get("allowedAttributes", ["value"])
-                allowed_attrs.extend(["readingType", "intervalPeriod", "reportedMode"]) # reportedMode technically illegal but checked above.
+                allowed_attrs.extend(["readingType", "intervalPeriod", "reportedMode"])
                 for attr in reading:
                     if attr not in allowed_attrs:
                         errors.append(f"Profile {p_idx} Reading '{rt}': attribute '{attr}' is not allowed for this reading type by OBISMapping. Allowed: {allowed_attrs}")
@@ -195,8 +207,11 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                 opening = reading.get("openingValue")
                 closing = reading.get("closingValue")
                 if opening is not None or closing is not None:
-                    if "openingValue" not in allowed_attrs:
+                    if reported_mode == "READING":
+                        errors.append(f"Profile {p_idx} Reading '{rt}': 'openingValue'/'closingValue' are NOT permitted when reportedMode is READING.")
+                    elif "openingValue" not in allowed_attrs:
                         errors.append(f"Profile {p_idx} Reading '{rt}': 'openingValue'/'closingValue' are NOT permitted for this reading type.")
+                    
                     # Math consistency for cumulative readings
                     if info.get("accumulationBehaviour") == "CUMULATIVE":
                         val = reading.get("value")
@@ -236,7 +251,7 @@ def main():
     files_to_validate = []
     if os.path.isdir(target_path):
         for filename in sorted(os.listdir(target_path)):
-            if filename.endswith(".json") and filename != "OBISMapping.json":
+            if filename.endswith(".json") and filename not in ["OBISMapping.json", "MeterCategories.json", "CustomerMapping.json"]:
                 files_to_validate.append(os.path.join(target_path, filename))
     else:
         files_to_validate.append(target_path)

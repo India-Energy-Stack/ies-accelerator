@@ -120,6 +120,14 @@
             ]
           }
         ]
+      },
+      {
+        "name": "BillingSet_BillDetails",
+        "payloadDescriptors": [
+          { "readingType": "kWh imp", "reportedMode": "USAGE", "obis": "1.0.1.8.0.255" },
+          { "readingType": "kVAh imp", "reportedMode": "USAGE", "obis": "1.0.9.8.0.255" },
+          { "readingType": "MD kW", "reportedMode": "USAGE", "obis": "1.0.1.6.0.255" }
+        ]
       }
     ]
   },
@@ -273,6 +281,7 @@
     "meterRefs": [
       { "value": "METER-GENUS-01-ELABORATED", "scheme": "METER_SERIAL" }
     ],
+    "payloadDescriptorSetRef": "BillingSet_BillDetails",
     "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
     "readings": [
       { "readingType": "kWh imp", "value": 5800.0, "openingValue": 18500.0, "closingValue": 24300.0 },

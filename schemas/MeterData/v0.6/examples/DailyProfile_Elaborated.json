@@ -67,63 +67,63 @@
       {
         "id": 0,
         "readings": [
-          { "readingType": "kWh imp", "value": 1000.0, "openingValue": 0.0, "closingValue": 1000.0 },
-          { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-          { "readingType": "kvarh Q1", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+          { "readingType": "kWh imp", "value": 1000.0 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
           { "readingType": "MD kW", "occurredAt": "2026-05-04T19:30:00+05:30", "value": 8.42 }
         ]
       },
       {
         "id": 1,
         "readings": [
-          { "readingType": "kWh imp", "value": 5.2000000000000455, "openingValue": 1000.0, "closingValue": 1005.2 },
-          { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-          { "readingType": "kvarh Q1", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+          { "readingType": "kWh imp", "value": 1005.2 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
           { "readingType": "MD kW", "occurredAt": "2026-05-05T20:00:00+05:30", "value": 9.15 }
         ]
       },
       {
         "id": 2,
         "readings": [
-          { "readingType": "kWh imp", "value": 6.599999999999909, "openingValue": 1005.2, "closingValue": 1011.8 },
-          { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-          { "readingType": "kvarh Q1", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+          { "readingType": "kWh imp", "value": 1011.8 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
           { "readingType": "MD kW", "occurredAt": "2026-05-06T19:00:00+05:30", "value": 8.74 }
         ]
       },
       {
         "id": 3,
         "readings": [
-          { "readingType": "kWh imp", "value": 4.7000000000000455, "openingValue": 1011.8, "closingValue": 1016.5 },
-          { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-          { "readingType": "kvarh Q1", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+          { "readingType": "kWh imp", "value": 1016.5 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
           { "readingType": "MD kW", "occurredAt": "2026-05-07T18:30:00+05:30", "value": 7.92 }
         ]
       },
       {
         "id": 4,
         "readings": [
-          { "readingType": "kWh imp", "value": 6.2000000000000455, "openingValue": 1016.5, "closingValue": 1022.7 },
-          { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-          { "readingType": "kvarh Q1", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+          { "readingType": "kWh imp", "value": 1022.7 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
           { "readingType": "MD kW", "occurredAt": "2026-05-08T20:15:00+05:30", "value": 9.41 }
         ]
       },
       {
         "id": 5,
         "readings": [
-          { "readingType": "kWh imp", "value": 5.599999999999909, "openingValue": 1022.7, "closingValue": 1028.3 },
-          { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-          { "readingType": "kvarh Q1", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+          { "readingType": "kWh imp", "value": 1028.3 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
           { "readingType": "MD kW", "occurredAt": "2026-05-09T13:45:00+05:30", "value": 6.18 }
         ]
       },
       {
         "id": 6,
         "readings": [
-          { "readingType": "kWh imp", "value": 6.600000000000136, "openingValue": 1028.3, "closingValue": 1034.9 },
-          { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-          { "readingType": "kvarh Q1", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+          { "readingType": "kWh imp", "value": 1034.9 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
           { "readingType": "MD kW", "occurredAt": "2026-05-10T14:00:00+05:30", "value": 6.02 }
         ]
       }

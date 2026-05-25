@@ -12,7 +12,7 @@
             "readingType": "kWh imp",
             "unit": "kWh",
             "flowDirection": "IMPORT",
-            "reportedMode": "READING",
+            "reportedMode": "USAGE",
             "obis": "1.0.1.8.0.255"
           },
           {
@@ -20,7 +20,7 @@
             "readingType": "kVAh imp",
             "unit": "kVAh",
             "flowDirection": "IMPORT",
-            "reportedMode": "READING",
+            "reportedMode": "USAGE",
             "obis": "1.0.9.8.0.255"
           },
           {
@@ -28,7 +28,7 @@
             "readingType": "kWh exp",
             "unit": "kWh",
             "flowDirection": "EXPORT",
-            "reportedMode": "READING",
+            "reportedMode": "USAGE",
             "obis": "1.0.2.8.0.255"
           },
           {
