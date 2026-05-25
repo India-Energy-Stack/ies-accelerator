@@ -44,18 +44,19 @@ The legacy `TotalsEntry`, `InstantaneousValue`, and ToU readings are unified und
 * Removed redundant inline properties: `unit`, `phase`, and `zone` from the individual reading.
 * **Restructured Time of Use (ToU) Buckets**: Legacy flat `touBuckets` (where each reading record had its own `zone` property) are restructured into a nested **`TouBucket`** structure. A `TouBucket` contains a single parent `zone` (integer) and an array of nested `readings` (array of `Reading` objects), grouping multiple readings under a specific zone.
 
-### 4. Compact Form Refinements (`IntervalBlock`)
-* **Cadence Consolidation**: Removed `intervalLength` from `IntervalBlock`. The block cadence is now derived from `timePeriod.duration`.
-* **Overrides Renaming & Expansion**: `qualityOverrides` has been renamed to **`overrides`** (referencing the `Override` component):
-  * In `v0.5`, `QualityOverride` required `validationStatus`. In `v0.6`, `Override` requires `descriptorIndex` (referencing the column in the matrix).
-  * Added optional fields `occurredAt` and `zone` inside the `Override` model, enabling sparse override of timestamps and zones inside the compact matrix rows without needing inline elaborated records.
+### 4. Compact Form Refinements (`intervals` and `PayloadDescriptorSet`)
+* **Flat Intervals**: Removed `intervalBlocks`. `intervals` is now a flat array directly under the profile.
+* **Interval Period**: The cadence and start time of the interval set is defined by `intervalPeriod` (using `start` and `duration`), replacing `timePeriod` inside blocks.
+* **PayloadDescriptorSet**: Descriptors are now grouped in a reusable `PayloadDescriptorSet` with `compactSequences` defining the column order for payloads. `intervals` uses the `payloads` array to map to `compactSequenceRef`.
 
-### 5. Universal Dual-Form Support across Profiles
-Every telemetry profile (Billing, Daily, Interval, Instantaneous, Event) now supports both paradigms:
-* **Form A (Elaborated)**: Uses the `readings` array of `Reading` objects.
-* **Form B (Compact)**: Uses the `intervalBlocks` array of `IntervalBlock` objects.
-* To support both forms, `intervalBlocks` is no longer a required field in `IntervalProfile` and `DailyProfile`, allowing them to use `readings` directly if desired.
+### 5. TelemetryMode (READING vs USAGE)
+* Introduced explicit `TelemetryMode` enum (`READING` vs `USAGE`) across descriptors and readings to explicitly distinguish between absolute register readings and consumption/demand deltas.
+* In `USAGE` mode, `openingValue` and `closingValue` can optionally be provided to mathematically prove the delta.
+* This replaces generic sparse overrides for standard demand semantics.
+* `OBISMapping.json` was updated to explicitly list `supportedModes` and `defaultMode` for all codes.
 
+### 6. MeterDataRequest Enhancements
+* Enhanced `MeterDataRequest` (v0.5) `includeDetails` to use a `ProfileRequest` object, allowing consumers to specify exact `values` and the `requestedMode` they wish to retrieve.
 ---
 
 ## Detailed Payload Examples

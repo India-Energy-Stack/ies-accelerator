@@ -128,24 +128,50 @@ Telemetry is presented as an array of discrete `Reading` objects containing inli
 ]
 ```
 
-### 2. Form B: Compact Matrix Representation (`intervalBlocks`)
-Used heavily for dense time-series telemetry. Descriptors are declared once at the block level in `payloadDescriptors`, and time-series data is transmitted as simple arrays of numbers (`IntervalRow`) that map positionally to the descriptors.
+### 2. Form B: Compact Matrix Representation (`intervals`)
+Used heavily for dense time-series telemetry. Descriptors are declared once at the block level in `payloadDescriptorSet`, and time-series data is transmitted as simple arrays of numbers (`Interval`) that map positionally to the descriptors defined in a `CompactSequence`.
 
 ```json
-"intervalBlocks": [
-  {
-    "timePeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+  "payloadDescriptorSet": {
+    "name": "DailyLoadSurveySet",
     "payloadDescriptors": [
-      { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
-      { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp block" } }
+      {
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
+        "reportedMode": "READING",
+        "powerOfTenMultiplier": 0
+      }
     ],
-    "intervals": [
-      { "id": 0, "values": [600, 0] },
-      { "id": 1, "values": [580, 0] }
+    "compactSequences": [
+      {
+        "name": "DailyEnergySeq",
+        "sequenceItems": [
+          {
+            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
+            "reportedMode": "READING"
+          }
+        ]
+      }
     ]
-  }
-]
+  },
+  "compactSequenceRef": "DailyEnergySeq",
+  "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+  "intervals": [
+    { "id": 0, "payloads": [600] },
+    { "id": 1, "payloads": [580] }
+  ]
 ```
+
+---
+
+## TelemetryMode (READING vs USAGE)
+
+The schema natively supports distinguishing between raw register readings and calculated usage:
+- **`READING`**: Represents the physical register value at a point in time. For cumulative registers, this strictly increases monotonically.
+- **`USAGE`**: Represents the delta or consumed amount over a period. 
+  - For `USAGE` values, an optional `openingValue` and `closingValue` can be provided for transparent mathematical proof (e.g. `value == closingValue - openingValue`).
+  - Demand registers (e.g., kW) inherently use `USAGE` mode.
+
+Modes are indicated per-descriptor or per-reading via the `reportedMode` property. Valid fallback and support behaviors for specific OBIS codes are declared in the `OBISMapping.json` file via `supportedModes` and `defaultMode`.
 
 ---
 
@@ -154,18 +180,7 @@ Used heavily for dense time-series telemetry. Descriptors are declared once at t
 The schema supports sparse annotations to add metadata exactly where needed without bloating the compact matrix payload.
 
 ### Sparse Cell Overrides
-By default, all readings are assumed to be `{VALID, METER}`. If a specific interval was estimated or has a specific occurred timestamp (such as Maximum Demand), you can inject a sparse `Override` targeting its specific `intervalId` and column index (`descriptorIndex`).
-
-```json
-"overrides": [
-  {
-    "intervalId": 45,
-    "descriptorIndex": 0,
-    "validationStatus": "ESTIMATED",
-    "source": "ESTIMATED"
-  }
-]
-```
+By default, all readings are assumed to be `{VALID, METER}`. If a specific interval was estimated or has a specific occurred timestamp, you can inject a sparse `Override` in the array (if supported by your specific payload model extension). *(Note: Base schema v0.6 moves towards explicit modes rather than generic overrides for demand)*.
 *See [`MultiMeterBulkDatasetShortCodes.json`](./examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) or [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) (OBIS Codes) for full examples of sparse overrides.*
 
 ### Maximum Demand snapshoting
