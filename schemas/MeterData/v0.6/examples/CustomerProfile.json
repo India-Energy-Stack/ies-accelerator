@@ -1,13 +1,12 @@
 {
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
   "@type": "CustomerProfile",
   "profileType": "CUSTOMER",
   "customerRefs": [
-    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+    { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
   ],
   "timeZone": "Asia/Kolkata",
   "customer": {
-    "id": { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" },
+    "id": { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" },
     "name": "Acme Industries Pvt Ltd",
     "consumerCategory": "NDS",
     "sanctionedLoadKw": 15.0,
@@ -15,7 +14,7 @@
   },
   "serviceDeliveryPoints": [
     {
-      "id": { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-BLR-A-12345" },
+      "id": { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" },
       "addressLine": "12 MG Road",
       "city": "Bengaluru",
       "postalCode": "560001",
@@ -25,7 +24,7 @@
   ],
   "meters": [
     {
-      "id": { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" },
+      "id": { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" },
       "manufacturer": "Genus",
       "modelNumber": "SM-3PH-4W-WC",
       "meterCategory": "D2",
@@ -34,15 +33,15 @@
   ],
   "associations": [
     {
-      "meterRefs": [
-        { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-      ],
       "serviceDeliveryPointRefs": [
-        { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-BLR-A-12345" }
+        { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" }
+      ],
+      "meterRefs": [
+        { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
       ],
       "installedAt": "2026-05-04T10:00:00+05:30",
-      "feederId": { "scheme": "OTHER", "value": "FDR-11KV-BLR-04" },
-      "dtId": { "scheme": "OTHER", "value": "DT-BLR-A-400kVA-12" }
+      "feederId": { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
+      "dtId": { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
     }
   ]
 }

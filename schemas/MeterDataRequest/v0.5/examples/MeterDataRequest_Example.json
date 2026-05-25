@@ -10,8 +10,8 @@
     "duration": "P1D",
     "maxRecordsShared": 100,
     "includeDetails": [
-        "IntervalProfile",
-        "InstantaneousProfile",
-        "EventProfile"
+        { "profileType": "IntervalProfile" },
+        { "profileType": "InstantaneousProfile" },
+        { "profileType": "EventProfile" }
     ]
 }

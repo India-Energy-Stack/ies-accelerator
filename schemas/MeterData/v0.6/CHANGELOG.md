@@ -1,125 +1,103 @@
 # MeterData v0.6 Changelog
 
-Version 0.6 introduces a major structural refactor to the `MeterData` schema. It unifies time representations, reduces redundant payload properties, reinstates Time of Use (ToU) buckets with an improved grouping structure, and formalizes a **Universal Dual-Form Representation** (Form A - Elaborated and Form B - Compact) across all profiles.
+Version 0.6 introduces a monumental architectural evolution to the `MeterData` schemas. The primary focus of this release is the centralization of metadata, hyper-optimization of dense telemetry arrays (compact sequences), and the enforcement of strict inheritance models. These changes collectively enable "Data Descriptor Engine" validation while reducing JSON payload sizes drastically.
 
 ---
 
-## Schema Structural Changes
+## What's New in v0.6 (vs 0.5)
 
-### 1. Unified Time Representation
-Previously, time windows and execution timestamps were fragmented across different profiles (`billingPeriod`, `coveragePeriod`, `intervalPeriod`, `capturedAt`, `timestamp`).
-* **Time Periods**: All period and coverage objects (`billingPeriod`, `coveragePeriod`, `intervalPeriod`) are replaced by the unified **`timePeriod`** object.
-  * In `v0.5`, time intervals were defined as `TimeInterval` (with `start` and `end`).
-  * In `v0.6`, `timePeriod` uses the `TimePeriod` definition, requiring `start` (timestamp) and **`duration`** (ISO-8601 duration), aligning with standard IEC/OpenADR telemetry patterns (e.g. `P1M`, `PT30M`, `PT1H`).
-* **Execution Timestamp**: All execution markers (`capturedAt`, `timestamp`) are unified to **`timestamp`** (replacing `capturedAt` in instantaneous profiles).
+### 1. Removal of `MeterDataset` & Array-based Data Descriptors
+The telemetry architecture has transitioned away from the rigid `MeterDataset` envelope.
+* Root payloads are now simply JSON arrays (or single objects for individual profiles).
+* Rather than wrapping data in a proprietary container, metadata (units, flow direction, labels) and column definitions are declared as an independent `PayloadDescriptorProfile` within the array.
+* Data profiles (like `IntervalProfile` or `DailyProfile`) reference these definitions via `payloadDescriptorSetRef`.
 
-### 2. Removal of Explicit Units & Phases from Readings
-To reduce payload transmission size, inline `unit` and `phase` fields have been entirely removed from the schemas of reading records. Consumers must resolve these physical semantics using the `readingTypeRef` (OBIS or Short Codes) against the canonical lookup map.
+### 2. Hyper-Optimized `CompactSequence` with Multi-Type Payloads
+The compact representation (`IntervalProfile` and `DailyProfile`) has been fundamentally reimagined:
+* **The `attribute` Enum**: `SequenceItem` definitions in the `compactSequences` now map directly to specific reading attributes (e.g., `value`, `occurredAt`, `openingValue`, `validationStatus`).
+* **Multi-Type `payloads`**: The numerical `values` array in intervals has been replaced by `payloads` which supports both `number` and `string`. 
+* **Targeted use of Overrides**: Because `payloads` can mix numbers (for energy) and strings (for timestamps or validation codes), metadata that previously required verbose sparse `overrides` arrays is now mapped as a native, dense column in the sequence matrix. The `overrides` array is now strictly retained for **quality deviance indication** (e.g., specific estimation methods `changeMethod` and failure codes `failCode` on a single bad interval), rather than routine timestamps.
 
-### 3. Unified `Reading` Model & Restructured Register Fields
-The legacy `TotalsEntry`, `InstantaneousValue`, and ToU readings are unified under a single **`Reading`** schema:
-* Supported properties: `readingTypeRef`, `value`, `openingValue`, `closingValue`, `integrationPeriod`, `occurredAt`, `validationStatus`, `source`, `changeMethod`, `failCode`.
-* Removed redundant inline properties: `unit`, `phase`, and `zone` from the individual reading.
-* **Restructured Time of Use (ToU) Buckets**: Legacy flat `touBuckets` (where each reading record had its own `zone` property) are restructured into a nested **`TouBucket`** structure. A `TouBucket` contains a single parent `zone` (integer) and an array of nested `readings` (array of `Reading` objects), grouping multiple readings under a specific zone.
+### 3. Simplification of Identifiers (Short Codes & OBIS)
+* The verbose `readingTypeRef` object (`{"scheme": "OBIS", "value": "..."}`) has been replaced by a flat **`readingType`** string across all schemas.
+* Short codes (e.g., `"kWh imp"`, `"V_1P"`) are now heavily favored over raw OBIS codes for readability and bandwidth savings.
+* **Resolution Flow**: Payload parsers first resolve semantics against the **local payload descriptor** inside the dataset. For strict mathematical compliance, this local descriptor is then validated against the central `OBISMapping.json` registry. Payload descriptors now optionally include an `obis` property for direct canonical linkage when a short code is used.
 
-### 4. Compact Form Refinements (`IntervalBlock`)
-* **Cadence Consolidation**: Removed `intervalLength` from `IntervalBlock`. The block cadence is now derived from `timePeriod.duration`.
-* **Overrides Renaming & Expansion**: `qualityOverrides` has been renamed to **`overrides`** (referencing the `Override` component):
-  * In `v0.5`, `QualityOverride` required `validationStatus`. In `v0.6`, `Override` requires `descriptorIndex` (referencing the column in the matrix).
-  * Added optional fields `occurredAt` and `zone` inside the `Override` model, enabling sparse override of timestamps and zones inside the compact matrix rows without needing inline elaborated records.
+### 4. Strict Composition-Based Inheritance
+The inheritance model in `attributes.yaml` has been strictly refactored:
+* **`BaseProfile`** has been purged of all telemetry-specific properties (`readings`, `intervals`, `timestamp`, `timePeriod`). It now exclusively contains routing and identification context (`customerRefs`, `meterRefs`, etc.).
+* Derived profiles inherit from `BaseProfile` via JSON Schema `allOf` and strictly define only their relevant properties (e.g., `IntervalProfile` only permits `intervals` and `compactSequenceRef`, never `readings`).
 
-### 5. Universal Dual-Form Support across Profiles
-Every telemetry profile (Billing, Daily, Interval, Instantaneous, Event) now supports both paradigms:
-* **Form A (Elaborated)**: Uses the `readings` array of `Reading` objects.
-* **Form B (Compact)**: Uses the `intervalBlocks` array of `IntervalBlock` objects.
-* To support both forms, `intervalBlocks` is no longer a required field in `IntervalProfile` and `DailyProfile`, allowing them to use `readings` directly if desired.
+### 5. `OBISMapping.json` Registry Enforcement
+* The validator engine (`validate_v06.py`) has been upgraded to enforce **Data Descriptor Engine semantics**.
+* Any inline descriptor definitions must mathematically and physically align with the canonical `OBISMapping.json` registry. The validator dynamically asserts matrix arity and column data types across the entire dataset.
 
 ---
 
 ## Detailed Payload Examples
 
-### Form A: Elaborated Representation (`readings` / `touBuckets`)
-Ideal for sparse registers (e.g. `BillingProfile` or `InstantaneousProfile`). Telemetry is presented as a list of discrete `Reading` objects containing inline values, timestamps, and register details.
+### Array-Based Profile Exchange
 
 ```json
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "BillingProfile",
-  "profileType": "BILLING",
-  "customerRefs": [
-    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
-  ],
-  "meterRefs": [
-    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-  ],
-  "timePeriod": {  "start": "2026-04-01T00:00:00+05:30", "duration": "P1M"  },
-  "billNumber": "BESCOM-RR-1234-202604",
-  "billDate": "2026-05-01",
-  "dueDate": "2026-05-21",
-  "currency": "INR",
-  "amountDue": 4287.5,
-  "readings": [
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-DAILY",
+  "payloadDescriptorSets": [
     {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
-      "value": 412.5,
-      "openingValue": 18432.5,
-      "closingValue": 18845.0
-    },
-    {
-      "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
-      "value": 8.42,
-      "occurredAt": "2026-04-23T19:30:00+05:30",
-      "integrationPeriod": "PT30M"
-    }
-  ],
-  "touBuckets": [
-    {
-      "zone": 1,
-      "readings": [
-        {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.1.255" },
-          "value": 138.2
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Form B: Compact Representation (`intervalBlocks` -> `intervals` + `overrides`)
-Ideal for dense time-series telemetry (e.g. `IntervalProfile` or `DailyProfile`). Descriptors are declared once in `payloadDescriptors`, and data values are transmitted positionally inside numerical matrices (`intervals`). Sparse metadata (timestamps, quality codes) is annotated using the `overrides` array mapping back to the row and column index.
-
-```json
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "IntervalProfile",
-  "profileType": "INTERVAL",
-  "customerRefs": [
-    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
-  ],
-  "meterRefs": [
-    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-  ],
-  "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT2H"  },
-  "intervalBlocks": [
-    {
-      "timePeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M"  },
+      "name": "DailyLoadSurveySet",
       "payloadDescriptors": [
-        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" } },
-        { "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" } }
-      ],
-      "intervals": [
-        { "id": 0, "values": [4.82, 9.15] },
-        { "id": 1, "values": [5.12, 8.42] }
-      ],
-      "overrides": [
         {
-          "intervalId": 1,
-          "descriptorIndex": 1,
-          "occurredAt": "2026-05-04T09:45:00+05:30"
+          "readingType": "kWh imp",
+          "name": "Active Energy Import",
+          "unit": "kWh",
+          "flowDirection": "IMPORT",
+          "reportedMode": "READING"
+        },
+        {
+          "readingType": "MD kW",
+          "name": "Maximum Demand Active Power",
+          "unit": "kW",
+          "flowDirection": "IMPORT",
+          "reportedMode": "USAGE"
+        }
+      ],
+      "compactSequences": [
+        {
+          "name": "DailyEnergySeq",
+          "sequenceItems": [
+            { "readingType": "kWh imp", "attribute": "value", "reportedMode": "READING" },
+            { "readingType": "MD kW", "attribute": "value", "reportedMode": "USAGE" },
+            { "readingType": "MD kW", "attribute": "occurredAt", "reportedMode": "USAGE" }
+          ]
         }
       ]
-    }
-  ]
-}
+  },
+  {
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "customerRefs": [
+      { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+    ],
+    "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+    ],
+    "payloadDescriptorSetRef": "DailyLoadSurveySet",
+    "intervalPeriod": {
+      "start": "2026-05-04T00:00:00+05:30",
+      "duration": "P1D"
+    },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [
+          1000.0,
+          8.42,
+          "2026-05-04T19:30:00+05:30"
+        ]
+      }
+    ]
+  }
+]
 ```

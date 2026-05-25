@@ -1,0 +1,18 @@
+{
+  "@type": "BillDetails",
+  "profileType": "BILL_DETAILS",
+  "customerRefs": [
+    { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
+  ],
+  "meterRefs": [
+    { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+  ],
+  "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+  "billNumber": "BESCOM-RR-1234-202604",
+  "billDate": "2026-05-01",
+  "dueDate": "2026-05-21",
+  "currency": "INR",
+  "amountDue": 4287.5,
+  "prepaidBalance": 500.0,
+  "paymentStatus": "UNPAID"
+}

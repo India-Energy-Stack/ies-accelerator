@@ -13,6 +13,30 @@
             "@type": "rdfs:Class",
             "rdfs:label": "Meter Data Request",
             "rdfs:comment": "Request parameters for selecting smart meter telemetry and profiles."
+        },
+        {
+            "@id": "ies:ProfileRequest",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Profile Request",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:profileType",
+            "@type": "rdf:Property",
+            "rdfs:label": "profile Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:values",
+            "@type": "rdf:Property",
+            "rdfs:label": "values",
+            "rdfs:comment": "List of requested reading/OBIS short codes or value names."
+        },
+        {
+            "@id": "ies:requestedMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "requested Mode",
+            "rdfs:comment": "The specific mode requested for these values. Defaults to the code's default mode if omitted."
         }
     ]
 }

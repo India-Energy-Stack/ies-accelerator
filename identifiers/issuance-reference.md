@@ -326,7 +326,7 @@ A passing integration test should:
 7. Revoke the credential.
 8. Re-verify and confirm step 6 now returns 200 (revoked).
 
-Steps 2–6 each test one identifier flow described in [Resolution](./resolution.md). Run this on every release.
+Steps 2–6 each test one identifier flow described in [Resolution](../registries/resolution.md). Run this on every release.
 
 ---
 

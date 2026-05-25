@@ -324,7 +324,7 @@ The public record may carry a `privateRef` pointing at the private resolver:
 }
 ```
 
-External verifiers ignore `privateRef`; internal clients follow it.
+External verifiers ignore `privateRef`; internal clients follow it (for details on the runtime resolver lookup mechanics, see [Unification of Public vs. Private Resolution Details](./resolution.md#unification-of-public-vs-private-resolution-details)).
 
 ---
 
@@ -361,4 +361,4 @@ That sequence is the minimum to be a fully participating, credentialled, Beckn-r
 
 ---
 
-Next: [Resolution and Routing](../identifiers/resolution.md) — once these registries are in place, how requests are resolved against them.
+Next: [Resolution and Routing](./resolution.md) — once these registries are in place, how requests are resolved against them.

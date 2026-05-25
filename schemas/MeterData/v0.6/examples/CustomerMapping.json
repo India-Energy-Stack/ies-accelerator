@@ -1,0 +1,4 @@
+{
+  "BESCOM-SM-2025-654321": { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" },
+  "BESCOM-SM-2025-999999": { "value": "RR-5678", "scheme": "CONSUMER_NUMBER" }
+}

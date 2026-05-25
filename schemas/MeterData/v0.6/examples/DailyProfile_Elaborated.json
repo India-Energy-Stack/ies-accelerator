@@ -1,0 +1,132 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-DAILYPROFILE",
+    "payloadDescriptorSets": [
+      {
+        "name": "DailyLoadSurveySet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.1.8.0.255"
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.2.8.0.255"
+          },
+          {
+            "name": "Reactive energy Q1 - cumulative (kvarh)",
+            "readingType": "kvarh Q1",
+            "unit": "kvarh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.5.8.0.255"
+          },
+          {
+            "name": "Maximum demand (kW) - current billing period",
+            "readingType": "MD kW",
+            "unit": "kW",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.6.0.255"
+          }
+        ],
+        "compactSequences": [
+          {
+            "name": "DailyEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp", "attribute": "value" },
+              { "readingType": "kWh exp", "attribute": "value" },
+              { "readingType": "kvarh Q1", "attribute": "value" },
+              { "readingType": "MD kW", "attribute": "value" },
+              { "readingType": "MD kW", "attribute": "occurredAt" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "DailyLoadSurveySet",
+    "intervalPeriod": { "start": "2026-05-04T00:00:00+05:30", "duration": "P1D" },
+    "intervals": [
+      {
+        "id": 0,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1000.0 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
+          { "readingType": "MD kW", "occurredAt": "2026-05-04T19:30:00+05:30", "value": 8.42 }
+        ]
+      },
+      {
+        "id": 1,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1005.2 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
+          { "readingType": "MD kW", "occurredAt": "2026-05-05T20:00:00+05:30", "value": 9.15 }
+        ]
+      },
+      {
+        "id": 2,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1011.8 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
+          { "readingType": "MD kW", "occurredAt": "2026-05-06T19:00:00+05:30", "value": 8.74 }
+        ]
+      },
+      {
+        "id": 3,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1016.5 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
+          { "readingType": "MD kW", "occurredAt": "2026-05-07T18:30:00+05:30", "value": 7.92 }
+        ]
+      },
+      {
+        "id": 4,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1022.7 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
+          { "readingType": "MD kW", "occurredAt": "2026-05-08T20:15:00+05:30", "value": 9.41 }
+        ]
+      },
+      {
+        "id": 5,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1028.3 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
+          { "readingType": "MD kW", "occurredAt": "2026-05-09T13:45:00+05:30", "value": 6.18 }
+        ]
+      },
+      {
+        "id": 6,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1034.9 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kvarh Q1", "value": 0.0 },
+          { "readingType": "MD kW", "occurredAt": "2026-05-10T14:00:00+05:30", "value": 6.02 }
+        ]
+      }
+    ]
+  }
+]

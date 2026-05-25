@@ -83,9 +83,8 @@ def main():
         files = sorted(os.listdir(target_path))
         for filename in files:
             if filename.endswith(".json"):
-                # By default, we skip OBISMapping.json as it is orthogonal lookup metadata, not a telemetry profile
-                if filename == "OBISMapping.json":
-                    print(f"ℹ️ Skipping {filename} (lookup metadata)")
+                if filename in ["IES codes.json", "CustomerMapping.json", "MeterCategories.json"]:
+                    print(f"ℹ️ Skipping {filename} (lookup/mapping metadata)")
                     continue
                     
                 filepath = os.path.join(target_path, filename)

@@ -38,7 +38,7 @@ Before commencing the integration pathway, we recommend aligning the following i
 In this phase, you will establish your institutional cryptographic identity and define clear naming grammars for your grid resources and consumers.
 
 <details>
-<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../identifiers/resolution.md#didweb))</b></summary>
+<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../registries/resolution.md#didweb))</b></summary>
 
 ### 💡 Phase Advice
 > Set up a quick call with your DNS administrator as your very first step. Securing a dedicated subdomain takes only a few minutes but forms the foundation of your secure cryptographic brand.
@@ -47,7 +47,7 @@ In this phase, you will establish your institutional cryptographic identity and 
 * Confirm that your web admin has write-access to your target domain (e.g., `ies.tpddl.co.in`) to host the verification path.
 
 ### Execution Guidance
-A [`did:web`](../identifiers/resolution.md#didweb) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
+A [`did:web`](../registries/resolution.md#didweb) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
 2. **Expose the DID Document (First Step)**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
@@ -55,7 +55,7 @@ A [`did:web`](../identifiers/resolution.md#didweb) identifier leverages your exi
 
 ### References & Anchors
 * [Identifiers & Addressing Overview](../identifiers/README.md)
-* [Resolution & Routing Specification](../identifiers/resolution.md#didweb) (Detailed resolution rules for `did:web` endpoints)
+* [Resolution & Routing Specification](../registries/resolution.md#didweb) (Detailed resolution rules for `did:web` endpoints)
 * [Step 1 — Mint the issuer DID (did:web)](../identifiers/issuance-reference.md#step-1--mint-the-issuer-did-didweb) (Step-by-step document parameters)
 * [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md#1-institutional-identity)
 </details>
@@ -67,7 +67,9 @@ A [`did:web`](../identifiers/resolution.md#didweb) identifier leverages your exi
 > Aligning your IES identifiers with your existing SAP, GIS, or CIS master codes avoids double-mapping. Wrap your existing internal serials rather than replacing them!
 
 ### Execution Guidance
-Map your internal customer numbers, SAP codes, and meter serial numbers to standard, [DeDi-based naming grammars](../identifiers/id-patterns.md). We recommend adopting the suggested reference patterns shown below:
+Map your internal customer numbers, SAP codes, and meter serial numbers to standard, [DeDi-based naming grammars](../identifiers/id-patterns.md). Before constructing your identifiers, ensure you review the core rules in [Identifier Concepts: Identifiers as Names and Resolution Details](../identifiers/concepts.md#identifiers-as-names-and-resolution-details) (which clarify that identifiers are names carrying no inherent business meaning, and all must resolve to a DID Document).
+
+We recommend adopting the suggested reference patterns shown below:
 1. **Consumers**: `did:dedi:<utility>:consumers:<consumer number>`
    *(e.g., `did:dedi:tpddl:consumers:CN-89721345`)*
 2. **Grid Assets**: `did:dedi:<utility>:assets:<asset-class>:<internal id>`
@@ -77,7 +79,12 @@ Map your internal customer numbers, SAP codes, and meter serial numbers to stand
 4. **Service Connections**: `did:dedi:<utility>:connections:<connection id>`
    *(e.g., `did:dedi:tpddl:connections:CON-90234`)*
 
+> [!WARNING]
+> `did:dedi` is currently **not** a W3C standard DID method. Resolving these identifiers requires utilizing `dedi.global` resolvers or a compliant Decentralised Directory API endpoint directly. Make sure to review the [did:dedi Non-Standard DID Method Note](../identifiers/concepts.md#diddedi-standards-note) before deploying them.
+
 ### References & Anchors
+* [Identifier Concepts: Identifiers as Names and Resolution Details](../identifiers/concepts.md#identifiers-as-names-and-resolution-details)
+* [did:dedi Non-Standard DID Method Note](../identifiers/concepts.md#diddedi-standards-note)
 * [Identifier Patterns and Grammars](../identifiers/id-patterns.md)
   * [Consumer Reference ID](../identifiers/id-patterns.md#consumer-reference-id)
   * [Asset Reference ID](../identifiers/id-patterns.md#asset-reference-id)

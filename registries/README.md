@@ -22,6 +22,7 @@ IES public registries are hosted on **DeDi (Decentralised Directory Protocol)**.
 | [DeDi Primer](./dedi-primer.md) | What DeDi is, the three-coordinate model (namespace/registry/record), proof types, trust pillars, deployment options. Skip if you already understand DeDi. |
 | [Registry Creation](./registry-creation.md) | Hands-on step-by-step: account → domain-verified namespace → registry → records → lookup. UI flow + matching `curl`. Day-2 ops and troubleshooting. |
 | [Required Registries for Onboarding](./required-registries.md) | The baseline catalogue an IES participant needs — DISCOM reference, Beckn subscriber, revocation, public-keys, etc. Each entry has record shape and onboarding contact. Ends with a 10-step end-to-end checklist. |
+| [Resolution and Routing](./resolution.md) | Workflows to resolve DIDs and route requests using DeDi and did:web registries. |
 
 ---
 
@@ -31,7 +32,7 @@ IES public registries are hosted on **DeDi (Decentralised Directory Protocol)**.
 
 **A developer integrating against IES** — start with [DeDi Primer](./dedi-primer.md) for the API surface, then [Required Registries](./required-registries.md) to know what URLs to read.
 
-**A verifier or wallet developer** — start with [DeDi Primer](./dedi-primer.md) (proof verification procedure), then [Resolution and Routing](../identifiers/resolution.md) for the request-time workflows.
+**A verifier or wallet developer** — start with [DeDi Primer](./dedi-primer.md) (proof verification procedure), then [Resolution and Routing](./resolution.md) for the request-time workflows.
 
 **A regulator or network operator** — start with [DeDi Primer](./dedi-primer.md) (governance and key custody), then [Required Registries](./required-registries.md) for the reference registries you will operate.
 

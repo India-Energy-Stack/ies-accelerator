@@ -1,6 +1,6 @@
 # Identifier Concepts
 
-This page is the conceptual ground for [ID Patterns](./id-patterns.md), [Registries](./registries.md), and [Resolution](./resolution.md). If you already know DIDs and just need IES-specific addressing rules, skim this and jump ahead.
+This page is the conceptual ground for [ID Patterns](./id-patterns.md), [Private Resolution](../registries/private_resolution.md), and [Resolution](../registries/resolution.md). If you already know DIDs and just need IES-specific addressing rules, skim this and jump ahead.
 
 ---
 
@@ -27,6 +27,14 @@ did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma
 ```
 
 The string itself is the identifier; **resolution** is how a client turns the string into a DID Document and ultimately a public key.
+
+### Identifiers as Names and Resolution Details
+
+When working with identifiers on the IES, keep the following foundational rules in mind:
+
+*   **An Identifier is a Name**: An identifier is simply a unique label or name. While IES provides recommended conventions and syntax rules (see [ID Patterns](./id-patterns.md)) to make these names structured and useful for developers, **no meaning should be derived from the name itself**. You must not write business logic that parses the identifier string to extract attributes or guess permissions.
+*   **All Identifiers Resolve to a DID Document**: Every identifier must be resolved to obtain its corresponding DID Document, which is the authoritative source for public keys, verification methods, and service endpoints. Even identifiers stored in directories/registries must be resolved to retrieve this document (see [Resolution and Routing](../registries/resolution.md) for workflows).
+*   **Context-Dependent Resolution**: The DID Document provides the verified details about the identifier. When using `did:web` or `did:dedi`, the same identifier could resolve to different details (a redacted public view vs. a full private PII view) depending on whether it is resolved by public or private accessors (see [Unification of Public vs. Private Resolution Details](../registries/resolution.md#unification-of-public-vs-private-resolution-details) and [Private Resolution](../registries/private_resolution.md)).
 
 ---
 
@@ -137,6 +145,10 @@ The public key *is* the identifier — the method-specific identifier is a multi
 A JWK encoded directly into the DID string. Functionally similar to `did:key`, used by some wallets. IES accepts it for holders.
 
 ### `did:dedi` (DeDi-anchored)
+
+<a id="diddedi-standards-note"></a>
+> [!IMPORTANT]
+> **Non-Standard DID Method & Resolution Note**: `did:dedi` is currently **not** a W3C standard DID method. Resolving these identifiers requires utilizing `dedi.global` resolvers or a compliant Decentralised Directory API endpoint directly. For details on how the coordinate string maps to DeDi lookup API endpoints, see [Resolution and Routing](../registries/resolution.md#diddedi) and [Public vs Private Resolution of Identifiers via Registries](../registries/private_resolution.md).
 
 > **Naming note.** "DeDi" in this stack is the Decentralised Data Infrastructure hosted at [`dedi.global`](https://dedi.global). The DeDi registry entries themselves are addressed by a URL path under a **namespace DID** (which is itself a `did:web` pointing at a CORD-network anchor). Throughout this section we use the term "DeDi-anchored identifier" or the shorthand `did:dedi:…` to mean **an identifier that resolves to a record inside a DeDi namespace** — whether that record is a DISCOM trust entry, a consumer profile, an asset, or a revocation entry.
 

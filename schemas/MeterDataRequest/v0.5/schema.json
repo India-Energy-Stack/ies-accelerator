@@ -45,18 +45,51 @@
     },
     "includeDetails": {
       "type": "array",
-      "description": "List of specific profile types to include in the response.",
+      "description": "List of specific profile types and the data requested within them.",
       "items": {
-        "type": "string",
-        "enum": [
-          "CustomerProfile",
-          "IntervalProfile",
-          "DailyProfile",
-          "BillingProfile",
-          "InstantaneousProfile",
-          "EventProfile"
-        ]
+        "$ref": "#/$defs/ProfileRequest"
       }
+    }
+  },
+  "$defs": {
+    "ProfileRequest": {
+      "type": "object",
+      "required": [
+        "profileType"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "enum": [
+            "CustomerProfile",
+            "IntervalProfile",
+            "DailyProfile",
+            "MonthlyProfile",
+            "BillDetails",
+            "InstantaneousProfile",
+            "EventProfile",
+            "AlarmProfile"
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of requested reading/OBIS short codes or value names."
+        },
+        "requestedMode": {
+          "$ref": "#/$defs/TelemetryMode",
+          "description": "The specific mode requested for these values. Defaults to the code's default mode if omitted."
+        }
+      }
+    },
+    "TelemetryMode": {
+      "type": "string",
+      "enum": [
+        "READING",
+        "USAGE"
+      ]
     }
   }
 }
