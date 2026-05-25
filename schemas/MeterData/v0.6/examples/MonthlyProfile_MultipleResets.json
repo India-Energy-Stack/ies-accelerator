@@ -3,58 +3,24 @@
     "@type": "MonthlyProfile",
     "profileType": "MONTHLY",
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "BESCOM-SM-2025-654321"
-      }
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
     ],
-    "timePeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "duration": "P15D"
-    },
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P15D" },
     "readings": [
-      {
-        "value": 200.0,
-        "openingValue": 18432.5,
-        "closingValue": 18632.5,
-        "readingType": "kWh imp"
-      },
-      {
-        "value": 4.2,
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-04-12T14:30:00+05:30",
-        "integrationPeriod": "PT30M",
-        "readingType": "MD kW"
-      }
+      { "readingType": "kWh imp", "value": 200.0, "openingValue": 18432.5, "closingValue": 18632.5 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-12T14:30:00+05:30", "value": 4.2, "integrationPeriod": "PT30M" }
     ]
   },
   {
     "@type": "MonthlyProfile",
     "profileType": "MONTHLY",
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "BESCOM-SM-2025-654321"
-      }
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
     ],
-    "timePeriod": {
-      "start": "2026-04-15T00:00:00+05:30",
-      "duration": "P15D"
-    },
+    "timePeriod": { "start": "2026-04-15T00:00:00+05:30", "duration": "P15D" },
     "readings": [
-      {
-        "value": 212.5,
-        "openingValue": 18632.5,
-        "closingValue": 18845.0,
-        "readingType": "kWh imp"
-      },
-      {
-        "value": 8.42,
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-04-23T19:30:00+05:30",
-        "integrationPeriod": "PT30M",
-        "readingType": "MD kW"
-      }
+      { "readingType": "kWh imp", "value": 212.5, "openingValue": 18632.5, "closingValue": 18845.0 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
     ]
   }
 ]

@@ -3,83 +3,44 @@
     "@type": "MonthlyProfile",
     "profileType": "MONTHLY",
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "OLD-METER-12345"
-      }
+      { "value": "OLD-METER-12345", "scheme": "METER_SERIAL" }
     ],
-    "timePeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "duration": "P15D"
-    },
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P15D" },
     "readings": [
-      {
-        "value": 150.0,
-        "openingValue": 10000.0,
-        "closingValue": 10150.0,
-        "readingType": "kWh imp"
-      }
+      { "readingType": "kWh imp", "value": 150.0, "openingValue": 10000.0, "closingValue": 10150.0 }
     ]
   },
   {
     "@type": "MonthlyProfile",
     "profileType": "MONTHLY",
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "NEW-METER-67890"
-      }
+      { "value": "NEW-METER-67890", "scheme": "METER_SERIAL" }
     ],
-    "timePeriod": {
-      "start": "2026-04-15T14:30:00+05:30",
-      "duration": "PT345H30M"
-    },
+    "timePeriod": { "start": "2026-04-15T14:30:00+05:30", "duration": "PT345H30M" },
     "readings": [
-      {
-        "value": 262.5,
-        "openingValue": 0.0,
-        "closingValue": 262.5,
-        "readingType": "kWh imp"
-      }
+      { "readingType": "kWh imp", "value": 262.5, "openingValue": 0.0, "closingValue": 262.5 }
     ]
   },
   {
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "RR-1234"
-      }
+      { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "OLD-METER-12345"
-      },
-      {
-        "scheme": "METER_SERIAL",
-        "value": "NEW-METER-67890"
-      }
+      { "value": "OLD-METER-12345", "scheme": "METER_SERIAL" },
+      { "value": "NEW-METER-67890", "scheme": "METER_SERIAL" }
     ],
-    "timePeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "duration": "P1M"
-    },
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      { "readingType": "kWh imp", "value": 412.5, "source": "CIS_COMPUTED" }
+    ],
     "billNumber": "BESCOM-RR-1234-202604",
     "billDate": "2026-05-01",
     "dueDate": "2026-05-21",
     "currency": "INR",
     "amountDue": 4125.0,
     "prepaidBalance": 0.0,
-    "paymentStatus": "UNPAID",
-    "readings": [
-      {
-        "value": 412.5,
-        "reportedMode": "USAGE",
-        "readingType": "kWh imp",
-        "source": "CIS_COMPUTED"
-      }
-    ]
+    "paymentStatus": "UNPAID"
   }
 ]

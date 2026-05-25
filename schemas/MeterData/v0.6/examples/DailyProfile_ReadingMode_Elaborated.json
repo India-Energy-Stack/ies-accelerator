@@ -7,19 +7,13 @@
       {
         "name": "DailyLoadSurveySet",
         "payloadDescriptors": [
-          {
-            "reportedMode": "READING",
-            "readingType": "kWh imp",
-            "multiplier": 1.0
-          }
+          { "readingType": "kWh imp", "reportedMode": "READING", "multiplier": 1.0 }
         ],
         "compactSequences": [
           {
             "name": "DailyEnergySeq",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp"
-              }
+              { "readingType": "kWh imp" }
             ]
           }
         ]
@@ -29,55 +23,35 @@
   {
     "@type": "DailyProfile",
     "profileType": "DAILY",
-    "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "RR-1234"
-      }
-    ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "BESCOM-SM-2025-654321"
-      }
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
     ],
-    "intervalPeriod": {
-      "start": "2026-05-04T00:00:00+05:30",
-      "duration": "P1D"
-    },
     "payloadDescriptorSetRef": "DailyLoadSurveySet",
-    "readings": [
+    "intervalPeriod": { "start": "2026-05-04T00:00:00+05:30", "duration": "P1D" },
+    "intervals": [
       {
-        "readingType": "kWh imp",
-        "reportedMode": "READING",
-        "occurredAt": "2026-05-04T00:00:00+05:30",
-        "closingValue": 1000.0,
-        "openingValue": 0.0,
-        "value": 1000.0
+        "id": 0,
+        "readings": [
+          { "readingType": "kWh imp", "value": 1000.0, "openingValue": 0.0, "closingValue": 1000.0 }
+        ]
       },
       {
-        "readingType": "kWh imp",
-        "reportedMode": "READING",
-        "occurredAt": "2026-05-05T00:00:00+05:30",
-        "closingValue": 1005.5,
-        "openingValue": 1000.0,
-        "value": 5.5
+        "id": 1,
+        "readings": [
+          { "readingType": "kWh imp", "value": 5.5, "openingValue": 1000.0, "closingValue": 1005.5 }
+        ]
       },
       {
-        "readingType": "kWh imp",
-        "reportedMode": "READING",
-        "occurredAt": "2026-05-06T00:00:00+05:30",
-        "closingValue": 1012.3,
-        "openingValue": 1005.5,
-        "value": 6.7999999999999545
+        "id": 2,
+        "readings": [
+          { "readingType": "kWh imp", "value": 6.7999999999999545, "openingValue": 1005.5, "closingValue": 1012.3 }
+        ]
       },
       {
-        "readingType": "kWh imp",
-        "reportedMode": "READING",
-        "occurredAt": "2026-05-07T00:00:00+05:30",
-        "closingValue": 1018.0,
-        "openingValue": 1012.3,
-        "value": 5.7000000000000455
+        "id": 3,
+        "readings": [
+          { "readingType": "kWh imp", "value": 5.7000000000000455, "openingValue": 1012.3, "closingValue": 1018.0 }
+        ]
       }
     ]
   }

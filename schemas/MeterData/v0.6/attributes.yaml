@@ -41,7 +41,6 @@ components:
       description: Slow-changing customer + service-point + meter-list summary.
       required:
       - profileType
-      - customerRefs
       - customer
       - serviceDeliveryPoints
       - meters
@@ -452,7 +451,6 @@ components:
       description: One time-series interval row. payloads[k] is the value for compactSequence[k].
       required:
       - id
-      - payloads
       properties:
         id:
           type: integer
@@ -467,6 +465,10 @@ components:
             - number
             - string
             - boolean
+        readings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reading'
         overrides:
           type: array
           items:
@@ -507,16 +509,18 @@ components:
           type: string
         value:
           type: number
-        reportedMode:
-          $ref: '#/components/schemas/TelemetryMode'
         openingValue:
           type: number
+          description: MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING.
         closingValue:
           type: number
+          description: MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING.
         integrationPeriod:
           type: string
           format: duration
           description: Demand integration period, e.g. PT30M or PT15M.
+        timePeriod:
+          $ref: '#/components/schemas/TimePeriod'
         occurredAt:
           type: string
           format: date-time

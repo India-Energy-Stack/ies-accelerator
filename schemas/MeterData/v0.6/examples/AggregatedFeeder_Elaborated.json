@@ -7,25 +7,15 @@
       {
         "name": "IntervalLoadSurveySet",
         "payloadDescriptors": [
-          {
-            "reportedMode": "USAGE",
-            "readingType": "kWh imp block"
-          },
-          {
-            "reportedMode": "USAGE",
-            "readingType": "kWh exp block"
-          }
+          { "readingType": "kWh imp block", "reportedMode": "USAGE" },
+          { "readingType": "kWh exp block", "reportedMode": "USAGE" }
         ],
         "compactSequences": [
           {
             "name": "IntervalEnergySeq",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp block"
-              },
-              {
-                "readingType": "kWh exp block"
-              }
+              { "readingType": "kWh imp block" },
+              { "readingType": "kWh exp block" }
             ]
           }
         ]
@@ -36,598 +26,349 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
-      {
-        "scheme": "ORG",
-        "value": "UTILITY-01"
-      }
+      { "value": "UTILITY-01", "scheme": "ORG" }
     ],
     "meterRefs": [
-      {
-        "scheme": "OTHER",
-        "value": "FDR-11KV-NDL-072"
-      }
+      { "value": "FDR-11KV-NDL-072", "scheme": "OTHER" }
     ],
-    "intervalPeriod": {
-      "start": "2026-05-18T00:00:00+05:30",
-      "duration": "PT30M"
-    },
     "payloadDescriptorSetRef": "IntervalLoadSurveySet",
-    "readings": [
+    "intervalPeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T00:30:00+05:30",
-        "value": 600
+        "id": 0,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 600 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T00:30:00+05:30",
-        "value": 0
+        "id": 1,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 580 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T01:00:00+05:30",
-        "value": 580
+        "id": 2,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 560 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T01:00:00+05:30",
-        "value": 0
+        "id": 3,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 550 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T01:30:00+05:30",
-        "value": 560
+        "id": 4,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 540 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T01:30:00+05:30",
-        "value": 0
+        "id": 5,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 530 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T02:00:00+05:30",
-        "value": 550
+        "id": 6,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 520 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T02:00:00+05:30",
-        "value": 0
+        "id": 7,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 510 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T02:30:00+05:30",
-        "value": 540
+        "id": 8,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 500 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T02:30:00+05:30",
-        "value": 0
+        "id": 9,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 510 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T03:00:00+05:30",
-        "value": 530
+        "id": 10,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 550 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T03:00:00+05:30",
-        "value": 0
+        "id": 11,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 600 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T03:30:00+05:30",
-        "value": 520
+        "id": 12,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 650 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T03:30:00+05:30",
-        "value": 0
+        "id": 13,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 700 },
+          { "readingType": "kWh exp block", "value": 20 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T04:00:00+05:30",
-        "value": 510
+        "id": 14,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 750 },
+          { "readingType": "kWh exp block", "value": 50 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T04:00:00+05:30",
-        "value": 0
+        "id": 15,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 800 },
+          { "readingType": "kWh exp block", "value": 100 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T04:30:00+05:30",
-        "value": 500
+        "id": 16,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 850 },
+          { "readingType": "kWh exp block", "value": 200 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T04:30:00+05:30",
-        "value": 0
+        "id": 17,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 900 },
+          { "readingType": "kWh exp block", "value": 350 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T05:00:00+05:30",
-        "value": 510
+        "id": 18,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 950 },
+          { "readingType": "kWh exp block", "value": 500 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T05:00:00+05:30",
-        "value": 0
+        "id": 19,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 980 },
+          { "readingType": "kWh exp block", "value": 650 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T05:30:00+05:30",
-        "value": 550
+        "id": 20,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1000 },
+          { "readingType": "kWh exp block", "value": 750 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T05:30:00+05:30",
-        "value": 0
+        "id": 21,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 990 },
+          { "readingType": "kWh exp block", "value": 800 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T06:00:00+05:30",
-        "value": 600
+        "id": 22,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 980 },
+          { "readingType": "kWh exp block", "value": 820 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T06:00:00+05:30",
-        "value": 0
+        "id": 23,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 960 },
+          { "readingType": "kWh exp block", "value": 840 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T06:30:00+05:30",
-        "value": 650
+        "id": 24,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 950 },
+          { "readingType": "kWh exp block", "value": 850 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T06:30:00+05:30",
-        "value": 0
+        "id": 25,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 940 },
+          { "readingType": "kWh exp block", "value": 840 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T07:00:00+05:30",
-        "value": 700
+        "id": 26,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 930 },
+          { "readingType": "kWh exp block", "value": 800 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T07:00:00+05:30",
-        "value": 20
+        "id": 27,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 920 },
+          { "readingType": "kWh exp block", "value": 700 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T07:30:00+05:30",
-        "value": 750
+        "id": 28,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 930 },
+          { "readingType": "kWh exp block", "value": 550 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T07:30:00+05:30",
-        "value": 50
+        "id": 29,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 950 },
+          { "readingType": "kWh exp block", "value": 400 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T08:00:00+05:30",
-        "value": 800
+        "id": 30,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 980 },
+          { "readingType": "kWh exp block", "value": 250 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T08:00:00+05:30",
-        "value": 100
+        "id": 31,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1000 },
+          { "readingType": "kWh exp block", "value": 100 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T08:30:00+05:30",
-        "value": 850
+        "id": 32,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1020 },
+          { "readingType": "kWh exp block", "value": 30 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T08:30:00+05:30",
-        "value": 200
+        "id": 33,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1050 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T09:00:00+05:30",
-        "value": 900
+        "id": 34,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1080 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T09:00:00+05:30",
-        "value": 350
+        "id": 35,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1100 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T09:30:00+05:30",
-        "value": 950
+        "id": 36,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1150 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T09:30:00+05:30",
-        "value": 500
+        "id": 37,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1200 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T10:00:00+05:30",
-        "value": 980
+        "id": 38,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1250 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T10:00:00+05:30",
-        "value": 650
+        "id": 39,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1200 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T10:30:00+05:30",
-        "value": 1000
+        "id": 40,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1100 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T10:30:00+05:30",
-        "value": 750
+        "id": 41,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 1000 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T11:00:00+05:30",
-        "value": 990
+        "id": 42,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 900 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T11:00:00+05:30",
-        "value": 800
+        "id": 43,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 800 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T11:30:00+05:30",
-        "value": 980
+        "id": 44,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 750 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T11:30:00+05:30",
-        "value": 820
+        "id": 45,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 700 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T12:00:00+05:30",
-        "value": 960
+        "id": 46,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 650 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       },
       {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T12:00:00+05:30",
-        "value": 840
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T12:30:00+05:30",
-        "value": 950
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T12:30:00+05:30",
-        "value": 850
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T13:00:00+05:30",
-        "value": 940
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T13:00:00+05:30",
-        "value": 840
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T13:30:00+05:30",
-        "value": 930
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T13:30:00+05:30",
-        "value": 800
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T14:00:00+05:30",
-        "value": 920
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T14:00:00+05:30",
-        "value": 700
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T14:30:00+05:30",
-        "value": 930
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T14:30:00+05:30",
-        "value": 550
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T15:00:00+05:30",
-        "value": 950
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T15:00:00+05:30",
-        "value": 400
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T15:30:00+05:30",
-        "value": 980
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T15:30:00+05:30",
-        "value": 250
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T16:00:00+05:30",
-        "value": 1000
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T16:00:00+05:30",
-        "value": 100
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T16:30:00+05:30",
-        "value": 1020
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T16:30:00+05:30",
-        "value": 30
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T17:00:00+05:30",
-        "value": 1050
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T17:00:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T17:30:00+05:30",
-        "value": 1080
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T17:30:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T18:00:00+05:30",
-        "value": 1100
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T18:00:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T18:30:00+05:30",
-        "value": 1150
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T18:30:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T19:00:00+05:30",
-        "value": 1200
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T19:00:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T19:30:00+05:30",
-        "value": 1250
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T19:30:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T20:00:00+05:30",
-        "value": 1200
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T20:00:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T20:30:00+05:30",
-        "value": 1100
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T20:30:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T21:00:00+05:30",
-        "value": 1000
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T21:00:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T21:30:00+05:30",
-        "value": 900
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T21:30:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T22:00:00+05:30",
-        "value": 800
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T22:00:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T22:30:00+05:30",
-        "value": 750
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T22:30:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T23:00:00+05:30",
-        "value": 700
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T23:00:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T23:30:00+05:30",
-        "value": 650
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-18T23:30:00+05:30",
-        "value": 0
-      },
-      {
-        "readingType": "kWh imp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-19T00:00:00+05:30",
-        "value": 620
-      },
-      {
-        "readingType": "kWh exp block",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-19T00:00:00+05:30",
-        "value": 0
+        "id": 47,
+        "readings": [
+          { "readingType": "kWh imp block", "value": 620 },
+          { "readingType": "kWh exp block", "value": 0 }
+        ]
       }
     ]
   }

@@ -9,9 +9,9 @@
     },
     "@graph": [
         {
-            "@id": "ies:MeterData",
+            "@id": "ies:.",
             "@type": "rdfs:Class",
-            "rdfs:label": "Meter Data",
+            "rdfs:label": ".",
             "rdfs:comment": "Root payload can be a single profile or an array of profiles."
         },
         {
@@ -552,13 +552,13 @@
             "@id": "ies:openingValue",
             "@type": "rdf:Property",
             "rdfs:label": "opening Value",
-            "rdfs:comment": ""
+            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING."
         },
         {
             "@id": "ies:closingValue",
             "@type": "rdf:Property",
             "rdfs:label": "closing Value",
-            "rdfs:comment": ""
+            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=READING."
         },
         {
             "@id": "ies:integrationPeriod",

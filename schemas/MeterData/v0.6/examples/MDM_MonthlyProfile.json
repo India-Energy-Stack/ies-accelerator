@@ -1,0 +1,91 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-MONTHLY",
+    "payloadDescriptorSets": [
+      {
+        "name": "MonthlyBillingSet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.1.8.0.255"
+          },
+          {
+            "name": "Apparent energy import - cumulative (kVAh)",
+            "readingType": "kVAh imp",
+            "unit": "kVAh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.9.8.0.255"
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "READING",
+            "obis": "1.0.2.8.0.255"
+          },
+          {
+            "name": "Maximum demand (kW) - current billing period",
+            "readingType": "MD kW",
+            "unit": "kW",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.6.0.255"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "MonthlyProfile",
+    "profileType": "MONTHLY",
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "MonthlyBillingSet",
+    "timePeriod": { "start": "2026-03-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      { "readingType": "kWh imp", "value": 395.0, "openingValue": 18037.5, "closingValue": 18432.5 },
+      { "readingType": "kVAh imp", "value": 405.0, "openingValue": 18310.4, "closingValue": 18715.4 },
+      { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+      { "readingType": "MD kW", "occurredAt": "2026-03-15T19:30:00+05:30", "value": 7.82, "integrationPeriod": "PT30M" }
+    ]
+  },
+  {
+    "@type": "MonthlyProfile",
+    "profileType": "MONTHLY",
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "MonthlyBillingSet",
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      { "readingType": "kWh imp", "value": 412.5, "openingValue": 18432.5, "closingValue": 18845.0 },
+      { "readingType": "kVAh imp", "value": 421.8, "openingValue": 18715.4, "closingValue": 19137.2 },
+      { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
+    ]
+  },
+  {
+    "@type": "MonthlyProfile",
+    "profileType": "MONTHLY",
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-999999", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "MonthlyBillingSet",
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      { "readingType": "kWh imp", "value": 150.0, "openingValue": 1000.0, "closingValue": 1150.0 },
+      { "readingType": "kVAh imp", "value": 155.0, "openingValue": 1050.0, "closingValue": 1205.0 },
+      { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-10T14:30:00+05:30", "value": 3.42, "integrationPeriod": "PT30M" }
+    ]
+  }
+]

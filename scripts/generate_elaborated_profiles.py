@@ -90,62 +90,56 @@ def expand_profile(profile, descriptor_sets, obis_mapping):
         overrides_map[(ov["intervalId"], ov["descriptorIndex"])] = ov
         
     # We need to track the last reading value for cumulative calculations
-    # But since each interval payload is exactly the value, if it's CUMULATIVE and READING,
-    # the value itself is the closingValue, and the openingValue is the previous interval's value.
     last_values = {}
     
-    for interval in intervals:
-        int_id = interval.get("id", 0)
-        payloads = interval.get("payloads", [])
-        
-        occurred_at = period_start + (int_id + 1) * period_duration
-        if p_type == "DAILY":
-            occurred_at = period_start + int_id * period_duration
-            
-        # Merge readings by readingType
-        merged_readings = {}
-        for col_idx, (val, sinfo) in enumerate(zip(payloads, col_info)):
-            attr = sinfo["attribute"]
-            rt = sinfo["readingType"]
-            
-            if rt not in merged_readings:
-                merged_readings[rt] = {
-                    "readingType": rt,
-                    "reportedMode": sinfo["reportedMode"],
-                    "occurredAt": occurred_at.isoformat()
-                }
-            
-            reading = merged_readings[rt]
-            
-            if sinfo["accBehaviour"] == "CUMULATIVE" and sinfo["reportedMode"] == "READING" and attr == "value":
-                reading["closingValue"] = val
-                reading["openingValue"] = last_values.get(col_idx, 0.0)
-                reading["value"] = val - reading["openingValue"]
-                last_values[col_idx] = val
-            else:
-                reading[attr] = val
-                
-            # Add override info if any
-            ov = overrides_map.get((int_id, col_idx))
-            if ov:
-                for k, v in ov.items():
-                    if k not in ["intervalId", "descriptorIndex"]:
-                        reading[k] = v
-                        
-        readings.extend(merged_readings.values())
-            
-    # Create the elaborated profile
     elaborated = copy.deepcopy(profile)
     
-    # Remove compact properties
-    if "compactSequenceRef" in elaborated:
-        del elaborated["compactSequenceRef"]
     if "intervals" in elaborated:
-        del elaborated["intervals"]
+        for interval in elaborated["intervals"]:
+            int_id = interval.get("id", 0)
+            payloads = interval.get("payloads", [])
+            
+            merged_readings = {}
+            
+            for col_idx, (val, sinfo) in enumerate(zip(payloads, col_info)):
+                attr = sinfo["attribute"]
+                rt = sinfo["readingType"]
+                
+                if rt not in merged_readings:
+                    merged_readings[rt] = {
+                        "readingType": rt
+                    }
+                
+                reading = merged_readings[rt]
+                
+                if sinfo["accBehaviour"] == "CUMULATIVE" and sinfo["reportedMode"] == "READING" and attr == "value":
+                    reading["closingValue"] = val
+                    reading["openingValue"] = last_values.get(col_idx, 0.0)
+                    reading["value"] = val - reading["openingValue"]
+                    last_values[col_idx] = val
+                else:
+                    reading[attr] = val
+                    
+                # Add override info if any
+                ov = overrides_map.get((int_id, col_idx))
+                if ov:
+                    for k, v in ov.items():
+                        if k not in ["intervalId", "descriptorIndex"]:
+                            reading[k] = v
+                            
+            interval["readings"] = list(merged_readings.values())
+            # Remove payloads and overrides
+            if "payloads" in interval:
+                del interval["payloads"]
+            if "overrides" in interval:
+                del interval["overrides"]
+                
+        # Remove compactSequenceRef
+        if "compactSequenceRef" in elaborated:
+            del elaborated["compactSequenceRef"]
     if "overrides" in elaborated:
         del elaborated["overrides"]
         
-    elaborated["readings"] = readings
     return elaborated
     
 def process_file(filepath, obis_mapping):

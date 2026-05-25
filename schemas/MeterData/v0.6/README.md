@@ -94,6 +94,29 @@ python scripts/generate_schema_permissive.py schemas/MeterData/v0.6
 
 ---
 
+## Examples
+
+These examples cover a wide variety of scenarios, organized by the system they typically originate from:
+
+### MDM (Meter Data Management) Examples
+MDM datasets are meter-centric and intentionally omit `customerRefs` to decouple the technical metering domain from the commercial billing domain.
+* `IntervalProfile.json`: Block load survey.
+* `DailyProfile.json`: Daily midnight snapshots.
+* `MDM_MonthlyProfile.json`: End of billing cycle snapshots across multiple meters.
+* `InstantaneousProfile.json`: Snapshot of voltage, current, power factor, etc.
+* `EventProfile.json`: Meter tampers, diagnostics, power outages.
+* `AlarmProfile.json`: Critical thresholds being crossed.
+* `MultiMeterBulkDataset.json`: Large scale transmission of intervals across many meters.
+
+### CIS / Billing Examples
+Billing and CIS examples enrich technical meter data with `customerRefs`, Tou buckets, and monetary calculations.
+* `Billing_MonthlyProfile.json`: Usage-centric monthly consumption linked to consumers.
+* `CustomerProfile.json`: Linking meters, service delivery points, and customers.
+* `BillDetails.json`: Computed monetary bill with due dates and calculated consumption.
+* `CustomerBillingSummary.json`: Historic billing trends for a consumer dashboard.
+
+---
+
 ## Telemetry Verification & Validation
 
 Example JSON files are validated for structural compliance against `schema.json` and semantic compliance against `OBISMapping.json` using the v0.6 validator.

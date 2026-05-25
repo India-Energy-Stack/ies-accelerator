@@ -1,85 +1,40 @@
 {
   "@type": "MonthlyProfile",
   "profileType": "MONTHLY",
-  "customerRefs": [
-    {
-      "scheme": "CONSUMER_NUMBER",
-      "value": "RR-1234"
-    }
-  ],
   "meterRefs": [
-    {
-      "scheme": "METER_SERIAL",
-      "value": "BESCOM-SM-2025-654321"
-    }
+    { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
   ],
-  "timePeriod": {
-    "start": "2026-04-01T00:00:00+05:30",
-    "duration": "P1M"
-  },
+  "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
   "readings": [
-    {
-      "value": 412.5,
-      "openingValue": 18432.5,
-      "closingValue": 18845.0,
-      "readingType": "kWh imp"
-    },
-    {
-      "value": 421.8,
-      "openingValue": 18715.4,
-      "closingValue": 19137.2,
-      "readingType": "kVAh imp"
-    },
-    {
-      "value": 0.0,
-      "openingValue": 0.0,
-      "closingValue": 0.0,
-      "readingType": "kWh exp"
-    },
-    {
-      "value": 8.42,
-      "reportedMode": "USAGE",
-      "occurredAt": "2026-04-23T19:30:00+05:30",
-      "integrationPeriod": "PT30M",
-      "readingType": "1.0.1.6.0.255"
-    }
+    { "readingType": "kWh imp", "value": 412.5, "openingValue": 18432.5, "closingValue": 18845.0 },
+    { "readingType": "kVAh imp", "value": 421.8, "openingValue": 18715.4, "closingValue": 19137.2 },
+    { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+    { "readingType": "1.0.1.6.0.255", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
   ],
   "touBuckets": [
     {
-      "zone": 1,
       "readings": [
-        {
-          "value": 138.2,
-          "readingType": "kWh TZ1"
-        }
-      ]
+        { "readingType": "kWh TZ1", "value": 138.2 }
+      ],
+      "zone": 1
     },
     {
-      "zone": 2,
       "readings": [
-        {
-          "value": 62.4,
-          "readingType": "kWh TZ2"
-        }
-      ]
+        { "readingType": "kWh TZ2", "value": 62.4 }
+      ],
+      "zone": 2
     },
     {
-      "zone": 3,
       "readings": [
-        {
-          "value": 174.0,
-          "readingType": "kWh TZ3"
-        }
-      ]
+        { "readingType": "kWh TZ3", "value": 174.0 }
+      ],
+      "zone": 3
     },
     {
-      "zone": 4,
       "readings": [
-        {
-          "value": 37.9,
-          "readingType": "kWh TZ4"
-        }
-      ]
+        { "readingType": "kWh TZ4", "value": 37.9 }
+      ],
+      "zone": 4
     }
   ]
 }

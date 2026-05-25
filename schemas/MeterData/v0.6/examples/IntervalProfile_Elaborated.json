@@ -8,34 +8,28 @@
         "name": "IntervalLoadSurveySet",
         "payloadDescriptors": [
           {
-            "readingType": "kWh imp",
-            "obis": "1.0.1.8.0.255",
             "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
             "unit": "kWh",
             "flowDirection": "IMPORT",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255"
           },
           {
-            "readingType": "kWh exp",
-            "obis": "1.0.2.8.0.255",
             "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
             "unit": "kWh",
             "flowDirection": "EXPORT",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "obis": "1.0.2.8.0.255"
           }
         ],
         "compactSequences": [
           {
             "name": "IntervalEnergySeq",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp",
-                "attribute": "value"
-              },
-              {
-                "readingType": "kWh exp",
-                "attribute": "value"
-              }
+              { "readingType": "kWh imp", "attribute": "value" },
+              { "readingType": "kWh exp", "attribute": "value" }
             ]
           }
         ]
@@ -45,77 +39,42 @@
   {
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
-    "customerRefs": [
-      {
-        "scheme": "CONSUMER_NUMBER",
-        "value": "RR-1234"
-      }
+    "serviceDeliveryPointRefs": [
+      { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" }
     ],
     "meterRefs": [
-      {
-        "scheme": "METER_SERIAL",
-        "value": "BESCOM-SM-2025-654321"
-      }
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
     ],
-    "serviceDeliveryPointRefs": [
-      {
-        "scheme": "SERVICE_DELIVERY_POINT",
-        "value": "SDP-BLR-A-12345"
-      }
-    ],
-    "intervalPeriod": {
-      "start": "2026-05-04T09:00:00+05:30",
-      "duration": "PT30M"
-    },
     "payloadDescriptorSetRef": "IntervalLoadSurveySet",
-    "readings": [
+    "intervalPeriod": { "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
       {
-        "readingType": "kWh imp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T09:30:00+05:30",
-        "value": 4.62
+        "id": 0,
+        "readings": [
+          { "readingType": "kWh imp", "value": 4.62 },
+          { "readingType": "kWh exp", "value": 0.0 }
+        ]
       },
       {
-        "readingType": "kWh exp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T09:30:00+05:30",
-        "value": 0.0
+        "id": 1,
+        "readings": [
+          { "readingType": "kWh imp", "value": 4.85 },
+          { "readingType": "kWh exp", "value": 0.0 }
+        ]
       },
       {
-        "readingType": "kWh imp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T10:00:00+05:30",
-        "value": 4.85
+        "id": 2,
+        "readings": [
+          { "readingType": "kWh imp", "value": 5.21 },
+          { "readingType": "kWh exp", "value": 0.12 }
+        ]
       },
       {
-        "readingType": "kWh exp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T10:00:00+05:30",
-        "value": 0.0
-      },
-      {
-        "readingType": "kWh imp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T10:30:00+05:30",
-        "value": 5.21
-      },
-      {
-        "readingType": "kWh exp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T10:30:00+05:30",
-        "value": 0.12
-      },
-      {
-        "readingType": "kWh imp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T11:00:00+05:30",
-        "value": 5.04
-      },
-      {
-        "readingType": "kWh exp",
-        "reportedMode": "USAGE",
-        "occurredAt": "2026-05-04T11:00:00+05:30",
-        "value": 0.0
+        "id": 3,
+        "readings": [
+          { "readingType": "kWh imp", "value": 5.04 },
+          { "readingType": "kWh exp", "value": 0.0 }
+        ]
       }
     ]
   }

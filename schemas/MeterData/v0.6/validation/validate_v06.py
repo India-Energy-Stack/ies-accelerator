@@ -9,7 +9,6 @@ def load_obis_mapping(path):
     return {entry["obis"]: entry for entry in data.get("codes", [])}
 
 def resolve_reading_type(reading_type, obis_mapping):
-    print(f"DEBUG: resolving {reading_type}, in dict? {reading_type in obis_mapping}, len(dict)={len(obis_mapping)}")
     if reading_type in obis_mapping:
         return reading_type, obis_mapping[reading_type]
     for code, info in obis_mapping.items():
@@ -55,8 +54,6 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                     if prop in desc and prop in info and desc[prop] != info[prop]:
                         errors.append(f"DescriptorSet '{ds_name}' Descriptor '{rt}' {prop} mismatch: Inline '{desc[prop]}', Canonical '{info[prop]}'")
             else:
-                print(f"DEBUG: obis_mapping keys: {list(obis_mapping.keys())}")
-                print(f"DEBUG: Failed to resolve '{rt}' (type: {type(rt)}), len={len(rt)}")
                 errors.append(f"DescriptorSet '{ds_name}', Descriptor '{rt}': readingType could not be resolved in OBISMapping.json")
                 
     # 3. Validate Data Profiles
@@ -171,6 +168,9 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                         
         # General Readings Validation
         for reading in profile.get("readings", []):
+            if "reportedMode" in reading:
+                errors.append(f"Profile {p_idx} Reading: 'reportedMode' MUST NOT be present in elaborated reading objects. It belongs in the payload descriptor.")
+                
             rt = reading.get("readingType")
             code, info = resolve_reading_type(rt, obis_mapping)
             if not code:
@@ -183,19 +183,27 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                     errors.append(f"Profile {p_idx} Reading '{rt}': Meter Category '{meter_category}' is not in supported categories {supported_cats}.")
             
             if info:
-                reported_mode = reading.get("reportedMode", info.get("defaultMode", "READING"))
-                supported_modes = info.get("supportedModes", ["READING"])
-                if reported_mode not in supported_modes:
-                    errors.append(f"Profile {p_idx} Reading '{rt}': Mode '{reported_mode}' not in supported modes {supported_modes}.")
+                # We can't know reportedMode easily here unless we pass down the descriptor context.
+                # However, we can strictly check allowedAttributes from OBISMapping.
+                allowed_attrs = info.get("allowedAttributes", ["value"])
+                allowed_attrs.extend(["readingType", "intervalPeriod", "reportedMode"]) # reportedMode technically illegal but checked above.
+                for attr in reading:
+                    if attr not in allowed_attrs:
+                        errors.append(f"Profile {p_idx} Reading '{rt}': attribute '{attr}' is not allowed for this reading type by OBISMapping. Allowed: {allowed_attrs}")
                 
-                if info.get("accumulationBehaviour") == "CUMULATIVE" and reported_mode == "READING":
-                    val = reading.get("value")
-                    opening = reading.get("openingValue")
-                    closing = reading.get("closingValue")
-                    if val is not None and opening is not None and closing is not None:
-                        expected_val = closing - opening
-                        if abs(val - expected_val) > 1e-5:
-                            errors.append(f"Profile {p_idx} Reading ({code}): Usage math inconsistency. closing ({closing}) - opening ({opening}) = {expected_val}, but value is {val}")
+                # Check opening/closing value constraint:
+                opening = reading.get("openingValue")
+                closing = reading.get("closingValue")
+                if opening is not None or closing is not None:
+                    if "openingValue" not in allowed_attrs:
+                        errors.append(f"Profile {p_idx} Reading '{rt}': 'openingValue'/'closingValue' are NOT permitted for this reading type.")
+                    # Math consistency for cumulative readings
+                    if info.get("accumulationBehaviour") == "CUMULATIVE":
+                        val = reading.get("value")
+                        if val is not None and opening is not None and closing is not None:
+                            expected_val = closing - opening
+                            if abs(val - expected_val) > 1e-5:
+                                errors.append(f"Profile {p_idx} Reading ({code}): Usage math inconsistency. closing ({closing}) - opening ({opening}) = {expected_val}, but value is {val}")
 
     return errors
 
