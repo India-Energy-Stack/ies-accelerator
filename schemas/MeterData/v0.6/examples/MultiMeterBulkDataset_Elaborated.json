@@ -7,15 +7,25 @@
       {
         "name": "IntervalLoadSurveySet_90661e",
         "payloadDescriptors": [
-          { "readingType": "1.0.1.29.0.255", "reportedMode": "USAGE" },
-          { "readingType": "1.0.9.29.0.255", "reportedMode": "USAGE" }
+          {
+            "readingType": "1.0.1.29.0.255",
+            "reportedMode": "USAGE"
+          },
+          {
+            "readingType": "1.0.9.29.0.255",
+            "reportedMode": "USAGE"
+          }
         ],
         "compactSequences": [
           {
             "name": "IntervalEnergySeq_90661e",
             "sequenceItems": [
-              { "readingType": "1.0.1.29.0.255" },
-              { "readingType": "1.0.9.29.0.255" }
+              {
+                "readingType": "1.0.1.29.0.255"
+              },
+              {
+                "readingType": "1.0.9.29.0.255"
+              }
             ]
           }
         ]
@@ -23,13 +33,18 @@
       {
         "name": "IntervalLoadSurveySet_531f01",
         "payloadDescriptors": [
-          { "readingType": "1.0.1.29.0.255", "reportedMode": "USAGE" }
+          {
+            "readingType": "1.0.1.29.0.255",
+            "reportedMode": "USAGE"
+          }
         ],
         "compactSequences": [
           {
             "name": "IntervalEnergySeq_531f01",
             "sequenceItems": [
-              { "readingType": "1.0.1.29.0.255" }
+              {
+                "readingType": "1.0.1.29.0.255"
+              }
             ]
           }
         ]
@@ -37,15 +52,25 @@
       {
         "name": "DailyLoadSurveySet_239a13",
         "payloadDescriptors": [
-          { "readingType": "1.0.1.8.0.255", "reportedMode": "READING" },
-          { "readingType": "1.0.9.8.0.255", "reportedMode": "READING" }
+          {
+            "readingType": "1.0.1.8.0.255",
+            "reportedMode": "READING"
+          },
+          {
+            "readingType": "1.0.9.8.0.255",
+            "reportedMode": "READING"
+          }
         ],
         "compactSequences": [
           {
             "name": "DailyEnergySeq_239a13",
             "sequenceItems": [
-              { "readingType": "1.0.1.8.0.255" },
-              { "readingType": "1.0.9.8.0.255" }
+              {
+                "readingType": "1.0.1.8.0.255"
+              },
+              {
+                "readingType": "1.0.9.8.0.255"
+              }
             ]
           }
         ]
@@ -53,13 +78,18 @@
       {
         "name": "DailyLoadSurveySet_9a6e3c",
         "payloadDescriptors": [
-          { "readingType": "1.0.1.8.0.255", "reportedMode": "READING" }
+          {
+            "readingType": "1.0.1.8.0.255",
+            "reportedMode": "READING"
+          }
         ],
         "compactSequences": [
           {
             "name": "DailyEnergySeq_9a6e3c",
             "sequenceItems": [
-              { "readingType": "1.0.1.8.0.255" }
+              {
+                "readingType": "1.0.1.8.0.255"
+              }
             ]
           }
         ]
@@ -67,9 +97,18 @@
       {
         "name": "BillingSet_BillDetails",
         "payloadDescriptors": [
-          { "readingType": "1.0.1.8.0.255", "reportedMode": "USAGE" },
-          { "readingType": "1.0.9.8.0.255", "reportedMode": "USAGE" },
-          { "readingType": "1.0.1.6.0.255", "reportedMode": "USAGE" }
+          {
+            "readingType": "1.0.1.8.0.255",
+            "reportedMode": "USAGE"
+          },
+          {
+            "readingType": "1.0.9.8.0.255",
+            "reportedMode": "USAGE"
+          },
+          {
+            "readingType": "1.0.1.6.0.255",
+            "reportedMode": "USAGE"
+          }
         ]
       }
     ]
@@ -79,7 +118,10 @@
     "profileType": "CUSTOMER",
     "timeZone": "Asia/Kolkata",
     "customer": {
-      "id": { "value": "CONSUMER-ACME-8888", "scheme": "CONSUMER_NUMBER" },
+      "id": {
+        "value": "CONSUMER-ACME-8888",
+        "scheme": "CONSUMER_NUMBER"
+      },
       "name": "Acme Industries Pvt Ltd",
       "consumerCategory": "NDS",
       "sanctionedLoadKw": 45.0,
@@ -87,7 +129,10 @@
     },
     "serviceDeliveryPoints": [
       {
-        "id": { "value": "SDP-ACME-MAIN-01", "scheme": "SERVICE_DELIVERY_POINT" },
+        "id": {
+          "value": "SDP-ACME-MAIN-01",
+          "scheme": "SERVICE_DELIVERY_POINT"
+        },
         "addressLine": "12 MG Road",
         "city": "Bengaluru",
         "postalCode": "560001",
@@ -95,7 +140,10 @@
         "longitude": 77.6064
       },
       {
-        "id": { "value": "SDP-ACME-AUX-02", "scheme": "SERVICE_DELIVERY_POINT" },
+        "id": {
+          "value": "SDP-ACME-AUX-02",
+          "scheme": "SERVICE_DELIVERY_POINT"
+        },
         "addressLine": "456 Indiranagar",
         "city": "Bengaluru",
         "postalCode": "560038",
@@ -105,14 +153,20 @@
     ],
     "meters": [
       {
-        "id": { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" },
+        "id": {
+          "value": "METER-GENUS-01",
+          "scheme": "METER_SERIAL"
+        },
         "manufacturer": "Genus",
         "modelNumber": "SM-3PH-4W-WC",
         "meterCategory": "D2",
         "serviceKind": "ELECTRICITY"
       },
       {
-        "id": { "value": "METER-HPL-02", "scheme": "METER_SERIAL" },
+        "id": {
+          "value": "METER-HPL-02",
+          "scheme": "METER_SERIAL"
+        },
         "manufacturer": "HPL",
         "modelNumber": "SM-1PH-2W-WC",
         "meterCategory": "D1",
@@ -122,19 +176,31 @@
     "associations": [
       {
         "serviceDeliveryPointRefs": [
-          { "value": "SDP-ACME-MAIN-01", "scheme": "SERVICE_DELIVERY_POINT" }
+          {
+            "value": "SDP-ACME-MAIN-01",
+            "scheme": "SERVICE_DELIVERY_POINT"
+          }
         ],
         "meterRefs": [
-          { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" }
+          {
+            "value": "METER-GENUS-01",
+            "scheme": "METER_SERIAL"
+          }
         ],
         "installedAt": "2026-05-04T10:00:00+05:30"
       },
       {
         "serviceDeliveryPointRefs": [
-          { "value": "SDP-ACME-AUX-02", "scheme": "SERVICE_DELIVERY_POINT" }
+          {
+            "value": "SDP-ACME-AUX-02",
+            "scheme": "SERVICE_DELIVERY_POINT"
+          }
         ],
         "meterRefs": [
-          { "value": "METER-HPL-02", "scheme": "METER_SERIAL" }
+          {
+            "value": "METER-HPL-02",
+            "scheme": "METER_SERIAL"
+          }
         ],
         "installedAt": "2026-05-04T10:30:00+05:30"
       }
@@ -144,26 +210,47 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      { "value": "SDP-ACME-MAIN-01", "scheme": "SERVICE_DELIVERY_POINT" }
+      {
+        "value": "SDP-ACME-MAIN-01",
+        "scheme": "SERVICE_DELIVERY_POINT"
+      }
     ],
     "meterRefs": [
-      { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-GENUS-01",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet_90661e",
-    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+    "intervalPeriod": {
+      "start": "2026-05-18T10:00:00+05:30",
+      "duration": "PT30M"
+    },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          { "readingType": "1.0.1.29.0.255", "value": 14.5 },
-          { "readingType": "1.0.9.29.0.255", "value": 15.1 }
+          {
+            "readingType": "1.0.1.29.0.255",
+            "value": 14.5
+          },
+          {
+            "readingType": "1.0.9.29.0.255",
+            "value": 15.1
+          }
         ]
       },
       {
         "id": 1,
         "readings": [
-          { "readingType": "1.0.1.29.0.255", "value": 16.2 },
-          { "readingType": "1.0.9.29.0.255", "value": 16.8 }
+          {
+            "readingType": "1.0.1.29.0.255",
+            "value": 16.2
+          },
+          {
+            "readingType": "1.0.9.29.0.255",
+            "value": 16.8
+          }
         ]
       }
     ]
@@ -172,24 +259,39 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      { "value": "SDP-ACME-AUX-02", "scheme": "SERVICE_DELIVERY_POINT" }
+      {
+        "value": "SDP-ACME-AUX-02",
+        "scheme": "SERVICE_DELIVERY_POINT"
+      }
     ],
     "meterRefs": [
-      { "value": "METER-HPL-02", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-HPL-02",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet_531f01",
-    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT15M" },
+    "intervalPeriod": {
+      "start": "2026-05-18T10:00:00+05:30",
+      "duration": "PT15M"
+    },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          { "readingType": "1.0.1.29.0.255", "value": 2.1 }
+          {
+            "readingType": "1.0.1.29.0.255",
+            "value": 2.1
+          }
         ]
       },
       {
         "id": 1,
         "readings": [
-          { "readingType": "1.0.1.29.0.255", "value": 2.4 }
+          {
+            "readingType": "1.0.1.29.0.255",
+            "value": 2.4
+          }
         ]
       }
     ]
@@ -198,16 +300,28 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-GENUS-01",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet_239a13",
-    "intervalPeriod": { "start": "2026-05-17T00:00:00+05:30", "duration": "P1D" },
+    "intervalPeriod": {
+      "start": "2026-05-17T00:00:00+05:30",
+      "duration": "P1D"
+    },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          { "readingType": "1.0.1.8.0.255", "value": 24512.4 },
-          { "readingType": "1.0.9.8.0.255", "value": 25134.8 }
+          {
+            "readingType": "1.0.1.8.0.255",
+            "value": 24512.4
+          },
+          {
+            "readingType": "1.0.9.8.0.255",
+            "value": 25134.8
+          }
         ]
       }
     ]
@@ -216,15 +330,24 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      { "value": "METER-HPL-02", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-HPL-02",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet_9a6e3c",
-    "intervalPeriod": { "start": "2026-05-17T00:00:00+05:30", "duration": "P1D" },
+    "intervalPeriod": {
+      "start": "2026-05-17T00:00:00+05:30",
+      "duration": "P1D"
+    },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          { "readingType": "1.0.1.8.0.255", "value": 4325.7 }
+          {
+            "readingType": "1.0.1.8.0.255",
+            "value": 4325.7
+          }
         ]
       }
     ]
@@ -233,14 +356,35 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "meterRefs": [
-      { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-GENUS-01",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "BillingSet_BillDetails",
-    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "timePeriod": {
+      "start": "2026-04-01T00:00:00+05:30",
+      "duration": "P1M"
+    },
     "readings": [
-      { "readingType": "1.0.1.8.0.255", "value": 5800.0, "openingValue": 18500.0, "closingValue": 24300.0 },
-      { "readingType": "1.0.9.8.0.255", "value": 6050.0, "openingValue": 18900.0, "closingValue": 24950.0 },
-      { "readingType": "1.0.1.6.0.255", "occurredAt": "2026-04-18T14:30:00+05:30", "value": 42.5, "integrationPeriod": "PT30M" }
+      {
+        "readingType": "1.0.1.8.0.255",
+        "value": 5800.0,
+        "openingValue": 18500.0,
+        "closingValue": 24300.0
+      },
+      {
+        "readingType": "1.0.9.8.0.255",
+        "value": 6050.0,
+        "openingValue": 18900.0,
+        "closingValue": 24950.0
+      },
+      {
+        "readingType": "1.0.1.6.0.255",
+        "occurredAt": "2026-04-18T14:30:00+05:30",
+        "value": 42.5,
+        "integrationPeriod": "PT30M"
+      }
     ],
     "billNumber": "BILL-ACME-MAIN-202604",
     "billDate": "2026-05-01",
@@ -250,13 +394,19 @@
     "touBuckets": [
       {
         "readings": [
-          { "readingType": "1.0.1.8.1.255", "value": 1500.0 }
+          {
+            "readingType": "1.0.1.8.1.255",
+            "value": 1500.0
+          }
         ],
         "zone": 1
       },
       {
         "readings": [
-          { "readingType": "1.0.1.8.2.255", "value": 2400.0 }
+          {
+            "readingType": "1.0.1.8.2.255",
+            "value": 2400.0
+          }
         ],
         "zone": 2
       }
@@ -266,12 +416,23 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "meterRefs": [
-      { "value": "METER-HPL-02", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-HPL-02",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "BillingSet_BillDetails",
-    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "timePeriod": {
+      "start": "2026-04-01T00:00:00+05:30",
+      "duration": "P1M"
+    },
     "readings": [
-      { "readingType": "1.0.1.8.0.255", "value": 950.0, "openingValue": 3200.0, "closingValue": 4150.0 }
+      {
+        "readingType": "1.0.1.8.0.255",
+        "value": 950.0,
+        "openingValue": 3200.0,
+        "closingValue": 4150.0
+      }
     ],
     "billNumber": "BILL-ACME-AUX-202604",
     "billDate": "2026-05-01",
@@ -283,13 +444,28 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "meterRefs": [
-      { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-GENUS-01",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "readings": [
-      { "readingType": "1.0.32.7.0.255", "value": 240.2 },
-      { "readingType": "1.0.52.7.0.255", "value": 239.8 },
-      { "readingType": "1.0.72.7.0.255", "value": 241.1 },
-      { "readingType": "1.0.31.7.0.255", "value": 58.4 }
+      {
+        "readingType": "1.0.32.7.0.255",
+        "value": 240.2
+      },
+      {
+        "readingType": "1.0.52.7.0.255",
+        "value": 239.8
+      },
+      {
+        "readingType": "1.0.72.7.0.255",
+        "value": 241.1
+      },
+      {
+        "readingType": "1.0.31.7.0.255",
+        "value": 58.4
+      }
     ],
     "timestamp": "2026-05-18T12:00:00+05:30"
   },
@@ -297,11 +473,20 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "meterRefs": [
-      { "value": "METER-HPL-02", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-HPL-02",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "readings": [
-      { "readingType": "1.0.12.7.0.255", "value": 238.5 },
-      { "readingType": "1.0.11.7.0.255", "value": 14.2 }
+      {
+        "readingType": "1.0.12.7.0.255",
+        "value": 238.5
+      },
+      {
+        "readingType": "1.0.11.7.0.255",
+        "value": 14.2
+      }
     ],
     "timestamp": "2026-05-18T12:00:00+05:30"
   },
@@ -309,23 +494,74 @@
     "@type": "EventProfile",
     "profileType": "EVENT",
     "meterRefs": [
-      { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-GENUS-01",
+        "scheme": "METER_SERIAL"
+      }
     ],
-    "timePeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H" },
+    "timePeriod": {
+      "start": "2026-05-18T00:00:00+05:30",
+      "duration": "PT12H"
+    },
     "events": [
-      { "timestamp": "2026-05-18T08:15:00+05:30", "eventId": 101, "eventName": "Power Failure - occurrence" },
-      { "timestamp": "2026-05-18T08:20:00+05:30", "eventId": 102, "eventName": "Power Failure - restoration" }
+      {
+        "timestamp": "2026-05-18T08:15:00+05:30",
+        "eventId": 101,
+        "eventName": "Power Failure - occurrence"
+      },
+      {
+        "timestamp": "2026-05-18T08:20:00+05:30",
+        "eventId": 102,
+        "eventName": "Power Failure - restoration"
+      }
     ]
   },
   {
     "@type": "EventProfile",
     "profileType": "EVENT",
     "meterRefs": [
-      { "value": "METER-HPL-02", "scheme": "METER_SERIAL" }
+      {
+        "value": "METER-HPL-02",
+        "scheme": "METER_SERIAL"
+      }
     ],
-    "timePeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H" },
+    "timePeriod": {
+      "start": "2026-05-18T00:00:00+05:30",
+      "duration": "PT12H"
+    },
     "events": [
-      { "timestamp": "2026-05-18T09:30:00+05:30", "eventId": 205, "eventName": "Meter Cover Open - occurrence" }
+      {
+        "timestamp": "2026-05-18T09:30:00+05:30",
+        "eventId": 205,
+        "eventName": "Meter Cover Open - occurrence"
+      }
+    ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+    "@type": "AlarmProfile",
+    "profileType": "ALARM",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "CONSUMER-ACME-8888"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "METER-HPL-02"
+      }
+    ],
+    "timestamp": "2026-05-18T09:30:00+05:30",
+    "alarms": [
+      {
+        "timestamp": "2026-05-18T09:30:00+05:30",
+        "alarmId": 6,
+        "alarmName": "Meter Cover Open",
+        "status": "ACTIVE",
+        "severity": "CRITICAL"
+      }
     ]
   }
 ]

@@ -38,6 +38,7 @@ The inheritance model in `attributes.yaml` has been strictly refactored:
 
 ### Array-Based Profile Exchange
 
+#### Monthly Profile Example:
 ```json
 [
   {

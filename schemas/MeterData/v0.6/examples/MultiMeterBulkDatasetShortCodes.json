@@ -378,5 +378,26 @@
     "events": [
       { "timestamp": "2026-05-18T09:30:00+05:30", "eventId": 205, "eventName": "Meter Cover Open - occurrence" }
     ]
+  },
+  {
+    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/source/main/schemas/MeterData/v0.6/context.jsonld",
+    "@type": "AlarmProfile",
+    "profileType": "ALARM",
+    "customerRefs": [
+      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
+    ],
+    "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
+    ],
+    "timestamp": "2026-05-18T09:30:00+05:30",
+    "alarms": [
+      {
+        "timestamp": "2026-05-18T09:30:00+05:30",
+        "alarmId": 6,
+        "alarmName": "Meter Cover Open",
+        "status": "ACTIVE",
+        "severity": "CRITICAL"
+      }
+    ]
   }
 ]

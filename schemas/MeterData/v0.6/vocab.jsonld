@@ -285,6 +285,12 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:touBuckets",
+            "@type": "rdf:Property",
+            "rdfs:label": "tou Buckets",
+            "rdfs:comment": ""
+        },
+        {
             "@id": "ies:billNumber",
             "@type": "rdf:Property",
             "rdfs:label": "bill Number",

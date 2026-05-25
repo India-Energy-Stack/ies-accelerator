@@ -1296,7 +1296,10 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
       </li>
       </ul>
       <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#detailed-payload-examples">Detailed Payload Examples</a>      <ul>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#array-based-profile-exchange">Array-Based Profile Exchange</a>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#array-based-profile-exchange">Array-Based Profile Exchange</a>        <ul>
+          <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#monthly-profile-example">Monthly Profile Example:</a>
+        </li>
+        </ul>
       </li>
       </ul>
     </li>
