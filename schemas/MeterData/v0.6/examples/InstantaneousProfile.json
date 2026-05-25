@@ -12,72 +12,89 @@
   "readings": [
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.32.7.0.255" },
-      "value": 231.2
+      "value": 231.2,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.52.7.0.255" },
-      "value": 230.8
+      "value": 230.8,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.72.7.0.255" },
-      "value": 232.1
+      "value": 232.1,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.31.7.0.255" },
-      "value": 12.4
+      "value": 12.4,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.51.7.0.255" },
-      "value": 11.9
+      "value": 11.9,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.71.7.0.255" },
-      "value": 12.8
+      "value": 12.8,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.33.7.0.255" },
-      "value": 0.93
+      "value": 0.93,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.53.7.0.255" },
-      "value": 0.95
+      "value": 0.95,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.73.7.0.255" },
-      "value": 0.94
+      "value": 0.94,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.13.7.0.255" },
-      "value": 0.94
+      "value": 0.94,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.14.7.0.255" },
-      "value": 50.02
+      "value": 50.02,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.7.0.255" },
-      "value": 8.32
+      "value": 8.32,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.3.7.0.255" },
-      "value": 2.1
+      "value": 2.1,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.9.7.0.255" },
-      "value": 8.58
+      "value": 8.58,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
-      "value": 18723.4
+      "value": 18723.4,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.2.8.0.255" },
-      "value": 0.0
+      "value": 0.0,
+      "reportedMode": "READING"
     },
     {
       "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
       "value": 8.42,
-      "occurredAt": "2026-04-23T19:30:00+05:30"
+      "occurredAt": "2026-04-23T19:30:00+05:30",
+      "reportedMode": "USAGE"
     }
   ]
 }

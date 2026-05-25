@@ -8,7 +8,6 @@
   "meterRefs": [
     { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
   ],
-  "timePeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P7D"  },
   "events": [
     {
       "timestamp": "2026-05-04T03:12:45+05:30",
@@ -55,5 +54,9 @@
       "eventName": "RTC_SET",
       "sequence": 1240
     }
-  ]
+  ],
+  "timePeriod": {
+    "start": "2026-05-04T00:00:00+05:30",
+    "duration": "P7D"
+  }
 }

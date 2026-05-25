@@ -8,85 +8,115 @@
   "meterRefs": [
     { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
   ],
-  "timePeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P7D"  },
-  "intervalBlocks": [
+  "payloadDescriptorSet": {
+    "name": "DailyLoadSurveySet",
+    "payloadDescriptors": [
+      {
+        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+        "reportedMode": "READING"
+      },
+      {
+        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.2.8.0.255" },
+        "reportedMode": "READING"
+      },
+      {
+        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+        "reportedMode": "USAGE"
+      }
+    ],
+    "compactSequences": [
+      {
+        "name": "DailyEnergySeq",
+        "sequenceItems": [
+          {
+            "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
+            "reportedMode": "READING"
+          },
+          {
+            "readingTypeRef": { "scheme": "OBIS", "value": "1.0.2.8.0.255" },
+            "reportedMode": "READING"
+          },
+          {
+            "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+            "reportedMode": "USAGE"
+          }
+        ]
+      }
+    ]
+  },
+  "compactSequenceRef": "DailyEnergySeq",
+  "intervalPeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P1D"  },
+  "intervals": [
     {
-      "timePeriod": {  "start": "2026-05-04T00:00:00+05:30", "duration": "P1D"  },
-      "payloadDescriptors": [
-        {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
-          "accumulationBehaviour": "DELTA"
-        },
-        {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.2.8.0.255" },
-          "accumulationBehaviour": "DELTA"
-        },
-        {
-          "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
-          "accumulationBehaviour": "INSTANTANEOUS"
-        }
-      ],
-      "intervals": [
-        {
-          "id": 0,
-          "values": [98.4, 0.0, 8.42]
-        },
-        {
-          "id": 1,
-          "values": [105.2, 0.0, 9.15]
-        },
-        {
-          "id": 2,
-          "values": [101.8, 0.0, 8.74]
-        },
-        {
-          "id": 3,
-          "values": [96.5, 0.0, 7.92]
-        },
-        {
-          "id": 4,
-          "values": [108.7, 0.0, 9.41]
-        },
-        {
-          "id": 5,
-          "values": [74.3, 0.0, 6.18]
-        },
-        {
-          "id": 6,
-          "values": [71.9, 0.0, 6.02]
-        }
-      ],
+      "id": 0,
+      "payloads": [1000.0, 0.0, 8.42],
       "overrides": [
         {
           "intervalId": 0,
           "descriptorIndex": 2,
           "occurredAt": "2026-05-04T19:30:00+05:30"
-        },
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "payloads": [1005.2, 0.0, 9.15],
+      "overrides": [
         {
           "intervalId": 1,
           "descriptorIndex": 2,
           "occurredAt": "2026-05-05T20:00:00+05:30"
-        },
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "payloads": [1011.8, 0.0, 8.74],
+      "overrides": [
         {
           "intervalId": 2,
           "descriptorIndex": 2,
           "occurredAt": "2026-05-06T19:00:00+05:30"
-        },
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "payloads": [1016.5, 0.0, 7.92],
+      "overrides": [
         {
           "intervalId": 3,
           "descriptorIndex": 2,
           "occurredAt": "2026-05-07T18:30:00+05:30"
-        },
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "payloads": [1022.7, 0.0, 9.41],
+      "overrides": [
         {
           "intervalId": 4,
           "descriptorIndex": 2,
           "occurredAt": "2026-05-08T20:15:00+05:30"
-        },
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "payloads": [1028.3, 0.0, 6.18],
+      "overrides": [
         {
           "intervalId": 5,
           "descriptorIndex": 2,
           "occurredAt": "2026-05-09T13:45:00+05:30"
-        },
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "payloads": [1034.9, 0.0, 6.02],
+      "overrides": [
         {
           "intervalId": 6,
           "descriptorIndex": 2,
@@ -94,5 +124,9 @@
         }
       ]
     }
-  ]
+  ],
+  "timePeriod": {
+    "start": "2026-05-04T00:00:00+05:30",
+    "duration": "P7D"
+  }
 }
