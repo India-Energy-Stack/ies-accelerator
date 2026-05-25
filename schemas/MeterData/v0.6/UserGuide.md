@@ -1,6 +1,6 @@
-# MeterData v0.6 User Guide
+# MeterData User Guide
 
-This user guide explains how to design, exchange, and process `MeterData` v0.6 payloads within modern utility architectures, including Head-End Systems (HES), Meter Data Management (MDM) platforms, and Billing systems.
+This user guide explains how to design, exchange, and process `MeterData` payloads within modern utility architectures, including Head-End Systems (HES), Meter Data Management (MDM) platforms, and Billing systems.
 
 ---
 
@@ -69,7 +69,7 @@ Tamper and diagnostic events (e.g. cover open, magnetic influence) are reported 
 
 ## 4. Technical Service Provider (TSP) Integration & Value-Added Services
 
-Integrating third-party Technical Service Providers (TSPs) or internal analytical engines enables utilities to offer advanced Value-Added Services (VAS) and optimize grid operations. The `MeterData` v0.6 schema supports these integrations through several distinct patterns:
+Integrating third-party Technical Service Providers (TSPs) or internal analytical engines enables utilities to offer advanced Value-Added Services (VAS) and optimize grid operations. The `MeterData` schema supports these integrations through several distinct patterns:
 
 ### A. Near Real-Time Grid Performance & Planning
 - **The Challenge**: Monitoring grid congestion, identifying transformer overloading, and managing load-generation balancing.
@@ -78,7 +78,7 @@ Integrating third-party Technical Service Providers (TSPs) or internal analytica
 
 ### B. Rooftop Solar & Third-Party (3P) Integration
 - **The Challenge**: Correlating utility meters with 3P rooftop solar generation systems to manage feed-in tariffs and grid stability.
-- **The Solution**: Both utility meters and 3P solar inverters can publish telemetry using the same `MeterData` v0.6 architecture. Whether the data originates from a utility revenue meter or a third-party solar monitoring gateway, it uses a unified descriptor-based schema. This provides a unified framework for TSPs to calculate net consumer contribution per interval.
+- **The Solution**: Both utility meters and 3P solar inverters can publish telemetry using the same `MeterData` architecture. Whether the data originates from a utility revenue meter or a third-party solar monitoring gateway, it uses a unified descriptor-based schema. This provides a unified framework for TSPs to calculate net consumer contribution per interval.
 - **Key Fields**: Define two separate descriptors under the same `PayloadDescriptorSet` – one for `flowDirection: IMPORT` and another for `flowDirection: EXPORT`.
 - **Unified Ingestion Flow**:
 ```mermaid
@@ -87,8 +87,8 @@ graph TD
         UM[Utility Smart Meter] -->|Import/Export Telemetry| MD1[MeterData Payload]
         3P[3P Solar Inverter] -->|Generation Telemetry| MD2[MeterData Payload]
     end
-    MD1 -->|Unified Schema v0.6| TSP[TSP Analytics / Netting Engine]
-    MD2 -->|Unified Schema v0.6| TSP
+    MD1 -->|Unified Schema| TSP[TSP Analytics / Netting Engine]
+    MD2 -->|Unified Schema| TSP
 ```
 
 ### C. Theft & Incident Detection
@@ -132,10 +132,10 @@ To prevent high-volume sharing requests from impacting operational databases (HE
 graph LR
     HES[HES / MDM] -->|Batch Push| DL[(Data Lake)]
     DL -->|Query| Auth[Consent & Sign Service]
-    Auth -->|Signed v0.6 VC| TSP[Third-Party TSP]
+    Auth -->|Signed VC| TSP[Third-Party TSP]
 ```
 
-1. **Analytical Offloading**: Operational systems push telemetry data to a scalable data lake (e.g., PostgreSQL, BigQuery, or Parquet stores) in the compact `MeterData` v0.6 format.
+1. **Analytical Offloading**: Operational systems push telemetry data to a scalable data lake (e.g., PostgreSQL, BigQuery, or Parquet stores) in the compact `MeterData` format.
 2. **On-Demand Generation**: When a consumer grants consent to a TSP, the utility's consent service queries the data lake, packages the telemetry into the requested `MeterData` profile, signs it as a credential, and delivers it. This prevents analytical queries from degrading real-time metering operations.
 
 ---
