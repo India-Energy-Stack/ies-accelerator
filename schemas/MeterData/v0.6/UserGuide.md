@@ -67,9 +67,87 @@ Tamper and diagnostic events (e.g. cover open, magnetic influence) are reported 
 - Use the standard IS 15959 event codes in `eventId`.
 - Do not transmit empty telemetry blocks in an Event profile; the `events` array should only contain diagnosed instances with precise timestamps.
 
+## 4. Technical Service Provider (TSP) Integration & Value-Added Services
+
+Integrating third-party Technical Service Providers (TSPs) or internal analytical engines enables utilities to offer advanced Value-Added Services (VAS) and optimize grid operations. The `MeterData` v0.6 schema supports these integrations through several distinct patterns:
+
+### A. Near Real-Time Grid Performance & Planning
+- **The Challenge**: Monitoring grid congestion, identifying transformer overloading, and managing load-generation balancing.
+- **The Solution**: TSPs ingest near real-time active/reactive power intervals using `IntervalProfile` (Form B). By analyzing load survey trends, utilities can detect over-generation or excessive localized demand, triggering demand response events or planning infrastructure reinforcements.
+- **Key Fields**: Use `IntervalProfile` with block energy or average power values, mapping parameters (e.g., `kW imp`, `kvarh Q1`) to index-based compact sequences.
+
+### B. Rooftop Solar & Third-Party (3P) Net-Metering
+- **The Challenge**: Correlating utility meters with 3P rooftop solar generation systems to manage feed-in tariffs and local grid stability.
+- **The Solution**: Net-metered connections record both import and export energies. In `MeterData` v0.6, import (`kWh imp`) and export (`kWh exp`) registers are modeled together inside the same descriptor set, allowing TSPs to calculate net consumer contribution per interval.
+- **Key Fields**: Define two separate descriptors under the same `PayloadDescriptorSet` – one for `flowDirection: IMPORT` and another for `flowDirection: EXPORT`.
+
+### C. Theft & Incident Detection
+- **The Challenge**: Detecting unauthorized meter bypasses, cover-open tampers, or phase failures to prevent revenue loss.
+- **The Solution**: Combine diagnostic alerts in `EventProfile` (Form A) with electrical parameters in `InstantaneousProfile`. For example, a sudden drop in voltage on one phase (`V_R` in `InstantaneousProfile`) occurring concurrently with a `phase-failure` event in `EventProfile` indicates a service incident or potential tamper.
+- **Key Fields**: `eventId` and `occurredAt` in `EventProfile` mapped to standard IS 15959 event groups.
+
+### D. Analytics & Visualization Dashboards
+- **The Challenge**: Powering customer portals or executive dashboards with consumption charts and generation profiles.
+- **The Solution**: TSPs parse compact arrays from `IntervalProfile` or `DailyProfile` and project them into time-series databases to render load curves and energy usage charts.
+
+### E. Multi-System Data Convergence
+- **The Challenge**: Serving use cases that require data from different systems (e.g., connecting billing data from CIS with hourly telemetry from HES).
+- **The Solution**: The `MeterData` envelope uses explicit metadata boundaries: `meterRefs` identifies the physical hardware, `serviceDeliveryPointRefs` identifies the grid connection node, and `customerRefs` (when permitted) links to the commercial account. TSPs can query the utility's DeDi registries to resolve these identifiers and correlate data across siloed utility databases.
+
 ---
 
-## 4. Quality Indications & Validation
+## 5. Energy Credentials: Energy Passport & Energy Digest
+
+Utilities can package verified metering data into cryptographically signed W3C Verifiable Credentials to facilitate secure, consumer-permissioned sharing with third parties:
+
+### A. Energy Passport (Identity & Reference)
+- **Purpose**: Verifies that a consumer has an active, valid connection with the utility without sharing granular consumption data.
+- **Content**: Contains account metadata, service delivery point (SDP) details, and meter serial numbers.
+- **Typical Use Case**: Used for customer onboarding, KYC, or address verification for banking and public services.
+
+### B. Energy Digest (Consumption & Billing Summary)
+- **Purpose**: Attests to historical consumption, solar generation, and billing figures over a specific billing cycle.
+- **Content**: Combines a simplified bill summary (amounts, tariffs) with block-load granularity telemetry (e.g., daily totals or 15-minute intervals).
+- **Typical Use Case**: Used by corporate consumers for ESG carbon accounting, or by financial institutions for green lending audits.
+
+---
+
+## 6. Data Lakes and On-Demand Sharing Architecture
+
+To prevent high-volume sharing requests from impacting operational databases (HES and MDM), utilities are encouraged to adopt a **data lake** architecture:
+
+```mermaid
+graph LR
+    HES[HES / MDM] -->|Batch Push| DL[(Data Lake)]
+    DL -->|Query| Auth[Consent & Sign Service]
+    Auth -->|Signed v0.6 VC| TSP[Third-Party TSP]
+```
+
+1. **Analytical Offloading**: Operational systems push telemetry data to a scalable data lake (e.g., PostgreSQL, BigQuery, or Parquet stores) in the compact `MeterData` v0.6 format.
+2. **On-Demand Generation**: When a consumer grants consent to a TSP, the utility's consent service queries the data lake, packages the telemetry into the requested `MeterData` profile, signs it as a credential, and delivers it. This prevents analytical queries from degrading real-time metering operations.
+
+---
+
+## 7. Security, Privacy, and Safety Considerations
+
+When exposing smart meter data, safeguarding consumer privacy and utility grid security is critical. Implement the following guidelines:
+
+> [!IMPORTANT]
+> **Data Minimization**
+> Always restrict shared telemetry to the minimum granularity required. For example, if a third party only needs to verify monthly consumption, share a `MonthlyProfile` instead of an `IntervalProfile` containing hourly load surveys.
+
+> [!WARNING]
+> **PII Redaction & Naming Grammars**
+> Never bundle personally identifiable information (PII) – such as customer names, phone numbers, or billing addresses – directly with high-frequency telemetry. Use public-key identifiers or standard DeDi naming grammars (e.g., `did:dedi:<discom>:consumers:CN-123`). Keep sensitive details in private registries that require explicit consumer authorization to resolve.
+
+### Key Practices:
+1. **Consent-Driven Routing**: Expose data exclusively via authenticated gateways (e.g., Beckn adapters or OpenCred portals) that validate a consumer's active cryptographic consent.
+2. **Endpoint mTLS**: Secure internal API mirrors and data lake lookup routes using mutual TLS (mTLS) to prevent unauthorized internal leaks.
+3. **Attribute Permissibility**: Restrict the attributes attached to readings (e.g., ensuring `openingValue` and `closingValue` are omitted from raw `READING` profiles to limit unnecessary data leakage).
+
+---
+
+## 8. Quality Indications & Validation
 
 For all profile shapes, verifying data quality and formatting before ingestion is recommended.
 
