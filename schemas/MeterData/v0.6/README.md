@@ -92,6 +92,14 @@ When structuring your payload descriptors or values, you have the flexibility to
 
 ---
 
+## Reading vs. Usage Telemetry Modes
+
+Smart meter telemetry values are explicitly categorized into one of two modes:
+1. **`READING`**: Represents a cumulative register counter value (e.g. cumulative energy import) or a point-in-time snapshot (e.g. instantaneous voltage/current).
+2. **`USAGE`**: Represents a delta or average value associated with a time interval (e.g. active energy block incremental consumption or Maximum Demand).
+
+---
+
 ## Payload Shapes and Value Representation
 
 The schema offers two distinct mechanisms for representing telemetry values, balancing explicit clarity with high-efficiency transmission.
@@ -102,62 +110,81 @@ Telemetry is presented as an array of discrete `Reading` objects containing inli
 ```json
 "readings": [
   {
-    "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.8.0.255" },
-    "value": 412.5,
-    "openingValue": 18432.5,
-    "closingValue": 18845.0
+    "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
+    "value": 120.0,
+    "reportedMode": "USAGE",
+    "openingValue": 5000.0,
+    "closingValue": 5120.0
   }
 ]
 ```
 
-### 2. Form B: Compact Matrix Representation (`intervalBlocks`)
-Used heavily for dense time-series telemetry. Descriptors are declared once at the block level in `payloadDescriptors`, and time-series data is transmitted as simple arrays of numbers (`IntervalRow`) that map positionally to the descriptors.
+### 2. Form B: Flat OpenADR-Aligned Compact Representation (`intervals`)
+Used for dense time-series telemetry (e.g. load surveys). Positional array formatting maps each payload value directly to a defined `compactSequenceRef` in `payloadDescriptorSet`. Rather than nesting data inside `intervalBlocks`, the profile uses a top-level `intervalPeriod` default duration and a flat `intervals` array.
 
 ```json
-"intervalBlocks": [
-  {
-    "timePeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
-    "payloadDescriptors": [
-      { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" } },
-      { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh exp block" } }
-    ],
-    "intervals": [
-      { "id": 0, "values": [600, 0] },
-      { "id": 1, "values": [580, 0] }
-    ]
-  }
+"payloadDescriptorSet": {
+  "name": "IntervalLoadSurveySet",
+  "payloadDescriptors": [
+    { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" }, "reportedMode": "USAGE" }
+  ],
+  "compactSequences": [
+    {
+      "name": "IntervalEnergySeq",
+      "sequenceItems": [
+        { "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" }, "reportedMode": "USAGE" }
+      ]
+    }
+  ]
+},
+"compactSequenceRef": "IntervalEnergySeq",
+"intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT15M" },
+"intervals": [
+  { "id": 0, "payloads": [2.1] },
+  { "id": 1, "payloads": [2.4] }
 ]
 ```
 
 ---
 
-## Data Annotations
-
-The schema supports sparse annotations to add metadata exactly where needed without bloating the compact matrix payload.
+## Data Annotations & Overrides
 
 ### Sparse Cell Overrides
-By default, all readings are assumed to be `{VALID, METER}`. If a specific interval was estimated or has a specific occurred timestamp (such as Maximum Demand), you can inject a sparse `Override` targeting its specific `intervalId` and column index (`descriptorIndex`).
+Annotations like validation states or peak demand timestamps are applied directly to individual elements inside the flat `intervals` array:
 
 ```json
-"overrides": [
+"intervals": [
   {
-    "intervalId": 45,
-    "descriptorIndex": 0,
-    "validationStatus": "ESTIMATED",
-    "source": "ESTIMATED"
+    "id": 2,
+    "payloads": [5.21],
+    "overrides": [
+      {
+        "intervalId": 2,
+        "descriptorIndex": 0,
+        "validationStatus": "ESTIMATED",
+        "source": "ESTIMATED"
+      }
+    ]
   }
 ]
 ```
-*See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse overrides.*
 
 ### Maximum Demand snapshoting
-When transmitting Maximum Demand snapshot aggregates in Elaborated form (e.g. inside a [`BillingProfile`](./examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
+When transmitting Maximum Demand snapshots in Elaborated form (e.g. inside `readings`), the exact occurrence timestamp and integration window are provided:
 
 ```json
 {
-  "readingTypeRef": { "scheme": "SHORT_CODE", "value": "MD kW" },
-  "value": 15.2,
-  "occurredAt": "2026-05-18T14:30:00+05:30",
-  "integrationPeriod": "PT30M"
+  "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.6.0.255" },
+  "reportedMode": "USAGE",
+  "value": 8.42,
+  "integrationPeriod": "PT30M",
+  "occurredAt": "2026-04-18T19:30:00+05:30"
 }
 ```
+
+---
+
+## Interoperability & Custom Codes
+
+> [!WARNING]
+> **Important Note on Custom Codes**: The schema supports defining and using custom/additional OBIS or Short Codes within the `PayloadDescriptorSet` and mapping catalogs. However, to maintain standardization and interoperability across the ecosystem, we strongly recommend NOT defining custom codes and instead sticking to the canonical set defined in `OBISMapping.json`.

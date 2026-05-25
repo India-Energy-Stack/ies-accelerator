@@ -21,14 +21,12 @@ The `MeterDataRequest` schema allows a Data Consumer (BAP) to request precise da
    * ISO 8601 duration string representing the length of the requested data window (e.g., `PT15M`, `P1D`, `P30D`).
 5. **`maxRecordsShared`** (Optional, integer):
    * Maximum number of records that should be shared or returned in a single batch/page. Must be $\ge 1$.
-6. **`includeDetails`** (Optional, array of strings):
-   * List of specific profile types to include in the query result. Allowed types:
-     * `CustomerProfile`
-     * `IntervalProfile`
-     * `DailyProfile`
-     * `BillingProfile`
-     * `InstantaneousProfile`
-     * `EventProfile`
+6. **`includeDetails`** (Optional, array of objects):
+   * List of specific profile requests (`ProfileRequest`) to include in the query result. Each object contains:
+     - `profileType` (Required, string enum): One of `CustomerProfile`, `IntervalProfile`, `DailyProfile`, `BillingProfile`, `InstantaneousProfile`, `EventProfile`.
+     - `values` (Optional, array of strings): Specific OBIS codes or short code labels requested.
+     - `supportedModes` (Optional, array of `TelemetryMode` strings): The telemetry modes supported by the consumer (`READING`, `USAGE`).
+     - `requestedMode` (Optional, `TelemetryMode` string): The specific mode requested by the consumer (`READING` or `USAGE`). Multiple modes may be supported, but only one may be requested.
 
 ---
 
