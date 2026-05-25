@@ -1,112 +1,112 @@
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "MeterDataset",
-  "payloadDescriptorSets": [
-    {
-      "name": "IntervalLoadSurveySet",
-      "payloadDescriptors": [
-        {
-          "readingType": "kWh imp",
-          "obis": "1.0.1.8.0.255",
-          "name": "Active Energy Import",
-          "unit": "kWh",
-          "flowDirection": "IMPORT",
-          "reportedMode": "USAGE"
-        },
-        {
-          "readingType": "kWh exp",
-          "obis": "1.0.2.8.0.255",
-          "name": "Active Energy Export",
-          "unit": "kWh",
-          "flowDirection": "EXPORT",
-          "reportedMode": "USAGE"
-        }
-      ],
-      "compactSequences": [
-        {
-          "name": "IntervalEnergySeq",
-          "sequenceItems": [
-            {
-              "readingType": "kWh imp",
-              "attribute": "value",
-              "reportedMode": "USAGE"
-            },
-            {
-              "readingType": "kWh exp",
-              "attribute": "value",
-              "reportedMode": "USAGE"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "data": [
-    {
-      "@type": "IntervalProfile",
-      "profileType": "INTERVAL",
-      "customerRefs": [
-        {
-          "scheme": "CONSUMER_NUMBER",
-          "value": "RR-1234"
-        }
-      ],
-      "meterRefs": [
-        {
-          "scheme": "METER_SERIAL",
-          "value": "BESCOM-SM-2025-654321"
-        }
-      ],
-      "serviceDeliveryPointRefs": [
-        {
-          "scheme": "SERVICE_DELIVERY_POINT",
-          "value": "SDP-BLR-A-12345"
-        }
-      ],
-      "compactSequenceRef": "IntervalEnergySeq",
-      "intervalPeriod": {
-        "start": "2026-05-04T09:00:00+05:30",
-        "duration": "PT30M"
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-INTERVALPROFILE",
+    "payloadDescriptorSets": [
+      {
+        "name": "IntervalLoadSurveySet",
+        "payloadDescriptors": [
+          {
+            "readingType": "kWh imp",
+            "obis": "1.0.1.8.0.255",
+            "name": "Active energy import - cumulative (kWh)",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE"
+          },
+          {
+            "readingType": "kWh exp",
+            "obis": "1.0.2.8.0.255",
+            "name": "Active energy export - cumulative (kWh)",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "USAGE"
+          }
+        ],
+        "compactSequences": [
+          {
+            "name": "IntervalEnergySeq",
+            "sequenceItems": [
+              {
+                "readingType": "kWh imp",
+                "attribute": "value"
+              },
+              {
+                "readingType": "kWh exp",
+                "attribute": "value"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "customerRefs": [
+      {
+        "scheme": "CONSUMER_NUMBER",
+        "value": "RR-1234"
+      }
+    ],
+    "meterRefs": [
+      {
+        "scheme": "METER_SERIAL",
+        "value": "BESCOM-SM-2025-654321"
+      }
+    ],
+    "serviceDeliveryPointRefs": [
+      {
+        "scheme": "SERVICE_DELIVERY_POINT",
+        "value": "SDP-BLR-A-12345"
+      }
+    ],
+    "compactSequenceRef": "IntervalEnergySeq",
+    "intervalPeriod": {
+      "start": "2026-05-04T09:00:00+05:30",
+      "duration": "PT30M"
+    },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [
+          4.62,
+          0.0
+        ]
       },
-      "intervals": [
-        {
-          "id": 0,
-          "payloads": [
-            4.62,
-            0.0
-          ]
-        },
-        {
-          "id": 1,
-          "payloads": [
-            4.85,
-            0.0
-          ]
-        },
-        {
-          "id": 2,
-          "payloads": [
-            5.21,
-            0.12
-          ],
-          "overrides": [
-            {
-              "descriptorIndex": 0,
-              "validationStatus": "ESTIMATED",
-              "source": "ESTIMATED",
-              "changeMethod": "linear-interpolation",
-              "failCode": "VEE-MISSING-INTERVAL"
-            }
-          ]
-        },
-        {
-          "id": 3,
-          "payloads": [
-            5.04,
-            0.0
-          ]
-        }
-      ]
-    }
-  ]
-}
+      {
+        "id": 1,
+        "payloads": [
+          4.85,
+          0.0
+        ]
+      },
+      {
+        "id": 2,
+        "payloads": [
+          5.21,
+          0.12
+        ],
+        "overrides": [
+          {
+            "descriptorIndex": 0,
+            "validationStatus": "ESTIMATED",
+            "source": "ESTIMATED",
+            "changeMethod": "linear-interpolation",
+            "failCode": "VEE-MISSING-INTERVAL"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "payloads": [
+          5.04,
+          0.0
+        ]
+      }
+    ],
+    "payloadDescriptorSetRef": "IntervalLoadSurveySet"
+  }
+]

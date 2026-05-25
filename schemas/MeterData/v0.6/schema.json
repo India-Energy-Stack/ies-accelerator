@@ -1,38 +1,29 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/schema.json",
-  "title": "MeterData",
-  "description": "Structural JSON Schema for MeterData (v0.6). Defines the MeterDataset envelope containing parallel descriptors and energy data.",
-  "$ref": "#/$defs/MeterDataset",
-  "$defs": {
-    "MeterDataset": {
-      "type": "object",
-      "title": "MeterDataset",
-      "description": "Top-level envelope for telemetry profiles, defining shared payload descriptors parallel to the data arrays.",
-      "required": [
-        "data"
-      ],
-      "properties": {
-        "payloadDescriptorSets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/PayloadDescriptorSet"
-          }
-        },
-        "data": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/$defs/EnergyData"
-          }
-        }
-      }
+  "title": "MeterData Payload",
+  "description": "Root payload can be a single profile or an array of profiles.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/EnergyData"
     },
+    {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/EnergyData"
+      }
+    }
+  ],
+  "$defs": {
     "EnergyData": {
       "type": "object",
       "title": "EnergyData",
       "description": "A single compact data-only profile record. Must be one of the eight standard types.",
       "oneOf": [
+        {
+          "$ref": "#/$defs/PayloadDescriptorProfile"
+        },
         {
           "$ref": "#/$defs/CustomerProfile"
         },
@@ -125,6 +116,10 @@
         },
         "serviceDeliveryPointRefs": {
           "$ref": "#/$defs/IdentifierList"
+        },
+        "payloadDescriptorSetRef": {
+          "type": "string",
+          "description": "Reference ID matching a previously exchanged PayloadDescriptorProfile's payloadDescriptorSet."
         }
       }
     },
@@ -576,12 +571,6 @@
             "validationStatus"
           ],
           "default": "value"
-        },
-        "reportedMode": {
-          "$ref": "#/$defs/TelemetryMode"
-        },
-        "powerOfTenMultiplier": {
-          "type": "integer"
         }
       }
     },
@@ -619,13 +608,18 @@
         "reportedMode": {
           "$ref": "#/$defs/TelemetryMode"
         },
-        "powerOfTenMultiplier": {
-          "type": "integer"
-        },
         "touZone": {
           "type": "integer",
           "minimum": 0,
           "maximum": 8
+        },
+        "multiplier": {
+          "type": "number",
+          "description": "Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo)."
+        },
+        "accuracy": {
+          "type": "number",
+          "description": "Accuracy class or precision value, applied after the multiplier."
         }
       }
     },
@@ -1053,6 +1047,32 @@
         "WATER",
         "HEAT"
       ]
+    },
+    "PayloadDescriptorProfile": {
+      "type": "object",
+      "title": "PayloadDescriptorProfile",
+      "description": "Configuration profile representing a collection of Payload Descriptor Sets exchanged out-of-band or embedded in an array.",
+      "required": [
+        "profileType",
+        "id",
+        "payloadDescriptorSets"
+      ],
+      "properties": {
+        "profileType": {
+          "type": "string",
+          "const": "DESCRIPTOR"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this specific configuration state."
+        },
+        "payloadDescriptorSets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PayloadDescriptorSet"
+          }
+        }
+      }
     }
   }
 }

@@ -7,114 +7,6 @@
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
-        "MeterDataset": {
-            "@id": "ies:MeterDataset",
-            "@context": {
-                "@version": 1.1,
-                "@protected": true,
-                "payloadDescriptorSets": {
-                    "@id": "ies:payloadDescriptorSets",
-                    "@type": "@id",
-                    "@container": "@set",
-                    "@context": {
-                        "@version": 1.1,
-                        "@protected": true,
-                        "name": {
-                            "@id": "schema:name",
-                            "@type": "xsd:string"
-                        },
-                        "payloadDescriptors": {
-                            "@id": "ies:payloadDescriptors",
-                            "@type": "@id",
-                            "@container": "@set",
-                            "@context": {
-                                "@version": 1.1,
-                                "@protected": true,
-                                "readingType": {
-                                    "@id": "ies:readingType",
-                                    "@type": "xsd:string"
-                                },
-                                "obis": {
-                                    "@id": "ies:obis",
-                                    "@type": "xsd:string"
-                                },
-                                "name": {
-                                    "@id": "schema:name",
-                                    "@type": "xsd:string"
-                                },
-                                "unit": {
-                                    "@id": "ies:unit",
-                                    "@type": "@id"
-                                },
-                                "flowDirection": {
-                                    "@id": "ies:flowDirection",
-                                    "@type": "xsd:string"
-                                },
-                                "category": {
-                                    "@id": "ies:category",
-                                    "@type": "xsd:string"
-                                },
-                                "reportedMode": {
-                                    "@id": "ies:reportedMode",
-                                    "@type": "@id"
-                                },
-                                "powerOfTenMultiplier": {
-                                    "@id": "ies:powerOfTenMultiplier",
-                                    "@type": "xsd:integer"
-                                },
-                                "touZone": {
-                                    "@id": "ies:touZone",
-                                    "@type": "xsd:integer"
-                                }
-                            }
-                        },
-                        "compactSequences": {
-                            "@id": "ies:compactSequences",
-                            "@type": "@id",
-                            "@container": "@set",
-                            "@context": {
-                                "@version": 1.1,
-                                "@protected": true,
-                                "name": {
-                                    "@id": "schema:name",
-                                    "@type": "xsd:string"
-                                },
-                                "sequenceItems": {
-                                    "@id": "ies:sequenceItems",
-                                    "@type": "@id",
-                                    "@container": "@set",
-                                    "@context": {
-                                        "@version": 1.1,
-                                        "@protected": true,
-                                        "readingType": {
-                                            "@id": "ies:readingType",
-                                            "@type": "xsd:string"
-                                        },
-                                        "attribute": {
-                                            "@id": "ies:attribute",
-                                            "@type": "xsd:string"
-                                        },
-                                        "reportedMode": {
-                                            "@id": "ies:reportedMode",
-                                            "@type": "@id"
-                                        },
-                                        "powerOfTenMultiplier": {
-                                            "@id": "ies:powerOfTenMultiplier",
-                                            "@type": "xsd:integer"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "data": {
-                    "@id": "ies:data",
-                    "@type": "@id",
-                    "@container": "@set"
-                }
-            }
-        },
         "CustomerProfile": {
             "@id": "ies:CustomerProfile",
             "@context": {
@@ -353,6 +245,10 @@
                 "serviceDeliveryPointRefs": {
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
                 }
             }
         },
@@ -376,6 +272,10 @@
                 "serviceDeliveryPointRefs": {
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
                 },
                 "compactSequenceRef": {
                     "@id": "ies:compactSequenceRef",
@@ -544,6 +444,10 @@
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
                 },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
                 "compactSequenceRef": {
                     "@id": "ies:compactSequenceRef",
                     "@type": "xsd:string"
@@ -711,6 +615,10 @@
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
                 },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
                 "timePeriod": {
                     "@id": "ies:timePeriod",
                     "@type": "@id",
@@ -868,6 +776,10 @@
                 "serviceDeliveryPointRefs": {
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
                 },
                 "timePeriod": {
                     "@id": "ies:timePeriod",
@@ -1055,6 +967,10 @@
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
                 },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
                 "timestamp": {
                     "@id": "ies:timestamp",
                     "@type": "xsd:dateTime"
@@ -1135,6 +1051,10 @@
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
                 },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
                 "timestamp": {
                     "@id": "ies:timestamp",
                     "@type": "xsd:dateTime"
@@ -1190,6 +1110,10 @@
                 "serviceDeliveryPointRefs": {
                     "@id": "ies:serviceDeliveryPointRefs",
                     "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
                 },
                 "timePeriod": {
                     "@id": "ies:timePeriod",
@@ -1372,13 +1296,17 @@
                             "@id": "ies:reportedMode",
                             "@type": "@id"
                         },
-                        "powerOfTenMultiplier": {
-                            "@id": "ies:powerOfTenMultiplier",
-                            "@type": "xsd:integer"
-                        },
                         "touZone": {
                             "@id": "ies:touZone",
                             "@type": "xsd:integer"
+                        },
+                        "multiplier": {
+                            "@id": "ies:multiplier",
+                            "@type": "xsd:decimal"
+                        },
+                        "accuracy": {
+                            "@id": "ies:accuracy",
+                            "@type": "xsd:decimal"
                         }
                     }
                 },
@@ -1407,14 +1335,6 @@
                                 "attribute": {
                                     "@id": "ies:attribute",
                                     "@type": "xsd:string"
-                                },
-                                "reportedMode": {
-                                    "@id": "ies:reportedMode",
-                                    "@type": "@id"
-                                },
-                                "powerOfTenMultiplier": {
-                                    "@id": "ies:powerOfTenMultiplier",
-                                    "@type": "xsd:integer"
                                 }
                             }
                         }
@@ -1445,14 +1365,6 @@
                         "attribute": {
                             "@id": "ies:attribute",
                             "@type": "xsd:string"
-                        },
-                        "reportedMode": {
-                            "@id": "ies:reportedMode",
-                            "@type": "@id"
-                        },
-                        "powerOfTenMultiplier": {
-                            "@id": "ies:powerOfTenMultiplier",
-                            "@type": "xsd:integer"
                         }
                     }
                 }
@@ -1470,14 +1382,6 @@
                 "attribute": {
                     "@id": "ies:attribute",
                     "@type": "xsd:string"
-                },
-                "reportedMode": {
-                    "@id": "ies:reportedMode",
-                    "@type": "@id"
-                },
-                "powerOfTenMultiplier": {
-                    "@id": "ies:powerOfTenMultiplier",
-                    "@type": "xsd:integer"
                 }
             }
         },
@@ -1514,13 +1418,17 @@
                     "@id": "ies:reportedMode",
                     "@type": "@id"
                 },
-                "powerOfTenMultiplier": {
-                    "@id": "ies:powerOfTenMultiplier",
-                    "@type": "xsd:integer"
-                },
                 "touZone": {
                     "@id": "ies:touZone",
                     "@type": "xsd:integer"
+                },
+                "multiplier": {
+                    "@id": "ies:multiplier",
+                    "@type": "xsd:decimal"
+                },
+                "accuracy": {
+                    "@id": "ies:accuracy",
+                    "@type": "xsd:decimal"
                 }
             }
         },
@@ -2009,6 +1917,113 @@
                 "severity": {
                     "@id": "ies:severity",
                     "@type": "xsd:string"
+                }
+            }
+        },
+        "PayloadDescriptorProfile": {
+            "@id": "ies:PayloadDescriptorProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "xsd:string"
+                },
+                "payloadDescriptorSets": {
+                    "@id": "ies:payloadDescriptorSets",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        },
+                        "payloadDescriptors": {
+                            "@id": "ies:payloadDescriptors",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "readingType": {
+                                    "@id": "ies:readingType",
+                                    "@type": "xsd:string"
+                                },
+                                "obis": {
+                                    "@id": "ies:obis",
+                                    "@type": "xsd:string"
+                                },
+                                "name": {
+                                    "@id": "schema:name",
+                                    "@type": "xsd:string"
+                                },
+                                "unit": {
+                                    "@id": "ies:unit",
+                                    "@type": "@id"
+                                },
+                                "flowDirection": {
+                                    "@id": "ies:flowDirection",
+                                    "@type": "xsd:string"
+                                },
+                                "category": {
+                                    "@id": "ies:category",
+                                    "@type": "xsd:string"
+                                },
+                                "reportedMode": {
+                                    "@id": "ies:reportedMode",
+                                    "@type": "@id"
+                                },
+                                "touZone": {
+                                    "@id": "ies:touZone",
+                                    "@type": "xsd:integer"
+                                },
+                                "multiplier": {
+                                    "@id": "ies:multiplier",
+                                    "@type": "xsd:decimal"
+                                },
+                                "accuracy": {
+                                    "@id": "ies:accuracy",
+                                    "@type": "xsd:decimal"
+                                }
+                            }
+                        },
+                        "compactSequences": {
+                            "@id": "ies:compactSequences",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "name": {
+                                    "@id": "schema:name",
+                                    "@type": "xsd:string"
+                                },
+                                "sequenceItems": {
+                                    "@id": "ies:sequenceItems",
+                                    "@type": "@id",
+                                    "@container": "@set",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "readingType": {
+                                            "@id": "ies:readingType",
+                                            "@type": "xsd:string"
+                                        },
+                                        "attribute": {
+                                            "@id": "ies:attribute",
+                                            "@type": "xsd:string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

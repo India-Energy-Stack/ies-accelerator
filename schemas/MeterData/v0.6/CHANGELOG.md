@@ -6,11 +6,11 @@ Version 0.6 introduces a monumental architectural evolution to the `MeterData` s
 
 ## What's New in v0.6 (vs 0.5)
 
-### 1. The `MeterDataset` Envelope & Centralized Metadata
-The telemetry architecture has transitioned from standalone independent profiles to a unified **`MeterDataset`** envelope. 
-* A `MeterDataset` contains two primary collections: `payloadDescriptorSets` and `data` (which houses the profiles).
-* Rather than repeating metadata across every profile, metadata (units, flow direction, labels) and column definitions are declared **once** at the root of the dataset in `payloadDescriptorSets`.
-* Individual profiles now simply reference these central definitions using `compactSequenceRef`.
+### 1. Removal of `MeterDataset` & Array-based Data Descriptors
+The telemetry architecture has transitioned away from the rigid `MeterDataset` envelope.
+* Root payloads are now simply JSON arrays (or single objects for individual profiles).
+* Rather than wrapping data in a proprietary container, metadata (units, flow direction, labels) and column definitions are declared as an independent `PayloadDescriptorProfile` within the array.
+* Data profiles (like `IntervalProfile` or `DailyProfile`) reference these definitions via `payloadDescriptorSetRef`.
 
 ### 2. Hyper-Optimized `CompactSequence` with Multi-Type Payloads
 The compact representation (`IntervalProfile` and `DailyProfile`) has been fundamentally reimagined:
@@ -36,12 +36,14 @@ The inheritance model in `attributes.yaml` has been strictly refactored:
 
 ## Detailed Payload Examples
 
-### MeterDataset Representation
+### Array-Based Profile Exchange
 
 ```json
-{
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "MeterDataset",
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-DAILY",
   "payloadDescriptorSets": [
     {
       "name": "DailyLoadSurveySet",
@@ -71,34 +73,31 @@ The inheritance model in `attributes.yaml` has been strictly refactored:
           ]
         }
       ]
-    }
-  ],
-  "data": [
-    {
-      "@type": "DailyProfile",
-      "profileType": "DAILY",
-      "customerRefs": [
-        { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
-      ],
-      "meterRefs": [
-        { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-      ],
-      "compactSequenceRef": "DailyEnergySeq",
-      "intervalPeriod": {
-        "start": "2026-05-04T00:00:00+05:30",
-        "duration": "P1D"
-      },
-      "intervals": [
-        {
-          "id": 0,
-          "payloads": [
-            1000.0,
-            8.42,
-            "2026-05-04T19:30:00+05:30"
-          ]
-        }
-      ]
-    }
-  ]
-}
+  },
+  {
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "customerRefs": [
+      { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+    ],
+    "meterRefs": [
+      { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+    ],
+    "payloadDescriptorSetRef": "DailyLoadSurveySet",
+    "intervalPeriod": {
+      "start": "2026-05-04T00:00:00+05:30",
+      "duration": "P1D"
+    },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [
+          1000.0,
+          8.42,
+          "2026-05-04T19:30:00+05:30"
+        ]
+      }
+    ]
+  }
+]
 ```

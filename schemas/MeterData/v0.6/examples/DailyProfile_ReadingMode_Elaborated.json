@@ -41,37 +41,44 @@
         "value": "BESCOM-SM-2025-654321"
       }
     ],
-    "compactSequenceRef": "DailyEnergySeq",
     "intervalPeriod": {
       "start": "2026-05-04T00:00:00+05:30",
       "duration": "P1D"
     },
-    "intervals": [
+    "payloadDescriptorSetRef": "DailyLoadSurveySet",
+    "readings": [
       {
-        "id": 0,
-        "payloads": [
-          1000.0
-        ]
+        "readingType": "kWh imp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-04T00:00:00+05:30",
+        "closingValue": 1000.0,
+        "openingValue": 0.0,
+        "value": 1000.0
       },
       {
-        "id": 1,
-        "payloads": [
-          1005.5
-        ]
+        "readingType": "kWh imp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-05T00:00:00+05:30",
+        "closingValue": 1005.5,
+        "openingValue": 1000.0,
+        "value": 5.5
       },
       {
-        "id": 2,
-        "payloads": [
-          1012.3
-        ]
+        "readingType": "kWh imp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-06T00:00:00+05:30",
+        "closingValue": 1012.3,
+        "openingValue": 1005.5,
+        "value": 6.7999999999999545
       },
       {
-        "id": 3,
-        "payloads": [
-          1018.0
-        ]
+        "readingType": "kWh imp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-07T00:00:00+05:30",
+        "closingValue": 1018.0,
+        "openingValue": 1012.3,
+        "value": 5.7000000000000455
       }
-    ],
-    "payloadDescriptorSetRef": "DailyLoadSurveySet"
+    ]
   }
 ]

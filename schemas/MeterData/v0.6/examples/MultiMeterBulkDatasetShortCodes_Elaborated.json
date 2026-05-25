@@ -310,28 +310,37 @@
         "value": "SDP-ACME-MAIN-01"
       }
     ],
-    "compactSequenceRef": "IntervalEnergySeq_Elaborated_Short",
     "intervalPeriod": {
       "start": "2026-05-18T10:00:00+05:30",
       "duration": "PT30M"
     },
-    "intervals": [
+    "payloadDescriptorSetRef": "IntervalLoadSurveySet_Elaborated_Short",
+    "readings": [
       {
-        "id": 0,
-        "payloads": [
-          14.5,
-          15.1
-        ]
+        "readingType": "kWh imp block",
+        "reportedMode": "USAGE",
+        "occurredAt": "2026-05-18T10:30:00+05:30",
+        "value": 14.5
       },
       {
-        "id": 1,
-        "payloads": [
-          16.2,
-          16.8
-        ]
+        "readingType": "kVAh imp block",
+        "reportedMode": "USAGE",
+        "occurredAt": "2026-05-18T10:30:00+05:30",
+        "value": 15.1
+      },
+      {
+        "readingType": "kWh imp block",
+        "reportedMode": "USAGE",
+        "occurredAt": "2026-05-18T11:00:00+05:30",
+        "value": 16.2
+      },
+      {
+        "readingType": "kVAh imp block",
+        "reportedMode": "USAGE",
+        "occurredAt": "2026-05-18T11:00:00+05:30",
+        "value": 16.8
       }
-    ],
-    "payloadDescriptorSetRef": "IntervalLoadSurveySet_Elaborated_Short"
+    ]
   },
   {
     "@type": "IntervalProfile",
@@ -354,26 +363,25 @@
         "value": "SDP-ACME-AUX-02"
       }
     ],
-    "compactSequenceRef": "IntervalEnergySeq_28b9b8",
     "intervalPeriod": {
       "start": "2026-05-18T10:00:00+05:30",
       "duration": "PT15M"
     },
-    "intervals": [
+    "payloadDescriptorSetRef": "IntervalLoadSurveySet_28b9b8",
+    "readings": [
       {
-        "id": 0,
-        "payloads": [
-          2.1
-        ]
+        "readingType": "kWh imp block",
+        "reportedMode": "USAGE",
+        "occurredAt": "2026-05-18T10:15:00+05:30",
+        "value": 2.1
       },
       {
-        "id": 1,
-        "payloads": [
-          2.4
-        ]
+        "readingType": "kWh imp block",
+        "reportedMode": "USAGE",
+        "occurredAt": "2026-05-18T10:30:00+05:30",
+        "value": 2.4
       }
-    ],
-    "payloadDescriptorSetRef": "IntervalLoadSurveySet_28b9b8"
+    ]
   },
   {
     "@type": "DailyProfile",
@@ -390,22 +398,37 @@
         "value": "METER-GENUS-01-ELABORATED"
       }
     ],
-    "compactSequenceRef": "DailyEnergySeq_Elaborated_Short",
     "intervalPeriod": {
       "start": "2026-05-17T00:00:00+05:30",
       "duration": "P1D"
     },
-    "intervals": [
+    "payloadDescriptorSetRef": "DailyLoadSurveySet_Elaborated_Short",
+    "readings": [
       {
-        "id": 0,
-        "payloads": [
-          24512.4,
-          0.0,
-          25134.8
-        ]
+        "readingType": "kWh imp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-17T00:00:00+05:30",
+        "closingValue": 24512.4,
+        "openingValue": 0.0,
+        "value": 24512.4
+      },
+      {
+        "readingType": "kWh exp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-17T00:00:00+05:30",
+        "closingValue": 0.0,
+        "openingValue": 0.0,
+        "value": 0.0
+      },
+      {
+        "readingType": "kVAh imp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-17T00:00:00+05:30",
+        "closingValue": 25134.8,
+        "openingValue": 0.0,
+        "value": 25134.8
       }
-    ],
-    "payloadDescriptorSetRef": "DailyLoadSurveySet_Elaborated_Short"
+    ]
   },
   {
     "@type": "DailyProfile",
@@ -422,21 +445,29 @@
         "value": "METER-HPL-02-COMPACT"
       }
     ],
-    "compactSequenceRef": "DailyEnergySeq_aee121",
     "intervalPeriod": {
       "start": "2026-05-17T00:00:00+05:30",
       "duration": "P1D"
     },
-    "intervals": [
+    "payloadDescriptorSetRef": "DailyLoadSurveySet_aee121",
+    "readings": [
       {
-        "id": 0,
-        "payloads": [
-          4325.7,
-          0.0
-        ]
+        "readingType": "kWh imp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-17T00:00:00+05:30",
+        "closingValue": 4325.7,
+        "openingValue": 0.0,
+        "value": 4325.7
+      },
+      {
+        "readingType": "kWh exp",
+        "reportedMode": "READING",
+        "occurredAt": "2026-05-17T00:00:00+05:30",
+        "closingValue": 0.0,
+        "openingValue": 0.0,
+        "value": 0.0
       }
-    ],
-    "payloadDescriptorSetRef": "DailyLoadSurveySet_aee121"
+    ]
   },
   {
     "@type": "BillDetails",

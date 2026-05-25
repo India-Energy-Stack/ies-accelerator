@@ -12,13 +12,7 @@
             "@id": "ies:MeterData",
             "@type": "rdfs:Class",
             "rdfs:label": "Meter Data",
-            "rdfs:comment": "Structural JSON Schema for MeterData (v0.6). Defines the MeterDataset envelope containing parallel descriptors and energy data."
-        },
-        {
-            "@id": "ies:MeterDataset",
-            "@type": "rdfs:Class",
-            "rdfs:label": "Meter Dataset",
-            "rdfs:comment": "Top-level envelope for telemetry profiles, defining shared payload descriptors parallel to the data arrays."
+            "rdfs:comment": "Root payload can be a single profile or an array of profiles."
         },
         {
             "@id": "ies:EnergyData",
@@ -189,16 +183,10 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:payloadDescriptorSets",
-            "@type": "rdf:Property",
-            "rdfs:label": "payload Descriptor Sets",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:data",
-            "@type": "rdf:Property",
-            "rdfs:label": "data",
-            "rdfs:comment": ""
+            "@id": "ies:PayloadDescriptorProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Payload Descriptor Profile",
+            "rdfs:comment": "Configuration profile representing a collection of Payload Descriptor Sets exchanged out-of-band or embedded in an array."
         },
         {
             "@id": "ies:profileType",
@@ -253,6 +241,12 @@
             "@type": "rdf:Property",
             "rdfs:label": "service Delivery Point Refs",
             "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:payloadDescriptorSetRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "payload Descriptor Set Ref",
+            "rdfs:comment": "Reference ID matching a previously exchanged PayloadDescriptorProfile's payloadDescriptorSet."
         },
         {
             "@id": "ies:compactSequenceRef",
@@ -465,18 +459,6 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:reportedMode",
-            "@type": "rdf:Property",
-            "rdfs:label": "reported Mode",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:powerOfTenMultiplier",
-            "@type": "rdf:Property",
-            "rdfs:label": "power Of Ten Multiplier",
-            "rdfs:comment": ""
-        },
-        {
             "@id": "ies:obis",
             "@type": "rdf:Property",
             "rdfs:label": "obis",
@@ -489,10 +471,28 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:reportedMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "reported Mode",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:multiplier",
+            "@type": "rdf:Property",
+            "rdfs:label": "multiplier",
+            "rdfs:comment": "Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo)."
+        },
+        {
+            "@id": "ies:accuracy",
+            "@type": "rdf:Property",
+            "rdfs:label": "accuracy",
+            "rdfs:comment": "Accuracy class or precision value, applied after the multiplier."
+        },
+        {
             "@id": "ies:id",
             "@type": "rdf:Property",
             "rdfs:label": "id",
-            "rdfs:comment": ""
+            "rdfs:comment": "Unique identifier for this specific configuration state."
         },
         {
             "@id": "ies:payloads",
@@ -702,6 +702,12 @@
             "@id": "ies:severity",
             "@type": "rdf:Property",
             "rdfs:label": "severity",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:payloadDescriptorSets",
+            "@type": "rdf:Property",
+            "rdfs:label": "payload Descriptor Sets",
             "rdfs:comment": ""
         }
     ]

@@ -27,14 +27,14 @@ The `MeterData` schema standardizes telemetry exchanges into **eight compact pro
 
 ---
 
-## Data Descriptor Engine & The `MeterDataset` Envelope
+## Data Descriptor Engine & The Array Envelope
 
 In v0.6, telemetry architecture has transitioned to a highly optimized, strict inheritance structure powered by the **Data Descriptor Engine**. 
 
-Instead of transmitting bulky metadata inline with every physical reading, all telemetry is wrapped in a **`MeterDataset`** envelope.
+Instead of transmitting bulky metadata inline with every physical reading, telemetry can be wrapped in a **JSON Array**.
 
-### Centralized `payloadDescriptorSets`
-The dataset root contains a `payloadDescriptorSets` array. This serves as the dictionary for all compact profiles inside the payload:
+### Centralized `PayloadDescriptorProfile`
+A JSON array payload can contain one or more `PayloadDescriptorProfile` objects. This serves as the dictionary for all compact profiles inside the payload array:
 * **`payloadDescriptors`**: Defines the metadata for specific registers (e.g., `readingType`, `unit`, `flowDirection`, `category`).
 * **`compactSequences`**: Defines the physical column layout of the dense numerical payload matrices.
 
@@ -48,7 +48,7 @@ A sequence defines what each column in the `payloads` array represents using the
 Because `payloads` allows mixed arrays of `number` and `string`, metadata is mapped densely alongside values without needing sparse overrides.
 
 ### Strict Derived Profiles
-Inside the `data` array of the dataset, individual profiles inherit strictly from `BaseProfile`. `BaseProfile` only contains identity (`meterRefs`, `customerRefs`). Derived profiles (like `IntervalProfile`) strictly allow **only** their relevant properties (`intervals`, `compactSequenceRef`, `intervalPeriod`).
+Inside the array, individual profiles inherit strictly from `BaseProfile`. `BaseProfile` only contains identity (`meterRefs`, `customerRefs`, `serviceDeliveryPointRefs`). Derived profiles (like `IntervalProfile`) strictly allow **only** their relevant properties (`intervals`, `payloadDescriptorSetRef`, `intervalPeriod`).
 
 > [!NOTE]
 > **Why doesn't `MonthlyProfile` use the compact matrix?**
@@ -86,10 +86,10 @@ Modes are indicated per-descriptor or per-reading via the `reportedMode` propert
 The `schema.json`, `context.jsonld`, and `vocab.jsonld` files are compiled automatically from the core `attributes.yaml`.
 
 ### To Compile Schemas
-To recompile schemas following modifications in `attributes.yaml`, run the following command from the repository root:
+To recompile schemas following modifications in `attributes.yaml`, run the following python scripts from the repository root:
 
 ```bash
-node -e "const yaml = require('js-yaml'); const fs = require('fs'); const data = yaml.load(fs.readFileSync('schemas/MeterData/v0.6/attributes.yaml', 'utf8')); fs.writeFileSync('schemas/MeterData/v0.6/schema.json', JSON.stringify(data, null, 2));"
+python scripts/generate_schema_permissive.py schemas/MeterData/v0.6
 ```
 
 ---
@@ -105,4 +105,4 @@ Run the following command from the `validation/` directory:
 python validate_v06.py ../examples
 ```
 
-The validator dynamically parses `MeterDataset` files, matches `compactSequenceRef` against the root descriptors, and asserts both matrix arity and strict column types based on the `attribute` enum.
+The validator dynamically parses JSON files. If they are arrays containing a `PayloadDescriptorProfile`, it matches `payloadDescriptorSetRef` against the array's descriptors, and asserts both matrix arity and strict column types based on the `attribute` enum.
