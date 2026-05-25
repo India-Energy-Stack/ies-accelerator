@@ -1,34 +1,47 @@
 {
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "AlarmProfile",
-  "profileType": "ALARM",
-  "customerRefs": [
-    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
-  ],
-  "meterRefs": [
-    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-  ],
-  "alarms": [
+  "@type": "MeterDataset",
+  "payloadDescriptorSets": [],
+  "data": [
     {
-      "timestamp": "2026-05-22T10:15:30+05:30",
-      "alarmId": 6,
-      "alarmName": "Meter Cover Open",
-      "status": "ACTIVE",
-      "severity": "CRITICAL"
-    },
-    {
-      "timestamp": "2026-05-22T10:30:00+05:30",
-      "alarmId": 8,
-      "alarmName": "Low Prepayment Balance",
-      "status": "ACTIVE",
-      "severity": "WARNING"
-    },
-    {
+      "@type": "AlarmProfile",
+      "profileType": "ALARM",
+      "customerRefs": [
+        {
+          "scheme": "CONSUMER_NUMBER",
+          "value": "RR-1234"
+        }
+      ],
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "BESCOM-SM-2025-654321"
+        }
+      ],
       "timestamp": "2026-05-22T11:00:00+05:30",
-      "alarmId": 1,
-      "alarmName": "Voltage Sag",
-      "status": "CLEARED",
-      "severity": "INFO"
+      "alarms": [
+        {
+          "timestamp": "2026-05-22T10:15:30+05:30",
+          "alarmId": 6,
+          "alarmName": "Meter Cover Open",
+          "status": "ACTIVE",
+          "severity": "CRITICAL"
+        },
+        {
+          "timestamp": "2026-05-22T10:30:00+05:30",
+          "alarmId": 8,
+          "alarmName": "Low Prepayment Balance",
+          "status": "ACTIVE",
+          "severity": "WARNING"
+        },
+        {
+          "timestamp": "2026-05-22T11:00:00+05:30",
+          "alarmId": 1,
+          "alarmName": "Voltage Sag",
+          "status": "CLEARED",
+          "severity": "INFO"
+        }
+      ]
     }
   ]
 }

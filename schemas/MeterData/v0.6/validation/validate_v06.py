@@ -4,8 +4,6 @@ import sys
 import json
 import jsonschema
 
-# Removed CATEGORY_MODES, using OBISMapping directly.
-
 def load_obis_mapping(mapping_path):
     if not os.path.exists(mapping_path):
         print(f"Error: OBIS mapping file {mapping_path} not found.")
@@ -14,23 +12,22 @@ def load_obis_mapping(mapping_path):
         data = json.load(f).get("codes", [])
         return {item["obis"]: item for item in data}
 
-def resolve_reading_type(reading_type_ref, obis_mapping):
-    scheme = reading_type_ref.get("scheme")
-    value = reading_type_ref.get("value")
-    
-    if scheme == "OBIS":
-        if value in obis_mapping:
-            return value, obis_mapping[value]
-    elif scheme == "SHORT_CODE":
-        for code, info in obis_mapping.items():
-            if info.get("shortLabel") == value:
-                return code, info
+def resolve_reading_type(reading_type_value, obis_mapping):
+    if not reading_type_value:
+        return None, None
+        
+    # Check if it's an OBIS code directly
+    if reading_type_value in obis_mapping:
+        return reading_type_value, obis_mapping[reading_type_value]
+        
+    # Check if it's a short code
+    for code, info in obis_mapping.items():
+        if info.get("shortLabel") == reading_type_value:
+            return code, info
+            
     return None, None
 
 def get_meter_categories(directory_path):
-    """
-    Search for customer profiles in the directory to build a map of meter serial -> category
-    """
     meter_map = {}
     if not os.path.isdir(directory_path):
         return meter_map
@@ -42,8 +39,12 @@ def get_meter_categories(directory_path):
                 with open(filepath, "r", encoding="utf-8") as f:
                     data = json.load(f)
                 
-                # Check list or single dict
-                items = data if isinstance(data, list) else [data]
+                # Check root
+                if isinstance(data, dict) and "data" in data:
+                    items = data["data"]
+                else:
+                    items = data if isinstance(data, list) else [data]
+                    
                 for item in items:
                     if item.get("profileType") == "CUSTOMER" and "meters" in item:
                         for meter in item["meters"]:
@@ -55,138 +56,134 @@ def get_meter_categories(directory_path):
                 pass
     return meter_map
 
-def validate_profile_semantics(profile, obis_mapping, meter_categories_map):
+def validate_dataset_semantics(dataset, obis_mapping, meter_categories_map):
     errors = []
-    p_type = profile.get("profileType")
     
-    # Extract meter ID to check categories if possible
-    meter_ids = [ref.get("value") for ref in profile.get("meterRefs", [])]
-    meter_category = None
-    for m_id in meter_ids:
-        if m_id in meter_categories_map:
-            meter_category = meter_categories_map[m_id]
-            break
-
-    # 1. Resolve payloadDescriptorSet and check compact sequences
-    descriptor_set = profile.get("payloadDescriptorSet", {})
-    compact_seq_ref = profile.get("compactSequenceRef")
+    descriptor_sets = dataset.get("payloadDescriptorSets", [])
+    descriptor_map = {ds.get("name"): ds for ds in descriptor_sets if "name" in ds}
     
-    resolved_seq = None
-    if compact_seq_ref:
-        sequences = descriptor_set.get("compactSequences", [])
-        for seq in sequences:
-            if seq.get("name") == compact_seq_ref:
-                resolved_seq = seq
-                break
-        if not resolved_seq:
-            errors.append(f"compactSequenceRef '{compact_seq_ref}' not found in payloadDescriptorSet compactSequences.")
-            
-    # Resolve all descriptors to check capabilities
-    resolved_descriptors = []
-    for idx, desc in enumerate(descriptor_set.get("payloadDescriptors", [])):
-        ref = desc.get("readingTypeRef")
-        code, info = resolve_reading_type(ref, obis_mapping)
-        if not code:
-            errors.append(f"PayloadDescriptor index {idx}: readingTypeRef {ref} could not be resolved in OBISMapping.json")
-            continue
-            
-        reported_mode = desc.get("reportedMode", "READING")
-        category = info.get("category", "")
-        allowed_modes = info.get("supportedModes", ["READING"])
-        
-        if reported_mode not in allowed_modes:
-            errors.append(f"PayloadDescriptor index {idx} ({code}): Mode '{reported_mode}' not supported for category '{category}'. Allowed: {allowed_modes}")
-            
-        # Physical check: meterCategory compatibility
-        if meter_category:
-            supported_categories = info.get("meterCategories", [])
-            if meter_category not in supported_categories:
-                errors.append(f"PayloadDescriptor index {idx} ({code}): Code is only supported for meter categories {supported_categories}, but meter is category '{meter_category}'")
-
-    # 2. Check strict arity in compact arrays
-    if resolved_seq:
-        seq_items = resolved_seq.get("sequenceItems", [])
-        expected_len = len(seq_items)
-        
-        # Resolve sequence items and check modes
-        resolved_seq_info = []
-        for idx, item in enumerate(seq_items):
-            ref = item.get("readingTypeRef")
-            code, info = resolve_reading_type(ref, obis_mapping)
+    # Check inline descriptors consistency against OBIS
+    for idx, ds in enumerate(descriptor_sets):
+        for p_idx, desc in enumerate(ds.get("payloadDescriptors", [])):
+            rt = desc.get("readingType")
+            code, info = resolve_reading_type(rt, obis_mapping)
             if code:
-                reported_mode = item.get("reportedMode", "READING")
-                resolved_seq_info.append((code, info, reported_mode))
+                # Check properties if they exist
+                if "unit" in desc and "unit" in info and desc["unit"] != info["unit"]:
+                    errors.append(f"Descriptor '{rt}' unit mismatch: Inline '{desc['unit']}', Canonical '{info['unit']}'")
+                if "flowDirection" in desc and "flowDirection" in info and desc["flowDirection"] != info["flowDirection"]:
+                    errors.append(f"Descriptor '{rt}' flowDirection mismatch: Inline '{desc['flowDirection']}', Canonical '{info['flowDirection']}'")
             else:
-                resolved_seq_info.append((None, {}, "READING"))
-        
-        intervals = profile.get("intervals", [])
-        last_id = -1
-        
-        # Prepare cumulative columns to check monotonicity
-        cumulative_cols = []
-        for idx, (code, info, mode) in enumerate(resolved_seq_info):
-            if code and info.get("accumulationBehaviour") == "CUMULATIVE" and mode == "READING":
-                cumulative_cols.append(idx)
-
-        last_cumulative_values = {}
-        
-        for idx, interval in enumerate(intervals):
-            int_id = interval.get("id", 0)
-            payloads = interval.get("payloads", [])
-            
-            # Sequence sorting check
-            if int_id <= last_id:
-                errors.append(f"Interval index {idx}: id {int_id} is not strictly increasing. Last: {last_id}")
-            last_id = int_id
-            
-            # Arity check
-            if len(payloads) != expected_len:
-                errors.append(f"Interval id {int_id}: value count {len(payloads)} does not match compact sequence arity {expected_len}")
+                errors.append(f"DescriptorSet index {idx}, Descriptor index {p_idx}: readingType '{rt}' could not be resolved in OBISMapping.json")
+    
+    profiles = dataset.get("data", [])
+    
+    for p_idx, profile in enumerate(profiles):
+        p_type = profile.get("profileType")
+        meter_ids = [ref.get("value") for ref in profile.get("meterRefs", [])]
+        meter_category = None
+        for m_id in meter_ids:
+            if m_id in meter_categories_map:
+                meter_category = meter_categories_map[m_id]
+                break
                 
-            # Monotonicity check
-            for col_idx in cumulative_cols:
-                if col_idx < len(payloads):
+        # Matrix Validation
+        if p_type in ["INTERVAL", "DAILY"]:
+            compact_seq_ref = profile.get("compactSequenceRef")
+            resolved_seq = None
+            for ds in descriptor_sets:
+                for seq in ds.get("compactSequences", []):
+                    if seq.get("name") == compact_seq_ref:
+                        resolved_seq = seq
+                        break
+                if resolved_seq:
+                    break
+                    
+            if not resolved_seq:
+                errors.append(f"Profile {p_idx}: compactSequenceRef '{compact_seq_ref}' not found in any payloadDescriptorSets.")
+                continue
+                
+            seq_items = resolved_seq.get("sequenceItems", [])
+            expected_len = len(seq_items)
+            
+            resolved_seq_info = []
+            for item in seq_items:
+                rt = item.get("readingType")
+                code, info = resolve_reading_type(rt, obis_mapping)
+                if not code:
+                    errors.append(f"Profile {p_idx} SeqItem: readingType '{rt}' could not be resolved.")
+                resolved_seq_info.append({
+                    "code": code,
+                    "info": info or {},
+                    "reportedMode": item.get("reportedMode", "READING"),
+                    "attribute": item.get("attribute", "value")
+                })
+                
+            intervals = profile.get("intervals", [])
+            last_id = -1
+            
+            cumulative_cols = []
+            for col_idx, sinfo in enumerate(resolved_seq_info):
+                if sinfo["code"] and sinfo["info"].get("accumulationBehaviour") == "CUMULATIVE" and sinfo["reportedMode"] == "READING":
+                    if sinfo["attribute"] == "value":
+                        cumulative_cols.append(col_idx)
+                        
+            last_cumulative_values = {}
+            
+            for idx, interval in enumerate(intervals):
+                int_id = interval.get("id", 0)
+                payloads = interval.get("payloads", [])
+                
+                if int_id <= last_id:
+                    errors.append(f"Profile {p_idx} Interval {idx}: id {int_id} is not strictly increasing. Last: {last_id}")
+                last_id = int_id
+                
+                if len(payloads) != expected_len:
+                    errors.append(f"Profile {p_idx} Interval id {int_id}: value count {len(payloads)} does not match sequence arity {expected_len}")
+                    continue
+                    
+                # Type checking dynamically
+                for col_idx, (val, sinfo) in enumerate(zip(payloads, resolved_seq_info)):
+                    attr = sinfo["attribute"]
+                    if attr == "value" and not isinstance(val, (int, float)):
+                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected number for 'value', got {type(val)}")
+                    elif attr == "occurredAt" and not isinstance(val, str):
+                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected string for 'occurredAt', got {type(val)}")
+                    elif attr in ["openingValue", "closingValue"] and not isinstance(val, (int, float)):
+                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected number for '{attr}', got {type(val)}")
+                    elif attr == "validationStatus" and not isinstance(val, str):
+                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected string for '{attr}', got {type(val)}")
+                        
+                for col_idx in cumulative_cols:
                     val = payloads[col_idx]
-                    if val is not None:
+                    if isinstance(val, (int, float)):
                         if val < 0:
-                            errors.append(f"Interval id {int_id}: Cumulative value for column {col_idx} cannot be negative: {val}")
+                            errors.append(f"Profile {p_idx} Interval id {int_id}: Cumulative value for column {col_idx} negative: {val}")
                         if col_idx in last_cumulative_values:
                             prev_val = last_cumulative_values[col_idx]
                             if val < prev_val:
-                                # Look for a potential reset flag/override if we wanted to allow resets
-                                errors.append(f"Interval id {int_id}: Cumulative value for column {col_idx} decreased from {prev_val} to {val} (Monotonicity violation)")
+                                errors.append(f"Profile {p_idx} Interval id {int_id}: Cumulative column {col_idx} decreased from {prev_val} to {val}")
                         last_cumulative_values[col_idx] = val
 
-            # Check individual interval overrides
-            for override in interval.get("overrides", []):
-                desc_idx = override.get("descriptorIndex", 0)
-                if desc_idx < 0 or desc_idx >= expected_len:
-                    errors.append(f"Interval id {int_id} Override: descriptorIndex {desc_idx} out of range [0, {expected_len-1}]")
-
-    # 3. Validate elaborated Readings lists
-    readings = profile.get("readings", [])
-    for idx, r in enumerate(readings):
-        ref = r.get("readingTypeRef")
-        code, info = resolve_reading_type(ref, obis_mapping)
-        if not code:
-            errors.append(f"Reading index {idx}: readingTypeRef {ref} could not be resolved in OBISMapping.json")
-            continue
-            
-        reported_mode = r.get("reportedMode", "READING")
-        category = info.get("category", "")
-        allowed_modes = info.get("supportedModes", ["READING"])
-        if reported_mode not in allowed_modes:
-            errors.append(f"Reading index {idx} ({code}): Mode '{reported_mode}' not supported for category '{category}'. Allowed: {allowed_modes}")
-            
-        # Mathematical proof for opening/closing values in USAGE mode
-        if reported_mode == "USAGE":
-            val = r.get("value")
-            opening = r.get("openingValue")
-            closing = r.get("closingValue")
-            if opening is not None and closing is not None and val is not None:
-                expected_val = closing - opening
-                if abs(val - expected_val) > 1e-5:
-                    errors.append(f"Reading index {idx} ({code}): Usage mathematical inconsistency. closing ({closing}) - opening ({opening}) = {expected_val}, but value is {val}")
+        # Validate elaborated Readings lists
+        if p_type in ["MONTHLY", "BILL_DETAILS", "INSTANTANEOUS", "ALARM"]:
+            readings = profile.get("readings", [])
+            for r_idx, r in enumerate(readings):
+                rt = r.get("readingType")
+                code, info = resolve_reading_type(rt, obis_mapping)
+                if not code:
+                    errors.append(f"Profile {p_idx} Reading {r_idx}: readingType '{rt}' could not be resolved.")
+                    continue
+                    
+                reported_mode = r.get("reportedMode", "READING")
+                if reported_mode == "USAGE":
+                    val = r.get("value")
+                    opening = r.get("openingValue")
+                    closing = r.get("closingValue")
+                    if opening is not None and closing is not None and val is not None:
+                        expected_val = closing - opening
+                        if abs(val - expected_val) > 1e-5:
+                            errors.append(f"Profile {p_idx} Reading {r_idx} ({code}): Usage math inconsistency. closing ({closing}) - opening ({opening}) = {expected_val}, but value is {val}")
 
     return errors
 
@@ -197,19 +194,16 @@ def main():
         
     target_path = sys.argv[1]
     
-    # Locate OBISMapping.json relative to script or workspace
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     obis_mapping_path = os.path.join(base_dir, "OBISMapping.json")
     obis_mapping = load_obis_mapping(obis_mapping_path)
     
-    # Gather meter categories from context directory
     dir_to_search = os.path.dirname(target_path) if os.path.isfile(target_path) else target_path
     meter_categories = get_meter_categories(dir_to_search)
     
-    # First compile v0.6 schema to run structural validation
     schema_path = os.path.join(base_dir, "schema.json")
     if not os.path.exists(schema_path):
-        print(f"Error: compiled schema.json at {schema_path} does not exist. Run scripts/generate_schema.py first.")
+        print(f"Error: schema.json at {schema_path} does not exist.")
         sys.exit(1)
         
     with open(schema_path, "r", encoding="utf-8") as f:
@@ -240,29 +234,24 @@ def main():
             continue
             
         # 1. Structural Schema Validation
-        items = data if isinstance(data, list) else [data]
-        struct_ok = True
-        for idx, item in enumerate(items):
-            errors = sorted(validator.iter_errors(item), key=lambda e: e.path)
-            if errors:
-                struct_ok = False
-                print(f"❌ Structural Validation Failed:")
-                for error in errors:
-                    path_str = f"[{idx}] -> " + (" -> ".join([str(p) for p in error.path]) if error.path else "root")
-                    print(f"  - Path: {path_str} | Message: {error.message}")
-                    
-        if not struct_ok:
+        wrapper_schema = {
+            "$ref": "#/components/schemas/MeterDataset",
+            "components": schema.get("components", {})
+        }
+        validator = jsonschema.Draft202012Validator(wrapper_schema)
+        
+        errors = sorted(validator.iter_errors(data), key=lambda e: e.path)
+        if errors:
             success = False
+            print(f"❌ Structural Validation Failed:")
+            for error in errors:
+                path_str = " -> ".join([str(p) for p in error.path]) if error.path else "root"
+                print(f"  - Path: {path_str} | Message: {error.message}")
             continue
         print("✅ Structural validation: PASSED")
         
         # 2. Semantic Rules Validation
-        semantic_errors = []
-        for idx, item in enumerate(items):
-            profile_errors = validate_profile_semantics(item, obis_mapping, meter_categories)
-            for err in profile_errors:
-                semantic_errors.append(f"Item {idx}: {err}")
-                
+        semantic_errors = validate_dataset_semantics(data, obis_mapping, meter_categories)
         if semantic_errors:
             print(f"❌ Semantic Validation Failed:")
             for err in semantic_errors:

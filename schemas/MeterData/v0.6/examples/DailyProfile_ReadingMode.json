@@ -1,55 +1,76 @@
 {
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
-  "@type": "DailyProfile",
-  "profileType": "DAILY",
-  "customerRefs": [
-    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+  "@type": "MeterDataset",
+  "payloadDescriptorSets": [
+    {
+      "name": "DailyLoadSurveySet",
+      "payloadDescriptors": [
+        {
+          "reportedMode": "READING",
+          "powerOfTenMultiplier": 0,
+          "readingType": "kWh imp"
+        }
+      ],
+      "compactSequences": [
+        {
+          "name": "DailyEnergySeq",
+          "sequenceItems": [
+            {
+              "reportedMode": "READING",
+              "readingType": "kWh imp"
+            }
+          ]
+        }
+      ]
+    }
   ],
-  "meterRefs": [
-    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
-  ],
-  "payloadDescriptorSet": {
-    "name": "DailyLoadSurveySet",
-    "payloadDescriptors": [
-      {
-        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
-        "reportedMode": "READING",
-        "powerOfTenMultiplier": 0
-      }
-    ],
-    "compactSequences": [
-      {
-        "name": "DailyEnergySeq",
-        "sequenceItems": [
-          {
-            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp" },
-            "reportedMode": "READING"
-          }
-        ]
-      }
-    ]
-  },
-  "compactSequenceRef": "DailyEnergySeq",
-  "intervalPeriod": {
-    "start": "2026-05-04T00:00:00+05:30",
-    "duration": "P1D"
-  },
-  "intervals": [
+  "data": [
     {
-      "id": 0,
-      "payloads": [1000.0]
-    },
-    {
-      "id": 1,
-      "payloads": [1005.5]
-    },
-    {
-      "id": 2,
-      "payloads": [1012.3]
-    },
-    {
-      "id": 3,
-      "payloads": [1018.0]
+      "@type": "DailyProfile",
+      "profileType": "DAILY",
+      "customerRefs": [
+        {
+          "scheme": "CONSUMER_NUMBER",
+          "value": "RR-1234"
+        }
+      ],
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "BESCOM-SM-2025-654321"
+        }
+      ],
+      "compactSequenceRef": "DailyEnergySeq",
+      "intervalPeriod": {
+        "start": "2026-05-04T00:00:00+05:30",
+        "duration": "P1D"
+      },
+      "intervals": [
+        {
+          "id": 0,
+          "payloads": [
+            1000.0
+          ]
+        },
+        {
+          "id": 1,
+          "payloads": [
+            1005.5
+          ]
+        },
+        {
+          "id": 2,
+          "payloads": [
+            1012.3
+          ]
+        },
+        {
+          "id": 3,
+          "payloads": [
+            1018.0
+          ]
+        }
+      ]
     }
   ]
 }
