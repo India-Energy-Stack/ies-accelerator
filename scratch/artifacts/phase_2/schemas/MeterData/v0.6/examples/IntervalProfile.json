@@ -1,0 +1,68 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+  "@type": "IntervalProfile",
+  "profileType": "INTERVAL",
+  "customerRefs": [
+    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+  ],
+  "meterRefs": [
+    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+  ],
+  "serviceDeliveryPointRefs": [
+    { "scheme": "SERVICE_DELIVERY_POINT", "value": "SDP-BLR-A-12345" }
+  ],
+  "payloadDescriptorSet": {
+    "name": "IntervalLoadSurveySet",
+    "payloadDescriptors": [
+      {
+        "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.29.0.255" },
+        "reportedMode": "USAGE"
+      }
+    ],
+    "compactSequences": [
+      {
+        "name": "IntervalEnergySeq",
+        "sequenceItems": [
+          {
+            "readingTypeRef": { "scheme": "OBIS", "value": "1.0.1.29.0.255" },
+            "reportedMode": "USAGE"
+          }
+        ]
+      }
+    ]
+  },
+  "compactSequenceRef": "IntervalEnergySeq",
+  "intervalPeriod": {  "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M"  },
+  "intervals": [
+    {
+      "id": 0,
+      "payloads": [4.62]
+    },
+    {
+      "id": 1,
+      "payloads": [4.85]
+    },
+    {
+      "id": 2,
+      "payloads": [5.21],
+      "overrides": [
+        {
+          "intervalId": 2,
+          "descriptorIndex": 0,
+          "validationStatus": "ESTIMATED",
+          "source": "ESTIMATED",
+          "changeMethod": "linear-interpolation",
+          "failCode": "VEE-MISSING-INTERVAL"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "payloads": [5.04]
+    }
+  ],
+  "timePeriod": {
+    "start": "2026-05-04T09:00:00+05:30",
+    "duration": "PT2H"
+  }
+}

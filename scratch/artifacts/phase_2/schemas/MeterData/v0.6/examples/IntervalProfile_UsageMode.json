@@ -1,0 +1,60 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld",
+  "@type": "IntervalProfile",
+  "profileType": "INTERVAL",
+  "customerRefs": [
+    { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
+  ],
+  "meterRefs": [
+    { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+  ],
+  "payloadDescriptorSet": {
+    "name": "IntervalLoadSurveySet",
+    "payloadDescriptors": [
+      {
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
+        "reportedMode": "USAGE",
+        "powerOfTenMultiplier": 0
+      },
+      {
+        "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp block" },
+        "reportedMode": "USAGE",
+        "powerOfTenMultiplier": 0
+      }
+    ],
+    "compactSequences": [
+      {
+        "name": "BlockEnergySeq",
+        "sequenceItems": [
+          {
+            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kWh imp block" },
+            "reportedMode": "USAGE"
+          },
+          {
+            "readingTypeRef": { "scheme": "SHORT_CODE", "value": "kVAh imp block" },
+            "reportedMode": "USAGE"
+          }
+        ]
+      }
+    ]
+  },
+  "compactSequenceRef": "BlockEnergySeq",
+  "intervalPeriod": {
+    "start": "2026-05-04T00:00:00+05:30",
+    "duration": "PT15M"
+  },
+  "intervals": [
+    {
+      "id": 0,
+      "payloads": [1.2, 1.3]
+    },
+    {
+      "id": 1,
+      "payloads": [1.4, 1.5]
+    },
+    {
+      "id": 2,
+      "payloads": [1.1, 1.2]
+    }
+  ]
+}
