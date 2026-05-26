@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequestCredential/v0.1/schema.json",
+  "title": "MeterDataRequestCredential",
+  "description": "W3C Verifiable Credential (VC Data Model 2.0) wrapping a MeterDataRequest. Subclass of EnergyCredential (https://schema.beckn.io/EnergyCredential/v2.0). The common VC envelope (issuer with licenseNumber, validFrom/validUntil, credentialStatus, proof) is inherited from EnergyCredential. This schema adds the IES-specific credentialSubject containing a MeterDataRequest.",
+  "type": "object",
+  "allOf": [
+    { "$ref": "https://schema.beckn.io/EnergyCredential/v2.0/schema.json" }
+  ],
+  "properties": {
+    "type": {
+      "type": "array",
+      "items": { "type": "string" },
+      "contains": { "const": "MeterDataRequestCredential" }
+    },
+    "credentialSubject": {
+      "type": "object",
+      "required": ["meterDataRequest"],
+      "properties": {
+        "id": { "type": "string", "format": "uri" },
+        "meterDataRequest": {
+          "$ref": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/schema.json",
+          "description": "The scoped, time-bounded data request payload."
+        }
+      }
+    }
+  }
+}

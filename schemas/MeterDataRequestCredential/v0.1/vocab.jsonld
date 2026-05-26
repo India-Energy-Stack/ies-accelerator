@@ -1,0 +1,51 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@graph": [
+        {
+            "@id": "ies:MeterDataRequestCredential",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Request Credential",
+            "rdfs:comment": "A W3C Verifiable Credential (VC Data Model 2.0) wrapping a MeterDataRequest. Issued by a data requester (e.g., DISCOM, aggregator) to prove authorisation for accessing smart meter telemetry from a provider (e.g., AMISP, MDM system). Used in Beckn data-exchange confirm flows."
+        },
+        {
+            "@id": "ies:meterDataRequest",
+            "@type": "rdf:Property",
+            "rdfs:label": "Meter Data Request",
+            "rdfs:comment": "The scoped, time-bounded data request payload embedded in the credential subject. Specifies the meter resources (DIDs), hierarchical scope (ResourceOnly / ResourceAndChildren / ChildrenOnly), time window (from + duration), maximum record count, and profile types to include.",
+            "rdfs:domain": { "@id": "ies:MeterDataRequestCredential" },
+            "rdfs:range": { "@id": "ies:MeterDataRequest" }
+        },
+        {
+            "@id": "ies:licenseNumber",
+            "@type": "rdf:Property",
+            "rdfs:label": "License Number",
+            "rdfs:comment": "Regulatory licence number of the credential issuer (e.g., DISCOM licence issued by SERC).",
+            "rdfs:range": { "@id": "xsd:string" }
+        },
+        {
+            "@id": "ies:credentialStatus",
+            "@type": "rdf:Property",
+            "rdfs:label": "Credential Status",
+            "rdfs:comment": "Revocation status of the credential via the DeDi registry."
+        },
+        {
+            "@id": "ies:statusPurpose",
+            "@type": "rdf:Property",
+            "rdfs:label": "Status Purpose",
+            "rdfs:comment": "Purpose of the status entry: 'revocation' or 'suspension'.",
+            "rdfs:range": { "@id": "xsd:string" }
+        },
+        {
+            "@id": "ies:statusListCredential",
+            "@type": "rdf:Property",
+            "rdfs:label": "Status List Credential",
+            "rdfs:comment": "URL of the status-list credential used to check revocation via DeDi registry."
+        }
+    ]
+}
