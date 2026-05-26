@@ -1,0 +1,196 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/beckn/DEG/blob/main/specification/schema/ElectricityCredential/v1.1/schema.json",
+    "title": "ElectricityCredential v1.1",
+    "description": "Bundled JSON Schema for ElectricityCredential v1.1. EnergyResource has top-level id/type/subResources/parentResources; all other attributes live in the 'attributes' bag.",
+    "type": "object",
+    "required": ["@context", "id", "type", "issuer", "validFrom", "credentialSubject"],
+    "properties": {
+        "@context": {
+            "type": "array",
+            "items": { "type": "string" },
+            "contains": { "const": "https://www.w3.org/ns/credentials/v2" },
+            "minItems": 2
+        },
+        "id": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "type": {
+            "type": "array",
+            "items": { "type": "string" },
+            "contains": { "const": "ElectricityCredential" },
+            "minItems": 2
+        },
+        "issuer": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "name": { "type": "string", "minLength": 1 },
+                "idRef": { "$ref": "#/$defs/IdRef" }
+            }
+        },
+        "validFrom": { "type": "string", "format": "date-time" },
+        "validUntil": { "type": "string", "format": "date-time" },
+        "credentialStatus": {
+            "type": "object",
+            "required": ["id", "type", "statusPurpose", "statusListCredential"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "type": { "type": "string", "const": "dediregistry" },
+                "statusPurpose": { "type": "string", "enum": ["revocation", "suspension"] },
+                "statusListCredential": { "type": "string", "format": "uri" }
+            }
+        },
+        "credentialSubject": {
+            "type": "object",
+            "required": ["customerProfile"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "customerProfile": { "$ref": "#/$defs/CustomerProfile" },
+                "customerDetails": { "$ref": "#/$defs/CustomerDetails" }
+            }
+        },
+        "proof": {
+            "type": "object",
+            "required": ["type", "created", "verificationMethod", "proofPurpose", "proofValue"],
+            "properties": {
+                "type": { "type": "string" },
+                "created": { "type": "string", "format": "date-time" },
+                "verificationMethod": { "type": "string", "format": "uri" },
+                "proofPurpose": { "type": "string", "enum": ["assertionMethod", "authentication"] },
+                "proofValue": { "type": "string", "minLength": 1 }
+            }
+        }
+    },
+    "$defs": {
+        "IdRef": {
+            "type": "object",
+            "required": ["issuedBy", "subjectId"],
+            "properties": {
+                "issuedBy": { "type": "string", "format": "uri" },
+                "subjectId": { "type": "string", "pattern": "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$" }
+            }
+        },
+        "CustomerProfile": {
+            "type": "object",
+            "description": "Non-PII customer identity, physical assets, and tariff profiles.",
+            "required": ["customerNumber", "energyResources"],
+            "properties": {
+                "customerNumber": { "type": "string", "minLength": 1 },
+                "idRef": { "$ref": "#/$defs/IdRef" },
+                "energyResources": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "#/$defs/EnergyResource" }
+                },
+                "consumptionProfiles": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "#/$defs/ConsumptionProfile" }
+                }
+            }
+        },
+        "ConsumptionProfile": {
+            "type": "object",
+            "description": "Tariff and load characteristics for one meter. meterId matches the id of a METER entry in energyResources[].",
+            "required": ["meterId", "sanctionedLoadKW", "tariffCategoryCode"],
+            "properties": {
+                "meterId": { "type": "string", "minLength": 1 },
+                "sanctionedLoadKW": { "type": "number", "minimum": 0.5, "maximum": 10000 },
+                "contractMaxDemandKw": { "type": "number", "minimum": 0 },
+                "tariffCategoryCode": { "type": "string", "minLength": 1 },
+                "premisesType": { "type": "string", "enum": ["Residential", "Commercial", "Industrial", "Agricultural"] },
+                "connectionType": { "type": "string", "enum": ["Single-phase", "Three-phase"] }
+            }
+        },
+        "CustomerDetails": {
+            "type": "object",
+            "description": "PII — fullName is only here.",
+            "required": ["fullName", "installationAddress", "serviceConnectionDate"],
+            "properties": {
+                "fullName": { "type": "string", "minLength": 1, "maxLength": 200 },
+                "installationAddress": { "$ref": "#/$defs/Location" },
+                "serviceConnectionDate": { "type": "string", "format": "date-time" }
+            }
+        },
+        "EnergyResource": {
+            "type": "object",
+            "description": "Inlined from EnergyResource/v2.0. Top-level: id, type, attributes, subResources, parentResources.",
+            "additionalProperties": false,
+            "properties": {
+                "id": { "type": "string" },
+                "type": {
+                    "type": "string",
+                    "enum": ["METER","DT","BUS","FEEDER","SOLAR","SOLAR_PV","WIND","HYDRO","BIOGAS","CHP","FUEL_CELL","BATTERY","BESS","EV_CHARGER","EV_V2G","SMART_HVAC","SMART_WATER_HEATER","CONTROLLABLE_LOAD","MICROGRID"]
+                },
+                "attributes": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "description": "All non-topological attributes. CommonResourceAttributes (make, model, ratedPowerKw, energyCapacityKwh, telemetryProvider) plus type-specific fields (meterType, gps, location, feeder, bus, commissioningDate, storageType, …).",
+                    "properties": {
+                        "make": { "type": "string" },
+                        "model": { "type": "string" },
+                        "ratedPowerKw": { "type": "number", "minimum": 0 },
+                        "energyCapacityKwh": { "type": "number", "minimum": 0 },
+                        "telemetryProvider": { "type": "string" },
+                        "meterType": {
+                            "type": "string",
+                            "enum": ["AMR", "AMI", "Electromechanical", "Forward", "Reverse", "Bidirectional", "Prepaid", "NetMeter", "Other"]
+                        },
+                        "gps": {
+                            "type": "string",
+                            "pattern": "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$"
+                        },
+                        "location": { "$ref": "#/$defs/Location" },
+                        "commissioningDate": { "type": "string" },
+                        "storageType": { "type": "string" }
+                    }
+                },
+                "subResources": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            { "type": "string" },
+                            { "$ref": "#/$defs/EnergyResource" }
+                        ]
+                    }
+                },
+                "parentResources": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            }
+        },
+        "Location": {
+            "type": "object",
+            "description": "Physical location following the beckn Location schema.",
+            "required": ["address", "area_code", "country"],
+            "properties": {
+                "address": { "type": "string", "minLength": 1 },
+                "city": { "type": "object", "properties": { "name": { "type": "string" }, "code": { "type": "string" } } },
+                "district": { "type": "string" },
+                "state": { "type": "object", "properties": { "name": { "type": "string" }, "code": { "type": "string" } } },
+                "country": {
+                    "type": "object",
+                    "required": ["code"],
+                    "properties": {
+                        "name": { "type": "string" },
+                        "code": { "type": "string", "pattern": "^[A-Z]{2}$" }
+                    }
+                },
+                "area_code": { "type": "string", "minLength": 1 },
+                "gps": { "type": "string", "pattern": "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$" },
+                "openLocationCode": { "type": "string", "pattern": "^[23456789CFGHJMPQRVWX]{4,8}\\+[23456789CFGHJMPQRVWX]{0,4}$" },
+                "descriptor": { "type": "object" },
+                "map_url": { "type": "string", "format": "uri" },
+                "circle": { "type": "object" },
+                "polygon": { "type": "string" },
+                "3dspace": { "type": "string" },
+                "rating": { "type": "string" }
+            }
+        }
+    }
+}
