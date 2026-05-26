@@ -1,0 +1,264 @@
+openapi: 3.1.1
+info:
+  title: ElectricityCredential
+  version: 1.1.0
+  description: >
+    Unified W3C Verifiable Credential (VC Data Model 2.0) issued per meter by
+    electricity distribution utilities.
+
+    customerProfile holds only non-PII utility identity: customerNumber (CA
+    number), optional idRef, energyResources[], and consumptionProfiles[].
+
+    energyResources[] uses EnergyResource/v2.0. Each entry has id, type,
+    and all attributes directly on the object — no attribute-bag wrapper.
+    Multiple topologies are supported: a single CA number may span multiple
+    meters (different premises, sub-meters, parallel meters) each with their
+    own child DERs linked via parentResources[].
+
+    consumptionProfiles[] links tariff/load characteristics to a specific
+    meter via meterId (= that meter's id in energyResources[]).
+
+    PII (fullName) is exclusively in customerDetails.
+
+    v1.0 → v1.1 field mapping (nothing lost)
+    ─────────────────────────────────────────
+    customerProfile.meterNumber        → energyResources[METER].id
+    customerProfile.meterType          → energyResources[METER].meterType
+    consumptionProfiles[].premisesType       → consumptionProfiles[].premisesType
+    consumptionProfiles[].connectionType     → consumptionProfiles[].connectionType
+    consumptionProfiles[].sanctionedLoadKW   → consumptionProfiles[].sanctionedLoadKW
+    consumptionProfiles[].tariffCategoryCode → consumptionProfiles[].tariffCategoryCode
+    generationProfiles[].assetId         → energyResources[DER].id
+    generationProfiles[].generationType  → energyResources[DER].type  (SOLAR, WIND, …)
+    generationProfiles[].capacityKW      → energyResources[DER].ratedPowerKw
+    generationProfiles[].manufacturer    → energyResources[DER].make
+    generationProfiles[].modelNumber     → energyResources[DER].model
+    generationProfiles[].commissioningDate → energyResources[DER].commissioningDate
+    storageProfiles[].assetId            → energyResources[DER].id
+    storageProfiles[].storageCapacityKWh → energyResources[DER].energyCapacityKwh
+    storageProfiles[].powerRatingKW      → energyResources[DER].ratedPowerKw
+    storageProfiles[].storageType        → energyResources[DER].storageType
+    storageProfiles[].commissioningDate  → energyResources[DER].commissioningDate
+
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+servers:
+  - url: https://schema.beckn.io
+    description: Canonical schema registry
+paths: {}
+components:
+  schemas:
+
+    ElectricityCredential:
+      $id: https://schema.beckn.io/ElectricityCredential/v1.1
+      title: ElectricityCredential
+      type: object
+      additionalProperties: true
+      allOf:
+        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+      x-tags:
+        - energy
+        - credential
+        - verifiable-credential
+        - electricity
+        - customer
+        - deg
+      x-jsonld:
+        "@context": ./context.jsonld
+        "@type": ElectricityCredential
+      properties:
+        credentialSubject:
+          type: object
+          required:
+            - customerProfile
+          x-jsonld:
+            "@id": deg:credentialSubject
+          properties:
+            id:
+              type: string
+              format: uri
+              description: Optional DID of the customer/credential subject.
+              x-jsonld:
+                "@id": "@id"
+            customerProfile:
+              $ref: "#/components/schemas/CustomerProfile"
+            customerDetails:
+              $ref: "#/components/schemas/CustomerDetails"
+
+    CustomerProfile:
+      type: object
+      description: >
+        Non-PII customer identity and asset list. No PII — safe to share
+        without customerDetails. Supports arbitrary topologies: a single
+        customerNumber may have multiple METER entries (different premises,
+        sub-meters, parallel meters) each with their own child DERs.
+      required:
+        - customerNumber
+        - energyResources
+      x-jsonld:
+        "@id": deg:customerProfile
+      properties:
+        customerNumber:
+          type: string
+          minLength: 1
+          description: Utility customer account number (CA number).
+          x-jsonld:
+            "@id": deg:customerNumber
+        idRef:
+          type: object
+          description: External identity reference for the customer.
+          required:
+            - issuedBy
+            - subjectId
+          x-jsonld:
+            "@id": deg:idRef
+          properties:
+            issuedBy:
+              type: string
+              format: uri
+              description: DID of the authority that issued the identity.
+              x-jsonld:
+                "@id": deg:issuedBy
+            subjectId:
+              type: string
+              pattern: "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$"
+              description: Subject identifier in authority-domain:id-value format.
+              x-jsonld:
+                "@id": deg:subjectId
+        energyResources:
+          type: array
+          minItems: 1
+          description: >
+            All physical energy assets for this customer account as
+            EnergyResource/v2.0 entries. Each entry has id, type,
+            attributes (open bag), subResources, and parentResources.
+            For METER entries, id is the meter serial number; type-specific
+            fields (meterType, gps, feeder, bus) live in attributes.
+            DERs (SOLAR, WIND, BATTERY, …) declare their parent meter via
+            parentResources[]; their dimensioning and type-specific fields
+            (ratedPowerKw, commissioningDate, storageType, …) also live in
+            attributes.
+          x-jsonld:
+            "@id": deg:energyResources
+          items:
+            $ref: "https://schema.beckn.io/EnergyResource/v2.0#/components/schemas/EnergyResource"
+        consumptionProfiles:
+          type: array
+          minItems: 1
+          description: >
+            Tariff and load characteristics per meter connection. Each
+            entry links to a specific meter via meterId. Separate from
+            physical asset data because tariff data is administrative and
+            changes independently.
+          x-jsonld:
+            "@id": deg:consumptionProfiles
+          items:
+            $ref: "#/components/schemas/ConsumptionProfile"
+
+    ConsumptionProfile:
+      type: object
+      description: >
+        Tariff and regulatory load profile for one meter connection.
+        meterId links to a METER entry's id in energyResources[].
+      required:
+        - meterId
+        - sanctionedLoadKW
+        - tariffCategoryCode
+      x-jsonld:
+        "@id": deg:ConsumptionProfile
+      properties:
+        meterId:
+          type: string
+          minLength: 1
+          description: >
+            Meter identifier — matches the id of a METER entry in
+            customerProfile.energyResources[].
+          x-jsonld:
+            "@id": deg:meterId
+        sanctionedLoadKW:
+          type: number
+          minimum: 0.5
+          maximum: 10000
+          description: Sanctioned/approved electrical load in kilowatts (kW).
+          x-jsonld:
+            "@id": deg:sanctionedLoadKW
+        contractMaxDemandKw:
+          type: number
+          minimum: 0
+          description: Maximum demand contracted with the utility for this connection, in kW.
+          x-jsonld:
+            "@id": deg:contractMaxDemandKw
+        tariffCategoryCode:
+          type: string
+          minLength: 1
+          description: Billing/tariff category code assigned by the utility.
+          x-jsonld:
+            "@id": deg:tariffCategoryCode
+        premisesType:
+          type: string
+          enum:
+            - Residential
+            - Commercial
+            - Industrial
+            - Agricultural
+          x-jsonld:
+            "@id": deg:premisesType
+        connectionType:
+          type: string
+          enum:
+            - Single-phase
+            - Three-phase
+          x-jsonld:
+            "@id": deg:connectionType
+
+    CustomerDetails:
+      type: object
+      description: >
+        PII section. fullName appears ONLY here — never in customerProfile
+        or any resource entry.
+      required:
+        - fullName
+        - installationAddress
+        - serviceConnectionDate
+      x-jsonld:
+        "@id": deg:customerDetails
+      properties:
+        fullName:
+          type: string
+          description: Full name of the customer as per ID proof.
+        installationAddress:
+          type: object
+          description: Physical location of the installation. Follows the beckn Location schema.
+          required:
+            - address
+            - area_code
+            - country
+          properties:
+            address: { type: string }
+            city:
+              type: object
+              properties:
+                name: { type: string }
+                code: { type: string }
+            district: { type: string }
+            state:
+              type: object
+              properties:
+                name: { type: string }
+                code: { type: string }
+            country:
+              type: object
+              required: [code]
+              properties:
+                name: { type: string }
+                code:
+                  type: string
+                  pattern: "^[A-Z]{2}$"
+            area_code: { type: string }
+            gps:
+              type: string
+              description: "GPS coordinates as 'lat,lng'."
+            openLocationCode: { type: string }
+        serviceConnectionDate:
+          type: string
+          format: date-time
+          description: Date and time the connection was activated (with timezone offset).

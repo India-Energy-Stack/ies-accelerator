@@ -6,8 +6,6 @@
 
 Unified W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electricity distribution utilities. Combines customer identity with optional consumption, generation, and storage profiles in a single credential.
 
-**Canonical IRI:** `https://schema.beckn.io/ElectricityCredential/v1.0`
-
 **Namespace prefix:** `deg:` → `https://schema.beckn.io/deg/`
 
 **Tags:** `energy` · `credential` · `verifiable-credential` · `electricity` · `customer` · `deg`
@@ -18,7 +16,8 @@ Unified W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electr
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v1.0](v1.0/README.md) | Current | Unified credential replacing separate per-profile VCs |
+| [v1.1](v1.1/README.md) | **Current** | Unified `energyResources[]` (EnergyResource/v2.0), multi-meter topology support |
+| [v1.0](v1.0/README.md) | Previous | Separate `consumptionProfiles[]`, `generationProfiles[]`, `storageProfiles[]` arrays |
 
 ---
 
@@ -32,29 +31,46 @@ beckn:Credential
 
 ---
 
-## credentialSubject Properties
+## credentialSubject Properties (v1.1)
 
 | Property | Type | Required | Description |
 |----------|------|:--------:|-------------|
 | `id` | `string` (URI) | | Optional DID of the customer/credential subject |
-| `customerProfile` | object | ✅ | Customer number, meter number, meter type, identity reference |
-| `customerDetails` | object | | Full name, installation address, service connection date |
-| `consumptionProfile` | object | | Premises type, connection type, sanctioned load, tariff |
-| `generationProfile` | object | | DER type, capacity, commissioning date, manufacturer |
-| `storageProfile` | object | | Battery capacity, power rating, storage type |
+| `customerProfile` | object | ✅ | Non-PII: customer number, all energy resources, tariff profiles |
+| `customerProfile.customerNumber` | string | ✅ | Utility CA number |
+| `customerProfile.energyResources[]` | array | ✅ | All physical assets — meters, DERs, storage (EnergyResource/v2.0) |
+| `customerProfile.consumptionProfiles[]` | array | | Tariff/load profiles, linked to meters via `meterId` |
+| `customerDetails` | object | | PII — full name, installation address, connection date |
 
 ---
 
-## Linked Data
+## Linked Data (v1.1)
 
 | Term | IRI |
 |------|-----|
 | `ElectricityCredential` | `deg:ElectricityCredential` |
 | `customerProfile` | `deg:customerProfile` |
 | `customerDetails` | `deg:customerDetails` |
-| `consumptionProfile` | `deg:consumptionProfile` |
-| `generationProfile` | `deg:generationProfile` |
-| `storageProfile` | `deg:storageProfile` |
+| `energyResources` | `deg:energyResources` |
+| `consumptionProfiles` | `deg:consumptionProfiles` |
+| `meterId` | `deg:meterId` |
+
+---
+
+## v1.0 → v1.1 Migration Summary
+
+| v1.0 | v1.1 |
+|------|------|
+| `customerProfile.meterNumber` | `energyResources[METER].id` |
+| `customerProfile.meterType` | `energyResources[METER].attributes.meterType` |
+| `generationProfiles[].assetId` | `energyResources[DER].id` |
+| `generationProfiles[].capacityKW` | `energyResources[DER].attributes.ratedPowerKw` |
+| `generationProfiles[].manufacturer` | `energyResources[DER].attributes.make` |
+| `storageProfiles[].storageCapacityKWh` | `energyResources[DER].attributes.energyCapacityKwh` |
+| `storageProfiles[].storageType` | `energyResources[DER].attributes.storageType` |
+| `fullName` duplicated per profile entry | `customerDetails.fullName` (once only) |
+
+See [v1.1/README.md](v1.1/README.md) for the full migration table.
 
 ---
 

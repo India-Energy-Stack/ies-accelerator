@@ -1,0 +1,130 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "deg": "https://schema.beckn.io/deg#",
+        "erDeg": "https://schema.beckn.io/deg/EnergyResource/v2.0/",
+        "ElectricityCredential": {
+            "@id": "deg:ElectricityCredential",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": "@id",
+                "type": "@type"
+            }
+        },
+        "customerProfile": {
+            "@id": "deg:customerProfile",
+            "@type": "@id",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "customerNumber": { "@id": "deg:customerNumber", "@type": "xsd:string" },
+                "idRef": {
+                    "@id": "deg:idRef",
+                    "@type": "@id",
+                    "@context": {
+                        "issuedBy": { "@id": "deg:issuedBy", "@type": "@id" },
+                        "subjectId": { "@id": "deg:subjectId", "@type": "xsd:string" }
+                    }
+                },
+                "energyResources": {
+                    "@id": "deg:energyResources",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id":              "@id",
+                        "type":            { "@id": "erDeg:resourceType", "@type": "xsd:string" },
+                        "attributes": {
+                            "@id": "erDeg:attributes",
+                            "@type": "@id",
+                            "@context": {
+                                "make":              { "@id": "erDeg:make",              "@type": "xsd:string"  },
+                                "model":             { "@id": "erDeg:model",             "@type": "xsd:string"  },
+                                "ratedPowerKw":      { "@id": "erDeg:ratedPowerKw",      "@type": "xsd:decimal" },
+                                "energyCapacityKwh": { "@id": "erDeg:energyCapacityKwh", "@type": "xsd:decimal" },
+                                "telemetryProvider": { "@id": "erDeg:telemetryProvider", "@type": "xsd:string"  },
+                                "meterType":         { "@id": "erDeg:meterType",         "@type": "xsd:string"  },
+                                "gps":               { "@id": "erDeg:gps",               "@type": "xsd:string"  },
+                                "meterLocation":     { "@id": "erDeg:meterLocation",     "@type": "@id"         },
+                                "feeder":            { "@id": "erDeg:feeder",            "@type": "xsd:string"  },
+                                "bus":               { "@id": "erDeg:bus",               "@type": "xsd:string"  },
+                                "commissioningDate": { "@id": "deg:commissioningDate",   "@type": "xsd:string"  },
+                                "storageType":       { "@id": "deg:storageType",         "@type": "xsd:string"  }
+                            }
+                        },
+                        "subResources":    { "@id": "erDeg:subResources",    "@container": "@list" },
+                        "parentResources": { "@id": "erDeg:parentResources", "@container": "@list" }
+                    }
+                },
+                "consumptionProfiles": {
+                    "@id": "deg:consumptionProfiles",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "meterId":            { "@id": "deg:meterId",            "@type": "xsd:string"  },
+                        "sanctionedLoadKW":   { "@id": "deg:sanctionedLoadKW",   "@type": "xsd:decimal" },
+                        "tariffCategoryCode": { "@id": "deg:tariffCategoryCode", "@type": "xsd:string"  },
+                        "premisesType":       { "@id": "deg:premisesType",       "@type": "xsd:string"  },
+                        "connectionType":     { "@id": "deg:connectionType",     "@type": "xsd:string"  }
+                    }
+                }
+            }
+        },
+        "customerDetails": {
+            "@id": "deg:customerDetails",
+            "@type": "@id",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "fullName": { "@id": "schema:name", "@type": "xsd:string" },
+                "serviceConnectionDate": { "@id": "deg:serviceConnectionDate", "@type": "xsd:dateTime" },
+                "installationAddress": {
+                    "@id": "beckn:Location",
+                    "@type": "@id",
+                    "@context": {
+                        "beckn": "https://schema.beckn.io/",
+                        "descriptor": {
+                            "@id": "beckn:descriptor", "@type": "@id",
+                            "@context": {
+                                "name": { "@id": "beckn:name", "@type": "xsd:string" },
+                                "code": { "@id": "beckn:code", "@type": "xsd:string" },
+                                "short_desc": { "@id": "beckn:short_desc", "@type": "xsd:string" },
+                                "long_desc":  { "@id": "beckn:long_desc",  "@type": "xsd:string" }
+                            }
+                        },
+                        "map_url":  { "@id": "beckn:map_url",  "@type": "@id"        },
+                        "gps":      { "@id": "beckn:gps",      "@type": "xsd:string" },
+                        "address":  { "@id": "beckn:address",  "@type": "xsd:string" },
+                        "city":     { "@id": "beckn:city", "@type": "@id", "@context": { "name": { "@id": "beckn:name", "@type": "xsd:string" }, "code": { "@id": "beckn:code", "@type": "xsd:string" } } },
+                        "district": { "@id": "beckn:district", "@type": "xsd:string" },
+                        "state":    { "@id": "beckn:state", "@type": "@id", "@context": { "name": { "@id": "beckn:name", "@type": "xsd:string" }, "code": { "@id": "beckn:code", "@type": "xsd:string" } } },
+                        "country":  { "@id": "beckn:country", "@type": "@id", "@context": { "name": { "@id": "beckn:name", "@type": "xsd:string" }, "code": { "@id": "beckn:code", "@type": "xsd:string" } } },
+                        "area_code":        { "@id": "beckn:area_code",        "@type": "xsd:string" },
+                        "circle":           { "@id": "beckn:circle", "@type": "@id", "@context": { "gps": { "@id": "beckn:gps", "@type": "xsd:string" }, "radius": { "@id": "beckn:radius", "@type": "@id" } } },
+                        "polygon":          { "@id": "beckn:polygon",          "@type": "xsd:string" },
+                        "3dspace":          { "@id": "beckn:3dspace",          "@type": "xsd:string" },
+                        "rating":           { "@id": "beckn:rating",           "@type": "xsd:string" },
+                        "openLocationCode": { "@id": "deg:openLocationCode",   "@type": "xsd:string" }
+                    }
+                }
+            }
+        },
+        "credentialStatus": {
+            "@id": "deg:credentialStatus",
+            "@type": "@id",
+            "@context": {
+                "statusPurpose":        { "@id": "deg:statusPurpose",        "@type": "xsd:string" },
+                "statusListCredential": { "@id": "deg:statusListCredential", "@type": "@id"        }
+            }
+        }
+    }
+}
