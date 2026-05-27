@@ -32,13 +32,13 @@ graph TD
 
 ---
 
-## 2. Capability Advertisement with `MeterDataRequest`
+## 2. Capability Advertisement with `MeterDataCapabilities`
 
-To establish a contract of what telemetry data can be shared or requested, systems use the [`MeterDataRequest`](../../MeterDataRequest/v0.5/README.md) schema.
+To establish a contract of what telemetry data can be shared or requested, systems use the [`MeterDataCapabilities`](../../MeterDataRequest/v0.6/README.md) schema.
 
-* **Capability Advertising**: A Data Provider (BPP, such as an MDM or HES) advertises the profile types, cadences, and OBIS registries it supports by publishing query allowance templates.
-  * For example, the BPP can publish a capability profile for billing determinants ([`MeterDataRequest_Billing_Capability.json`](../../MeterDataRequest/v0.5/examples/MeterDataRequest_Billing_Capability.json)) or load survey limits ([`MeterDataRequest_MDM_Capability.json`](../../MeterDataRequest/v0.5/examples/MeterDataRequest_MDM_Capability.json)).
-* **Precise Scoping**: Data Consumers query BPP data exchange nodes with a matching request specifying target meters, parameters, and time ranges. This ensures access control is enforced based on consent policies.
+* **Capability Advertising**: A Data Provider (BPP, such as an MDM or HES) advertises the profile types, cadences, specific OBIS registers, scaling multipliers, and telemetry modes it supports by publishing query allowance templates.
+  * For example, the BPP can publish a capability profile for billing determinants ([`Billing_Capabilities_Example.json`](../../MeterDataRequest/v0.6/examples/Billing_Capabilities_Example.json)) or operational load survey limits ([`MDM_Capabilities_Example.json`](../../MeterDataRequest/v0.6/examples/MDM_Capabilities_Example.json)).
+* **Precise Scoping**: Data Consumers query BPP data exchange nodes with a matching request specifying target resources, parameters, and time ranges. This ensures access control is enforced based on consent policies.
 
 ---
 

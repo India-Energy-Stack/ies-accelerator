@@ -1,0 +1,37 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
+  "@type": "MeterDataCapabilities",
+  "profiles": [
+    {
+      "profileType": "CustomerProfile"
+    },
+    {
+      "profileType": "MonthlyProfile",
+      "readings": [
+        {
+          "value": "1.0.1.8.0.255",
+          "mode": "USAGE"
+        },
+        {
+          "value": "1.0.2.8.0.255",
+          "mode": "USAGE"
+        },
+        {
+          "value": "1.0.1.6.0.255",
+          "mode": "USAGE"
+        },
+        {
+          "value": "1.0.9.6.0.255",
+          "mode": "USAGE"
+        }
+      ]
+    },
+    {
+      "profileType": "BillDetails"
+    }
+  ],
+  "supportedScopes": [
+    "ResourceOnly"
+  ],
+  "maxHistoryDuration": "P10Y"
+}

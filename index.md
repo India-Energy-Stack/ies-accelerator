@@ -1204,8 +1204,9 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
     <li><a href="schemas/ElectricityCredential/README.md#electricitycredential">ElectricityCredential</a>    <ul>
       <li><a href="schemas/ElectricityCredential/README.md#versions">Versions</a></li>
       <li><a href="schemas/ElectricityCredential/README.md#inheritance">Inheritance</a></li>
-      <li><a href="schemas/ElectricityCredential/README.md#credentialsubject-properties">credentialSubject Properties</a></li>
-      <li><a href="schemas/ElectricityCredential/README.md#linked-data">Linked Data</a></li>
+      <li><a href="schemas/ElectricityCredential/README.md#credentialsubject-properties-v11">credentialSubject Properties (v1.1)</a></li>
+      <li><a href="schemas/ElectricityCredential/README.md#linked-data-v11">Linked Data (v1.1)</a></li>
+      <li><a href="schemas/ElectricityCredential/README.md#v10-v11-migration-summary">v1.0 → v1.1 Migration Summary</a></li>
       <li><a href="schemas/ElectricityCredential/README.md#usage">Usage</a>
     </li>
     </ul>
