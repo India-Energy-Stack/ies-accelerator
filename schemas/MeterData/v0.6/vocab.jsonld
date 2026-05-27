@@ -315,6 +315,24 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:energyCharges",
+            "@type": "rdf:Property",
+            "rdfs:label": "energy Charges",
+            "rdfs:comment": "Charges for active/reactive energy consumption."
+        },
+        {
+            "@id": "ies:fixedCharges",
+            "@type": "rdf:Property",
+            "rdfs:label": "fixed Charges",
+            "rdfs:comment": "Fixed charges/demand charges."
+        },
+        {
+            "@id": "ies:otherCharges",
+            "@type": "rdf:Property",
+            "rdfs:label": "other Charges",
+            "rdfs:comment": "Other taxes, duties, surcharges, or adjustments."
+        },
+        {
             "@id": "ies:prepaidBalance",
             "@type": "rdf:Property",
             "rdfs:label": "prepaid Balance",
@@ -585,6 +603,30 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:paymentMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "payment Mode",
+            "rdfs:comment": "Indicates if the connection is prepaid or postpaid."
+        },
+        {
+            "@id": "ies:connectionType",
+            "@type": "rdf:Property",
+            "rdfs:label": "connection Type",
+            "rdfs:comment": "Type of connection (Single-phase or Three-phase)."
+        },
+        {
+            "@id": "ies:contractMaxDemandKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "contract Max Demand Kw",
+            "rdfs:comment": "Maximum demand contracted with the utility for this connection, in kW."
+        },
+        {
+            "@id": "ies:tariffCategoryCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "tariff Category Code",
+            "rdfs:comment": "Billing/tariff category code assigned by the utility."
+        },
+        {
             "@id": "ies:addressLine",
             "@type": "rdf:Property",
             "rdfs:label": "address Line",
@@ -627,6 +669,24 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:make",
+            "@type": "rdf:Property",
+            "rdfs:label": "make",
+            "rdfs:comment": "Make of the meter."
+        },
+        {
+            "@id": "ies:model",
+            "@type": "rdf:Property",
+            "rdfs:label": "model",
+            "rdfs:comment": "Model of the meter."
+        },
+        {
+            "@id": "ies:meterType",
+            "@type": "rdf:Property",
+            "rdfs:label": "meter Type",
+            "rdfs:comment": "Type of the meter."
+        },
+        {
             "@id": "ies:meterCategory",
             "@type": "rdf:Property",
             "rdfs:label": "meter Category",
@@ -639,22 +699,28 @@
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:feederId",
+            "@id": "ies:parentResources",
             "@type": "rdf:Property",
-            "rdfs:label": "feeder Id",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:dtId",
-            "@type": "rdf:Property",
-            "rdfs:label": "dt Id",
-            "rdfs:comment": ""
+            "rdfs:label": "parent Resources",
+            "rdfs:comment": "List of parent resources (such as feeders or DTs) for this association, replacing feederId and dtId."
         },
         {
             "@id": "ies:installedAt",
             "@type": "rdf:Property",
             "rdfs:label": "installed At",
             "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:telemetryProvider",
+            "@type": "rdf:Property",
+            "rdfs:label": "telemetry Provider",
+            "rdfs:comment": "Telemetry provider for this meter-service association."
+        },
+        {
+            "@id": "ies:commissioningDate",
+            "@type": "rdf:Property",
+            "rdfs:label": "commissioning Date",
+            "rdfs:comment": "Commissioning date of the meter association."
         },
         {
             "@id": "ies:eventId",

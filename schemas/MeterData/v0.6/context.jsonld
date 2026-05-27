@@ -66,6 +66,22 @@
                         "billingCycleDay": {
                             "@id": "ies:billingCycleDay",
                             "@type": "xsd:integer"
+                        },
+                        "paymentMode": {
+                            "@id": "ies:paymentMode",
+                            "@type": "xsd:string"
+                        },
+                        "connectionType": {
+                            "@id": "ies:connectionType",
+                            "@type": "xsd:string"
+                        },
+                        "contractMaxDemandKw": {
+                            "@id": "ies:contractMaxDemandKw",
+                            "@type": "xsd:decimal"
+                        },
+                        "tariffCategoryCode": {
+                            "@id": "ies:tariffCategoryCode",
+                            "@type": "xsd:string"
                         }
                     }
                 },
@@ -153,6 +169,18 @@
                             "@id": "ies:modelNumber",
                             "@type": "xsd:string"
                         },
+                        "make": {
+                            "@id": "ies:make",
+                            "@type": "xsd:string"
+                        },
+                        "model": {
+                            "@id": "ies:model",
+                            "@type": "xsd:string"
+                        },
+                        "meterType": {
+                            "@id": "ies:meterType",
+                            "@type": "xsd:string"
+                        },
                         "meterCategory": {
                             "@id": "ies:meterCategory",
                             "@type": "@id"
@@ -178,29 +206,10 @@
                             "@id": "ies:meterRefs",
                             "@type": "@id"
                         },
-                        "feederId": {
-                            "@id": "ies:feederId",
+                        "parentResources": {
+                            "@id": "ies:parentResources",
                             "@type": "@id",
-                            "@context": {
-                                "@version": 1.1,
-                                "@protected": true,
-                                "scheme": {
-                                    "@id": "ies:scheme",
-                                    "@type": "@id"
-                                },
-                                "value": {
-                                    "@id": "ies:value",
-                                    "@type": "xsd:string"
-                                },
-                                "namespace": {
-                                    "@id": "ies:namespace",
-                                    "@type": "xsd:string"
-                                }
-                            }
-                        },
-                        "dtId": {
-                            "@id": "ies:dtId",
-                            "@type": "@id",
+                            "@container": "@set",
                             "@context": {
                                 "@version": 1.1,
                                 "@protected": true,
@@ -221,6 +230,14 @@
                         "installedAt": {
                             "@id": "ies:installedAt",
                             "@type": "xsd:dateTime"
+                        },
+                        "telemetryProvider": {
+                            "@id": "ies:telemetryProvider",
+                            "@type": "xsd:string"
+                        },
+                        "commissioningDate": {
+                            "@id": "ies:commissioningDate",
+                            "@type": "xsd:string"
                         }
                     }
                 }
@@ -1139,6 +1156,18 @@
                     "@id": "ies:amountDue",
                     "@type": "xsd:decimal"
                 },
+                "energyCharges": {
+                    "@id": "ies:energyCharges",
+                    "@type": "xsd:decimal"
+                },
+                "fixedCharges": {
+                    "@id": "ies:fixedCharges",
+                    "@type": "xsd:decimal"
+                },
+                "otherCharges": {
+                    "@id": "ies:otherCharges",
+                    "@type": "xsd:decimal"
+                },
                 "prepaidBalance": {
                     "@id": "ies:prepaidBalance",
                     "@type": "xsd:decimal"
@@ -2010,6 +2039,22 @@
                 "billingCycleDay": {
                     "@id": "ies:billingCycleDay",
                     "@type": "xsd:integer"
+                },
+                "paymentMode": {
+                    "@id": "ies:paymentMode",
+                    "@type": "xsd:string"
+                },
+                "connectionType": {
+                    "@id": "ies:connectionType",
+                    "@type": "xsd:string"
+                },
+                "contractMaxDemandKw": {
+                    "@id": "ies:contractMaxDemandKw",
+                    "@type": "xsd:decimal"
+                },
+                "tariffCategoryCode": {
+                    "@id": "ies:tariffCategoryCode",
+                    "@type": "xsd:string"
                 }
             }
         },
@@ -2093,6 +2138,18 @@
                     "@id": "ies:modelNumber",
                     "@type": "xsd:string"
                 },
+                "make": {
+                    "@id": "ies:make",
+                    "@type": "xsd:string"
+                },
+                "model": {
+                    "@id": "ies:model",
+                    "@type": "xsd:string"
+                },
+                "meterType": {
+                    "@id": "ies:meterType",
+                    "@type": "xsd:string"
+                },
                 "meterCategory": {
                     "@id": "ies:meterCategory",
                     "@type": "@id"
@@ -2116,29 +2173,10 @@
                     "@id": "ies:meterRefs",
                     "@type": "@id"
                 },
-                "feederId": {
-                    "@id": "ies:feederId",
+                "parentResources": {
+                    "@id": "ies:parentResources",
                     "@type": "@id",
-                    "@context": {
-                        "@version": 1.1,
-                        "@protected": true,
-                        "scheme": {
-                            "@id": "ies:scheme",
-                            "@type": "@id"
-                        },
-                        "value": {
-                            "@id": "ies:value",
-                            "@type": "xsd:string"
-                        },
-                        "namespace": {
-                            "@id": "ies:namespace",
-                            "@type": "xsd:string"
-                        }
-                    }
-                },
-                "dtId": {
-                    "@id": "ies:dtId",
-                    "@type": "@id",
+                    "@container": "@set",
                     "@context": {
                         "@version": 1.1,
                         "@protected": true,
@@ -2159,6 +2197,14 @@
                 "installedAt": {
                     "@id": "ies:installedAt",
                     "@type": "xsd:dateTime"
+                },
+                "telemetryProvider": {
+                    "@id": "ies:telemetryProvider",
+                    "@type": "xsd:string"
+                },
+                "commissioningDate": {
+                    "@id": "ies:commissioningDate",
+                    "@type": "xsd:string"
                 }
             }
         },

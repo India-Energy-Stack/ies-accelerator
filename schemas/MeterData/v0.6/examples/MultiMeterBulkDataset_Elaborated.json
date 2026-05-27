@@ -9,11 +9,15 @@
         "payloadDescriptors": [
           {
             "readingType": "1.0.1.29.0.255",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "1.0.9.29.0.255",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -35,7 +39,9 @@
         "payloadDescriptors": [
           {
             "readingType": "1.0.1.29.0.255",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -54,11 +60,15 @@
         "payloadDescriptors": [
           {
             "readingType": "1.0.1.8.0.255",
-            "reportedMode": "READING"
+            "reportedMode": "READING",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "1.0.9.8.0.255",
-            "reportedMode": "READING"
+            "reportedMode": "READING",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -80,7 +90,9 @@
         "payloadDescriptors": [
           {
             "readingType": "1.0.1.8.0.255",
-            "reportedMode": "READING"
+            "reportedMode": "READING",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -99,15 +111,21 @@
         "payloadDescriptors": [
           {
             "readingType": "1.0.1.8.0.255",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "1.0.9.8.0.255",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "1.0.1.6.0.255",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ]
       }
@@ -122,10 +140,13 @@
         "value": "CONSUMER-ACME-8888",
         "scheme": "CONSUMER_NUMBER"
       },
-      "name": "Acme Industries Pvt Ltd",
       "consumerCategory": "NDS",
       "sanctionedLoadKw": 45.0,
-      "billingCycleDay": 1
+      "billingCycleDay": 1,
+      "paymentMode": "POSTPAID",
+      "connectionType": "Three-phase",
+      "contractMaxDemandKw": 50.0,
+      "tariffCategoryCode": "HT-1"
     },
     "serviceDeliveryPoints": [
       {
@@ -160,7 +181,10 @@
         "manufacturer": "Genus",
         "modelNumber": "SM-3PH-4W-WC",
         "meterCategory": "D2",
-        "serviceKind": "ELECTRICITY"
+        "serviceKind": "ELECTRICITY",
+        "make": "Genus",
+        "model": "SM-3PH-4W-WC",
+        "meterType": "AMI"
       },
       {
         "id": {
@@ -170,7 +194,10 @@
         "manufacturer": "HPL",
         "modelNumber": "SM-1PH-2W-WC",
         "meterCategory": "D1",
-        "serviceKind": "ELECTRICITY"
+        "serviceKind": "ELECTRICITY",
+        "make": "HPL",
+        "model": "SM-1PH-2W-WC",
+        "meterType": "AMI"
       }
     ],
     "associations": [
@@ -187,7 +214,19 @@
             "scheme": "METER_SERIAL"
           }
         ],
-        "installedAt": "2026-05-04T10:00:00+05:30"
+        "installedAt": "2026-05-04T10:00:00+05:30",
+        "parentResources": [
+          {
+            "value": "FDR-11KV-BLR-04",
+            "scheme": "OTHER"
+          },
+          {
+            "value": "DT-BLR-A-400kVA-12",
+            "scheme": "OTHER"
+          }
+        ],
+        "telemetryProvider": "ACME-HES",
+        "commissioningDate": "2026-05-04T10:00:00+05:30"
       },
       {
         "serviceDeliveryPointRefs": [
@@ -202,7 +241,19 @@
             "scheme": "METER_SERIAL"
           }
         ],
-        "installedAt": "2026-05-04T10:30:00+05:30"
+        "installedAt": "2026-05-04T10:30:00+05:30",
+        "parentResources": [
+          {
+            "value": "FDR-11KV-BLR-04",
+            "scheme": "OTHER"
+          },
+          {
+            "value": "DT-BLR-A-400kVA-12",
+            "scheme": "OTHER"
+          }
+        ],
+        "telemetryProvider": "ACME-HES",
+        "commissioningDate": "2026-05-04T10:30:00+05:30"
       }
     ]
   },
@@ -410,7 +461,10 @@
         ],
         "zone": 2
       }
-    ]
+    ],
+    "energyCharges": 200000.0,
+    "fixedCharges": 15000.0,
+    "otherCharges": 9150.0
   },
   {
     "@type": "BillDetails",
@@ -438,7 +492,10 @@
     "billDate": "2026-05-01",
     "dueDate": "2026-05-21",
     "currency": "INR",
-    "amountDue": 32450.0
+    "amountDue": 32450.0,
+    "energyCharges": 28000.0,
+    "fixedCharges": 3000.0,
+    "otherCharges": 1450.0
   },
   {
     "@type": "InstantaneousProfile",

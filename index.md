@@ -1340,6 +1340,7 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
         <li><a href="schemas/MeterData/v0.6/README.md#to-validate-payloads">To Validate Payloads</a>
       </li>
       </ul>
+      <li><a href="schemas/MeterData/v0.6/README.md#overlaps-and-differences-with-electricitycredential">Overlaps and Differences with ElectricityCredential</a>
     </li>
     </ul>
   </li>

@@ -384,7 +384,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### 💡 Phase Advice
 > Keep fine-grained customer PII out of grid planning! By aggregating meter telemetry at the distribution transformer or feeder level, you can share real-time loading profiles without exposing individual customer details. These aggregated feeds are published securely via your **Data Exchange** nodes.
 
-> **Leveraging Associations for Aggregation**: Use the optional `feederId` and `dtId` properties within the `CustomerProfile`'s `Association` block to trace every smart meter to its upstream feeder and Distribution Transformer. This deterministic linkage allows you to programmatically sum individual telemetry feeds into a single `AggregatedFeeder` payload!
+> **Leveraging Associations for Aggregation**: Use the optional `parentResources` property within the `CustomerProfile`'s `Association` block to trace every smart meter to its upstream parents (like feeder and Distribution Transformer). This deterministic linkage allows you to programmatically sum individual telemetry feeds into a single `AggregatedFeeder` payload!
 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.

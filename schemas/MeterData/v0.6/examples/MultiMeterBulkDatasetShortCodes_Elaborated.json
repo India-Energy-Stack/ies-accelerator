@@ -10,7 +10,9 @@
           {
             "readingType": "kWh imp block",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.29.0.255"
+            "obis": "1.0.1.29.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -30,7 +32,9 @@
           {
             "readingType": "kWh imp",
             "reportedMode": "READING",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Active energy export - cumulative (kWh)",
@@ -38,7 +42,9 @@
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "READING",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -62,7 +68,9 @@
           {
             "readingType": "kWh imp",
             "reportedMode": "READING",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Active energy export - cumulative (kWh)",
@@ -70,7 +78,9 @@
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "READING",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -94,12 +104,16 @@
           {
             "readingType": "V_1P",
             "reportedMode": "READING",
-            "obis": "1.0.12.7.0.255"
+            "obis": "1.0.12.7.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "I_Phase",
             "reportedMode": "READING",
-            "obis": "1.0.11.7.0.255"
+            "obis": "1.0.11.7.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -122,12 +136,16 @@
           {
             "readingType": "kWh imp block",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.29.0.255"
+            "obis": "1.0.1.29.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "kVAh imp block",
             "reportedMode": "USAGE",
-            "obis": "1.0.9.29.0.255"
+            "obis": "1.0.9.29.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -152,7 +170,9 @@
           {
             "readingType": "kWh imp",
             "reportedMode": "READING",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Active energy export - cumulative (kWh)",
@@ -160,12 +180,16 @@
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "READING",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "kVAh imp",
             "reportedMode": "READING",
-            "obis": "1.0.9.8.0.255"
+            "obis": "1.0.9.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -194,17 +218,23 @@
           {
             "readingType": "kWh imp",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "kVAh imp",
             "reportedMode": "USAGE",
-            "obis": "1.0.9.8.0.255"
+            "obis": "1.0.9.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "MD kW",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.6.0.255"
+            "obis": "1.0.1.6.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ]
       }
@@ -219,10 +249,13 @@
         "value": "CONSUMER-ACME-8888",
         "scheme": "CONSUMER_NUMBER"
       },
-      "name": "Acme Industries Pvt Ltd",
       "consumerCategory": "NDS",
       "sanctionedLoadKw": 45.0,
-      "billingCycleDay": 1
+      "billingCycleDay": 1,
+      "paymentMode": "POSTPAID",
+      "connectionType": "Three-phase",
+      "contractMaxDemandKw": 50.0,
+      "tariffCategoryCode": "HT-1"
     },
     "serviceDeliveryPoints": [
       {
@@ -257,7 +290,10 @@
         "manufacturer": "Genus",
         "modelNumber": "SM-3PH-4W-WC",
         "meterCategory": "D2",
-        "serviceKind": "ELECTRICITY"
+        "serviceKind": "ELECTRICITY",
+        "make": "Genus",
+        "model": "SM-3PH-4W-WC",
+        "meterType": "AMI"
       },
       {
         "id": {
@@ -267,7 +303,10 @@
         "manufacturer": "HPL",
         "modelNumber": "SM-1PH-2W-WC",
         "meterCategory": "D1",
-        "serviceKind": "ELECTRICITY"
+        "serviceKind": "ELECTRICITY",
+        "make": "HPL",
+        "model": "SM-1PH-2W-WC",
+        "meterType": "AMI"
       }
     ],
     "associations": [
@@ -284,7 +323,19 @@
             "scheme": "METER_SERIAL"
           }
         ],
-        "installedAt": "2026-05-04T10:00:00+05:30"
+        "installedAt": "2026-05-04T10:00:00+05:30",
+        "parentResources": [
+          {
+            "value": "FDR-11KV-BLR-04",
+            "scheme": "OTHER"
+          },
+          {
+            "value": "DT-BLR-A-400kVA-12",
+            "scheme": "OTHER"
+          }
+        ],
+        "telemetryProvider": "ACME-HES",
+        "commissioningDate": "2026-05-04T10:00:00+05:30"
       },
       {
         "serviceDeliveryPointRefs": [
@@ -299,7 +350,19 @@
             "scheme": "METER_SERIAL"
           }
         ],
-        "installedAt": "2026-05-04T10:30:00+05:30"
+        "installedAt": "2026-05-04T10:30:00+05:30",
+        "parentResources": [
+          {
+            "value": "FDR-11KV-BLR-04",
+            "scheme": "OTHER"
+          },
+          {
+            "value": "DT-BLR-A-400kVA-12",
+            "scheme": "OTHER"
+          }
+        ],
+        "telemetryProvider": "ACME-HES",
+        "commissioningDate": "2026-05-04T10:30:00+05:30"
       }
     ]
   },
@@ -515,7 +578,10 @@
         ],
         "zone": 2
       }
-    ]
+    ],
+    "energyCharges": 200000.0,
+    "fixedCharges": 15000.0,
+    "otherCharges": 9150.0
   },
   {
     "@type": "BillDetails",
@@ -548,7 +614,10 @@
     "dueDate": "2026-05-21",
     "currency": "INR",
     "amountDue": 32450.0,
-    "compactSequenceRef": "BillingEnergySeq_75c4f7"
+    "compactSequenceRef": "BillingEnergySeq_75c4f7",
+    "energyCharges": 28000.0,
+    "fixedCharges": 3000.0,
+    "otherCharges": 1450.0
   },
   {
     "@type": "InstantaneousProfile",

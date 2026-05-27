@@ -9,11 +9,15 @@
         "payloadDescriptors": [
           {
             "readingType": "kWh imp block",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "readingType": "kWh exp block",
-            "reportedMode": "USAGE"
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [

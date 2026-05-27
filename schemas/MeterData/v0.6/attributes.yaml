@@ -204,6 +204,15 @@ components:
             description: ISO 4217 (INR, USD, ...).
           amountDue:
             type: number
+          energyCharges:
+            type: number
+            description: Charges for active/reactive energy consumption.
+          fixedCharges:
+            type: number
+            description: Fixed charges/demand charges.
+          otherCharges:
+            type: number
+            description: Other taxes, duties, surcharges, or adjustments.
           prepaidBalance:
             type: number
             description: Prepaid remaining balance/credit amount on the account/meter,
@@ -552,7 +561,6 @@ components:
       type: object
       required:
       - id
-      - name
       properties:
         id:
           $ref: '#/components/schemas/Identifier'
@@ -568,6 +576,21 @@ components:
           type: integer
           minimum: 1
           maximum: 31
+        paymentMode:
+          type: string
+          enum: [PREPAID, POSTPAID]
+          description: Indicates if the connection is prepaid or postpaid.
+        connectionType:
+          type: string
+          enum: [Single-phase, Three-phase]
+          description: Type of connection (Single-phase or Three-phase).
+        contractMaxDemandKw:
+          type: number
+          minimum: 0
+          description: Maximum demand contracted with the utility for this connection, in kW.
+        tariffCategoryCode:
+          type: string
+          description: Billing/tariff category code assigned by the utility.
     ServiceDeliveryPoint:
       type: object
       required:
@@ -600,6 +623,16 @@ components:
           type: string
         modelNumber:
           type: string
+        make:
+          type: string
+          description: Make of the meter.
+        model:
+          type: string
+          description: Model of the meter.
+        meterType:
+          type: string
+          enum: [AMR, AMI, Electromechanical, Forward, Reverse, Bidirectional, Prepaid, NetMeter, Other]
+          description: Type of the meter.
         meterCategory:
           $ref: '#/components/schemas/MeterCategory'
         serviceKind:
@@ -614,13 +647,20 @@ components:
           $ref: '#/components/schemas/IdentifierList'
         meterRefs:
           $ref: '#/components/schemas/IdentifierList'
-        feederId:
-          $ref: '#/components/schemas/Identifier'
-        dtId:
-          $ref: '#/components/schemas/Identifier'
+        parentResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+          description: List of parent resources (such as feeders or DTs) for this association, replacing feederId and dtId.
         installedAt:
           type: string
           format: date-time
+        telemetryProvider:
+          type: string
+          description: Telemetry provider for this meter-service association.
+        commissioningDate:
+          type: string
+          description: Commissioning date of the meter association.
     MeterEvent:
       type: object
       required:

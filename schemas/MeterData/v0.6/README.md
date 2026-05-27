@@ -140,3 +140,16 @@ python validate_v06.py <path_to_json_file_or_directory>
 ```
 
 The validator dynamically parses JSON files. If they are arrays containing a `PayloadDescriptorProfile`, it matches `payloadDescriptorSetRef` against the array's descriptors, and asserts both matrix arity and strict column types based on the `attribute` enum.
+
+---
+
+## Overlaps and Differences with ElectricityCredential
+
+- **`meterType` vs `meterCategory`**:
+  - `meterType` describes the physical communication/technology capability of the meter (e.g. `AMI`, `AMR`, `Prepaid`, `NetMeter`).
+  - `meterCategory` describes the regulatory standards category under IS 15959 (e.g. `A`, `B`, `C`, `D1`–`D4`).
+  - These represent distinct aspects of the physical/standard classification, and both are kept.
+- **`premisesType` vs `consumerCategory`**:
+  - `premisesType` (Residential, Commercial, etc. defined in `ElectricityCredential/v1.1`) classifies the physical type of the premises.
+  - `consumerCategory` (LT2A, NDS, HT, etc. defined in `MeterData/v0.6`) represents the utility-specific tariff category.
+  - To prevent duplication and maintain backwards compatibility, the pre-existing `consumerCategory` property was kept, and `premisesType` was excluded. This overlap is marked here for future reconciliation.

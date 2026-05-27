@@ -13,7 +13,9 @@
             "unit": "kWh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Apparent energy import - cumulative (kVAh)",
@@ -21,7 +23,9 @@
             "unit": "kVAh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.9.8.0.255"
+            "obis": "1.0.9.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Active energy export - cumulative (kWh)",
@@ -29,7 +33,9 @@
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Maximum demand (kW) - current billing period",
@@ -37,7 +43,9 @@
             "unit": "kW",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.6.0.255"
+            "obis": "1.0.1.6.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ]
       }
@@ -47,38 +55,76 @@
     "@type": "MonthlyProfile",
     "profileType": "MONTHLY",
     "meterRefs": [
-      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+      {
+        "value": "BESCOM-SM-2025-654321",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "MonthlyBillingSet",
-    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "timePeriod": {
+      "start": "2026-04-01T00:00:00+05:30",
+      "duration": "P1M"
+    },
     "readings": [
-      { "readingType": "kWh imp", "value": 412.5, "openingValue": 18432.5, "closingValue": 18845.0 },
-      { "readingType": "kVAh imp", "value": 421.8, "openingValue": 18715.4, "closingValue": 19137.2 },
-      { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
-      { "readingType": "MD kW", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
+      {
+        "readingType": "kWh imp",
+        "value": 412.5,
+        "openingValue": 18432.5,
+        "closingValue": 18845.0
+      },
+      {
+        "readingType": "kVAh imp",
+        "value": 421.8,
+        "openingValue": 18715.4,
+        "closingValue": 19137.2
+      },
+      {
+        "readingType": "kWh exp",
+        "value": 0.0,
+        "openingValue": 0.0,
+        "closingValue": 0.0
+      },
+      {
+        "readingType": "MD kW",
+        "occurredAt": "2026-04-23T19:30:00+05:30",
+        "value": 8.42,
+        "integrationPeriod": "PT30M"
+      }
     ],
     "touBuckets": [
       {
         "readings": [
-          { "readingType": "kWh TZ1", "value": 138.2 }
+          {
+            "readingType": "kWh TZ1",
+            "value": 138.2
+          }
         ],
         "zone": 1
       },
       {
         "readings": [
-          { "readingType": "kWh TZ2", "value": 62.4 }
+          {
+            "readingType": "kWh TZ2",
+            "value": 62.4
+          }
         ],
         "zone": 2
       },
       {
         "readings": [
-          { "readingType": "kWh TZ3", "value": 174.0 }
+          {
+            "readingType": "kWh TZ3",
+            "value": 174.0
+          }
         ],
         "zone": 3
       },
       {
         "readings": [
-          { "readingType": "kWh TZ4", "value": 37.9 }
+          {
+            "readingType": "kWh TZ4",
+            "value": 37.9
+          }
         ],
         "zone": 4
       }

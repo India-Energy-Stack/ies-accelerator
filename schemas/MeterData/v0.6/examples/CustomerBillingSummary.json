@@ -7,9 +7,33 @@
       {
         "name": "BillingSet",
         "payloadDescriptors": [
-          { "name": "Active energy import - cumulative (kWh)", "readingType": "1.0.1.8.0.255", "unit": "kWh", "flowDirection": "IMPORT", "reportedMode": "USAGE" },
-          { "name": "Apparent energy import - cumulative (kVAh)", "readingType": "1.0.9.8.0.255", "unit": "kVAh", "flowDirection": "IMPORT", "reportedMode": "USAGE" },
-          { "name": "Maximum demand (kW) - current billing period", "readingType": "1.0.1.6.0.255", "unit": "kW", "flowDirection": "IMPORT", "reportedMode": "USAGE" }
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "1.0.1.8.0.255",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Apparent energy import - cumulative (kVAh)",
+            "readingType": "1.0.9.8.0.255",
+            "unit": "kVAh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Maximum demand (kW) - current billing period",
+            "readingType": "1.0.1.6.0.255",
+            "unit": "kW",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          }
         ]
       }
     ]
@@ -18,17 +42,41 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "customerRefs": [
-      { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
+      {
+        "value": "RR-1234",
+        "scheme": "CONSUMER_NUMBER"
+      }
     ],
     "meterRefs": [
-      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+      {
+        "value": "BESCOM-SM-2025-654321",
+        "scheme": "METER_SERIAL"
+      }
     ],
     "payloadDescriptorSetRef": "BillingSet",
-    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "timePeriod": {
+      "start": "2026-04-01T00:00:00+05:30",
+      "duration": "P1M"
+    },
     "readings": [
-      { "readingType": "1.0.1.8.0.255", "value": 412.5, "openingValue": 18432.5, "closingValue": 18845.0 },
-      { "readingType": "1.0.9.8.0.255", "value": 421.8, "openingValue": 18715.4, "closingValue": 19137.2 },
-      { "readingType": "1.0.1.6.0.255", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
+      {
+        "readingType": "1.0.1.8.0.255",
+        "value": 412.5,
+        "openingValue": 18432.5,
+        "closingValue": 18845.0
+      },
+      {
+        "readingType": "1.0.9.8.0.255",
+        "value": 421.8,
+        "openingValue": 18715.4,
+        "closingValue": 19137.2
+      },
+      {
+        "readingType": "1.0.1.6.0.255",
+        "occurredAt": "2026-04-23T19:30:00+05:30",
+        "value": 8.42,
+        "integrationPeriod": "PT30M"
+      }
     ],
     "billNumber": "BESCOM-RR-1234-202604",
     "billDate": "2026-05-01",
@@ -38,28 +86,43 @@
     "touBuckets": [
       {
         "readings": [
-          { "readingType": "1.0.1.8.1.255", "value": 138.2 }
+          {
+            "readingType": "1.0.1.8.1.255",
+            "value": 138.2
+          }
         ],
         "zone": 1
       },
       {
         "readings": [
-          { "readingType": "1.0.1.8.2.255", "value": 62.4 }
+          {
+            "readingType": "1.0.1.8.2.255",
+            "value": 62.4
+          }
         ],
         "zone": 2
       },
       {
         "readings": [
-          { "readingType": "1.0.1.8.3.255", "value": 174.0 }
+          {
+            "readingType": "1.0.1.8.3.255",
+            "value": 174.0
+          }
         ],
         "zone": 3
       },
       {
         "readings": [
-          { "readingType": "1.0.1.8.4.255", "value": 37.9 }
+          {
+            "readingType": "1.0.1.8.4.255",
+            "value": 37.9
+          }
         ],
         "zone": 4
       }
-    ]
+    ],
+    "energyCharges": 3500.0,
+    "fixedCharges": 500.0,
+    "otherCharges": 287.5
   }
 ]
