@@ -1,37 +1,48 @@
 {
     "@context": {
         "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
-        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/",
-
-        "MeterDataRequestCredential": "ies:MeterDataRequestCredential",
-        "credentialSubject": "deg:credentialSubject",
-
-        "meterDataRequest": {
-            "@id": "ies:meterDataRequest",
-            "@type": "@id",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+        "MeterDataRequestCredential": {
+            "@id": "ies:MeterDataRequestCredential",
             "@context": {
                 "@version": 1.1,
                 "@protected": true,
-                "resources": {
-                    "@id": "ies:resources",
+                "credentialSubject": {
+                    "@id": "deg:credentialSubject",
                     "@type": "@id",
-                    "@container": "@set"
-                },
-                "scope": { "@id": "ies:scope", "@type": "xsd:string" },
-                "from": { "@id": "ies:from", "@type": "xsd:dateTime" },
-                "duration": { "@id": "ies:duration", "@type": "xsd:string" },
-                "maxRecordsShared": { "@id": "ies:maxRecordsShared", "@type": "xsd:integer" },
-                "includeDetails": {
-                    "@id": "ies:includeDetails",
-                    "@container": "@set",
                     "@context": {
-                        "profileType": { "@id": "ies:profileType", "@type": "xsd:string" },
-                        "values": { "@id": "ies:values", "@container": "@set" },
-                        "requestedMode": { "@id": "ies:requestedMode", "@type": "xsd:string" }
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "@id",
+                            "@type": "@id"
+                        },
+                        "meterDataRequest": {
+                            "@id": "ies:meterDataRequest",
+                            "@type": "@id"
+                        }
                     }
+                }
+            }
+        },
+        "MeterDataRequestCredentialSubject": {
+            "@id": "ies:MeterDataRequestCredentialSubject",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "@id",
+                    "@type": "@id"
+                },
+                "meterDataRequest": {
+                    "@id": "ies:meterDataRequest",
+                    "@type": "@id"
                 }
             }
         }

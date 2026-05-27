@@ -9,9 +9,9 @@
     },
     "@graph": [
         {
-            "@id": "ies:.",
+            "@id": "ies:MeterData",
             "@type": "rdfs:Class",
-            "rdfs:label": ".",
+            "rdfs:label": "Meter Data",
             "rdfs:comment": "Root payload can be a single profile or an array of profiles."
         },
         {
@@ -276,12 +276,6 @@
             "@id": "ies:timePeriod",
             "@type": "rdf:Property",
             "rdfs:label": "time Period",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:touBuckets",
-            "@type": "rdf:Property",
-            "rdfs:label": "tou Buckets",
             "rdfs:comment": ""
         },
         {

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/./v0.5/schema.json",
+  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/schema.json",
   "title": "MeterData Payload",
   "description": "Root payload can be a single profile or an array of profiles.",
   "oneOf": [
@@ -16,22 +16,6 @@
     }
   ],
   "$defs": {
-    "MeterData": {
-      "title": "MeterData Payload",
-      "description": "Root payload can be a single profile or an array of profiles.",
-      "oneOf": [
-        {
-          "$ref": "#/$defs/EnergyData"
-        },
-        {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/$defs/EnergyData"
-          }
-        }
-      ]
-    },
     "EnergyData": {
       "type": "object",
       "title": "EnergyData",

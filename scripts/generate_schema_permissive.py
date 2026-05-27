@@ -99,15 +99,18 @@ def generate_context_mapping(schema_name, schema_def, all_schemas):
     }
     
     for prop_name, prop_schema in properties.items():
-        # Handle standard vocabulary terms
-        vocab_prefix = "ies"
-        if prop_name in ["name", "manufacturer"]:
-            vocab_prefix = "schema"
-            
-        prop_id = f"{vocab_prefix}:{prop_name}"
+        # Handle standard vocabulary terms or x-jsonld override
+        x_jsonld = prop_schema.get("x-jsonld", {}) if isinstance(prop_schema, dict) else {}
+        if isinstance(x_jsonld, dict) and "@id" in x_jsonld:
+            prop_id = x_jsonld["@id"]
+        else:
+            vocab_prefix = "ies"
+            if prop_name in ["name", "manufacturer"]:
+                vocab_prefix = "schema"
+            prop_id = f"{vocab_prefix}:{prop_name}"
         
         # Check if the property type is array
-        if prop_schema.get("type") == "array":
+        if isinstance(prop_schema, dict) and prop_schema.get("type") == "array":
             items = prop_schema.get("items", {})
             val = {
                 "@id": prop_id,
@@ -122,7 +125,7 @@ def generate_context_mapping(schema_name, schema_def, all_schemas):
                 if nested:
                     val["@context"] = nested["@context"]
             ctx[prop_name] = val
-        elif "$ref" in prop_schema:
+        elif isinstance(prop_schema, dict) and "$ref" in prop_schema:
             ref_name = prop_schema["$ref"].split("/")[-1]
             ref_def = all_schemas.get(ref_name, {})
             val = {
@@ -133,7 +136,7 @@ def generate_context_mapping(schema_name, schema_def, all_schemas):
             if nested:
                 val["@context"] = nested["@context"]
             ctx[prop_name] = val
-        elif prop_schema.get("type") == "object" and "properties" in prop_schema:
+        elif isinstance(prop_schema, dict) and prop_schema.get("type") == "object" and "properties" in prop_schema:
             # Inline object definition
             val = {
                 "@id": prop_id,
@@ -146,7 +149,7 @@ def generate_context_mapping(schema_name, schema_def, all_schemas):
         else:
             ctx[prop_name] = {
                 "@id": prop_id,
-                "@type": get_property_type(prop_schema)
+                "@type": get_property_type(prop_schema) if isinstance(prop_schema, dict) else "xsd:string"
             }
             
     return {"@id": f"ies:{schema_name}", "@type": "@id", "@context": ctx}
@@ -237,14 +240,13 @@ def main():
             "type": "@type",
             "schema": "https://schema.org/",
             "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
             "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
         }
     }
     
     # Map each object-type schema
     for name, s_def in all_schemas.items():
-        if name == schema_name:
-            continue
         if s_def.get("type") == "object" or "allOf" in s_def:
             mapping = generate_context_mapping(name, s_def, all_schemas)
             if mapping:
@@ -283,20 +285,19 @@ def main():
     # Add classes for all schemas
     unique_properties = {}
     for name, s_def in all_schemas.items():
-        if name == schema_name:
-            continue
         if s_def.get("type") == "object" or "allOf" in s_def:
-            vocab_json["@graph"].append({
-                "@id": f"ies:{name}",
-                "@type": "rdfs:Class",
-                "rdfs:label": camel_to_spaced(name),
-                "rdfs:comment": s_def.get("description", "").strip()
-            })
+            if name != schema_name:
+                vocab_json["@graph"].append({
+                    "@id": f"ies:{name}",
+                    "@type": "rdfs:Class",
+                    "rdfs:label": camel_to_spaced(name),
+                    "rdfs:comment": s_def.get("description", "").strip()
+                })
             
             # Record properties for properties definitions
             properties = resolve_properties(s_def, all_schemas)
             for prop_name, prop_schema in properties.items():
-                desc = prop_schema.get("description", "").strip()
+                desc = prop_schema.get("description", "").strip() if isinstance(prop_schema, dict) else ""
                 if prop_name not in unique_properties:
                     unique_properties[prop_name] = desc
                 elif desc and not unique_properties[prop_name]:
@@ -304,6 +305,22 @@ def main():
                     
     # Add property nodes to vocabulary graph
     for prop_name, desc in unique_properties.items():
+        # Check if the property has a custom x-jsonld mapping to a different namespace
+        custom_id = None
+        for name, s_def in all_schemas.items():
+            props = resolve_properties(s_def, all_schemas)
+            if prop_name in props:
+                x_jsonld = props[prop_name].get("x-jsonld", {}) if isinstance(props[prop_name], dict) else {}
+                if isinstance(x_jsonld, dict) and "@id" in x_jsonld:
+                    custom_id = x_jsonld["@id"]
+                    break
+        
+        if custom_id and ":" in custom_id:
+            prefix = custom_id.split(":")[0]
+            if prefix != "ies":
+                # Skip defining external properties in our vocab
+                continue
+                
         prefix = "ies"
         if prop_name in ["name", "manufacturer"]:
             prefix = "schema"

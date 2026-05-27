@@ -21,6 +21,42 @@
             "rdfs:comment": ""
         },
         {
+            "@id": "ies:resources",
+            "@type": "rdf:Property",
+            "rdfs:label": "resources",
+            "rdfs:comment": "List of resource identifiers (e.g., meter DIDs, service point IDs, or customer IDs) to query."
+        },
+        {
+            "@id": "ies:scope",
+            "@type": "rdf:Property",
+            "rdfs:label": "scope",
+            "rdfs:comment": "Defines the hierarchical scope of the query relative to the target resources."
+        },
+        {
+            "@id": "ies:from",
+            "@type": "rdf:Property",
+            "rdfs:label": "from",
+            "rdfs:comment": "ISO 8601 UTC date-time indicating the start time of the requested data window."
+        },
+        {
+            "@id": "ies:duration",
+            "@type": "rdf:Property",
+            "rdfs:label": "duration",
+            "rdfs:comment": "ISO 8601 duration string representing the length of the requested data window (e.g., PT15M, P1D, P30D)."
+        },
+        {
+            "@id": "ies:maxRecordsShared",
+            "@type": "rdf:Property",
+            "rdfs:label": "max Records Shared",
+            "rdfs:comment": "Maximum number of records that should be shared or returned in a single batch/page."
+        },
+        {
+            "@id": "ies:includeDetails",
+            "@type": "rdf:Property",
+            "rdfs:label": "include Details",
+            "rdfs:comment": "List of specific profile types and the data requested within them."
+        },
+        {
             "@id": "ies:profileType",
             "@type": "rdf:Property",
             "rdfs:label": "profile Type",
