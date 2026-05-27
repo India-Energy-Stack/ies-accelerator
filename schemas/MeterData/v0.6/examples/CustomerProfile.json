@@ -1,47 +1,115 @@
-{
-  "@type": "CustomerProfile",
-  "profileType": "CUSTOMER",
-  "customerRefs": [
-    { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
-  ],
-  "timeZone": "Asia/Kolkata",
-  "customer": {
-    "id": { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" },
-    "name": "Acme Industries Pvt Ltd",
-    "consumerCategory": "NDS",
-    "sanctionedLoadKw": 15.0,
-    "billingCycleDay": 1
+[
+  {
+    "@type": "CustomerProfile",
+    "profileType": "CUSTOMER",
+    "customerRefs": [
+      { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
+    ],
+    "timeZone": "Asia/Kolkata",
+    "customer": {
+      "id": { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" },
+      "name": "Acme Industries Pvt Ltd",
+      "consumerCategory": "NDS",
+      "sanctionedLoadKw": 15.0,
+      "billingCycleDay": 1,
+      "paymentMode": "POSTPAID",
+      "connectionType": "Three-phase",
+      "contractMaxDemandKw": 20.0,
+      "tariffCategoryCode": "LT-3"
+    },
+    "serviceDeliveryPoints": [
+      {
+        "id": { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" },
+        "addressLine": "12 MG Road",
+        "city": "Bengaluru",
+        "postalCode": "560001",
+        "latitude": 12.9759,
+        "longitude": 77.6064
+      }
+    ],
+    "meters": [
+      {
+        "id": { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" },
+        "manufacturer": "Genus",
+        "modelNumber": "SM-3PH-4W-WC",
+        "make": "Genus",
+        "model": "SM-3PH-4W-WC",
+        "meterType": "AMI",
+        "meterCategory": "D2",
+        "serviceKind": "ELECTRICITY"
+      }
+    ],
+    "associations": [
+      {
+        "serviceDeliveryPointRefs": [
+          { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" }
+        ],
+        "meterRefs": [
+          { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+        ],
+        "parentResources": [
+          { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
+          { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
+        ],
+        "telemetryProvider": "BESCOM-HES",
+        "commissioningDate": "2026-05-04T10:00:00+05:30"
+      }
+    ]
   },
-  "serviceDeliveryPoints": [
-    {
-      "id": { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" },
-      "addressLine": "12 MG Road",
-      "city": "Bengaluru",
-      "postalCode": "560001",
-      "latitude": 12.9759,
-      "longitude": 77.6064
-    }
-  ],
-  "meters": [
-    {
-      "id": { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" },
-      "manufacturer": "Genus",
-      "modelNumber": "SM-3PH-4W-WC",
-      "meterCategory": "D2",
-      "serviceKind": "ELECTRICITY"
-    }
-  ],
-  "associations": [
-    {
-      "serviceDeliveryPointRefs": [
-        { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" }
-      ],
-      "meterRefs": [
-        { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
-      ],
-      "installedAt": "2026-05-04T10:00:00+05:30",
-      "feederId": { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
-      "dtId": { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
-    }
-  ]
-}
+  {
+    "@type": "CustomerProfile",
+    "profileType": "CUSTOMER",
+    "customerRefs": [
+      { "value": "did:dedi:bescom:consumers:78f9e2b10a56", "scheme": "DID" }
+    ],
+    "timeZone": "Asia/Kolkata",
+    "customer": {
+      "id": { "value": "did:dedi:bescom:consumers:78f9e2b10a56", "scheme": "DID" },
+      "consumerCategory": "NDS",
+      "sanctionedLoadKw": 15.0,
+      "billingCycleDay": 1,
+      "paymentMode": "POSTPAID",
+      "connectionType": "Three-phase",
+      "contractMaxDemandKw": 20.0,
+      "tariffCategoryCode": "LT-3"
+    },
+    "serviceDeliveryPoints": [
+      {
+        "id": { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" },
+        "addressLine": "12 MG Road",
+        "city": "Bengaluru",
+        "postalCode": "560001",
+        "latitude": 12.9759,
+        "longitude": 77.6064
+      }
+    ],
+    "meters": [
+      {
+        "id": { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" },
+        "manufacturer": "Genus",
+        "modelNumber": "SM-3PH-4W-WC",
+        "make": "Genus",
+        "model": "SM-3PH-4W-WC",
+        "meterType": "AMI",
+        "meterCategory": "D2",
+        "serviceKind": "ELECTRICITY"
+      }
+    ],
+    "associations": [
+      {
+        "serviceDeliveryPointRefs": [
+          { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" }
+        ],
+        "meterRefs": [
+          { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+        ],
+        "parentResources": [
+          { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
+          { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
+        ],
+        "telemetryProvider": "BESCOM-HES",
+        "commissioningDate": "2026-05-04T10:00:00+05:30"
+      }
+    ]
+  }
+]

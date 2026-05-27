@@ -6,7 +6,58 @@
         "type": "@type",
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
         "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+        "MeterDataRequest": {
+            "@id": "ies:MeterDataRequest",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "resources": {
+                    "@id": "ies:resources",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "scope": {
+                    "@id": "ies:scope",
+                    "@type": "xsd:string"
+                },
+                "from": {
+                    "@id": "ies:from",
+                    "@type": "xsd:dateTime"
+                },
+                "duration": {
+                    "@id": "ies:duration",
+                    "@type": "xsd:string"
+                },
+                "maxRecordsShared": {
+                    "@id": "ies:maxRecordsShared",
+                    "@type": "xsd:integer"
+                },
+                "includeDetails": {
+                    "@id": "ies:includeDetails",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "profileType": {
+                            "@id": "ies:profileType",
+                            "@type": "xsd:string"
+                        },
+                        "values": {
+                            "@id": "ies:values",
+                            "@type": "@id",
+                            "@container": "@set"
+                        },
+                        "requestedMode": {
+                            "@id": "ies:requestedMode",
+                            "@type": "@id"
+                        }
+                    }
+                }
+            }
+        },
         "ProfileRequest": {
             "@id": "ies:ProfileRequest",
             "@context": {

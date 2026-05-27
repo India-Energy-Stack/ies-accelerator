@@ -14,5 +14,8 @@
   "currency": "INR",
   "amountDue": 4287.5,
   "prepaidBalance": 500.0,
-  "paymentStatus": "UNPAID"
+  "paymentStatus": "UNPAID",
+  "energyCharges": 3500.0,
+  "fixedCharges": 500.0,
+  "otherCharges": 287.5
 }

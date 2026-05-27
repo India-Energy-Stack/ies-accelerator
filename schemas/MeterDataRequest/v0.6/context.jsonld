@@ -1,0 +1,304 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+        "MeterDataRequestObject": {
+            "@id": "ies:MeterDataRequestObject",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "consumers": {
+                    "@id": "ies:consumers",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "resources": {
+                    "@id": "ies:resources",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "scope": {
+                    "@id": "ies:scope",
+                    "@type": "@id"
+                },
+                "from": {
+                    "@id": "ies:from",
+                    "@type": "xsd:dateTime"
+                },
+                "duration": {
+                    "@id": "ies:duration",
+                    "@type": "xsd:string"
+                },
+                "consumerConsent": {
+                    "@id": "ies:consumerConsent",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "authorisation": {
+                    "@id": "ies:authorisation",
+                    "@type": "xsd:string"
+                },
+                "capabilitiesRequested": {
+                    "@id": "ies:capabilitiesRequested",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "profiles": {
+                            "@id": "ies:profiles",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "profileType": {
+                                    "@id": "ies:profileType",
+                                    "@type": "xsd:string"
+                                },
+                                "readings": {
+                                    "@id": "ies:readings",
+                                    "@type": "@id",
+                                    "@container": "@set",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "value": {
+                                            "@id": "ies:value",
+                                            "@type": "xsd:string"
+                                        },
+                                        "mode": {
+                                            "@id": "ies:mode",
+                                            "@type": "@id"
+                                        },
+                                        "multiplier": {
+                                            "@id": "ies:multiplier",
+                                            "@type": "xsd:decimal"
+                                        },
+                                        "accuracy": {
+                                            "@id": "ies:accuracy",
+                                            "@type": "xsd:decimal"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "supportedScopes": {
+                            "@id": "ies:supportedScopes",
+                            "@type": "@id",
+                            "@container": "@set"
+                        },
+                        "maxHistoryDuration": {
+                            "@id": "ies:maxHistoryDuration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "maxRecordsShared": {
+                    "@id": "ies:maxRecordsShared",
+                    "@type": "xsd:integer"
+                }
+            }
+        },
+        "MeterDataAuthorisation": {
+            "@id": "ies:MeterDataAuthorisation",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "grantor": {
+                    "@id": "ies:grantor",
+                    "@type": "@id"
+                },
+                "grantee": {
+                    "@id": "ies:grantee",
+                    "@type": "@id"
+                },
+                "purpose": {
+                    "@id": "ies:purpose",
+                    "@type": "xsd:string"
+                },
+                "validFrom": {
+                    "@id": "ies:validFrom",
+                    "@type": "xsd:dateTime"
+                },
+                "validUntil": {
+                    "@id": "ies:validUntil",
+                    "@type": "xsd:dateTime"
+                },
+                "capabilities": {
+                    "@id": "ies:capabilities",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "profiles": {
+                            "@id": "ies:profiles",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "profileType": {
+                                    "@id": "ies:profileType",
+                                    "@type": "xsd:string"
+                                },
+                                "readings": {
+                                    "@id": "ies:readings",
+                                    "@type": "@id",
+                                    "@container": "@set",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "value": {
+                                            "@id": "ies:value",
+                                            "@type": "xsd:string"
+                                        },
+                                        "mode": {
+                                            "@id": "ies:mode",
+                                            "@type": "@id"
+                                        },
+                                        "multiplier": {
+                                            "@id": "ies:multiplier",
+                                            "@type": "xsd:decimal"
+                                        },
+                                        "accuracy": {
+                                            "@id": "ies:accuracy",
+                                            "@type": "xsd:decimal"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "supportedScopes": {
+                            "@id": "ies:supportedScopes",
+                            "@type": "@id",
+                            "@container": "@set"
+                        },
+                        "maxHistoryDuration": {
+                            "@id": "ies:maxHistoryDuration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "MeterDataCapabilities": {
+            "@id": "ies:MeterDataCapabilities",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profiles": {
+                    "@id": "ies:profiles",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "profileType": {
+                            "@id": "ies:profileType",
+                            "@type": "xsd:string"
+                        },
+                        "readings": {
+                            "@id": "ies:readings",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "mode": {
+                                    "@id": "ies:mode",
+                                    "@type": "@id"
+                                },
+                                "multiplier": {
+                                    "@id": "ies:multiplier",
+                                    "@type": "xsd:decimal"
+                                },
+                                "accuracy": {
+                                    "@id": "ies:accuracy",
+                                    "@type": "xsd:decimal"
+                                }
+                            }
+                        }
+                    }
+                },
+                "supportedScopes": {
+                    "@id": "ies:supportedScopes",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "maxHistoryDuration": {
+                    "@id": "ies:maxHistoryDuration",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "ProfileCapability": {
+            "@id": "ies:ProfileCapability",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "mode": {
+                            "@id": "ies:mode",
+                            "@type": "@id"
+                        },
+                        "multiplier": {
+                            "@id": "ies:multiplier",
+                            "@type": "xsd:decimal"
+                        },
+                        "accuracy": {
+                            "@id": "ies:accuracy",
+                            "@type": "xsd:decimal"
+                        }
+                    }
+                }
+            }
+        },
+        "ValueCapability": {
+            "@id": "ies:ValueCapability",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "value": {
+                    "@id": "ies:value",
+                    "@type": "xsd:string"
+                },
+                "mode": {
+                    "@id": "ies:mode",
+                    "@type": "@id"
+                },
+                "multiplier": {
+                    "@id": "ies:multiplier",
+                    "@type": "xsd:decimal"
+                },
+                "accuracy": {
+                    "@id": "ies:accuracy",
+                    "@type": "xsd:decimal"
+                }
+            }
+        }
+    }
+}

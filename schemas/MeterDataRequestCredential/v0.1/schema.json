@@ -2,25 +2,45 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequestCredential/v0.1/schema.json",
   "title": "MeterDataRequestCredential",
-  "description": "W3C Verifiable Credential (VC Data Model 2.0) wrapping a MeterDataRequest. Subclass of EnergyCredential (https://schema.beckn.io/EnergyCredential/v2.0). The common VC envelope (issuer with licenseNumber, validFrom/validUntil, credentialStatus, proof) is inherited from EnergyCredential. This schema adds the IES-specific credentialSubject containing a MeterDataRequest.",
+  "description": "W3C Verifiable Credential wrapping a MeterDataRequest. Subclass of EnergyCredential. Issued by the data requester (e.g., DISCOM) to prove authorisation to request smart meter telemetry from a provider.\n",
   "type": "object",
+  "additionalProperties": true,
   "allOf": [
-    { "$ref": "https://schema.beckn.io/EnergyCredential/v2.0/schema.json" }
+    {
+      "$ref": "https://schema.beckn.io/EnergyCredential/v2.0"
+    }
   ],
   "properties": {
-    "type": {
-      "type": "array",
-      "items": { "type": "string" },
-      "contains": { "const": "MeterDataRequestCredential" }
-    },
     "credentialSubject": {
+      "$ref": "#/$defs/MeterDataRequestCredentialSubject",
+      "description": "The subject of the credential: the requesting entity and the specific MeterDataRequest they are authorised to make.\n",
+      "x-jsonld": {
+        "@id": "deg:credentialSubject"
+      }
+    }
+  },
+  "$defs": {
+    "MeterDataRequestCredentialSubject": {
       "type": "object",
-      "required": ["meterDataRequest"],
+      "description": "The subject of the credential: the requesting entity and the specific MeterDataRequest they are authorised to make.\n",
+      "required": [
+        "meterDataRequest"
+      ],
       "properties": {
-        "id": { "type": "string", "format": "uri" },
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the requesting entity (e.g., the DISCOM).",
+          "x-jsonld": {
+            "@id": "@id"
+          }
+        },
         "meterDataRequest": {
-          "$ref": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/schema.json",
-          "description": "The scoped, time-bounded data request payload."
+          "$ref": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/schema.json",
+          "description": "The scoped, time-bounded data request. Specifies the meter resources, hierarchical scope, time window, and profile types being requested. The provider validates this against its capability profile before fulfilling delivery.\n",
+          "x-jsonld": {
+            "@id": "ies:meterDataRequest"
+          }
         }
       }
     }

@@ -13,7 +13,9 @@
             "unit": "kWh",
             "flowDirection": "IMPORT",
             "reportedMode": "READING",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Active energy export - cumulative (kWh)",
@@ -21,7 +23,9 @@
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "READING",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Reactive energy Q1 - cumulative (kvarh)",
@@ -29,7 +33,9 @@
             "unit": "kvarh",
             "flowDirection": "IMPORT",
             "reportedMode": "READING",
-            "obis": "1.0.5.8.0.255"
+            "obis": "1.0.5.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Maximum demand (kW) - current billing period",
@@ -37,7 +43,9 @@
             "unit": "kW",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.6.0.255"
+            "obis": "1.0.1.6.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [

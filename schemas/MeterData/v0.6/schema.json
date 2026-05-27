@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/./v0.5/schema.json",
+  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/schema.json",
   "title": "MeterData Payload",
   "description": "Root payload can be a single profile or an array of profiles.",
   "oneOf": [
@@ -16,22 +16,6 @@
     }
   ],
   "$defs": {
-    "MeterData": {
-      "title": "MeterData Payload",
-      "description": "Root payload can be a single profile or an array of profiles.",
-      "oneOf": [
-        {
-          "$ref": "#/$defs/EnergyData"
-        },
-        {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/$defs/EnergyData"
-          }
-        }
-      ]
-    },
     "EnergyData": {
       "type": "object",
       "title": "EnergyData",
@@ -309,6 +293,18 @@
             },
             "amountDue": {
               "type": "number"
+            },
+            "energyCharges": {
+              "type": "number",
+              "description": "Charges for active/reactive energy consumption."
+            },
+            "fixedCharges": {
+              "type": "number",
+              "description": "Fixed charges/demand charges."
+            },
+            "otherCharges": {
+              "type": "number",
+              "description": "Other taxes, duties, surcharges, or adjustments."
             },
             "prepaidBalance": {
               "type": "number",
@@ -802,8 +798,7 @@
     "Customer": {
       "type": "object",
       "required": [
-        "id",
-        "name"
+        "id"
       ],
       "properties": {
         "id": {
@@ -824,6 +819,31 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 31
+        },
+        "paymentMode": {
+          "type": "string",
+          "enum": [
+            "PREPAID",
+            "POSTPAID"
+          ],
+          "description": "Indicates if the connection is prepaid or postpaid."
+        },
+        "connectionType": {
+          "type": "string",
+          "enum": [
+            "Single-phase",
+            "Three-phase"
+          ],
+          "description": "Type of connection (Single-phase or Three-phase)."
+        },
+        "contractMaxDemandKw": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Maximum demand contracted with the utility for this connection, in kW."
+        },
+        "tariffCategoryCode": {
+          "type": "string",
+          "description": "Billing/tariff category code assigned by the utility."
         }
       }
     },
@@ -872,6 +892,29 @@
         "modelNumber": {
           "type": "string"
         },
+        "make": {
+          "type": "string",
+          "description": "Make of the meter."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model of the meter."
+        },
+        "meterType": {
+          "type": "string",
+          "enum": [
+            "AMR",
+            "AMI",
+            "Electromechanical",
+            "Forward",
+            "Reverse",
+            "Bidirectional",
+            "Prepaid",
+            "NetMeter",
+            "Other"
+          ],
+          "description": "Type of the meter."
+        },
         "meterCategory": {
           "$ref": "#/$defs/MeterCategory"
         },
@@ -893,15 +936,21 @@
         "meterRefs": {
           "$ref": "#/$defs/IdentifierList"
         },
-        "feederId": {
-          "$ref": "#/$defs/Identifier"
+        "parentResources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "description": "List of parent resources (such as feeders or DTs) for this association, replacing feederId and dtId."
         },
-        "dtId": {
-          "$ref": "#/$defs/Identifier"
-        },
-        "installedAt": {
+        "telemetryProvider": {
           "type": "string",
-          "format": "date-time"
+          "description": "Telemetry provider for this meter-service association."
+        },
+        "commissioningDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Commissioning date of the meter association."
         }
       }
     },

@@ -263,10 +263,10 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 <summary><b>Step 4.4: Establish Data Exchange Authorisation</b></summary>
 
 ### 💡 Phase Advice
-> Leverage the **[MeterDataRequest](../schemas/MeterDataRequest/v0.5/README.md)** schema to formalise incoming B2B third-party data requests. The scope of the actual request for sharing can be a subset of the broader data authorised.
+> Leverage the **[MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md)** schema to formalise incoming B2B third-party data authorisations. The scope of the actual request for sharing can be a subset of the broader data authorised.
 
 ### Execution Guidance
-While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **credential version of [MeterDataRequest](../schemas/MeterDataRequest/v0.5/README.md)** OR a **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
+While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **[MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md)** (see [credential example](../schemas/MeterDataRequestCredential/v0.1/examples/example.json)) OR a **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
 
 ### ⚠️ Caution
 > **Scoped Access Violations**: Never expose granular consumer interval data without verifying that the presented credential permits that specific access window and profile.
@@ -276,7 +276,8 @@ While the technical authorisation logic is ultimately left to the utility, we su
 
 ### References & Anchors
 * [Data Exchange Security & Auth](../data-exchange/concepts.md#context-invariants)
-* [MeterDataRequest Schema](../schemas/MeterDataRequest/v0.5/README.md)
+* [MeterDataRequestCredential Schema](../schemas/MeterDataRequestCredential/v0.1/README.md)
+* [MeterDataRequestCredential Example](../schemas/MeterDataRequestCredential/v0.1/examples/example.json)
 </details>
 
 <details>
@@ -307,7 +308,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
    *Example `MeterDataRequest` for compiling a Digest:*
    ```json
    {
-       "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
+       "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
        "@type": "MeterDataRequest",
        "resources": [
            "did:dedi:ies:meter:IN-MH-MTR-89721"
@@ -315,11 +316,12 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
        "scope": "ResourceOnly",
        "from": "2026-04-01T00:00:00Z",
        "duration": "P1M",
-       "includeDetails": [
-           "CustomerProfile",
-           "BillingProfile",
-           "IntervalProfile"
-       ]
+       "capabilitiesRequested": {
+           "profiles": [
+               { "profileType": "CustomerProfile" },
+               { "profileType": "IntervalProfile" }
+           ]
+       }
    }
    ```
 
@@ -382,7 +384,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### 💡 Phase Advice
 > Keep fine-grained customer PII out of grid planning! By aggregating meter telemetry at the distribution transformer or feeder level, you can share real-time loading profiles without exposing individual customer details. These aggregated feeds are published securely via your **Data Exchange** nodes.
 
-> **Leveraging Associations for Aggregation**: Use the optional `feederId` and `dtId` properties within the `CustomerProfile`'s `Association` block to trace every smart meter to its upstream feeder and Distribution Transformer. This deterministic linkage allows you to programmatically sum individual telemetry feeds into a single `AggregatedFeeder` payload!
+> **Leveraging Associations for Aggregation**: Use the optional `parentResources` property within the `CustomerProfile`'s `Association` block to trace every smart meter to its upstream parents (like feeder and Distribution Transformer). This deterministic linkage allows you to programmatically sum individual telemetry feeds into a single `AggregatedFeeder` payload!
 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.

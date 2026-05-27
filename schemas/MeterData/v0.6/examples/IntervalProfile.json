@@ -13,7 +13,9 @@
             "unit": "kWh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.8.0.255"
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
           {
             "name": "Active energy export - cumulative (kWh)",
@@ -21,7 +23,9 @@
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [

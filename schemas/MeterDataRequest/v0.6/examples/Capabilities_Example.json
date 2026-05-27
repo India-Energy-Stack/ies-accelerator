@@ -1,0 +1,23 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
+  "@type": "MeterDataCapabilities",
+  "profiles": [
+    {
+      "profileType": "IntervalProfile",
+      "readings": [
+        { "value": "kWh imp block", "mode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 },
+        { "value": "kVAh imp block", "mode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 }
+      ]
+    },
+    {
+      "profileType": "DailyProfile",
+      "readings": [
+        { "value": "kWh imp", "mode": "READING" },
+        { "value": "kVAh imp", "mode": "READING" }
+      ]
+    },
+    { "profileType": "InstantaneousProfile" }
+  ],
+  "supportedScopes": [ "ResourceOnly", "ResourceAndChildren" ],
+  "maxHistoryDuration": "P3Y"
+}

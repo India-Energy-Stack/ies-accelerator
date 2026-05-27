@@ -1,6 +1,6 @@
 # MeterDataRequestCredential v0.1
 
-A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.5/) to prove a data requester's authorisation for accessing smart meter telemetry.
+A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.6/) to prove a data requester's authorisation for accessing smart meter telemetry.
 
 ---
 
@@ -73,13 +73,16 @@ MeterDataRequestCredential (W3C VC 2.0)
 ├── credentialStatus — DeDi revocation registry reference
 ├── credentialSubject
 │   ├── id          — DID of the requesting entity
-│   └── meterDataRequest (MeterDataRequest v0.5)
-│       ├── resources      — Meter/feeder/customer DIDs to query
+│   └── meterDataRequest (MeterDataRequest v0.6)
+│       ├── consumers      — Optional list of consumer DIDs
+│       ├── resources      — Optional list of meter/feeder DIDs to query
 │       ├── scope          — ResourceOnly | ResourceAndChildren | ChildrenOnly
 │       ├── from           — Start of data window (ISO 8601 UTC)
 │       ├── duration       — Length of data window (ISO 8601 duration)
-│       ├── maxRecordsShared — Optional cap on returned records
-│       └── includeDetails — Profile types: IntervalProfile, DailyProfile, …
+│       ├── consumerConsent — Optional list of consumer consent DIDs
+│       ├── authorisation  — Reference or inline authorisation grant
+│       ├── capabilitiesRequested — The requested capabilities (MeterDataCapabilities)
+│       └── maxRecordsShared — Optional cap on returned records
 └── proof           — Ed25519Signature2020 (or equivalent)
 ```
 

@@ -1,0 +1,182 @@
+openapi: 3.1.1
+info:
+  title: "MeterDataRequest"
+  version: "0.6.0"
+  description: "Structural JSON Schema for selecting meter data, capabilities, and authorisations (MeterDataRequest)."
+jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
+servers:
+  - url: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas"
+    description: "Canonical schema registry"
+paths: {}
+components:
+  schemas:
+    MeterDataRequest:
+      $id: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/schema.json"
+      title: "MeterDataRequest Payload"
+      description: "Root payload can be a MeterDataRequest, a MeterDataAuthorisation, or a MeterDataCapabilities document."
+      oneOf:
+        - $ref: "#/components/schemas/MeterDataRequestObject"
+        - $ref: "#/components/schemas/MeterDataAuthorisation"
+        - $ref: "#/components/schemas/MeterDataCapabilities"
+
+    MeterDataRequestObject:
+      type: "object"
+      title: "MeterDataRequest"
+      description: "Request parameters for selecting smart meter telemetry and profiles."
+      required:
+        - "from"
+        - "duration"
+        - "capabilitiesRequested"
+      properties:
+        consumers:
+          type: "array"
+          description: "List of consumer URIs/DIDs for whom the data is requested (optional)."
+          items:
+            type: "string"
+            format: "uri"
+        resources:
+          type: "array"
+          description: "List of resource URIs/DIDs (e.g. meter DIDs, service point IDs) to query (optional)."
+          items:
+            type: "string"
+            format: "uri"
+        scope:
+          $ref: "#/components/schemas/ScopeType"
+        from:
+          type: "string"
+          format: "date-time"
+          description: "ISO 8601 UTC date-time indicating the start time of the requested data window."
+        duration:
+          type: "string"
+          format: "duration"
+          description: "ISO 8601 duration string representing the length of the requested data window (e.g., PT15M, P1D, P30D)."
+        consumerConsent:
+          type: "array"
+          description: "Consent references/receipts proving authorization (optional)."
+          items:
+            type: "string"
+        authorisation:
+          oneOf:
+            - $ref: "#/components/schemas/MeterDataAuthorisation"
+            - type: "string"
+              format: "uri"
+          description: "Inline authorization object or URI reference to it."
+        capabilitiesRequested:
+          $ref: "#/components/schemas/MeterDataCapabilities"
+        maxRecordsShared:
+          type: "integer"
+          minimum: 1
+          description: "Maximum number of records that should be shared or returned in a single batch/page."
+
+    MeterDataAuthorisation:
+      type: "object"
+      title: "MeterDataAuthorisation"
+      description: "Attestation details authorizing an entity to access specific capabilities."
+      required:
+        - "grantor"
+        - "grantee"
+        - "purpose"
+        - "validFrom"
+        - "validUntil"
+        - "capabilities"
+      properties:
+        grantor:
+          type: "string"
+          format: "uri"
+          description: "URI/DID of the entity authorizing access."
+        grantee:
+          type: "string"
+          format: "uri"
+          description: "URI/DID of the authorized entity."
+        purpose:
+          type: "string"
+          description: "Reason/purpose for data access."
+        validFrom:
+          type: "string"
+          format: "date-time"
+          description: "ISO 8601 UTC date-time indicating when the authorization becomes valid."
+        validUntil:
+          type: "string"
+          format: "date-time"
+          description: "ISO 8601 UTC date-time indicating when the authorization expires."
+        capabilities:
+          $ref: "#/components/schemas/MeterDataCapabilities"
+
+    MeterDataCapabilities:
+      type: "object"
+      title: "MeterDataCapabilities"
+      description: "Capabilities of a meter data provider, detailing supported profiles, values, scopes, and durations."
+      required:
+        - "profiles"
+      properties:
+        profiles:
+          type: "array"
+          description: "List of profiles and their specific values/modes."
+          items:
+            $ref: "#/components/schemas/ProfileCapability"
+        supportedScopes:
+          type: "array"
+          description: "Hierarchical scopes supported by the query processor."
+          items:
+            $ref: "#/components/schemas/ScopeType"
+        maxHistoryDuration:
+          type: "string"
+          format: "duration"
+          description: "Maximum length of historical data window supported by the provider."
+
+    ProfileCapability:
+      type: "object"
+      title: "ProfileCapability"
+      description: "Declares capabilities for a specific profile class."
+      required:
+        - "profileType"
+      properties:
+        profileType:
+          type: "string"
+          enum:
+            - "CustomerProfile"
+            - "IntervalProfile"
+            - "DailyProfile"
+            - "MonthlyProfile"
+            - "BillDetails"
+            - "InstantaneousProfile"
+            - "EventProfile"
+            - "AlarmProfile"
+        readings:
+          type: "array"
+          description: "Granular capabilities for specific registers and metrics. If omitted, all readings under this profile are supported."
+          items:
+            $ref: "#/components/schemas/ValueCapability"
+
+    ValueCapability:
+      type: "object"
+      title: "ValueCapability"
+      description: "Declares capabilities for a specific register/reading within a profile."
+      required:
+        - "value"
+      properties:
+        value:
+          type: "string"
+          description: "The OBIS code (e.g. 1.0.1.8.0.255) or short code (e.g. kWh imp) representing the register."
+        mode:
+          $ref: "#/components/schemas/TelemetryMode"
+          description: "The telemetry mode (READING, USAGE) supported or requested for this register."
+        multiplier:
+          type: "number"
+          description: "Optional decimal multiplier scaling factor (e.g., 0.001 or 1000)."
+        accuracy:
+          type: "number"
+          description: "Optional accuracy class or precision value."
+
+    ScopeType:
+      type: "string"
+      enum:
+        - "ResourceOnly"
+        - "ResourceAndChildren"
+        - "ChildrenOnly"
+
+    TelemetryMode:
+      type: "string"
+      enum:
+        - "READING"
+        - "USAGE"

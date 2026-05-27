@@ -7,7 +7,7 @@
       {
         "name": "IntervalLoadSurveySet_28b9b8",
         "payloadDescriptors": [
-          { "readingType": "kWh imp block", "reportedMode": "USAGE", "obis": "1.0.1.29.0.255" }
+          { "readingType": "kWh imp block", "reportedMode": "USAGE", "obis": "1.0.1.29.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
@@ -21,14 +21,16 @@
       {
         "name": "DailyLoadSurveySet_aee121",
         "payloadDescriptors": [
-          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255" },
+          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
           {
             "name": "Active energy export - cumulative (kWh)",
             "readingType": "kWh exp",
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "READING",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -44,14 +46,16 @@
       {
         "name": "BillingLoadSurveySet_75c4f7",
         "payloadDescriptors": [
-          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255" },
+          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
           {
             "name": "Active energy export - cumulative (kWh)",
             "readingType": "kWh exp",
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "READING",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           }
         ],
         "compactSequences": [
@@ -67,8 +71,8 @@
       {
         "name": "InstantaneousLoadSurveySet_3a0e45",
         "payloadDescriptors": [
-          { "readingType": "V_1P", "reportedMode": "READING", "obis": "1.0.12.7.0.255" },
-          { "readingType": "I_Phase", "reportedMode": "READING", "obis": "1.0.11.7.0.255" }
+          { "readingType": "V_1P", "reportedMode": "READING", "obis": "1.0.12.7.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "I_Phase", "reportedMode": "READING", "obis": "1.0.11.7.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
@@ -83,8 +87,8 @@
       {
         "name": "IntervalLoadSurveySet_Elaborated_Short",
         "payloadDescriptors": [
-          { "readingType": "kWh imp block", "reportedMode": "USAGE", "obis": "1.0.1.29.0.255" },
-          { "readingType": "kVAh imp block", "reportedMode": "USAGE", "obis": "1.0.9.29.0.255" }
+          { "readingType": "kWh imp block", "reportedMode": "USAGE", "obis": "1.0.1.29.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "kVAh imp block", "reportedMode": "USAGE", "obis": "1.0.9.29.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
@@ -99,16 +103,18 @@
       {
         "name": "DailyLoadSurveySet_Elaborated_Short",
         "payloadDescriptors": [
-          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255" },
+          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
           {
             "name": "Active energy export - cumulative (kWh)",
             "readingType": "kWh exp",
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "READING",
-            "obis": "1.0.2.8.0.255"
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
           },
-          { "readingType": "kVAh imp", "reportedMode": "READING", "obis": "1.0.9.8.0.255" }
+          { "readingType": "kVAh imp", "reportedMode": "READING", "obis": "1.0.9.8.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
@@ -124,9 +130,9 @@
       {
         "name": "BillingSet_BillDetails",
         "payloadDescriptors": [
-          { "readingType": "kWh imp", "reportedMode": "USAGE", "obis": "1.0.1.8.0.255" },
-          { "readingType": "kVAh imp", "reportedMode": "USAGE", "obis": "1.0.9.8.0.255" },
-          { "readingType": "MD kW", "reportedMode": "USAGE", "obis": "1.0.1.6.0.255" }
+          { "readingType": "kWh imp", "reportedMode": "USAGE", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "kVAh imp", "reportedMode": "USAGE", "obis": "1.0.9.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "MD kW", "reportedMode": "USAGE", "obis": "1.0.1.6.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ]
       }
     ]
@@ -137,10 +143,13 @@
     "timeZone": "Asia/Kolkata",
     "customer": {
       "id": { "value": "CONSUMER-ACME-8888", "scheme": "CONSUMER_NUMBER" },
-      "name": "Acme Industries Pvt Ltd",
       "consumerCategory": "NDS",
       "sanctionedLoadKw": 45.0,
-      "billingCycleDay": 1
+      "billingCycleDay": 1,
+      "paymentMode": "POSTPAID",
+      "connectionType": "Three-phase",
+      "contractMaxDemandKw": 50.0,
+      "tariffCategoryCode": "HT-1"
     },
     "serviceDeliveryPoints": [
       {
@@ -166,14 +175,20 @@
         "manufacturer": "Genus",
         "modelNumber": "SM-3PH-4W-WC",
         "meterCategory": "D2",
-        "serviceKind": "ELECTRICITY"
+        "serviceKind": "ELECTRICITY",
+        "make": "Genus",
+        "model": "SM-3PH-4W-WC",
+        "meterType": "AMI"
       },
       {
         "id": { "value": "METER-HPL-02-COMPACT", "scheme": "METER_SERIAL" },
         "manufacturer": "HPL",
         "modelNumber": "SM-1PH-2W-WC",
         "meterCategory": "D1",
-        "serviceKind": "ELECTRICITY"
+        "serviceKind": "ELECTRICITY",
+        "make": "HPL",
+        "model": "SM-1PH-2W-WC",
+        "meterType": "AMI"
       }
     ],
     "associations": [
@@ -184,7 +199,12 @@
         "meterRefs": [
           { "value": "METER-GENUS-01-ELABORATED", "scheme": "METER_SERIAL" }
         ],
-        "installedAt": "2026-05-04T10:00:00+05:30"
+        "parentResources": [
+          { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
+          { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
+        ],
+        "telemetryProvider": "ACME-HES",
+        "commissioningDate": "2026-05-04T10:00:00+05:30"
       },
       {
         "serviceDeliveryPointRefs": [
@@ -193,7 +213,12 @@
         "meterRefs": [
           { "value": "METER-HPL-02-COMPACT", "scheme": "METER_SERIAL" }
         ],
-        "installedAt": "2026-05-04T10:30:00+05:30"
+        "parentResources": [
+          { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
+          { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
+        ],
+        "telemetryProvider": "ACME-HES",
+        "commissioningDate": "2026-05-04T10:30:00+05:30"
       }
     ]
   },
@@ -306,7 +331,10 @@
         ],
         "zone": 2
       }
-    ]
+    ],
+    "energyCharges": 200000.0,
+    "fixedCharges": 15000.0,
+    "otherCharges": 9150.0
   },
   {
     "@type": "BillDetails",
@@ -328,7 +356,10 @@
     "dueDate": "2026-05-21",
     "currency": "INR",
     "amountDue": 32450.0,
-    "compactSequenceRef": "BillingEnergySeq_75c4f7"
+    "compactSequenceRef": "BillingEnergySeq_75c4f7",
+    "energyCharges": 28000.0,
+    "fixedCharges": 3000.0,
+    "otherCharges": 1450.0
   },
   {
     "@type": "InstantaneousProfile",
@@ -384,20 +415,14 @@
     "@type": "AlarmProfile",
     "profileType": "ALARM",
     "customerRefs": [
-      { "scheme": "CONSUMER_NUMBER", "value": "CONSUMER-ACME-8888" }
+      { "value": "CONSUMER-ACME-8888", "scheme": "CONSUMER_NUMBER" }
     ],
     "meterRefs": [
-      { "scheme": "METER_SERIAL", "value": "METER-HPL-02-COMPACT" }
+      { "value": "METER-HPL-02-COMPACT", "scheme": "METER_SERIAL" }
     ],
     "timestamp": "2026-05-18T09:30:00+05:30",
     "alarms": [
-      {
-        "timestamp": "2026-05-18T09:30:00+05:30",
-        "alarmId": 6,
-        "alarmName": "Meter Cover Open",
-        "status": "ACTIVE",
-        "severity": "CRITICAL"
-      }
+      { "timestamp": "2026-05-18T09:30:00+05:30", "alarmId": 6, "alarmName": "Meter Cover Open", "status": "ACTIVE", "severity": "CRITICAL" }
     ]
   }
 ]

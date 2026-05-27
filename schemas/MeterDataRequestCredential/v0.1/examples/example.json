@@ -21,21 +21,38 @@
   },
   "credentialSubject": {
     "id": "did:dedi:ies:discom:IN-KA-BESCOM",
-    "meterDataRequest": {
-      "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
-      "@type": "MeterDataRequest",
-      "resources": ["did:dedi:ies:feeder:IN-KA-BLR-ZONE-A"],
-      "scope": "ResourceAndChildren",
-      "from": "2026-01-01T00:00:00Z",
-      "duration": "P3M",
-      "maxRecordsShared": 10000,
-      "includeDetails": [
-        { "profileType": "CustomerProfile" },
-        { "profileType": "IntervalProfile" },
-        { "profileType": "DailyProfile" },
-        { "profileType": "MonthlyProfile" }
-      ]
-    }
+      "meterDataRequest": {
+        "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
+        "@type": "MeterDataRequest",
+        "resources": ["did:dedi:ies:feeder:IN-KA-BLR-ZONE-A"],
+        "scope": "ResourceAndChildren",
+        "from": "2026-01-01T00:00:00Z",
+        "duration": "P3M",
+        "maxRecordsShared": 10000,
+        "capabilitiesRequested": {
+          "profiles": [
+            { "profileType": "CustomerProfile" },
+            { 
+              "profileType": "IntervalProfile",
+              "readings": [
+                { "value": "kWh imp block", "mode": "USAGE" }
+              ]
+            },
+            { 
+              "profileType": "DailyProfile",
+              "readings": [
+                { "value": "kWh imp", "mode": "READING" }
+              ]
+            },
+            { 
+              "profileType": "MonthlyProfile",
+              "readings": [
+                { "value": "kWh imp", "mode": "USAGE" }
+              ]
+            }
+          ]
+        }
+      }
   },
   "proof": {
     "type": "Ed25519Signature2020",

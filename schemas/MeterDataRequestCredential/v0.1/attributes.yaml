@@ -47,27 +47,33 @@ components:
         - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
       properties:
         credentialSubject:
-          type: object
+          $ref: "#/components/schemas/MeterDataRequestCredentialSubject"
           description: >
             The subject of the credential: the requesting entity and the
             specific MeterDataRequest they are authorised to make.
-          required:
-            - meterDataRequest
           x-jsonld:
             "@id": "deg:credentialSubject"
-          properties:
-            id:
-              type: string
-              format: uri
-              description: DID of the requesting entity (e.g., the DISCOM).
-              x-jsonld:
-                "@id": "@id"
-            meterDataRequest:
-              $ref: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/schema.json"
-              description: >
-                The scoped, time-bounded data request. Specifies the meter
-                resources, hierarchical scope, time window, and profile types
-                being requested. The provider validates this against its
-                capability profile before fulfilling delivery.
-              x-jsonld:
-                "@id": "ies:meterDataRequest"
+
+    MeterDataRequestCredentialSubject:
+      type: object
+      description: >
+        The subject of the credential: the requesting entity and the
+        specific MeterDataRequest they are authorised to make.
+      required:
+        - meterDataRequest
+      properties:
+        id:
+          type: string
+          format: uri
+          description: DID of the requesting entity (e.g., the DISCOM).
+          x-jsonld:
+            "@id": "@id"
+        meterDataRequest:
+          $ref: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/schema.json"
+          description: >
+            The scoped, time-bounded data request. Specifies the meter
+            resources, hierarchical scope, time window, and profile types
+            being requested. The provider validates this against its
+            capability profile before fulfilling delivery.
+          x-jsonld:
+            "@id": "ies:meterDataRequest"
