@@ -652,14 +652,12 @@ components:
           items:
             $ref: '#/components/schemas/Identifier'
           description: List of parent resources (such as feeders or DTs) for this association, replacing feederId and dtId.
-        installedAt:
-          type: string
-          format: date-time
         telemetryProvider:
           type: string
           description: Telemetry provider for this meter-service association.
         commissioningDate:
           type: string
+          format: date-time
           description: Commissioning date of the meter association.
     MeterEvent:
       type: object

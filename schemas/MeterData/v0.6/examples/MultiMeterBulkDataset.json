@@ -136,7 +136,6 @@
         "meterRefs": [
           { "value": "METER-GENUS-01", "scheme": "METER_SERIAL" }
         ],
-        "installedAt": "2026-05-04T10:00:00+05:30",
         "parentResources": [
           { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
           { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
@@ -151,7 +150,6 @@
         "meterRefs": [
           { "value": "METER-HPL-02", "scheme": "METER_SERIAL" }
         ],
-        "installedAt": "2026-05-04T10:30:00+05:30",
         "parentResources": [
           { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
           { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }

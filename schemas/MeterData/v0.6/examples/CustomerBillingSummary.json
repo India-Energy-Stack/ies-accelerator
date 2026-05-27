@@ -9,28 +9,31 @@
         "payloadDescriptors": [
           {
             "name": "Active energy import - cumulative (kWh)",
-            "readingType": "1.0.1.8.0.255",
+            "readingType": "kWh imp",
             "unit": "kWh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255",
             "multiplier": 1.0,
             "accuracy": 0.5
           },
           {
             "name": "Apparent energy import - cumulative (kVAh)",
-            "readingType": "1.0.9.8.0.255",
+            "readingType": "kVAh imp",
             "unit": "kVAh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
+            "obis": "1.0.9.8.0.255",
             "multiplier": 1.0,
             "accuracy": 0.5
           },
           {
             "name": "Maximum demand (kW) - current billing period",
-            "readingType": "1.0.1.6.0.255",
+            "readingType": "MD kW",
             "unit": "kW",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
+            "obis": "1.0.1.6.0.255",
             "multiplier": 1.0,
             "accuracy": 0.5
           }
@@ -50,9 +53,9 @@
     "payloadDescriptorSetRef": "BillingSet",
     "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
     "readings": [
-      { "readingType": "1.0.1.8.0.255", "value": 412.5, "openingValue": 18432.5, "closingValue": 18845.0 },
-      { "readingType": "1.0.9.8.0.255", "value": 421.8, "openingValue": 18715.4, "closingValue": 19137.2 },
-      { "readingType": "1.0.1.6.0.255", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
+      { "readingType": "kWh imp", "value": 412.5, "openingValue": 18432.5, "closingValue": 18845.0 },
+      { "readingType": "kVAh imp", "value": 421.8, "openingValue": 18715.4, "closingValue": 19137.2 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
     ],
     "billNumber": "BESCOM-RR-1234-202604",
     "billDate": "2026-05-01",
@@ -62,25 +65,25 @@
     "touBuckets": [
       {
         "readings": [
-          { "readingType": "1.0.1.8.1.255", "value": 138.2 }
+          { "readingType": "kWh TZ1", "value": 138.2 }
         ],
         "zone": 1
       },
       {
         "readings": [
-          { "readingType": "1.0.1.8.2.255", "value": 62.4 }
+          { "readingType": "kWh TZ2", "value": 62.4 }
         ],
         "zone": 2
       },
       {
         "readings": [
-          { "readingType": "1.0.1.8.3.255", "value": 174.0 }
+          { "readingType": "kWh TZ3", "value": 174.0 }
         ],
         "zone": 3
       },
       {
         "readings": [
-          { "readingType": "1.0.1.8.4.255", "value": 37.9 }
+          { "readingType": "kWh TZ4", "value": 37.9 }
         ],
         "zone": 4
       }

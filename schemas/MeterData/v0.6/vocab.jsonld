@@ -705,12 +705,6 @@
             "rdfs:comment": "List of parent resources (such as feeders or DTs) for this association, replacing feederId and dtId."
         },
         {
-            "@id": "ies:installedAt",
-            "@type": "rdf:Property",
-            "rdfs:label": "installed At",
-            "rdfs:comment": ""
-        },
-        {
             "@id": "ies:telemetryProvider",
             "@type": "rdf:Property",
             "rdfs:label": "telemetry Provider",

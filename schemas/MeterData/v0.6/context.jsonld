@@ -227,17 +227,13 @@
                                 }
                             }
                         },
-                        "installedAt": {
-                            "@id": "ies:installedAt",
-                            "@type": "xsd:dateTime"
-                        },
                         "telemetryProvider": {
                             "@id": "ies:telemetryProvider",
                             "@type": "xsd:string"
                         },
                         "commissioningDate": {
                             "@id": "ies:commissioningDate",
-                            "@type": "xsd:string"
+                            "@type": "xsd:dateTime"
                         }
                     }
                 }
@@ -2194,17 +2190,13 @@
                         }
                     }
                 },
-                "installedAt": {
-                    "@id": "ies:installedAt",
-                    "@type": "xsd:dateTime"
-                },
                 "telemetryProvider": {
                     "@id": "ies:telemetryProvider",
                     "@type": "xsd:string"
                 },
                 "commissioningDate": {
                     "@id": "ies:commissioningDate",
-                    "@type": "xsd:string"
+                    "@type": "xsd:dateTime"
                 }
             }
         },

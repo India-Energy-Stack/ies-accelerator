@@ -67,7 +67,6 @@
         { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
         { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
       ],
-      "installedAt": "2026-05-04T10:00:00+05:30",
       "telemetryProvider": "BESCOM-HES",
       "commissioningDate": "2026-05-04T10:00:00+05:30"
     },
@@ -82,7 +81,6 @@
         { "value": "FDR-11KV-BLR-04", "scheme": "OTHER" },
         { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
       ],
-      "installedAt": "2026-05-04T10:30:00+05:30",
       "telemetryProvider": "BESCOM-HES",
       "commissioningDate": "2026-05-04T10:30:00+05:30"
     }
