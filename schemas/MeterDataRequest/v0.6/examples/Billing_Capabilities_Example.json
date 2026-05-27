@@ -9,19 +9,19 @@
       "profileType": "MonthlyProfile",
       "readings": [
         {
-          "value": "1.0.1.8.0.255",
+          "value": "kWh imp",
           "mode": "USAGE"
         },
         {
-          "value": "1.0.2.8.0.255",
+          "value": "kWh exp",
           "mode": "USAGE"
         },
         {
-          "value": "1.0.1.6.0.255",
+          "value": "MD kW",
           "mode": "USAGE"
         },
         {
-          "value": "1.0.9.6.0.255",
+          "value": "MD kVA",
           "mode": "USAGE"
         }
       ]

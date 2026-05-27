@@ -21,7 +21,7 @@
         "profileType": "IntervalProfile",
         "readings": [
           {
-            "value": "1.0.1.29.0.255",
+            "value": "kWh imp block",
             "mode": "USAGE"
           }
         ]
