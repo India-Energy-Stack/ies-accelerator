@@ -7,20 +7,13 @@
       {
         "name": "DailyLoadSurveySet",
         "payloadDescriptors": [
-          {
-            "readingType": "kWh imp",
-            "reportedMode": "READING",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          }
+          { "readingType": "kWh imp", "reportedMode": "READING", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
             "name": "DailyEnergySeq",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp"
-              }
+              { "readingType": "kWh imp" }
             ]
           }
         ]
@@ -31,40 +24,26 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      {
-        "value": "BESCOM-SM-2025-654321",
-        "scheme": "METER_SERIAL"
-      }
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet",
-    "intervalPeriod": {
-      "start": "2026-05-04T00:00:00+05:30",
-      "duration": "P1D"
-    },
+    "intervalPeriod": { "start": "2026-05-04T00:00:00+05:30", "duration": "P1D" },
     "intervals": [
       {
         "id": 0,
-        "payloads": [
-          1000.0
-        ]
+        "payloads": [ 1000.0 ]
       },
       {
         "id": 1,
-        "payloads": [
-          1005.5
-        ]
+        "payloads": [ 1005.5 ]
       },
       {
         "id": 2,
-        "payloads": [
-          1012.3
-        ]
+        "payloads": [ 1012.3 ]
       },
       {
         "id": 3,
-        "payloads": [
-          1018.0
-        ]
+        "payloads": [ 1018.0 ]
       }
     ],
     "compactSequenceRef": "DailyEnergySeq"

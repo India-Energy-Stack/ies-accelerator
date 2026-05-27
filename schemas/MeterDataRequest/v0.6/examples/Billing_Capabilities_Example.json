@@ -2,36 +2,18 @@
   "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
   "@type": "MeterDataCapabilities",
   "profiles": [
-    {
-      "profileType": "CustomerProfile"
-    },
+    { "profileType": "CustomerProfile" },
     {
       "profileType": "MonthlyProfile",
       "readings": [
-        {
-          "value": "kWh imp",
-          "mode": "USAGE"
-        },
-        {
-          "value": "kWh exp",
-          "mode": "USAGE"
-        },
-        {
-          "value": "MD kW",
-          "mode": "USAGE"
-        },
-        {
-          "value": "MD kVA",
-          "mode": "USAGE"
-        }
+        { "value": "kWh imp", "mode": "USAGE" },
+        { "value": "kWh exp", "mode": "USAGE" },
+        { "value": "MD kW", "mode": "USAGE" },
+        { "value": "MD kVA", "mode": "USAGE" }
       ]
     },
-    {
-      "profileType": "BillDetails"
-    }
+    { "profileType": "BillDetails" }
   ],
-  "supportedScopes": [
-    "ResourceOnly"
-  ],
+  "supportedScopes": [ "ResourceOnly" ],
   "maxHistoryDuration": "P10Y"
 }

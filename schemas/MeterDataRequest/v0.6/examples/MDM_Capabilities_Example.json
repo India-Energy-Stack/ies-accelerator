@@ -5,31 +5,15 @@
     {
       "profileType": "IntervalProfile",
       "readings": [
-        {
-          "value": "kWh imp block",
-          "mode": "USAGE",
-          "multiplier": 1.0,
-          "accuracy": 0.5
-        },
-        {
-          "value": "kWh exp block",
-          "mode": "USAGE",
-          "multiplier": 1.0,
-          "accuracy": 0.5
-        }
+        { "value": "kWh imp block", "mode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 },
+        { "value": "kWh exp block", "mode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 }
       ]
     },
     {
       "profileType": "DailyProfile",
       "readings": [
-        {
-          "value": "kWh imp",
-          "mode": "READING"
-        },
-        {
-          "value": "kWh exp",
-          "mode": "READING"
-        }
+        { "value": "kWh imp", "mode": "READING" },
+        { "value": "kWh exp", "mode": "READING" }
       ]
     },
     {
@@ -43,17 +27,9 @@
         { "value": "I_B", "mode": "READING" }
       ]
     },
-    {
-      "profileType": "AlarmProfile"
-    },
-    {
-      "profileType": "EventProfile"
-    }
+    { "profileType": "AlarmProfile" },
+    { "profileType": "EventProfile" }
   ],
-  "supportedScopes": [
-    "ResourceOnly",
-    "ResourceAndChildren",
-    "ChildrenOnly"
-  ],
+  "supportedScopes": [ "ResourceOnly", "ResourceAndChildren", "ChildrenOnly" ],
   "maxHistoryDuration": "P3Y"
 }
