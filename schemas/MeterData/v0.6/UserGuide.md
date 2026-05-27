@@ -104,6 +104,67 @@ graph TD
 - **The Challenge**: Serving use cases that require data from different systems (e.g., connecting billing data from CIS with hourly telemetry from HES).
 - **The Solution**: The `MeterData` envelope uses explicit metadata boundaries: `meterRefs` identifies the physical hardware, `serviceDeliveryPointRefs` identifies the grid connection node, and `customerRefs` (when permitted) links to the commercial account. TSPs can query the utility's DeDi registries to resolve these identifiers and correlate data across siloed utility databases.
 
+### F. End-to-End TSP Data Access Flow
+
+For a Technical Service Provider (TSP) to securely request and retrieve metering data, the India Energy Stack utilizes a structured, cryptographically signed handshake protocol:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant TSP as Third-Party TSP
+    participant Registry as Network Registry
+    participant Utility as Utility/DISCOM
+    participant User as Consumer/User
+
+    Note over TSP: Onboards to network &<br/>publishes public keys
+    TSP->>Registry: Registry Lookup (Find DISCOM endpoint)
+    Registry-->>TSP: DISCOM URL & Metadata
+    
+    Note over TSP, Utility: 1. Discovery
+    TSP->>Utility: Query Capabilities
+    Utility-->>TSP: Return MeterDataCapabilities
+    
+    Note over TSP, Utility: 2. Authorisation
+    TSP->>Utility: Request Access (for purpose)
+    Utility->>Utility: Verify TSP identity (Beckn Onboarding / cryptographic signatures)
+    Utility-->>TSP: Issue MeterDataAuthorisation
+    
+    Note over TSP, User: 3. User Consent
+    TSP->>User: Request Consent
+    User-->>TSP: Return cryptographic consent receipt
+    
+    Note over TSP, Utility: 4. Data Request
+    TSP->>Utility: Send MeterDataRequest (subset of capabilities + consent + auth)
+    Utility->>Utility: Verify signatures, auth tokens, & consent receipts
+    
+    Note over TSP, Utility: 5. Data Retrieval
+    Utility-->>TSP: Return cryptographically signed MeterData
+```
+
+#### 1. Discovery (Understanding Available Data)
+The TSP queries the Utility's discovery endpoint to learn what profile types, OBIS registers, scaling multipliers, and telemetry modes are supported. The Utility responds with a [`MeterDataCapabilities`](../../MeterDataRequest/v0.6/examples/Capabilities_Example.json) document.
+
+#### 2. Authorization (Obtaining Utility Approval)
+The TSP requests authorization from the Utility for a specific business purpose. The authentication of the TSP is established via their network onboarding registry (e.g. Beckn subscriber registry), and the TSP signs all requests/data with their registered public key to verify identity. 
+Once verified, the Utility issues a [`MeterDataAuthorisation`](../../MeterDataRequest/v0.6/examples/Authorisation_Example.json) credential specifying:
+- Who is authorized (`grantee`) and by whom (`grantor`).
+- Access period (`validFrom`/`validUntil`) and purpose.
+- The granted `MeterDataCapabilities` subset.
+
+#### 3. User Consent
+Before accessing consumer-associated profiles (e.g. `CustomerProfile`, `BillDetails`, or granular hourly `IntervalProfile`), the TSP (or the Utility on the TSP's behalf) must obtain explicit consumer consent. This is represented by a cryptographic consent receipt or a signed consent DID reference.
+
+#### 4. Data Request (Requesting a Subset)
+The TSP formats a query using the [`MeterDataRequest`](../../MeterDataRequest/v0.6/examples/Request_Example.json) schema. The request defines:
+- The specific query window (`from`, `duration`).
+- References to the target `consumers` or `resources` (e.g. meter serials).
+- The `consumerConsent` receipts.
+- A pointer to the `authorisation` grant.
+- A `capabilitiesRequested` object representing the exact subset of the authorized capabilities being queried.
+
+#### 5. Data Retrieval (Obtaining Telemetry)
+The Utility validates the signatures on the incoming request, checks that the query timeframe and registers fit within the bounds of the active `MeterDataAuthorisation` and `consumerConsent`, retrieves the data (potentially from a data lake), packages it, signs it, and returns the payload conforming to the `MeterData` v0.6 schemas.
+
 ---
 
 ## 5. Energy Credentials: Energy Passport & Energy Digest

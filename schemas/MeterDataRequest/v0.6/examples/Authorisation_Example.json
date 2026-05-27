@@ -1,0 +1,35 @@
+{
+  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
+  "@type": "MeterDataAuthorisation",
+  "grantor": "did:dedi:ies:discom:BESCOM",
+  "grantee": "did:dedi:ies:tsp:ACME-TSP",
+  "purpose": "ESG Carbon Accounting & Trend Analysis",
+  "validFrom": "2026-05-01T00:00:00Z",
+  "validUntil": "2027-05-01T00:00:00Z",
+  "capabilities": {
+    "profiles": [
+      {
+        "profileType": "IntervalProfile",
+        "readings": [
+          {
+            "value": "1.0.1.29.0.255",
+            "mode": "USAGE"
+          }
+        ]
+      },
+      {
+        "profileType": "DailyProfile",
+        "readings": [
+          {
+            "value": "1.0.1.8.0.255",
+            "mode": "READING"
+          }
+        ]
+      }
+    ],
+    "supportedScopes": [
+      "ResourceOnly"
+    ],
+    "maxHistoryDuration": "P1Y"
+  }
+}
