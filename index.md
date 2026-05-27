@@ -1345,24 +1345,38 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
   </li>
   </ul>
   </details>
-* **[README.md](schemas/MeterDataRequest/v0.5/README.md)**
-  - *Summary*: Field definitions and compilation guidelines for MeterDataRequest v0.5.
+* **[README.md](schemas/MeterDataRequest/v0.6/README.md)**
+  - *Summary*: Field definitions and compilation guidelines for MeterDataRequest v0.6.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="schemas/MeterDataRequest/v0.5/README.md#meterdatarequest-schema-v05">MeterDataRequest Schema (v0.5)</a>    <ul>
-      <li><a href="schemas/MeterDataRequest/v0.5/README.md#schema-overview">Schema Overview</a>      <ul>
-        <li><a href="schemas/MeterDataRequest/v0.5/README.md#fields-and-definitions">Fields and Definitions</a>
+    <li><a href="schemas/MeterDataRequest/v0.6/README.md#meterdatarequest-v06">MeterDataRequest v0.6</a>    <ul>
+      <li><a href="schemas/MeterDataRequest/v0.6/README.md#1-meterdatacapabilities">1. MeterDataCapabilities</a></li>
+      <li><a href="schemas/MeterDataRequest/v0.6/README.md#2-meterdataauthorisation">2. MeterDataAuthorisation</a></li>
+      <li><a href="schemas/MeterDataRequest/v0.6/README.md#3-meterdatarequest">3. MeterDataRequest</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[README.md](schemas/MeterDataRequestCredential/v0.1/README.md)**
+  - *Summary*: W3C Verifiable Credential wrapping a MeterDataRequest, enabling secure authorized requests.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#meterdatarequestcredential-v01">MeterDataRequestCredential v0.1</a>    <ul>
+      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#purpose">Purpose</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#inheritance">Inheritance</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#schema-files">Schema Files</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#credential-structure">Credential Structure</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#usage-in-beckn-data-exchange-uc1">Usage in Beckn Data Exchange (UC1)</a>      <ul>
+        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#provider-side-catalogpublish">Provider side — `catalog/publish`</a></li>
+        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#seeker-side-confirm">Seeker side — `confirm`</a></li>
+        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#provider-side-on-status">Provider side — `on_status`</a>
       </li>
       </ul>
-      <li><a href="schemas/MeterDataRequest/v0.5/README.md#examples-of-usage">Examples of Usage</a>      <ul>
-        <li><a href="schemas/MeterDataRequest/v0.5/README.md#1-embedded-in-a-credential-discom-to-tsp-data-sharing-allowance">1. Embedded in a Credential (DISCOM-to-TSP Data Sharing Allowance)</a></li>
-        <li><a href="schemas/MeterDataRequest/v0.5/README.md#2-provider-capabilities-advertised-capability-profiles">2. Provider Capabilities (Advertised Capability Profiles)</a></li>
-        <li><a href="schemas/MeterDataRequest/v0.5/README.md#3-requesting-data-as-a-query-filter">3. Requesting Data (As a Query Filter)</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterDataRequest/v0.5/README.md#build-and-compilation">Build and Compilation</a></li>
-      <li><a href="schemas/MeterDataRequest/v0.5/README.md#verification-and-validation">Verification and Validation</a>
+      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#example">Example</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#changelog">Changelog</a>
     </li>
     </ul>
   </li>

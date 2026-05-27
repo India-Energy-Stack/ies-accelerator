@@ -136,7 +136,8 @@ def main():
             ("schemas/MeterData/v0.5/README.md", "Overview and field representations for MeterData v0.5 profiles."),
             ("schemas/MeterData/v0.6/CHANGELOG.md", "Changelog detailing Form A and Form B dual-representation upgrades in MeterData v0.6."),
             ("schemas/MeterData/v0.6/README.md", "Detailed technical specification for the updated MeterData v0.6 dual-representation schemas."),
-            ("schemas/MeterDataRequest/v0.5/README.md", "Field definitions and compilation guidelines for MeterDataRequest v0.5."),
+            ("schemas/MeterDataRequest/v0.6/README.md", "Field definitions and compilation guidelines for MeterDataRequest v0.6."),
+            ("schemas/MeterDataRequestCredential/v0.1/README.md", "W3C Verifiable Credential wrapping a MeterDataRequest, enabling secure authorized requests."),
             ("schemas/ArrFiling/v0.5/README.md", "Detailed schema fields and validation steps for Annual Revenue Requirement filings v0.5.")
         ],
         "usecases": [

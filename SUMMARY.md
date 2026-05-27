@@ -45,9 +45,10 @@
 
 * [Schemas](schemas/README.md)
   * [Electricity Credential v1.0](schemas/ElectricityCredential/v1.0/README.md)
-  * [Meter Data v0.5](schemas/MeterData/v0.5/README.md)
+  * [Meter Data v0.6](schemas/MeterData/v0.6/README.md)
   * [ARR Filing v0.5](schemas/ArrFiling/v0.5/README.md)
-  * [Meter Data Request v0.5](schemas/MeterDataRequest/v0.5/README.md)
+  * [Meter Data Request v0.6](schemas/MeterDataRequest/v0.6/README.md)
+  * [Meter Data Request Credential v0.1](schemas/MeterDataRequestCredential/v0.1/README.md)
 
 * [Use Cases](use-cases/README.md)
   * [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
