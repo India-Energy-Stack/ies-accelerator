@@ -1,0 +1,63 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-ANONYMISED-TELEMETRY",
+    "payloadDescriptorSets": [
+      {
+        "name": "IntervalEnergySet",
+        "payloadDescriptors": [
+          { "readingType": "kWh imp", "reportedMode": "USAGE", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "kWh exp", "reportedMode": "USAGE", "obis": "1.0.2.8.0.255", "multiplier": 1.0, "accuracy": 0.5 }
+        ],
+        "compactSequences": [
+          {
+            "name": "IntervalEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp" },
+              { "readingType": "kWh exp" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "serviceDeliveryPointRefs": [
+      { "value": "SDP-BLR-A-12345", "scheme": "SERVICE_DELIVERY_POINT" }
+    ],
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "IntervalEnergySet",
+    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      { "id": 0, "payloads": [ 1.25, 0.0 ] },
+      { "id": 1, "payloads": [ 1.30, 0.0 ] },
+      { "id": 2, "payloads": [ 1.18, 0.0 ] },
+      { "id": 3, "payloads": [ 1.22, 0.0 ] }
+    ],
+    "compactSequenceRef": "IntervalEnergySeq"
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "serviceDeliveryPointRefs": [
+      { "value": "SDP-BLR-A-12346", "scheme": "SERVICE_DELIVERY_POINT" }
+    ],
+    "meterRefs": [
+      { "value": "BESCOM-SM-2025-999999", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "IntervalEnergySet",
+    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      { "id": 0, "payloads": [ 0.0, 2.50 ] },
+      { "id": 1, "payloads": [ 0.0, 2.65 ] },
+      { "id": 2, "payloads": [ 0.0, 2.45 ] },
+      { "id": 3, "payloads": [ 0.0, 2.60 ] }
+    ],
+    "compactSequenceRef": "IntervalEnergySeq"
+  }
+]

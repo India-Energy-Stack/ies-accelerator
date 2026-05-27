@@ -165,6 +165,37 @@ The TSP formats a query using the [`MeterDataRequest`](../../MeterDataRequest/v0
 #### 5. Data Retrieval (Obtaining Telemetry)
 The Utility validates the signatures on the incoming request, checks that the query timeframe and registers fit within the bounds of the active `MeterDataAuthorisation` and `consumerConsent`, retrieves the data (potentially from a data lake), packages it, signs it, and returns the payload conforming to the `MeterData` v0.6 schemas.
 
+### G. Anonymised Grid Topology Query & Telemetry Retrieval Flow
+
+For TSPs to perform grid planning tasks—such as calculating net loading or import/export requirements for a substation or feeder (e.g. `FDR-11KV-BLR-04`)—without exposing customer PII, the workflow is structured into two main parts:
+
+#### Part 1: Determine Downstream Resources (Topology Resolution)
+Before requesting telemetry, the TSP must identify which physical meter IDs are installed under the target feeder or substation. This can be accomplished via two methods:
+
+1. **Via `MeterData` (Anonymised Directory Lookup)**:
+   - The TSP queries the utility's data exchange node for a redacted `CUSTOMER` profile mapping the feeder ID.
+   - The utility returns a redacted `CUSTOMER` profile where customer name and PII are omitted, and consumers are referenced only via public DIDs.
+   - In the `associations` block, the utility links each meter ID and service point ID to parent resources using `parentResources`.
+   - The TSP parses this mapping to extract the downstream meter serials.
+   - *Example payload*: See [`Anonymised_Topology_Example.json`](./examples/Anonymised_Topology_Example.json) for a PII-redacted customer profile mapping meters to parent grid resources.
+
+2. **Via Standalone Topology Service / Registry**:
+   - The TSP queries a dedicated grid topology registry or DeDi registry directly which maintains a mapping of physical electrical assets (feeders, transformers, meters) in the grid, bypassing the commercial/billing database entirely.
+
+#### Part 2: Making the Access (Telemetry Retrieval & Ingestion)
+Once the list of physical meter serials has been resolved, the TSP queries the telemetry data:
+
+1. **Requesting Telemetry**:
+   - The TSP formats a query using the `MeterDataRequest` schema.
+   - The request specifies `scope: "ResourceOnly"`, listing the specific meter serial DIDs in the `resources` array, and requests capabilities for active energy import and export channels (`IntervalProfile` type).
+   - *Example request*: See [`Anonymised_Telemetry_Request.json`](../../MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json) for a query targeting these specific meters.
+2. **Retrieving Telemetry**:
+   - The utility validates the request signatures, checks the TSP's authorization, and retrieves the telemetry profiles.
+   - The utility returns a compact `IntervalProfile` containing import/export telemetry for the queried meters, omitting any customer references.
+   - *Example response*: See [`Anonymised_Telemetry_Response.json`](./examples/Anonymised_Telemetry_Response.json) for the telemetry-only return payload.
+3. **Ingestion & Aggregation**:
+   - The TSP ingests the compact payload and sums the telemetry values across the meters to perform the load planning audit.
+
 ---
 
 ## 5. Energy Credentials: Energy Passport & Energy Digest
@@ -220,14 +251,40 @@ When exposing smart meter data, safeguarding consumer privacy and utility grid s
 
 ---
 
-## 8. Quality Indications & Validation
+## 8. Data Quality & Parameter Annotations
 
-For all profile shapes, verifying data quality and formatting before ingestion is recommended.
+To ensure that downstream analytic and billing engines can interpret telemetry accurately, the schema provides direct mechanisms to annotate missing data, quality issues, scale, and physical precision.
 
-### Encouraging the Validator
-The India Energy Stack provides a validator tool located at `validation/validate_v06.py`. Developers and system administrators are encouraged to integrate this validator into their ingestion pipelines (e.g., as a CI step or pre-write database trigger) to assert both schema compliance and semantic constraints (e.g., validating usage calculation math and ensuring `openingValue`/`closingValue` are never attached to `READING` mode profiles).
+### A. Missing, Estimated, or Manual Readings
+For intervals or individual registers where data is absent or suspect, utilities must annotate reading states rather than transmitting raw fallback values (such as `0` or `-1`), which could corrupt load calculations:
+- **`validationStatus`**: Allows tagging individual readings or overrides inside the compact interval blocks with an explicit status enum:
+  - `VALID`: Verified normal reading.
+  - `ESTIMATED`: Value calculated/imputed to fill a gap.
+  - `MANUAL`: Digitally inputted by an inspector.
+  - `SUSPECT`: Flagged as questionable or out of bounds.
+  - `REJECTED`: Declared invalid due to tamper or hardware malfunction.
+- **`overrides`**: In compact time-series arrays, quality overrides (like `validationStatus` or `failCode`) are injected positionally via the `overrides` array, keeping the main payload sequence dense and clean of nested structures.
+- **`ReadingSource`**: Identifies where the telemetry originated (e.g. `METER`, `HES`, `MDM_COMPUTED`, `CIS_COMPUTED`).
 
-Run the validator on your payload files:
+### B. Multiplier & Accuracy Class
+- **`multiplier`**: In the `PayloadDescriptor`, the `multiplier` property defines the decimal scaling factor (e.g., `0.001` to scale Wh to kWh, or `1000` for scaling). If omitted, the default is `1`.
+- **`accuracy`**: The `accuracy` property declares the physical precision or accuracy class of the meter registers (e.g., `0.5` representing Class 0.5 meter, or `1.0`), informing consuming systems of the margin of error.
+
+---
+
+## 9. Schema & Semantic Compliance (The Validator)
+
+Before ingesting datasets into database stores, payloads must be verified to conform to both the JSON schema syntax and structural semantic rules:
+
+### A. Core Constraints
+- **Envelope Compliance**: Ensures the payload conforms to the Draft 2020-12 JSON Schema (e.g. correct field typings, required parameters, and strict enum values).
+- **Semantic Arity matching**: In compact profiles, the number of fields in each `payloads` interval must exactly match the number of descriptors defined in the active `compactSequences` array.
+- **Register Modes restrictions**: Ensuring that parameters like `openingValue` and `closingValue` are only provided under `reportedMode: "USAGE"` and are strictly excluded under `READING` mode to protect data integrity.
+
+### B. Using the Validator
+The India Energy Stack provides a reference validator script located at `validation/validate_v06.py`. Developers and system administrators are strongly encouraged to integrate this tool into their CI/CD pipelines or as a pre-write database trigger.
+
+To validate a JSON payload file:
 ```bash
 python validation/validate_v06.py <path_to_payload.json>
 ```
