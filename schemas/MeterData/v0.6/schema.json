@@ -844,6 +844,11 @@
         "tariffCategoryCode": {
           "type": "string",
           "description": "Billing/tariff category code assigned by the utility."
+        },
+        "sanctionedExportLoadKw": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Sanctioned/approved grid export limit in kW."
         }
       }
     },
@@ -951,6 +956,16 @@
           "type": "string",
           "format": "date-time",
           "description": "Commissioning date of the meter association."
+        },
+        "generationCapacityKw": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Rated power generation capacity (e.g. solar PV inverter capacity) in kW."
+        },
+        "storageCapacityKw": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Rated energy storage capacity in kWh."
         }
       }
     },

@@ -627,6 +627,12 @@
             "rdfs:comment": "Billing/tariff category code assigned by the utility."
         },
         {
+            "@id": "ies:sanctionedExportLoadKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "sanctioned Export Load Kw",
+            "rdfs:comment": "Sanctioned/approved grid export limit in kW."
+        },
+        {
             "@id": "ies:addressLine",
             "@type": "rdf:Property",
             "rdfs:label": "address Line",
@@ -715,6 +721,18 @@
             "@type": "rdf:Property",
             "rdfs:label": "commissioning Date",
             "rdfs:comment": "Commissioning date of the meter association."
+        },
+        {
+            "@id": "ies:generationCapacityKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "generation Capacity Kw",
+            "rdfs:comment": "Rated power generation capacity (e.g. solar PV inverter capacity) in kW."
+        },
+        {
+            "@id": "ies:storageCapacityKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "storage Capacity Kw",
+            "rdfs:comment": "Rated energy storage capacity in kWh."
         },
         {
             "@id": "ies:eventId",

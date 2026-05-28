@@ -4,6 +4,38 @@ import sys
 import json
 import jsonschema
 
+try:
+    from referencing import Registry, Resource
+    energy_cred_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object"
+    }
+    energy_res_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object"
+    }
+    resources = [
+        ("https://schema.beckn.io/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
+        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema))
+    ]
+    # Dynamically register all local schema.json files under their raw.githubusercontent.com URLs
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "schemas"))
+    for root, dirs, files in os.walk(base_dir):
+        for file in files:
+            if file == "schema.json":
+                schema_path = os.path.join(root, file)
+                rel_path = os.path.relpath(schema_path, base_dir)
+                url = f"https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/{rel_path}"
+                try:
+                    with open(schema_path, "r", encoding="utf-8") as sf:
+                        local_schema = json.load(sf)
+                    resources.append((url, Resource.from_contents(local_schema)))
+                except Exception:
+                    pass
+    registry = Registry().with_resources(resources)
+except ImportError:
+    registry = None
+
 def validate_json_file(schema, filepath):
     """
     Validates a single JSON file against the parsed schema.
@@ -16,7 +48,10 @@ def validate_json_file(schema, filepath):
         return False, [f"JSON Parse Error: {e}"]
 
     # We use Draft202012Validator because the output schema matches the dialect specified in attributes.yaml
-    validator = jsonschema.Draft202012Validator(schema)
+    if registry is not None:
+        validator = jsonschema.Draft202012Validator(schema, registry=registry)
+    else:
+        validator = jsonschema.Draft202012Validator(schema)
     schema_type = schema.get("type", "object")
     
     if isinstance(data, list) and schema_type == "object":

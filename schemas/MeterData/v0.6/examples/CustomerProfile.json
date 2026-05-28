@@ -15,7 +15,8 @@
       "paymentMode": "POSTPAID",
       "connectionType": "Three-phase",
       "contractMaxDemandKw": 20.0,
-      "tariffCategoryCode": "LT-3"
+      "tariffCategoryCode": "LT-3",
+      "sanctionedExportLoadKw": 5.0
     },
     "serviceDeliveryPoints": [
       {
@@ -52,7 +53,9 @@
           { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
         ],
         "telemetryProvider": "BESCOM-HES",
-        "commissioningDate": "2026-05-04T10:00:00+05:30"
+        "commissioningDate": "2026-05-04T10:00:00+05:30",
+        "generationCapacityKw": 5.0,
+        "storageCapacityKw": 10.0
       }
     ]
   },
@@ -71,7 +74,8 @@
       "paymentMode": "POSTPAID",
       "connectionType": "Three-phase",
       "contractMaxDemandKw": 20.0,
-      "tariffCategoryCode": "LT-3"
+      "tariffCategoryCode": "LT-3",
+      "sanctionedExportLoadKw": 5.0
     },
     "serviceDeliveryPoints": [
       {
@@ -108,7 +112,9 @@
           { "value": "DT-BLR-A-400kVA-12", "scheme": "OTHER" }
         ],
         "telemetryProvider": "BESCOM-HES",
-        "commissioningDate": "2026-05-04T10:00:00+05:30"
+        "commissioningDate": "2026-05-04T10:00:00+05:30",
+        "generationCapacityKw": 5.0,
+        "storageCapacityKw": 10.0
       }
     ]
   }
