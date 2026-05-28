@@ -13,14 +13,14 @@ You do not need any prior knowledge of [Verifiable Credentials](../glossary.md#v
 ```mermaid
 sequenceDiagram
     autonumber
-    participant DISCOM as DISCOM<br/>(Issuer)
-    participant Holder as Consumer /<br/>Authorized Holder
-    participant Verifier as Verifier /<br/>Recipient
-    Note over DISCOM: Build CustomerCredential from CIS / NMS data;<br/>sign with OpenCred private key
+    participant DISCOM as DISCOM (Issuer)
+    participant Holder as Consumer / Authorized Holder
+    participant Verifier as Verifier / Recipient
+    Note over DISCOM: Build CustomerCredential from CIS/NMS data; sign with OpenCred private key
     DISCOM->>Holder: Issue (DigiLocker Pull URI / direct DID push)
-    Note over Holder: Hold in DigiLocker or<br/>DID-controlled wallet
+    Note over Holder: Hold in DigiLocker or DID-controlled wallet
     Holder->>Verifier: Present (push / share / scan QR)
-    Note over Verifier: Verify signature against DISCOM's<br/>published public key
+    Note over Verifier: Verify signature against DISCOM's published public key
     Verifier->>DISCOM: (optional) revocation check in DeDi
     Verifier-->>Holder: Service granted / KYC complete
 ```
