@@ -153,3 +153,11 @@ The validator dynamically parses JSON files. If they are arrays containing a `Pa
   - `premisesType` (Residential, Commercial, etc. defined in `ElectricityCredential/v1.1`) classifies the physical type of the premises.
   - `consumerCategory` (LT2A, NDS, HT, etc. defined in `MeterData/v0.6`) represents the utility-specific tariff category.
   - To prevent duplication and maintain backwards compatibility, the pre-existing `consumerCategory` property was kept, and `premisesType` was excluded. This overlap is marked here for future reconciliation.
+- **`energyResources` vs `meters`/`associations` (Export & Storage modeling)**:
+  - `ElectricityCredential v1.1` models all physical assets (meters, solar PV arrays, battery storage) using a unified `energyResources` list containing `EnergyResource/v2.0` objects. This allows rich modeling of child DER/storage assets (`SOLAR`, `BATTERY`, `BESS`) directly detailing attributes like `ratedPowerKw` and `energyCapacityKwh` linked via topology references.
+  - `MeterData v0.6` retains a lightweight representation focusing strictly on billing/metering associations, lacking top-level asset representations. To bridge this gap for grid planners, three lightweight properties were introduced in `v0.6`:
+    - **`sanctionedExportLoadKw`** (on the `Customer` schema) to explicitly specify approved net-metering solar export limits.
+    - **`generationCapacityKw`** (on the `Association` schema) to denote the rated solar/generation inverter capacity connected.
+    - **`storageCapacityKw`** (on the `Association` schema) to denote the connected battery storage energy capacity in kWh.
+  - This structural divergence is documented here for future alignment in subsequent major version releases.
+

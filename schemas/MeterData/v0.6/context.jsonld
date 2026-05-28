@@ -82,6 +82,10 @@
                         "tariffCategoryCode": {
                             "@id": "ies:tariffCategoryCode",
                             "@type": "xsd:string"
+                        },
+                        "sanctionedExportLoadKw": {
+                            "@id": "ies:sanctionedExportLoadKw",
+                            "@type": "xsd:decimal"
                         }
                     }
                 },
@@ -234,6 +238,14 @@
                         "commissioningDate": {
                             "@id": "ies:commissioningDate",
                             "@type": "xsd:dateTime"
+                        },
+                        "generationCapacityKw": {
+                            "@id": "ies:generationCapacityKw",
+                            "@type": "xsd:decimal"
+                        },
+                        "storageCapacityKw": {
+                            "@id": "ies:storageCapacityKw",
+                            "@type": "xsd:decimal"
                         }
                     }
                 }
@@ -2051,6 +2063,10 @@
                 "tariffCategoryCode": {
                     "@id": "ies:tariffCategoryCode",
                     "@type": "xsd:string"
+                },
+                "sanctionedExportLoadKw": {
+                    "@id": "ies:sanctionedExportLoadKw",
+                    "@type": "xsd:decimal"
                 }
             }
         },
@@ -2197,6 +2213,14 @@
                 "commissioningDate": {
                     "@id": "ies:commissioningDate",
                     "@type": "xsd:dateTime"
+                },
+                "generationCapacityKw": {
+                    "@id": "ies:generationCapacityKw",
+                    "@type": "xsd:decimal"
+                },
+                "storageCapacityKw": {
+                    "@id": "ies:storageCapacityKw",
+                    "@type": "xsd:decimal"
                 }
             }
         },
