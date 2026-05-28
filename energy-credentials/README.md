@@ -16,7 +16,7 @@ sequenceDiagram
     participant DISCOM as DISCOM (Issuer)
     participant Holder as Consumer / Authorized Holder
     participant Verifier as Verifier / Recipient
-    Note over DISCOM: Build CustomerCredential from CIS/NMS data; sign with OpenCred private key
+    Note over DISCOM: Build CustomerCredential from CIS/NMS data and sign with OpenCred private key
     DISCOM->>Holder: Issue (DigiLocker Pull URI / direct DID push)
     Note over Holder: Hold in DigiLocker or DID-controlled wallet
     Holder->>Verifier: Present (push / share / scan QR)
