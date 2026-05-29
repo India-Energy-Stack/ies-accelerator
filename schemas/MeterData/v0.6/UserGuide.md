@@ -282,9 +282,9 @@ Before ingesting datasets into database stores, payloads must be verified to con
 - **Register Modes restrictions**: Ensuring that parameters like `openingValue` and `closingValue` are only provided under `reportedMode: "USAGE"` and are strictly excluded under `READING` mode to protect data integrity.
 
 ### B. Using the Validator
-The India Energy Stack provides a reference validator script located at `validation/validate_v06.py`. Developers and system administrators are strongly encouraged to integrate this tool into their CI/CD pipelines or as a pre-write database trigger.
+The India Energy Stack provides a reference validator script located at `validation/validator.py`. Developers and system administrators are strongly encouraged to integrate this tool into their CI/CD pipelines or as a pre-write database trigger.
 
 To validate a JSON payload file:
 ```bash
-python validation/validate_v06.py <path_to_payload.json>
+python validation/validator.py <path_to_payload.json>
 ```

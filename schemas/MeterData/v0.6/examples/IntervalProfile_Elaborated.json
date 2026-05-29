@@ -8,22 +8,22 @@
         "name": "IntervalLoadSurveySet",
         "payloadDescriptors": [
           {
-            "name": "Active energy import - cumulative (kWh)",
-            "readingType": "kWh imp",
+            "name": "Active energy import - block incremental (kWh)",
+            "readingType": "kWh imp block",
             "unit": "kWh",
             "flowDirection": "IMPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.1.8.0.255",
+            "obis": "1.0.1.29.0.255",
             "multiplier": 1.0,
             "accuracy": 0.5
           },
           {
-            "name": "Active energy export - cumulative (kWh)",
-            "readingType": "kWh exp",
+            "name": "Active energy export - block incremental (kWh)",
+            "readingType": "kWh exp block",
             "unit": "kWh",
             "flowDirection": "EXPORT",
             "reportedMode": "USAGE",
-            "obis": "1.0.2.8.0.255",
+            "obis": "1.0.2.29.0.255",
             "multiplier": 1.0,
             "accuracy": 0.5
           }
@@ -32,8 +32,8 @@
           {
             "name": "IntervalEnergySeq",
             "sequenceItems": [
-              { "readingType": "kWh imp", "attribute": "value" },
-              { "readingType": "kWh exp", "attribute": "value" }
+              { "readingType": "kWh imp block", "attribute": "value" },
+              { "readingType": "kWh exp block", "attribute": "value" }
             ]
           }
         ]
@@ -55,29 +55,29 @@
       {
         "id": 0,
         "readings": [
-          { "readingType": "kWh imp", "value": 4.62 },
-          { "readingType": "kWh exp", "value": 0.0 }
+          { "readingType": "kWh imp block", "value": 4.62 },
+          { "readingType": "kWh exp block", "value": 0.0 }
         ]
       },
       {
         "id": 1,
         "readings": [
-          { "readingType": "kWh imp", "value": 4.85 },
-          { "readingType": "kWh exp", "value": 0.0 }
+          { "readingType": "kWh imp block", "value": 4.85 },
+          { "readingType": "kWh exp block", "value": 0.0 }
         ]
       },
       {
         "id": 2,
         "readings": [
-          { "readingType": "kWh imp", "value": 5.21 },
-          { "readingType": "kWh exp", "value": 0.12 }
+          { "readingType": "kWh imp block", "value": 5.21 },
+          { "readingType": "kWh exp block", "value": 0.12 }
         ]
       },
       {
         "id": 3,
         "readings": [
-          { "readingType": "kWh imp", "value": 5.04 },
-          { "readingType": "kWh exp", "value": 0.0 }
+          { "readingType": "kWh imp block", "value": 5.04 },
+          { "readingType": "kWh exp block", "value": 0.0 }
         ]
       }
     ]

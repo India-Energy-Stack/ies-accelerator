@@ -18,19 +18,20 @@ The compact representation (`IntervalProfile` and `DailyProfile`) has been funda
 * **Multi-Type `payloads`**: The numerical `values` array in intervals has been replaced by `payloads` which supports both `number` and `string`. 
 * **Targeted use of Overrides**: Because `payloads` can mix numbers (for energy) and strings (for timestamps or validation codes), metadata that previously required verbose sparse `overrides` arrays is now mapped as a native, dense column in the sequence matrix. The `overrides` array is now strictly retained for **quality deviance indication** (e.g., specific estimation methods `changeMethod` and failure codes `failCode` on a single bad interval), rather than routine timestamps.
 
-### 3. Simplification of Identifiers (Short Codes & OBIS)
+### 3. Simplification of Identifiers (Short Codes & IES codes)
 * The verbose `readingTypeRef` object (`{"scheme": "OBIS", "value": "..."}`) has been replaced by a flat **`readingType`** string across all schemas.
 * Short codes (e.g., `"kWh imp"`, `"V_1P"`) are now heavily favored over raw OBIS codes for readability and bandwidth savings.
-* **Resolution Flow**: Payload parsers first resolve semantics against the **local payload descriptor** inside the dataset. For strict mathematical compliance, this local descriptor is then validated against the central `OBISMapping.json` registry. Payload descriptors now optionally include an `obis` property for direct canonical linkage when a short code is used.
+* **Resolution Flow**: Payload parsers first resolve semantics against the **local payload descriptor** inside the dataset. For strict mathematical compliance, this local descriptor is then validated against the central `IES codes.json` registry. Payload descriptors now optionally include an `obis` property for direct canonical linkage when a short code is used.
 
 ### 4. Strict Composition-Based Inheritance
 The inheritance model in `attributes.yaml` has been strictly refactored:
 * **`BaseProfile`** has been purged of all telemetry-specific properties (`readings`, `intervals`, `timestamp`, `timePeriod`). It now exclusively contains routing and identification context (`customerRefs`, `meterRefs`, etc.).
 * Derived profiles inherit from `BaseProfile` via JSON Schema `allOf` and strictly define only their relevant properties (e.g., `IntervalProfile` only permits `intervals` and `compactSequenceRef`, never `readings`).
 
-### 5. `OBISMapping.json` Registry Enforcement
-* The validator engine (`validate_v06.py`) has been upgraded to enforce **Data Descriptor Engine semantics**.
-* Any inline descriptor definitions must mathematically and physically align with the canonical `OBISMapping.json` registry. The validator dynamically asserts matrix arity and column data types across the entire dataset.
+### 5. Transition to `IES codes.json` & Registry Enforcement
+* The central registry `OBISMapping.json` used in version 0.5 has been replaced by **`IES codes.json`** in version 0.6.
+* The validator engine (`validator.py`) has been upgraded to enforce **Data Descriptor Engine semantics** using the new registry.
+* Any inline descriptor definitions must mathematically and physically align with the canonical `IES codes.json` registry. The validator dynamically asserts matrix arity and column data types across the entire dataset.
 
 ---
 

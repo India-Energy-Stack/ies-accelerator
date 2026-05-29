@@ -136,7 +136,7 @@ The validator is not limited to example files; it can be used to validate any `M
 Run the following command from the `validation/` directory:
 
 ```bash
-python validate_v06.py <path_to_json_file_or_directory>
+python validator.py <path_to_json_file_or_directory>
 ```
 
 The validator dynamically parses JSON files. If they are arrays containing a `PayloadDescriptorProfile`, it matches `payloadDescriptorSetRef` against the array's descriptors, and asserts both matrix arity and strict column types based on the `attribute` enum.

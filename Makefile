@@ -5,7 +5,13 @@ ifeq ($(shell python3 -c "import yaml, jsonschema" >/dev/null 2>&1 && echo ok ||
   $(error Error: Required Python packages (PyYAML, jsonschema) are missing. Please activate your virtual environment or install them: pip install pyyaml jsonschema)
 endif
 
-.PHONY: all clean build validate index
+.PHONY: all clean build validate index test
+
+test:
+	@echo "Running MeterData v0.6 validator tests..."
+	@$(MAKE) -C schemas/MeterData/v0.6/validation test
+	@echo "Running MeterDataRequest v0.6 validator tests..."
+	@$(MAKE) -C schemas/MeterDataRequest/v0.6/validation test
 
 # Find all directories under schemas/ that contain attributes.yaml, excluding ElectricityCredential
 ALL_SCHEMA_DIRS := $(dir $(shell find schemas -name attributes.yaml))

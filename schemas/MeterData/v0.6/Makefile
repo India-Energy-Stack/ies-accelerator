@@ -12,7 +12,7 @@ format:
 	python3 ../../../scripts/format_examples.py examples/
 
 validate:
-	cd validation && python3 validate_v06.py ../examples
+	cd validation && python3 validator.py ../examples
 	python3 ../../../scripts/validate_links.py
 
 clean:
