@@ -6,30 +6,12 @@
       "shortLabel": "Serial",
       "unit": "",
       "category": "identification",
-      "meterCategories": [
-        "A",
-        "B",
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "A", "B", "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 1 Table 30; Part 2 Table A12; Part 3 Table 12",
-      "profiles": [
-        "CUSTOMER"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.96.1.1.255",
@@ -37,30 +19,12 @@
       "shortLabel": "Mfg Name",
       "unit": "",
       "category": "identification",
-      "meterCategories": [
-        "A",
-        "B",
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "A", "B", "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A12",
-      "profiles": [
-        "CUSTOMER"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.96.1.2.255",
@@ -68,25 +32,12 @@
       "shortLabel": "Device ID",
       "unit": "",
       "category": "identification",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A12",
-      "profiles": [
-        "CUSTOMER"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.0.2.0.255",
@@ -94,30 +45,12 @@
       "shortLabel": "FW Version",
       "unit": "",
       "category": "identification",
-      "meterCategories": [
-        "A",
-        "B",
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "A", "B", "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A12",
-      "profiles": [
-        "CUSTOMER"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.94.91.9.255",
@@ -125,27 +58,12 @@
       "shortLabel": "Meter Type",
       "unit": "",
       "category": "identification",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A12",
-      "profiles": [
-        "CUSTOMER"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.94.91.11.255",
@@ -153,27 +71,12 @@
       "shortLabel": "Meter Cat",
       "unit": "",
       "category": "identification",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A12",
-      "profiles": [
-        "CUSTOMER"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.1.0.0.255",
@@ -181,35 +84,12 @@
       "shortLabel": "Clock",
       "unit": "",
       "category": "general",
-      "meterCategories": [
-        "A",
-        "B",
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "A", "B", "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "CUSTOMER",
-        "INTERVAL",
-        "DAILY",
-        "MONTHLY",
-        "INSTANTANEOUS",
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "INTERVAL", "DAILY", "MONTHLY", "INSTANTANEOUS", "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.32.7.0.255",
@@ -218,26 +98,12 @@
       "unit": "V",
       "phase": "R",
       "category": "voltage",
-      "meterCategories": [
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A14; Part 3 Table 1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.52.7.0.255",
@@ -246,25 +112,12 @@
       "unit": "V",
       "phase": "Y",
       "category": "voltage",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.72.7.0.255",
@@ -273,25 +126,12 @@
       "unit": "V",
       "phase": "B",
       "category": "voltage",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.12.7.0.255",
@@ -299,24 +139,12 @@
       "shortLabel": "V_1P",
       "unit": "V",
       "category": "voltage",
-      "meterCategories": [
-        "D1"
-      ],
+      "meterCategories": [ "D1" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.31.7.0.255",
@@ -325,25 +153,12 @@
       "unit": "A",
       "phase": "R",
       "category": "current",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.51.7.0.255",
@@ -352,25 +167,12 @@
       "unit": "A",
       "phase": "Y",
       "category": "current",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.71.7.0.255",
@@ -379,25 +181,12 @@
       "unit": "A",
       "phase": "B",
       "category": "current",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.11.7.0.255",
@@ -405,24 +194,12 @@
       "shortLabel": "I_Phase",
       "unit": "A",
       "category": "current",
-      "meterCategories": [
-        "D1"
-      ],
+      "meterCategories": [ "D1" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.91.7.0.255",
@@ -430,25 +207,12 @@
       "shortLabel": "I_Neutral",
       "unit": "A",
       "category": "current",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.7.0.255",
@@ -456,27 +220,12 @@
       "shortLabel": "P_Import",
       "unit": "kW",
       "category": "power",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.2.7.0.255",
@@ -484,27 +233,12 @@
       "shortLabel": "P_Export",
       "unit": "kW",
       "category": "power",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.3.7.0.255",
@@ -512,27 +246,12 @@
       "shortLabel": "Q_Lag",
       "unit": "kvar",
       "category": "power",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.7.0.255",
@@ -540,27 +259,12 @@
       "shortLabel": "S_Total",
       "unit": "kVA",
       "category": "power",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.13.7.0.255",
@@ -568,27 +272,12 @@
       "shortLabel": "PF_3P",
       "unit": "",
       "category": "power",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.33.7.0.255",
@@ -597,25 +286,12 @@
       "unit": "",
       "phase": "R",
       "category": "power",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.53.7.0.255",
@@ -624,25 +300,12 @@
       "unit": "",
       "phase": "Y",
       "category": "power",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.73.7.0.255",
@@ -651,25 +314,12 @@
       "unit": "",
       "phase": "B",
       "category": "power",
-      "meterCategories": [
-        "D2",
-        "D4"
-      ],
+      "meterCategories": [ "D2", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.14.7.0.255",
@@ -677,27 +327,12 @@
       "shortLabel": "Freq",
       "unit": "Hz",
       "category": "power",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "INSTANTANEOUS"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "INSTANTANEOUS" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.0.255",
@@ -707,34 +342,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "A",
-        "B",
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "A", "B", "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 1 Table 22; Part 2 Table A14; Part 3 Table 1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY", "INSTANTANEOUS" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.2.8.0.255",
@@ -744,31 +357,12 @@
       "flowDirection": "EXPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY", "INSTANTANEOUS" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.0.255",
@@ -778,31 +372,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.10.8.0.255",
@@ -812,31 +387,12 @@
       "flowDirection": "EXPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.5.8.0.255",
@@ -845,31 +401,12 @@
       "unit": "kvarh",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.6.8.0.255",
@@ -878,31 +415,12 @@
       "unit": "kvarh",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.7.8.0.255",
@@ -911,31 +429,12 @@
       "unit": "kvarh",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.8.8.0.255",
@@ -944,31 +443,12 @@
       "unit": "kvarh",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyCumulative",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "DAILY",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.29.0.255",
@@ -978,29 +458,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "DELTA",
       "category": "energyIncremental",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A15; Part 3 Table 2",
-      "profiles": [
-        "INTERVAL"
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "INTERVAL" ],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.2.29.0.255",
@@ -1010,29 +473,12 @@
       "flowDirection": "EXPORT",
       "accumulationBehaviour": "DELTA",
       "category": "energyIncremental",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A15; Part 3 Table 2",
-      "profiles": [
-        "INTERVAL"
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "INTERVAL" ],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.29.0.255",
@@ -1042,29 +488,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "DELTA",
       "category": "energyIncremental",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A15; Part 3 Table 2",
-      "profiles": [
-        "INTERVAL"
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "INTERVAL" ],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.10.29.0.255",
@@ -1074,29 +503,12 @@
       "flowDirection": "EXPORT",
       "accumulationBehaviour": "DELTA",
       "category": "energyIncremental",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A15; Part 3 Table 2",
-      "profiles": [
-        "INTERVAL"
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "INTERVAL" ],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.5.29.0.255",
@@ -1105,29 +517,12 @@
       "unit": "kvarh",
       "accumulationBehaviour": "DELTA",
       "category": "energyIncremental",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A15; Part 3 Table 2",
-      "profiles": [
-        "INTERVAL"
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "INTERVAL" ],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.8.29.0.255",
@@ -1136,29 +531,12 @@
       "unit": "kvarh",
       "accumulationBehaviour": "DELTA",
       "category": "energyIncremental",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A15; Part 3 Table 2",
-      "profiles": [
-        "INTERVAL"
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "INTERVAL" ],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.1.255",
@@ -1169,31 +547,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 1 Table 29; Part 2 Table A17; Part 3 Table 4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.2.255",
@@ -1204,31 +563,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.3.255",
@@ -1239,31 +579,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.4.255",
@@ -1274,31 +595,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.5.255",
@@ -1309,31 +611,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.6.255",
@@ -1344,31 +627,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.7.255",
@@ -1379,31 +643,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.8.8.255",
@@ -1414,31 +659,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.1.255",
@@ -1449,28 +675,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.2.255",
@@ -1481,28 +691,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.3.255",
@@ -1513,28 +707,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.4.255",
@@ -1545,28 +723,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.5.255",
@@ -1577,28 +739,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.6.255",
@@ -1609,28 +755,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.7.255",
@@ -1641,28 +771,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.8.8.255",
@@ -1673,28 +787,12 @@
       "flowDirection": "IMPORT",
       "accumulationBehaviour": "CUMULATIVE",
       "category": "energyToU",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A4",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING",
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "supportedModes": [ "READING", "USAGE" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.1.6.0.255",
@@ -1702,38 +800,14 @@
       "shortLabel": "MD kW",
       "unit": "kW",
       "category": "demand",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 1 Table 29; Part 2 Table A14; Part 3 Table 1",
       "description": "Captured with its occurredAt timestamp.",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "attributes": [
-        {
-          "name": "timestamp",
-          "unit": "time",
-          "description": "Timestamp of peak occurrence"
-        }
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "DAILY", "MONTHLY", "INSTANTANEOUS" ],
+      "attributes": [ { "name": "timestamp", "unit": "time", "description": "Timestamp of peak occurrence" }],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "occurredAt",
-        "integrationPeriod",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "occurredAt", "integrationPeriod", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.9.6.0.255",
@@ -1741,37 +815,13 @@
       "shortLabel": "MD kVA",
       "unit": "kVA",
       "category": "demand",
-      "meterCategories": [
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A1",
-      "profiles": [
-        "MONTHLY"
-      ],
-      "attributes": [
-        {
-          "name": "timestamp",
-          "unit": "time",
-          "description": "Timestamp of peak occurrence"
-        }
-      ],
-      "supportedModes": [
-        "USAGE"
-      ],
+      "profiles": [ "MONTHLY" ],
+      "attributes": [ { "name": "timestamp", "unit": "time", "description": "Timestamp of peak occurrence" }],
+      "supportedModes": [ "USAGE" ],
       "defaultMode": "USAGE",
-      "allowedAttributes": [
-        "value",
-        "occurredAt",
-        "integrationPeriod",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "occurredAt", "integrationPeriod", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.0.8.0.255",
@@ -1779,32 +829,13 @@
       "shortLabel": "Demand IP",
       "unit": "s",
       "category": "programmable",
-      "meterCategories": [
-        "A",
-        "B",
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "A", "B", "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 1 Table 31; Part 2 Table A13; Part 3 Table 13",
       "description": "Default 1800 s (30 min); programmable to 900 s (15 min).",
-      "profiles": [
-        "CUSTOMER",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "MONTHLY" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.0.8.4.255",
@@ -1812,29 +843,13 @@
       "shortLabel": "Capture IP",
       "unit": "s",
       "category": "programmable",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A13",
       "description": "Default 1800 s; programmable to 900/3600 s.",
-      "profiles": [
-        "CUSTOMER",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "MONTHLY" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.13.0.0.255",
@@ -1842,28 +857,12 @@
       "shortLabel": "Activity Cal",
       "unit": "",
       "category": "programmable",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A13, IC 20",
-      "profiles": [
-        "CUSTOMER",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "MONTHLY" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.15.0.0.255",
@@ -1871,28 +870,12 @@
       "shortLabel": "Billing Schedule",
       "unit": "",
       "category": "programmable",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A13, IC 22",
-      "profiles": [
-        "CUSTOMER",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "MONTHLY" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.17.0.0.255",
@@ -1900,26 +883,12 @@
       "shortLabel": "Load Limit KW",
       "unit": "kW",
       "category": "programmable",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2 Table A13",
-      "profiles": [
-        "CUSTOMER",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "MONTHLY" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.94.91.21.255",
@@ -1927,27 +896,13 @@
       "shortLabel": "Load Limit Status",
       "unit": "",
       "category": "programmable",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2",
       "description": "1=ON / 0=OFF",
-      "profiles": [
-        "CUSTOMER",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "MONTHLY" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.96.3.10.255",
@@ -1955,27 +910,13 @@
       "shortLabel": "Relay Status",
       "unit": "",
       "category": "programmable",
-      "meterCategories": [
-        "D1",
-        "D2"
-      ],
+      "meterCategories": [ "D1", "D2" ],
       "source": "IS 15959 Part 2",
       "description": "State of contactor relay.",
-      "profiles": [
-        "CUSTOMER",
-        "MONTHLY"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "MONTHLY" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.99.1.0.255",
@@ -1983,37 +924,13 @@
       "shortLabel": "Block prof",
       "unit": "",
       "category": "profile",
-      "meterCategories": [
-        "A",
-        "B",
-        "C",
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "A", "B", "C", "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 1 Table 23; Part 2 Table A15; Part 3 Table 2",
       "description": "Block intervals at the demand integration period (default 30 min). Retention >= 22 days.",
-      "profiles": [
-        "CUSTOMER",
-        "DAILY",
-        "MONTHLY",
-        "INTERVAL",
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "DAILY", "MONTHLY", "INTERVAL", "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "openingValue",
-        "closingValue",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "openingValue", "closingValue", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "1.0.99.2.0.255",
@@ -2021,32 +938,13 @@
       "shortLabel": "Daily prof",
       "unit": "",
       "category": "profile",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Clause 13",
       "description": "Captured at midnight.",
-      "profiles": [
-        "CUSTOMER",
-        "DAILY",
-        "MONTHLY",
-        "INTERVAL",
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "DAILY", "MONTHLY", "INTERVAL", "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.98.1.0.255",
@@ -2054,32 +952,13 @@
       "shortLabel": "Billing prof",
       "unit": "",
       "category": "profile",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Clause 14",
       "description": "Up to 6 cycles.",
-      "profiles": [
-        "CUSTOMER",
-        "DAILY",
-        "MONTHLY",
-        "INTERVAL",
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "CUSTOMER", "DAILY", "MONTHLY", "INTERVAL", "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.99.98.0.255",
@@ -2087,28 +966,13 @@
       "shortLabel": "Evt Volt",
       "unit": "",
       "category": "eventLog",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A8 / Clause 15",
       "eventIdRange": "1-12",
-      "profiles": [
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.99.98.1.255",
@@ -2116,28 +980,13 @@
       "shortLabel": "Evt Curr",
       "unit": "",
       "category": "eventLog",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A8 / Clause 15",
       "eventIdRange": "51-70",
-      "profiles": [
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.99.98.2.255",
@@ -2145,28 +994,13 @@
       "shortLabel": "Evt Power",
       "unit": "",
       "category": "eventLog",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A8 / Clause 15",
       "eventIdRange": "101-102",
-      "profiles": [
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.99.98.3.255",
@@ -2174,28 +1008,13 @@
       "shortLabel": "Evt Trans",
       "unit": "",
       "category": "eventLog",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A8 / Clause 15",
       "eventIdRange": "151",
-      "profiles": [
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.99.98.4.255",
@@ -2203,28 +1022,13 @@
       "shortLabel": "Evt Tamper",
       "unit": "",
       "category": "eventLog",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A8 / Clause 15",
       "eventIdRange": "201-216",
-      "profiles": [
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.99.98.5.255",
@@ -2232,28 +1036,13 @@
       "shortLabel": "Evt NonRoll",
       "unit": "",
       "category": "eventLog",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A8 / Clause 15",
       "eventIdRange": "251+",
-      "profiles": [
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.99.98.6.255",
@@ -2261,28 +1050,13 @@
       "shortLabel": "Evt Ctrl",
       "unit": "",
       "category": "eventLog",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
       "source": "IS 15959 Part 2 Table A8 / Clause 15",
       "eventIdRange": "301-307",
-      "profiles": [
-        "EVENT"
-      ],
-      "supportedModes": [
-        "READING"
-      ],
+      "profiles": [ "EVENT" ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     },
     {
       "obis": "0.0.97.98.0.255",
@@ -2290,194 +1064,55 @@
       "shortLabel": "Alarm Reg",
       "unit": "",
       "category": "general",
-      "meterCategories": [
-        "D1",
-        "D2",
-        "D3",
-        "D4"
-      ],
-      "profiles": [
-        "ALARM"
-      ],
+      "meterCategories": [ "D1", "D2", "D3", "D4" ],
+      "profiles": [ "ALARM" ],
       "source": "IS 15959",
-      "supportedModes": [
-        "READING"
-      ],
+      "supportedModes": [ "READING" ],
       "defaultMode": "READING",
-      "allowedAttributes": [
-        "value",
-        "validationStatus",
-        "source",
-        "changeMethod",
-        "failCode"
-      ]
+      "allowedAttributes": [ "value", "validationStatus", "source", "changeMethod", "failCode" ]
     }
   ],
   "events": {
     "_description": "IS 15959 event taxonomy. Events are timestamped state transitions captured into the event log profiles above. Each event has an integer ID (1-305+), a phase (R/Y/B/NONE), and a kind (occurrence / restoration / configurationChange / control).",
     "ids": {
-      "1": {
-        "name": "Phase-to-Neutral Under Voltage - occurrence",
-        "phase": "R",
-        "kind": "occurrence"
-      },
-      "2": {
-        "name": "Phase-to-Neutral Under Voltage - restoration",
-        "phase": "R",
-        "kind": "restoration"
-      },
-      "3": {
-        "name": "Phase-to-Neutral Over Voltage - occurrence",
-        "phase": "R",
-        "kind": "occurrence"
-      },
-      "4": {
-        "name": "Phase-to-Neutral Over Voltage - restoration",
-        "phase": "R",
-        "kind": "restoration"
-      },
-      "11": {
-        "name": "Phase Missing - occurrence",
-        "phase": "R",
-        "kind": "occurrence"
-      },
-      "12": {
-        "name": "Phase Missing - restoration",
-        "phase": "R",
-        "kind": "restoration"
-      },
-      "51": {
-        "name": "Phase Current Unbalance - occurrence",
-        "phase": "ABC",
-        "kind": "occurrence"
-      },
-      "52": {
-        "name": "Phase Current Unbalance - restoration",
-        "phase": "ABC",
-        "kind": "restoration"
-      },
-      "61": {
-        "name": "CT Reverse - occurrence",
-        "phase": "ABC",
-        "kind": "occurrence"
-      },
-      "62": {
-        "name": "CT Reverse - restoration",
-        "phase": "ABC",
-        "kind": "restoration"
-      },
-      "69": {
-        "name": "Neutral Disturbance - occurrence",
-        "phase": "NONE",
-        "kind": "occurrence"
-      },
-      "70": {
-        "name": "Neutral Disturbance - restoration",
-        "phase": "NONE",
-        "kind": "restoration"
-      },
-      "101": {
-        "name": "Power Failure - occurrence",
-        "phase": "ABC",
-        "kind": "occurrence"
-      },
-      "102": {
-        "name": "Power Failure - restoration",
-        "phase": "ABC",
-        "kind": "restoration"
-      },
-      "151": {
-        "name": "Parameters Programming - occurrence",
-        "phase": "NONE",
-        "kind": "occurrence"
-      },
-      "201": {
-        "name": "Magnetic Interference - occurrence",
-        "phase": "NONE",
-        "kind": "occurrence"
-      },
-      "202": {
-        "name": "Magnetic Interference - restoration",
-        "phase": "NONE",
-        "kind": "restoration"
-      },
-      "205": {
-        "name": "Meter Cover Open - occurrence",
-        "phase": "NONE",
-        "kind": "occurrence"
-      },
-      "301": {
-        "name": "Relay Disconnect (Manual or Remote)",
-        "phase": "NONE",
-        "kind": "control"
-      },
-      "302": {
-        "name": "Relay Connect (Manual or Remote)",
-        "phase": "NONE",
-        "kind": "control"
-      },
-      "303": {
-        "name": "Relay Disconnect (Overload limit exceeded)",
-        "phase": "NONE",
-        "kind": "control"
-      },
-      "304": {
-        "name": "Relay Disconnect (Low Prepayment Credit)",
-        "phase": "NONE",
-        "kind": "control"
-      },
-      "305": {
-        "name": "Relay Disconnect (Tamper detection trigger)",
-        "phase": "NONE",
-        "kind": "control"
-      },
-      "306": {
-        "name": "Token Acceptance Success (STS system)",
-        "phase": "NONE",
-        "kind": "control"
-      },
-      "307": {
-        "name": "Token Rejection (STS system validation failure)",
-        "phase": "NONE",
-        "kind": "control"
-      }
+      "1": { "name": "Phase-to-Neutral Under Voltage - occurrence", "phase": "R", "kind": "occurrence" },
+      "2": { "name": "Phase-to-Neutral Under Voltage - restoration", "phase": "R", "kind": "restoration" },
+      "3": { "name": "Phase-to-Neutral Over Voltage - occurrence", "phase": "R", "kind": "occurrence" },
+      "4": { "name": "Phase-to-Neutral Over Voltage - restoration", "phase": "R", "kind": "restoration" },
+      "11": { "name": "Phase Missing - occurrence", "phase": "R", "kind": "occurrence" },
+      "12": { "name": "Phase Missing - restoration", "phase": "R", "kind": "restoration" },
+      "51": { "name": "Phase Current Unbalance - occurrence", "phase": "ABC", "kind": "occurrence" },
+      "52": { "name": "Phase Current Unbalance - restoration", "phase": "ABC", "kind": "restoration" },
+      "61": { "name": "CT Reverse - occurrence", "phase": "ABC", "kind": "occurrence" },
+      "62": { "name": "CT Reverse - restoration", "phase": "ABC", "kind": "restoration" },
+      "69": { "name": "Neutral Disturbance - occurrence", "phase": "NONE", "kind": "occurrence" },
+      "70": { "name": "Neutral Disturbance - restoration", "phase": "NONE", "kind": "restoration" },
+      "101": { "name": "Power Failure - occurrence", "phase": "ABC", "kind": "occurrence" },
+      "102": { "name": "Power Failure - restoration", "phase": "ABC", "kind": "restoration" },
+      "151": { "name": "Parameters Programming - occurrence", "phase": "NONE", "kind": "occurrence" },
+      "201": { "name": "Magnetic Interference - occurrence", "phase": "NONE", "kind": "occurrence" },
+      "202": { "name": "Magnetic Interference - restoration", "phase": "NONE", "kind": "restoration" },
+      "205": { "name": "Meter Cover Open - occurrence", "phase": "NONE", "kind": "occurrence" },
+      "301": { "name": "Relay Disconnect (Manual or Remote)", "phase": "NONE", "kind": "control" },
+      "302": { "name": "Relay Connect (Manual or Remote)", "phase": "NONE", "kind": "control" },
+      "303": { "name": "Relay Disconnect (Overload limit exceeded)", "phase": "NONE", "kind": "control" },
+      "304": { "name": "Relay Disconnect (Low Prepayment Credit)", "phase": "NONE", "kind": "control" },
+      "305": { "name": "Relay Disconnect (Tamper detection trigger)", "phase": "NONE", "kind": "control" },
+      "306": { "name": "Token Acceptance Success (STS system)", "phase": "NONE", "kind": "control" },
+      "307": { "name": "Token Rejection (STS system validation failure)", "phase": "NONE", "kind": "control" }
     }
   },
   "alarms": {
     "_description": "Smart meter alarm register definitions. Alarms represent active real-time conditions/states on the meter.",
     "ids": {
-      "1": {
-        "name": "Voltage Sag",
-        "category": "voltage"
-      },
-      "2": {
-        "name": "Voltage Swell",
-        "category": "voltage"
-      },
-      "3": {
-        "name": "Over Current",
-        "category": "current"
-      },
-      "4": {
-        "name": "Power Threshold Exceeded",
-        "category": "power"
-      },
-      "5": {
-        "name": "Magnetic Tamper",
-        "category": "tamper"
-      },
-      "6": {
-        "name": "Meter Cover Open",
-        "category": "tamper"
-      },
-      "7": {
-        "name": "Neutral Disturbance",
-        "category": "voltage"
-      },
-      "8": {
-        "name": "Low Prepayment Balance",
-        "category": "billing"
-      }
+      "1": { "name": "Voltage Sag", "category": "voltage" },
+      "2": { "name": "Voltage Swell", "category": "voltage" },
+      "3": { "name": "Over Current", "category": "current" },
+      "4": { "name": "Power Threshold Exceeded", "category": "power" },
+      "5": { "name": "Magnetic Tamper", "category": "tamper" },
+      "6": { "name": "Meter Cover Open", "category": "tamper" },
+      "7": { "name": "Neutral Disturbance", "category": "voltage" },
+      "8": { "name": "Low Prepayment Balance", "category": "billing" }
     }
   }
 }

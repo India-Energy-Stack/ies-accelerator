@@ -3,6 +3,23 @@ import sys
 import json
 import jsonschema
 
+try:
+    from referencing import Registry, Resource
+    energy_cred_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object"
+    }
+    energy_res_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object"
+    }
+    registry = Registry().with_resources([
+        ("https://schema.beckn.io/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
+        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema))
+    ])
+except ImportError:
+    registry = None
+
 def load_obis_mapping(path):
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -24,6 +41,78 @@ def get_meter_categories(target_dir):
             return {m["id"]: m["category"] for m in data.get("meters", [])}
     return {}
 
+def map_profile_type_to_registry(p_type):
+    # Maps payload profileType to IES codes profiles list strings
+    mapping = {
+        "INTERVAL": "INTERVAL",
+        "DAILY": "DAILY",
+        "MONTHLY": "MONTHLY",
+        "BILL_DETAILS": "MONTHLY",
+        "INSTANTANEOUS": "INSTANTANEOUS",
+        "EVENT": "EVENT",
+        "ALARM": "ALARM"
+    }
+    return mapping.get(p_type)
+
+def validate_reading_object(reading, p_idx, p_type, meter_category, obis_mapping, descriptor_sets, ds_ref, location_prefix):
+    errors = []
+    if "reportedMode" in reading:
+        errors.append(f"Profile {p_idx} {location_prefix}: 'reportedMode' MUST NOT be present in elaborated reading objects. It belongs in the payload descriptor.")
+        
+    rt = reading.get("readingType")
+    code, info = resolve_reading_type(rt, obis_mapping)
+    if not code:
+        errors.append(f"Profile {p_idx} {location_prefix}: readingType '{rt}' could not be resolved.")
+        return errors
+        
+    reg_profiles = info.get("profiles", [])
+    reg_p_type = map_profile_type_to_registry(p_type)
+    if reg_p_type and reg_p_type not in reg_profiles:
+        errors.append(f"Profile {p_idx} {location_prefix} '{rt}': readingType (profile: {reg_p_type}) is not permitted in {p_type} profile shape. Permitted profiles: {reg_profiles}")
+        
+    if meter_category and info:
+        supported_cats = info.get("meterCategories", [])
+        if supported_cats and meter_category not in supported_cats:
+            errors.append(f"Profile {p_idx} {location_prefix} '{rt}': Meter Category '{meter_category}' is not in supported categories {supported_cats}.")
+    
+    if info:
+        reported_mode = None
+        if ds_ref:
+            ds = descriptor_sets.get(ds_ref)
+            if ds:
+                for desc in ds.get("payloadDescriptors", []):
+                    desc_rt = desc.get("readingType")
+                    desc_code, _ = resolve_reading_type(desc_rt, obis_mapping)
+                    if desc_rt == rt or (desc_code and desc_code == code):
+                        reported_mode = desc.get("reportedMode")
+                        break
+        if not reported_mode:
+            reported_mode = info.get("defaultMode", "READING")
+
+        allowed_attrs = info.get("allowedAttributes", ["value"])
+        allowed_attrs.extend(["readingType", "intervalPeriod", "reportedMode"])
+        for attr in reading:
+            if attr not in allowed_attrs:
+                errors.append(f"Profile {p_idx} {location_prefix} '{rt}': attribute '{attr}' is not allowed for this reading type by IES codes.json. Allowed: {allowed_attrs}")
+        
+        # Check opening/closing value constraint:
+        opening = reading.get("openingValue")
+        closing = reading.get("closingValue")
+        if opening is not None or closing is not None:
+            if reported_mode == "READING":
+                errors.append(f"Profile {p_idx} {location_prefix} '{rt}': 'openingValue'/'closingValue' are NOT permitted when reportedMode is READING.")
+            elif "openingValue" not in allowed_attrs:
+                errors.append(f"Profile {p_idx} {location_prefix} '{rt}': 'openingValue'/'closingValue' are NOT permitted for this reading type.")
+            
+            # Math consistency for cumulative readings
+            if info.get("accumulationBehaviour") == "CUMULATIVE":
+                val = reading.get("value")
+                if val is not None and opening is not None and closing is not None:
+                    expected_val = closing - opening
+                    if abs(val - expected_val) > 1e-5:
+                        errors.append(f"Profile {p_idx} {location_prefix} ({code}): Usage math inconsistency. closing ({closing}) - opening ({opening}) = {expected_val}, but value is {val}")
+    return errors
+
 def validate_semantics(data, obis_mapping, meter_categories_map):
     errors = []
     
@@ -41,7 +130,7 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                     
     # 2. Check inline descriptors consistency against OBIS
     for ds_name, ds in descriptor_sets.items():
-        for p_idx, desc in enumerate(ds.get("payloadDescriptors", [])):
+        for desc in ds.get("payloadDescriptors", []):
             rt = desc.get("readingType")
             code, info = resolve_reading_type(rt, obis_mapping)
             if code:
@@ -105,6 +194,11 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                 code, info = resolve_reading_type(rt, obis_mapping)
                 if not code:
                     errors.append(f"Profile {p_idx} SeqItem: readingType '{rt}' could not be resolved.")
+                else:
+                    reg_profiles = info.get("profiles", [])
+                    reg_p_type = map_profile_type_to_registry(p_type)
+                    if reg_p_type and reg_p_type not in reg_profiles:
+                        errors.append(f"Profile {p_idx} SeqItem: readingType '{rt}' (profile: {reg_p_type}) is not permitted in {p_type} profile shape. Permitted profiles: {reg_profiles}")
                 
                 # Fetch multiplier from descriptor if any
                 multiplier = 1.0
@@ -166,65 +260,24 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
                             errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: CUMULATIVE mode value {val} decreased from {last_cumulative_values[col_idx]}.")
                         last_cumulative_values[col_idx] = val
                         
-        # General Readings Validation
+        # General Readings Validation & Nested Readings Validation
+        ds_ref = profile.get("payloadDescriptorSetRef")
         for reading in profile.get("readings", []):
-            if "reportedMode" in reading:
-                errors.append(f"Profile {p_idx} Reading: 'reportedMode' MUST NOT be present in elaborated reading objects. It belongs in the payload descriptor.")
-                
-            rt = reading.get("readingType")
-            code, info = resolve_reading_type(rt, obis_mapping)
-            if not code:
-                errors.append(f"Profile {p_idx} Reading: readingType '{rt}' could not be resolved.")
-                continue
-                
-            if meter_category and info:
-                supported_cats = info.get("meterCategories", [])
-                if supported_cats and meter_category not in supported_cats:
-                    errors.append(f"Profile {p_idx} Reading '{rt}': Meter Category '{meter_category}' is not in supported categories {supported_cats}.")
+            errors.extend(validate_reading_object(
+                reading, p_idx, p_type, meter_category, obis_mapping, descriptor_sets, ds_ref, "Reading"
+            ))
             
-            if info:
-                # Resolve reportedMode from descriptor set or fall back to defaultMode
-                ds_ref = profile.get("payloadDescriptorSetRef")
-                ds = descriptor_sets.get(ds_ref) if ds_ref else None
-                reported_mode = None
-                if ds:
-                    for desc in ds.get("payloadDescriptors", []):
-                        desc_rt = desc.get("readingType")
-                        desc_code, _ = resolve_reading_type(desc_rt, obis_mapping)
-                        if desc_rt == rt or (desc_code and desc_code == code):
-                            reported_mode = desc.get("reportedMode")
-                            break
-                if not reported_mode:
-                    reported_mode = info.get("defaultMode", "READING")
-
-                allowed_attrs = info.get("allowedAttributes", ["value"])
-                allowed_attrs.extend(["readingType", "intervalPeriod", "reportedMode"])
-                for attr in reading:
-                    if attr not in allowed_attrs:
-                        errors.append(f"Profile {p_idx} Reading '{rt}': attribute '{attr}' is not allowed for this reading type by OBISMapping. Allowed: {allowed_attrs}")
-                
-                # Check opening/closing value constraint:
-                opening = reading.get("openingValue")
-                closing = reading.get("closingValue")
-                if opening is not None or closing is not None:
-                    if reported_mode == "READING":
-                        errors.append(f"Profile {p_idx} Reading '{rt}': 'openingValue'/'closingValue' are NOT permitted when reportedMode is READING.")
-                    elif "openingValue" not in allowed_attrs:
-                        errors.append(f"Profile {p_idx} Reading '{rt}': 'openingValue'/'closingValue' are NOT permitted for this reading type.")
-                    
-                    # Math consistency for cumulative readings
-                    if info.get("accumulationBehaviour") == "CUMULATIVE":
-                        val = reading.get("value")
-                        if val is not None and opening is not None and closing is not None:
-                            expected_val = closing - opening
-                            if abs(val - expected_val) > 1e-5:
-                                errors.append(f"Profile {p_idx} Reading ({code}): Usage math inconsistency. closing ({closing}) - opening ({opening}) = {expected_val}, but value is {val}")
+        for int_idx, interval in enumerate(profile.get("intervals", [])):
+            for reading in interval.get("readings", []):
+                errors.extend(validate_reading_object(
+                    reading, p_idx, p_type, meter_category, obis_mapping, descriptor_sets, ds_ref, f"Interval {int_idx} Reading"
+                ))
 
     return errors
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python validate_v06.py <target_json_or_directory>")
+        print("Usage: python validator.py <target_json_or_directory>")
         sys.exit(1)
         
     target_path = sys.argv[1]
@@ -244,7 +297,10 @@ def main():
     with open(schema_path, "r", encoding="utf-8") as f:
         schema = json.load(f)
         
-    validator = jsonschema.Draft202012Validator(schema)
+    if registry is not None:
+        validator = jsonschema.Draft202012Validator(schema, registry=registry)
+    else:
+        validator = jsonschema.Draft202012Validator(schema)
     
     success = True
     
@@ -289,6 +345,7 @@ def main():
             
     if success:
         print("\n✅ Semantics audit SUCCESSFUL! All files conform to physical and mathematical constraints.")
+        sys.exit(0)
     else:
         print("\n❌ Semantics audit FAILED!")
         sys.exit(1)

@@ -1291,9 +1291,9 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
       <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#whats-new-in-v06-vs-05">What's New in v0.6 (vs 0.5)</a>      <ul>
         <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#1-removal-of-meterdataset-array-based-data-descriptors">1. Removal of `MeterDataset` & Array-based Data Descriptors</a></li>
         <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#2-hyper-optimized-compactsequence-with-multi-type-payloads">2. Hyper-Optimized `CompactSequence` with Multi-Type Payloads</a></li>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#3-simplification-of-identifiers-short-codes-obis">3. Simplification of Identifiers (Short Codes & OBIS)</a></li>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#3-simplification-of-identifiers-short-codes-ies-codes">3. Simplification of Identifiers (Short Codes & IES codes)</a></li>
         <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#4-strict-composition-based-inheritance">4. Strict Composition-Based Inheritance</a></li>
-        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#5-obismappingjson-registry-enforcement">5. `OBISMapping.json` Registry Enforcement</a>
+        <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#5-transition-to-ies-codesjson-registry-enforcement">5. Transition to `IES codes.json` & Registry Enforcement</a>
       </li>
       </ul>
       <li><a href="schemas/MeterData/v0.6/CHANGELOG.md#detailed-payload-examples">Detailed Payload Examples</a>      <ul>
