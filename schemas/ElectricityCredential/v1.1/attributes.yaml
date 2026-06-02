@@ -161,7 +161,7 @@ components:
         meterId links to a METER entry's id in energyResources[].
       required:
         - meterId
-        - sanctionedLoadKW
+        - sanctionedLoadKw
         - tariffCategoryCode
       x-jsonld:
         "@id": deg:ConsumptionProfile
@@ -174,19 +174,25 @@ components:
             customerProfile.energyResources[].
           x-jsonld:
             "@id": deg:meterId
-        sanctionedLoadKW:
+        sanctionedLoadKw:
           type: number
           minimum: 0.5
           maximum: 10000
           description: Sanctioned/approved electrical load in kilowatts (kW).
           x-jsonld:
-            "@id": deg:sanctionedLoadKW
+            "@id": deg:sanctionedLoadKw
         contractMaxDemandKw:
           type: number
           minimum: 0
           description: Maximum demand contracted with the utility for this connection, in kW.
           x-jsonld:
             "@id": deg:contractMaxDemandKw
+        sanctionedExportLoadKw:
+          type: number
+          minimum: 0
+          description: Sanctioned/approved grid export limit in kW.
+          x-jsonld:
+            "@id": deg:sanctionedExportLoadKw
         tariffCategoryCode:
           type: string
           minLength: 1
@@ -209,6 +215,21 @@ components:
             - Three-phase
           x-jsonld:
             "@id": deg:connectionType
+        paymentMode:
+          type: string
+          enum:
+            - PREPAID
+            - POSTPAID
+          description: Indicates if the connection is prepaid or postpaid.
+          x-jsonld:
+            "@id": deg:paymentMode
+        billingCycleDay:
+          type: integer
+          minimum: 1
+          maximum: 31
+          description: Day of the month on which the billing cycle resets.
+          x-jsonld:
+            "@id": deg:billingCycleDay
 
     CustomerDetails:
       type: object
@@ -227,37 +248,36 @@ components:
           description: Full name of the customer as per ID proof.
         installationAddress:
           type: object
-          description: Physical location of the installation. Follows the beckn Location schema.
+          description: "Physical location per beckn Location/v2.0. geo (GeoJSONGeometry) is required; address (beckn Address/v2.0) is optional."
           required:
-            - address
-            - area_code
-            - country
+            - geo
           properties:
-            address: { type: string }
-            city:
+            geo:
               type: object
+              description: "GeoJSON geometry per RFC 7946. For a point: {type: 'Point', coordinates: [lon, lat]}."
+              required:
+                - type
               properties:
-                name: { type: string }
-                code: { type: string }
-            district: { type: string }
-            state:
-              type: object
-              properties:
-                name: { type: string }
-                code: { type: string }
-            country:
-              type: object
-              required: [code]
-              properties:
-                name: { type: string }
-                code:
+                type:
                   type: string
-                  pattern: "^[A-Z]{2}$"
-            area_code: { type: string }
-            gps:
-              type: string
-              description: "GPS coordinates as 'lat,lng'."
-            openLocationCode: { type: string }
+                  enum: [Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection]
+                coordinates:
+                  type: array
+                  description: "Coordinates per RFC 7946. For a Point: [longitude, latitude]."
+                bbox:
+                  type: array
+                  description: "Bounding box [west, south, east, north] in degrees."
+            address:
+              type: object
+              description: "Postal address per beckn Address/v2.0 and schema.org PostalAddress."
+              properties:
+                streetAddress: { type: string, description: "Street address." }
+                extendedAddress: { type: string, description: "Apt, suite, floor, or C/O." }
+                addressLocality: { type: string, description: "City or locality." }
+                addressRegion: { type: string, description: "State, region or province." }
+                addressCountry: { type: string, pattern: "^[A-Z]{2}$", description: "ISO 3166-1 alpha-2 country code." }
+                postalCode: { type: string, description: "Postal or ZIP code." }
+              additionalProperties: false
         serviceConnectionDate:
           type: string
           format: date-time

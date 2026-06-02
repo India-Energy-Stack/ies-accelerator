@@ -54,7 +54,7 @@
             "rdfs:range": "xsd:string"
         },
         {
-            "@id": "deg:sanctionedLoadKW",
+            "@id": "deg:sanctionedLoadKw",
             "@type": "rdf:Property",
             "rdfs:label": "Sanctioned Load (kW)",
             "rdfs:comment": "Utility-approved maximum electrical load in kilowatts.",
