@@ -42,7 +42,7 @@
       "consumptionProfiles": [
         {
           "meterId": "MET-IMPORT-001",
-          "sanctionedLoadKW": 10,
+          "sanctionedLoadKw":10,
           "contractMaxDemandKw": 8,
           "tariffCategoryCode": "DS-I",
           "premisesType": "Residential",
@@ -50,7 +50,7 @@
         },
         {
           "meterId": "MET-EXPORT-001",
-          "sanctionedLoadKW": 5,
+          "sanctionedLoadKw":5,
           "tariffCategoryCode": "FIT-SOLAR-01"
         }
       ]
@@ -58,12 +58,14 @@
     "customerDetails": {
       "fullName": "Arjun Mehra",
       "installationAddress": {
-        "address": "45 Rohini Sector 9",
-        "city": {"name": "Delhi", "code": "DEL"},
-        "state": {"name": "Delhi", "code": "DL"},
-        "country": {"name": "India", "code": "IN"},
-        "area_code": "110085",
-        "gps": "28.6139,77.2090"
+        "geo": {"type": "Point", "coordinates": [77.2090, 28.6139]},
+        "address": {
+          "streetAddress": "45 Rohini Sector 9",
+          "addressLocality": "Delhi",
+          "addressRegion": "Delhi",
+          "addressCountry": "IN",
+          "postalCode": "110085"
+        }
       },
       "serviceConnectionDate": "2018-07-15T00:00:00+05:30"
     }

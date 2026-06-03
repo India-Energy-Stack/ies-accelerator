@@ -61,7 +61,7 @@
       "consumptionProfiles": [
         {
           "meterId": "MET2025789456123",
-          "sanctionedLoadKW": 5,
+          "sanctionedLoadKw": 5,
           "contractMaxDemandKw": 4,
           "tariffCategoryCode": "RES-01",
           "premisesType": "Residential",
@@ -72,14 +72,14 @@
     "customerDetails": {
       "fullName": "Jane Doe",
       "installationAddress": {
-        "address": "123 Energy Street, Unit 4",
-        "city": {"name": "Metro City", "code": "METRO"},
-        "district": "Metro District",
-        "state": {"name": "Example State", "code": "EX"},
-        "country": {"name": "United States", "code": "US"},
-        "area_code": "12345",
-        "gps": "37.7749,-122.4194",
-        "openLocationCode": "849VCWC8+R9"
+        "geo": {"type": "Point", "coordinates": [-122.4194, 37.7749]},
+        "address": {
+          "streetAddress": "123 Energy Street, Unit 4",
+          "addressLocality": "Metro City",
+          "addressRegion": "Example State",
+          "addressCountry": "US",
+          "postalCode": "12345"
+        }
       },
       "serviceConnectionDate": "2025-01-10T00:00:00-05:00"
     }

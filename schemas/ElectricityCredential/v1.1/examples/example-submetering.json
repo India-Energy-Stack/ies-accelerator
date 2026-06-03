@@ -49,7 +49,7 @@
       "consumptionProfiles": [
         {
           "meterId": "MET-UNIT-101",
-          "sanctionedLoadKW": 3,
+          "sanctionedLoadKw": 3,
           "contractMaxDemandKw": 2.5,
           "tariffCategoryCode": "LT-2A",
           "premisesType": "Residential",
@@ -57,7 +57,7 @@
         },
         {
           "meterId": "MET-UNIT-102",
-          "sanctionedLoadKW": 3,
+          "sanctionedLoadKw": 3,
           "contractMaxDemandKw": 2.5,
           "tariffCategoryCode": "LT-2A",
           "premisesType": "Residential",
@@ -68,13 +68,14 @@
     "customerDetails": {
       "fullName": "Sunita Rao",
       "installationAddress": {
-        "address": "12 Residency Road, Flat 101",
-        "city": {"name": "Bengaluru", "code": "BLR"},
-        "district": "Bengaluru Urban",
-        "state": {"name": "Karnataka", "code": "KA"},
-        "country": {"name": "India", "code": "IN"},
-        "area_code": "560025",
-        "gps": "12.9716,77.5946"
+        "geo": {"type": "Point", "coordinates": [77.5946, 12.9716]},
+        "address": {
+          "streetAddress": "12 Residency Road, Flat 101",
+          "addressLocality": "Bengaluru",
+          "addressRegion": "Karnataka",
+          "addressCountry": "IN",
+          "postalCode": "560025"
+        }
       },
       "serviceConnectionDate": "2020-03-01T00:00:00+05:30"
     }
