@@ -253,31 +253,9 @@ components:
             - geo
           properties:
             geo:
-              type: object
-              description: "GeoJSON geometry per RFC 7946. For a point: {type: 'Point', coordinates: [lon, lat]}."
-              required:
-                - type
-              properties:
-                type:
-                  type: string
-                  enum: [Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection]
-                coordinates:
-                  type: array
-                  description: "Coordinates per RFC 7946. For a Point: [longitude, latitude]."
-                bbox:
-                  type: array
-                  description: "Bounding box [west, south, east, north] in degrees."
+              $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'
             address:
-              type: object
-              description: "Postal address per beckn Address/v2.0 and schema.org PostalAddress."
-              properties:
-                streetAddress: { type: string, description: "Street address." }
-                extendedAddress: { type: string, description: "Apt, suite, floor, or C/O." }
-                addressLocality: { type: string, description: "City or locality." }
-                addressRegion: { type: string, description: "State, region or province." }
-                addressCountry: { type: string, pattern: "^[A-Z]{2}$", description: "ISO 3166-1 alpha-2 country code." }
-                postalCode: { type: string, description: "Postal or ZIP code." }
-              additionalProperties: false
+              $ref: 'https://schema.beckn.io/Address/v2.0/attributes.yaml#/components/schemas/Address'
         serviceConnectionDate:
           type: string
           format: date-time

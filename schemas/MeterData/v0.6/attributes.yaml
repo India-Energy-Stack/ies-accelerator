@@ -827,36 +827,6 @@ components:
       - NetMeter
       - Other
     Address:
-      type: object
-      description: Postal address per beckn Address/v2.0 and schema.org PostalAddress. All fields optional.
-      properties:
-        streetAddress: { type: string, description: Building name/number and street. }
-        extendedAddress: { type: string, description: "Apt, suite, floor, or C/O." }
-        addressLocality: { type: string, description: City or locality. }
-        addressRegion: { type: string, description: State, region or province. }
-        addressCountry: { type: string, pattern: "^[A-Z]{2}$", description: ISO 3166-1 alpha-2 country code. }
-        postalCode: { type: string, description: Postal or ZIP code. }
-      additionalProperties: false
+      $ref: 'https://schema.beckn.io/Address/v2.0/attributes.yaml#/components/schemas/Address'
     GeoJSONGeometry:
-      type: object
-      description: "GeoJSON geometry per RFC 7946 / beckn GeoJSONGeometry/v2.0. Coordinates are [longitude, latitude, (altitude?)] in EPSG:4326. For a point: {type: 'Point', coordinates: [lon, lat]}."
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          enum: [Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection]
-        coordinates:
-          type: array
-          description: "Coordinates per RFC 7946. For a Point: [longitude, latitude]."
-        geometries:
-          type: array
-          description: Member geometries when type is GeometryCollection.
-        bbox:
-          type: array
-          minItems: 4
-          maxItems: 4
-          items:
-            type: number
-          description: "Bounding box [west, south, east, north] in degrees."
-      additionalProperties: true
+      $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'
