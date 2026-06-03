@@ -71,7 +71,11 @@
                         "@version": 1.1,
                         "@protected": true,
                         "meterId":            { "@id": "deg:meterId",            "@type": "xsd:string"  },
-                        "sanctionedLoadKw":   { "@id": "deg:sanctionedLoadKw",   "@type": "xsd:decimal" },
+                        "sanctionedLoadKw":       { "@id": "deg:sanctionedLoadKw",       "@type": "xsd:decimal" },
+                        "contractMaxDemandKw":    { "@id": "deg:contractMaxDemandKw",    "@type": "xsd:decimal" },
+                        "sanctionedExportLoadKw": { "@id": "deg:sanctionedExportLoadKw", "@type": "xsd:decimal" },
+                        "paymentMode":            { "@id": "deg:paymentMode",            "@type": "xsd:string"  },
+                        "billingCycleDay":        { "@id": "deg:billingCycleDay",        "@type": "xsd:integer" },
                         "tariffCategoryCode": { "@id": "deg:tariffCategoryCode", "@type": "xsd:string"  },
                         "premisesType":       { "@id": "deg:premisesType",       "@type": "xsd:string"  },
                         "connectionType":     { "@id": "deg:connectionType",     "@type": "xsd:string"  }
