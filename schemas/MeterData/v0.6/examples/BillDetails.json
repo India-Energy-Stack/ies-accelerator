@@ -2,12 +2,21 @@
   "@type": "BillDetails",
   "profileType": "BILL_DETAILS",
   "customerRefs": [
-    { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
+    {
+      "value": "did:dedi:bescom:consumers:RR-1234",
+      "scheme": "DID"
+    }
   ],
   "meterRefs": [
-    { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    {
+      "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321",
+      "scheme": "DID"
+    }
   ],
-  "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+  "timePeriod": {
+    "start": "2026-04-01T00:00:00+05:30",
+    "duration": "P1M"
+  },
   "billNumber": "BESCOM-RR-1234-202604",
   "billDate": "2026-05-01",
   "dueDate": "2026-05-21",

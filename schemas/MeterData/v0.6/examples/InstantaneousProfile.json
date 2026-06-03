@@ -2,26 +2,81 @@
   "@type": "InstantaneousProfile",
   "profileType": "INSTANTANEOUS",
   "meterRefs": [
-    { "value": "BESCOM-SM-2025-654321", "scheme": "METER_SERIAL" }
+    {
+      "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321",
+      "scheme": "DID"
+    }
   ],
   "readings": [
-    { "readingType": "1.0.32.7.0.255", "value": 231.2 },
-    { "readingType": "1.0.52.7.0.255", "value": 230.8 },
-    { "readingType": "1.0.72.7.0.255", "value": 232.1 },
-    { "readingType": "1.0.31.7.0.255", "value": 12.4 },
-    { "readingType": "1.0.51.7.0.255", "value": 11.9 },
-    { "readingType": "1.0.71.7.0.255", "value": 12.8 },
-    { "readingType": "1.0.33.7.0.255", "value": 0.93 },
-    { "readingType": "1.0.53.7.0.255", "value": 0.95 },
-    { "readingType": "1.0.73.7.0.255", "value": 0.94 },
-    { "readingType": "1.0.13.7.0.255", "value": 0.94 },
-    { "readingType": "1.0.14.7.0.255", "value": 50.02 },
-    { "readingType": "1.0.1.7.0.255", "value": 8.32 },
-    { "readingType": "1.0.3.7.0.255", "value": 2.1 },
-    { "readingType": "1.0.9.7.0.255", "value": 8.58 },
-    { "readingType": "1.0.1.8.0.255", "value": 18723.4 },
-    { "readingType": "1.0.2.8.0.255", "value": 0.0 },
-    { "readingType": "1.0.1.6.0.255", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42 }
+    {
+      "readingType": "1.0.32.7.0.255",
+      "value": 231.2
+    },
+    {
+      "readingType": "1.0.52.7.0.255",
+      "value": 230.8
+    },
+    {
+      "readingType": "1.0.72.7.0.255",
+      "value": 232.1
+    },
+    {
+      "readingType": "1.0.31.7.0.255",
+      "value": 12.4
+    },
+    {
+      "readingType": "1.0.51.7.0.255",
+      "value": 11.9
+    },
+    {
+      "readingType": "1.0.71.7.0.255",
+      "value": 12.8
+    },
+    {
+      "readingType": "1.0.33.7.0.255",
+      "value": 0.93
+    },
+    {
+      "readingType": "1.0.53.7.0.255",
+      "value": 0.95
+    },
+    {
+      "readingType": "1.0.73.7.0.255",
+      "value": 0.94
+    },
+    {
+      "readingType": "1.0.13.7.0.255",
+      "value": 0.94
+    },
+    {
+      "readingType": "1.0.14.7.0.255",
+      "value": 50.02
+    },
+    {
+      "readingType": "1.0.1.7.0.255",
+      "value": 8.32
+    },
+    {
+      "readingType": "1.0.3.7.0.255",
+      "value": 2.1
+    },
+    {
+      "readingType": "1.0.9.7.0.255",
+      "value": 8.58
+    },
+    {
+      "readingType": "1.0.1.8.0.255",
+      "value": 18723.4
+    },
+    {
+      "readingType": "1.0.2.8.0.255",
+      "value": 0.0
+    },
+    {
+      "readingType": "1.0.1.6.0.255",
+      "occurredAt": "2026-04-23T19:30:00+05:30",
+      "value": 8.42
+    }
   ],
   "timestamp": "2026-05-11T14:32:00+05:30"
 }
