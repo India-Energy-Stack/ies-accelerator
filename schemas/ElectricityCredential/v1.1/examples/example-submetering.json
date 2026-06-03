@@ -42,7 +42,7 @@
         {
           "id": "ROOFTOP-UNIT-101",
           "type": "SOLAR",
-          "attributes": {"ratedPowerKw": 2, "make": "Waaree", "model": "WS-200", "commissioningDate": "2024-06-15"},
+          "attributes": {"ratedPowerKw": 2, "make": "Waaree", "model": "WS-200", "commissioningDate": "2024-06-15T00:00:00+05:30"},
           "parentResources": ["MET-UNIT-101"]
         }
       ],

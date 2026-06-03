@@ -36,25 +36,25 @@
         {
           "id": "DER-SOLAR-001",
           "type": "SOLAR",
-          "attributes": {"ratedPowerKw": 3, "make": "SunPower Corporation", "model": "SPR-X22-360", "commissioningDate": "2025-01-12"},
+          "attributes": {"ratedPowerKw": 3, "make": "SunPower Corporation", "model": "SPR-X22-360", "commissioningDate": "2025-01-12T00:00:00-05:00"},
           "parentResources": ["MET2025789456123"]
         },
         {
           "id": "DER-WIND-001",
           "type": "WIND",
-          "attributes": {"ratedPowerKw": 1.5, "make": "Windmill Co.", "model": "WM-MICRO-150", "commissioningDate": "2025-03-01"},
+          "attributes": {"ratedPowerKw": 1.5, "make": "Windmill Co.", "model": "WM-MICRO-150", "commissioningDate": "2025-03-01T00:00:00-05:00"},
           "parentResources": ["MET2025789456123"]
         },
         {
           "id": "BESS-001",
           "type": "BATTERY",
-          "attributes": {"ratedPowerKw": 5, "energyCapacityKwh": 10, "storageType": "LithiumIon", "commissioningDate": "2025-01-12"},
+          "attributes": {"ratedPowerKw": 5, "energyCapacityKwh": 10, "storageType": "LithiumIon", "commissioningDate": "2025-01-12T00:00:00-05:00"},
           "parentResources": ["MET2025789456123"]
         },
         {
           "id": "BESS-002",
           "type": "BATTERY",
-          "attributes": {"ratedPowerKw": 2.5, "energyCapacityKwh": 5, "storageType": "LithiumIon", "commissioningDate": "2025-06-01"},
+          "attributes": {"ratedPowerKw": 2.5, "energyCapacityKwh": 5, "storageType": "LithiumIon", "commissioningDate": "2025-06-01T00:00:00-05:00"},
           "parentResources": ["MET2025789456123"]
         }
       ],
