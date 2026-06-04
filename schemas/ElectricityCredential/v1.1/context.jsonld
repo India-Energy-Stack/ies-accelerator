@@ -71,7 +71,11 @@
                         "@version": 1.1,
                         "@protected": true,
                         "meterId":            { "@id": "deg:meterId",            "@type": "xsd:string"  },
-                        "sanctionedLoadKW":   { "@id": "deg:sanctionedLoadKW",   "@type": "xsd:decimal" },
+                        "sanctionedLoadKw":       { "@id": "deg:sanctionedLoadKw",       "@type": "xsd:decimal" },
+                        "contractMaxDemandKw":    { "@id": "deg:contractMaxDemandKw",    "@type": "xsd:decimal" },
+                        "sanctionedExportLoadKw": { "@id": "deg:sanctionedExportLoadKw", "@type": "xsd:decimal" },
+                        "paymentMode":            { "@id": "deg:paymentMode",            "@type": "xsd:string"  },
+                        "billingCycleDay":        { "@id": "deg:billingCycleDay",        "@type": "xsd:integer" },
                         "tariffCategoryCode": { "@id": "deg:tariffCategoryCode", "@type": "xsd:string"  },
                         "premisesType":       { "@id": "deg:premisesType",       "@type": "xsd:string"  },
                         "connectionType":     { "@id": "deg:connectionType",     "@type": "xsd:string"  }
@@ -92,28 +96,28 @@
                     "@type": "@id",
                     "@context": {
                         "beckn": "https://schema.beckn.io/",
-                        "descriptor": {
-                            "@id": "beckn:descriptor", "@type": "@id",
+                        "geo": {
+                            "@id": "beckn:geo",
+                            "@type": "@id",
                             "@context": {
-                                "name": { "@id": "beckn:name", "@type": "xsd:string" },
-                                "code": { "@id": "beckn:code", "@type": "xsd:string" },
-                                "short_desc": { "@id": "beckn:short_desc", "@type": "xsd:string" },
-                                "long_desc":  { "@id": "beckn:long_desc",  "@type": "xsd:string" }
+                                "type":        { "@id": "beckn:geoType",     "@type": "xsd:string" },
+                                "coordinates": { "@id": "beckn:coordinates", "@container": "@list" },
+                                "bbox":        { "@id": "beckn:bbox",        "@container": "@list" },
+                                "geometries":  { "@id": "beckn:geometries",  "@container": "@list" }
                             }
                         },
-                        "map_url":  { "@id": "beckn:map_url",  "@type": "@id"        },
-                        "gps":      { "@id": "beckn:gps",      "@type": "xsd:string" },
-                        "address":  { "@id": "beckn:address",  "@type": "xsd:string" },
-                        "city":     { "@id": "beckn:city", "@type": "@id", "@context": { "name": { "@id": "beckn:name", "@type": "xsd:string" }, "code": { "@id": "beckn:code", "@type": "xsd:string" } } },
-                        "district": { "@id": "beckn:district", "@type": "xsd:string" },
-                        "state":    { "@id": "beckn:state", "@type": "@id", "@context": { "name": { "@id": "beckn:name", "@type": "xsd:string" }, "code": { "@id": "beckn:code", "@type": "xsd:string" } } },
-                        "country":  { "@id": "beckn:country", "@type": "@id", "@context": { "name": { "@id": "beckn:name", "@type": "xsd:string" }, "code": { "@id": "beckn:code", "@type": "xsd:string" } } },
-                        "area_code":        { "@id": "beckn:area_code",        "@type": "xsd:string" },
-                        "circle":           { "@id": "beckn:circle", "@type": "@id", "@context": { "gps": { "@id": "beckn:gps", "@type": "xsd:string" }, "radius": { "@id": "beckn:radius", "@type": "@id" } } },
-                        "polygon":          { "@id": "beckn:polygon",          "@type": "xsd:string" },
-                        "3dspace":          { "@id": "beckn:3dspace",          "@type": "xsd:string" },
-                        "rating":           { "@id": "beckn:rating",           "@type": "xsd:string" },
-                        "openLocationCode": { "@id": "deg:openLocationCode",   "@type": "xsd:string" }
+                        "address": {
+                            "@id": "beckn:address",
+                            "@type": "@id",
+                            "@context": {
+                                "streetAddress":   { "@id": "beckn:streetAddress",   "@type": "xsd:string" },
+                                "extendedAddress": { "@id": "beckn:extendedAddress", "@type": "xsd:string" },
+                                "addressLocality": { "@id": "beckn:addressLocality", "@type": "xsd:string" },
+                                "addressRegion":   { "@id": "beckn:addressRegion",   "@type": "xsd:string" },
+                                "addressCountry":  { "@id": "beckn:addressCountry",  "@type": "xsd:string" },
+                                "postalCode":      { "@id": "beckn:postalCode",      "@type": "xsd:string" }
+                            }
+                        }
                     }
                 }
             }

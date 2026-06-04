@@ -7,15 +7,29 @@
       {
         "name": "IntervalLoadSurveySet",
         "payloadDescriptors": [
-          { "readingType": "kWh imp block", "reportedMode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 },
-          { "readingType": "kWh exp block", "reportedMode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 }
+          {
+            "readingType": "kWh imp block",
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "readingType": "kWh exp block",
+            "reportedMode": "USAGE",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          }
         ],
         "compactSequences": [
           {
             "name": "IntervalEnergySeq",
             "sequenceItems": [
-              { "readingType": "kWh imp block" },
-              { "readingType": "kWh exp block" }
+              {
+                "readingType": "kWh imp block"
+              },
+              {
+                "readingType": "kWh exp block"
+              }
             ]
           }
         ]
@@ -26,348 +40,645 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
-      { "value": "UTILITY-01", "scheme": "ORG" }
+      {
+        "value": "did:dedi:india-energy-stack:ies-discoms-reference-registry:UTILITY-01",
+        "scheme": "DID"
+      }
     ],
     "meterRefs": [
-      { "value": "FDR-11KV-NDL-072", "scheme": "OTHER" }
+      {
+        "value": "did:dedi:bescom:assets:feeder:FDR-11KV-NDL-072",
+        "scheme": "DID"
+      }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet",
-    "intervalPeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT30M" },
+    "intervalPeriod": {
+      "start": "2026-05-18T00:00:00+05:30",
+      "duration": "PT30M"
+    },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          { "readingType": "kWh imp block", "value": 600 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 600
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 1,
         "readings": [
-          { "readingType": "kWh imp block", "value": 580 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 580
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 2,
         "readings": [
-          { "readingType": "kWh imp block", "value": 560 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 560
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 3,
         "readings": [
-          { "readingType": "kWh imp block", "value": 550 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 550
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 4,
         "readings": [
-          { "readingType": "kWh imp block", "value": 540 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 540
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 5,
         "readings": [
-          { "readingType": "kWh imp block", "value": 530 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 530
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 6,
         "readings": [
-          { "readingType": "kWh imp block", "value": 520 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 520
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 7,
         "readings": [
-          { "readingType": "kWh imp block", "value": 510 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 510
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 8,
         "readings": [
-          { "readingType": "kWh imp block", "value": 500 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 500
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 9,
         "readings": [
-          { "readingType": "kWh imp block", "value": 510 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 510
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 10,
         "readings": [
-          { "readingType": "kWh imp block", "value": 550 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 550
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 11,
         "readings": [
-          { "readingType": "kWh imp block", "value": 600 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 600
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 12,
         "readings": [
-          { "readingType": "kWh imp block", "value": 650 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 650
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 13,
         "readings": [
-          { "readingType": "kWh imp block", "value": 700 },
-          { "readingType": "kWh exp block", "value": 20 }
+          {
+            "readingType": "kWh imp block",
+            "value": 700
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 20
+          }
         ]
       },
       {
         "id": 14,
         "readings": [
-          { "readingType": "kWh imp block", "value": 750 },
-          { "readingType": "kWh exp block", "value": 50 }
+          {
+            "readingType": "kWh imp block",
+            "value": 750
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 50
+          }
         ]
       },
       {
         "id": 15,
         "readings": [
-          { "readingType": "kWh imp block", "value": 800 },
-          { "readingType": "kWh exp block", "value": 100 }
+          {
+            "readingType": "kWh imp block",
+            "value": 800
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 100
+          }
         ]
       },
       {
         "id": 16,
         "readings": [
-          { "readingType": "kWh imp block", "value": 850 },
-          { "readingType": "kWh exp block", "value": 200 }
+          {
+            "readingType": "kWh imp block",
+            "value": 850
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 200
+          }
         ]
       },
       {
         "id": 17,
         "readings": [
-          { "readingType": "kWh imp block", "value": 900 },
-          { "readingType": "kWh exp block", "value": 350 }
+          {
+            "readingType": "kWh imp block",
+            "value": 900
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 350
+          }
         ]
       },
       {
         "id": 18,
         "readings": [
-          { "readingType": "kWh imp block", "value": 950 },
-          { "readingType": "kWh exp block", "value": 500 }
+          {
+            "readingType": "kWh imp block",
+            "value": 950
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 500
+          }
         ]
       },
       {
         "id": 19,
         "readings": [
-          { "readingType": "kWh imp block", "value": 980 },
-          { "readingType": "kWh exp block", "value": 650 }
+          {
+            "readingType": "kWh imp block",
+            "value": 980
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 650
+          }
         ]
       },
       {
         "id": 20,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1000 },
-          { "readingType": "kWh exp block", "value": 750 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1000
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 750
+          }
         ]
       },
       {
         "id": 21,
         "readings": [
-          { "readingType": "kWh imp block", "value": 990 },
-          { "readingType": "kWh exp block", "value": 800 }
+          {
+            "readingType": "kWh imp block",
+            "value": 990
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 800
+          }
         ]
       },
       {
         "id": 22,
         "readings": [
-          { "readingType": "kWh imp block", "value": 980 },
-          { "readingType": "kWh exp block", "value": 820 }
+          {
+            "readingType": "kWh imp block",
+            "value": 980
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 820
+          }
         ]
       },
       {
         "id": 23,
         "readings": [
-          { "readingType": "kWh imp block", "value": 960 },
-          { "readingType": "kWh exp block", "value": 840 }
+          {
+            "readingType": "kWh imp block",
+            "value": 960
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 840
+          }
         ]
       },
       {
         "id": 24,
         "readings": [
-          { "readingType": "kWh imp block", "value": 950 },
-          { "readingType": "kWh exp block", "value": 850 }
+          {
+            "readingType": "kWh imp block",
+            "value": 950
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 850
+          }
         ]
       },
       {
         "id": 25,
         "readings": [
-          { "readingType": "kWh imp block", "value": 940 },
-          { "readingType": "kWh exp block", "value": 840 }
+          {
+            "readingType": "kWh imp block",
+            "value": 940
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 840
+          }
         ]
       },
       {
         "id": 26,
         "readings": [
-          { "readingType": "kWh imp block", "value": 930 },
-          { "readingType": "kWh exp block", "value": 800 }
+          {
+            "readingType": "kWh imp block",
+            "value": 930
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 800
+          }
         ]
       },
       {
         "id": 27,
         "readings": [
-          { "readingType": "kWh imp block", "value": 920 },
-          { "readingType": "kWh exp block", "value": 700 }
+          {
+            "readingType": "kWh imp block",
+            "value": 920
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 700
+          }
         ]
       },
       {
         "id": 28,
         "readings": [
-          { "readingType": "kWh imp block", "value": 930 },
-          { "readingType": "kWh exp block", "value": 550 }
+          {
+            "readingType": "kWh imp block",
+            "value": 930
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 550
+          }
         ]
       },
       {
         "id": 29,
         "readings": [
-          { "readingType": "kWh imp block", "value": 950 },
-          { "readingType": "kWh exp block", "value": 400 }
+          {
+            "readingType": "kWh imp block",
+            "value": 950
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 400
+          }
         ]
       },
       {
         "id": 30,
         "readings": [
-          { "readingType": "kWh imp block", "value": 980 },
-          { "readingType": "kWh exp block", "value": 250 }
+          {
+            "readingType": "kWh imp block",
+            "value": 980
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 250
+          }
         ]
       },
       {
         "id": 31,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1000 },
-          { "readingType": "kWh exp block", "value": 100 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1000
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 100
+          }
         ]
       },
       {
         "id": 32,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1020 },
-          { "readingType": "kWh exp block", "value": 30 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1020
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 30
+          }
         ]
       },
       {
         "id": 33,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1050 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1050
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 34,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1080 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1080
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 35,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1100 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1100
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 36,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1150 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1150
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 37,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1200 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1200
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 38,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1250 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1250
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 39,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1200 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1200
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 40,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1100 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1100
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 41,
         "readings": [
-          { "readingType": "kWh imp block", "value": 1000 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 1000
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 42,
         "readings": [
-          { "readingType": "kWh imp block", "value": 900 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 900
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 43,
         "readings": [
-          { "readingType": "kWh imp block", "value": 800 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 800
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 44,
         "readings": [
-          { "readingType": "kWh imp block", "value": 750 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 750
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 45,
         "readings": [
-          { "readingType": "kWh imp block", "value": 700 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 700
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 46,
         "readings": [
-          { "readingType": "kWh imp block", "value": 650 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 650
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       },
       {
         "id": 47,
         "readings": [
-          { "readingType": "kWh imp block", "value": 620 },
-          { "readingType": "kWh exp block", "value": 0 }
+          {
+            "readingType": "kWh imp block",
+            "value": 620
+          },
+          {
+            "readingType": "kWh exp block",
+            "value": 0
+          }
         ]
       }
     ]

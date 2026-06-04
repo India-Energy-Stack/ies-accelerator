@@ -96,14 +96,17 @@
         "ConsumptionProfile": {
             "type": "object",
             "description": "Tariff and load characteristics for one meter. meterId matches the id of a METER entry in energyResources[].",
-            "required": ["meterId", "sanctionedLoadKW", "tariffCategoryCode"],
+            "required": ["meterId", "sanctionedLoadKw", "tariffCategoryCode"],
             "properties": {
                 "meterId": { "type": "string", "minLength": 1 },
-                "sanctionedLoadKW": { "type": "number", "minimum": 0.5, "maximum": 10000 },
+                "sanctionedLoadKw": { "type": "number", "minimum": 0.5, "maximum": 10000 },
                 "contractMaxDemandKw": { "type": "number", "minimum": 0 },
+                "sanctionedExportLoadKw": { "type": "number", "minimum": 0, "description": "Sanctioned/approved grid export limit in kW." },
                 "tariffCategoryCode": { "type": "string", "minLength": 1 },
                 "premisesType": { "type": "string", "enum": ["Residential", "Commercial", "Industrial", "Agricultural"] },
-                "connectionType": { "type": "string", "enum": ["Single-phase", "Three-phase"] }
+                "connectionType": { "type": "string", "enum": ["Single-phase", "Three-phase"] },
+                "paymentMode": { "type": "string", "enum": ["PREPAID", "POSTPAID"], "description": "Indicates if the connection is prepaid or postpaid." },
+                "billingCycleDay": { "type": "integer", "minimum": 1, "maximum": 31, "description": "Day of month on which the billing cycle resets." }
             }
         },
         "CustomerDetails": {
@@ -136,16 +139,9 @@
                         "ratedPowerKw": { "type": "number", "minimum": 0 },
                         "energyCapacityKwh": { "type": "number", "minimum": 0 },
                         "telemetryProvider": { "type": "string" },
-                        "meterType": {
-                            "type": "string",
-                            "enum": ["AMR", "AMI", "Electromechanical", "Forward", "Reverse", "Bidirectional", "Prepaid", "NetMeter", "Other"]
-                        },
-                        "gps": {
-                            "type": "string",
-                            "pattern": "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$"
-                        },
+                        "meterType": { "$ref": "#/$defs/MeterType" },
                         "location": { "$ref": "#/$defs/Location" },
-                        "commissioningDate": { "type": "string" },
+                        "commissioningDate": { "type": "string", "format": "date-time" },
                         "storageType": { "type": "string" }
                     }
                 },
@@ -166,31 +162,57 @@
         },
         "Location": {
             "type": "object",
-            "description": "Physical location following the beckn Location schema.",
-            "required": ["address", "area_code", "country"],
+            "description": "Physical location. Conforms to beckn Location/v2.0: geo (GeoJSONGeometry, required) + address (Address, optional).",
+            "required": ["geo"],
             "properties": {
-                "address": { "type": "string", "minLength": 1 },
-                "city": { "type": "object", "properties": { "name": { "type": "string" }, "code": { "type": "string" } } },
-                "district": { "type": "string" },
-                "state": { "type": "object", "properties": { "name": { "type": "string" }, "code": { "type": "string" } } },
-                "country": {
-                    "type": "object",
-                    "required": ["code"],
-                    "properties": {
-                        "name": { "type": "string" },
-                        "code": { "type": "string", "pattern": "^[A-Z]{2}$" }
-                    }
-                },
-                "area_code": { "type": "string", "minLength": 1 },
-                "gps": { "type": "string", "pattern": "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$" },
-                "openLocationCode": { "type": "string", "pattern": "^[23456789CFGHJMPQRVWX]{4,8}\\+[23456789CFGHJMPQRVWX]{0,4}$" },
-                "descriptor": { "type": "object" },
-                "map_url": { "type": "string", "format": "uri" },
-                "circle": { "type": "object" },
-                "polygon": { "type": "string" },
-                "3dspace": { "type": "string" },
-                "rating": { "type": "string" }
+                "geo": { "$ref": "#/$defs/GeoJSONGeometry" },
+                "address": { "$ref": "#/$defs/Address" }
             }
+        },
+        "Address": {
+            "type": "object",
+            "description": "Postal address per beckn Address/v2.0 and schema.org PostalAddress. All fields optional.",
+            "properties": {
+                "streetAddress":   { "type": "string", "description": "Building name/number and street." },
+                "extendedAddress": { "type": "string", "description": "Apt, suite, floor, or C/O." },
+                "addressLocality": { "type": "string", "description": "City or locality." },
+                "addressRegion":   { "type": "string", "description": "State, region or province." },
+                "addressCountry":  { "type": "string", "pattern": "^[A-Z]{2}$", "description": "ISO 3166-1 alpha-2 country code." },
+                "postalCode":      { "type": "string", "description": "Postal or ZIP code." }
+            },
+            "additionalProperties": false
+        },
+        "GeoJSONGeometry": {
+            "type": "object",
+            "description": "GeoJSON geometry per RFC 7946 / beckn GeoJSONGeometry/v2.0. Coordinates are [longitude, latitude, (altitude?)] in EPSG:4326 (WGS-84). For a point: {type: 'Point', coordinates: [lon, lat]}.",
+            "required": ["type"],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection"]
+                },
+                "coordinates": {
+                    "type": "array",
+                    "description": "Coordinates per RFC 7946. For a Point: [longitude, latitude]."
+                },
+                "geometries": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/GeoJSONGeometry" },
+                    "description": "Member geometries when type is GeometryCollection."
+                },
+                "bbox": {
+                    "type": "array",
+                    "minItems": 4, "maxItems": 4,
+                    "items": { "type": "number" },
+                    "description": "Bounding box [west, south, east, north] in degrees."
+                }
+            },
+            "additionalProperties": true
+        },
+        "MeterType": {
+            "type": "string",
+            "description": "Type of electricity meter. Shared with MeterData schema.",
+            "enum": ["AMR", "AMI", "Electromechanical", "Forward", "Reverse", "Bidirectional", "Prepaid", "NetMeter", "Other"]
         }
     }
 }

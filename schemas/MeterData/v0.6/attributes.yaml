@@ -54,6 +54,8 @@ components:
         timeZone:
           type: string
           description: IANA time-zone, e.g. Asia/Kolkata.
+        customerDetails:
+          $ref: '#/components/schemas/CustomerDetails'
         customer:
           $ref: '#/components/schemas/Customer'
         serviceDeliveryPoints:
@@ -602,20 +604,10 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/Identifier'
-        addressLine:
-          type: string
-        city:
-          type: string
-        postalCode:
-          type: string
-        latitude:
-          type: number
-          minimum: -90
-          maximum: 90
-        longitude:
-          type: number
-          minimum: -180
-          maximum: 180
+        address:
+          $ref: '#/components/schemas/Address'
+        geo:
+          $ref: '#/components/schemas/GeoJSONGeometry'
     Meter:
       type: object
       required:
@@ -623,10 +615,6 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/Identifier'
-        manufacturer:
-          type: string
-        modelNumber:
-          type: string
         make:
           type: string
           description: Make of the meter.
@@ -634,9 +622,7 @@ components:
           type: string
           description: Model of the meter.
         meterType:
-          type: string
-          enum: [AMR, AMI, Electromechanical, Forward, Reverse, Bidirectional, Prepaid, NetMeter, Other]
-          description: Type of the meter.
+          $ref: '#/components/schemas/MeterType'
         meterCategory:
           $ref: '#/components/schemas/MeterCategory'
         serviceKind:
@@ -820,3 +806,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PayloadDescriptorSet'
+    CustomerDetails:
+      type: object
+      description: PII sub-object. Omit entirely for anonymised or pseudonymous exchange.
+      properties:
+        name:
+          type: string
+          description: Full name of the customer as per ID proof.
+    MeterType:
+      type: string
+      description: Type of electricity meter. Shared with ElectricityCredential schema.
+      enum:
+      - AMR
+      - AMI
+      - Electromechanical
+      - Forward
+      - Reverse
+      - Bidirectional
+      - Prepaid
+      - NetMeter
+      - Other
+    Address:
+      $ref: 'https://schema.beckn.io/Address/v2.0/attributes.yaml#/components/schemas/Address'
+    GeoJSONGeometry:
+      $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'

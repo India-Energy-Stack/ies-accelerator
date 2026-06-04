@@ -161,7 +161,7 @@ components:
         meterId links to a METER entry's id in energyResources[].
       required:
         - meterId
-        - sanctionedLoadKW
+        - sanctionedLoadKw
         - tariffCategoryCode
       x-jsonld:
         "@id": deg:ConsumptionProfile
@@ -174,19 +174,25 @@ components:
             customerProfile.energyResources[].
           x-jsonld:
             "@id": deg:meterId
-        sanctionedLoadKW:
+        sanctionedLoadKw:
           type: number
           minimum: 0.5
           maximum: 10000
           description: Sanctioned/approved electrical load in kilowatts (kW).
           x-jsonld:
-            "@id": deg:sanctionedLoadKW
+            "@id": deg:sanctionedLoadKw
         contractMaxDemandKw:
           type: number
           minimum: 0
           description: Maximum demand contracted with the utility for this connection, in kW.
           x-jsonld:
             "@id": deg:contractMaxDemandKw
+        sanctionedExportLoadKw:
+          type: number
+          minimum: 0
+          description: Sanctioned/approved grid export limit in kW.
+          x-jsonld:
+            "@id": deg:sanctionedExportLoadKw
         tariffCategoryCode:
           type: string
           minLength: 1
@@ -209,6 +215,21 @@ components:
             - Three-phase
           x-jsonld:
             "@id": deg:connectionType
+        paymentMode:
+          type: string
+          enum:
+            - PREPAID
+            - POSTPAID
+          description: Indicates if the connection is prepaid or postpaid.
+          x-jsonld:
+            "@id": deg:paymentMode
+        billingCycleDay:
+          type: integer
+          minimum: 1
+          maximum: 31
+          description: Day of the month on which the billing cycle resets.
+          x-jsonld:
+            "@id": deg:billingCycleDay
 
     CustomerDetails:
       type: object
@@ -227,37 +248,14 @@ components:
           description: Full name of the customer as per ID proof.
         installationAddress:
           type: object
-          description: Physical location of the installation. Follows the beckn Location schema.
+          description: "Physical location per beckn Location/v2.0. geo (GeoJSONGeometry) is required; address (beckn Address/v2.0) is optional."
           required:
-            - address
-            - area_code
-            - country
+            - geo
           properties:
-            address: { type: string }
-            city:
-              type: object
-              properties:
-                name: { type: string }
-                code: { type: string }
-            district: { type: string }
-            state:
-              type: object
-              properties:
-                name: { type: string }
-                code: { type: string }
-            country:
-              type: object
-              required: [code]
-              properties:
-                name: { type: string }
-                code:
-                  type: string
-                  pattern: "^[A-Z]{2}$"
-            area_code: { type: string }
-            gps:
-              type: string
-              description: "GPS coordinates as 'lat,lng'."
-            openLocationCode: { type: string }
+            geo:
+              $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'
+            address:
+              $ref: 'https://schema.beckn.io/Address/v2.0/attributes.yaml#/components/schemas/Address'
         serviceConnectionDate:
           type: string
           format: date-time

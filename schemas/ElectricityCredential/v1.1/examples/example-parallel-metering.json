@@ -8,49 +8,70 @@
     "https://schema.beckn.io/EnergyResource/v2.0/context.jsonld"
   ],
   "id": "urn:uuid:b2c3d4e5-0000-0000-0000-aabbccdd0001",
-  "type": ["VerifiableCredential", "ElectricityCredential"],
+  "type": [
+    "VerifiableCredential",
+    "ElectricityCredential"
+  ],
   "issuer": {
     "id": "did:web:tpddl.delhi.gov.in",
     "name": "TPDDL - Tata Power Delhi Distribution Ltd",
-    "idRef": {"issuedBy": "did:web:derc.delhi.gov.in", "subjectId": "derc.delhi.gov.in:TPDDL-REG-0042"}
+    "idRef": {
+      "issuedBy": "did:web:derc.delhi.gov.in",
+      "subjectId": "derc.delhi.gov.in:TPDDL-REG-0042"
+    }
   },
   "validFrom": "2025-03-01T00:00:00+05:30",
   "validUntil": "2026-03-01T00:00:00+05:30",
   "credentialSubject": {
-    "id": "did:example:customer:delhi-solar-001",
+    "id": "did:dedi:tpddl:consumers:TPDDL-2025-00987654",
     "customerProfile": {
       "customerNumber": "TPDDL-2025-00987654",
       "energyResources": [
         {
-          "id": "MET-IMPORT-001",
+          "id": "did:dedi:tpddl:assets:meter:MET-IMPORT-001",
           "type": "METER",
-          "attributes": {"meterType": "AMI", "gps": "28.6139,77.2090"},
-          "parentResources": ["DEL-SB-F08"]
+          "attributes": {
+            "meterType": "AMI",
+            "gps": "28.6139,77.2090"
+          },
+          "parentResources": [
+            "did:dedi:tpddl:assets:feeder:DEL-SB-F08"
+          ]
         },
         {
-          "id": "MET-EXPORT-001",
+          "id": "did:dedi:tpddl:assets:meter:MET-EXPORT-001",
           "type": "METER",
-          "attributes": {"meterType": "Reverse", "gps": "28.6139,77.2090"}
+          "attributes": {
+            "meterType": "Reverse",
+            "gps": "28.6139,77.2090"
+          }
         },
         {
-          "id": "ROOFTOP-SOLAR-001",
+          "id": "did:dedi:tpddl:assets:solar-plant:ROOFTOP-SOLAR-001",
           "type": "SOLAR",
-          "attributes": {"ratedPowerKw": 5, "make": "Adani Solar", "model": "ASPM-400M", "commissioningDate": "2025-02-10"},
-          "parentResources": ["MET-EXPORT-001"]
+          "attributes": {
+            "ratedPowerKw": 5,
+            "make": "Adani Solar",
+            "model": "ASPM-400M",
+            "commissioningDate": "2025-02-10T00:00:00+05:30"
+          },
+          "parentResources": [
+            "did:dedi:tpddl:assets:meter:MET-EXPORT-001"
+          ]
         }
       ],
       "consumptionProfiles": [
         {
-          "meterId": "MET-IMPORT-001",
-          "sanctionedLoadKW": 10,
+          "meterId": "did:dedi:tpddl:assets:meter:MET-IMPORT-001",
+          "sanctionedLoadKw": 10,
           "contractMaxDemandKw": 8,
           "tariffCategoryCode": "DS-I",
           "premisesType": "Residential",
           "connectionType": "Single-phase"
         },
         {
-          "meterId": "MET-EXPORT-001",
-          "sanctionedLoadKW": 5,
+          "meterId": "did:dedi:tpddl:assets:meter:MET-EXPORT-001",
+          "sanctionedLoadKw": 5,
           "tariffCategoryCode": "FIT-SOLAR-01"
         }
       ]
@@ -58,12 +79,20 @@
     "customerDetails": {
       "fullName": "Arjun Mehra",
       "installationAddress": {
-        "address": "45 Rohini Sector 9",
-        "city": {"name": "Delhi", "code": "DEL"},
-        "state": {"name": "Delhi", "code": "DL"},
-        "country": {"name": "India", "code": "IN"},
-        "area_code": "110085",
-        "gps": "28.6139,77.2090"
+        "geo": {
+          "type": "Point",
+          "coordinates": [
+            77.209,
+            28.6139
+          ]
+        },
+        "address": {
+          "streetAddress": "45 Rohini Sector 9",
+          "addressLocality": "Delhi",
+          "addressRegion": "Delhi",
+          "addressCountry": "IN",
+          "postalCode": "110085"
+        }
       },
       "serviceConnectionDate": "2018-07-15T00:00:00+05:30"
     }
