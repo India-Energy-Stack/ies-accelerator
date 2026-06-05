@@ -1,0 +1,153 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "deg": "https://schema.beckn.io/deg/",
+        "erDeg": "https://schema.beckn.io/deg/EnergyResource/v1.2/",
+        "energyCred": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "cim": "https://cim.ucaiug.io/ns#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@graph": [
+        {
+            "@id": "deg:ElectricityCredential",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Electricity Credential",
+            "rdfs:comment": "W3C Verifiable Credential issued per meter by electricity distribution utilities. v1.2: EnergyResource is composable into five kinds (Meter, Generator, Storage, Load, Network); storageCapacityKwh is restricted to Storage kind; type enums restricted per kind; CIM IEC 61970/61968 alignment.",
+            "rdfs:subClassOf": { "@id": "energyCred:EnergyCredential" }
+        },
+        {
+            "@id": "deg:customerProfile",
+            "@type": "rdf:Property",
+            "rdfs:label": "Customer Profile",
+            "rdfs:comment": "Non-PII utility customer identity: customerNumber, optional idRef, energyResources array, and consumptionProfiles array."
+        },
+        {
+            "@id": "deg:customerDetails",
+            "@type": "rdf:Property",
+            "rdfs:label": "Customer Details",
+            "rdfs:comment": "PII: full name, installation address, service connection date."
+        },
+        {
+            "@id": "deg:energyResources",
+            "@type": "rdf:Property",
+            "rdfs:label": "Energy Resources",
+            "rdfs:comment": "Array of composable EnergyResource entries. Each entry is discriminated by 'type' into one of: EnergyResourceMeter, EnergyResourceGenerator, EnergyResourceStorage, EnergyResourceLoad, EnergyResourceNetwork."
+        },
+        {
+            "@id": "erDeg:EnergyResourceCommonAttributes",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource Common Attributes",
+            "rdfs:comment": "Base attributes shared by all EnergyResource kinds. Does not include storageCapacityKwh."
+        },
+        {
+            "@id": "erDeg:EnergyResourceMeter",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource — Meter",
+            "rdfs:comment": "Metering device. type: METER. CIM: cim:Meter extends cim:EndDevice (IEC 61968-9).",
+            "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:seeAlso": { "@id": "cim:Meter" }
+        },
+        {
+            "@id": "erDeg:EnergyResourceGenerator",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource — Generator",
+            "rdfs:comment": "Electrical generation asset. type: SOLAR_PV | SOLAR | WIND | HYDRO | BIOGAS | CHP | FUEL_CELL. CIM: GeneratingUnit subtypes (IEC 61970-302).",
+            "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:seeAlso": { "@id": "cim:GeneratingUnit" }
+        },
+        {
+            "@id": "erDeg:EnergyResourceStorage",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource — Storage",
+            "rdfs:comment": "Energy storage asset. type: BESS | BATTERY | EV_CHARGER | EV_V2G. CIM: BatteryUnit / ElectricVehicleChargingStation (IEC 61970-302).",
+            "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:seeAlso": { "@id": "cim:BatteryUnit" }
+        },
+        {
+            "@id": "erDeg:EnergyResourceLoad",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource — Load",
+            "rdfs:comment": "Controllable electrical load. type: SMART_HVAC | SMART_WATER_HEATER | CONTROLLABLE_LOAD. CIM: EnergyConsumer / ConformLoad (IEC 61970-301).",
+            "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:seeAlso": { "@id": "cim:EnergyConsumer" }
+        },
+        {
+            "@id": "erDeg:EnergyResourceNetwork",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource — Network",
+            "rdfs:comment": "Distribution network topology element. type: DT | BUS | FEEDER | MICROGRID. CIM: PowerTransformer, BusbarSection, Feeder, Substation (IEC 61970-301).",
+            "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:seeAlso": { "@id": "cim:ConnectivityNodeContainer" }
+        },
+        {
+            "@id": "erDeg:storageCapacityKwh",
+            "@type": "rdf:Property",
+            "rdfs:label": "Storage Capacity (kWh)",
+            "rdfs:comment": "Rated energy capacity in kWh. Exclusive to EnergyResourceStorage. CIM: BatteryUnit.ratedE. v1.1 equivalent: energyCapacityKwh.",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceStorage" },
+            "rdfs:range": "xsd:decimal"
+        },
+        {
+            "@id": "erDeg:nominalPowerKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "Nominal Power (kW)",
+            "rdfs:comment": "Nominal rated output power in kW. CIM: GeneratingUnit.nominalP.",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceGenerator" },
+            "rdfs:range": "xsd:decimal"
+        },
+        {
+            "@id": "erDeg:communicationTechnology",
+            "@type": "rdf:Property",
+            "rdfs:label": "Communication Technology",
+            "rdfs:comment": "AMI/AMR data collection technology (PLC, RF_Mesh, GPRS, NB-IoT, LoRa, ZigBee, Other).",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceMeter" },
+            "rdfs:range": "xsd:string"
+        },
+        {
+            "@id": "erDeg:nominalVoltageKv",
+            "@type": "rdf:Property",
+            "rdfs:label": "Nominal Voltage (kV)",
+            "rdfs:comment": "Nominal voltage level in kV. CIM: BaseVoltage.nominalVoltage.",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceNetwork" },
+            "rdfs:range": "xsd:decimal"
+        },
+        {
+            "@id": "deg:ConsumptionProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Consumption Profile",
+            "rdfs:comment": "Tariff and load characteristics for one meter connection. Linked to a METER entry in energyResources[] via meterId."
+        },
+        {
+            "@id": "deg:consumptionProfiles",
+            "@type": "rdf:Property",
+            "rdfs:label": "Consumption Profiles",
+            "rdfs:comment": "Array of ConsumptionProfile entries — one per meter connection with tariff data."
+        },
+        {
+            "@id": "deg:meterId",
+            "@type": "rdf:Property",
+            "rdfs:label": "Meter ID",
+            "rdfs:comment": "Meter serial number. Matches id of the corresponding METER entry in energyResources[].",
+            "rdfs:domain": { "@id": "deg:ConsumptionProfile" },
+            "rdfs:range": "xsd:string"
+        },
+        {
+            "@id": "deg:sanctionedLoadKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "Sanctioned Load (kW)",
+            "rdfs:comment": "Utility-approved maximum electrical load in kilowatts.",
+            "rdfs:domain": { "@id": "deg:ConsumptionProfile" },
+            "rdfs:range": "xsd:decimal"
+        },
+        {
+            "@id": "deg:tariffCategoryCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "Tariff Category Code",
+            "rdfs:comment": "Billing/tariff category code assigned by the utility.",
+            "rdfs:domain": { "@id": "deg:ConsumptionProfile" },
+            "rdfs:range": "xsd:string"
+        }
+    ]
+}

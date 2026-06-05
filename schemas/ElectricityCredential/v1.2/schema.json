@@ -1,0 +1,393 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/beckn/DEG/blob/main/specification/schema/ElectricityCredential/v1.2/schema.json",
+    "title": "ElectricityCredential v1.2",
+    "description": "Bundled (self-contained) JSON Schema for ElectricityCredential v1.2. EnergyResource is composable: oneOf [EnergyResourceMeter | EnergyResourceGenerator | EnergyResourceStorage | EnergyResourceLoad | EnergyResourceNetwork]. Each kind is also published as a standalone schema at schema.beckn.io/<Kind>/v1.0. $defs here mirror those external schemas. storageCapacityKwh is restricted to EnergyResourceStorage. type enums are restricted per kind. CIM alignment per IEC 61970-301/302 and IEC 61968-9.",
+    "type": "object",
+    "required": ["@context", "id", "type", "issuer", "validFrom", "credentialSubject"],
+    "properties": {
+        "@context": {
+            "type": "array",
+            "items": { "type": "string" },
+            "contains": { "const": "https://www.w3.org/ns/credentials/v2" },
+            "minItems": 2
+        },
+        "id": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "type": {
+            "type": "array",
+            "items": { "type": "string" },
+            "contains": { "const": "ElectricityCredential" },
+            "minItems": 2
+        },
+        "issuer": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "name": { "type": "string", "minLength": 1 },
+                "idRef": { "$ref": "#/$defs/IdRef" }
+            }
+        },
+        "validFrom": { "type": "string", "format": "date-time" },
+        "validUntil": { "type": "string", "format": "date-time" },
+        "credentialStatus": {
+            "type": "object",
+            "required": ["id", "type", "statusPurpose", "statusListCredential"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "type": { "type": "string", "const": "dediregistry" },
+                "statusPurpose": { "type": "string", "enum": ["revocation", "suspension"] },
+                "statusListCredential": { "type": "string", "format": "uri" }
+            }
+        },
+        "credentialSubject": {
+            "type": "object",
+            "required": ["customerProfile"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "customerProfile": { "$ref": "#/$defs/CustomerProfile" },
+                "customerDetails": { "$ref": "#/$defs/CustomerDetails" }
+            }
+        },
+        "proof": {
+            "type": "object",
+            "required": ["type", "created", "verificationMethod", "proofPurpose", "proofValue"],
+            "properties": {
+                "type": { "type": "string" },
+                "created": { "type": "string", "format": "date-time" },
+                "verificationMethod": { "type": "string", "format": "uri" },
+                "proofPurpose": { "type": "string", "enum": ["assertionMethod", "authentication"] },
+                "proofValue": { "type": "string", "minLength": 1 }
+            }
+        }
+    },
+    "$defs": {
+        "IdRef": {
+            "type": "object",
+            "required": ["issuedBy", "subjectId"],
+            "properties": {
+                "issuedBy": { "type": "string", "format": "uri" },
+                "subjectId": { "type": "string", "pattern": "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$" }
+            }
+        },
+        "CustomerProfile": {
+            "type": "object",
+            "description": "Non-PII customer identity, physical assets, and tariff profiles.",
+            "required": ["customerNumber", "energyResources"],
+            "properties": {
+                "customerNumber": { "type": "string", "minLength": 1 },
+                "idRef": { "$ref": "#/$defs/IdRef" },
+                "energyResources": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "#/$defs/EnergyResource" }
+                },
+                "consumptionProfiles": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "#/$defs/ConsumptionProfile" }
+                }
+            }
+        },
+        "ConsumptionProfile": {
+            "type": "object",
+            "description": "Tariff and load characteristics for one meter. meterId matches the id of a METER entry in energyResources[].",
+            "required": ["meterId", "sanctionedLoadKw", "tariffCategoryCode"],
+            "properties": {
+                "meterId": { "type": "string", "minLength": 1 },
+                "sanctionedLoadKw": { "type": "number", "minimum": 0.5, "maximum": 10000 },
+                "sanctionedExportLoadKw": { "type": "number", "minimum": 0, "description": "Sanctioned/approved grid export limit in kW." },
+                "billingCycleDay": { "type": "integer", "minimum": 1, "maximum": 31, "description": "Day of month on which the billing cycle resets." },
+                "contractMaxDemandKw": { "type": "number", "minimum": 0 },
+                "tariffCategoryCode": { "type": "string", "minLength": 1 },
+                "premisesType": { "type": "string", "enum": ["Residential", "Commercial", "Industrial", "Agricultural"] },
+                "connectionType": { "type": "string", "enum": ["Single-phase", "Three-phase"] },
+                "paymentMode": { "type": "string", "enum": ["POSTPAID", "PREPAID"], "description": "Billing/payment modality for this connection. Administrative: placed on ConsumptionProfile (not the meter) because it can change via firmware. CIM: EndDeviceFunction kind=prepayment / ESPI AmiBillingReadyKind (IEC 61968-9)." }
+            }
+        },
+        "CustomerDetails": {
+            "type": "object",
+            "description": "PII — fullName is only here.",
+            "required": ["fullName", "installationAddress", "serviceConnectionDate"],
+            "properties": {
+                "fullName": { "type": "string", "minLength": 1, "maxLength": 200 },
+                "installationAddress": { "$ref": "#/$defs/Location" },
+                "serviceConnectionDate": { "type": "string", "format": "date-time" }
+            }
+        },
+        "EnergyResourceCommonAttributes": {
+            "type": "object",
+            "description": "Base attributes shared by all EnergyResource kinds. Does NOT include storageCapacityKwh — that field belongs exclusively to EnergyResourceStorage.",
+            "additionalProperties": true,
+            "properties": {
+                "make": { "type": "string", "description": "Manufacturer name." },
+                "model": { "type": "string", "description": "Model number or name." },
+                "ratedPowerKw": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Nameplate peak power rating in kW. CIM: GeneratingUnit.maxOperatingP / EndDeviceInfo.ratedPower."
+                },
+                "telemetryProvider": { "type": "string", "description": "Vendor API or data-source identifier for telemetry." },
+                "commissioningDate": { "type": "string", "format": "date-time", "description": "ISO 8601 date-time the asset was commissioned." },
+                "location": { "$ref": "#/$defs/Location" }
+            }
+        },
+        "EnergyResourceMeterAttributes": {
+            "description": "Attributes for metering devices (type: METER). CIM: Meter extends EndDevice (IEC 61968-9).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "meterCapability": {
+                            "type": "string",
+                            "enum": ["Electromechanical", "CMRI", "AMR", "AMI"],
+                            "description": "Communication/automation generation. Electromechanical=induction disc. CMRI=static, manual optical-port read (India legacy). AMR=one-way automated read. AMI=two-way smart meter. CIM: AmiBillingReadyKind (IEC 61968-9)."
+                        },
+                        "energyDirection": {
+                            "type": "string",
+                            "enum": ["Forward", "Reverse", "Bidirectional", "Net"],
+                            "default": "Forward",
+                            "description": "Energy flow direction. Forward=import only (default). Reverse=export only. Bidirectional=separate import+export registers. Net=algebraically netted register. CIM: FlowDirectionKind (ESPI NAESB REQ.21)."
+                        },
+                        "functions": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "description": "Bag of optional capabilities per IEC 61968-9 EndDeviceFunction[0..*] — multiple values valid simultaneously.",
+                            "items": { "type": "string", "enum": ["ToU", "NetMetering", "MaxDemand", "LoadControl", "TamperDetection", "PowerQuality", "EventLogging"] }
+                        },
+                        "feeder": { "type": "string", "description": "Feeder identifier this meter is supplied from." },
+                        "bus": { "type": "string", "description": "Busbar identifier." },
+                        "communicationTechnology": {
+                            "type": "string",
+                            "enum": ["PLC", "RF_Mesh", "GPRS", "NB-IoT", "LoRa", "ZigBee", "Other"],
+                            "description": "Last-mile (physical layer) communication technology."
+                        },
+                        "applicationProtocol": {
+                            "type": "string",
+                            "enum": ["DLMS_COSEM", "ANSI_C12_18", "IEC_61850", "Modbus", "Other"],
+                            "description": "Application-layer protocol for meter data. DLMS_COSEM: IEC 62056. ANSI_C12_18: North American table model. IEC_61850: smart grid. Modbus: legacy industrial."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceGeneratorAttributes": {
+            "description": "Attributes for generation assets. CIM: GeneratingUnit subtypes (IEC 61970-302).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "nominalPowerKw": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Nominal rated output power in kW. CIM: GeneratingUnit.nominalP. Use when distinct from ratedPowerKw (peak)."
+                        },
+                        "efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100,
+                            "description": "Conversion efficiency in percent. Particularly relevant for FUEL_CELL and CHP."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceStorageAttributes": {
+            "description": "Attributes for energy storage assets. CIM: BatteryUnit (IEC 61970-302), ElectricVehicleChargingStation (CIM17+). storageCapacityKwh is ONLY on this attributes type.",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "storageCapacityKwh": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Rated energy capacity in kWh. CIM: BatteryUnit.ratedE. (v1.1 field was energyCapacityKwh — renamed for clarity.)"
+                        },
+                        "storageType": {
+                            "type": "string",
+                            "enum": ["LithiumIon", "LeadAcid", "FlowBattery", "NaS", "NiCd", "Flywheel", "Other"],
+                            "description": "Storage chemistry or technology type."
+                        },
+                        "stateOfHealthPct": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100,
+                            "description": "Battery state of health as percentage of original capacity."
+                        },
+                        "maxChargeRateKw": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Maximum charge rate in kW."
+                        },
+                        "maxDischargeRateKw": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Maximum discharge rate in kW."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceLoadAttributes": {
+            "description": "Attributes for controllable electrical loads. CIM: EnergyConsumer / ConformLoad (IEC 61970-301).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "controlProtocol": {
+                            "type": "string",
+                            "enum": ["OpenADR_2.0b", "OCPP_2.0.1", "SunSpec_Modbus", "EEBus", "Modbus", "Other"],
+                            "description": "Demand-response or load-control communication protocol."
+                        },
+                        "loadCategory": {
+                            "type": "string",
+                            "enum": ["Heating", "Cooling", "WaterHeating", "Lighting", "EV", "Industrial", "Other"],
+                            "description": "Load category for aggregation and dispatch optimisation."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceNetworkAttributes": {
+            "description": "Attributes for distribution network topology elements. CIM: PowerTransformer (DT), BusbarSection (BUS), Feeder (FEEDER), Substation/custom (MICROGRID).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "nominalVoltageKv": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Nominal voltage level in kV. CIM: BaseVoltage.nominalVoltage."
+                        },
+                        "zone": { "type": "string", "description": "Operating zone or region identifier." },
+                        "substationId": { "type": "string", "description": "Parent substation identifier." },
+                        "feederCode": { "type": "string", "description": "Feeder code per utility network records." }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceMeter": {
+            "type": "object",
+            "description": "Metering device. CIM: cim:Meter extends cim:EndDevice (IEC 61968-9).",
+            "properties": {
+                "type": { "type": "string", "const": "METER" },
+                "attributes": { "$ref": "#/$defs/EnergyResourceMeterAttributes" }
+            }
+        },
+        "EnergyResourceGenerator": {
+            "type": "object",
+            "description": "Electrical generation asset. CIM GeneratingUnit subtypes (IEC 61970-302): SOLAR_PV=PhotovoltaicUnit, WIND=WindGeneratingUnit, HYDRO=HydroGeneratingUnit, BIOGAS/CHP=ThermalGeneratingUnit (by fuel), FUEL_CELL=IEC 62933-2. SOLAR is deprecated — use SOLAR_PV.",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["SOLAR_PV", "SOLAR", "WIND", "HYDRO", "BIOGAS", "CHP", "FUEL_CELL"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceGeneratorAttributes" }
+            }
+        },
+        "EnergyResourceStorage": {
+            "type": "object",
+            "description": "Energy storage asset. CIM PowerElectronicsUnit subtypes (IEC 61970-302): BESS=BatteryUnit, EV_CHARGER/EV_V2G=ElectricVehicleChargingStation. BATTERY is deprecated — use BESS.",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["BESS", "BATTERY", "EV_CHARGER", "EV_V2G"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceStorageAttributes" }
+            }
+        },
+        "EnergyResourceLoad": {
+            "type": "object",
+            "description": "Controllable electrical load. CIM: EnergyConsumer / ConformLoad (IEC 61970-301).",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["SMART_HVAC", "SMART_WATER_HEATER", "CONTROLLABLE_LOAD"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceLoadAttributes" }
+            }
+        },
+        "EnergyResourceNetwork": {
+            "type": "object",
+            "description": "Distribution network topology element. CIM: DT=PowerTransformer, BUS=BusbarSection, FEEDER=Feeder, MICROGRID=Substation/custom (IEC 61970-301).",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["DT", "BUS", "FEEDER", "MICROGRID"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceNetworkAttributes" }
+            }
+        },
+        "EnergyResource": {
+            "type": "object",
+            "description": "Composable energy resource, discriminated by 'type' into one of five kinds. id and type are required. All other attributes live in the kind-specific 'attributes' bag which inherits EnergyResourceCommonAttributes. Only EnergyResourceStorage carries storageCapacityKwh.",
+            "required": ["id", "type"],
+            "properties": {
+                "id": { "type": "string", "minLength": 1, "description": "Stable identifier. For METER: meter serial number. For DERs: any stable scheme." },
+                "subResources": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            { "type": "string" },
+                            { "$ref": "#/$defs/EnergyResource" }
+                        ]
+                    }
+                },
+                "parentResources": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            },
+            "oneOf": [
+                { "$ref": "#/$defs/EnergyResourceMeter" },
+                { "$ref": "#/$defs/EnergyResourceGenerator" },
+                { "$ref": "#/$defs/EnergyResourceStorage" },
+                { "$ref": "#/$defs/EnergyResourceLoad" },
+                { "$ref": "#/$defs/EnergyResourceNetwork" }
+            ]
+        },
+        "Location": {
+            "type": "object",
+            "description": "Physical location per beckn Location/2.0. geo (required) is a GeoJSONGeometry; address (optional) is a postal address. Coordinates are [longitude, latitude] per RFC 7946.",
+            "required": ["geo"],
+            "properties": {
+                "geo": { "$ref": "#/$defs/GeoJSONGeometry" },
+                "address": { "$ref": "#/$defs/Address" }
+            }
+        },
+        "GeoJSONGeometry": {
+            "type": "object",
+            "description": "GeoJSON geometry per RFC 7946 / beckn GeoJSONGeometry/v2.0. Coordinates are [longitude, latitude] in WGS-84 (EPSG:4326). For a point: {type: 'Point', coordinates: [lon, lat]}.",
+            "required": ["type"],
+            "properties": {
+                "type": { "type": "string", "enum": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection"] },
+                "coordinates": { "type": "array", "description": "For a Point: [longitude, latitude]." },
+                "geometries": { "type": "array", "items": { "$ref": "#/$defs/GeoJSONGeometry" } },
+                "bbox": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "number" } }
+            },
+            "additionalProperties": true
+        },
+        "Address": {
+            "type": "object",
+            "description": "schema.org PostalAddress-aligned address object per beckn Address/2.0.",
+            "additionalProperties": false,
+            "properties": {
+                "streetAddress": { "type": "string", "description": "Building/number and street name." },
+                "extendedAddress": { "type": "string", "description": "Apartment, suite, floor, C/O." },
+                "addressLocality": { "type": "string", "description": "City or locality." },
+                "addressRegion": { "type": "string", "description": "State, region, or province." },
+                "postalCode": { "type": "string", "description": "ZIP or postal code." },
+                "addressCountry": { "type": "string", "description": "ISO 3166-1 alpha-2 country code or country name." }
+            }
+        }
+    }
+}

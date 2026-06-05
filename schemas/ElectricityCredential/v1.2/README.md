@@ -1,0 +1,40 @@
+> **Mirror.** Files in this directory are mirrored verbatim from [`beckn/DEG/specification/schema/ElectricityCredential/v1.2/`](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.2). Upstream is canonical.
+
+# ElectricityCredential v1.2
+
+W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electricity distribution utilities.
+
+v1.2 introduces a **composable EnergyResource hierarchy**: each entry in `energyResources[]` is discriminated by `type` into one of five typed kinds (`EnergyResourceMeter`, `EnergyResourceGenerator`, `EnergyResourceStorage`, `EnergyResourceLoad`, `EnergyResourceNetwork`), each with a typed `attributes` bag.
+
+## Key changes from v1.1
+
+| Change | v1.1 | v1.2 |
+|--------|------|------|
+| EnergyResource structure | Single flat schema | `oneOf` 5 composable kinds |
+| Meter type | `meterType` flat enum | `meterCapability` + `energyDirection` + `functions[]` (orthogonal) |
+| Application protocol | — | `applicationProtocol` enum (DLMS_COSEM, ANSI_C12_18, …) |
+| Storage capacity field | `energyCapacityKwh` | `storageCapacityKwh` (storage kind only) |
+| `gps` / location | `gps: "lat,lng"` string | `location: {geo: GeoJSONGeometry, address: Address}` |
+| `billingMode` | on meter | `paymentMode` on ConsumptionProfile (POSTPAID/PREPAID) |
+| `sanctionedLoadKW` | uppercase KW | `sanctionedLoadKw` (SI casing) |
+| New ConsumptionProfile fields | — | `sanctionedExportLoadKw`, `billingCycleDay` |
+| New storage fields | — | `stateOfHealthPct`, `maxChargeRateKw`, `maxDischargeRateKw` |
+| New generator fields | — | `nominalPowerKw`, `efficiency` |
+| New load fields | — | `controlProtocol`, `loadCategory` |
+| New network fields | — | `nominalVoltageKv`, `zone`, `substationId`, `feederCode` |
+| SOLAR deprecated | `type: "SOLAR"` | `type: "SOLAR_PV"` (preferred) |
+| BATTERY deprecated | `type: "BATTERY"` | `type: "BESS"` (preferred) |
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `attributes.yaml` | OpenAPI 3.1.1 schema with composable EnergyResource hierarchy |
+| `schema.json` | Bundled JSON Schema (draft 2020-12) — self-contained |
+| `context.jsonld` | JSON-LD context |
+| `vocab.jsonld` | RDF vocabulary with CIM class alignments |
+| `examples/example.json` | Single meter + SOLAR_PV + WIND + 2× BESS |
+| `examples/example-submetering.json` | Building main meter + 2 tenant sub-meters + rooftop solar |
+| `examples/example-parallel-metering.json` | Import meter + export meter (solar FIT) |
+
+For full documentation see the [upstream README](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.2/README.md).

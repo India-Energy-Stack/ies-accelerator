@@ -1,0 +1,71 @@
+{
+  "_comment": "Parallel metering: two meters at the same premises. MET-IMPORT-001 (Forward/AMI) measures grid consumption; MET-EXPORT-001 (Reverse) measures gross solar export under a feed-in tariff. Both meters are siblings. Solar DER hangs behind the export meter. Each meter has its own consumption profile. All asset IDs follow IES did:dedi: pattern.",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beckn.io/ElectricityCredential/v1.2/context.jsonld"
+  ],
+  "id": "urn:uuid:b2c3d4e5-0000-0000-0000-aabbccdd0001",
+  "type": ["VerifiableCredential", "ElectricityCredential"],
+  "issuer": {
+    "id": "did:web:tpddl.delhi.gov.in",
+    "name": "TPDDL - Tata Power Delhi Distribution Ltd",
+    "idRef": {"issuedBy": "did:web:derc.delhi.gov.in", "subjectId": "derc.delhi.gov.in:TPDDL-REG-0042"}
+  },
+  "validFrom": "2025-03-01T00:00:00+05:30",
+  "validUntil": "2026-03-01T00:00:00+05:30",
+  "credentialSubject": {
+    "id": "did:example:customer:delhi-solar-001",
+    "customerProfile": {
+      "customerNumber": "TPDDL-2025-00987654",
+      "energyResources": [
+        {
+          "id": "did:web:tpddl.delhi.gov.in:assets:meter:MET-IMPORT-001",
+          "type": "METER",
+          "attributes": {"meterCapability": "AMI", "energyDirection": "Forward", "location": {"geo": {"type": "Point", "coordinates": [77.2090, 28.6139]}}},
+          "parentResources": ["did:web:tpddl.delhi.gov.in:assets:feeder:DEL-SB-F08"]
+        },
+        {
+          "id": "did:web:tpddl.delhi.gov.in:assets:meter:MET-EXPORT-001",
+          "type": "METER",
+          "attributes": {"meterCapability": "AMI", "energyDirection": "Reverse", "location": {"geo": {"type": "Point", "coordinates": [77.2090, 28.6139]}}}
+        },
+        {
+          "id": "did:web:tpddl.delhi.gov.in:assets:solar-plant:ROOFTOP-SOLAR-001",
+          "type": "SOLAR_PV",
+          "attributes": {"ratedPowerKw": 5, "make": "Adani Solar", "model": "ASPM-400M", "commissioningDate": "2025-02-10T00:00:00+05:30"},
+          "parentResources": ["did:web:tpddl.delhi.gov.in:assets:meter:MET-EXPORT-001"]
+        }
+      ],
+      "consumptionProfiles": [
+        {
+          "meterId": "did:web:tpddl.delhi.gov.in:assets:meter:MET-IMPORT-001",
+          "sanctionedLoadKw": 10,
+          "contractMaxDemandKw": 8,
+          "tariffCategoryCode": "DS-I",
+          "premisesType": "Residential",
+          "connectionType": "Single-phase"
+        },
+        {
+          "meterId": "did:web:tpddl.delhi.gov.in:assets:meter:MET-EXPORT-001",
+          "sanctionedLoadKw": 5,
+          "tariffCategoryCode": "FIT-SOLAR-01"
+        }
+      ]
+    },
+    "customerDetails": {
+      "fullName": "Arjun Mehra",
+      "installationAddress": {
+        "geo": {"type": "Point", "coordinates": [77.2090, 28.6139]},
+        "address": {"streetAddress": "45 Rohini Sector 9", "addressLocality": "Delhi", "addressRegion": "Delhi", "postalCode": "110085", "addressCountry": "IN"}
+      },
+      "serviceConnectionDate": "2018-07-15T00:00:00+05:30"
+    }
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-03-01T00:00:00+05:30",
+    "verificationMethod": "did:web:tpddl.delhi.gov.in#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
+  }
+}

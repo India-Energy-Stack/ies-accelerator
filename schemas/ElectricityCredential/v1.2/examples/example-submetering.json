@@ -1,0 +1,81 @@
+{
+  "_comment": "Submetering topology: apartment building with one utility main meter (MET-BLDG-001) and two tenant sub-meters (MET-UNIT-101, MET-UNIT-102). Sub-meters declare parentResources → main meter. Tenant 101 has a rooftop solar DER behind their sub-meter. Each sub-meter has its own consumption profile. All asset IDs follow IES did:dedi: pattern.",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beckn.io/ElectricityCredential/v1.2/context.jsonld"
+  ],
+  "id": "urn:uuid:a1b2c3d4-0000-0000-0000-111122223333",
+  "type": ["VerifiableCredential", "ElectricityCredential"],
+  "issuer": {
+    "id": "did:web:bescom.karnataka.gov.in",
+    "name": "BESCOM - Bangalore Electricity Supply Company",
+    "idRef": {"issuedBy": "did:web:kerc.karnataka.gov.in", "subjectId": "kerc.karnataka.gov.in:AABPC12345"}
+  },
+  "validFrom": "2025-01-13T10:30:00+05:30",
+  "validUntil": "2026-01-13T10:30:00+05:30",
+  "credentialSubject": {
+    "id": "did:example:customer:building-owner-001",
+    "customerProfile": {
+      "customerNumber": "BESCOM-2025-BLDG-001",
+      "energyResources": [
+        {
+          "id": "did:web:bescom.karnataka.gov.in:assets:meter:MET-BLDG-001",
+          "type": "METER",
+          "attributes": {"meterCapability": "AMI", "energyDirection": "Forward", "location": {"geo": {"type": "Point", "coordinates": [77.5946, 12.9716]}}},
+          "parentResources": ["did:web:bescom.karnataka.gov.in:assets:feeder:BAN-NR-F22"]
+        },
+        {
+          "id": "did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101",
+          "type": "METER",
+          "attributes": {"meterCapability": "AMR", "energyDirection": "Forward", "location": {"geo": {"type": "Point", "coordinates": [77.5946, 12.9716]}}},
+          "parentResources": ["did:web:bescom.karnataka.gov.in:assets:meter:MET-BLDG-001"]
+        },
+        {
+          "id": "did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-102",
+          "type": "METER",
+          "attributes": {"meterCapability": "AMR", "energyDirection": "Forward", "location": {"geo": {"type": "Point", "coordinates": [77.5946, 12.9716]}}},
+          "parentResources": ["did:web:bescom.karnataka.gov.in:assets:meter:MET-BLDG-001"]
+        },
+        {
+          "id": "did:web:bescom.karnataka.gov.in:assets:solar-plant:ROOFTOP-UNIT-101",
+          "type": "SOLAR_PV",
+          "attributes": {"ratedPowerKw": 2, "make": "Waaree", "model": "WS-200", "commissioningDate": "2024-06-15T00:00:00+05:30"},
+          "parentResources": ["did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101"]
+        }
+      ],
+      "consumptionProfiles": [
+        {
+          "meterId": "did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101",
+          "sanctionedLoadKw": 3,
+          "contractMaxDemandKw": 2.5,
+          "tariffCategoryCode": "LT-2A",
+          "premisesType": "Residential",
+          "connectionType": "Single-phase"
+        },
+        {
+          "meterId": "did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-102",
+          "sanctionedLoadKw": 3,
+          "contractMaxDemandKw": 2.5,
+          "tariffCategoryCode": "LT-2A",
+          "premisesType": "Residential",
+          "connectionType": "Single-phase"
+        }
+      ]
+    },
+    "customerDetails": {
+      "fullName": "Sunita Rao",
+      "installationAddress": {
+        "geo": {"type": "Point", "coordinates": [77.5946, 12.9716]},
+        "address": {"streetAddress": "12 Residency Road, Flat 101", "addressLocality": "Bengaluru", "addressRegion": "Karnataka", "postalCode": "560025", "addressCountry": "IN"}
+      },
+      "serviceConnectionDate": "2020-03-01T00:00:00+05:30"
+    }
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-01-13T10:30:00+05:30",
+    "verificationMethod": "did:web:bescom.karnataka.gov.in#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
+  }
+}

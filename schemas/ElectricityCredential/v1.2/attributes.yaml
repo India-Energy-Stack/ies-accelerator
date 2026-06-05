@@ -1,0 +1,301 @@
+openapi: 3.1.1
+info:
+  title: ElectricityCredential
+  version: 1.2.0
+  description: >
+    W3C Verifiable Credential (VC Data Model 2.0) issued per meter by
+    electricity distribution utilities.
+
+    v1.2 introduces composable EnergyResource kinds. energyResources[] entries
+    are now discriminated by 'type' into one of five kinds:
+      - EnergyResourceMeter    (type: METER)
+      - EnergyResourceGenerator (type: SOLAR_PV | SOLAR | WIND | HYDRO | BIOGAS | CHP | FUEL_CELL)
+      - EnergyResourceStorage   (type: BESS | BATTERY | EV_CHARGER | EV_V2G)
+      - EnergyResourceLoad      (type: SMART_HVAC | SMART_WATER_HEATER | CONTROLLABLE_LOAD)
+      - EnergyResourceNetwork   (type: DT | BUS | FEEDER | MICROGRID)
+
+    Each kind's attributes bag inherits EnergyResourceCommonAttributes.
+    storageCapacityKwh is ONLY on EnergyResourceStorage.
+
+    CIM alignment: IEC 61970-301/302 (GeneratingUnit, BatteryUnit,
+    EnergyConsumer, Feeder) and IEC 61968-9 (Meter, EndDevice).
+
+    v1.1 → v1.2 field changes
+    ──────────────────────────
+    energyResources[BATTERY/BESS].attributes.energyCapacityKwh → storageCapacityKwh
+    energyResources[*].type enum "SOLAR"   → deprecated; use SOLAR_PV
+    energyResources[*].type enum "BATTERY" → deprecated; use BESS
+
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+servers:
+  - url: https://schema.beckn.io
+    description: Canonical schema registry
+paths: {}
+components:
+  schemas:
+
+    ElectricityCredential:
+      $id: https://schema.beckn.io/ElectricityCredential/v1.2
+      title: ElectricityCredential
+      type: object
+      additionalProperties: true
+      allOf:
+        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+      x-tags:
+        - energy
+        - credential
+        - verifiable-credential
+        - electricity
+        - customer
+        - deg
+      x-jsonld:
+        "@context": ./context.jsonld
+        "@type": ElectricityCredential
+      properties:
+        credentialSubject:
+          type: object
+          required:
+            - customerProfile
+          x-jsonld:
+            "@id": deg:credentialSubject
+          properties:
+            id:
+              type: string
+              format: uri
+              description: Optional DID of the customer/credential subject.
+              x-jsonld:
+                "@id": "@id"
+            customerProfile:
+              $ref: "#/components/schemas/CustomerProfile"
+            customerDetails:
+              $ref: "#/components/schemas/CustomerDetails"
+
+    CustomerProfile:
+      type: object
+      description: >
+        Non-PII customer identity and asset list. Supports arbitrary topologies:
+        a single customerNumber may span multiple METER entries (different premises,
+        sub-meters, parallel meters) each with child DERs.
+      required:
+        - customerNumber
+        - energyResources
+      x-jsonld:
+        "@id": deg:customerProfile
+      properties:
+        customerNumber:
+          type: string
+          minLength: 1
+          description: Utility customer account (CA) number.
+          x-jsonld:
+            "@id": deg:customerNumber
+        idRef:
+          $ref: "#/components/schemas/IdRef"
+        energyResources:
+          type: array
+          minItems: 1
+          description: >
+            All physical energy assets for this account. Each entry is
+            discriminated by 'type' into one of five composable kinds.
+          x-jsonld:
+            "@id": deg:energyResources
+          items:
+            $ref: "#/components/schemas/EnergyResource"
+        consumptionProfiles:
+          type: array
+          minItems: 1
+          description: >
+            Tariff and load characteristics per meter connection.
+            Each entry links to a METER via meterId.
+          x-jsonld:
+            "@id": deg:consumptionProfiles
+          items:
+            $ref: "#/components/schemas/ConsumptionProfile"
+
+    IdRef:
+      type: object
+      description: External identity reference for the customer.
+      required:
+        - issuedBy
+        - subjectId
+      x-jsonld:
+        "@id": deg:idRef
+      properties:
+        issuedBy:
+          type: string
+          format: uri
+          description: DID of the authority that issued the identity.
+          x-jsonld:
+            "@id": deg:issuedBy
+        subjectId:
+          type: string
+          pattern: "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$"
+          description: Subject identifier in authority-domain:id-value format.
+          x-jsonld:
+            "@id": deg:subjectId
+
+    ConsumptionProfile:
+      type: object
+      description: >
+        Tariff and regulatory load profile for one meter connection.
+        meterId links to a METER entry's id in energyResources[].
+      required:
+        - meterId
+        - sanctionedLoadKw
+        - tariffCategoryCode
+      x-jsonld:
+        "@id": deg:ConsumptionProfile
+      properties:
+        meterId:
+          type: string
+          minLength: 1
+          description: Matches the id of a METER entry in customerProfile.energyResources[].
+          x-jsonld:
+            "@id": deg:meterId
+        sanctionedLoadKw:
+          type: number
+          minimum: 0.5
+          maximum: 10000
+          description: Sanctioned/approved electrical load in kW.
+          x-jsonld:
+            "@id": deg:sanctionedLoadKw
+        sanctionedExportLoadKw:
+          type: number
+          minimum: 0
+          description: Sanctioned/approved grid export limit in kW.
+          x-jsonld:
+            "@id": deg:sanctionedExportLoadKw
+        billingCycleDay:
+          type: integer
+          minimum: 1
+          maximum: 31
+          description: Day of month on which the billing cycle resets.
+          x-jsonld:
+            "@id": deg:billingCycleDay
+        contractMaxDemandKw:
+          type: number
+          minimum: 0
+          description: Maximum demand contracted with the utility for this connection, in kW.
+          x-jsonld:
+            "@id": deg:contractMaxDemandKw
+        tariffCategoryCode:
+          type: string
+          minLength: 1
+          description: Billing/tariff category code assigned by the utility.
+          x-jsonld:
+            "@id": deg:tariffCategoryCode
+        premisesType:
+          type: string
+          enum:
+            - Residential
+            - Commercial
+            - Industrial
+            - Agricultural
+          x-jsonld:
+            "@id": deg:premisesType
+        connectionType:
+          type: string
+          enum:
+            - Single-phase
+            - Three-phase
+          x-jsonld:
+            "@id": deg:connectionType
+        paymentMode:
+          type: string
+          enum:
+            - POSTPAID
+            - PREPAID
+          description: >
+            Billing/payment modality for this connection. POSTPAID: standard
+            credit-based (consume now, pay later). PREPAID: pay-before-use;
+            supply is disconnected when credit is exhausted. Administrative
+            attribute — placed here (not on the meter) because it can change
+            via firmware without hardware replacement. Aligns with ESPI
+            AmiBillingReadyKind on UsagePoint (IEC 61968-9).
+          x-jsonld:
+            "@id": deg:paymentMode
+
+    CustomerDetails:
+      type: object
+      description: >
+        PII section. fullName appears ONLY here — never in customerProfile
+        or any resource entry.
+      required:
+        - fullName
+        - installationAddress
+        - serviceConnectionDate
+      x-jsonld:
+        "@id": deg:customerDetails
+      properties:
+        fullName:
+          type: string
+          description: Full name of the customer as per ID proof.
+        installationAddress:
+          $ref: "https://schema.beckn.io/Location/2.0/attributes.yaml#/components/schemas/Location"
+          description: >
+            Physical location of the installation. Follows the beckn Location/2.0 schema:
+            geo (required, GeoJSON Point — coordinates [longitude, latitude]) and
+            address (optional, schema.org PostalAddress fields).
+        serviceConnectionDate:
+          type: string
+          format: date-time
+          description: Date and time the connection was activated (with timezone offset).
+
+    # ──────────────────────────────────────────────────────────────────────
+    # EnergyResource composable hierarchy — kinds are external schemas
+    # Each kind lives in its own specification/schema/<Kind>/v1.0/ folder.
+    # ──────────────────────────────────────────────────────────────────────
+
+    # Convenience $ref aliases so tooling can resolve individual kinds
+    # directly from this schema.
+    EnergyResourceMeter:
+      $ref: "https://schema.beckn.io/EnergyResourceMeter/v1.0#/components/schemas/EnergyResourceMeter"
+
+    EnergyResourceGenerator:
+      $ref: "https://schema.beckn.io/EnergyResourceGenerator/v1.0#/components/schemas/EnergyResourceGenerator"
+
+    EnergyResourceStorage:
+      $ref: "https://schema.beckn.io/EnergyResourceStorage/v1.0#/components/schemas/EnergyResourceStorage"
+
+    EnergyResourceLoad:
+      $ref: "https://schema.beckn.io/EnergyResourceLoad/v1.0#/components/schemas/EnergyResourceLoad"
+
+    EnergyResourceNetwork:
+      $ref: "https://schema.beckn.io/EnergyResourceNetwork/v1.0#/components/schemas/EnergyResourceNetwork"
+
+    EnergyResource:
+      type: object
+      description: >
+        Composable energy resource, discriminated by 'type' into one of five
+        kinds. id and type are required. Topology is expressed via
+        subResources[] (children) and parentResources[] (parents, e.g. the
+        meter a DER sits behind).
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: >
+            Stable identifier. For METER: meter serial number.
+            For DERs: any stable scheme.
+          x-jsonld:
+            "@id": "@id"
+        subResources:
+          type: array
+          description: Child resource ids or inline EnergyResource objects.
+          items:
+            oneOf:
+              - type: string
+              - $ref: "#/components/schemas/EnergyResource"
+        parentResources:
+          type: array
+          description: Parent resource ids — e.g. the meter a DER sits behind.
+          items:
+            type: string
+      oneOf:
+        - $ref: "#/components/schemas/EnergyResourceMeter"
+        - $ref: "#/components/schemas/EnergyResourceGenerator"
+        - $ref: "#/components/schemas/EnergyResourceStorage"
+        - $ref: "#/components/schemas/EnergyResourceLoad"
+        - $ref: "#/components/schemas/EnergyResourceNetwork"
