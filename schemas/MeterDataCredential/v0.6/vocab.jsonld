@@ -1,0 +1,36 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "schema": "https://schema.org/"
+    },
+    "@graph": [
+        {
+            "@id": "ies:MeterDataCredential",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Credential",
+            "rdfs:comment": "W3C Verifiable Credential wrapping a MeterData v0.6 payload. Subclass of EnergyCredential. Issued by a data provider (e.g., AMISP, MDM, DISCOM) to attest the authenticity and provenance of delivered smart meter telemetry."
+        },
+        {
+            "@id": "ies:MeterDataCredentialSubject",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Credential Subject",
+            "rdfs:comment": "The subject of the credential: the consumer or asset entity whose meter data is attested."
+        },
+        {
+            "@id": "ies:id",
+            "@type": "rdf:Property",
+            "rdfs:label": "id",
+            "rdfs:comment": "DID of the consumer or asset entity whose meter data is being delivered."
+        },
+        {
+            "@id": "ies:meterData",
+            "@type": "rdf:Property",
+            "rdfs:label": "Meter Data",
+            "rdfs:comment": "The attested meter data payload (MeterData v0.6). May be a single EnergyData profile or an array of profiles covering CustomerProfile, IntervalProfile, DailyProfile, MonthlyProfile, BillDetails, InstantaneousProfile, EventProfile, or AlarmProfile."
+        }
+    ]
+}
