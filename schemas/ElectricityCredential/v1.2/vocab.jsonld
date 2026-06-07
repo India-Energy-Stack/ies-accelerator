@@ -14,7 +14,7 @@
             "@id": "deg:ElectricityCredential",
             "@type": "rdfs:Class",
             "rdfs:label": "Electricity Credential",
-            "rdfs:comment": "W3C Verifiable Credential issued per meter by electricity distribution utilities. v1.2: EnergyResource is composable into five kinds (Meter, Generator, Storage, Load, Network); storageCapacityKwh is restricted to Storage kind; type enums restricted per kind; CIM IEC 61970/61968 alignment.",
+            "rdfs:comment": "W3C Verifiable Credential issued per meter by electricity distribution utilities. v1.2: EnergyResource is composable into seven kinds (Meter, Generator, Storage, EVCharger, Inverter, Load, Network); storageCapacityKwh is restricted to Storage; EV_CHARGER/EV_V2G have their own EVCharger kind; INVERTER captures IEEE 1547 grid-support capabilities; CIM IEC 61970/61968 alignment.",
             "rdfs:subClassOf": { "@id": "energyCred:EnergyCredential" }
         },
         {
@@ -33,13 +33,29 @@
             "@id": "deg:energyResources",
             "@type": "rdf:Property",
             "rdfs:label": "Energy Resources",
-            "rdfs:comment": "Array of composable EnergyResource entries. Each entry is discriminated by 'type' into one of: EnergyResourceMeter, EnergyResourceGenerator, EnergyResourceStorage, EnergyResourceLoad, EnergyResourceNetwork."
+            "rdfs:comment": "Array of composable EnergyResource entries. Each entry is discriminated by 'type' into one of: EnergyResourceMeter, EnergyResourceGenerator, EnergyResourceStorage, EnergyResourceEVCharger, EnergyResourceInverter, EnergyResourceLoad, EnergyResourceNetwork."
         },
         {
             "@id": "erDeg:EnergyResourceCommonAttributes",
             "@type": "rdfs:Class",
             "rdfs:label": "Energy Resource Common Attributes",
-            "rdfs:comment": "Base attributes shared by all EnergyResource kinds. Does not include storageCapacityKwh."
+            "rdfs:comment": "Base attributes shared by all EnergyResource kinds via allOf. Does not include storageCapacityKwh. maxImportKw/maxExportKw replace the former ratedPowerKw."
+        },
+        {
+            "@id": "erDeg:maxImportKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "Minimum Power (kW)",
+            "rdfs:comment": "Minimum operating power in kW. Negative values indicate maximum discharge or export capacity. CIM: PowerElectronicsConnection.minP / GeneratingUnit.minOperatingP.",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:range": "xsd:decimal"
+        },
+        {
+            "@id": "erDeg:maxExportKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "Maximum Power (kW)",
+            "rdfs:comment": "Maximum operating power in kW (generation, charging, or absorption). CIM: GeneratingUnit.maxOperatingP / PowerElectronicsConnection.maxP.",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:range": "xsd:decimal"
         },
         {
             "@id": "erDeg:EnergyResourceMeter",
@@ -61,9 +77,25 @@
             "@id": "erDeg:EnergyResourceStorage",
             "@type": "rdfs:Class",
             "rdfs:label": "Energy Resource — Storage",
-            "rdfs:comment": "Energy storage asset. type: BESS | BATTERY | EV_CHARGER | EV_V2G. CIM: BatteryUnit / ElectricVehicleChargingStation (IEC 61970-302).",
+            "rdfs:comment": "Stationary energy storage asset. type: BESS. storageCapacityKwh is exclusive to this kind. CIM: BatteryUnit (IEC 61970-302).",
             "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
             "rdfs:seeAlso": { "@id": "cim:BatteryUnit" }
+        },
+        {
+            "@id": "erDeg:EnergyResourceEVCharger",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource — EV Charger",
+            "rdfs:comment": "EV charging station (EVSE). type: EV_CHARGER | EV_V2G. A flexible load, NOT storage. EV_V2G is a specialisation with ISO 15118-20 / OCPP 2.1 BPT bidirectional capability. CIM: ElectricVehicleChargingStation (CIM17+).",
+            "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:seeAlso": { "@id": "cim:ElectricVehicleChargingStation" }
+        },
+        {
+            "@id": "erDeg:EnergyResourceInverter",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Resource — Inverter",
+            "rdfs:comment": "Grid-connected power-electronics inverter. type: INVERTER. Captures reactive-power and frequency-support capabilities per IEEE 1547-2018 and SunSpec DER Models 702-714. CIM: PowerElectronicsConnection (IEC 61970-302).",
+            "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
+            "rdfs:seeAlso": { "@id": "cim:PowerElectronicsConnection" }
         },
         {
             "@id": "erDeg:EnergyResourceLoad",
@@ -85,7 +117,7 @@
             "@id": "erDeg:storageCapacityKwh",
             "@type": "rdf:Property",
             "rdfs:label": "Storage Capacity (kWh)",
-            "rdfs:comment": "Rated energy capacity in kWh. Exclusive to EnergyResourceStorage. CIM: BatteryUnit.ratedE. v1.1 equivalent: energyCapacityKwh.",
+            "rdfs:comment": "Rated energy capacity in kWh. Exclusive to EnergyResourceStorage (BESS). CIM: BatteryUnit.ratedE. v1.1 equivalent: energyCapacityKwh.",
             "rdfs:domain": { "@id": "erDeg:EnergyResourceStorage" },
             "rdfs:range": "xsd:decimal"
         },
@@ -112,6 +144,22 @@
             "rdfs:comment": "Nominal voltage level in kV. CIM: BaseVoltage.nominalVoltage.",
             "rdfs:domain": { "@id": "erDeg:EnergyResourceNetwork" },
             "rdfs:range": "xsd:decimal"
+        },
+        {
+            "@id": "erDeg:rideThroughCategory",
+            "@type": "rdf:Property",
+            "rdfs:label": "Ride-Through Category",
+            "rdfs:comment": "IEEE 1547-2018 abnormal operating performance category: CategoryI, CategoryII, CategoryIII.",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceInverter" },
+            "rdfs:range": "xsd:string"
+        },
+        {
+            "@id": "erDeg:operatingMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "Operating Mode",
+            "rdfs:comment": "Inverter grid-interaction mode: GridFollowing, GridForming, Standby. CIM: PowerElectronicsConnection.inverterMode.",
+            "rdfs:domain": { "@id": "erDeg:EnergyResourceInverter" },
+            "rdfs:range": "xsd:string"
         },
         {
             "@id": "deg:ConsumptionProfile",

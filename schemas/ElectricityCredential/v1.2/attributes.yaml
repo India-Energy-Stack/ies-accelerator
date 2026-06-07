@@ -7,24 +7,37 @@ info:
     electricity distribution utilities.
 
     v1.2 introduces composable EnergyResource kinds. energyResources[] entries
-    are now discriminated by 'type' into one of five kinds:
-      - EnergyResourceMeter    (type: METER)
+    are now discriminated by 'type' into one of seven kinds:
+      - EnergyResourceMeter     (type: METER)
       - EnergyResourceGenerator (type: SOLAR_PV | SOLAR | WIND | HYDRO | BIOGAS | CHP | FUEL_CELL)
-      - EnergyResourceStorage   (type: BESS | BATTERY | EV_CHARGER | EV_V2G)
+      - EnergyResourceStorage   (type: BESS | BATTERY)
+      - EnergyResourceEVCharger (type: EV_CHARGER | EV_V2G)
+      - EnergyResourceInverter  (type: INVERTER)
       - EnergyResourceLoad      (type: SMART_HVAC | SMART_WATER_HEATER | CONTROLLABLE_LOAD)
       - EnergyResourceNetwork   (type: DT | BUS | FEEDER | MICROGRID)
 
-    Each kind's attributes bag inherits EnergyResourceCommonAttributes.
-    storageCapacityKwh is ONLY on EnergyResourceStorage.
+    Each kind's attributes bag inherits EnergyResourceCommonAttributes via allOf.
+    storageCapacityKwh is ONLY on EnergyResourceStorage (BESS).
+    EV_CHARGER and EV_V2G are their own kind — NOT storage.
+    EV_V2G is a specialisation of EV_CHARGER; maxImportKw < 0 expresses discharge power.
+
+    Common attribute changes (all kinds):
+      ratedPowerKw replaced by maxImportKw + maxExportKw.
+      maxExportKw: nameplate rated power in the principal direction (≥0).
+      maxImportKw: minimum operating power; negative = max discharge/export capacity.
 
     CIM alignment: IEC 61970-301/302 (GeneratingUnit, BatteryUnit,
-    EnergyConsumer, Feeder) and IEC 61968-9 (Meter, EndDevice).
+    PowerElectronicsConnection, EnergyConsumer, Feeder) and IEC 61968-9 (Meter, EndDevice).
 
     v1.1 → v1.2 field changes
     ──────────────────────────
     energyResources[BATTERY/BESS].attributes.energyCapacityKwh → storageCapacityKwh
+    energyResources[*].attributes.ratedPowerKw → maxExportKw (set maxImportKw for discharge)
+    energyResources[EV_CHARGER/EV_V2G] → moved from Storage kind to EV kind
     energyResources[*].type enum "SOLAR"   → deprecated; use SOLAR_PV
     energyResources[*].type enum "BATTERY" → deprecated; use BESS
+
+    consumptionProfiles[] items are now MeterServiceProfile (formerly ConsumptionProfile).
 
 jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 servers:
@@ -134,85 +147,11 @@ components:
             "@id": deg:subjectId
 
     ConsumptionProfile:
-      type: object
+      $ref: "https://schema.beckn.io/MeterServiceProfile/v1.0#/components/schemas/MeterServiceProfile"
       description: >
         Tariff and regulatory load profile for one meter connection.
-        meterId links to a METER entry's id in energyResources[].
-      required:
-        - meterId
-        - sanctionedLoadKw
-        - tariffCategoryCode
-      x-jsonld:
-        "@id": deg:ConsumptionProfile
-      properties:
-        meterId:
-          type: string
-          minLength: 1
-          description: Matches the id of a METER entry in customerProfile.energyResources[].
-          x-jsonld:
-            "@id": deg:meterId
-        sanctionedLoadKw:
-          type: number
-          minimum: 0.5
-          maximum: 10000
-          description: Sanctioned/approved electrical load in kW.
-          x-jsonld:
-            "@id": deg:sanctionedLoadKw
-        sanctionedExportLoadKw:
-          type: number
-          minimum: 0
-          description: Sanctioned/approved grid export limit in kW.
-          x-jsonld:
-            "@id": deg:sanctionedExportLoadKw
-        billingCycleDay:
-          type: integer
-          minimum: 1
-          maximum: 31
-          description: Day of month on which the billing cycle resets.
-          x-jsonld:
-            "@id": deg:billingCycleDay
-        contractMaxDemandKw:
-          type: number
-          minimum: 0
-          description: Maximum demand contracted with the utility for this connection, in kW.
-          x-jsonld:
-            "@id": deg:contractMaxDemandKw
-        tariffCategoryCode:
-          type: string
-          minLength: 1
-          description: Billing/tariff category code assigned by the utility.
-          x-jsonld:
-            "@id": deg:tariffCategoryCode
-        premisesType:
-          type: string
-          enum:
-            - Residential
-            - Commercial
-            - Industrial
-            - Agricultural
-          x-jsonld:
-            "@id": deg:premisesType
-        connectionType:
-          type: string
-          enum:
-            - Single-phase
-            - Three-phase
-          x-jsonld:
-            "@id": deg:connectionType
-        paymentMode:
-          type: string
-          enum:
-            - POSTPAID
-            - PREPAID
-          description: >
-            Billing/payment modality for this connection. POSTPAID: standard
-            credit-based (consume now, pay later). PREPAID: pay-before-use;
-            supply is disconnected when credit is exhausted. Administrative
-            attribute — placed here (not on the meter) because it can change
-            via firmware without hardware replacement. Aligns with ESPI
-            AmiBillingReadyKind on UsagePoint (IEC 61968-9).
-          x-jsonld:
-            "@id": deg:paymentMode
+        meterId links to a METER entry in customerProfile.energyResources[].
+        Alias for MeterServiceProfile/v1.0 — kept for backward compatibility.
 
     CustomerDetails:
       type: object
@@ -256,6 +195,12 @@ components:
     EnergyResourceStorage:
       $ref: "https://schema.beckn.io/EnergyResourceStorage/v1.0#/components/schemas/EnergyResourceStorage"
 
+    EnergyResourceEVCharger:
+      $ref: "https://schema.beckn.io/EnergyResourceEVCharger/v1.0#/components/schemas/EnergyResourceEVCharger"
+
+    EnergyResourceInverter:
+      $ref: "https://schema.beckn.io/EnergyResourceInverter/v1.0#/components/schemas/EnergyResourceInverter"
+
     EnergyResourceLoad:
       $ref: "https://schema.beckn.io/EnergyResourceLoad/v1.0#/components/schemas/EnergyResourceLoad"
 
@@ -265,10 +210,19 @@ components:
     EnergyResource:
       type: object
       description: >
-        Composable energy resource, discriminated by 'type' into one of five
+        Composable energy resource, discriminated by 'type' into one of seven
         kinds. id and type are required. Topology is expressed via
         subResources[] (children) and parentResources[] (parents, e.g. the
         meter a DER sits behind).
+
+        maxExportKw (≥0) and maxImportKw (≥0) replace ratedPowerKw in
+        EnergyResourceCommonAttributes. Both are non-negative directional
+        fields: maxExportKw = max power injected to grid; maxImportKw = max
+        power drawn from grid.
+
+        EV_CHARGER and EV_V2G are their own kind (EnergyResourceEVCharger),
+        not grouped with storage. INVERTER is a new kind for grid-connected
+        power-electronics converters.
       required:
         - id
         - type
@@ -297,5 +251,7 @@ components:
         - $ref: "#/components/schemas/EnergyResourceMeter"
         - $ref: "#/components/schemas/EnergyResourceGenerator"
         - $ref: "#/components/schemas/EnergyResourceStorage"
+        - $ref: "#/components/schemas/EnergyResourceEVCharger"
+        - $ref: "#/components/schemas/EnergyResourceInverter"
         - $ref: "#/components/schemas/EnergyResourceLoad"
         - $ref: "#/components/schemas/EnergyResourceNetwork"

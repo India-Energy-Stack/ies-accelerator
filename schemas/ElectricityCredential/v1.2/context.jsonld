@@ -42,6 +42,8 @@
                                 "make":                  { "@id": "erDeg:make",                  "@type": "xsd:string"  },
                                 "model":                 { "@id": "erDeg:model",                 "@type": "xsd:string"  },
                                 "ratedPowerKw":          { "@id": "erDeg:ratedPowerKw",          "@type": "xsd:decimal" },
+                                "maxImportKw":            { "@id": "erDeg:maxImportKw",            "@type": "xsd:decimal" },
+                                "maxExportKw":            { "@id": "erDeg:maxExportKw",            "@type": "xsd:decimal" },
                                 "telemetryProvider":     { "@id": "erDeg:telemetryProvider",     "@type": "xsd:string"  },
                                 "commissioningDate":     { "@id": "deg:commissioningDate",       "@type": "xsd:dateTime" },
                                 "location":              { "@id": "erDeg:location",              "@type": "@id"         },

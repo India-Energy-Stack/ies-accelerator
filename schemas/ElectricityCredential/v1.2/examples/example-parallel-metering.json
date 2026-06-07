@@ -32,7 +32,7 @@
         {
           "id": "did:web:tpddl.delhi.gov.in:assets:solar-plant:ROOFTOP-SOLAR-001",
           "type": "SOLAR_PV",
-          "attributes": {"ratedPowerKw": 5, "make": "Adani Solar", "model": "ASPM-400M", "commissioningDate": "2025-02-10T00:00:00+05:30"},
+          "attributes": {"maxExportKw": 5, "make": "Adani Solar", "model": "ASPM-400M", "commissioningDate": "2025-02-10T00:00:00+05:30"},
           "parentResources": ["did:web:tpddl.delhi.gov.in:assets:meter:MET-EXPORT-001"]
         }
       ],

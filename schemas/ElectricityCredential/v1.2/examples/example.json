@@ -33,25 +33,25 @@
         {
           "id": "did:web:example-utility.com:assets:solar-plant:DER-SOLAR-001",
           "type": "SOLAR_PV",
-          "attributes": {"ratedPowerKw": 3, "make": "SunPower Corporation", "model": "SPR-X22-360", "commissioningDate": "2025-01-12T00:00:00-05:00"},
+          "attributes": {"maxExportKw": 3, "make": "SunPower Corporation", "model": "SPR-X22-360", "commissioningDate": "2025-01-12T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:wind-farm:DER-WIND-001",
           "type": "WIND",
-          "attributes": {"ratedPowerKw": 1.5, "make": "Windmill Co.", "model": "WM-MICRO-150", "commissioningDate": "2025-03-01T00:00:00-05:00"},
+          "attributes": {"maxExportKw": 1.5, "make": "Windmill Co.", "model": "WM-MICRO-150", "commissioningDate": "2025-03-01T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:bess:BESS-001",
           "type": "BESS",
-          "attributes": {"ratedPowerKw": 5, "storageCapacityKwh": 10, "storageType": "LithiumIon", "commissioningDate": "2025-01-12T00:00:00-05:00"},
+          "attributes": {"maxExportKw": 5, "maxImportKw": 5, "storageCapacityKwh": 10, "storageType": "LithiumIon", "commissioningDate": "2025-01-12T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:bess:BESS-002",
           "type": "BESS",
-          "attributes": {"ratedPowerKw": 2.5, "storageCapacityKwh": 5, "storageType": "LithiumIon", "commissioningDate": "2025-06-01T00:00:00-05:00"},
+          "attributes": {"maxExportKw": 2.5, "maxImportKw": 2.5, "storageCapacityKwh": 5, "storageType": "LithiumIon", "commissioningDate": "2025-06-01T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         }
       ],

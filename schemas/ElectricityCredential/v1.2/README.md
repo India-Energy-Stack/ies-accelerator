@@ -4,21 +4,33 @@
 
 W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electricity distribution utilities.
 
-v1.2 introduces a **composable EnergyResource hierarchy**: each entry in `energyResources[]` is discriminated by `type` into one of five typed kinds (`EnergyResourceMeter`, `EnergyResourceGenerator`, `EnergyResourceStorage`, `EnergyResourceLoad`, `EnergyResourceNetwork`), each with a typed `attributes` bag.
+v1.2 introduces a **composable EnergyResource hierarchy**: each entry in `energyResources[]` is discriminated by `type` into one of **seven** typed kinds, each with a typed `attributes` bag.
+
+| Kind | `type` values |
+|------|--------------|
+| `EnergyResourceMeter` | `METER` |
+| `EnergyResourceGenerator` | `SOLAR_PV`, `WIND`, `HYDRO`, `BIOGAS`, `CHP`, `FUEL_CELL` |
+| `EnergyResourceStorage` | `BESS` |
+| `EnergyResourceEVCharger` | `EV_CHARGER`, `EV_V2G` |
+| `EnergyResourceInverter` | `INVERTER` |
+| `EnergyResourceLoad` | `SMART_HVAC`, `SMART_WATER_HEATER`, `CONTROLLABLE_LOAD` |
+| `EnergyResourceNetwork` | `DT`, `BUS`, `FEEDER`, `MICROGRID` |
 
 ## Key changes from v1.1
 
 | Change | v1.1 | v1.2 |
 |--------|------|------|
-| EnergyResource structure | Single flat schema | `oneOf` 5 composable kinds |
+| EnergyResource structure | Single flat schema | `oneOf` 7 composable kinds |
+| EV charger / V2G | Grouped with Storage | Own kind `EnergyResourceEVCharger` |
+| Inverter | — | New `EnergyResourceInverter` kind (IEEE 1547-2018 / SunSpec) |
+| Power fields | `ratedPowerKw` | `maxExportKw` + `maxImportKw` (directional, both ≥ 0) |
 | Meter type | `meterType` flat enum | `meterCapability` + `energyDirection` + `functions[]` (orthogonal) |
 | Application protocol | — | `applicationProtocol` enum (DLMS_COSEM, ANSI_C12_18, …) |
-| Storage capacity field | `energyCapacityKwh` | `storageCapacityKwh` (storage kind only) |
+| Storage capacity field | `energyCapacityKwh` | `storageCapacityKwh` (Storage kind only) |
 | `gps` / location | `gps: "lat,lng"` string | `location: {geo: GeoJSONGeometry, address: Address}` |
-| `billingMode` | on meter | `paymentMode` on ConsumptionProfile (POSTPAID/PREPAID) |
+| ConsumptionProfile | Inline in credential | External `MeterServiceProfile/v1.0` (alias kept for backward compat) |
+| `billingMode` | on meter | `paymentMode` on `MeterServiceProfile` (POSTPAID/PREPAID) |
 | `sanctionedLoadKW` | uppercase KW | `sanctionedLoadKw` (SI casing) |
-| New ConsumptionProfile fields | — | `sanctionedExportLoadKw`, `billingCycleDay` |
-| New storage fields | — | `stateOfHealthPct`, `maxChargeRateKw`, `maxDischargeRateKw` |
 | New generator fields | — | `nominalPowerKw`, `efficiency` |
 | New load fields | — | `controlProtocol`, `loadCategory` |
 | New network fields | — | `nominalVoltageKv`, `zone`, `substationId`, `feederCode` |
