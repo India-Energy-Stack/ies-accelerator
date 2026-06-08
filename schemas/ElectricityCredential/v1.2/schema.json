@@ -1,0 +1,470 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/beckn/DEG/blob/main/specification/schema/ElectricityCredential/v1.2/schema.json",
+    "title": "ElectricityCredential v1.2",
+    "description": "Bundled (self-contained) JSON Schema for ElectricityCredential v1.2. EnergyResource is composable: oneOf [EnergyResourceMeter | EnergyResourceGenerator | EnergyResourceStorage | EnergyResourceEVCharger | EnergyResourceInverter | EnergyResourceLoad | EnergyResourceNetwork]. Each kind is also published as a standalone schema at schema.beckn.io/<Kind>/v1.0. $defs here mirror those external schemas. storageCapacityKwh is restricted to EnergyResourceStorage. EV_CHARGER and EV_V2G are their own kind (not storage). INVERTER captures reactive-power and frequency-support capabilities per IEEE 1547. CIM alignment per IEC 61970-301/302 and IEC 61968-9. consumptionProfiles[] items are now MeterServiceProfile/v1.0 (formerly ConsumptionProfile).",
+    "type": "object",
+    "required": ["@context", "id", "type", "issuer", "validFrom", "credentialSubject"],
+    "properties": {
+        "@context": {
+            "type": "array",
+            "items": { "type": "string" },
+            "contains": { "const": "https://www.w3.org/ns/credentials/v2" },
+            "minItems": 2
+        },
+        "id": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "type": {
+            "type": "array",
+            "items": { "type": "string" },
+            "contains": { "const": "ElectricityCredential" },
+            "minItems": 2
+        },
+        "issuer": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "name": { "type": "string", "minLength": 1 },
+                "idRef": { "$ref": "#/$defs/IdRef" }
+            }
+        },
+        "validFrom": { "type": "string", "format": "date-time" },
+        "validUntil": { "type": "string", "format": "date-time" },
+        "credentialStatus": {
+            "type": "object",
+            "required": ["id", "type", "statusPurpose", "statusListCredential"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "type": { "type": "string", "const": "dediregistry" },
+                "statusPurpose": { "type": "string", "enum": ["revocation", "suspension"] },
+                "statusListCredential": { "type": "string", "format": "uri" }
+            }
+        },
+        "credentialSubject": {
+            "type": "object",
+            "required": ["customerProfile"],
+            "properties": {
+                "id": { "type": "string", "format": "uri" },
+                "customerProfile": { "$ref": "#/$defs/CustomerProfile" },
+                "customerDetails": { "$ref": "#/$defs/CustomerDetails" }
+            }
+        },
+        "proof": {
+            "type": "object",
+            "required": ["type", "created", "verificationMethod", "proofPurpose", "proofValue"],
+            "properties": {
+                "type": { "type": "string" },
+                "created": { "type": "string", "format": "date-time" },
+                "verificationMethod": { "type": "string", "format": "uri" },
+                "proofPurpose": { "type": "string", "enum": ["assertionMethod", "authentication"] },
+                "proofValue": { "type": "string", "minLength": 1 }
+            }
+        }
+    },
+    "$defs": {
+        "IdRef": {
+            "type": "object",
+            "required": ["issuedBy", "subjectId"],
+            "properties": {
+                "issuedBy": { "type": "string", "format": "uri" },
+                "subjectId": { "type": "string", "pattern": "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$" }
+            }
+        },
+        "CustomerProfile": {
+            "type": "object",
+            "description": "Non-PII customer identity, physical assets, and tariff profiles.",
+            "required": ["customerNumber", "energyResources"],
+            "properties": {
+                "customerNumber": { "type": "string", "minLength": 1 },
+                "idRef": { "$ref": "#/$defs/IdRef" },
+                "energyResources": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "#/$defs/EnergyResource" }
+                },
+                "consumptionProfiles": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "#/$defs/ConsumptionProfile" }
+                }
+            }
+        },
+        "ConsumptionProfile": {
+            "$ref": "https://schema.beckn.io/MeterServiceProfile/v1.0#MeterServiceProfile",
+            "description": "Alias for MeterServiceProfile/v1.0. Kept for backward compatibility."
+        },
+        "CustomerDetails": {
+            "$ref": "https://schema.beckn.io/CustomerDetails/v1.0#CustomerDetails",
+            "description": "PII — fullName, installationAddress, serviceConnectionDate. Defined in CustomerDetails/v1.0."
+        },
+        "EnergyResourceCommonAttributes": {
+            "type": "object",
+            "description": "Base attributes shared by all EnergyResource kinds. maxExportKw (≥0) is max power injected to grid; maxImportKw (≥0) is max power drawn from grid. Both are non-negative directional fields. storageCapacityKwh belongs exclusively to EnergyResourceStorage.",
+            "additionalProperties": true,
+            "properties": {
+                "make": { "type": "string", "description": "Manufacturer name." },
+                "model": { "type": "string", "description": "Model number or name." },
+                "ratedPowerKw": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Manufacturer-rated peak power in kW. Kept for backward compatibility. Prefer maxExportKw for new payloads. CIM: GeneratingUnit.maxOperatingP / EndDeviceInfo.ratedPower."
+                },
+                "maxImportKw": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum power this resource draws from the grid (absorbs/charges), kW. Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. CIM: PowerElectronicsConnection.maxP (absorption direction)."
+                },
+                "maxExportKw": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum power this resource injects to the grid (generates/discharges), kW. Always ≥0. Supersedes ratedPowerKw. CIM: GeneratingUnit.maxOperatingP / PowerElectronicsConnection.maxP (injection direction)."
+                },
+                "telemetryProvider": { "type": "string", "description": "Vendor API or data-source identifier for telemetry." },
+                "commissioningDate": { "type": "string", "format": "date-time", "description": "ISO 8601 date-time the asset was commissioned." },
+                "location": { "$ref": "#/$defs/Location" }
+            }
+        },
+        "EnergyResourceMeterAttributes": {
+            "description": "Attributes for metering devices (type: METER). CIM: Meter extends EndDevice (IEC 61968-9).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "meterCapability": {
+                            "type": "string",
+                            "enum": ["Electromechanical", "CMRI", "AMR", "AMI"],
+                            "description": "Communication/automation generation. Electromechanical=induction disc. CMRI=static, manual optical-port read (India legacy). AMR=one-way automated read. AMI=two-way smart meter. CIM: AmiBillingReadyKind (IEC 61968-9)."
+                        },
+                        "energyDirection": {
+                            "type": "string",
+                            "enum": ["Forward", "Reverse", "Bidirectional", "Net"],
+                            "default": "Forward",
+                            "description": "Energy flow direction. Forward=import only (default). Reverse=export only. Bidirectional=separate import+export registers. Net=algebraically netted register. CIM: FlowDirectionKind (ESPI NAESB REQ.21)."
+                        },
+                        "functions": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "description": "Bag of optional capabilities per IEC 61968-9 EndDeviceFunction[0..*] — multiple values valid simultaneously.",
+                            "items": { "type": "string", "enum": ["ToU", "NetMetering", "MaxDemand", "LoadControl", "TamperDetection", "PowerQuality", "EventLogging"] }
+                        },
+                        "feeder": { "type": "string", "description": "Feeder identifier this meter is supplied from." },
+                        "bus": { "type": "string", "description": "Busbar identifier." },
+                        "communicationTechnology": {
+                            "type": "string",
+                            "enum": ["PLC", "RF_Mesh", "GPRS", "NB-IoT", "LoRa", "ZigBee", "Other"],
+                            "description": "Last-mile (physical layer) communication technology."
+                        },
+                        "applicationProtocol": {
+                            "type": "string",
+                            "enum": ["DLMS_COSEM", "ANSI_C12_18", "IEC_61850", "Modbus", "Other"],
+                            "description": "Application-layer protocol for meter data. DLMS_COSEM: IEC 62056. ANSI_C12_18: North American table model. IEC_61850: smart grid. Modbus: legacy industrial."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceGeneratorAttributes": {
+            "description": "Attributes for generation assets. CIM: GeneratingUnit subtypes (IEC 61970-302).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "nominalPowerKw": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Nominal rated output power in kW. CIM: GeneratingUnit.nominalP. Use when distinct from maxExportKw (peak)."
+                        },
+                        "efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100,
+                            "description": "Conversion efficiency in percent. Particularly relevant for FUEL_CELL and CHP."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceStorageAttributes": {
+            "description": "Attributes for stationary energy storage assets (BESS). CIM: BatteryUnit (IEC 61970-302). storageCapacityKwh is ONLY on this attributes type. Discharge power: maxExportKw (≥0). Charge power: maxImportKw (≥0). Both in EnergyResourceCommonAttributes.",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "storageCapacityKwh": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Rated energy capacity in kWh. CIM: BatteryUnit.ratedE. (v1.1 field was energyCapacityKwh — renamed for clarity.)"
+                        },
+                        "storageType": {
+                            "type": "string",
+                            "enum": ["LithiumIon", "LeadAcid", "FlowBattery", "NaS", "NiCd", "Flywheel", "Other"],
+                            "description": "Storage chemistry or technology type."
+                        },
+                        "stateOfHealthPct": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100,
+                            "description": "Battery state of health as percentage of original capacity."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceEVChargerAttributes": {
+            "description": "Attributes for EV charging stations. EV_CHARGER is a flexible load — the EVSE hardware at the grid connection point, NOT a storage resource. EV_V2G is a specialisation of EV_CHARGER with ISO 15118-20 / OCPP 2.1 BPT bidirectional capability. V2G discharge: maxExportKw (≥0); charge: maxImportKw (≥0). CIM: ElectricVehicleChargingStation (CIM17+).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "connectorType": {
+                            "type": "string",
+                            "enum": ["Type1", "Type2", "CCS1", "CCS2", "CHAdeMO", "GB_T", "NACS", "Other"],
+                            "description": "Physical connector standard. Type1/Type2: IEC 62196. CCS1/CCS2: Combined Charging System. CHAdeMO: CHAdeMO Association. GB_T: Chinese GB/T standard. NACS: North American Charging Standard."
+                        },
+                        "controlProtocol": {
+                            "type": "string",
+                            "enum": ["OCPP_1.6", "OCPP_2.0.1", "OCPP_2.1", "ISO_15118_2", "ISO_15118_20", "Other"],
+                            "description": "EVSE control and smart-charging protocol."
+                        },
+                        "v2xProtocol": {
+                            "type": "string",
+                            "enum": ["CHAdeMO_V2G", "CCS_BPT", "ISO_15118_20_AC_BPT", "ISO_15118_20_DC_BPT", "Other"],
+                            "description": "Vehicle-to-Grid / Vehicle-to-Everything protocol. Present only for EV_V2G resources."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceInverterAttributes": {
+            "description": "Attributes for grid-connected power-electronics inverters (type: INVERTER). Captures reactive-power and frequency-support capabilities per IEEE 1547-2018 and SunSpec DER Models 702–714. CIM: PowerElectronicsConnection (IEC 61970-302).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "ratedApparentPowerKva": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Rated apparent power in kVA. SunSpec Model 702 maxVA."
+                        },
+                        "maxReactivePowerKvar": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Maximum reactive power injection (leading / over-excited), kVAr. SunSpec Model 702 maxVar."
+                        },
+                        "minReactivePowerKvar": {
+                            "type": "number",
+                            "description": "Maximum reactive power absorption (lagging / under-excited), kVAr. Usually a negative value. SunSpec Model 702 maxVarNeg."
+                        },
+                        "rideThroughCategory": {
+                            "type": "string",
+                            "enum": ["CategoryI", "CategoryII", "CategoryIII"],
+                            "description": "IEEE 1547-2018 abnormal operating performance category. CategoryI: basic ride-through. CategoryII: enhanced (distribution-level DER). CategoryIII: advanced (transmission-connected or large DER)."
+                        },
+                        "operatingMode": {
+                            "type": "string",
+                            "enum": ["GridFollowing", "GridForming", "Standby"],
+                            "description": "Inverter grid-interaction mode. GridFollowing: synchronises to existing grid voltage/frequency (typical DER). GridForming: establishes voltage and frequency reference (microgrid islanding). CIM: PowerElectronicsConnection.inverterMode."
+                        },
+                        "voltVarEnabled": {
+                            "type": "boolean",
+                            "description": "Volt-VAr curve active (autonomous reactive power vs. voltage). IEEE 2030.5 opModVoltVar / SunSpec Model 705."
+                        },
+                        "freqDroopEnabled": {
+                            "type": "boolean",
+                            "description": "Frequency-Watt droop active (active power response to frequency deviation). SunSpec Model 711 / IEEE 1547 Freq-Watt."
+                        },
+                        "enterServiceRampTimeSec": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Ramp-up time in seconds after reconnection to full output. SunSpec Model 703 ESRmpTms."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceLoadAttributes": {
+            "description": "Attributes for controllable electrical loads. CIM: EnergyConsumer / ConformLoad (IEC 61970-301).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "controlProtocol": {
+                            "type": "string",
+                            "enum": ["OpenADR_2.0b", "OCPP_2.0.1", "SunSpec_Modbus", "EEBus", "Modbus", "Other"],
+                            "description": "Demand-response or load-control communication protocol."
+                        },
+                        "loadCategory": {
+                            "type": "string",
+                            "enum": ["Heating", "Cooling", "WaterHeating", "Lighting", "EV", "Industrial", "Other"],
+                            "description": "Load category for aggregation and dispatch optimisation."
+                        }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceNetworkAttributes": {
+            "description": "Attributes for distribution network topology elements. CIM: PowerTransformer (DT), BusbarSection (BUS), Feeder (FEEDER), Substation/custom (MICROGRID).",
+            "allOf": [
+                { "$ref": "#/$defs/EnergyResourceCommonAttributes" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "nominalVoltageKv": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Nominal voltage level in kV. CIM: BaseVoltage.nominalVoltage."
+                        },
+                        "zone": { "type": "string", "description": "Operating zone or region identifier." },
+                        "substationId": { "type": "string", "description": "Parent substation identifier." },
+                        "feederCode": { "type": "string", "description": "Feeder code per utility network records." }
+                    }
+                }
+            ]
+        },
+        "EnergyResourceMeter": {
+            "type": "object",
+            "description": "Metering device. CIM: cim:Meter extends cim:EndDevice (IEC 61968-9).",
+            "properties": {
+                "type": { "type": "string", "const": "METER" },
+                "attributes": { "$ref": "#/$defs/EnergyResourceMeterAttributes" }
+            }
+        },
+        "EnergyResourceGenerator": {
+            "type": "object",
+            "description": "Electrical generation asset. CIM GeneratingUnit subtypes (IEC 61970-302): SOLAR_PV=PhotovoltaicUnit, WIND=WindGeneratingUnit, HYDRO=HydroGeneratingUnit, BIOGAS/CHP=ThermalGeneratingUnit (by fuel), FUEL_CELL=IEC 62933-2. SOLAR is deprecated — use SOLAR_PV.",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["SOLAR_PV", "SOLAR", "WIND", "HYDRO", "BIOGAS", "CHP", "FUEL_CELL"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceGeneratorAttributes" }
+            }
+        },
+        "EnergyResourceStorage": {
+            "type": "object",
+            "description": "Stationary energy storage asset. CIM: BatteryUnit (IEC 61970-302). BATTERY is deprecated — use BESS. EV charging stations are NOT storage; see EnergyResourceEVCharger.",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["BESS", "BATTERY"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceStorageAttributes" }
+            }
+        },
+        "EnergyResourceEVCharger": {
+            "type": "object",
+            "description": "EV charging station (EVSE). A flexible load — NOT a storage resource. The EV battery is storage; the EVSE is the charge/discharge interface. EV_V2G has ISO 15118-20 / OCPP 2.1 BPT bidirectional capability. V2G discharge: maxExportKw (≥0); charge: maxImportKw (≥0). CIM: ElectricVehicleChargingStation (CIM17+).",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["EV_CHARGER", "EV_V2G"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceEVChargerAttributes" }
+            }
+        },
+        "EnergyResourceInverter": {
+            "type": "object",
+            "description": "Grid-connected power-electronics inverter without a dedicated fuel source. Captures reactive-power and frequency-support capabilities per IEEE 1547-2018 and SunSpec DER Models 702–714. Use cases: standalone battery inverters, VPP aggregation points, grid-forming inverters for microgrid islanding. CIM: PowerElectronicsConnection (IEC 61970-302).",
+            "properties": {
+                "type": { "type": "string", "const": "INVERTER" },
+                "attributes": { "$ref": "#/$defs/EnergyResourceInverterAttributes" }
+            }
+        },
+        "EnergyResourceLoad": {
+            "type": "object",
+            "description": "Controllable electrical load. CIM: EnergyConsumer / ConformLoad (IEC 61970-301).",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["SMART_HVAC", "SMART_WATER_HEATER", "CONTROLLABLE_LOAD"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceLoadAttributes" }
+            }
+        },
+        "EnergyResourceNetwork": {
+            "type": "object",
+            "description": "Distribution network topology element. CIM: DT=PowerTransformer, BUS=BusbarSection, FEEDER=Feeder, MICROGRID=Substation/custom (IEC 61970-301).",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["DT", "BUS", "FEEDER", "MICROGRID"]
+                },
+                "attributes": { "$ref": "#/$defs/EnergyResourceNetworkAttributes" }
+            }
+        },
+        "EnergyResource": {
+            "type": "object",
+            "description": "Composable energy resource, discriminated by 'type' into one of seven kinds. id and type are required. All other attributes live in the 'attributes' bag which inherits EnergyResourceCommonAttributes via allOf. maxExportKw (≥0) and maxImportKw (≥0) replace the former ratedPowerKw. Only EnergyResourceStorage carries storageCapacityKwh. EV_CHARGER/EV_V2G are their own kind (not storage). INVERTER captures IEEE 1547 grid-support capabilities.",
+            "required": ["id", "type"],
+            "properties": {
+                "id": { "type": "string", "minLength": 1, "description": "Stable identifier. For METER: meter serial number. For DERs: any stable scheme." },
+                "subResources": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            { "type": "string" },
+                            { "$ref": "#/$defs/EnergyResource" }
+                        ]
+                    }
+                },
+                "parentResources": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            },
+            "oneOf": [
+                { "$ref": "#/$defs/EnergyResourceMeter" },
+                { "$ref": "#/$defs/EnergyResourceGenerator" },
+                { "$ref": "#/$defs/EnergyResourceStorage" },
+                { "$ref": "#/$defs/EnergyResourceEVCharger" },
+                { "$ref": "#/$defs/EnergyResourceInverter" },
+                { "$ref": "#/$defs/EnergyResourceLoad" },
+                { "$ref": "#/$defs/EnergyResourceNetwork" }
+            ]
+        },
+        "Location": {
+            "type": "object",
+            "description": "Physical location per beckn Location/2.0. geo (required) is a GeoJSONGeometry; address (optional) is a postal address. Coordinates are [longitude, latitude] per RFC 7946.",
+            "required": ["geo"],
+            "properties": {
+                "geo": { "$ref": "#/$defs/GeoJSONGeometry" },
+                "address": { "$ref": "#/$defs/Address" }
+            }
+        },
+        "GeoJSONGeometry": {
+            "type": "object",
+            "description": "GeoJSON geometry per RFC 7946 / beckn GeoJSONGeometry/v2.0. Coordinates are [longitude, latitude] in WGS-84 (EPSG:4326). For a point: {type: 'Point', coordinates: [lon, lat]}.",
+            "required": ["type"],
+            "properties": {
+                "type": { "type": "string", "enum": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection"] },
+                "coordinates": { "type": "array", "description": "For a Point: [longitude, latitude]." },
+                "geometries": { "type": "array", "items": { "$ref": "#/$defs/GeoJSONGeometry" } },
+                "bbox": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "number" } }
+            },
+            "additionalProperties": true
+        },
+        "Address": {
+            "type": "object",
+            "description": "schema.org PostalAddress-aligned address object per beckn Address/2.0.",
+            "additionalProperties": false,
+            "properties": {
+                "streetAddress": { "type": "string", "description": "Building/number and street name." },
+                "extendedAddress": { "type": "string", "description": "Apartment, suite, floor, C/O." },
+                "addressLocality": { "type": "string", "description": "City or locality." },
+                "addressRegion": { "type": "string", "description": "State, region, or province." },
+                "postalCode": { "type": "string", "description": "ZIP or postal code." },
+                "addressCountry": { "type": "string", "description": "ISO 3166-1 alpha-2 country code or country name." }
+            }
+        }
+    }
+}
