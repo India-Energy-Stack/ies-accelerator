@@ -4,7 +4,6 @@
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "deg": "https://schema.beckn.io/deg#",
-        "erDeg": "https://schema.beckn.io/deg/EnergyResource/v1.2/",
         "ElectricityCredential": {
             "@id": "deg:ElectricityCredential",
             "@context": {
@@ -22,7 +21,7 @@
                     "@id": "deg:idRef",
                     "@type": "@id",
                     "@context": {
-                        "issuedBy": { "@id": "deg:issuedBy", "@type": "@id" },
+                        "issuedBy":  { "@id": "deg:issuedBy",  "@type": "@id"        },
                         "subjectId": { "@id": "deg:subjectId", "@type": "xsd:string" }
                     }
                 },
@@ -31,44 +30,10 @@
                     "@type": "@id",
                     "@container": "@set",
                     "@context": {
-                        "@version": 1.1,
-                        "resourceType":    { "@id": "erDeg:resourceType", "@type": "xsd:string" },
-                        "subResources":    { "@id": "erDeg:subResources",    "@container": "@list" },
-                        "parentResources": { "@id": "erDeg:parentResources", "@container": "@list" },
+                        "@import": "https://schema.beckn.io/EnergyResource/v2.0/context.jsonld",
                         "attributes": {
-                            "@id": "erDeg:attributes",
-                            "@type": "@id",
-                            "@context": {
-                                "make":                  { "@id": "erDeg:make",                  "@type": "xsd:string"  },
-                                "model":                 { "@id": "erDeg:model",                 "@type": "xsd:string"  },
-                                "ratedPowerKw":          { "@id": "erDeg:ratedPowerKw",          "@type": "xsd:decimal" },
-                                "maxImportKw":            { "@id": "erDeg:maxImportKw",            "@type": "xsd:decimal" },
-                                "maxExportKw":            { "@id": "erDeg:maxExportKw",            "@type": "xsd:decimal" },
-                                "telemetryProvider":     { "@id": "erDeg:telemetryProvider",     "@type": "xsd:string"  },
-                                "commissioningDate":     { "@id": "deg:commissioningDate",       "@type": "xsd:dateTime" },
-                                "location":              { "@id": "erDeg:location",              "@type": "@id"         },
-                                "meterCapability":       { "@id": "erDeg:meterCapability",       "@type": "xsd:string"  },
-                                "energyDirection":       { "@id": "erDeg:energyDirection",       "@type": "xsd:string"  },
-                                "functions":             { "@id": "erDeg:meterFunctions",        "@container": "@set"   },
-                                "feeder":                { "@id": "erDeg:feeder",                "@type": "xsd:string"  },
-                                "bus":                   { "@id": "erDeg:bus",                   "@type": "xsd:string"  },
-                                "meterLocation":         { "@id": "erDeg:meterLocation",         "@type": "@id"         },
-                                "communicationTechnology":{ "@id": "erDeg:communicationTechnology","@type": "xsd:string"},
-                                "applicationProtocol":    { "@id": "erDeg:applicationProtocol",    "@type": "xsd:string"},
-                                "nominalPowerKw":        { "@id": "erDeg:nominalPowerKw",        "@type": "xsd:decimal" },
-                                "efficiency":            { "@id": "erDeg:efficiency",            "@type": "xsd:decimal" },
-                                "storageCapacityKwh":    { "@id": "erDeg:storageCapacityKwh",    "@type": "xsd:decimal" },
-                                "storageType":           { "@id": "deg:storageType",             "@type": "xsd:string"  },
-                                "stateOfHealthPct":      { "@id": "erDeg:stateOfHealthPct",      "@type": "xsd:decimal" },
-                                "maxChargeRateKw":       { "@id": "erDeg:maxChargeRateKw",       "@type": "xsd:decimal" },
-                                "maxDischargeRateKw":    { "@id": "erDeg:maxDischargeRateKw",    "@type": "xsd:decimal" },
-                                "controlProtocol":       { "@id": "erDeg:controlProtocol",       "@type": "xsd:string"  },
-                                "loadCategory":          { "@id": "erDeg:loadCategory",          "@type": "xsd:string"  },
-                                "nominalVoltageKv":      { "@id": "erDeg:nominalVoltageKv",      "@type": "xsd:decimal" },
-                                "zone":                  { "@id": "erDeg:zone",                  "@type": "xsd:string"  },
-                                "substationId":          { "@id": "erDeg:substationId",          "@type": "xsd:string"  },
-                                "feederCode":            { "@id": "erDeg:feederCode",            "@type": "xsd:string"  }
-                            }
+                            "@id": "deg:attributes",
+                            "@type": "@id"
                         }
                     }
                 },
@@ -77,17 +42,8 @@
                     "@type": "@id",
                     "@container": "@set",
                     "@context": {
-                        "@version": 1.1,
-                        "@protected": true,
-                        "meterId":                  { "@id": "deg:meterId",                  "@type": "xsd:string"  },
-                        "sanctionedLoadKw":         { "@id": "deg:sanctionedLoadKw",         "@type": "xsd:decimal" },
-                        "sanctionedExportLoadKw":   { "@id": "deg:sanctionedExportLoadKw",   "@type": "xsd:decimal" },
-                        "billingCycleDay":           { "@id": "deg:billingCycleDay",          "@type": "xsd:integer" },
-                        "contractMaxDemandKw":       { "@id": "deg:contractMaxDemandKw",      "@type": "xsd:decimal" },
-                        "tariffCategoryCode":        { "@id": "deg:tariffCategoryCode",       "@type": "xsd:string"  },
-                        "premisesType":              { "@id": "deg:premisesType",             "@type": "xsd:string"  },
-                        "connectionType":            { "@id": "deg:connectionType",           "@type": "xsd:string"  },
-                        "paymentMode":               { "@id": "deg:paymentMode",              "@type": "xsd:string"  }
+                        "@import": "https://schema.beckn.io/MeterServiceProfile/v1.0/context.jsonld",
+                        "@protected": true
                     }
                 }
             }
