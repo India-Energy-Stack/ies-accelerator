@@ -98,14 +98,8 @@
             "description": "Alias for MeterServiceProfile/v1.0. Kept for backward compatibility."
         },
         "CustomerDetails": {
-            "type": "object",
-            "description": "PII — fullName is only here.",
-            "required": ["fullName", "installationAddress", "serviceConnectionDate"],
-            "properties": {
-                "fullName": { "type": "string", "minLength": 1, "maxLength": 200 },
-                "installationAddress": { "$ref": "#/$defs/Location" },
-                "serviceConnectionDate": { "type": "string", "format": "date-time" }
-            }
+            "$ref": "https://schema.beckn.io/CustomerDetails/v1.0#CustomerDetails",
+            "description": "PII — fullName, installationAddress, serviceConnectionDate. Defined in CustomerDetails/v1.0."
         },
         "EnergyResourceCommonAttributes": {
             "type": "object",

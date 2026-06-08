@@ -52,39 +52,8 @@
             "@id": "deg:customerDetails",
             "@type": "@id",
             "@context": {
-                "@version": 1.1,
-                "@protected": true,
-                "fullName": { "@id": "schema:name", "@type": "xsd:string" },
-                "serviceConnectionDate": { "@id": "deg:serviceConnectionDate", "@type": "xsd:dateTime" },
-                "installationAddress": {
-                    "@id": "beckn:Location",
-                    "@type": "@id",
-                    "@context": {
-                        "beckn": "https://schema.beckn.io/",
-                        "geo": {
-                            "@id": "beckn:geo",
-                            "@type": "@id",
-                            "@context": {
-                                "type":        { "@id": "beckn:geoType",     "@type": "xsd:string" },
-                                "coordinates": { "@id": "beckn:coordinates", "@container": "@list" },
-                                "bbox":        { "@id": "beckn:bbox",        "@container": "@list" },
-                                "geometries":  { "@id": "beckn:geometries",  "@container": "@list" }
-                            }
-                        },
-                        "address": {
-                            "@id": "beckn:address",
-                            "@type": "@id",
-                            "@context": {
-                                "streetAddress":   { "@id": "beckn:streetAddress",   "@type": "xsd:string" },
-                                "extendedAddress": { "@id": "beckn:extendedAddress", "@type": "xsd:string" },
-                                "addressLocality": { "@id": "beckn:addressLocality", "@type": "xsd:string" },
-                                "addressRegion":   { "@id": "beckn:addressRegion",   "@type": "xsd:string" },
-                                "addressCountry":  { "@id": "beckn:addressCountry",  "@type": "xsd:string" },
-                                "postalCode":      { "@id": "beckn:postalCode",      "@type": "xsd:string" }
-                            }
-                        }
-                    }
-                }
+                "@import": "https://schema.beckn.io/CustomerDetails/v1.0/context.jsonld",
+                "@protected": true
             }
         },
         "credentialStatus": {

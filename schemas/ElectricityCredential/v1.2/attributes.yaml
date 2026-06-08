@@ -108,7 +108,7 @@ components:
           minItems: 1
           description: >
             All physical energy assets for this account. Each entry is
-            discriminated by 'type' into one of five composable kinds.
+            discriminated by 'type' into one of seven composable kinds.
           x-jsonld:
             "@id": deg:energyResources
           items:
@@ -154,30 +154,11 @@ components:
         Alias for MeterServiceProfile/v1.0 — kept for backward compatibility.
 
     CustomerDetails:
-      type: object
+      $ref: "https://schema.beckn.io/CustomerDetails/v1.0#/components/schemas/CustomerDetails"
       description: >
-        PII section. fullName appears ONLY here — never in customerProfile
-        or any resource entry.
-      required:
-        - fullName
-        - installationAddress
-        - serviceConnectionDate
-      x-jsonld:
-        "@id": deg:customerDetails
-      properties:
-        fullName:
-          type: string
-          description: Full name of the customer as per ID proof.
-        installationAddress:
-          $ref: "https://schema.beckn.io/Location/2.0/attributes.yaml#/components/schemas/Location"
-          description: >
-            Physical location of the installation. Follows the beckn Location/2.0 schema:
-            geo (required, GeoJSON Point — coordinates [longitude, latitude]) and
-            address (optional, schema.org PostalAddress fields).
-        serviceConnectionDate:
-          type: string
-          format: date-time
-          description: Date and time the connection was activated (with timezone offset).
+        PII section — fullName, installationAddress, serviceConnectionDate.
+        fullName appears ONLY here — never in customerProfile or resource entries.
+        Defined in CustomerDetails/v1.0.
 
     # ──────────────────────────────────────────────────────────────────────
     # EnergyResource composable hierarchy — kinds are external schemas
@@ -208,50 +189,8 @@ components:
       $ref: "https://schema.beckn.io/EnergyResourceNetwork/v1.0#/components/schemas/EnergyResourceNetwork"
 
     EnergyResource:
-      type: object
+      $ref: "https://schema.beckn.io/EnergyResource/v2.0#/components/schemas/EnergyResource"
       description: >
-        Composable energy resource, discriminated by 'type' into one of seven
-        kinds. id and type are required. Topology is expressed via
-        subResources[] (children) and parentResources[] (parents, e.g. the
-        meter a DER sits behind).
-
-        maxExportKw (≥0) and maxImportKw (≥0) replace ratedPowerKw in
-        EnergyResourceCommonAttributes. Both are non-negative directional
-        fields: maxExportKw = max power injected to grid; maxImportKw = max
-        power drawn from grid.
-
-        EV_CHARGER and EV_V2G are their own kind (EnergyResourceEVCharger),
-        not grouped with storage. INVERTER is a new kind for grid-connected
-        power-electronics converters.
-      required:
-        - id
-        - type
-      properties:
-        id:
-          type: string
-          minLength: 1
-          description: >
-            Stable identifier. For METER: meter serial number.
-            For DERs: any stable scheme.
-          x-jsonld:
-            "@id": "@id"
-        subResources:
-          type: array
-          description: Child resource ids or inline EnergyResource objects.
-          items:
-            oneOf:
-              - type: string
-              - $ref: "#/components/schemas/EnergyResource"
-        parentResources:
-          type: array
-          description: Parent resource ids — e.g. the meter a DER sits behind.
-          items:
-            type: string
-      oneOf:
-        - $ref: "#/components/schemas/EnergyResourceMeter"
-        - $ref: "#/components/schemas/EnergyResourceGenerator"
-        - $ref: "#/components/schemas/EnergyResourceStorage"
-        - $ref: "#/components/schemas/EnergyResourceEVCharger"
-        - $ref: "#/components/schemas/EnergyResourceInverter"
-        - $ref: "#/components/schemas/EnergyResourceLoad"
-        - $ref: "#/components/schemas/EnergyResourceNetwork"
+        Discriminated union of all seven typed EnergyResource kinds, each
+        inheriting id, type, subResources, parentResources, and attributes
+        from EnergyResourceCommon/v1.0. Defined in EnergyResource/v2.0.
