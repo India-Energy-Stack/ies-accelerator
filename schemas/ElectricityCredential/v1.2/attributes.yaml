@@ -160,34 +160,6 @@ components:
         fullName appears ONLY here — never in customerProfile or resource entries.
         Defined in CustomerDetails/v1.0.
 
-    # ──────────────────────────────────────────────────────────────────────
-    # EnergyResource composable hierarchy — kinds are external schemas
-    # Each kind lives in its own specification/schema/<Kind>/v1.0/ folder.
-    # ──────────────────────────────────────────────────────────────────────
-
-    # Convenience $ref aliases so tooling can resolve individual kinds
-    # directly from this schema.
-    EnergyResourceMeter:
-      $ref: "https://schema.beckn.io/EnergyResourceMeter/v1.0#/components/schemas/EnergyResourceMeter"
-
-    EnergyResourceGenerator:
-      $ref: "https://schema.beckn.io/EnergyResourceGenerator/v1.0#/components/schemas/EnergyResourceGenerator"
-
-    EnergyResourceStorage:
-      $ref: "https://schema.beckn.io/EnergyResourceStorage/v1.0#/components/schemas/EnergyResourceStorage"
-
-    EnergyResourceEVCharger:
-      $ref: "https://schema.beckn.io/EnergyResourceEVCharger/v1.0#/components/schemas/EnergyResourceEVCharger"
-
-    EnergyResourceInverter:
-      $ref: "https://schema.beckn.io/EnergyResourceInverter/v1.0#/components/schemas/EnergyResourceInverter"
-
-    EnergyResourceLoad:
-      $ref: "https://schema.beckn.io/EnergyResourceLoad/v1.0#/components/schemas/EnergyResourceLoad"
-
-    EnergyResourceNetwork:
-      $ref: "https://schema.beckn.io/EnergyResourceNetwork/v1.0#/components/schemas/EnergyResourceNetwork"
-
     EnergyResource:
       $ref: "https://schema.beckn.io/EnergyResource/v2.0#/components/schemas/EnergyResource"
       description: >
