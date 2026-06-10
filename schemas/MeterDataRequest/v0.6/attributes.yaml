@@ -5,13 +5,13 @@ info:
   description: "Structural JSON Schema for selecting meter data, capabilities, and authorisations (MeterDataRequest)."
 jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
 servers:
-  - url: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas"
+  - url: "https://india-energy-stack.gitbook.io/docs/schemas"
     description: "Canonical schema registry"
 paths: {}
 components:
   schemas:
     MeterDataRequest:
-      $id: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/schema.json"
+      $id: "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.6/schema.json"
       title: "MeterDataRequest Payload"
       description: "Root payload can be a MeterDataRequest, a MeterDataAuthorisation, or a MeterDataCapabilities document."
       oneOf:

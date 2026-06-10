@@ -1,5 +1,5 @@
 {
-    "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.5/context.jsonld",
     "@type": "MeterDataRequest",
     "resources": [
         "did:dedi:ies:meter:IN-MH-MTR-89721",

@@ -1,5 +1,7 @@
 # Customer Credential
 
+> **Files** — [attributes.yaml](./attributes.yaml) · [schema.json](./schema.json) · [context.jsonld](./context.jsonld) · [vocab.jsonld](./vocab.jsonld) · [examples/](./examples)
+
 > **Mirror.** Files in this directory are mirrored verbatim from [`beckn/DEG/specification/schema/ElectricityCredential/v1.0/`](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.0). Upstream is canonical.
 
 ## Overview
