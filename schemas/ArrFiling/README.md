@@ -2,8 +2,6 @@
 
 Schema for Aggregate Revenue Requirement (ARR) filings made by electricity distribution licensees (DISCOMs) to State Electricity Regulatory Commissions (SERCs) in India. Standardises diverse state-level regulatory filing formats into a unified structure.
 
-**Namespace prefix:** `ies:` → `https://schema.beckn.io/ies/`
-
 **Tags:** `regulatory` · `arr` · `discom` · `serc` · `ies`
 
 ---
