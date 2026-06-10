@@ -1,6 +1,6 @@
 [
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "CustomerProfile",
     "profileType": "CUSTOMER",
     "customerRefs": [
@@ -100,7 +100,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
@@ -172,7 +172,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "customerRefs": [
@@ -233,7 +233,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "customerRefs": [
@@ -292,7 +292,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "customerRefs": [
@@ -341,7 +341,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "BillingProfile",
     "profileType": "BILLING",
     "customerRefs": [
@@ -414,7 +414,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "BillingProfile",
     "profileType": "BILLING",
     "customerRefs": [
@@ -451,7 +451,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "customerRefs": [
@@ -515,7 +515,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "customerRefs": [
@@ -557,7 +557,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "EventProfile",
     "profileType": "EVENT",
     "customerRefs": [
@@ -592,7 +592,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
     "@type": "EventProfile",
     "profileType": "EVENT",
     "customerRefs": [

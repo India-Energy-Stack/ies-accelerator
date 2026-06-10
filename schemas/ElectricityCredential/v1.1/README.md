@@ -1,4 +1,4 @@
-> **Files** — [attributes.yaml](./attributes.yaml) · [schema.json](./schema.json) · [context.jsonld](./context.jsonld) · [vocab.jsonld](./vocab.jsonld) · [examples/](./examples)
+> **Files** — [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/attributes.yaml) · [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/schema.json) · [context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/context.jsonld) · [vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/vocab.jsonld) · [examples/](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/examples)
 
 > **Mirror.** Files in this directory are mirrored verbatim from [`beckn/DEG/specification/schema/ElectricityCredential/v1.1/`](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential/v1.1). Upstream is canonical.
 

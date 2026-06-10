@@ -1,6 +1,6 @@
 [
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/ArrFiling/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/context.jsonld",
     "objectType": "ARR_FILING",
     "@type": "ArrFiling",
     "id": "arr-xxdcl-myt-2024-29",
@@ -785,7 +785,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/ArrFiling/v0.5/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/context.jsonld",
     "objectType": "ARR_FILING",
     "@type": "ArrFiling",
     "id": "arr-yyed-historical-2012-2024",

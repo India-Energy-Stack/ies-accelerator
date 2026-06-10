@@ -686,7 +686,7 @@
     ]
   },
   {
-    "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.6/context.jsonld",
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
     "@type": "AlarmProfile",
     "profileType": "ALARM",
     "customerRefs": [

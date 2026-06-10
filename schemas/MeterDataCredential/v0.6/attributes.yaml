@@ -18,13 +18,13 @@ info:
 
 jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
 servers:
-  - url: "https://india-energy-stack.gitbook.io/docs/schemas"
+  - url: "https://india-energy-stack.github.io/ies-accelerator/schemas"
     description: "Canonical schema registry"
 paths: {}
 components:
   schemas:
     MeterDataCredential:
-      $id: "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataCredential/v0.6/schema.json"
+      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json"
       title: "MeterDataCredential"
       description: >
         W3C Verifiable Credential wrapping a MeterData v0.6 payload. Subclass of
@@ -66,7 +66,7 @@ components:
           x-jsonld:
             "@id": "@id"
         meterData:
-          $ref: "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.6/schema.json"
+          $ref: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json"
           description: >
             The attested meter data payload. May be a single EnergyData profile
             or an array of profiles per MeterData v0.6.

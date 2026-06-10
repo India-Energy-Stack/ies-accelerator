@@ -2,7 +2,7 @@
 
 Smart meter telemetry payload schema for the India Energy Stack. Defines compact profile shapes for meter readings, billing data, and events — designed for high-efficiency data-only exchange without cryptographic wrapping.
 
-**Namespace prefix:** `ies:` → `https://india-energy-stack.gitbook.io/docs/schemas/ies#`
+**Namespace prefix:** `ies:` → `https://india-energy-stack.github.io/ies-accelerator/schemas/ies#`
 
 **Tags:** `metering` · `telemetry` · `smart-meter` · `ies`
 

@@ -1,5 +1,5 @@
 {
-  "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/context.jsonld",
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
   "@type": "CustomerProfile",
   "profileType": "CUSTOMER",
   "timeZone": "Asia/Kolkata",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequestCredential/v0.1/schema.json",
+  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json",
   "title": "MeterDataRequestCredential",
   "description": "W3C Verifiable Credential wrapping a MeterDataRequest. Subclass of EnergyCredential. Issued by the data requester (e.g., DISCOM) to prove authorisation to request smart meter telemetry from a provider.\n",
   "type": "object",
@@ -36,7 +36,7 @@
           }
         },
         "meterDataRequest": {
-          "$ref": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.6/schema.json",
+          "$ref": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json",
           "description": "The scoped, time-bounded data request. Specifies the meter resources, hierarchical scope, time window, and profile types being requested. The provider validates this against its capability profile before fulfilling delivery.\n",
           "x-jsonld": {
             "@id": "ies:meterDataRequest"

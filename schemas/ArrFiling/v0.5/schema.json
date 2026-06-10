@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://india-energy-stack.gitbook.io/docs/schemas/ArrFiling/v0.5/schema.json",
+  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json",
   "title": "ArrFiling",
   "description": "A complete ARR filing by a distribution licensee.\nContains one or more fiscal years, each with its own line items.\nSupports both MYT control-period filings and annual historical data.\n",
   "type": "object",
