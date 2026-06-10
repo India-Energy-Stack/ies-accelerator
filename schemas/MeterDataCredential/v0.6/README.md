@@ -1,3 +1,5 @@
+> **Files** — [attributes.yaml](./attributes.yaml) · [schema.json](./schema.json) · [context.jsonld](./context.jsonld) · [vocab.jsonld](./vocab.jsonld) · [examples/](./examples)
+
 # MeterDataCredential v0.6
 
 A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterData v0.6`](../../MeterData/v0.6/) payload to attest the authenticity and provenance of delivered smart meter telemetry.

@@ -16,8 +16,9 @@ Unified W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electr
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v1.1](v1.1/README.md) | **Current** | Unified `energyResources[]` (EnergyResource/v2.0), multi-meter topology support |
-| [v1.0](v1.0/README.md) | Previous | Separate `consumptionProfiles[]`, `generationProfiles[]`, `storageProfiles[]` arrays |
+| [v1.2](v1.2/README.md) | **Current** | Composable EnergyResource kinds (7 typed discriminants); directional power fields; EV charger kind |
+| [v1.1](v1.1/README.md) | Previous | Unified `energyResources[]` (EnergyResource/v2.0), multi-meter topology support |
+| [v1.0](v1.0/README.md) | Deprecated | Separate `consumptionProfiles[]`, `generationProfiles[]`, `storageProfiles[]` arrays |
 
 ---
 

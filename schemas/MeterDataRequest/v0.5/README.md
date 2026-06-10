@@ -1,3 +1,5 @@
+> **Files** — [attributes.yaml](./attributes.yaml) · [schema.json](./schema.json) · [context.jsonld](./context.jsonld) · [vocab.jsonld](./vocab.jsonld) · [examples/](./examples)
+
 # MeterDataRequest Schema (v0.5)
 
 The smart meter telemetry data defined in [MeterData (v0.6)](../../MeterData/v0.6) is complemented with the `MeterDataRequest` schema – specifying **what meters**, **what data**, and **for how long** the query or permission spans.

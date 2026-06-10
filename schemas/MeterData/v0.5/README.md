@@ -1,3 +1,5 @@
+> **Files** — [attributes.yaml](./attributes.yaml) · [schema.json](./schema.json) · [context.jsonld](./context.jsonld) · [vocab.jsonld](./vocab.jsonld) · [examples/](./examples)
+
 # Meter Data Compact Profiles (v0.5)
 
 This directory contains the **Meter Data Compact Profiles** (v0.5) schema definitions and semantic models for telemetry data exchange. It is tailored for high-efficiency, data-only transmissions of smart meter readings and events, omitting the heavy cryptographic wrapping when only raw telemetry payload is being exchanged.

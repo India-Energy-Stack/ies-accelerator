@@ -27,12 +27,13 @@ Every mirrored family carries a `README.md` at its root naming the upstream sour
 
 If you find a discrepancy between a mirrored file and the upstream source, treat upstream as authoritative and open an issue so the mirror can be refreshed.
 
-## Contents
+## Schema Families
 
-| Family | Version | Upstream | Status |
-|---|---|---|---|
-| [`ElectricityCredential`](ElectricityCredential/README.md) | [v1.0](ElectricityCredential/v1.0/README.md) | [`beckn/DEG`](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential) | Current |
-| [`MeterData`](MeterData/v0.6/README.md) | [v0.6](MeterData/v0.6/README.md) | [`contributions/apparent`](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange) | Current |
-| [`ArrFiling`](ArrFiling/v0.5/README.md) | [v0.5](ArrFiling/v0.5/README.md) | [`ies-docs/IesArrFiling`](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange/specs/IesArrFiling) | Current |
-| [`MeterDataRequest`](MeterDataRequest/v0.6/README.md) | [v0.6](MeterDataRequest/v0.6/README.md) | [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator) | Current |
-| [`MeterDataRequestCredential`](MeterDataRequestCredential/v0.1/README.md) | [v0.1](MeterDataRequestCredential/v0.1/README.md) | [`India-Energy-Stack/ies-accelerator`](https://github.com/India-Energy-Stack/ies-accelerator) | Current |
+| Family | Latest | All Versions | Description |
+|--------|--------|-------------|-------------|
+| [ElectricityCredential](ElectricityCredential/README.md) | [v1.2](ElectricityCredential/v1.2/README.md) | v1.0 · v1.1 · v1.2 | W3C VC issued per meter by DISCOMs — customer identity, DERs, tariff profiles |
+| [MeterData](MeterData/README.md) | [v0.6](MeterData/v0.6/README.md) | v0.5 · v0.6 | Smart meter telemetry compact profiles (8 profile shapes) |
+| [MeterDataCredential](MeterDataCredential/README.md) | [v0.6](MeterDataCredential/v0.6/README.md) | v0.6 | W3C VC wrapping MeterData for provenance attestation |
+| [MeterDataRequest](MeterDataRequest/README.md) | [v0.6](MeterDataRequest/v0.6/README.md) | v0.5 · v0.6 | Query schema: capabilities, authorisation, request |
+| [MeterDataRequestCredential](MeterDataRequestCredential/README.md) | [v0.1](MeterDataRequestCredential/v0.1/README.md) | v0.1 | W3C VC wrapping MeterDataRequest for seeker authorisation |
+| [ArrFiling](ArrFiling/README.md) | [v0.5](ArrFiling/v0.5/README.md) | v0.5 | DISCOM regulatory ARR filing — ArrFiling, ArrFiscalYear, ArrLineItem |
