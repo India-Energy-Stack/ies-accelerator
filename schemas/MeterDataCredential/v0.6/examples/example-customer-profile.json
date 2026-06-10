@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld",
-    "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataCredential/v0.6/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld"
   ],
   "id": "urn:uuid:c1d2e3f4-0001-0000-0000-aabbccddeeff",
   "type": ["VerifiableCredential", "MeterDataCredential"],
@@ -22,7 +22,7 @@
   "credentialSubject": {
     "id": "did:dedi:bescom:consumers:RR-1234",
     "meterData": {
-      "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.6/context.jsonld",
+      "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
       "@type": "CustomerProfile",
       "profileType": "CUSTOMER",
       "customerRefs": [{"scheme": "DID", "value": "did:dedi:bescom:consumers:RR-1234"}],

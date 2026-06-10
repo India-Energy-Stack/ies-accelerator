@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld",
-    "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataCredential/v0.6/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld"
   ],
   "id": "urn:uuid:c1d2e3f4-0002-0000-0000-aabbccddeeff",
   "type": ["VerifiableCredential", "MeterDataCredential"],
@@ -23,7 +23,7 @@
     "id": "did:dedi:bescom:consumers:RR-1234",
     "meterData": [
       {
-        "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.6/context.jsonld",
+        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
         "@type": "PayloadDescriptorProfile",
         "profileType": "DESCRIPTOR",
         "id": "DESC-INTERVAL-BLR-2026Q1",
@@ -41,7 +41,7 @@
         ]
       },
       {
-        "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.6/context.jsonld",
+        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
         "@type": "IntervalProfile",
         "profileType": "INTERVAL",
         "meterRefs": [{"scheme": "DID", "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321"}],

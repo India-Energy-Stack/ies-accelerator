@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.6/schema.json",
+  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json",
   "title": "MeterData Payload",
   "description": "Root payload can be a single profile or an array of profiles.",
   "oneOf": [

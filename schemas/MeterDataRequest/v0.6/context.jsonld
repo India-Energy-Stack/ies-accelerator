@@ -7,7 +7,7 @@
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
-        "ies": "https://india-energy-stack.gitbook.io/docs/schemas/ies#",
+        "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies#",
         "MeterDataRequestObject": {
             "@id": "ies:MeterDataRequestObject",
             "@context": {

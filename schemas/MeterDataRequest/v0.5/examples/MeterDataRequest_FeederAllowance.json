@@ -1,5 +1,5 @@
 {
-  "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.5/context.jsonld",
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/context.jsonld",
   "@type": "MeterDataRequest",
   "resources": ["did:dedi:ies:feeder:IN-MH-FDR-101"],
   "scope": "ChildrenOnly",

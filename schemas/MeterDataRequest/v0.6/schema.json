@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.6/schema.json",
+  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json",
   "title": "MeterDataRequest Payload",
   "description": "Root payload can be a MeterDataRequest, a MeterDataAuthorisation, or a MeterDataCapabilities document.",
   "oneOf": [
