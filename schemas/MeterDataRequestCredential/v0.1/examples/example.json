@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld",
-    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequestCredential/v0.1/context.jsonld"
+    "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequestCredential/v0.1/context.jsonld"
   ],
   "id": "urn:uuid:f7a8b9c0-d1e2-4f56-a789-012345678901",
   "type": ["VerifiableCredential", "MeterDataRequestCredential"],
@@ -22,7 +22,7 @@
   "credentialSubject": {
     "id": "did:dedi:ies:discom:IN-KA-BESCOM",
       "meterDataRequest": {
-        "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
+        "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.6/context.jsonld",
         "@type": "MeterDataRequest",
         "resources": ["did:dedi:ies:feeder:IN-KA-BLR-ZONE-A"],
         "scope": "ResourceAndChildren",

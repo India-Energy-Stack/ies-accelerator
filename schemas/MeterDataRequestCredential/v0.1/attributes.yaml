@@ -21,13 +21,13 @@ info:
 
 jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
 servers:
-  - url: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas"
+  - url: "https://india-energy-stack.gitbook.io/docs/schemas"
     description: "Canonical schema registry"
 paths: {}
 components:
   schemas:
     MeterDataRequestCredential:
-      $id: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequestCredential/v0.1/schema.json"
+      $id: "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequestCredential/v0.1/schema.json"
       title: "MeterDataRequestCredential"
       description: >
         W3C Verifiable Credential wrapping a MeterDataRequest. Subclass of
@@ -69,7 +69,7 @@ components:
           x-jsonld:
             "@id": "@id"
         meterDataRequest:
-          $ref: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/schema.json"
+          $ref: "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.6/schema.json"
           description: >
             The scoped, time-bounded data request. Specifies the meter
             resources, hierarchical scope, time window, and profile types

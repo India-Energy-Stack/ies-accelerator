@@ -1,5 +1,5 @@
 {
-  "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
+  "@context": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.6/context.jsonld",
   "@type": "MeterDataRequest",
   "resources": [
     "did:dedi:bescom:meters:BESCOM-SM-2025-654321",
@@ -8,7 +8,7 @@
   "scope": "ResourceOnly",
   "from": "2026-05-18T10:00:00Z",
   "duration": "PT2H",
-  "authorisation": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/examples/Authorisation_Example.json",
+  "authorisation": "https://india-energy-stack.gitbook.io/docs/schemas/MeterDataRequest/v0.6/examples/Authorisation_Example.json",
   "capabilitiesRequested": {
     "profiles": [
       {

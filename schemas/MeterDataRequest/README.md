@@ -2,6 +2,8 @@
 
 Schema for querying smart meter telemetry. Specifies which meters, what data, and for how long — sent by a data consumer (BAP/seeker) to a data provider (BPP) in Beckn `select`/`init` flows.
 
+**Namespace prefix:** `ies:` → `https://india-energy-stack.gitbook.io/docs/schemas/ies#`
+
 **Tags:** `metering` · `request` · `telemetry` · `ies`
 
 ---

@@ -2,6 +2,8 @@
 
 W3C Verifiable Credential (VC Data Model 2.0) that wraps a [MeterDataRequest](../MeterDataRequest/README.md) to prove a data requester's authorisation for accessing smart meter telemetry. Presented by the seeker at `confirm` time.
 
+**Namespace prefix:** `ies:` → `https://india-energy-stack.gitbook.io/docs/schemas/ies#`
+
 **Tags:** `credential` · `verifiable-credential` · `metering` · `authorisation` · `ies`
 
 ---

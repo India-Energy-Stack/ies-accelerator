@@ -5,13 +5,13 @@ info:
   description: "Structural JSON Schema for the six compact profile shapes (CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT). Discriminated by `profileType`."
 jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
 servers:
-  - url: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas"
+  - url: "https://india-energy-stack.gitbook.io/docs/schemas"
     description: "Canonical schema registry"
 paths: {}
 components:
   schemas:
     MeterData:
-      $id: "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.5/schema.json"
+      $id: "https://india-energy-stack.gitbook.io/docs/schemas/MeterData/v0.5/schema.json"
       title: "MeterData"
       description: "Structural JSON Schema for the six compact profile shapes (CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT). Discriminated by `profileType`. Sibling to ae-ies-mdm-3rdparty-v0.schema.json (which validates the credential-wrapped form). Both forms share semantics via the JSON-LD context but live in separate schemas because their structural shapes differ (compact omits the W3C VC envelope)."
       oneOf:
