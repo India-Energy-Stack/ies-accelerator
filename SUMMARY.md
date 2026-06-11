@@ -74,3 +74,5 @@
     * [Basic Checklist](use-cases/discom-regulatory-filing/basic-checklist.md)
   * [Tariff Intelligence](use-cases/tariff-intelligence/README.md)
     * [Basic Checklist](use-cases/tariff-intelligence/basic-checklist.md)
+  * [DER Visibility](use-cases/der-visibility/README.md)
+    * [Basic Checklist](use-cases/der-visibility/basic-checklist.md)
