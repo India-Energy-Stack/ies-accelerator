@@ -30,7 +30,7 @@
                     "@type": "@id",
                     "@container": "@set",
                     "@context": {
-                        "@import": "https://schema.beckn.io/EnergyResource/v2.0/context.jsonld",
+                        "@import": "https://schema.beckn.io/EnergyResource/v2.1/context.jsonld",
                         "attributes": {
                             "@id": "deg:attributes",
                             "@type": "@id"
@@ -42,7 +42,7 @@
                     "@type": "@id",
                     "@container": "@set",
                     "@context": {
-                        "@import": "https://schema.beckn.io/MeterServiceProfile/v1.0/context.jsonld",
+                        "@import": "https://schema.beckn.io/MeterServiceProfile/v1.1/context.jsonld",
                         "@protected": true
                     }
                 }

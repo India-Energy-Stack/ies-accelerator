@@ -16,28 +16,27 @@ info:
       - EnergyResourceLoad      (type: SMART_HVAC | SMART_WATER_HEATER | CONTROLLABLE_LOAD)
       - EnergyResourceNetwork   (type: DT | BUS | FEEDER | MICROGRID)
 
-    Each kind's attributes bag inherits EnergyResourceCommonAttributes via allOf.
-    storageCapacityKwh is ONLY on EnergyResourceStorage (BESS).
-    EV_CHARGER and EV_V2G are their own kind — NOT storage.
-    EV_V2G is a specialisation of EV_CHARGER; maxImportKw < 0 expresses discharge power.
+    Each kind's attributes bag inherits EnergyResourceCommon/v1.1 via allOf.
+    All power and capacity fields use QuantitativeValue {value, unit} connected
+    to QUDT via JSON-LD context. Unit strings are QUDT codes (kW, kWh,
+    kVA, kVAR, kV).
 
-    Common attribute changes (all kinds):
-      ratedPowerKw replaced by maxImportKw + maxExportKw.
-      maxExportKw: nameplate rated power in the principal direction (≥0).
-      maxImportKw: minimum operating power; negative = max discharge/export capacity.
+    EV_CHARGER and EV_V2G are their own kind — NOT storage.
+    storageCapacity (QuantitativeValue) is ONLY on EnergyResourceStorage (BESS).
 
     CIM alignment: IEC 61970-301/302 (GeneratingUnit, BatteryUnit,
     PowerElectronicsConnection, EnergyConsumer, Feeder) and IEC 61968-9 (Meter, EndDevice).
 
-    v1.1 → v1.2 field changes
-    ──────────────────────────
-    energyResources[BATTERY/BESS].attributes.energyCapacityKwh → storageCapacityKwh
-    energyResources[*].attributes.ratedPowerKw → maxExportKw (set maxImportKw for discharge)
-    energyResources[EV_CHARGER/EV_V2G] → moved from Storage kind to EV kind
-    energyResources[*].type enum "SOLAR"   → deprecated; use SOLAR_PV
-    energyResources[*].type enum "BATTERY" → deprecated; use BESS
+    v1.1 → v1.2 field renames (all as QuantitativeValue)
+    ──────────────────────────────────────────────────────
+    ratedPowerKw → ratedPower, maxExportKw → maxExport, maxImportKw → maxImport
+    nominalPowerKw → nominalPower, storageCapacityKwh → storageCapacity
+    ratedApparentPowerKva → ratedApparentPower
+    maxReactivePowerKvar → maxReactivePower, minReactivePowerKvar → minReactivePower
+    nominalVoltageKv → nominalVoltage
+    sanctionedLoadKw → sanctionedLoad, contractMaxDemandKw → contractMaxDemand
 
-    consumptionProfiles[] items are now MeterServiceProfile (formerly ConsumptionProfile).
+    consumptionProfiles[] items use MeterServiceProfile/v1.1.
 
 jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 servers:
@@ -125,33 +124,15 @@ components:
             $ref: "#/components/schemas/ConsumptionProfile"
 
     IdRef:
-      type: object
-      description: External identity reference for the customer.
-      required:
-        - issuedBy
-        - subjectId
-      x-jsonld:
-        "@id": deg:idRef
-      properties:
-        issuedBy:
-          type: string
-          format: uri
-          description: DID of the authority that issued the identity.
-          x-jsonld:
-            "@id": deg:issuedBy
-        subjectId:
-          type: string
-          pattern: "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$"
-          description: Subject identifier in authority-domain:id-value format.
-          x-jsonld:
-            "@id": deg:subjectId
+      $ref: "https://schema.beckn.io/IdRef/v1.0#/components/schemas/IdRef"
+      description: External identity reference for the customer. Defined in IdRef/v1.0.
 
     ConsumptionProfile:
-      $ref: "https://schema.beckn.io/MeterServiceProfile/v1.0#/components/schemas/MeterServiceProfile"
+      $ref: "https://schema.beckn.io/MeterServiceProfile/v1.1#/components/schemas/MeterServiceProfile"
       description: >
         Tariff and regulatory load profile for one meter connection.
         meterId links to a METER entry in customerProfile.energyResources[].
-        Alias for MeterServiceProfile/v1.0 — kept for backward compatibility.
+        Uses MeterServiceProfile/v1.1 (sanctionedLoad, contractMaxDemand as QuantitativeValue).
 
     CustomerDetails:
       $ref: "https://schema.beckn.io/CustomerDetails/v1.0#/components/schemas/CustomerDetails"
@@ -161,8 +142,9 @@ components:
         Defined in CustomerDetails/v1.0.
 
     EnergyResource:
-      $ref: "https://schema.beckn.io/EnergyResource/v2.0#/components/schemas/EnergyResource"
+      $ref: "https://schema.beckn.io/EnergyResource/v2.1#/components/schemas/EnergyResource"
       description: >
         Discriminated union of all seven typed EnergyResource kinds, each
         inheriting id, type, subResources, parentResources, and attributes
-        from EnergyResourceCommon/v1.0. Defined in EnergyResource/v2.0.
+        from EnergyResourceCommon/v1.1. All power/capacity fields use
+        QuantitativeValue. Defined in EnergyResource/v2.1.

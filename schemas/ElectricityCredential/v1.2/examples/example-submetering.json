@@ -39,23 +39,23 @@
         {
           "id": "did:web:bescom.karnataka.gov.in:assets:solar-plant:ROOFTOP-UNIT-101",
           "type": "SOLAR_PV",
-          "attributes": {"maxExportKw": 2, "make": "Waaree", "model": "WS-200", "commissioningDate": "2024-06-15T00:00:00+05:30"},
+          "attributes": {"maxExport": {"value": 2, "unit": "kW"}, "make": "Waaree", "model": "WS-200", "commissioningDate": "2024-06-15T00:00:00+05:30"},
           "parentResources": ["did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101"]
         }
       ],
       "consumptionProfiles": [
         {
           "meterId": "did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101",
-          "sanctionedLoadKw": 3,
-          "contractMaxDemandKw": 2.5,
+          "sanctionedLoad": {"value": 3, "unit": "kW"},
+          "contractMaxDemand": {"value": 2.5, "unit": "kW"},
           "tariffCategoryCode": "LT-2A",
           "premisesType": "Residential",
           "connectionType": "Single-phase"
         },
         {
           "meterId": "did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-102",
-          "sanctionedLoadKw": 3,
-          "contractMaxDemandKw": 2.5,
+          "sanctionedLoad": {"value": 3, "unit": "kW"},
+          "contractMaxDemand": {"value": 2.5, "unit": "kW"},
           "tariffCategoryCode": "LT-2A",
           "premisesType": "Residential",
           "connectionType": "Single-phase"

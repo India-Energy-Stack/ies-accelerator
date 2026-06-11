@@ -33,33 +33,33 @@
         {
           "id": "did:web:example-utility.com:assets:solar-plant:DER-SOLAR-001",
           "type": "SOLAR_PV",
-          "attributes": {"maxExportKw": 3, "make": "SunPower Corporation", "model": "SPR-X22-360", "commissioningDate": "2025-01-12T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 3, "unit": "kW"}, "make": "SunPower Corporation", "model": "SPR-X22-360", "commissioningDate": "2025-01-12T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:wind-farm:DER-WIND-001",
           "type": "WIND",
-          "attributes": {"maxExportKw": 1.5, "make": "Windmill Co.", "model": "WM-MICRO-150", "commissioningDate": "2025-03-01T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 1.5, "unit": "kW"}, "make": "Windmill Co.", "model": "WM-MICRO-150", "commissioningDate": "2025-03-01T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:bess:BESS-001",
           "type": "BESS",
-          "attributes": {"maxExportKw": 5, "maxImportKw": 5, "storageCapacityKwh": 10, "storageType": "LithiumIon", "commissioningDate": "2025-01-12T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 5, "unit": "kW"}, "maxImport": {"value": 5, "unit": "kW"}, "storageCapacity": {"value": 10, "unit": "kWh"}, "storageType": "LithiumIon", "commissioningDate": "2025-01-12T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:bess:BESS-002",
           "type": "BESS",
-          "attributes": {"maxExportKw": 2.5, "maxImportKw": 2.5, "storageCapacityKwh": 5, "storageType": "LithiumIon", "commissioningDate": "2025-06-01T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 2.5, "unit": "kW"}, "maxImport": {"value": 2.5, "unit": "kW"}, "storageCapacity": {"value": 5, "unit": "kWh"}, "storageType": "LithiumIon", "commissioningDate": "2025-06-01T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         }
       ],
       "consumptionProfiles": [
         {
           "meterId": "did:web:example-utility.com:assets:meter:MET2025789456123",
-          "sanctionedLoadKw": 5,
-          "contractMaxDemandKw": 4,
+          "sanctionedLoad": {"value": 5, "unit": "kW"},
+          "contractMaxDemand": {"value": 4, "unit": "kW"},
           "tariffCategoryCode": "RES-01",
           "premisesType": "Residential",
           "connectionType": "Single-phase"
