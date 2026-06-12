@@ -82,4 +82,4 @@ Identify two roles: an **IT / data point of contact** for the technical integrat
 
 ---
 
-*Once these nine items are in place, your organisation is exchanging smart-meter data on IES in a standardised, signed, auditable way. See the [Smart Meter Data Exchange use case](./README.md) for the detailed setup, and the [data-exchange basic checklist](../../checklists/data-exchange-basic-checklist.md) for the underlying network-onboarding steps.*
+*Once these nine items are in place, your organisation is exchanging smart-meter data on IES in a standardised, signed, auditable way. See the [Smart Meter Data Exchange use case](./README.md) for the detailed setup, and the [data-exchange onboarding checklist](../../checklists/data-exchange-checklist.md) for the underlying network-onboarding steps.*

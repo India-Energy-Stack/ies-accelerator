@@ -119,15 +119,13 @@ def main():
         ],
         "exchange_setup": [
             ("data-exchange/README.md", "Introduction to Beckn-based federated energy data exchange and network components."),
-            ("data-exchange/concepts.md", "Beckn control plane vs. data plane, subscriber registries, and schema dispatch mechanics."),
-            ("data-exchange/architecture.md", "Network topology, gateway configurations, and sandbox vs. production endpoints."),
+            ("data-exchange/concepts.md", "Just-enough theory: Beckn lifecycle, trust, DatasetItem, schema families, validation, stack topology."),
             ("data-exchange/quick-start.md", "Developer guide to starting local sandboxes and sending confirm -> on_confirm exchanges."),
-            ("data-exchange/registry-setup.md", "Detailed steps for configuring ONIX with real identities and whitelisting namespaces.")
+            ("data-exchange/registry-setup.md", "Detailed steps for configuring ONIX with real identities and whitelisting namespaces."),
+            ("data-exchange/appendix.md", "Reference detail: context invariants, validation dispatch, endpoints, sequence diagram.")
         ],
         "exchange_ops": [
-            ("checklists/data-exchange-basic-checklist.md", "Checklist for local sandbox validation and callback endpoint wiring."),
-            ("checklists/data-exchange-checklist.md", "Intermediate checklist for organization readiness and proxy audits."),
-            ("checklists/data-exchange-checklist-detailed.md", "Production verification roadmap covering TLS, keys, databases, and monitoring.")
+            ("checklists/data-exchange-checklist.md", "Staged onboarding checklist from devkit sandbox to production go-live.")
         ],
         "schemas": [
             ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),

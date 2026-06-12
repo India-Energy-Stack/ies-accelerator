@@ -33,6 +33,8 @@ You do four things, in order. Click through to the upstream docs for the exact U
 
 Pick a domain you control (e.g. `example-np.com`). DeDi gives you a DNS TXT record; add it to your domain's DNS; DeDi verifies and your namespace becomes a root of trust.
 
+> **Can't get DNS verification through?** Contact the IES Secretariat (see step 4) — a temporary workaround is available while your domain verification is sorted out.
+
 → [docs.nfh.global/beckn — Step 2: Create & verify your namespace](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants)
 
 ### 2. Create a subscriber registry under your namespace
@@ -54,13 +56,13 @@ Fill the standard fields:
 
 Generate the keypair using the helper script in [beckn-onix](https://github.com/beckn/beckn-onix) (or any Ed25519 tool — raw 32-byte seed + 32-byte public key, both Base64 RFC 4648 with padding).
 
-After publishing, **note the `recordId`** that DeDi assigns. It is your `keyId` in ONIX. Also copy the **DeDi lookup URL** for the record (or the whole subscriber registry) — you'll send it to IES in step 4.
+After publishing, **note the `recordId`** that DeDi assigns. It is your `keyId` in ONIX. Also copy the **DeDi lookup URL** for the record (or the whole subscriber registry) — you'll send it to IES in step 4. Records can take **~5 minutes to propagate** — verify your lookup URL resolves via the registry service before sending it onward.
 
 → [docs.nfh.global/beckn — Step 4: Publish your subscriber record](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants)
 
 ### 4. Ask IES to add your DeDi URL to the network reference registry
 
-For the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`), the NFO is the **IES Secretariat**. Send them the **DeDi lookup URL** of either your individual subscriber record or your whole subscriber registry, plus the `type` (Registry vs Record — see upstream docs):
+For the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`), the NFO is the **IES Secretariat**. Send them the **DeDi lookup URL** of your whole subscriber registry, plus the `type` (use Registry — see upstream docs):
 
 - **Record URL** if you want only that one identity referenced into the network.
 - **Registry URL** if you want every current and future subscriber record under that registry of yours treated as part of the network.
