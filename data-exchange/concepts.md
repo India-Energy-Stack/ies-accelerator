@@ -1,6 +1,6 @@
 # Core Concepts — Data Exchange
 
-Just enough theory to start building. Read this page, then go run the [Quick Start](./quick-start.md). Deeper reference material — endpoint tables, validation dispatch mechanics, identity field mappings, the full sequence diagram — lives in the [Appendix](./appendix.md).
+Just enough theory to start building. Read this page, then go run the [Quick Start](./quick-start.md). Deeper reference material — the four ONIX endpoints, hostname/endpoint tables, validation dispatch mechanics, the full sequence diagram — lives in the [Appendix](./appendix.md).
 
 ---
 
@@ -119,11 +119,13 @@ One operational gotcha: ONIX only fetches `@context` URLs from **allow-listed ho
 
 ## Architecture at a glance
 
-The devkit runs each side (BAP and BPP) as a self-contained set of containers, bridged only by a Caddy router on `:9000`. The same image runs unchanged locally or behind a public tunnel.
+Your application never speaks Beckn directly — it talks to **ONIX**, which exposes a `caller` endpoint (where your app hands it outbound messages to sign and dispatch) and a `receiver` endpoint (where the network delivers inbound messages, which ONIX verifies and forwards to your app's **webhook**). There is one caller/receiver pair per role — `/bap/caller`, `/bap/receiver`, `/bpp/caller`, `/bpp/receiver` — and one ONIX deployment can host any combination under one identity. Roles are configuration, not separate software.
+
+The devkit simulates **two participants** (identities `bap.example.com` and `bpp.example.com`), so it runs two ONIX containers on mutually isolated docker networks:
 
 ```
-                    beckn-router :9000   (Caddy — the only bridge)
-                    /                  \
+                    beckn-router :9000   (Caddy reverse proxy — stands in for
+                    /                  \    the internet + public hostnames)
         /bap/*    <                      >    /bpp/*
                   /                      \
    ─── bap_side ──┘                        └── bpp_side ───
@@ -134,13 +136,13 @@ The devkit runs each side (BAP and BPP) as a self-contained set of containers, b
 
 | Component | Role |
 |---|---|
-| `onix-bap` / `onix-bpp` | Beckn protocol adapter — signs, verifies, routes, validates `dataPayload`, manages async callbacks |
-| `sandbox-bap` | BAP webhook receiver — logs every `on_*` callback so you can inspect responses |
-| `sandbox-bpp` | Reference BPP — auto-responds with the example payloads in `uc{1,2}-*/examples/` |
-| `beckn-router` | Caddy bridging the two side networks; the public entrypoint when deployed |
+| `onix-bap` / `onix-bpp` | Beckn protocol adapter, one per simulated participant — signs, verifies, validates `dataPayload`, dispatches to the counterparty, forwards inbound messages to the app webhook |
+| `sandbox-bap` | Consumer-side stand-in app — receives `on_*` callbacks on its webhook and logs them so you can inspect responses |
+| `sandbox-bpp` | Provider-side stand-in app — receives requests on its webhook and auto-responds with the example payloads via `/bpp/caller` |
+| `beckn-router` | Plain Caddy reverse proxy, the only container on both networks — routes by path (`/bap/*` → `onix-bap`, `/bpp/*` → `onix-bpp`) and carries the dummy participant hostnames as docker aliases. **Not a Beckn entity**; doesn't exist in production, where your public URL fronts ONIX directly |
 | `redis` | Per-side message cache used by ONIX |
 
-Which URL to use where (Postman target vs payload hostnames, sandbox vs production) and the full message sequence diagram are in the [Appendix](./appendix.md#endpoints--sandbox-vs-production).
+The hostnames in `bapUri`/`bppUri` are participant identities: dummy docker aliases locally, your real public URL (DeDi-published) in production. The full message path, the four-endpoint reference, and which URL goes where are in the [Appendix](./appendix.md#the-four-onix-endpoints).
 
 ---
 

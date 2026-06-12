@@ -1046,8 +1046,12 @@ This block governs data discovery, consent, and the transfer of telemetry and re
         <li><a href="data-exchange/appendix.md#publishing-your-own-schema">Publishing your own schema</a>
       </li>
       </ul>
+      <li><a href="data-exchange/appendix.md#the-four-onix-endpoints">The four ONIX endpoints</a>      <ul>
+        <li><a href="data-exchange/appendix.md#where-onix-delivers-the-routing-configs">Where ONIX delivers — the routing configs</a>
+      </li>
+      </ul>
       <li><a href="data-exchange/appendix.md#generic-beckn-flow">Generic Beckn flow</a></li>
-      <li><a href="data-exchange/appendix.md#endpoints-sandbox-vs-production">Endpoints — sandbox vs production</a></li>
+      <li><a href="data-exchange/appendix.md#hostnames-and-endpoints-sandbox-vs-production">Hostnames and endpoints — sandbox vs production</a></li>
       <li><a href="data-exchange/appendix.md#further-reading">Further reading</a>
     </li>
     </ul>

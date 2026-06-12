@@ -69,7 +69,7 @@ devkits/data-exchange/uc3-tariff-policy/postman/data-exchange-uc3-tariff-policy.
 | `beckn_adapter_url` | `http://localhost:8081/bap/caller` | The HTTP target Postman POSTs to |
 | `bap_host_root` / `bpp_host_root` | `http://beckn-router:9000` | Substituted into each payload's `context.bapUri`/`bppUri`; resolved by ONIX *inside* docker (change only for ngrok/deployed routing — see §6) |
 
-The layering behind these two kinds of URL is explained in [Appendix § Endpoints](./appendix.md#endpoints--sandbox-vs-production).
+The layering behind these two kinds of URL is explained in [Appendix § Hostnames and endpoints](./appendix.md#hostnames-and-endpoints--sandbox-vs-production).
 
 **Send and verify:**
 
@@ -120,7 +120,7 @@ Once §4 is green locally, you can prove the same stack interoperates over a rea
    cp ngrok.yml.example ngrok.yml   # edit: paste your authtoken
    ngrok start --all --config ngrok.yml
    ```
-2. In Postman, set `bap_host_root` / `bpp_host_root` to the HTTPS URL ngrok prints (e.g. `https://abc123.ngrok-free.dev`). Leave `beckn_adapter_url` alone — Postman still POSTs to your local ONIX.
+2. In Postman, set `bap_host_root` / `bpp_host_root` to the HTTPS URL ngrok prints (e.g. `https://abc123.ngrok-free.dev`) — the docker-only dummy hostnames aren't reachable from outside, so the payload URIs must carry your public tunnel URL instead. Leave `beckn_adapter_url` alone — Postman still POSTs to your local ONIX.
 3. Fire `confirm` again; watch the hops in the ngrok inspector at [http://localhost:4040](http://localhost:4040).
 
 For two-party interop, each side runs its own tunnel and you point `bpp_host_root` at the *other side's* URL. Details and the full recipe: [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes). Revert the host variables to `http://beckn-router:9000` to return to local-only mode.
@@ -129,11 +129,14 @@ For two-party interop, each side runs its own tunnel and you point `bpp_host_roo
 
 ## 7. Wire in your application
 
-Sections 3–6 prove the wiring against the bundled sandbox containers. To run real logic, **replace** the sandbox container on your side:
+Sections 3–6 prove the wiring against the bundled sandbox containers. Your app connects to ONIX in exactly two places — and `bapUri`/`bppUri` are *not* one of them (those always point at ONIX receivers, never at your app):
 
-**BAP — receive callbacks in your own app.** Stand up a service exposing the callback paths your flow needs (`POST /bap/receiver/on_confirm`, `on_status`, `on_select`, `on_init`), put it on the `bap_side` docker network, stop `sandbox-bap`, and point the `bapUri` in your outbound payloads at your service. You can run both side-by-side at first for diffing.
+- **Inbound** — after verifying a message, ONIX forwards it to the **webhook URL set in the routing config** ([`config/local-simple-routing-BAPReceiver.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-routing-BAPReceiver.yaml) / `…-BPPReceiver.yaml`). The sandboxes are wired in this way; your app replaces them by taking over that URL.
+- **Outbound** — your app POSTs messages to ONIX's `caller` endpoint.
 
-**BPP — serve real data.** Implement the request paths your flow needs (`POST /bpp/receiver/confirm`, `status`, `select`, `init`). Each must return the synchronous ACK envelope immediately, then asynchronously POST the matching `on_*` callback to `http://onix-bpp:8082/bpp/caller/on_<action>`. Copy the wire shape from `uc*/examples/on-*-response*.json`, swap in your real data, stop `sandbox-bpp`, and run your provider on the `bpp_side` network. The `sandbox-bpp` source is a working minimal provider you can fork.
+**BAP — receive callbacks in your own app.** Stand up a service with a webhook endpoint for the `on_*` callbacks your flow needs, reachable from `onix-bap` (on the `bap_side` docker network, or a routable host). Change `target.url` in `local-simple-routing-BAPReceiver.yaml` from `http://sandbox-bap:3001/api/bap-webhook` to your service, restart `onix-bap`, then stop `sandbox-bap`.
+
+**BPP — serve real data.** Your provider receives requests (`confirm`, `status`, …) on the webhook set in `local-simple-routing-BPPReceiver.yaml` (devkit default: `http://sandbox-bpp:3002/api/webhook`). Acknowledge each with HTTP 200, then respond asynchronously by POSTing the matching callback to `http://onix-bpp:8082/bpp/caller/on_<action>` — copy the wire shape from `uc*/examples/on-*-response*.json` and swap in your real data. Point the routing config at your service, run it on the `bpp_side` network, stop `sandbox-bpp`. The `sandbox-bpp` source is a working minimal provider you can fork.
 
 ---
 

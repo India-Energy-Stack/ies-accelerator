@@ -64,54 +64,80 @@ ONIX then validates exactly as it does for `MeterData` or `DatasetItem` — no c
 
 ---
 
-## Generic Beckn flow
+## The four ONIX endpoints
 
-Every action is a separate HTTP POST that returns an immediate `ACK`; the paired `on_*` callback arrives asynchronously at the caller's webhook. Which steps you actually run depends on the use case:
+A single ONIX adapter can expose up to four module endpoints — a `caller`/`receiver` pair per role:
 
-```mermaid
-sequenceDiagram
-    participant BAP as BAP App
-    participant OBAP as ONIX BAP
-    participant R as beckn-router
-    participant OBPP as ONIX BPP
-    participant BPP as BPP Server
+| Endpoint | Role | Direction | Who calls it |
+|---|---|---|---|
+| `/bap/caller` | BAP | outbound | **Your consumer app** hands ONIX a request (`confirm`, `discover`, …) to sign and dispatch |
+| `/bap/receiver` | BAP | inbound | **The network** (the counterparty's ONIX) delivers `on_*` callbacks here; ONIX verifies and forwards them to your app's webhook |
+| `/bpp/caller` | BPP | outbound | **Your provider app** hands ONIX an `on_*` response to sign and dispatch |
+| `/bpp/receiver` | BPP | inbound | **The network** delivers requests (`confirm`, `status`, …) here; ONIX verifies and forwards them to your provider's webhook |
 
-    Note over BAP,BPP: Optional: publish-catalog · discover / on_discover
-    Note over BAP,BPP: Optional: select / init → on_select / on_init
+`caller` is your own side's entrance into ONIX; `receiver` is the network's entrance. The role split is **configuration, not software** — one ONIX deployment can host any combination of these modules under one identity, so a participant that both consumes and provides data runs all four endpoints on a single adapter. The devkit runs two ONIX containers only because it simulates two *participants*: identity `bap.example.com` configured with the BAP module pair ([config/local-simple-bap.yaml](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml)) and identity `bpp.example.com` with the BPP pair (`local-simple-bpp.yaml`).
 
-    BAP->>OBAP: confirm
-    OBAP-->>BAP: ACK (synchronous)
-    OBAP->>R: confirm (async)
-    R->>OBPP: confirm
-    OBPP->>BPP: confirm
-    BPP-->>OBPP: ACK
+### Where ONIX delivers — the routing configs
 
-    rect rgb(245, 245, 245)
-        Note over BAP,BPP: ★ Minimal flow ends after on_confirm
-        BPP->>OBPP: on_confirm
-        OBPP->>R: on_confirm
-        R->>OBAP: on_confirm
-        OBAP->>BAP: on_confirm
-    end
+What happens after a `receiver` verifies a message is defined in the routing configs ([config/local-simple-routing-*.yaml](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/config)):
 
-    Note over BAP,BPP: Optional: status / on_status (async delivery)
-    Note over BAP,BPP: Optional: update / on_update (credential rotation)
-```
+| Routing config | Applies to | Devkit target |
+|---|---|---|
+| `…-BAPReceiver.yaml` | inbound `on_*` callbacks | webhook `http://sandbox-bap:3001/api/bap-webhook` |
+| `…-BPPReceiver.yaml` | inbound requests | webhook `http://sandbox-bpp:3002/api/webhook` |
+| `…-BAPCaller.yaml` / `…-BPPCaller.yaml` | outbound dispatch | the counterparty (`targetType: bpp`/`bap` — resolve from the message context / registry) |
+
+This webhook hop is how the sandbox apps are wired in — and how **your** app gets wired in too ([Quick Start § 7](./quick-start.md#7-wire-in-your-application)): you change the receiver's webhook URL to your service; you never need to touch `bapUri`/`bppUri`, which always point at ONIX receivers.
 
 ---
 
-## Endpoints — sandbox vs production
+## Generic Beckn flow
 
-Two different kinds of URL show up in a Beckn flow, and they live at different layers. Keep them separate:
+Every action is a separate HTTP POST that returns an immediate `ACK`; the paired `on_*` callback arrives asynchronously. The full chain for the minimal `confirm` → `on_confirm` exchange, as the devkit runs it:
+
+```mermaid
+sequenceDiagram
+    participant CON as Consumer app<br/>(Postman / your BAP)
+    participant OBAP as onix-bap<br/>(identity bap.example.com)
+    participant OBPP as onix-bpp<br/>(identity bpp.example.com)
+    participant PRO as Provider app<br/>(sandbox-bpp / your BPP)
+
+    CON->>OBAP: POST /bap/caller/confirm
+    OBAP-->>CON: ACK (synchronous)
+    Note over OBAP,OBPP: onix-bap signs, resolves the bppUri hostname<br/>(locally a docker alias for the Caddy proxy,<br/>which forwards /bpp/* to onix-bpp)
+    OBAP->>OBPP: POST /bpp/receiver/confirm (signed)
+    OBPP->>PRO: webhook POST confirm<br/>(target set in routing config)
+    PRO-->>OBPP: ACK
+
+    rect rgb(245, 245, 245)
+        Note over CON,PRO: ★ Minimal flow ends after on_confirm
+        PRO->>OBPP: POST /bpp/caller/on_confirm
+        Note over OBPP,OBAP: onix-bpp signs, resolves the bapUri hostname
+        OBPP->>OBAP: POST /bap/receiver/on_confirm (signed)
+        OBAP->>CON: webhook POST on_confirm<br/>(target set in routing config)
+    end
+
+    Note over CON,PRO: Same chain for the optional phases:<br/>publish-catalog · discover · select / init · status · update
+```
+
+Note what is **not** a participant in this diagram: `beckn-router`. It is a plain Caddy reverse proxy — the only container with a foot in both docker networks — that routes purely by path (`/bap/*` → `onix-bap:8081`, `/bpp/*` → `onix-bpp:8082`). It stands in for the public internet plus each participant's public hostname; it is not a Beckn network entity and does not exist in a production deployment, where your TLS-terminated public URL fronts your ONIX directly.
+
+---
+
+## Hostnames and endpoints — sandbox vs production
+
+The hostnames in `bapUri` / `bppUri` represent **participant identities**. In production they are your real public URLs, published in your DeDi subscriber record. In the devkit they are **dummy aliases that only resolve inside the docker network**: the compose file attaches `bap.example.com` and `bpp.example.com` as aliases of `beckn-router`, so when one ONIX dispatches to the counterparty's hostname, DNS lands on the Caddy proxy, which path-routes to the right ONIX `receiver`. (Multi-participant devkits extend the same idea with one hostname per identity — e.g. `buyerapp.example.com:9000`, `sellerapp.example.com:9000` in the P2P trading devkit.)
+
+That gives two kinds of URL, living at different layers:
 
 | Concern | Devkit sandbox | Real network |
 |---|---|---|
-| **HTTP target** — where your client (Postman, your app) POSTs `confirm`, `discover`, etc. to the BAP adapter | `http://localhost:8081/bap/caller` *(port-mapped to the `onix-bap` container)* | Your BAP ONIX deployment URL behind TLS |
-| **HTTP target** — where the BPP's client POSTs `on_confirm` / `on_status` to the BPP adapter | `http://localhost:8082/bpp/caller` *(port-mapped to the `onix-bpp` container)* | Your BPP ONIX deployment URL behind TLS |
-| **Payload hostnames** — values for `bapUri` / `bppUri` inside each message's `context`, used by the receiving ONIX (which sits inside docker) to find the other side | `http://beckn-router:9000/{bap,bpp}/receiver` | Your public callback URLs published in your DeDi subscriber record |
+| **HTTP target** — where your client (Postman, your app) POSTs `confirm`, `discover`, etc. | `http://localhost:8081/bap/caller` *(port-mapped to `onix-bap`)* | Your ONIX deployment URL behind TLS |
+| **HTTP target** — where your provider POSTs `on_confirm` / `on_status` | `http://localhost:8082/bpp/caller` *(port-mapped to `onix-bpp`)* | Your ONIX deployment URL behind TLS |
+| **Payload hostnames** — `bapUri` / `bppUri` in each message's `context`; resolved by the *sending* ONIX to reach the counterparty's `receiver` | `http://beckn-router:9000/{bap,bpp}/receiver` (or the `bap.example.com` / `bpp.example.com` aliases — both resolve to the proxy) | Your public callback URLs published in your DeDi subscriber record |
 | `networkId`, `bapId`/`bppId`, `allowedNetworkIDs` | placeholder values shipped in `config/` | See [Registry Setup](./registry-setup.md) |
 
-The split matters because **`beckn-router` is a docker-network hostname**: it's resolved by ONIX (which runs inside docker on the `bap_side`/`bpp_side` networks), not by your Postman client. Your client connects to the port-mapped adapter ports directly — `:8081` for BAP, `:8082` for BPP. The shipped Postman collections reflect this: requests POST to `localhost:8081|8082`; payload variables substitute `http://beckn-router:9000` into the message body.
+Your Postman client never connects to `beckn-router` or the dummy aliases — they are docker-internal names. It POSTs to the port-mapped `caller` endpoints (`:8081` / `:8082`); the payload variables substitute the docker-resolvable hostnames into the message body for ONIX to use. When transacting **over the internet** (ngrok or a hosted deployment), the dummy aliases are no longer reachable by the counterparty — that's why [Quick Start § 6](./quick-start.md#6-test-over-the-public-internet-ngrok) has you replace them with your tunnel or hosted URL.
 
 ONIX configuration lives in [config/local-simple-{bap,bpp}.yaml](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/config). The DeDi → ONIX field mapping is on [Registry Setup](./registry-setup.md#configure-onix-with-your-real-identity).
 
