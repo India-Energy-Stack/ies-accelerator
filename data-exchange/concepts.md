@@ -139,7 +139,7 @@ The devkit simulates **two participants** (identities `bap.example.com` and `bpp
 | `onix-bap` / `onix-bpp` | Beckn protocol adapter, one per simulated participant — signs, verifies, validates `dataPayload`, dispatches to the counterparty, forwards inbound messages to the app webhook |
 | `sandbox-bap` | Consumer-side stand-in app — receives `on_*` callbacks on its webhook and logs them so you can inspect responses |
 | `sandbox-bpp` | Provider-side stand-in app — receives requests on its webhook and auto-responds with the example payloads via `/bpp/caller` |
-| `beckn-router` | Plain Caddy reverse proxy, the only container on both networks — routes by path (`/bap/*` → `onix-bap`, `/bpp/*` → `onix-bpp`) and carries the dummy participant hostnames as docker aliases. **Not a Beckn entity**; doesn't exist in production, where your public URL fronts ONIX directly |
+| `beckn-router` | Plain Caddy reverse proxy, the only container on both networks — routes by path (`/bap/*` → `onix-bap`, `/bpp/*` → `onix-bpp`) and carries the dummy participant hostnames as docker aliases. **Not a Beckn entity** — deployment plumbing: in production the local aliases (e.g. `bap.example.com`) are replaced by your publicly accessible URL (`https://<your-host>/b*p/receiver`), and Caddy can keep routing incoming calls to the right ONIX endpoint at the receiver's end |
 | `redis` | Per-side message cache used by ONIX |
 
 The hostnames in `bapUri`/`bppUri` are participant identities: dummy docker aliases locally, your real public URL (DeDi-published) in production. The full message path, the four-endpoint reference, and which URL goes where are in the [Appendix](./appendix.md#the-four-onix-endpoints).

@@ -121,7 +121,7 @@ sequenceDiagram
     Note over CON,PRO: Same chain for the optional phases:<br/>publish-catalog · discover · select / init · status · update
 ```
 
-Note what is **not** a participant in this diagram: `beckn-router`. It is a plain Caddy reverse proxy — the only container with a foot in both docker networks — that routes purely by path (`/bap/*` → `onix-bap:8081`, `/bpp/*` → `onix-bpp:8082`). It stands in for the public internet plus each participant's public hostname; it is not a Beckn network entity and does not exist in a production deployment, where your TLS-terminated public URL fronts your ONIX directly.
+Note what is **not** a participant in this diagram: `beckn-router`. It is a plain Caddy reverse proxy — the only container with a foot in both docker networks — that routes purely by path (`/bap/*` → `onix-bap:8081`, `/bpp/*` → `onix-bpp:8082`). It is not a Beckn network entity, just deployment plumbing. Locally it also stands in for the public internet: the dummy participant hostnames are docker aliases that resolve to it. In production those aliases are replaced by your publicly accessible URL (`https://<your-host>/bap/receiver`, `…/bpp/receiver`), and the same proxy pattern remains useful at the receiver's end — Caddy (or any reverse proxy, with TLS in front) routes the incoming `/bap/*` / `/bpp/*` calls to the right ONIX endpoint.
 
 ---
 
