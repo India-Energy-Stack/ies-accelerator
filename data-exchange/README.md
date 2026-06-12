@@ -93,7 +93,7 @@ If you're new, read in this order: **Concepts → Quick Start → Registry Setup
 | Page | What you'll learn |
 |---|---|
 | [Core Concepts](./concepts.md) | Just enough theory: Beckn lifecycle, the minimal flow, trust, DatasetItem, schema families, validation, stack topology |
-| [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes — clone, start, send `confirm`, see `on_confirm` — then wire in your own app |
+| [Quick Start](./quick-start.md) | A complete exchange in under 10 minutes, then three phases: run locally → go over the public internet (ngrok) → make the sandbox your own |
 | [Registry Setup](./registry-setup.md) | Going beyond sandbox identity — DeDi namespace, subscriber record, ONIX config, how to contact the IES NFO |
 | [Onboarding Checklist](../checklists/data-exchange-checklist.md) | One staged checklist from devkit sandbox to production go-live |
 | [Appendix](./appendix.md) | Reference detail — context invariants, validation dispatch, endpoints, sequence diagram |

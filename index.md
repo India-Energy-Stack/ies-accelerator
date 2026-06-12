@@ -982,20 +982,22 @@ This block governs data discovery, consent, and the transfer of telemetry and re
     <li><a href="data-exchange/quick-start.md#quick-start-data-exchange">Quick Start — Data Exchange</a>    <ul>
       <li><a href="data-exchange/quick-start.md#1-pick-your-role">1. Pick your role</a></li>
       <li><a href="data-exchange/quick-start.md#2-prerequisites">2. Prerequisites</a></li>
-      <li><a href="data-exchange/quick-start.md#3-clone-and-start-the-stack">3. Clone and start the stack</a></li>
-      <li><a href="data-exchange/quick-start.md#4-run-the-minimal-exchange-confirm-on-confirm">4. Run the minimal exchange (`confirm` → `on_confirm`)</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#bpp-path">BPP path</a>
+      <li><a href="data-exchange/quick-start.md#phase-a-run-it-locally">Phase A — Run it locally</a>      <ul>
+        <li><a href="data-exchange/quick-start.md#a1-clone-and-start-the-stack">A1. Clone and start the stack</a></li>
+        <li><a href="data-exchange/quick-start.md#a2-run-the-minimal-exchange-confirm-on-confirm">A2. Run the minimal exchange (`confirm` → `on_confirm`)</a>        <ul>
+          <li><a href="data-exchange/quick-start.md#bpp-path">BPP path</a>
+        </li>
+        </ul>
+        <li><a href="data-exchange/quick-start.md#a3-optional-add-other-beckn-actions">A3. (Optional) Add other Beckn actions</a>
       </li>
       </ul>
-      <li><a href="data-exchange/quick-start.md#5-optional-add-other-beckn-actions">5. (Optional) Add other Beckn actions</a></li>
-      <li><a href="data-exchange/quick-start.md#6-test-over-the-public-internet-ngrok">6. Test over the public internet (ngrok)</a></li>
-      <li><a href="data-exchange/quick-start.md#7-wire-in-your-application">7. Wire in your application</a></li>
-      <li><a href="data-exchange/quick-start.md#8-stop-the-stack">8. Stop the stack</a></li>
-      <li><a href="data-exchange/quick-start.md#9-going-beyond-the-sandbox">9. Going beyond the sandbox</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#phase-1-use-the-devkit-as-is-and-prove-the-flows">Phase 1 — Use the devkit as-is and prove the flows</a></li>
-        <li><a href="data-exchange/quick-start.md#phase-2-swap-in-your-real-identity">Phase 2 — Swap in your real identity</a>
+      <li><a href="data-exchange/quick-start.md#phase-b-go-over-the-public-internet-ngrok">Phase B — Go over the public internet (ngrok)</a></li>
+      <li><a href="data-exchange/quick-start.md#phase-c-make-the-sandbox-your-own">Phase C — Make the sandbox your own</a>      <ul>
+        <li><a href="data-exchange/quick-start.md#replacing-the-sandbox-with-your-own-application">Replacing the sandbox with your own application</a>
       </li>
       </ul>
+      <li><a href="data-exchange/quick-start.md#stop-the-stack">Stop the stack</a></li>
+      <li><a href="data-exchange/quick-start.md#swap-in-your-real-identity">Swap in your real identity</a></li>
       <li><a href="data-exchange/quick-start.md#reference">Reference</a>
     </li>
     </ul>

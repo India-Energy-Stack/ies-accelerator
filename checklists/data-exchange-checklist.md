@@ -25,7 +25,7 @@
 
 ## Stage 1 — Devkit validation (local sandbox)
 
-*Goal: prove the wiring and your application's handling of the payload shape — no real identity, no real network. This is [Quick Start](../data-exchange/quick-start.md) §1–7.*
+*Goal: prove the wiring and your application's handling of the payload shape — no real identity, no real network. This is [Quick Start](../data-exchange/quick-start.md) Phases A–C.*
 
 - [ ] Devkit cloned, stack up (`docker compose up -d` in `install/`), all containers healthy
 - [ ] Postman collection for your role and use case imported (defaults left intact)
@@ -48,7 +48,7 @@
 
 *Goal: same flows as Stage 1, now with your real identity on the IES test network.*
 
-- [ ] ONIX config updated: `allowedNetworkIDs` (test network), `networkParticipant`, `keyId`, signing keys ([Quick Start § Phase 2](../data-exchange/quick-start.md#phase-2--swap-in-your-real-identity))
+- [ ] ONIX config updated: `allowedNetworkIDs` (test network), `networkParticipant`, `keyId`, signing keys ([Quick Start § Swap in your real identity](../data-exchange/quick-start.md#swap-in-your-real-identity))
 - [ ] End-to-end exchange completes with another participant on the test network
 - [ ] Delivered `dataPayload` validates against the declared schema family
 

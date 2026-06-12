@@ -1,6 +1,14 @@
 # Quick Start — Data Exchange
 
-Run a working data exchange against the devkit's local sandbox in under 10 minutes — no real registry, no production credentials. Track your overall progress with the [Onboarding Checklist](../checklists/data-exchange-checklist.md); registry/production steps live on [Registry Setup](./registry-setup.md).
+Run a working data exchange in under 10 minutes, then grow it in three phases — no real registry or production credentials needed for any of them:
+
+| Phase | What you prove |
+|---|---|
+| **[A — Run it locally](#phase-a--run-it-locally)** | The full stack on your laptop, exchanging canned data |
+| **[B — Go over the public internet](#phase-b--go-over-the-public-internet-ngrok)** | The same stack transacting through a real public tunnel (ngrok) |
+| **[C — Make the sandbox your own](#phase-c--make-the-sandbox-your-own)** | The sandbox built from source and modified — or replaced by your own application |
+
+Track overall onboarding with the [Onboarding Checklist](../checklists/data-exchange-checklist.md); joining a real IES network is [Registry Setup](./registry-setup.md).
 
 ---
 
@@ -12,7 +20,7 @@ Run a working data exchange against the devkit's local sandbox in under 10 minut
 | **BPP** — data provider (AMISP, DISCOM, SERC, data custodian) | BPP-side adapter + your provider implementation | Receive `confirm`, emit `on_confirm` (and `on_status` for async delivery) with the dataset |
 | Both | Both stacks | Both flows in parallel |
 
-The walkthrough uses the **BAP** path by default; BPP implementors, see the [BPP path](#bpp-path) in §4. The minimal flow — `confirm` → `on_confirm` — is all you need to start; the full action picker is in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
+The walkthrough uses the **BAP** path by default; BPP implementors, see the [BPP path](#bpp-path) in Phase A. The minimal flow — `confirm` → `on_confirm` — is all you need to start; the full action picker is in [Concepts § Beckn Protocol Lifecycle](./concepts.md#beckn-protocol-lifecycle).
 
 ---
 
@@ -24,7 +32,9 @@ The devkit ships pre-configured sandbox identities (`bap.example.com` / `bpp.exa
 
 ---
 
-## 3. Clone and start the stack
+## Phase A — Run it locally
+
+### A1. Clone and start the stack
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -48,9 +58,7 @@ beckn-router ok
 
 > **If checks fail** — give ONIX ~15s after `docker compose up` to initialise, then re-curl. Persistent `connection refused` usually means a container isn't running; `docker compose logs onix-bap` / `onix-bpp` show why.
 
----
-
-## 4. Run the minimal exchange (`confirm` → `on_confirm`)
+### A2. Run the minimal exchange (`confirm` → `on_confirm`)
 
 One round-trip proves all the wiring: signing, routing, verification, callback delivery.
 
@@ -67,13 +75,13 @@ devkits/data-exchange/uc3-tariff-policy/postman/data-exchange-uc3-tariff-policy.
 | Variable | Default | What it is |
 |---|---|---|
 | `beckn_adapter_url` | `http://localhost:8081/bap/caller` | The HTTP target Postman POSTs to |
-| `bap_host_root` / `bpp_host_root` | `http://beckn-router:9000` | Substituted into each payload's `context.bapUri`/`bppUri`; resolved by ONIX *inside* docker (change only for ngrok/deployed routing — see §6) |
+| `bap_host_root` / `bpp_host_root` | `http://beckn-router:9000` | Substituted into each payload's `context.bapUri`/`bppUri`; resolved by ONIX *inside* docker (change only in Phase B) |
 
 The layering behind these two kinds of URL is explained in [Appendix § Hostnames and endpoints](./appendix.md#hostnames-and-endpoints--sandbox-vs-production).
 
 **Send and verify:**
 
-1. Open the `confirm` request, click **Send**. The synchronous response is the ACK envelope: `{"message":{"ack":{"status":"ACK"}}}` — "accepted, async callback pending."
+1. Open the `confirm` request, click **Send**. The synchronous response is the ACK envelope: `{"message":{"ack":{"status":"ACK"}}}` — "accepted, async callback pending." The ACK originates at the provider's webhook and cascades back through the adapters to Postman.
 2. Tail the BAP sandbox logs to see the matching callback land:
    ```bash
    docker logs sandbox-bap 2>&1 | grep on_confirm | tail -5
@@ -82,7 +90,7 @@ The layering behind these two kinds of URL is explained in [Appendix § Hostname
 
 > **If you don't see `on_confirm`** — most common causes: (a) `bap_host_root`/`bpp_host_root` changed away from `http://beckn-router:9000`, (b) ONIX rejected the message on schema/signature — check `docker logs onix-bap | grep -i error` and `onix-bpp`, or (c) host alias DNS missing on `beckn-router` (only if you regenerated `install/docker-compose.yml` — see beckn/DEG#319).
 
-### BPP path
+#### BPP path
 
 Same sanity check in reverse: import the **BPP** collection, trigger `on_confirm` from it (or wait for an inbound `confirm`), and tail:
 
@@ -90,11 +98,9 @@ Same sanity check in reverse: import the **BPP** collection, trigger `on_confirm
 docker logs sandbox-bpp 2>&1 | grep -E 'confirm|status' | tail -5
 ```
 
-Then replace `sandbox-bpp` with your own provider — see [§7](#7-wire-in-your-application).
+Then make the provider your own — see [Phase C](#phase-c--make-the-sandbox-your-own).
 
----
-
-## 5. (Optional) Add other Beckn actions
+### A3. (Optional) Add other Beckn actions
 
 Each action ships in the BAP or BPP collection — fire it only when your use case needs it:
 
@@ -110,9 +116,9 @@ Each [use-case page](../use-cases/README.md) lists exactly which steps it exerci
 
 ---
 
-## 6. Test over the public internet (ngrok)
+## Phase B — Go over the public internet (ngrok)
 
-Once §4 is green locally, you can prove the same stack interoperates over a real public tunnel — with another participant's laptop or a cloud host — without DeDi identity yet:
+Once Phase A is green, prove the same stack interoperates over a real public tunnel — with another participant's laptop or a cloud host — without DeDi identity yet:
 
 1. Create a free [ngrok](https://ngrok.com) account; copy the devkit's tunnel config and add your authtoken:
    ```bash
@@ -120,27 +126,44 @@ Once §4 is green locally, you can prove the same stack interoperates over a rea
    cp ngrok.yml.example ngrok.yml   # edit: paste your authtoken
    ngrok start --all --config ngrok.yml
    ```
-2. In Postman, set `bap_host_root` / `bpp_host_root` to the HTTPS URL ngrok prints (e.g. `https://abc123.ngrok-free.dev`) — the docker-only dummy hostnames aren't reachable from outside, so the payload URIs must carry your public tunnel URL instead. Leave `beckn_adapter_url` alone — Postman still POSTs to your local ONIX.
+2. In the Postman collection, set `bap_host_root` / `bpp_host_root` to the HTTPS URL ngrok prints (e.g. `https://abc123.ngrok-free.dev`) — the docker-only dummy hostnames aren't reachable from outside, so the payload URIs must carry your public tunnel URL instead. Leave `beckn_adapter_url` alone — Postman still POSTs to your local ONIX.
 3. Fire `confirm` again; watch the hops in the ngrok inspector at [http://localhost:4040](http://localhost:4040).
 
 For two-party interop, each side runs its own tunnel and you point `bpp_host_root` at the *other side's* URL. Details and the full recipe: [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes). Revert the host variables to `http://beckn-router:9000` to return to local-only mode.
 
 ---
 
-## 7. Wire in your application
+## Phase C — Make the sandbox your own
 
-Sections 3–6 prove the wiring against the bundled sandbox containers. Your app connects to ONIX in exactly two places — and `bapUri`/`bppUri` are *not* one of them (those always point at ONIX receivers, never at your app):
+The bundled sandboxes are instances of **[beckn/sandbox](https://github.com/beckn/sandbox)**, wired to ONIX through the webhook URLs in the routing configs. Building it from source gives you a working app you can freely modify — the gentlest path from canned data to your own logic.
 
-- **Inbound** — after verifying a message, ONIX forwards it to the **webhook URL set in the routing config** ([`config/local-simple-routing-BAPReceiver.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-routing-BAPReceiver.yaml) / `…-BPPReceiver.yaml`). The sandboxes are wired in this way; your app replaces them by taking over that URL.
+1. **Build it locally:**
+   ```bash
+   git clone https://github.com/beckn/sandbox.git
+   cd sandbox
+   docker build -t sandbox-2.0:local .
+   ```
+2. **Swap the container:** in `DEG/devkits/data-exchange/install/docker-compose.yml`, change the `sandbox-bpp` (or `sandbox-bap`) service's image from `fidedocker/sandbox-2.0:latest` to `sandbox-2.0:local`, keeping its volumes and environment, then:
+   ```bash
+   docker compose up -d sandbox-bpp
+   ```
+3. **Verify nothing broke:** re-run [Phase A § A2](#a2-run-the-minimal-exchange-confirm--on_confirm).
+4. **Modify what you please:** change the canned responses (the JSON fixtures the devkit mounts over `dist/webhook/jsons/…`), add handler logic in `src/`, rebuild, re-swap. Your changes now answer real Beckn traffic.
+
+### Replacing the sandbox with your own application
+
+When you outgrow the sandbox, your app connects to ONIX in exactly two places — `bapUri`/`bppUri` are *not* one of them (those always point at ONIX receivers, never at your app):
+
+- **Inbound** — after verifying a message, ONIX forwards it to the **webhook URL set in the routing config** ([`config/local-simple-routing-BAPReceiver.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-routing-BAPReceiver.yaml) / `…-BPPReceiver.yaml`). Take over that URL and you've replaced the sandbox.
 - **Outbound** — your app POSTs messages to ONIX's `caller` endpoint.
 
-**BAP — receive callbacks in your own app.** Stand up a service with a webhook endpoint for the `on_*` callbacks your flow needs, reachable from `onix-bap` (on the `bap_side` docker network, or a routable host). Change `target.url` in `local-simple-routing-BAPReceiver.yaml` from `http://sandbox-bap:3001/api/bap-webhook` to your service, restart `onix-bap`, then stop `sandbox-bap`.
+**BAP:** stand up a service with a webhook endpoint for the `on_*` callbacks your flow needs, reachable from `onix-bap` (on the `bap_side` docker network, or a routable host). Change `target.url` in `local-simple-routing-BAPReceiver.yaml` from `http://sandbox-bap:3001/api/bap-webhook` to your service, restart `onix-bap`, then stop `sandbox-bap`.
 
-**BPP — serve real data.** Your provider receives requests (`confirm`, `status`, …) on the webhook set in `local-simple-routing-BPPReceiver.yaml` (devkit default: `http://sandbox-bpp:3002/api/webhook`). Acknowledge each with HTTP 200, then respond asynchronously by POSTing the matching callback to `http://onix-bpp:8082/bpp/caller/on_<action>` — copy the wire shape from `uc*/examples/on-*-response*.json` and swap in your real data. Point the routing config at your service, run it on the `bpp_side` network, stop `sandbox-bpp`. The `sandbox-bpp` source is a working minimal provider you can fork.
+**BPP:** your provider receives requests (`confirm`, `status`, …) on the webhook set in `local-simple-routing-BPPReceiver.yaml` (devkit default: `http://sandbox-bpp:3002/api/webhook`). Acknowledge each with the ACK envelope, then respond asynchronously by POSTing the matching callback to `http://onix-bpp:8082/bpp/caller/on_<action>` — copy the wire shape from `uc*/examples/on-*-response*.json` and swap in your real data.
 
 ---
 
-## 8. Stop the stack
+## Stop the stack
 
 ```bash
 cd DEG/devkits/data-exchange/install && docker compose down
@@ -148,17 +171,9 @@ cd DEG/devkits/data-exchange/install && docker compose down
 
 ---
 
-## 9. Going beyond the sandbox
+## Swap in your real identity
 
-Onboarding is a two-phase progression — don't skip phase 1.
-
-### Phase 1 — Use the devkit as-is and prove the flows
-
-Sections 1–7 above are the whole of phase 1: shipped sandbox identities, placeholder `networkId`, sandbox signing keys. The goal is to confirm the wiring, your application's handling of the `dataPayload` shape, and (for BPPs) your provider's wire format — without involving DeDi or any real IES network.
-
-### Phase 2 — Swap in your real identity
-
-Only once phase 1 is solid, replace the sandbox identity with yours in [`config/local-simple-bap.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) (and the matching `local-simple-bpp.yaml`):
+Phases A–C all ran on the shipped sandbox identities. To join a real IES network, replace them with yours in [`config/local-simple-bap.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) (and the matching `local-simple-bpp.yaml`):
 
 ```yaml
 modules:
@@ -186,5 +201,6 @@ After the config swap, re-import the same Postman collection — only the identi
 
 - [Onboarding Checklist](../checklists/data-exchange-checklist.md) — staged checklist from devkit to production
 - [Core Concepts](./concepts.md) · [Appendix](./appendix.md)
+- [beckn/sandbox](https://github.com/beckn/sandbox) — the sandbox source
 - [Devkit README](https://github.com/beckn/DEG/blob/main/devkits/README.md) — multi-network ONIX, hosting/TLS, ngrok
 - [Beckn protocol v2.0.0 spec](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0)

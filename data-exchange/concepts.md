@@ -18,11 +18,11 @@ IES Data Exchange uses the **[Beckn Protocol v2.0](../glossary.md#beckn)** inter
 
 > **Minimal viable exchange:** `confirm` → `on_confirm`, with the dataset embedded in the callback. Everything else is optional.
 
-Beckn is **asynchronous**: every call returns an immediate `ACK`, and the paired response arrives as a callback (`on_*`) to the BAP's webhook URL. The [ONIX](../glossary.md#onix) adapter manages this asynchrony transparently.
+Beckn is **asynchronous**: every call is answered by an `ACK` — produced by the receiving application and cascaded back through the adapters as the synchronous HTTP response — and the paired response arrives later as a callback (`on_*`) to the BAP's webhook. The [ONIX](../glossary.md#onix) adapter manages this asynchrony transparently.
 
 ### Message Structure
 
-Every Beckn message shares the same envelope (v2.0 wire format, camelCase). This is what the **devkit sandbox** emits — on a real IES network, the `networkId`, IDs and URIs change to your DeDi-published values ([Quick Start § Phase 2](./quick-start.md#phase-2--swap-in-your-real-identity)):
+Every Beckn message shares the same envelope (v2.0 wire format, camelCase). This is what the **devkit sandbox** emits — on a real IES network, the `networkId`, IDs and URIs change to your DeDi-published values ([Quick Start § Swap in your real identity](./quick-start.md#swap-in-your-real-identity)):
 
 ```json
 {
