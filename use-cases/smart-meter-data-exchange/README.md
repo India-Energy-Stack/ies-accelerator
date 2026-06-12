@@ -111,7 +111,7 @@ For production, follow [Registry Setup](../../data-exchange/registry-setup.md) �
 
 The AMISP publishes a catalogue entry describing the `IES_Report` dataset it offers — `programID`, geographic scope, refresh cadence, access method (`INLINE` for ≤MB-scale chunks, `SIGNED_URL` for daily/monthly bulk), and any required credentials. The DISCOM uses `discover` to find this catalogue, or skips straight to `confirm` for a pre-agreed bilateral subscription.
 
-The catalogue lives inside the BPP's ONIX config — see [Architecture § Generic Beckn Flow](../../data-exchange/architecture.md#generic-beckn-flow).
+The catalogue lives inside the BPP's ONIX config — see [Appendix § Generic Beckn Flow](../../data-exchange/appendix.md#generic-beckn-flow).
 
 ### 5. Exercise the flow
 
@@ -184,6 +184,6 @@ cd DEG/devkits/data-exchange/uc1-meter-data/workflows
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc1-meter-data/examples)
 - [Survey of Existing Terminology](survey-of-existing-terminology.md) — OBIS codes, Event IDs, CIM
 - [IES Data Model](ies-data-model.md) — full OBIS → OpenADR 3 mapping table
-- [Data Exchange — Architecture](../../data-exchange/architecture.md)
+- [Data Exchange — Core Concepts](../../data-exchange/concepts.md)
 - [Data Exchange — Quick Start](../../data-exchange/quick-start.md)
 - [ies-docs `data_exchange_summary.md`](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/data_exchange_summary.md)

@@ -66,8 +66,8 @@ The devkit ships **prebuilt schemas** for three IES dataset types. The table bel
 
 | Dataset (`schema`) | Beckn role | Common integration examples | Transfer pattern | Confirm with your vendor |
 |---|---|---|---|---|
-| Smart meter telemetry ([MeterData](../schemas/MeterData/v0.5/README.md)) | discovery + contract + consent + audit | Field: [DLMS-COSEM / IS 15959](../glossary.md#dlms-cosem). HES↔MDM and enterprise: [IEC 61968-9 / CIM / MultiSpeak v3.0](../glossary.md#iec-61968). Optional event / near-real-time adapter: [MQTT 5.0](../glossary.md#mqtt). [OpenADR 3.1.0](../glossary.md#openadr) for DR / DER events only — *not* generic interval reads. | Inline for small samples / single-meter pulls; signed URL or REST for bulk batches after MDM validation; MQTT or Kafka access pattern for subscribed near-real-time events | Which standard is actually deployed on your HES↔MDM interface and field network |
-| ARR filing ([ArrFiling](../schemas/ArrFiling/v0.5/README.md)) | discovery + contract + audit | [XBRL / iXBRL](../glossary.md#xbrl) (target). Current SERC portal practice: PDF/A + spreadsheet annexures. | Inline when filing fits in a signed message; HTTPS REST or signed object URL for full filings with annexures | Which annexure schema your SERC accepts today |
+| Smart meter telemetry ([MeterData](../schemas/MeterData/README.md)) | discovery + contract + consent + audit | Field: [DLMS-COSEM / IS 15959](../glossary.md#dlms-cosem). HES↔MDM and enterprise: [IEC 61968-9 / CIM / MultiSpeak v3.0](../glossary.md#iec-61968). Optional event / near-real-time adapter: [MQTT 5.0](../glossary.md#mqtt). [OpenADR 3.1.0](../glossary.md#openadr) for DR / DER events only — *not* generic interval reads. | Inline for small samples / single-meter pulls; signed URL or REST for bulk batches after MDM validation; MQTT or Kafka access pattern for subscribed near-real-time events | Which standard is actually deployed on your HES↔MDM interface and field network |
+| ARR filing ([ArrFiling](../schemas/ArrFiling/README.md)) | discovery + contract + audit | [XBRL / iXBRL](../glossary.md#xbrl) (target). Current SERC portal practice: PDF/A + spreadsheet annexures. | Inline when filing fits in a signed message; HTTPS REST or signed object URL for full filings with annexures | Which annexure schema your SERC accepts today |
 | Tariff policy (`IES_Policy` + `IES_Program`) | discovery + contract | Order text: [Akoma Ntoso / LegalDocML](../glossary.md#akoma-ntoso) XML. Schedules / slabs / [ToD](../glossary.md#tod) / subsidies: versioned CSV / JSON / JSON-LD with [DCAT 3](../glossary.md#dcat-3) metadata. | Inline for slab / ToD tables; HTTPS REST or signed artifact for full order documents | How your state publishes tariff orders today |
 
 **Any JSON payload can be exchanged** beyond these three — the wire envelope carries arbitrary data inside `dataPayload`. If your payload is **self-describing** (declares a JSON-LD `@context` and `@type`), the ONIX adapter automatically validates it against the schema published at that context URL. Payloads without `@context` flow through unvalidated — useful for ad-hoc or evolving data shapes. See [Concepts § How schema validation works](./concepts.md#how-schema-validation-works) for the dispatch mechanics.
@@ -80,7 +80,7 @@ The devkit ships **prebuilt schemas** for three IES dataset types. The table bel
 |---|---|
 | **[BAP](../glossary.md#bap)** (data consumer) | Your application on the consuming side — DISCOM, regulator, VAS provider. Beckn calls it the Beckn Application Platform. |
 | **[BPP](../glossary.md#bpp)** (data provider) | Your server on the providing side — AMISP, DISCOM, SERC, data custodian. Beckn calls it the Beckn Provider Platform. |
-| **[ONIX](../glossary.md#onix) Adapter** | The Beckn protocol adapter — signs and verifies messages, routes between BAP and BPP, validates payload schemas. Your code talks to ONIX; ONIX talks Beckn. Runs as a Docker service. See [Architecture](./architecture.md) for details. |
+| **[ONIX](../glossary.md#onix) Adapter** | The Beckn protocol adapter — signs and verifies messages, routes between BAP and BPP, validates payload schemas. Your code talks to ONIX; ONIX talks Beckn. Runs as a Docker service. See [Concepts § Architecture at a glance](./concepts.md#architecture-at-a-glance). |
 | **IES Networks** | Two networks anchored at the `indiaenergystack.in` [DeDi](../glossary.md#dedi) namespace: `test-ies-data-sharing-network` for pre-production / certification and `ies-data-sharing-network` for live exchange. The devkit sandbox is local-only and uses placeholder identities. See [Registry Setup](./registry-setup.md). |
 | **sandbox-bpp / sandbox-bap** | Pre-built containers bundled in the devkit. `sandbox-bpp` auto-responds with IES test data; `sandbox-bap` logs every callback so you can inspect it. You replace these with your own application in production. |
 
@@ -88,22 +88,15 @@ The devkit ships **prebuilt schemas** for three IES dataset types. The table bel
 
 ## Sections in This Chapter
 
-If you're new, read in this order: **Concepts → Quick Start → Registry Setup**. Architecture is a deeper reference you can dip into when needed. End-to-end use cases that exercise this protocol — meter telemetry, ARR filings, tariff publication — live in the top-level [Use Cases](../use-cases/README.md) section.
+If you're new, read in this order: **Concepts → Quick Start → Registry Setup**, ticking off the [Onboarding Checklist](../checklists/data-exchange-checklist.md) as you go. The [Appendix](./appendix.md) is reference material to dip into when needed. End-to-end use cases that exercise this protocol — meter telemetry, ARR filings, tariff publication — live in the top-level [Use Cases](../use-cases/README.md) section.
 
 | Page | What you'll learn |
 |---|---|
-| [Core Concepts](./concepts.md) | Beckn lifecycle, the minimal flow, DatasetItem, inline delivery, context invariants |
-| [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes — clone, start, send `confirm`, see `on_confirm`. Includes the BAP and BPP onboarding checklists. |
+| [Core Concepts](./concepts.md) | Just enough theory: Beckn lifecycle, the minimal flow, trust, DatasetItem, schema families, validation, stack topology |
+| [Quick Start](./quick-start.md) | Run a complete exchange in under 10 minutes — clone, start, send `confirm`, see `on_confirm` — then wire in your own app |
 | [Registry Setup](./registry-setup.md) | Going beyond sandbox identity — DeDi namespace, subscriber record, ONIX config, how to contact the IES NFO |
-| [Architecture](./architecture.md) | Stack topology, generic Beckn ladder, endpoints (sandbox vs production) |
-
----
-
-## Mock BPP (cloud sandbox) — planned
-
-The devkit ships a local `sandbox-bpp` container for development. A separate **cloud-hosted Mock BPP** is planned as additional scope outside the devkit — a long-lived sandbox provider that BAP implementors can transact against without running anything locally, and that the network can use for **automated conformance testing and certification** of new BAPs.
-
-Details (URL, supported use cases, conformance suite) — TBD.
+| [Onboarding Checklist](../checklists/data-exchange-checklist.md) | One staged checklist from devkit sandbox to production go-live |
+| [Appendix](./appendix.md) | Reference detail — context invariants, validation dispatch, endpoints, sequence diagram |
 
 ---
 

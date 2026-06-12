@@ -36,12 +36,10 @@
 
 * [Data Exchange](data-exchange/README.md)
   * [Core Concepts](data-exchange/concepts.md)
-  * [Architecture](data-exchange/architecture.md)
   * [Quick Start](data-exchange/quick-start.md)
   * [Registry Setup](data-exchange/registry-setup.md)
-  * [Basic Checklist](checklists/data-exchange-basic-checklist.md)
-  * [Simple Checklist](checklists/data-exchange-checklist.md)
-  * [Detailed Checklist](checklists/data-exchange-checklist-detailed.md)
+  * [Onboarding Checklist](checklists/data-exchange-checklist.md)
+  * [Appendix](data-exchange/appendix.md)
 
 * [Schemas](schemas/README.md)
   * [ElectricityCredential](schemas/ElectricityCredential/README.md)

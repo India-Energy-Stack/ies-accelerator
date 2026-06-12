@@ -225,9 +225,8 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 ### References & Anchors
 * [Data Exchange Concepts](../data-exchange/concepts.md)
 * [Data Exchange Quick Start](../data-exchange/quick-start.md)
-  * [Onboarding Checklist](../data-exchange/quick-start.md#onboarding-checklist) (ONIX Docker parameters)
 * [ONIX Registry Setup](../data-exchange/registry-setup.md)
-* [Basic Data Exchange Checklist](../checklists/data-exchange-basic-checklist.md)
+* [Data Exchange Onboarding Checklist](../checklists/data-exchange-checklist.md)
 </details>
 
 <details>
@@ -287,7 +286,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > Run a parallel pilot! Trade smart meter telemetry with a friendly test consumer or partner BAP to confirm that signing, encryption, and logging flows operate perfectly before live production exchange.
 
 ### References & Anchors
-* [Detailed Data Exchange Checklist](../checklists/data-exchange-checklist-detailed.md)
+* [Data Exchange Onboarding Checklist](../checklists/data-exchange-checklist.md)
 </details>
 
 ---

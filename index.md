@@ -947,7 +947,6 @@ This block governs data discovery, consent, and the transfer of telemetry and re
       <li><a href="data-exchange/README.md#what-data-can-be-exchanged">What Data Can Be Exchanged</a></li>
       <li><a href="data-exchange/README.md#key-components">Key Components</a></li>
       <li><a href="data-exchange/README.md#sections-in-this-chapter">Sections in This Chapter</a></li>
-      <li><a href="data-exchange/README.md#mock-bpp-cloud-sandbox-planned">Mock BPP (cloud sandbox) — planned</a></li>
       <li><a href="data-exchange/README.md#related-repositories">Related Repositories</a>
     </li>
     </ul>
@@ -955,46 +954,21 @@ This block governs data discovery, consent, and the transfer of telemetry and re
   </ul>
   </details>
 * **[concepts.md](data-exchange/concepts.md)**
-  - *Summary*: Beckn control plane vs. data plane, subscriber registries, and schema dispatch mechanics.
+  - *Summary*: Just-enough theory: Beckn lifecycle, trust, DatasetItem, schema families, validation, stack topology.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="data-exchange/concepts.md#core-concepts-data-exchange">Core Concepts — Data Exchange</a>    <ul>
-      <li><a href="data-exchange/concepts.md#the-digital-energy-grid-deg-primitives">The Digital Energy Grid (DEG) Primitives</a></li>
       <li><a href="data-exchange/concepts.md#beckn-protocol-lifecycle">Beckn Protocol Lifecycle</a>      <ul>
-        <li><a href="data-exchange/concepts.md#message-structure">Message Structure</a></li>
-        <li><a href="data-exchange/concepts.md#context-invariants">Context invariants</a>
+        <li><a href="data-exchange/concepts.md#message-structure">Message Structure</a>
       </li>
       </ul>
-      <li><a href="data-exchange/concepts.md#building-trust">Building Trust</a>      <ul>
-        <li><a href="data-exchange/concepts.md#how-identity-resolution-works">How identity resolution works</a></li>
-        <li><a href="data-exchange/concepts.md#identity-fields-in-dedi-and-in-onix">Identity fields, in DeDi and in ONIX</a>
-      </li>
-      </ul>
+      <li><a href="data-exchange/concepts.md#building-trust">Building Trust</a></li>
       <li><a href="data-exchange/concepts.md#the-datasetitem-schema">The DatasetItem Schema</a></li>
-      <li><a href="data-exchange/concepts.md#ies-data-schemas">IES Data Schemas</a></li>
-      <li><a href="data-exchange/concepts.md#how-schema-validation-works">How schema validation works</a>      <ul>
-        <li><a href="data-exchange/concepts.md#the-dispatch-mechanic">The dispatch mechanic</a></li>
-        <li><a href="data-exchange/concepts.md#domain-allow-list">Domain allow-list</a></li>
-        <li><a href="data-exchange/concepts.md#publishing-your-own-schema">Publishing your own schema</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/concepts.md#onix-adapter-and-network">ONIX Adapter and Network</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[architecture.md](data-exchange/architecture.md)**
-  - *Summary*: Network topology, gateway configurations, and sandbox vs. production endpoints.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="data-exchange/architecture.md#architecture-data-exchange">Architecture — Data Exchange</a>    <ul>
-      <li><a href="data-exchange/architecture.md#stack-topology">Stack topology</a></li>
-      <li><a href="data-exchange/architecture.md#generic-beckn-flow">Generic Beckn flow</a></li>
-      <li><a href="data-exchange/architecture.md#endpoints-sandbox-vs-production">Endpoints — sandbox vs production</a></li>
-      <li><a href="data-exchange/architecture.md#further-reading">Further reading</a>
+      <li><a href="data-exchange/concepts.md#schema-families">Schema families</a></li>
+      <li><a href="data-exchange/concepts.md#how-schema-validation-works">How schema validation works</a></li>
+      <li><a href="data-exchange/concepts.md#architecture-at-a-glance">Architecture at a glance</a></li>
+      <li><a href="data-exchange/concepts.md#where-next">Where next</a>
     </li>
     </ul>
   </li>
@@ -1010,34 +984,16 @@ This block governs data discovery, consent, and the transfer of telemetry and re
       <li><a href="data-exchange/quick-start.md#2-prerequisites">2. Prerequisites</a></li>
       <li><a href="data-exchange/quick-start.md#3-clone-and-start-the-stack">3. Clone and start the stack</a></li>
       <li><a href="data-exchange/quick-start.md#4-run-the-minimal-exchange-confirm-on-confirm">4. Run the minimal exchange (`confirm` → `on_confirm`)</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#import-the-postman-collection">Import the Postman collection</a></li>
-        <li><a href="data-exchange/quick-start.md#set-collection-variables">Set collection variables</a></li>
-        <li><a href="data-exchange/quick-start.md#send-confirm-and-verify-bap-path">Send `confirm` and verify (BAP path)</a></li>
         <li><a href="data-exchange/quick-start.md#bpp-path">BPP path</a>
       </li>
       </ul>
       <li><a href="data-exchange/quick-start.md#5-optional-add-other-beckn-actions">5. (Optional) Add other Beckn actions</a></li>
-      <li><a href="data-exchange/quick-start.md#6-test-over-the-public-internet-ngrok">6. Test over the public internet (ngrok)</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#one-time-setup">One-time setup</a></li>
-        <li><a href="data-exchange/quick-start.md#start-the-tunnel">Start the tunnel</a></li>
-        <li><a href="data-exchange/quick-start.md#re-run-the-flow-through-the-tunnel">Re-run the flow through the tunnel</a></li>
-        <li><a href="data-exchange/quick-start.md#transacting-with-another-participant">Transacting with another participant</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/quick-start.md#7-wire-in-your-application">7. Wire in your application</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#bap-receive-the-callback-in-your-own-app">BAP — receive the callback in your own app</a></li>
-        <li><a href="data-exchange/quick-start.md#bpp-serve-real-data-from-your-provider">BPP — serve real data from your provider</a>
-      </li>
-      </ul>
+      <li><a href="data-exchange/quick-start.md#6-test-over-the-public-internet-ngrok">6. Test over the public internet (ngrok)</a></li>
+      <li><a href="data-exchange/quick-start.md#7-wire-in-your-application">7. Wire in your application</a></li>
       <li><a href="data-exchange/quick-start.md#8-stop-the-stack">8. Stop the stack</a></li>
       <li><a href="data-exchange/quick-start.md#9-going-beyond-the-sandbox">9. Going beyond the sandbox</a>      <ul>
         <li><a href="data-exchange/quick-start.md#phase-1-use-the-devkit-as-is-and-prove-the-flows">Phase 1 — Use the devkit as-is and prove the flows</a></li>
         <li><a href="data-exchange/quick-start.md#phase-2-swap-in-your-real-identity">Phase 2 — Swap in your real identity</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/quick-start.md#onboarding-checklist">Onboarding checklist</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#bap-data-consumer">BAP (Data Consumer)</a></li>
-        <li><a href="data-exchange/quick-start.md#bpp-data-provider">BPP (Data Provider)</a>
       </li>
       </ul>
       <li><a href="data-exchange/quick-start.md#reference">Reference</a>
@@ -1076,100 +1032,43 @@ This block governs data discovery, consent, and the transfer of telemetry and re
   </li>
   </ul>
   </details>
+* **[appendix.md](data-exchange/appendix.md)**
+  - *Summary*: Reference detail: context invariants, validation dispatch, endpoints, sequence diagram.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="data-exchange/appendix.md#appendix-data-exchange-reference">Appendix — Data Exchange Reference</a>    <ul>
+      <li><a href="data-exchange/appendix.md#context-invariants">Context invariants</a></li>
+      <li><a href="data-exchange/appendix.md#identity-resolution-step-by-step">Identity resolution, step by step</a></li>
+      <li><a href="data-exchange/appendix.md#schema-validation-reference">Schema validation reference</a>      <ul>
+        <li><a href="data-exchange/appendix.md#failure-modes">Failure modes</a></li>
+        <li><a href="data-exchange/appendix.md#domain-allow-list">Domain allow-list</a></li>
+        <li><a href="data-exchange/appendix.md#publishing-your-own-schema">Publishing your own schema</a>
+      </li>
+      </ul>
+      <li><a href="data-exchange/appendix.md#generic-beckn-flow">Generic Beckn flow</a></li>
+      <li><a href="data-exchange/appendix.md#endpoints-sandbox-vs-production">Endpoints — sandbox vs production</a></li>
+      <li><a href="data-exchange/appendix.md#further-reading">Further reading</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
 
 ### 🔌 Use & Operations
-* **[data-exchange-basic-checklist.md](checklists/data-exchange-basic-checklist.md)**
-  - *Summary*: Checklist for local sandbox validation and callback endpoint wiring.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/data-exchange-basic-checklist.md#basic-checklist-data-exchange">Basic Checklist — Data Exchange</a>    <ul>
-      <ul>
-        <li><a href="checklists/data-exchange-basic-checklist.md#1-decide-which-datasets-you-will-publish-or-consume">1. Decide which datasets you will publish (or consume)</a></li>
-        <li><a href="checklists/data-exchange-basic-checklist.md#2-set-up-your-network-identity">2. Set up your network identity</a></li>
-        <li><a href="checklists/data-exchange-basic-checklist.md#3-try-it-on-the-test-network-first">3. Try it on the test network first</a></li>
-        <li><a href="checklists/data-exchange-basic-checklist.md#4-connect-your-real-data-systems">4. Connect your real data systems</a></li>
-        <li><a href="checklists/data-exchange-basic-checklist.md#5-make-your-data-discoverable">5. Make your data discoverable</a></li>
-        <li><a href="checklists/data-exchange-basic-checklist.md#6-production-deployment">6. Production deployment</a></li>
-        <li><a href="checklists/data-exchange-basic-checklist.md#7-go-live-verification">7. Go-live verification</a></li>
-        <li><a href="checklists/data-exchange-basic-checklist.md#8-nominate-your-team">8. Nominate your team</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 * **[data-exchange-checklist.md](checklists/data-exchange-checklist.md)**
-  - *Summary*: Intermediate checklist for organization readiness and proxy audits.
+  - *Summary*: Staged onboarding checklist from devkit sandbox to production go-live.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="checklists/data-exchange-checklist.md#india-energy-stack">India Energy Stack</a>    <ul>
-      <li><a href="checklists/data-exchange-checklist.md#ies-energy-data-exchange">IES Energy Data Exchange</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist.md#discom-organisation-readiness-checklist">DISCOM / Organisation Readiness Checklist</a></li>
-        <li><a href="checklists/data-exchange-checklist.md#stage-1-testnet-validation">Stage 1 — Testnet Validation</a></li>
-        <li><a href="checklists/data-exchange-checklist.md#stage-2-dedi-setup">Stage 2 — DeDi Setup</a></li>
-        <li><a href="checklists/data-exchange-checklist.md#stage-3-production-network-registration">Stage 3 — Production Network Registration</a></li>
-        <li><a href="checklists/data-exchange-checklist.md#stage-4-real-data-integration">Stage 4 — Real Data Integration</a></li>
-        <li><a href="checklists/data-exchange-checklist.md#stage-5-production-infrastructure">Stage 5 — Production Infrastructure</a></li>
-        <li><a href="checklists/data-exchange-checklist.md#stage-6-go-live-verification">Stage 6 — Go-Live Verification</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[data-exchange-checklist-detailed.md](checklists/data-exchange-checklist-detailed.md)**
-  - *Summary*: Production verification roadmap covering TLS, keys, databases, and monitoring.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/data-exchange-checklist-detailed.md#india-energy-stack">India Energy Stack</a>    <ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#ies-energy-data-exchange-implementation-checklist">IES Energy Data Exchange — Implementation Checklist</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#detailed-technical-reference-testnet-to-production">Detailed Technical Reference: Testnet to Production</a>
-      </li>
-      </ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#stage-1-testnet-validation">Stage 1 — Testnet Validation</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#pre-requisites">Pre-requisites</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#stack-setup">Stack Setup</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#use-case-testing">Use Case Testing</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#testnet-sign-off">Testnet Sign-off</a>
-      </li>
-      </ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#stage-2-dedi-setup">Stage 2 — DeDi Setup</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#21-register-a-dedi-namespace">2.1 Register a DeDi Namespace</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#22-configure-dataset-hash-anchoring-bpp">2.2 Configure Dataset Hash Anchoring (BPP)</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#23-configure-dedi-verification-bap">2.3 Configure DeDi Verification (BAP)</a>
-      </li>
-      </ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#stage-3-production-network-registration">Stage 3 — Production Network Registration</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#31-domain-and-tls-setup">3.1 Domain and TLS Setup</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#32-generate-production-signing-keys">3.2 Generate Production Signing Keys</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#33-submit-registration-to-ies-team">3.3 Submit Registration to IES Team</a>
-      </li>
-      </ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#stage-4-real-data-integration">Stage 4 — Real Data Integration</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#41-production-bpp-server-bpp-role-only">4.1 Production BPP Server (BPP role only)</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#42-connect-to-real-data-sources">4.2 Connect to Real Data Sources</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#43-dataset-catalog-publication">4.3 Dataset Catalog Publication</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#44-production-bap-application-bap-role-only">4.4 Production BAP Application (BAP role only)</a>
-      </li>
-      </ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#stage-5-production-infrastructure">Stage 5 — Production Infrastructure</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#51-onix-adapter-deployment">5.1 ONIX Adapter Deployment</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#52-security">5.2 Security</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#53-monitoring-and-observability">5.3 Monitoring and Observability</a>
-      </li>
-      </ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#stage-6-go-live-verification">Stage 6 — Go-Live Verification</a>      <ul>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#61-production-integration-test">6.1 Production Integration Test</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#62-data-integrity-verification">6.2 Data Integrity Verification</a></li>
-        <li><a href="checklists/data-exchange-checklist-detailed.md#63-operations-readiness">6.3 Operations Readiness</a>
-      </li>
-      </ul>
-      <li><a href="checklists/data-exchange-checklist-detailed.md#troubleshooting-reference">Troubleshooting Reference</a>
+    <li><a href="checklists/data-exchange-checklist.md#data-exchange-onboarding-checklist">Data Exchange — Onboarding Checklist</a>    <ul>
+      <li><a href="checklists/data-exchange-checklist.md#stage-0-scope-and-team">Stage 0 — Scope and team</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-1-devkit-validation-local-sandbox">Stage 1 — Devkit validation (local sandbox)</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-2-network-identity-dedi">Stage 2 — Network identity (DeDi)</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-3-test-network-validation">Stage 3 — Test network validation</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-4-real-data-integration">Stage 4 — Real data integration</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-5-production-infrastructure">Stage 5 — Production infrastructure</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-6-go-live">Stage 6 — Go-live</a>
     </li>
     </ul>
   </li>
@@ -1190,7 +1089,7 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
     <li><a href="schemas/README.md#ies-accelerator-schemas">IES Accelerator — Schemas</a>    <ul>
       <li><a href="schemas/README.md#why-this-directory-exists">Why this directory exists</a></li>
       <li><a href="schemas/README.md#provenance-and-updates">Provenance and updates</a></li>
-      <li><a href="schemas/README.md#contents">Contents</a>
+      <li><a href="schemas/README.md#schema-families">Schema Families</a>
     </li>
     </ul>
   </li>

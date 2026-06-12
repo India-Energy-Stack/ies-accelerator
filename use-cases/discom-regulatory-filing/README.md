@@ -210,5 +210,5 @@ ARR filings arrive today as PDFs/Excel sheets that regulators manually re-key. D
 - [`IES_ARR_Filing` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/arr)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc2-regulatory-data/examples)
 - [ies-docs ARR examples](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange/examples)
-- [Data Exchange — Architecture](../../data-exchange/architecture.md)
+- [Data Exchange — Core Concepts](../../data-exchange/concepts.md)
 - [Data Exchange — Quick Start](../../data-exchange/quick-start.md)
