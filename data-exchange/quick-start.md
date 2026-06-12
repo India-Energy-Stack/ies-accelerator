@@ -92,7 +92,7 @@ The layering behind these two kinds of URL is explained in [Appendix § Hostname
 
 **Send and verify:**
 
-1. Open the `confirm` request, click **Send**. The synchronous response is the ACK envelope: `{"message":{"ack":{"status":"ACK"}}}` — "accepted, async callback pending." The ACK originates at the provider's webhook and cascades back through the adapters to Postman.
+1. Open the `confirm` request, click **Send**. The synchronous response is the ACK envelope: `{"message":{"status":"ACK", "messageId":<messageId>}}` — "accepted, async callback pending." The ACK originates at the provider's webhook and cascades back through the adapters to Postman.
 2. Tail the BAP sandbox logs to see the matching callback land:
    ```bash
    docker logs sandbox-bap 2>&1 | grep on_confirm | tail -5
@@ -140,7 +140,7 @@ Once Phase A is green, prove the same stack interoperates over a real public tun
 2. In the Postman collection, set `bap_host_root` / `bpp_host_root` to the HTTPS URL ngrok prints (e.g. `https://abc123.ngrok-free.dev`) — the docker-only dummy hostnames aren't reachable from outside, so the payload URIs must carry your public tunnel URL instead. Leave `beckn_adapter_url` alone — Postman still POSTs to your local ONIX.
 3. Fire `confirm` again; watch the hops in the ngrok inspector at [http://localhost:4040](http://localhost:4040).
 
-For two-party interop, each side runs its own tunnel and you point `bpp_host_root` at the *other side's* URL. Details and the full recipe: [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes). Revert the host variables to `http://beckn-router:9000` to return to local-only mode.
+For two-party interop, each side runs its own tunnel and if you are a bap, you point `bpp_host_root` at the *other side's* URL. Details and the full recipe: [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes). Revert the host variables to `http://beckn-router:9000` to return to local-only mode.
 
 ---
 

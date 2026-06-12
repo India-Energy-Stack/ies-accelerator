@@ -62,7 +62,7 @@ After publishing, **note the `recordId`** that DeDi assigns. It is your `keyId` 
 
 ### 4. Ask IES to add your DeDi URL to the network reference registry
 
-For the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`), the NFO is the **IES Secretariat**. Send them the **DeDi lookup URL** of either your individual subscriber record or your whole subscriber registry, plus the `type` (Registry vs Record — see upstream docs):
+For the IES test network (`indiaenergystack.in/test-ies-data-sharing-network`), the NFO is the **IES Secretariat**. Send them the **DeDi lookup URL** of your whole subscriber registry, plus the `type` (use Registry — see upstream docs):
 
 - **Record URL** if you want only that one identity referenced into the network.
 - **Registry URL** if you want every current and future subscriber record under that registry of yours treated as part of the network.
