@@ -26,9 +26,20 @@ The walkthrough uses the **BAP** path by default; BPP implementors, see the [BPP
 
 ## 2. Prerequisites
 
-- Docker and Docker Compose, Git, Postman *(or `curl`)*, ~2 GB free disk space
+- Docker and Docker Compose, Git, Python 3, Postman *(or `curl`)*, ~2 GB free disk space
 
 The devkit ships pre-configured sandbox identities (`bap.example.com` / `bpp.example.com`) — no real credentials needed.
+
+**Domains to whitelist** — if your organisation restricts outbound traffic, allow these before starting:
+
+| Purpose | Domain |
+|---|---|
+| Devkit and related repos (clone, raw schema fetches) | `https://github.com/beckn` |
+| Discovery service (DS) — where ONIX routes `discover` | `https://34.93.165.42.sslip.io` |
+| Catalog service (CS) + DeDi registry lookups — where ONIX routes `publish-catalog` and resolves participants | `https://fabric.nfh.global` |
+| DeDi publishing — namespaces, registries, subscriber records | `https://publish.dedi.global` |
+| Schema contexts — `@context` / `attributes.yaml` fetches | `https://schema.beckn.io`, `https://schema.nfh.global` |
+| IES docs and hosted schemas | `https://india-energy-stack.gitbook.io/docs`, `https://india-energy-stack.github.io` |
 
 ---
 
@@ -193,7 +204,7 @@ modules:
 
 Where these values come from — DeDi namespace, subscriber record, IES NFO handoff, and the full field mapping — is the subject of [Registry Setup](./registry-setup.md). Stay on the **test network** until certified; the recommended prod pattern is [two separate ONIX deployments](./registry-setup.md#two-registries-two-onix-deployments).
 
-After the config swap, re-import the same Postman collection — only the identity ONIX signs with and the network it claims change. A successful `confirm` against another participant on `indiaenergystack.in/test-ies-data-sharing-network` proves end-to-end onboarding.
+After the config swap, re-import the same Postman collection — only the identity ONIX signs with and the network it claims change. Use the same network ID in every payload's `context.networkId`: ONIX rejects messages whose `networkId` isn't in its `allowedNetworkIDs` ([Registry Setup § the gate](./registry-setup.md#allowednetworkids-is-the-gate)). A successful `confirm` against another participant on `indiaenergystack.in/test-ies-data-sharing-network` proves end-to-end onboarding.
 
 ---
 

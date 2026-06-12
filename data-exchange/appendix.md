@@ -85,7 +85,7 @@ What happens after a `receiver` verifies a message is defined in the routing con
 |---|---|---|
 | `…-BAPReceiver.yaml` | inbound `on_*` callbacks | webhook `http://sandbox-bap:3001/api/bap-webhook` |
 | `…-BPPReceiver.yaml` | inbound requests | webhook `http://sandbox-bpp:3002/api/webhook` |
-| `…-BAPCaller.yaml` / `…-BPPCaller.yaml` | outbound dispatch | the counterparty (`targetType: bpp`/`bap` — resolve from the message context / registry) |
+| `…-BAPCaller.yaml` / `…-BPPCaller.yaml` | outbound dispatch | the counterparty (`targetType: bpp`/`bap` — resolved from the message context / registry); catalogue actions go to network services instead — `discover` → the discovery service (DS), `publish-catalog` → the catalog service (CS) |
 
 This webhook hop is how the sandbox apps are wired in — and how **your** app gets wired in too ([Quick Start § Phase C](./quick-start.md#phase-c--make-the-sandbox-your-own)): you change the receiver's webhook URL to your service; you never need to touch `bapUri`/`bppUri`, which always point at ONIX receivers.
 

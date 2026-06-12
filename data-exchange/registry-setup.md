@@ -33,6 +33,8 @@ You do four things, in order. Click through to the upstream docs for the exact U
 
 Pick a domain you control (e.g. `example-np.com`). DeDi gives you a DNS TXT record; add it to your domain's DNS; DeDi verifies and your namespace becomes a root of trust.
 
+> **Can't get DNS verification through?** Contact the IES Secretariat (see step 4) — a temporary workaround is available while your domain verification is sorted out.
+
 → [docs.nfh.global/beckn — Step 2: Create & verify your namespace](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants)
 
 ### 2. Create a subscriber registry under your namespace
@@ -54,7 +56,7 @@ Fill the standard fields:
 
 Generate the keypair using the helper script in [beckn-onix](https://github.com/beckn/beckn-onix) (or any Ed25519 tool — raw 32-byte seed + 32-byte public key, both Base64 RFC 4648 with padding).
 
-After publishing, **note the `recordId`** that DeDi assigns. It is your `keyId` in ONIX. Also copy the **DeDi lookup URL** for the record (or the whole subscriber registry) — you'll send it to IES in step 4.
+After publishing, **note the `recordId`** that DeDi assigns. It is your `keyId` in ONIX. Also copy the **DeDi lookup URL** for the record (or the whole subscriber registry) — you'll send it to IES in step 4. Records can take **~5 minutes to propagate** — verify your lookup URL resolves via the registry service before sending it onward.
 
 → [docs.nfh.global/beckn — Step 4: Publish your subscriber record](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants)
 
