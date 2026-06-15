@@ -14,9 +14,33 @@ try:
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object"
     }
+    beckn_address_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "components": {
+            "schemas": {
+                "Address": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+    beckn_geojson_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "components": {
+            "schemas": {
+                "GeoJSONGeometry": {
+                    "type": "object"
+                }
+            }
+        }
+    }
     resources = [
         ("https://schema.beckn.io/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
-        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema))
+        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema)),
+        ("https://schema.beckn.io/Address/v2.0/attributes.yaml", Resource.from_contents(beckn_address_schema)),
+        ("https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml", Resource.from_contents(beckn_geojson_schema))
     ]
     # Dynamically register all local schema.json files under their raw.githubusercontent.com URLs
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "schemas"))
@@ -26,10 +50,15 @@ try:
                 schema_path = os.path.join(root, file)
                 rel_path = os.path.relpath(schema_path, base_dir)
                 url = f"https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/{rel_path}"
+                url_github_io = f"https://india-energy-stack.github.io/ies-accelerator/schemas/{rel_path}"
                 try:
                     with open(schema_path, "r", encoding="utf-8") as sf:
                         local_schema = json.load(sf)
                     resources.append((url, Resource.from_contents(local_schema)))
+                    resources.append((url_github_io, Resource.from_contents(local_schema)))
+                    schema_id = local_schema.get("$id")
+                    if schema_id:
+                        resources.append((schema_id, Resource.from_contents(local_schema)))
                 except Exception:
                     pass
     registry = Registry().with_resources(resources)

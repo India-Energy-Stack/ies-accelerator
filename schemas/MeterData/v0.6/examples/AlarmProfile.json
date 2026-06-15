@@ -1,34 +1,27 @@
-{
-  "@type": "AlarmProfile",
-  "profileType": "ALARM",
-  "meterRefs": [
-    {
-      "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321",
-      "scheme": "DID"
-    }
-  ],
-  "timestamp": "2026-05-22T11:00:00+05:30",
-  "alarms": [
-    {
-      "timestamp": "2026-05-22T10:15:30+05:30",
-      "alarmId": 6,
-      "alarmName": "Meter Cover Open",
-      "status": "ACTIVE",
-      "severity": "CRITICAL"
-    },
-    {
-      "timestamp": "2026-05-22T10:30:00+05:30",
-      "alarmId": 8,
-      "alarmName": "Low Prepayment Balance",
-      "status": "ACTIVE",
-      "severity": "WARNING"
-    },
-    {
-      "timestamp": "2026-05-22T11:00:00+05:30",
-      "alarmId": 1,
-      "alarmName": "Voltage Sag",
-      "status": "CLEARED",
-      "severity": "INFO"
-    }
-  ]
-}
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-ALARM",
+    "payloadDescriptorSets": [
+      {
+        "name": "AlarmSet",
+        "payloadDescriptors": []
+      }
+    ]
+  },
+  {
+    "@type": "AlarmProfile",
+    "profileType": "ALARM",
+    "meterRefs": [
+      { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "AlarmSet",
+    "timestamp": "2026-05-22T11:00:00+05:30",
+    "alarms": [
+      { "timestamp": "2026-05-22T10:15:30+05:30", "alarmId": 6, "alarmName": "Meter Cover Open", "status": "ACTIVE", "severity": "CRITICAL" },
+      { "timestamp": "2026-05-22T10:30:00+05:30", "alarmId": 8, "alarmName": "Low Prepayment Balance", "status": "ACTIVE", "severity": "WARNING" },
+      { "timestamp": "2026-05-22T11:00:00+05:30", "alarmId": 1, "alarmName": "Voltage Sag", "status": "CLEARED", "severity": "INFO" }
+    ]
+  }
+]

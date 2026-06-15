@@ -1,7 +1,7 @@
 {
     "@context": {
         "@version": 1.1,
-        "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies/",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies/",
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
@@ -189,6 +189,12 @@
             "rdfs:comment": "Configuration profile representing a collection of Payload Descriptor Sets exchanged out-of-band or embedded in an array."
         },
         {
+            "@id": "ies:CustomerDetails",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Customer Details",
+            "rdfs:comment": "PII sub-object. Omit entirely for anonymised or pseudonymous exchange."
+        },
+        {
             "@id": "ies:profileType",
             "@type": "rdf:Property",
             "rdfs:label": "profile Type",
@@ -205,6 +211,12 @@
             "@type": "rdf:Property",
             "rdfs:label": "time Zone",
             "rdfs:comment": "IANA time-zone, e.g. Asia/Kolkata."
+        },
+        {
+            "@id": "ies:customerDetails",
+            "@type": "rdf:Property",
+            "rdfs:label": "customer Details",
+            "rdfs:comment": ""
         },
         {
             "@id": "ies:customer",
@@ -414,7 +426,7 @@
             "@id": "schema:name",
             "@type": "rdf:Property",
             "rdfs:label": "name",
-            "rdfs:comment": ""
+            "rdfs:comment": "Full name of the customer as per ID proof."
         },
         {
             "@id": "ies:shortLabel",
@@ -633,45 +645,15 @@
             "rdfs:comment": "Sanctioned/approved grid export limit in kW."
         },
         {
-            "@id": "ies:addressLine",
+            "@id": "ies:address",
             "@type": "rdf:Property",
-            "rdfs:label": "address Line",
+            "rdfs:label": "address",
             "rdfs:comment": ""
         },
         {
-            "@id": "ies:city",
+            "@id": "ies:geo",
             "@type": "rdf:Property",
-            "rdfs:label": "city",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:postalCode",
-            "@type": "rdf:Property",
-            "rdfs:label": "postal Code",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:latitude",
-            "@type": "rdf:Property",
-            "rdfs:label": "latitude",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:longitude",
-            "@type": "rdf:Property",
-            "rdfs:label": "longitude",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "schema:manufacturer",
-            "@type": "rdf:Property",
-            "rdfs:label": "manufacturer",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:modelNumber",
-            "@type": "rdf:Property",
-            "rdfs:label": "model Number",
+            "rdfs:label": "geo",
             "rdfs:comment": ""
         },
         {
@@ -690,7 +672,7 @@
             "@id": "ies:meterType",
             "@type": "rdf:Property",
             "rdfs:label": "meter Type",
-            "rdfs:comment": "Type of the meter."
+            "rdfs:comment": ""
         },
         {
             "@id": "ies:meterCategory",

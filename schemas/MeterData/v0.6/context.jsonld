@@ -7,7 +7,7 @@
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
-        "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies#",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
         "CustomerProfile": {
             "@id": "ies:CustomerProfile",
             "@context": {
@@ -24,6 +24,18 @@
                 "timeZone": {
                     "@id": "ies:timeZone",
                     "@type": "xsd:string"
+                },
+                "customerDetails": {
+                    "@id": "ies:customerDetails",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        }
+                    }
                 },
                 "customer": {
                     "@id": "ies:customer",
@@ -116,25 +128,13 @@
                                 }
                             }
                         },
-                        "addressLine": {
-                            "@id": "ies:addressLine",
-                            "@type": "xsd:string"
+                        "address": {
+                            "@id": "ies:address",
+                            "@type": "@id"
                         },
-                        "city": {
-                            "@id": "ies:city",
-                            "@type": "xsd:string"
-                        },
-                        "postalCode": {
-                            "@id": "ies:postalCode",
-                            "@type": "xsd:string"
-                        },
-                        "latitude": {
-                            "@id": "ies:latitude",
-                            "@type": "xsd:decimal"
-                        },
-                        "longitude": {
-                            "@id": "ies:longitude",
-                            "@type": "xsd:decimal"
+                        "geo": {
+                            "@id": "ies:geo",
+                            "@type": "@id"
                         }
                     }
                 },
@@ -165,14 +165,6 @@
                                 }
                             }
                         },
-                        "manufacturer": {
-                            "@id": "schema:manufacturer",
-                            "@type": "xsd:string"
-                        },
-                        "modelNumber": {
-                            "@id": "ies:modelNumber",
-                            "@type": "xsd:string"
-                        },
                         "make": {
                             "@id": "ies:make",
                             "@type": "xsd:string"
@@ -183,7 +175,7 @@
                         },
                         "meterType": {
                             "@id": "ies:meterType",
-                            "@type": "xsd:string"
+                            "@type": "@id"
                         },
                         "meterCategory": {
                             "@id": "ies:meterCategory",
@@ -2095,25 +2087,13 @@
                         }
                     }
                 },
-                "addressLine": {
-                    "@id": "ies:addressLine",
-                    "@type": "xsd:string"
+                "address": {
+                    "@id": "ies:address",
+                    "@type": "@id"
                 },
-                "city": {
-                    "@id": "ies:city",
-                    "@type": "xsd:string"
-                },
-                "postalCode": {
-                    "@id": "ies:postalCode",
-                    "@type": "xsd:string"
-                },
-                "latitude": {
-                    "@id": "ies:latitude",
-                    "@type": "xsd:decimal"
-                },
-                "longitude": {
-                    "@id": "ies:longitude",
-                    "@type": "xsd:decimal"
+                "geo": {
+                    "@id": "ies:geo",
+                    "@type": "@id"
                 }
             }
         },
@@ -2142,14 +2122,6 @@
                         }
                     }
                 },
-                "manufacturer": {
-                    "@id": "schema:manufacturer",
-                    "@type": "xsd:string"
-                },
-                "modelNumber": {
-                    "@id": "ies:modelNumber",
-                    "@type": "xsd:string"
-                },
                 "make": {
                     "@id": "ies:make",
                     "@type": "xsd:string"
@@ -2160,7 +2132,7 @@
                 },
                 "meterType": {
                     "@id": "ies:meterType",
-                    "@type": "xsd:string"
+                    "@type": "@id"
                 },
                 "meterCategory": {
                     "@id": "ies:meterCategory",
@@ -2390,6 +2362,17 @@
                             }
                         }
                     }
+                }
+            }
+        },
+        "CustomerDetails": {
+            "@id": "ies:CustomerDetails",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
                 }
             }
         }
