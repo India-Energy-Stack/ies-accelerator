@@ -13,9 +13,33 @@ try:
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object"
     }
+    beckn_address_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "components": {
+            "schemas": {
+                "Address": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+    beckn_geojson_schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "components": {
+            "schemas": {
+                "GeoJSONGeometry": {
+                    "type": "object"
+                }
+            }
+        }
+    }
     registry = Registry().with_resources([
         ("https://schema.beckn.io/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
-        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema))
+        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema)),
+        ("https://schema.beckn.io/Address/v2.0/attributes.yaml", Resource.from_contents(beckn_address_schema)),
+        ("https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml", Resource.from_contents(beckn_geojson_schema))
     ])
 except ImportError:
     registry = None
@@ -75,17 +99,22 @@ def validate_reading_object(reading, p_idx, p_type, meter_category, obis_mapping
         if supported_cats and meter_category not in supported_cats:
             errors.append(f"Profile {p_idx} {location_prefix} '{rt}': Meter Category '{meter_category}' is not in supported categories {supported_cats}.")
     
+    reported_mode = None
+    if ds_ref:
+        ds = descriptor_sets.get(ds_ref)
+        if ds:
+            defined_in_desc = False
+            for desc in ds.get("payloadDescriptors", []):
+                desc_rt = desc.get("readingType")
+                desc_code, _ = resolve_reading_type(desc_rt, obis_mapping)
+                if desc_rt == rt or (desc_code and desc_code == code):
+                    defined_in_desc = True
+                    reported_mode = desc.get("reportedMode")
+                    break
+            if not defined_in_desc:
+                errors.append(f"Profile {p_idx} {location_prefix} '{rt}': readingType is not defined in the referenced descriptor set '{ds_ref}'.")
+        
     if info:
-        reported_mode = None
-        if ds_ref:
-            ds = descriptor_sets.get(ds_ref)
-            if ds:
-                for desc in ds.get("payloadDescriptors", []):
-                    desc_rt = desc.get("readingType")
-                    desc_code, _ = resolve_reading_type(desc_rt, obis_mapping)
-                    if desc_rt == rt or (desc_code and desc_code == code):
-                        reported_mode = desc.get("reportedMode")
-                        break
         if not reported_mode:
             reported_mode = info.get("defaultMode", "READING")
 
@@ -119,14 +148,20 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
     # Payload is either a list of profiles or a single profile
     profiles = data if isinstance(data, list) else [data]
     
+    # Count descriptors and telemetry profiles
+    descriptor_profiles = [p for p in profiles if p.get("profileType") == "DESCRIPTOR"]
+    telemetry_profiles = [p for p in profiles if p.get("profileType") not in ["DESCRIPTOR", "CUSTOMER"]]
+    
+    if telemetry_profiles and not descriptor_profiles:
+        errors.append("At least one 'DESCRIPTOR' profileType (PayloadDescriptorProfile) must be present in the payload.")
+    
     # 1. Extract Descriptor Sets from PayloadDescriptorProfiles
     descriptor_sets = {}
-    for profile in profiles:
-        if profile.get("profileType") == "DESCRIPTOR":
-            for ds in profile.get("payloadDescriptorSets", []):
-                name = ds.get("name")
-                if name:
-                    descriptor_sets[name] = ds
+    for profile in descriptor_profiles:
+        for ds in profile.get("payloadDescriptorSets", []):
+            name = ds.get("name")
+            if name:
+                descriptor_sets[name] = ds
                     
     # 2. Check inline descriptors consistency against OBIS
     for ds_name, ds in descriptor_sets.items():
@@ -148,8 +183,14 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
     # 3. Validate Data Profiles
     for p_idx, profile in enumerate(profiles):
         p_type = profile.get("profileType")
-        if p_type == "DESCRIPTOR":
+        if p_type in ["DESCRIPTOR", "CUSTOMER"]:
             continue
+            
+        ds_ref = profile.get("payloadDescriptorSetRef")
+        if not ds_ref:
+            errors.append(f"Profile {p_idx} ({p_type}): 'payloadDescriptorSetRef' is required.")
+        elif ds_ref not in descriptor_sets:
+            errors.append(f"Profile {p_idx} ({p_type}): payloadDescriptorSetRef '{ds_ref}' not found in any DESCRIPTOR profile.")
             
         meter_ids = [ref.get("value") for ref in profile.get("meterRefs", [])]
         meter_category = None
@@ -161,107 +202,106 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
         # Matrix Validation
         if p_type in ["INTERVAL", "DAILY"]:
             compact_seq_ref = profile.get("compactSequenceRef")
-            ds_ref = profile.get("payloadDescriptorSetRef")
             
-            if not compact_seq_ref:
-                continue # Elaborated format, skip matrix validation
-                
-            if not ds_ref:
-                errors.append(f"Profile {p_idx} missing payloadDescriptorSetRef for compactSequence '{compact_seq_ref}'")
-                continue
-                
-            ds = descriptor_sets.get(ds_ref)
-            if not ds:
-                errors.append(f"Profile {p_idx} payloadDescriptorSetRef '{ds_ref}' not found in provided PayloadDescriptorProfiles.")
-                continue
-                
-            resolved_seq = None
-            for seq in ds.get("compactSequences", []):
-                if seq.get("name") == compact_seq_ref:
-                    resolved_seq = seq
-                    break
-                    
-            if not resolved_seq:
-                errors.append(f"Profile {p_idx}: compactSequenceRef '{compact_seq_ref}' not found in descriptor set '{ds_ref}'.")
-                continue
-                
-            seq_items = resolved_seq.get("sequenceItems", [])
-            expected_len = len(seq_items)
-            
-            resolved_seq_info = []
-            for item in seq_items:
-                rt = item.get("readingType")
-                code, info = resolve_reading_type(rt, obis_mapping)
-                if not code:
-                    errors.append(f"Profile {p_idx} SeqItem: readingType '{rt}' could not be resolved.")
-                else:
-                    reg_profiles = info.get("profiles", [])
-                    reg_p_type = map_profile_type_to_registry(p_type)
-                    if reg_p_type and reg_p_type not in reg_profiles:
-                        errors.append(f"Profile {p_idx} SeqItem: readingType '{rt}' (profile: {reg_p_type}) is not permitted in {p_type} profile shape. Permitted profiles: {reg_profiles}")
-                
-                # Fetch multiplier from descriptor if any
-                multiplier = 1.0
-                reported_mode = "READING"
-                for desc in ds.get("payloadDescriptors", []):
-                    if desc.get("readingType") == rt:
-                        multiplier = desc.get("multiplier", 1.0)
-                        reported_mode = desc.get("reportedMode", "READING")
-                        break
-                        
-                resolved_seq_info.append({
-                    "code": code,
-                    "info": info or {},
-                    "reportedMode": reported_mode,
-                    "attribute": item.get("attribute", "value"),
-                    "multiplier": multiplier
-                })
-                
-            intervals = profile.get("intervals", [])
-            last_id = -1
-            
-            cumulative_cols = []
-            for col_idx, sinfo in enumerate(resolved_seq_info):
-                if sinfo["code"] and sinfo["info"].get("accumulationBehaviour") == "CUMULATIVE" and sinfo["reportedMode"] == "READING":
-                    if sinfo["attribute"] == "value":
-                        cumulative_cols.append(col_idx)
-                        
-            last_cumulative_values = {}
-            
-            for idx, interval in enumerate(intervals):
-                int_id = interval.get("id", 0)
-                payloads = interval.get("payloads", [])
-                
-                if int_id <= last_id:
-                    errors.append(f"Profile {p_idx} Interval {idx}: id {int_id} is not strictly increasing. Last: {last_id}")
-                last_id = int_id
-                
-                if len(payloads) != expected_len:
-                    errors.append(f"Profile {p_idx} Interval id {int_id}: value count {len(payloads)} does not match sequence arity {expected_len}")
+            if compact_seq_ref:
+                if not ds_ref or ds_ref not in descriptor_sets:
                     continue
                     
-                for col_idx, (val, sinfo) in enumerate(zip(payloads, resolved_seq_info)):
-                    attr = sinfo["attribute"]
-                    if attr == "value" and not isinstance(val, (int, float)):
-                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected number for 'value', got {type(val)}")
-                    elif attr == "occurredAt" and not isinstance(val, str):
-                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected string for 'occurredAt', got {type(val)}")
-                    elif attr in ["openingValue", "closingValue"] and not isinstance(val, (int, float)):
-                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected number for '{attr}', got {type(val)}")
-                    elif attr == "validationStatus" and not isinstance(val, str):
-                        errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected string for '{attr}', got {type(val)}")
+                ds = descriptor_sets[ds_ref]
+                resolved_seq = None
+                for seq in ds.get("compactSequences", []):
+                    if seq.get("name") == compact_seq_ref:
+                        resolved_seq = seq
+                        break
                         
-                for col_idx in cumulative_cols:
-                    val = payloads[col_idx]
-                    if isinstance(val, (int, float)):
-                        if val < 0:
-                            errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: CUMULATIVE mode value {val} is negative.")
-                        elif col_idx in last_cumulative_values and val < last_cumulative_values[col_idx]:
-                            errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: CUMULATIVE mode value {val} decreased from {last_cumulative_values[col_idx]}.")
-                        last_cumulative_values[col_idx] = val
+                if not resolved_seq:
+                    errors.append(f"Profile {p_idx}: compactSequenceRef '{compact_seq_ref}' not found in descriptor set '{ds_ref}'.")
+                    continue
+                    
+                seq_items = resolved_seq.get("sequenceItems", [])
+                expected_len = len(seq_items)
+                
+                resolved_seq_info = []
+                for item in seq_items:
+                    rt = item.get("readingType")
+                    code, info = resolve_reading_type(rt, obis_mapping)
+                    if not code:
+                        errors.append(f"Profile {p_idx} SeqItem: readingType '{rt}' could not be resolved.")
+                    else:
+                        reg_profiles = info.get("profiles", [])
+                        reg_p_type = map_profile_type_to_registry(p_type)
+                        if reg_p_type and reg_p_type not in reg_profiles:
+                            errors.append(f"Profile {p_idx} SeqItem: readingType '{rt}' (profile: {reg_p_type}) is not permitted in {p_type} profile shape. Permitted profiles: {reg_profiles}")
+                    
+                    # Check if rt is defined in payloadDescriptors of ds
+                    defined_in_desc = False
+                    multiplier = 1.0
+                    reported_mode = "READING"
+                    if ds_ref in descriptor_sets:
+                        for desc in ds.get("payloadDescriptors", []):
+                            desc_rt = desc.get("readingType")
+                            desc_code, _ = resolve_reading_type(desc_rt, obis_mapping)
+                            if desc_rt == rt or (desc_code and code and desc_code == code):
+                                defined_in_desc = True
+                                multiplier = desc.get("multiplier", 1.0)
+                                reported_mode = desc.get("reportedMode", "READING")
+                                break
+                                
+                    if not defined_in_desc:
+                        errors.append(f"Profile {p_idx} SeqItem '{rt}': readingType is not defined in the payloadDescriptors of the descriptor set '{ds_ref}'.")
+                    
+                    resolved_seq_info.append({
+                        "code": code,
+                        "info": info or {},
+                        "reportedMode": reported_mode,
+                        "attribute": item.get("attribute", "value"),
+                        "multiplier": multiplier
+                    })
+                    
+                intervals = profile.get("intervals", [])
+                last_id = -1
+                
+                cumulative_cols = []
+                for col_idx, sinfo in enumerate(resolved_seq_info):
+                    if sinfo["code"] and sinfo["info"].get("accumulationBehaviour") == "CUMULATIVE" and sinfo["reportedMode"] == "READING":
+                        if sinfo["attribute"] == "value":
+                            cumulative_cols.append(col_idx)
+                            
+                last_cumulative_values = {}
+                
+                for idx, interval in enumerate(intervals):
+                    int_id = interval.get("id", 0)
+                    payloads = interval.get("payloads", [])
+                    
+                    if int_id <= last_id:
+                        errors.append(f"Profile {p_idx} Interval {idx}: id {int_id} is not strictly increasing. Last: {last_id}")
+                    last_id = int_id
+                    
+                    if len(payloads) != expected_len:
+                        errors.append(f"Profile {p_idx} Interval id {int_id}: value count {len(payloads)} does not match sequence arity {expected_len}")
+                        continue
                         
+                    for col_idx, (val, sinfo) in enumerate(zip(payloads, resolved_seq_info)):
+                        attr = sinfo["attribute"]
+                        if attr == "value" and not isinstance(val, (int, float)):
+                            errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected number for 'value', got {type(val)}")
+                        elif attr == "occurredAt" and not isinstance(val, str):
+                            errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected string for 'occurredAt', got {type(val)}")
+                        elif attr in ["openingValue", "closingValue"] and not isinstance(val, (int, float)):
+                            errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected number for '{attr}', got {type(val)}")
+                        elif attr == "validationStatus" and not isinstance(val, str):
+                            errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: expected string for '{attr}', got {type(val)}")
+                            
+                    for col_idx in cumulative_cols:
+                        val = payloads[col_idx]
+                        if isinstance(val, (int, float)):
+                            if val < 0:
+                                errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: CUMULATIVE mode value {val} is negative.")
+                            elif col_idx in last_cumulative_values and val < last_cumulative_values[col_idx]:
+                                errors.append(f"Profile {p_idx} Interval id {int_id} Col {col_idx}: CUMULATIVE mode value {val} decreased from {last_cumulative_values[col_idx]}.")
+                            last_cumulative_values[col_idx] = val
+                            
         # General Readings Validation & Nested Readings Validation
-        ds_ref = profile.get("payloadDescriptorSetRef")
         for reading in profile.get("readings", []):
             errors.extend(validate_reading_object(
                 reading, p_idx, p_type, meter_category, obis_mapping, descriptor_sets, ds_ref, "Reading"
@@ -271,6 +311,12 @@ def validate_semantics(data, obis_mapping, meter_categories_map):
             for reading in interval.get("readings", []):
                 errors.extend(validate_reading_object(
                     reading, p_idx, p_type, meter_category, obis_mapping, descriptor_sets, ds_ref, f"Interval {int_idx} Reading"
+                ))
+
+        for bucket_idx, bucket in enumerate(profile.get("touBuckets", [])):
+            for reading in bucket.get("readings", []):
+                errors.extend(validate_reading_object(
+                    reading, p_idx, p_type, meter_category, obis_mapping, descriptor_sets, ds_ref, f"TouBucket {bucket_idx} Reading"
                 ))
 
     return errors

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json",
+  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/schema.json",
   "title": "MeterData Payload",
   "description": "Root payload can be a single profile or an array of profiles.",
   "oneOf": [
@@ -855,16 +855,6 @@
         }
       }
     },
-    "CustomerDetails": {
-      "type": "object",
-      "description": "PII sub-object. Omit entirely for anonymised or pseudonymous exchange.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Full name of the customer as per ID proof."
-        }
-      }
-    },
     "ServiceDeliveryPoint": {
       "type": "object",
       "required": [
@@ -1143,6 +1133,16 @@
         }
       }
     },
+    "CustomerDetails": {
+      "type": "object",
+      "description": "PII sub-object. Omit entirely for anonymised or pseudonymous exchange.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the customer as per ID proof."
+        }
+      }
+    },
     "MeterType": {
       "type": "string",
       "description": "Type of electricity meter. Shared with ElectricityCredential schema.",
@@ -1159,45 +1159,10 @@
       ]
     },
     "Address": {
-      "type": "object",
-      "description": "Postal address per beckn Address/v2.0 and schema.org PostalAddress. All fields optional.",
-      "properties": {
-        "streetAddress":   { "type": "string", "description": "Building name/number and street." },
-        "extendedAddress": { "type": "string", "description": "Apt, suite, floor, or C/O." },
-        "addressLocality": { "type": "string", "description": "City or locality." },
-        "addressRegion":   { "type": "string", "description": "State, region or province." },
-        "addressCountry":  { "type": "string", "pattern": "^[A-Z]{2}$", "description": "ISO 3166-1 alpha-2 country code." },
-        "postalCode":      { "type": "string", "description": "Postal or ZIP code." }
-      },
-      "additionalProperties": false
+      "$ref": "https://schema.beckn.io/Address/v2.0/attributes.yaml#/components/schemas/Address"
     },
     "GeoJSONGeometry": {
-      "type": "object",
-      "description": "GeoJSON geometry per RFC 7946 / beckn GeoJSONGeometry/v2.0. Coordinates are [longitude, latitude, (altitude?)] in EPSG:4326 (WGS-84). For a point: {type: 'Point', coordinates: [lon, lat]}.",
-      "required": ["type"],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection"]
-        },
-        "coordinates": {
-          "type": "array",
-          "description": "Coordinates per RFC 7946. For a Point: [longitude, latitude]."
-        },
-        "geometries": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/GeoJSONGeometry" },
-          "description": "Member geometries when type is GeometryCollection."
-        },
-        "bbox": {
-          "type": "array",
-          "minItems": 4,
-          "maxItems": 4,
-          "items": { "type": "number" },
-          "description": "Bounding box [west, south, east, north] in degrees."
-        }
-      },
-      "additionalProperties": true
+      "$ref": "https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
     }
   }
 }

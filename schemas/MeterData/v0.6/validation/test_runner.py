@@ -19,7 +19,9 @@ def main():
         {"file": "valid_interval_profile.json", "expected_pass": True},
         {"file": "invalid_profile_type_mismatch.json", "expected_pass": False},
         {"file": "invalid_cumulative_decrease.json", "expected_pass": False},
-        {"file": "invalid_math_consistency.json", "expected_pass": False}
+        {"file": "invalid_math_consistency.json", "expected_pass": False},
+        {"file": "invalid_missing_descriptor.json", "expected_pass": False},
+        {"file": "invalid_missing_descriptor_ref.json", "expected_pass": False}
     ]
     
     success = True

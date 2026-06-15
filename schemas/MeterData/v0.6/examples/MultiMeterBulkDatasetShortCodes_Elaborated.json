@@ -7,21 +7,13 @@
       {
         "name": "IntervalLoadSurveySet_28b9b8",
         "payloadDescriptors": [
-          {
-            "readingType": "kWh imp block",
-            "reportedMode": "USAGE",
-            "obis": "1.0.1.29.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          }
+          { "readingType": "kWh imp block", "reportedMode": "USAGE", "obis": "1.0.1.29.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
             "name": "IntervalEnergySeq_28b9b8",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp block"
-              }
+              { "readingType": "kWh imp block" }
             ]
           }
         ]
@@ -29,13 +21,7 @@
       {
         "name": "DailyLoadSurveySet_aee121",
         "payloadDescriptors": [
-          {
-            "readingType": "kWh imp",
-            "reportedMode": "READING",
-            "obis": "1.0.1.8.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          },
+          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
           {
             "name": "Active energy export - cumulative (kWh)",
             "readingType": "kWh exp",
@@ -51,13 +37,8 @@
           {
             "name": "DailyEnergySeq_aee121",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp"
-              },
-              {
-                "readingType": "kWh exp",
-                "attribute": "value"
-              }
+              { "readingType": "kWh imp" },
+              { "readingType": "kWh exp", "attribute": "value" }
             ]
           }
         ]
@@ -65,13 +46,7 @@
       {
         "name": "BillingLoadSurveySet_75c4f7",
         "payloadDescriptors": [
-          {
-            "readingType": "kWh imp",
-            "reportedMode": "READING",
-            "obis": "1.0.1.8.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          },
+          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
           {
             "name": "Active energy export - cumulative (kWh)",
             "readingType": "kWh exp",
@@ -87,13 +62,8 @@
           {
             "name": "BillingEnergySeq_75c4f7",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp"
-              },
-              {
-                "readingType": "kWh exp",
-                "attribute": "value"
-              }
+              { "readingType": "kWh imp" },
+              { "readingType": "kWh exp", "attribute": "value" }
             ]
           }
         ]
@@ -101,31 +71,15 @@
       {
         "name": "InstantaneousLoadSurveySet_3a0e45",
         "payloadDescriptors": [
-          {
-            "readingType": "V_1P",
-            "reportedMode": "READING",
-            "obis": "1.0.12.7.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          },
-          {
-            "readingType": "I_Phase",
-            "reportedMode": "READING",
-            "obis": "1.0.11.7.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          }
+          { "readingType": "V_1P", "reportedMode": "READING", "obis": "1.0.12.7.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "I_Phase", "reportedMode": "READING", "obis": "1.0.11.7.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
             "name": "InstantaneousEnergySeq_3a0e45",
             "sequenceItems": [
-              {
-                "readingType": "V_1P"
-              },
-              {
-                "readingType": "I_Phase"
-              }
+              { "readingType": "V_1P" },
+              { "readingType": "I_Phase" }
             ]
           }
         ]
@@ -133,33 +87,15 @@
       {
         "name": "IntervalLoadSurveySet_Elaborated_Short",
         "payloadDescriptors": [
-          {
-            "readingType": "kWh imp block",
-            "reportedMode": "USAGE",
-            "obis": "1.0.1.29.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          },
-          {
-            "readingType": "kVAh imp block",
-            "reportedMode": "USAGE",
-            "obis": "1.0.9.29.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          }
+          { "readingType": "kWh imp block", "reportedMode": "USAGE", "obis": "1.0.1.29.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "kVAh imp block", "reportedMode": "USAGE", "obis": "1.0.9.29.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
             "name": "IntervalEnergySeq_Elaborated_Short",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp block",
-                "attribute": "value"
-              },
-              {
-                "readingType": "kVAh imp block",
-                "attribute": "value"
-              }
+              { "readingType": "kWh imp block", "attribute": "value" },
+              { "readingType": "kVAh imp block", "attribute": "value" }
             ]
           }
         ]
@@ -167,13 +103,7 @@
       {
         "name": "DailyLoadSurveySet_Elaborated_Short",
         "payloadDescriptors": [
-          {
-            "readingType": "kWh imp",
-            "reportedMode": "READING",
-            "obis": "1.0.1.8.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          },
+          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
           {
             "name": "Active energy export - cumulative (kWh)",
             "readingType": "kWh exp",
@@ -184,30 +114,15 @@
             "multiplier": 1.0,
             "accuracy": 0.5
           },
-          {
-            "readingType": "kVAh imp",
-            "reportedMode": "READING",
-            "obis": "1.0.9.8.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          }
+          { "readingType": "kVAh imp", "reportedMode": "READING", "obis": "1.0.9.8.0.255", "multiplier": 1.0, "accuracy": 0.5 }
         ],
         "compactSequences": [
           {
             "name": "DailyEnergySeq_Elaborated_Short",
             "sequenceItems": [
-              {
-                "readingType": "kWh imp",
-                "attribute": "value"
-              },
-              {
-                "readingType": "kWh exp",
-                "attribute": "value"
-              },
-              {
-                "readingType": "kVAh imp",
-                "attribute": "value"
-              }
+              { "readingType": "kWh imp", "attribute": "value" },
+              { "readingType": "kWh exp", "attribute": "value" },
+              { "readingType": "kVAh imp", "attribute": "value" }
             ]
           }
         ]
@@ -215,28 +130,95 @@
       {
         "name": "BillingSet_BillDetails",
         "payloadDescriptors": [
+          { "readingType": "kWh imp", "reportedMode": "USAGE", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "kVAh imp", "reportedMode": "USAGE", "obis": "1.0.9.8.0.255", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "MD kW", "reportedMode": "USAGE", "obis": "1.0.1.6.0.255", "multiplier": 1.0, "accuracy": 0.5 },
           {
-            "readingType": "kWh imp",
-            "reportedMode": "USAGE",
-            "obis": "1.0.1.8.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
+            "name": "Active energy import - TZ1 (kWh)",
+            "readingType": "kWh TZ1",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyToU",
+            "obis": "1.0.1.8.1.255"
           },
           {
-            "readingType": "kVAh imp",
-            "reportedMode": "USAGE",
-            "obis": "1.0.9.8.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
-          },
-          {
-            "readingType": "MD kW",
-            "reportedMode": "USAGE",
-            "obis": "1.0.1.6.0.255",
-            "multiplier": 1.0,
-            "accuracy": 0.5
+            "name": "Active energy import - TZ2 (kWh)",
+            "readingType": "kWh TZ2",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyToU",
+            "obis": "1.0.1.8.2.255"
           }
         ]
+      },
+      {
+        "name": "InstantaneousSet",
+        "payloadDescriptors": [
+          {
+            "name": "Voltage R-phase",
+            "readingType": "V_R",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.32.7.0.255"
+          },
+          {
+            "name": "Voltage Y-phase",
+            "readingType": "V_Y",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.52.7.0.255"
+          },
+          {
+            "name": "Voltage B-phase",
+            "readingType": "V_B",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.72.7.0.255"
+          },
+          {
+            "name": "Current R-phase",
+            "readingType": "I_R",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.31.7.0.255"
+          },
+          {
+            "name": "Voltage 1P",
+            "readingType": "V_1P",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.12.7.0.255"
+          },
+          {
+            "name": "Phase current",
+            "readingType": "I_Phase",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.11.7.0.255"
+          }
+        ]
+      },
+      {
+        "name": "EventSet",
+        "payloadDescriptors": []
+      },
+      {
+        "name": "AlarmSet",
+        "payloadDescriptors": []
       }
     ]
   },
@@ -245,10 +227,7 @@
     "profileType": "CUSTOMER",
     "timeZone": "Asia/Kolkata",
     "customer": {
-      "id": {
-        "value": "did:dedi:bescom:consumers:CONSUMER-ACME-8888",
-        "scheme": "DID"
-      },
+      "id": { "value": "did:dedi:bescom:consumers:CONSUMER-ACME-8888", "scheme": "DID" },
       "consumerCategory": "NDS",
       "sanctionedLoadKw": 45.0,
       "billingCycleDay": 1,
@@ -259,10 +238,7 @@
     },
     "serviceDeliveryPoints": [
       {
-        "id": {
-          "value": "did:dedi:bescom:connections:SDP-ACME-MAIN-01",
-          "scheme": "DID"
-        },
+        "id": { "value": "did:dedi:bescom:connections:SDP-ACME-MAIN-01", "scheme": "DID" },
         "addressLine": "12 MG Road",
         "city": "Bengaluru",
         "postalCode": "560001",
@@ -270,10 +246,7 @@
         "longitude": 77.6064
       },
       {
-        "id": {
-          "value": "did:dedi:bescom:connections:SDP-ACME-AUX-02",
-          "scheme": "DID"
-        },
+        "id": { "value": "did:dedi:bescom:connections:SDP-ACME-AUX-02", "scheme": "DID" },
         "addressLine": "456 Indiranagar",
         "city": "Bengaluru",
         "postalCode": "560038",
@@ -283,10 +256,7 @@
     ],
     "meters": [
       {
-        "id": {
-          "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED",
-          "scheme": "DID"
-        },
+        "id": { "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" },
         "manufacturer": "Genus",
         "modelNumber": "SM-3PH-4W-WC",
         "meterCategory": "D2",
@@ -296,10 +266,7 @@
         "meterType": "AMI"
       },
       {
-        "id": {
-          "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-          "scheme": "DID"
-        },
+        "id": { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" },
         "manufacturer": "HPL",
         "modelNumber": "SM-1PH-2W-WC",
         "meterCategory": "D1",
@@ -312,52 +279,28 @@
     "associations": [
       {
         "serviceDeliveryPointRefs": [
-          {
-            "value": "did:dedi:bescom:connections:SDP-ACME-MAIN-01",
-            "scheme": "DID"
-          }
+          { "value": "did:dedi:bescom:connections:SDP-ACME-MAIN-01", "scheme": "DID" }
         ],
         "meterRefs": [
-          {
-            "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED",
-            "scheme": "DID"
-          }
+          { "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
         ],
         "parentResources": [
-          {
-            "value": "did:dedi:bescom:assets:feeder:FDR-11KV-BLR-04",
-            "scheme": "DID"
-          },
-          {
-            "value": "did:dedi:bescom:assets:transformer:DT-BLR-A-400kVA-12",
-            "scheme": "DID"
-          }
+          { "value": "did:dedi:bescom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
+          { "value": "did:dedi:bescom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
         ],
         "telemetryProvider": "ACME-HES",
         "commissioningDate": "2026-05-04T10:00:00+05:30"
       },
       {
         "serviceDeliveryPointRefs": [
-          {
-            "value": "did:dedi:bescom:connections:SDP-ACME-AUX-02",
-            "scheme": "DID"
-          }
+          { "value": "did:dedi:bescom:connections:SDP-ACME-AUX-02", "scheme": "DID" }
         ],
         "meterRefs": [
-          {
-            "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-            "scheme": "DID"
-          }
+          { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
         ],
         "parentResources": [
-          {
-            "value": "did:dedi:bescom:assets:feeder:FDR-11KV-BLR-04",
-            "scheme": "DID"
-          },
-          {
-            "value": "did:dedi:bescom:assets:transformer:DT-BLR-A-400kVA-12",
-            "scheme": "DID"
-          }
+          { "value": "did:dedi:bescom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
+          { "value": "did:dedi:bescom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
         ],
         "telemetryProvider": "ACME-HES",
         "commissioningDate": "2026-05-04T10:30:00+05:30"
@@ -368,47 +311,26 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      {
-        "value": "did:dedi:bescom:connections:SDP-ACME-MAIN-01",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:connections:SDP-ACME-MAIN-01", "scheme": "DID" }
     ],
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet_Elaborated_Short",
-    "intervalPeriod": {
-      "start": "2026-05-18T10:00:00+05:30",
-      "duration": "PT30M"
-    },
+    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          {
-            "readingType": "kWh imp block",
-            "value": 14.5
-          },
-          {
-            "readingType": "kVAh imp block",
-            "value": 15.1
-          }
+          { "readingType": "kWh imp block", "value": 14.5 },
+          { "readingType": "kVAh imp block", "value": 15.1 }
         ]
       },
       {
         "id": 1,
         "readings": [
-          {
-            "readingType": "kWh imp block",
-            "value": 16.2
-          },
-          {
-            "readingType": "kVAh imp block",
-            "value": 16.8
-          }
+          { "readingType": "kWh imp block", "value": 16.2 },
+          { "readingType": "kVAh imp block", "value": 16.8 }
         ]
       }
     ]
@@ -417,39 +339,24 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      {
-        "value": "did:dedi:bescom:connections:SDP-ACME-AUX-02",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:connections:SDP-ACME-AUX-02", "scheme": "DID" }
     ],
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet_28b9b8",
-    "intervalPeriod": {
-      "start": "2026-05-18T10:00:00+05:30",
-      "duration": "PT15M"
-    },
+    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT15M" },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          {
-            "readingType": "kWh imp block",
-            "value": 2.1
-          }
+          { "readingType": "kWh imp block", "value": 2.1 }
         ]
       },
       {
         "id": 1,
         "readings": [
-          {
-            "readingType": "kWh imp block",
-            "value": 2.4
-          }
+          { "readingType": "kWh imp block", "value": 2.4 }
         ]
       }
     ]
@@ -458,32 +365,17 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet_Elaborated_Short",
-    "intervalPeriod": {
-      "start": "2026-05-17T00:00:00+05:30",
-      "duration": "P1D"
-    },
+    "intervalPeriod": { "start": "2026-05-17T00:00:00+05:30", "duration": "P1D" },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          {
-            "readingType": "kWh imp",
-            "value": 24512.4
-          },
-          {
-            "readingType": "kWh exp",
-            "value": 0.0
-          },
-          {
-            "readingType": "kVAh imp",
-            "value": 25134.8
-          }
+          { "readingType": "kWh imp", "value": 24512.4 },
+          { "readingType": "kWh exp", "value": 0.0 },
+          { "readingType": "kVAh imp", "value": 25134.8 }
         ]
       }
     ]
@@ -492,28 +384,16 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet_aee121",
-    "intervalPeriod": {
-      "start": "2026-05-17T00:00:00+05:30",
-      "duration": "P1D"
-    },
+    "intervalPeriod": { "start": "2026-05-17T00:00:00+05:30", "duration": "P1D" },
     "intervals": [
       {
         "id": 0,
         "readings": [
-          {
-            "readingType": "kWh imp",
-            "value": 4325.7
-          },
-          {
-            "readingType": "kWh exp",
-            "value": 0.0
-          }
+          { "readingType": "kWh imp", "value": 4325.7 },
+          { "readingType": "kWh exp", "value": 0.0 }
         ]
       }
     ]
@@ -522,35 +402,14 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "BillingSet_BillDetails",
-    "timePeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "duration": "P1M"
-    },
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
     "readings": [
-      {
-        "readingType": "kWh imp",
-        "value": 5800.0,
-        "openingValue": 18500.0,
-        "closingValue": 24300.0
-      },
-      {
-        "readingType": "kVAh imp",
-        "value": 6050.0,
-        "openingValue": 18900.0,
-        "closingValue": 24950.0
-      },
-      {
-        "readingType": "MD kW",
-        "occurredAt": "2026-04-18T14:30:00+05:30",
-        "value": 42.5,
-        "integrationPeriod": "PT30M"
-      }
+      { "readingType": "kWh imp", "value": 5800.0, "openingValue": 18500.0, "closingValue": 24300.0 },
+      { "readingType": "kVAh imp", "value": 6050.0, "openingValue": 18900.0, "closingValue": 24950.0 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-18T14:30:00+05:30", "value": 42.5, "integrationPeriod": "PT30M" }
     ],
     "billNumber": "BILL-ACME-MAIN-202604",
     "billDate": "2026-05-01",
@@ -560,19 +419,13 @@
     "touBuckets": [
       {
         "readings": [
-          {
-            "readingType": "kWh TZ1",
-            "value": 1500.0
-          }
+          { "readingType": "kWh TZ1", "value": 1500.0 }
         ],
         "zone": 1
       },
       {
         "readings": [
-          {
-            "readingType": "kWh TZ2",
-            "value": 2400.0
-          }
+          { "readingType": "kWh TZ2", "value": 2400.0 }
         ],
         "zone": 2
       }
@@ -585,26 +438,15 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "BillingLoadSurveySet_75c4f7",
-    "intervalPeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "duration": "P1M"
-    },
-    "timePeriod": {
-      "start": "2026-04-01T00:00:00+05:30",
-      "duration": "P1M"
-    },
+    "intervalPeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
     "intervals": [
       {
         "id": 0,
-        "payloads": [
-          950.0
-        ]
+        "payloads": [ 950.0 ]
       }
     ],
     "billNumber": "BILL-ACME-AUX-202604",
@@ -621,28 +463,14 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
+    "payloadDescriptorSetRef": "InstantaneousSet",
     "readings": [
-      {
-        "readingType": "V_R",
-        "value": 240.2
-      },
-      {
-        "readingType": "V_Y",
-        "value": 239.8
-      },
-      {
-        "readingType": "V_B",
-        "value": 241.1
-      },
-      {
-        "readingType": "I_R",
-        "value": 58.4
-      }
+      { "readingType": "V_R", "value": 240.2 },
+      { "readingType": "V_Y", "value": 239.8 },
+      { "readingType": "V_B", "value": 241.1 },
+      { "readingType": "I_R", "value": 58.4 }
     ],
     "timestamp": "2026-05-18T12:00:00+05:30"
   },
@@ -650,20 +478,12 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
+    "payloadDescriptorSetRef": "InstantaneousSet",
     "readings": [
-      {
-        "readingType": "V_1P",
-        "value": 238.5
-      },
-      {
-        "readingType": "I_Phase",
-        "value": 14.2
-      }
+      { "readingType": "V_1P", "value": 238.5 },
+      { "readingType": "I_Phase", "value": 14.2 }
     ],
     "timestamp": "2026-05-18T12:00:00+05:30"
   },
@@ -671,47 +491,25 @@
     "@type": "EventProfile",
     "profileType": "EVENT",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
-    "timePeriod": {
-      "start": "2026-05-18T00:00:00+05:30",
-      "duration": "PT12H"
-    },
+    "payloadDescriptorSetRef": "EventSet",
+    "timePeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H" },
     "events": [
-      {
-        "timestamp": "2026-05-18T08:15:00+05:30",
-        "eventId": 101,
-        "eventName": "Power Failure - occurrence"
-      },
-      {
-        "timestamp": "2026-05-18T08:20:00+05:30",
-        "eventId": 102,
-        "eventName": "Power Failure - restoration"
-      }
+      { "timestamp": "2026-05-18T08:15:00+05:30", "eventId": 101, "eventName": "Power Failure - occurrence" },
+      { "timestamp": "2026-05-18T08:20:00+05:30", "eventId": 102, "eventName": "Power Failure - restoration" }
     ]
   },
   {
     "@type": "EventProfile",
     "profileType": "EVENT",
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
-    "timePeriod": {
-      "start": "2026-05-18T00:00:00+05:30",
-      "duration": "PT12H"
-    },
+    "payloadDescriptorSetRef": "EventSet",
+    "timePeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H" },
     "events": [
-      {
-        "timestamp": "2026-05-18T09:30:00+05:30",
-        "eventId": 205,
-        "eventName": "Meter Cover Open - occurrence"
-      }
+      { "timestamp": "2026-05-18T09:30:00+05:30", "eventId": 205, "eventName": "Meter Cover Open - occurrence" }
     ]
   },
   {
@@ -719,26 +517,15 @@
     "@type": "AlarmProfile",
     "profileType": "ALARM",
     "customerRefs": [
-      {
-        "value": "did:dedi:bescom:consumers:CONSUMER-ACME-8888",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:consumers:CONSUMER-ACME-8888", "scheme": "DID" }
     ],
     "meterRefs": [
-      {
-        "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT",
-        "scheme": "DID"
-      }
+      { "value": "did:dedi:bescom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
+    "payloadDescriptorSetRef": "AlarmSet",
     "timestamp": "2026-05-18T09:30:00+05:30",
     "alarms": [
-      {
-        "timestamp": "2026-05-18T09:30:00+05:30",
-        "alarmId": 6,
-        "alarmName": "Meter Cover Open",
-        "status": "ACTIVE",
-        "severity": "CRITICAL"
-      }
+      { "timestamp": "2026-05-18T09:30:00+05:30", "alarmId": 6, "alarmName": "Meter Cover Open", "status": "ACTIVE", "severity": "CRITICAL" }
     ]
   }
 ]
