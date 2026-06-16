@@ -57,6 +57,9 @@ Inherited by all seven kinds via `allOf`. All power fields are `QVPower {value, 
 | `telemetryProvider` | string | Vendor API / data-source for telemetry |
 | `commissioningDate` | date-time | ISO 8601 commissioning date-time |
 | `location` | object | `geo` (GeoJSONGeometry) + optional `address` (PostalAddress) |
+| `serialNumber` | string | Equipment-nameplate device serial. CIM `EndDeviceInfo.serialNumber` (IEC 61968-9). Distinct from the network DID in `id`. |
+| `inspection` | object | Commissioning / safety inspection record: `{date, result: pass\|fail\|conditional, inspectorId}`. IEEE 1547-2018 Cl. 11; CEA Connectivity Regs 2013. |
+| `aggregator` | object | Third-party demand-flex enrolment: `{id (URI), name, controllable (bool), enrolledOn (date)}`. `controllable:false` = observation-only. IEEE 2030.5 / IEC 61850-7-420. |
 
 ## Kind-specific attributes
 
@@ -78,6 +81,7 @@ Inherited by all seven kinds via `allOf`. All power fields are `QVPower {value, 
 |-------|------|-------------|
 | `nominalPower` | QVPower | Nominal output power, unit: W\|kW\|MW |
 | `efficiency` | number (0–100) | Conversion efficiency, % |
+| `dcArrayCapacity` | QVPower | DC-side PV array nameplate at STC (industry "kWp"). SOLAR_PV. Distinct from AC `maxExport`. unit: W\|kW\|MW. IS 16221; IEC 61727. |
 
 ### EnergyResourceStorage (type: `BESS`)
 
@@ -88,6 +92,7 @@ Inherited by all seven kinds via `allOf`. All power fields are `QVPower {value, 
 | `storageCapacity` | QVEnergy | Rated energy capacity, unit: kWh\|MWh |
 | `storageType` | enum | LithiumIon, LeadAcid, FlowBattery, NaS, NiCd, Flywheel, Other |
 | `stateOfHealthPct` | number (0–100) | Battery SoH as % of original capacity |
+| `roundTripEfficiencyPct` | number (0–100) | AC-to-AC round-trip efficiency over a full charge/discharge cycle. IEC 62933-2-1. |
 
 ### EnergyResourceEVCharger (type: `EV_CHARGER` | `EV_V2G`)
 
@@ -143,6 +148,7 @@ Grid-connected power-electronics converter. IEEE 1547-2018 / SunSpec DER Models 
 | `premisesType` | enum | No | Residential, Commercial, Industrial, Agricultural |
 | `connectionType` | enum | No | Single-phase, Three-phase |
 | `paymentMode` | enum | No | POSTPAID, PREPAID |
+| `serviceStatus` | enum | No | `active`, `suspended`, `closed`. CIM `UsagePoint.status`. State of the service connection, not of the meter device. |
 
 ## v1.1 → v1.2 migration
 
