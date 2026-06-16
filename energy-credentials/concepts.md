@@ -26,7 +26,7 @@ A minimum IES electricity credential (`type: "CustomerCredential"`) looks like t
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ElectricityCredential/v1.0/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/context.jsonld"
   ],
   "id": "urn:uuid:8e6b5e34-1c1b-4a3c-9c20-2fa8a3b9e1c0",
   "type": ["VerifiableCredential", "CustomerCredential"],

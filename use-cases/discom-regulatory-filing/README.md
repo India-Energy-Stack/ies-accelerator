@@ -205,7 +205,7 @@ ARR filings arrive today as PDFs/Excel sheets that regulators manually re-key. D
 
 ## References
 
-- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
+- [Checklist](./checklist.md) — plain-English rollout checklist
 
 - [`IES_ARR_Filing` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/arr)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc2-regulatory-data/examples)

@@ -139,17 +139,19 @@ def main():
             ("schemas/ArrFiling/v0.5/README.md", "Detailed schema fields and validation steps for Annual Revenue Requirement filings v0.5.")
         ],
         "usecases": [
-            ("use-cases/README.md", "Snapshot index of the five primary energy network use cases."),
+            ("use-cases/README.md", "Snapshot index of the six primary energy network use cases."),
             ("use-cases/smart-meter-data-exchange/README.md", "Implementer guide: AMISP/DISCOM/SERC/third-party telemetry exchange over IES Data Exchange, carrying the MeterData schema; includes the optional MeterDataRequestCredential consent flow."),
             ("use-cases/smart-meter-data-exchange/ies-meter-data-model.md", "Reference: Indian smart-metering terminology (OBIS, IS 15959 profiles and event IDs, CIM master data) mapped to the MeterData schema, with the IS 15959 deep-reference appendix."),
             ("use-cases/consumer-meter-digest/README.md", "Exchanging monthly meter digests via user consent and pull credentials."),
-            ("use-cases/consumer-meter-digest/basic-checklist.md", "Checklist for configuring consent endpoints and digest minting."),
+            ("use-cases/consumer-meter-digest/checklist.md", "Checklist for configuring consent endpoints and digest minting."),
             ("use-cases/consumer-energy-passport/README.md", "Consolidating generation, storage, and consumption VCs into a unified consumer passport."),
-            ("use-cases/consumer-energy-passport/basic-checklist.md", "Checklist for passport profiling, triggers, and wallet distribution."),
+            ("use-cases/consumer-energy-passport/checklist.md", "Checklist for passport profiling, triggers, and wallet distribution."),
             ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
-            ("use-cases/discom-regulatory-filing/basic-checklist.md", "Checklist for regulatory cost mapping, adapter setup, and filing submissions."),
+            ("use-cases/discom-regulatory-filing/checklist.md", "Checklist for regulatory cost mapping, adapter setup, and filing submissions."),
             ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
-            ("use-cases/tariff-intelligence/basic-checklist.md", "Checklist for policy authoring, signing, and billing integration testing.")
+            ("use-cases/tariff-intelligence/checklist.md", "Checklist for policy authoring, signing, and billing integration testing."),
+            ("use-cases/p2p-energy-trading/README.md", "WIP — inter-discom prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi."),
+            ("use-cases/p2p-energy-trading/checklist.md", "WIP — checklist for trading platforms, ledger providers, and discoms standing up P2P energy trading.")
         ],
         "pathways": [
             ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),

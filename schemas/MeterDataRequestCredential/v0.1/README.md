@@ -43,7 +43,7 @@ In `attributes.yaml` this is expressed as `allOf: - $ref: https://schema.beckn.i
 The `@context` of a credential instance must include:
 1. `https://www.w3.org/ns/credentials/v2`
 2. `https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld`
-3. `https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequestCredential/v0.1/context.jsonld`
+3. `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/context.jsonld`
 
 ---
 

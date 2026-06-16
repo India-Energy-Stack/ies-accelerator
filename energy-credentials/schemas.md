@@ -202,7 +202,7 @@ Customer example (masked Aadhaar reference):
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ElectricityCredential/v1.0/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/context.jsonld"
   ],
   "id": "urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456",
   "type": ["VerifiableCredential", "CustomerCredential"],

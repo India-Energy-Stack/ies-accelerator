@@ -14,7 +14,7 @@ The IES Accelerator docs (`/energy-credentials/...`, `/data-exchange/...`) need 
 Mirroring the schema files into this repo gives us:
 
 - Stable repo-relative paths (`/schemas/<family>/<version>/`) for documentation links.
-- Stable `raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/...` URLs for `@context` resolution.
+- Stable `india-energy-stack.github.io/ies-accelerator/...` URLs (served by GitHub Pages from this repo) for `@context` resolution and external JSON-LD consumers.
 - Offline-installable copies — DISCOMs running in air-gapped envs can sync this directory once and not need outbound HTTPS to a third-party host every time a credential is verified.
 
 ## Provenance and updates

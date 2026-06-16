@@ -1337,14 +1337,14 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
 Practical deployment and mapping implementations for specific grid business processes.
 
 * **[README.md](use-cases/README.md)**
-  - *Summary*: Snapshot index of the five primary energy network use cases.
+  - *Summary*: Snapshot index of the six primary energy network use cases.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/README.md#use-cases">Use Cases</a>    <ul>
-      <li><a href="use-cases/README.md#the-five-use-cases">The Five Use Cases</a></li>
+      <li><a href="use-cases/README.md#the-six-use-cases">The Six Use Cases</a></li>
       <li><a href="use-cases/README.md#how-to-read-these-guides">How to Read These Guides</a></li>
-      <li><a href="use-cases/README.md#maturity-snapshot-as-of-2026-05">Maturity Snapshot (as of 2026-05)</a>
+      <li><a href="use-cases/README.md#maturity-snapshot-as-of-2026-06">Maturity Snapshot (as of 2026-06)</a>
     </li>
     </ul>
   </li>
@@ -1366,7 +1366,7 @@ Practical deployment and mapping implementations for specific grid business proc
         <li><a href="use-cases/smart-meter-data-exchange/README.md#4-publish-your-dataset-catalogue-bpp">4. Publish your dataset catalogue (BPP)</a></li>
         <li><a href="use-cases/smart-meter-data-exchange/README.md#5-exercise-the-flow">5. Exercise the flow</a></li>
         <li><a href="use-cases/smart-meter-data-exchange/README.md#6-connect-your-real-metering-system">6. Connect your real metering system</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#7-optional-at-the-end-issue-stable-ids-for-every-meter-and-asset">7. (Optional, at the end) Issue stable IDs for every meter and asset</a>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#7-optional-at-the-end-adopt-the-didweb-convention-for-meters-and-assets">7. (Optional, at the end) Adopt the `did:web` convention for meters and assets</a>
       </li>
       </ul>
       <li><a href="use-cases/smart-meter-data-exchange/README.md#checklist-for-your-meter-data-rollout">Checklist for your meter-data rollout</a></li>
@@ -1436,22 +1436,22 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[basic-checklist.md](use-cases/consumer-meter-digest/basic-checklist.md)**
+* **[checklist.md](use-cases/consumer-meter-digest/checklist.md)**
   - *Summary*: Checklist for configuring consent endpoints and digest minting.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#basic-checklist-consumer-meter-digest">Basic Checklist — Consumer Meter Digest</a>    <ul>
+    <li><a href="use-cases/consumer-meter-digest/checklist.md#checklist-consumer-meter-digest">Checklist — Consumer Meter Digest</a>    <ul>
       <ul>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#1-confirm-the-foundational-pieces-are-in-place">1. Confirm the foundational pieces are in place</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#2-decide-what-consumers-can-request">2. Decide what consumers can request</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#3-define-how-the-consumer-authorises-the-request">3. Define how the consumer authorises the request</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#4-publish-the-consumer-pull-catalogue-entry">4. Publish the consumer-pull catalogue entry</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#5-wire-up-digest-minting">5. Wire up Digest minting</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#6-test-the-end-to-end-flow">6. Test the end-to-end flow</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#7-production-deployment">7. Production deployment</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#8-consumer-communication-and-rollout">8. Consumer communication and rollout</a></li>
-        <li><a href="use-cases/consumer-meter-digest/basic-checklist.md#9-nominate-your-team">9. Nominate your team</a>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#1-confirm-the-foundational-pieces-are-in-place">1. Confirm the foundational pieces are in place</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#2-decide-what-consumers-can-request">2. Decide what consumers can request</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#3-define-how-the-consumer-authorises-the-request">3. Define how the consumer authorises the request</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#4-publish-the-consumer-pull-catalogue-entry">4. Publish the consumer-pull catalogue entry</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#5-wire-up-digest-minting">5. Wire up Digest minting</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#6-test-the-end-to-end-flow">6. Test the end-to-end flow</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#7-production-deployment">7. Production deployment</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#8-consumer-communication-and-rollout">8. Consumer communication and rollout</a></li>
+        <li><a href="use-cases/consumer-meter-digest/checklist.md#9-nominate-your-team">9. Nominate your team</a>
       </li>
       </ul>
     </li>
@@ -1496,22 +1496,22 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[basic-checklist.md](use-cases/consumer-energy-passport/basic-checklist.md)**
+* **[checklist.md](use-cases/consumer-energy-passport/checklist.md)**
   - *Summary*: Checklist for passport profiling, triggers, and wallet distribution.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#basic-checklist-consumer-energy-passport">Basic Checklist — Consumer Energy Passport</a>    <ul>
+    <li><a href="use-cases/consumer-energy-passport/checklist.md#checklist-consumer-energy-passport">Checklist — Consumer Energy Passport</a>    <ul>
       <ul>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#1-foundations-in-place">1. Foundations in place</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#2-identity-binding-chosen">2. Identity binding chosen</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#3-existing-systems-mapped-to-the-passport">3. Existing systems mapped to the Passport</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#4-phase-1-cohort-decided">4. Phase 1 cohort decided</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#5-lifecycle-wired-up">5. Lifecycle wired up</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#6-wallet-delivery-live">6. Wallet delivery live</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#7-end-to-end-loop-verified">7. End-to-end loop verified</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#8-production-cut-over">8. Production cut-over</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#9-team-nominated">9. Team nominated</a>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#1-foundations-in-place">1. Foundations in place</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#2-identity-binding-chosen">2. Identity binding chosen</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#3-existing-systems-mapped-to-the-passport">3. Existing systems mapped to the Passport</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#4-phase-1-cohort-decided">4. Phase 1 cohort decided</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#5-lifecycle-wired-up">5. Lifecycle wired up</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#6-wallet-delivery-live">6. Wallet delivery live</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#7-end-to-end-loop-verified">7. End-to-end loop verified</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#8-production-cut-over">8. Production cut-over</a></li>
+        <li><a href="use-cases/consumer-energy-passport/checklist.md#9-team-nominated">9. Team nominated</a>
       </li>
       </ul>
     </li>
@@ -1551,22 +1551,22 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[basic-checklist.md](use-cases/discom-regulatory-filing/basic-checklist.md)**
+* **[checklist.md](use-cases/discom-regulatory-filing/checklist.md)**
   - *Summary*: Checklist for regulatory cost mapping, adapter setup, and filing submissions.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#basic-checklist-discom-regulatory-filing">Basic Checklist — DISCOM Regulatory Filing</a>    <ul>
+    <li><a href="use-cases/discom-regulatory-filing/checklist.md#checklist-discom-regulatory-filing">Checklist — DISCOM Regulatory Filing</a>    <ul>
       <ul>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#1-decide-which-filings-to-start-with">1. Decide which filings to start with</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#2-register-the-discom-and-the-serc-on-the-ies-network">2. Register the DISCOM and the SERC on the IES network</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#3-agree-the-cost-category-mapping">3. Agree the cost-category mapping</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#4-generate-a-sample-filing-as-structured-data">4. Generate a sample filing as structured data</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#5-stand-up-the-data-exchange-adapters">5. Stand up the data-exchange adapters</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#6-catalogue-the-filing-and-submit">6. Catalogue the filing and submit</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#7-optional-open-the-filing-for-public-consumption">7. (Optional) Open the filing for public consumption</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#8-production-deployment-and-go-live">8. Production deployment and go-live</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/basic-checklist.md#9-nominate-your-team">9. Nominate your team</a>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#1-decide-which-filings-to-start-with">1. Decide which filings to start with</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#2-register-the-discom-and-the-serc-on-the-ies-network">2. Register the DISCOM and the SERC on the IES network</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#3-agree-the-cost-category-mapping">3. Agree the cost-category mapping</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#4-generate-a-sample-filing-as-structured-data">4. Generate a sample filing as structured data</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#5-stand-up-the-data-exchange-adapters">5. Stand up the data-exchange adapters</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#6-catalogue-the-filing-and-submit">6. Catalogue the filing and submit</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#7-optional-open-the-filing-for-public-consumption">7. (Optional) Open the filing for public consumption</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#8-production-deployment-and-go-live">8. Production deployment and go-live</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/checklist.md#9-nominate-your-team">9. Nominate your team</a>
       </li>
       </ul>
     </li>
@@ -1606,22 +1606,78 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[basic-checklist.md](use-cases/tariff-intelligence/basic-checklist.md)**
+* **[checklist.md](use-cases/tariff-intelligence/checklist.md)**
   - *Summary*: Checklist for policy authoring, signing, and billing integration testing.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/tariff-intelligence/basic-checklist.md#basic-checklist-tariff-intelligence">Basic Checklist — Tariff Intelligence</a>    <ul>
+    <li><a href="use-cases/tariff-intelligence/checklist.md#checklist-tariff-intelligence">Checklist — Tariff Intelligence</a>    <ul>
       <ul>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#1-decide-which-policies-to-publish">1. Decide which policies to publish</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#2-register-your-organisation-on-the-ies-network">2. Register your organisation on the IES network</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#3-mint-stable-identifiers-for-each-policy">3. Mint stable identifiers for each policy</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#4-author-the-policy-as-structured-data">4. Author the policy as structured data</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#5-sign-the-policy-with-the-publishers-key">5. Sign the policy with the publisher's key</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#6-publish-via-the-data-exchange">6. Publish via the data exchange</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#7-sample-consume-the-policy-in-a-billing-system">7. Sample-consume the policy in a billing system</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#8-production-deployment-and-go-live">8. Production deployment and go-live</a></li>
-        <li><a href="use-cases/tariff-intelligence/basic-checklist.md#9-nominate-your-team">9. Nominate your team</a>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#1-decide-which-policies-to-publish">1. Decide which policies to publish</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#2-register-your-organisation-on-the-ies-network">2. Register your organisation on the IES network</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#3-mint-stable-identifiers-for-each-policy">3. Mint stable identifiers for each policy</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#4-author-the-policy-as-structured-data">4. Author the policy as structured data</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#5-sign-the-policy-with-the-publishers-key">5. Sign the policy with the publisher's key</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#6-publish-via-the-data-exchange">6. Publish via the data exchange</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#7-sample-consume-the-policy-in-a-billing-system">7. Sample-consume the policy in a billing system</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#8-production-deployment-and-go-live">8. Production deployment and go-live</a></li>
+        <li><a href="use-cases/tariff-intelligence/checklist.md#9-nominate-your-team">9. Nominate your team</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[README.md](use-cases/p2p-energy-trading/README.md)**
+  - *Summary*: WIP — inter-discom prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases/p2p-energy-trading/README.md#p2p-energy-trading">P2P Energy Trading</a>    <ul>
+      <li><a href="use-cases/p2p-energy-trading/README.md#actors-and-roles">Actors and roles</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#block-diagram">Block diagram</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#building-blocks-used">Building blocks used</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#the-dataset-is-a-contract-p2ptrade">The dataset is a contract — `P2PTrade`</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#the-six-phases">The six phases</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#how-the-ledger-is-talked-to-beckn-not-rest">How the ledger is talked to — Beckn, not REST</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#setup-steps">Setup steps</a>      <ul>
+        <li><a href="use-cases/p2p-energy-trading/README.md#1-stand-up-the-wave-2-devkit">1. Stand up the wave 2 devkit</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#2-run-the-end-to-end-arazzo-workflow">2. Run the end-to-end Arazzo workflow</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#3-inspect-a-real-exchange-via-postman">3. Inspect a real exchange via Postman</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#4-swap-in-your-real-identity">4. Swap in your real identity</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#5-map-your-application-logic-to-the-four-roles">5. Map your application logic to the four roles</a>
+      </li>
+      </ul>
+      <li><a href="use-cases/p2p-energy-trading/README.md#policy-as-code-rego-opa">Policy-as-code (Rego / OPA)</a>      <ul>
+        <li><a href="use-cases/p2p-energy-trading/README.md#network-policy">Network policy</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#settlement-invoicing-policy">Settlement / invoicing policy</a>
+      </li>
+      </ul>
+      <li><a href="use-cases/p2p-energy-trading/README.md#known-wip">Known WIP</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#references">References</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[checklist.md](use-cases/p2p-energy-trading/checklist.md)**
+  - *Summary*: WIP — checklist for trading platforms, ledger providers, and discoms standing up P2P energy trading.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases/p2p-energy-trading/checklist.md#checklist-p2p-energy-trading">Checklist — P2P Energy Trading</a>    <ul>
+      <ul>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#1-scope-agreed">1. Scope agreed</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#2-network-identity-in-place-shared-with-data-exchange">2. Network identity in place (shared with Data Exchange)</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#3-devkit-running-end-to-end-on-your-machine">3. Devkit running end-to-end on your machine</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#4-schemas-mapped">4. Schemas mapped</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#5-degledgerrecorder-cascade-configured">5. `degledgerrecorder` cascade configured</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#6-policy-bundle-resolved">6. Policy bundle resolved</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#7-allocation-logic">7. Allocation logic</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#8-meter-data-sub-transaction">8. Meter-data sub-transaction</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#9-production-cut-over-shared-with-data-exchange">9. Production cut-over (shared with Data Exchange)</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#10-team-nominated">10. Team nominated</a>
       </li>
       </ul>
     </li>

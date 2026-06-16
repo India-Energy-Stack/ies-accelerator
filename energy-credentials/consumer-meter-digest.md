@@ -130,7 +130,7 @@ A verifier can reject a Digest with low coverage or high estimation without insp
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ElectricityCredential/v1.0/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/context.jsonld"
   ],
   "id": "urn:uuid:9b3c1f0a-2d4e-4ba8-9f1c-1e7a90c8a5d2",
   "type": ["VerifiableCredential", "ConsumerMeterDigest"],

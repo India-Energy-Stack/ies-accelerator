@@ -1,4 +1,4 @@
-# Basic Checklist — DISCOM Regulatory Filing
+# Checklist — DISCOM Regulatory Filing
 
 *A plain-English, conceptual checklist for a DISCOM (and the receiving SERC) standing up the [DISCOM Regulatory Filing use case](./README.md) — submitting ARR, true-up, FPPCA, and other compliance filings as structured, signed objects instead of PDFs. Use it to brief leadership and align finance, regulatory affairs, and IT teams.*
 

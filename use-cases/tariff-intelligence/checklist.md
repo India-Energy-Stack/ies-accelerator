@@ -1,4 +1,4 @@
-# Basic Checklist — Tariff Intelligence
+# Checklist — Tariff Intelligence
 
 *A plain-English, conceptual checklist for a SERC, DISCOM, or other policy authority publishing the [Tariff Intelligence use case](./README.md) — tariffs, deviation penalties, data-quality SLAs, and other rules as machine-readable, signed `IES_Policy` artefacts. Use it to brief leadership and align legal, regulatory, and IT teams.*
 

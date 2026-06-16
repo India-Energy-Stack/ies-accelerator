@@ -1,4 +1,4 @@
-# Basic Checklist — Consumer Energy Passport
+# Checklist — Consumer Energy Passport
 
 *Plain-English rollout checklist for a DISCOM standing up the [Consumer Energy Passport use case](./README.md). Use it to brief leadership and align IT, commercial, and consumer-experience teams.*
 
