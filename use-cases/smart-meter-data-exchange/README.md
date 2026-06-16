@@ -1,101 +1,85 @@
 # Smart Meter Data Exchange
 
-**A standard, audit-trailed API for sharing 15-minute AMI smart-meter data between an AMISP, the DISCOM, the state regulator, and consented third parties.**
+**A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a state regulator, and consented third parties — over [IES Data Exchange](../../data-exchange/README.md), carrying the [MeterData](../../schemas/MeterData/README.md) payload (currently `v0.6`).**
+
+You replace bespoke FTP drops, proprietary MDMS APIs, and CSV email attachments with one signed, schema-validated flow. The same surface area works AMISP→DISCOM, DISCOM→SERC, and DISCOM→consented-third-party.
+
+> For consumer-pull of *their own* meter data (one-meter, on-demand, wallet-shareable), see [Consumer Meter Digest](../consumer-meter-digest/README.md). This guide is the bulk, scheduled, machine-to-machine flow.
 
 ---
 
-## Scenario
+## Building blocks used
 
-Smart meter readings are the foundation of modern distribution operations: load forecasting, billing validation, DT loading, theft analytics, time-of-day tariff enforcement, and DER planning all depend on meter data flowing reliably from the AMISP that operates the meters to the DISCOM that owns the relationship — and onward to the SERC or to consented third-party analytics providers.
+This use case is a thin composition over four existing building blocks. The setup steps below map one-to-one to them — read the building-block pages for the detail; come back here for what changes for the meter-data case.
 
-Today this is a tangle of bespoke FTP drops, proprietary MDMS APIs, and CSV email attachments. The Smart Meter Data Exchange use case replaces these with a single, discoverable, signed, schema-validated exchange over the IES Data Exchange protocol.
-
-> For consumer-pull of their own meter data (one-meter, on-demand, wallet-shareable), see the sister use case [Consumer Meter Digest](../consumer-meter-digest/README.md). This guide is the bulk, scheduled, machine-to-machine flow.
-
----
-
-## Actors and Roles
-
-| Role | Organisation (example) | What they do |
+| What you need | Building block | What it gives you |
 |---|---|---|
-| **BPP** — data provider | AMISP (e.g. IntelliGrid AMI Services) | Operates the meter network; publishes `IES_Report` datasets |
-| **BAP** — data consumer | DISCOM (e.g. BESCOM) | Subscribes to and ingests meter data for billing, forecasting, analytics |
-| **Optional BAP** — secondary consumer | SERC, planner, research org, consented third-party app | Requests data via the same protocol, gated by credentials and policy |
-| **Identity authority** | DISCOM / IES registries | Issues meter and DT identifiers; registers all participants |
-
-The protocol is symmetric — the same surface area supports AMISP→DISCOM, DISCOM→SERC, and DISCOM→consented-third-party flows.
+| A name and a signing key your counterparties can verify | [Identifiers & Addressing](../../identifiers/README.md), [Registries](../../registries/README.md) | Your `did:web`, your public key in a DeDi runtime, your namespace |
+| A trust boundary — "who can transact on this network" | [Required Registries — Network Reference Registry](../../registries/required-registries.md#network-reference-registry) | Your subscriber record in the IES network reference registry |
+| The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../data-exchange/README.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
+| (Optional) Cryptographic proof that the requester is authorised | [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/README.md) | A signed credential the seeker attaches at `confirm`; provider verifies offline |
 
 ---
 
-## Building Blocks Used
+## The dataset — `MeterData/v0.6`
 
-| Block | Role in this use case |
+The payload is the [MeterData](../../schemas/MeterData/README.md) compact-profile schema (currently `v0.6`). v0.6 standardises eight profile shapes covering every smart-meter cadence:
+
+| Profile | Carries |
 |---|---|
-| [Identifiers](../../identifiers/README.md) | Every meter, DT, feeder, and substation involved is referenced by an IES identifier. Resource references in the exchange (`resourceName`) carry these IDs. |
-| [Registries](../../registries/README.md) | The AMISP, DISCOM, and SERC participants are looked up in their respective DeDi registries. Meter/asset IDs are resolved through utility-operated identifier registries. |
-| [Data Exchange](../../data-exchange/README.md) | The Beckn-based protocol that carries the `IES_Report` payload from BPP to BAP, with optional discovery, contract, and async delivery semantics. |
-| [Energy Credentials](../../energy-credentials/README.md) | *Optional for the M2M flow; required when a consumer-consented third party is the BAP.* The third party presents the [Consumer Meter Digest](../consumer-meter-digest/README.md) authorisation or holds a presentation of the consumer's [Consumer Energy Passport](../consumer-energy-passport/README.md). |
+| `CUSTOMER` | Slow-changing customer / service-point / meter installation metadata |
+| `INTERVAL` | Block load survey at 15- or 30-minute resolution |
+| `DAILY` | Daily accumulated load survey |
+| `MONTHLY` | Monthly billing resets (cumulative kWh, ToU buckets, MD) |
+| `BILL_DETAILS` | Utility-side billing computed details |
+| `INSTANTANEOUS` | Real-time snapshot of V / A / P / Q |
+| `EVENT` | IS 15959 diagnostic / tamper events |
+| `ALARM` | Real-time active alerts |
+
+For the Indian-terminology mapping (OBIS codes, IS 15959 event IDs, CIM master-data fields) see the companion page [IES Meter Data Model](./ies-meter-data-model.md).
+
+> **MeterData v0.6 supersedes the earlier `IES_Report` working name.** Any older docs or devkits referencing `IES_Report` should be read as `MeterData/v0.6`.
 
 ---
 
-## The Dataset — `IES_Report`
+## Optional consent — `MeterDataRequestCredential`
 
-The `IES_Report` schema carries meter telemetry in **OpenADR 3.1.0 REPORT** format. OpenADR is an international standard for energy-management signalling; IES uses its `REPORT` object as the container for meter readings.
+When a third party (a consented app, a researcher, sometimes a regulator) is the BAP, the provider's offer policy can require an authorisation credential at `confirm` time. IES uses [`MeterDataRequestCredential`](../../schemas/MeterDataRequestCredential/README.md) — a W3C VC 2.0 that wraps a [`MeterDataRequest`](../../schemas/MeterDataRequest/README.md) and identifies the requester, scopes the request (which meters, which time window, which profile), and is signed by the authoriser (typically the DISCOM, sometimes the consumer themselves via OpenCred).
 
-A minimal 15-minute load-survey block looks like:
+```
+Seeker (BAP)                                       Provider (BPP)
+e.g. consented app, SERC                           e.g. AMISP, DISCOM
 
-```json
-{
-  "objectType": "REPORT",
-  "reportID": "rep-bescom-zone-a-2026-04-01",
-  "programID": "amisp-telemetry-bescom-2026",
-  "reportPayloadDescriptors": [
-    {
-      "payloadType": "USAGE",
-      "readingType": "DIRECT_READ",
-      "units": "KWH"
-    }
-  ],
-  "resources": [{
-    "resourceName": "meter-KA-98765432",
-    "intervalPeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "PT15M" },
-    "intervals": [
-      { "id": 0, "payloads": [{ "type": "USAGE", "values": [1.12] }] },
-      { "id": 1, "payloads": [{ "type": "USAGE", "values": [1.15] }] }
-    ]
-  }]
-}
+  │── confirm  ─── { MeterDataRequest } ───
+  │                + MeterDataRequestCredential ──>│
+  │                                                ├─ verify VC: type ✓
+  │                                                │            validUntil ✓
+  │                                                │            DeDi status ✓
+  │                                                │            scope ⊆ contract
+  │<── on_confirm / on_status — MeterData/v0.6 ────│
 ```
 
-The full mapping from Indian OBIS codes (IS 15959) and Event IDs to OpenADR 3 `payloadType` / `readingType` lives in [IES Data Model](ies-data-model.md), with the existing-terminology side-by-side reference in [Survey of Existing Terminology](survey-of-existing-terminology.md).
-
-> **Status — `IES_Report` schema is being finalised.** Field names and a couple of enums may move during the merge of `beckn/DEG:ies-specs` into `India-Energy-Stack`. The OpenADR 3 envelope itself is stable; integrate against the devkit examples and expect minor renames at the IES wrapper level.
+The provider checks credential type, expiry, DeDi revocation status, and that the embedded request scope is within the contracted scope — no callback to the issuer.
 
 ---
 
-## Setup Steps
+## Setup steps
 
-The order below takes you from zero to a working AMISP → DISCOM flow on the local devkit, then upgrades to a real-network deployment.
+The order below takes you from zero to a working AMISP → DISCOM flow on the local devkit, then upgrades to the real IES network.
 
-### 1. Register the participants
+### 1. Decide scope
 
-Both the AMISP (BPP) and the DISCOM (BAP) need entries in the relevant DeDi registries:
+Meter population, geography, granularity (15-min / daily / monthly), counterparties (AMISP→DISCOM only, DISCOM→SERC, DISCOM→third-party). Phase 1 should be one cadence and one counterparty.
 
-- **DISCOM** — [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry), `india-energy-stack:<discom-short-code>` (e.g. `india-energy-stack:bescom`).
-- **AMISP** — registered in the same `india-energy-stack` namespace as a data-provider participant. Use the [Registry Creation](../../registries/registry-creation.md) guide if your AMISP entry does not yet exist.
-- **SERC** (if it will be a downstream consumer) — [IES Regulators Reference Registry](../../registries/required-registries.md#regulators-registry).
+### 2. Get a network identity
 
-Each registration pins a `did:web` and the public key used to sign Beckn messages and credentials issued by that participant.
+Both BAP and BPP need a DeDi subscriber record with a published signing key. If you have one already (any other Beckn flow on this network), reuse it. If not, follow [Required Registries — minimum to get started](../../registries/required-registries.md#onboarding-quick-guide-minimum-to-get-started).
 
-### 2. Issue meter and asset identifiers
+You do **not** need to rename anything in your CIS, MDMS, or asset registers. Your existing IDs are reused as the tail of the DID.
 
-Every meter referenced in an `IES_Report` must resolve to a stable IES identifier. The DISCOM (or AMISP, by delegation) issues meter IDs into a utility-scoped registry under the IES Identifier patterns — see [ID Patterns](../../identifiers/id-patterns.md). DT, feeder, and substation IDs follow the same scheme and are referenced from meter attributes (`DT_ID`, `FEEDER_ID`, `SUBSTATION_ID`).
+### 3. Stand up the Data Exchange adapters
 
-The same resource identifier appears as `resourceName` inside the OpenADR `REPORT` and inside the Beckn `resources[].id` envelope — this is what lets the regulator or analytics consumer correlate readings to physical assets without an out-of-band asset register handshake.
-
-### 3. Stand up the data-exchange adapters
-
-Both sides run an ONIX adapter against the Beckn protocol. The simplest start is the local sandbox:
+Both sides run an [ONIX](../../glossary.md#onix) adapter. The fastest start is the devkit sandbox:
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -103,87 +87,65 @@ cd DEG/devkits/data-exchange/install
 docker compose up -d
 ```
 
-This brings up `sandbox-bap`, `sandbox-bpp`, and `beckn-router` containers pre-wired with the AMISP/DISCOM example identities (`bap.example.com` / `bpp.example.com`).
+This brings up `sandbox-bap`, `sandbox-bpp`, and `beckn-router` pre-wired with placeholder identities. End-to-end network onboarding is the [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md); don't duplicate the steps here — read that page.
 
-For production, follow [Registry Setup](../../data-exchange/registry-setup.md) — point the adapter at the IES registry endpoint, install your `did:web` keypair, and replace the sandbox routing config with your AMISP/DISCOM hosts.
+### 4. Publish your dataset catalogue (BPP)
 
-### 4. Configure the dataset catalogue
-
-The AMISP publishes a catalogue entry describing the `IES_Report` dataset it offers — `programID`, geographic scope, refresh cadence, access method (`INLINE` for ≤MB-scale chunks, `SIGNED_URL` for daily/monthly bulk), and any required credentials. The DISCOM uses `discover` to find this catalogue, or skips straight to `confirm` for a pre-agreed bilateral subscription.
-
-The catalogue lives inside the BPP's ONIX config — see [Appendix § Generic Beckn Flow](../../data-exchange/appendix.md#generic-beckn-flow).
+Publish a Beckn catalogue entry for the `MeterData/v0.6` dataset you offer — `programID`, geographic scope, refresh cadence, [`accessMethod`](../../data-exchange/concepts.md#the-datasetitem-schema) (`INLINE` for ≤MB-scale chunks; `SIGNED_URL` for daily/monthly bulk), and any required credentials (point at `MeterDataRequestCredential` if you require one). Pre-agreed bilateral subscriptions can skip `discover` and go straight to `confirm`.
 
 ### 5. Exercise the flow
 
-The minimal lifecycle is `confirm` → `on_confirm` → `status` → `on_status`:
+The minimal lifecycle is `confirm` → `on_confirm` → (`status` → `on_status` if delivery is asynchronous):
 
 | Step | Sender | What happens |
 |---|---|---|
-| `confirm` | BAP (DISCOM) | Requests the dataset for a meter list and a date range; the message is signed with the DISCOM's `did:web` key |
-| `on_confirm` | BPP (AMISP) | Acknowledges the contract; declares the dataset will be delivered asynchronously |
-| `status` | BAP | Polls for delivery (optional with webhook-driven push) |
-| `on_status` | BPP | Delivers the `IES_Report` inline (small payloads) or returns a signed-URL pointer (bulk) |
+| `confirm` | BAP | Requests data for a meter list + date range. Optionally attaches a `MeterDataRequestCredential`. |
+| `on_confirm` | BPP | Acknowledges; declares whether delivery is inline or async. |
+| `on_status` | BPP | Delivers `MeterData/v0.6` inline or returns a signed-URL pointer. |
 
-The dataset is carried inside `message.contract.commitments[].resources[].resourceAttributes` qualified with the DDM `DatasetItem/v1.1` `@context`:
+The payload sits inside `message.contract.commitments[].resources[].resourceAttributes` qualified with the DDM `DatasetItem/v1.1` context — see [Data Exchange — Core Concepts](../../data-exchange/concepts.md#the-datasetitem-schema).
 
-```json
-"resources": [{
-  "id": "ds-ami-meter-data-blr-zone-a-q1-2026",
-  "descriptor": { "name": "IntelliGrid AMI Meter Data — Bengaluru Zone A — Q1 2026" },
-  "resourceAttributes": {
-    "@context": "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1.1/context.jsonld",
-    "@type": "DatasetItem",
-    "accessMethod": "INLINE",
-    "dataPayload": { /* IES_Report — see snippet above */ }
-  }
-}]
-```
+### 6. Connect your real metering system
 
-### 6. (Optional) Enable consented third-party access
+Replace the sandbox response with a live connection to your HES / MDMS. Verify the Indian-OBIS → `MeterData/v0.6` mapping for every reading you ship — [IES Meter Data Model](./ies-meter-data-model.md) is the reference.
 
-When the DISCOM wants to allow a consumer-authorised third party to pull data on a specific consumer's meter, the third party becomes the BAP and presents a [Consumer Meter Digest](../consumer-meter-digest/README.md) authorisation credential alongside the `confirm`. The BPP verifies the credential (issuer = DISCOM, subject = consumer, scope = this meter, validity in range) before delivering data. The credential model and the data-exchange policy hook are the integration boundary — no new protocol surface.
+### 7. (Optional, at the end) Issue stable IDs for every meter and asset
+
+Once Phase 1 is flowing, you can mint stable DIDs for each meter, DT, feeder, and substation referenced in the exchange. **Your existing CA numbers and meter SLNOs work as-is** — the DID is just `did:dedi:<your-namespace>:meters:<meter-serial>` (and the same pattern for DT, feeder, substation). See [Identifiers → ID Patterns](../../identifiers/id-patterns.md). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData/v0.6` payloads and add DIDs incrementally.
 
 ---
 
-## Operate
+## Checklist for your meter-data rollout
 
-Once the sandbox is up:
+For the **underlying network onboarding** (DeDi subscriber, ONIX, signing keys, sandbox→test→prod cut-over), follow the canonical [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md). Don't duplicate those items here.
 
-```bash
-# Import the BAP Postman collection from
-#   DEG/devkits/data-exchange/uc1-meter-data/postman/
-# Set bap_host_root + bpp_host_root to http://beckn-router:9000 (or your tunnel URL)
-# Fire `confirm` from the collection.
+The items below are **meter-data-specific** additions on top of that checklist:
 
-docker logs sandbox-bap 2>&1 | grep -E 'on_(confirm|status)' | tail -10
-```
-
-The Arazzo runner can drive the full lifecycle in one shot:
-
-```bash
-cd DEG/devkits/data-exchange/uc1-meter-data/workflows
-./run-arazzo.sh -w confirm-through-delivery -v
-```
+- [ ] Meter population, geography, granularity, and counterparty for Phase 1 agreed
+- [ ] Source system mapped (HES / MDMS endpoint, owner team, SLA)
+- [ ] Indian-OBIS → `MeterData/v0.6` mapping verified for every reading and event you ship (see [IES Meter Data Model](./ies-meter-data-model.md))
+- [ ] Data-quality flags (missing / estimated) handled per the v0.6 `validationStatus` enum
+- [ ] Catalogue entry published (`programID`, geographic scope, refresh cadence, `accessMethod`, credential requirements)
+- [ ] (If third-party access in scope) `MeterDataRequestCredential` verification wired into the BPP — type, validity, DeDi status, scope ⊆ contract
+- [ ] (Optional) Stable DIDs minted for meters / DTs / feeders, reusing existing internal numbers
+- [ ] IT/data SPOC nominated; Authorised Signatory nominated
 
 ---
 
-## Open Items
+## Open items
 
-- **`IES_Report` schema canonicalisation.** The schema currently lives on the `ies-specs` branch of `beckn/DEG`; it will move to `India-Energy-Stack`. Field names may be renamed (no semantic changes expected).
-- **Standard chunking convention** for bulk historical pulls (daily / monthly / quarterly) is being agreed — the devkit uses 10-chunk daily splits in the example payloads.
-- **Quality flags.** The OpenADR `DATA_QUALITY` payloadType is the agreed mechanism for marking missing/estimated reads; the IES profile of allowable values is being tightened.
+- **Chunking convention** for bulk historical pulls (daily / monthly / quarterly) is being agreed across deployments.
+- **Quality flags** — the v0.6 `validationStatus` enum is stable; the recommended profile of allowed values per cadence is being tightened.
 
 ---
 
 ## References
 
-- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
-
-- [`IES_Report` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
-- [OpenADR 3.1.0 Specification](https://www.openadr.org)
-- [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc1-meter-data/examples)
-- [Survey of Existing Terminology](survey-of-existing-terminology.md) — OBIS codes, Event IDs, CIM
-- [IES Data Model](ies-data-model.md) — full OBIS → OpenADR 3 mapping table
-- [Data Exchange — Core Concepts](../../data-exchange/concepts.md)
-- [Data Exchange — Quick Start](../../data-exchange/quick-start.md)
-- [ies-docs `data_exchange_summary.md`](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/data_exchange_summary.md)
+- [MeterData — schema and examples](../../schemas/MeterData/README.md) (current: `v0.6`)
+- [MeterDataRequest — request payload schema](../../schemas/MeterDataRequest/README.md) (current: `v0.6`)
+- [MeterDataRequestCredential — authorisation VC](../../schemas/MeterDataRequestCredential/README.md) (current: `v0.1`)
+- [IES Meter Data Model](./ies-meter-data-model.md) — OBIS / IS 15959 / CIM → MeterData v0.6 mapping
+- [Data Exchange chapter](../../data-exchange/README.md)
+- [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md)
+- [Registries — Required for onboarding](../../registries/required-registries.md)
+- [Identifiers — ID Patterns](../../identifiers/id-patterns.md)

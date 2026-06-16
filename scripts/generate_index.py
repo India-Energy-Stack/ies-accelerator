@@ -140,10 +140,8 @@ def main():
         ],
         "usecases": [
             ("use-cases/README.md", "Snapshot index of the five primary energy network use cases."),
-            ("use-cases/smart-meter-data-exchange/README.md", "Sharing telemetry datasets using Beckn and OpenADR 3 standards."),
-            ("use-cases/smart-meter-data-exchange/ies-data-model.md", "Technical mapping of DLMS-COSEM OBIS codes and CIM properties to OpenADR 3.0."),
-            ("use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md", "Comprehensive reference table of Indian smart metering OBIS codes and event log profiles."),
-            ("use-cases/smart-meter-data-exchange/basic-checklist.md", "Quickcheck list for deploying smart meter exchange adapters and MDM connections."),
+            ("use-cases/smart-meter-data-exchange/README.md", "Implementer guide: AMISP/DISCOM/SERC/third-party telemetry exchange over IES Data Exchange, carrying the MeterData schema; includes the optional MeterDataRequestCredential consent flow."),
+            ("use-cases/smart-meter-data-exchange/ies-meter-data-model.md", "Reference: Indian smart-metering terminology (OBIS, IS 15959 profiles and event IDs, CIM master data) mapped to the MeterData schema, with the IS 15959 deep-reference appendix."),
             ("use-cases/consumer-meter-digest/README.md", "Exchanging monthly meter digests via user consent and pull credentials."),
             ("use-cases/consumer-meter-digest/basic-checklist.md", "Checklist for configuring consent endpoints and digest minting."),
             ("use-cases/consumer-energy-passport/README.md", "Consolidating generation, storage, and consumption VCs into a unified consumer passport."),

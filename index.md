@@ -752,7 +752,7 @@ This block handles digital attestations of connections, billing summaries, and c
       <li><a href="energy-credentials/digilocker-integration.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
         <li><a href="energy-credentials/digilocker-integration.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
         <li><a href="energy-credentials/digilocker-integration.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-3-register-the-pull-uri-endpoint-on-api-setu">Step 3 — Register the Pull URI Endpoint on API Setu</a>
+        <li><a href="energy-credentials/digilocker-integration.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
       </li>
       </ul>
       <li><a href="energy-credentials/digilocker-integration.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
@@ -763,11 +763,30 @@ This block handles digital attestations of connections, billing summaries, and c
         <li><a href="energy-credentials/digilocker-integration.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
         <li><a href="energy-credentials/digilocker-integration.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
         <li><a href="energy-credentials/digilocker-integration.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#handler-logic-summary">Handler Logic Summary</a>
+        <li><a href="energy-credentials/digilocker-integration.md#handler-logic-summary">Handler Logic Summary</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#routing-by-doctype">Routing by DocType</a>
+      </li>
+      </ul>
+      <li><a href="energy-credentials/digilocker-integration.md#issuing-nycer-the-electricity-credential-v12">Issuing NYCER — the Electricity Credential v1.2</a>      <ul>
+        <li><a href="energy-credentials/digilocker-integration.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#credentialsubject-shape">credentialSubject shape</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#the-opencred-issue-call">The OpenCred issue call</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
+      </li>
+      </ul>
+      <li><a href="energy-credentials/digilocker-integration.md#the-consumer-meter-digest-doctype-mtrdt">The Consumer Meter Digest (DocType `MTRDT`)</a>      <ul>
+        <li><a href="energy-credentials/digilocker-integration.md#the-core-idea-a-statement-not-a-bill">The core idea — a statement, not a bill</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
+        <li><a href="energy-credentials/digilocker-integration.md#the-ask-to-digilocker-mtrdt">The ask to DigiLocker (MTRDT)</a>
       </li>
       </ul>
       <li><a href="energy-credentials/digilocker-integration.md#error-response-format">Error Response Format</a></li>
-      <li><a href="energy-credentials/digilocker-integration.md#using-a-common-endpoint-for-elbil-and-nycer">Using a Common Endpoint for ELBIL and NYCER</a></li>
       <li><a href="energy-credentials/digilocker-integration.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
       <li><a href="energy-credentials/digilocker-integration.md#security-checklist">Security Checklist</a></li>
       <li><a href="energy-credentials/digilocker-integration.md#reference">Reference</a>
@@ -781,17 +800,17 @@ This block handles digital attestations of connections, billing summaries, and c
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="energy-credentials/consumer-energy-passport.md#consumer-energy-passport-credential">Consumer Energy Passport Credential</a>    <ul>
-      <li><a href="energy-credentials/consumer-energy-passport.md#relationship-to-customercredential">Relationship to `CustomerCredential`</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#common-envelope">Common Envelope</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#credentialsubject">credentialSubject</a>      <ul>
-        <li><a href="energy-credentials/consumer-energy-passport.md#identitybinding-required">identityBinding (required)</a></li>
-        <li><a href="energy-credentials/consumer-energy-passport.md#customerprofile-customerdetails-consumptionprofiles-generationprofiles-storageprofiles">customerProfile, customerDetails, consumptionProfiles[], generationProfiles[], storageProfiles[]</a>
+    <li><a href="energy-credentials/consumer-energy-passport.md#consumer-energy-passport-credential-reference">Consumer Energy Passport — credential reference</a>    <ul>
+      <li><a href="energy-credentials/consumer-energy-passport.md#what-it-is">What it is</a>      <ul>
+        <li><a href="energy-credentials/consumer-energy-passport.md#how-it-differs-from-a-plain-electricitycredential">How it differs from a plain `ElectricityCredential`</a>
       </li>
       </ul>
-      <li><a href="energy-credentials/consumer-energy-passport.md#full-example">Full example</a></li>
+      <li><a href="energy-credentials/consumer-energy-passport.md#identitybinding-passport-specific">identityBinding (Passport-specific)</a></li>
+      <li><a href="energy-credentials/consumer-energy-passport.md#envelope">Envelope</a></li>
       <li><a href="energy-credentials/consumer-energy-passport.md#issuing-the-passport">Issuing the Passport</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#selective-disclosure-presentations">Selective Disclosure Presentations</a></li>
+      <li><a href="energy-credentials/consumer-energy-passport.md#verification">Verification</a></li>
+      <li><a href="energy-credentials/consumer-energy-passport.md#selective-disclosure">Selective disclosure</a></li>
+      <li><a href="energy-credentials/consumer-energy-passport.md#status">Status</a></li>
       <li><a href="energy-credentials/consumer-energy-passport.md#references">References</a>
     </li>
     </ul>
@@ -1332,123 +1351,57 @@ Practical deployment and mapping implementations for specific grid business proc
   </ul>
   </details>
 * **[README.md](use-cases/smart-meter-data-exchange/README.md)**
-  - *Summary*: Sharing telemetry datasets using Beckn and OpenADR 3 standards.
+  - *Summary*: Implementer guide: AMISP/DISCOM/SERC/third-party telemetry exchange over IES Data Exchange, carrying the MeterData schema; includes the optional MeterDataRequestCredential consent flow.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/smart-meter-data-exchange/README.md#smart-meter-data-exchange">Smart Meter Data Exchange</a>    <ul>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#scenario">Scenario</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#actors-and-roles">Actors and Roles</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#building-blocks-used">Building Blocks Used</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#the-dataset-ies-report">The Dataset — `IES_Report`</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#setup-steps">Setup Steps</a>      <ul>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#1-register-the-participants">1. Register the participants</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#2-issue-meter-and-asset-identifiers">2. Issue meter and asset identifiers</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#3-stand-up-the-data-exchange-adapters">3. Stand up the data-exchange adapters</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#4-configure-the-dataset-catalogue">4. Configure the dataset catalogue</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#building-blocks-used">Building blocks used</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#the-dataset-meterdatav06">The dataset — `MeterData/v0.6`</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#optional-consent-meterdatarequestcredential">Optional consent — `MeterDataRequestCredential`</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#setup-steps">Setup steps</a>      <ul>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#1-decide-scope">1. Decide scope</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#2-get-a-network-identity">2. Get a network identity</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#3-stand-up-the-data-exchange-adapters">3. Stand up the Data Exchange adapters</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#4-publish-your-dataset-catalogue-bpp">4. Publish your dataset catalogue (BPP)</a></li>
         <li><a href="use-cases/smart-meter-data-exchange/README.md#5-exercise-the-flow">5. Exercise the flow</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#6-optional-enable-consented-third-party-access">6. (Optional) Enable consented third-party access</a>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#6-connect-your-real-metering-system">6. Connect your real metering system</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#7-optional-at-the-end-issue-stable-ids-for-every-meter-and-asset">7. (Optional, at the end) Issue stable IDs for every meter and asset</a>
       </li>
       </ul>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#operate">Operate</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#open-items">Open Items</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#checklist-for-your-meter-data-rollout">Checklist for your meter-data rollout</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#open-items">Open items</a></li>
       <li><a href="use-cases/smart-meter-data-exchange/README.md#references">References</a>
     </li>
     </ul>
   </li>
   </ul>
   </details>
-* **[ies-data-model.md](use-cases/smart-meter-data-exchange/ies-data-model.md)**
-  - *Summary*: Technical mapping of DLMS-COSEM OBIS codes and CIM properties to OpenADR 3.0.
+* **[ies-meter-data-model.md](use-cases/smart-meter-data-exchange/ies-meter-data-model.md)**
+  - *Summary*: Reference: Indian smart-metering terminology (OBIS, IS 15959 profiles and event IDs, CIM master data) mapped to the MeterData schema, with the IS 15959 deep-reference appendix.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#ies-data-model">IES Data Model</a>    <ul>
-      <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#1-resource-attributes">1. RESOURCE Attributes</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#2-report-payloaddescriptors-telemetry-logs">2. REPORT payloadDescriptors (Telemetry & Logs)</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#3-event-payloaddescriptors-control-signals">3. EVENT payloadDescriptors (Control Signals)</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#4-openadr-3-json-examples">4. OpenADR 3 JSON Examples</a>      <ul>
-        <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#41-resource-example">4.1. RESOURCE Example</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#42-event-example-control-signal">4.2. EVENT Example (Control Signal)</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#43-report-examples">4.3. REPORT Examples</a>        <ul>
-          <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#live-instantaneous-report">Live Instantaneous Report</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#historic-data-compactness">Historic Data (Compactness)</a>          <ul>
-            <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#load-survey-15m-intervals---ultra-compact">Load Survey (15m Intervals - Ultra Compact)</a></li>
-            <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#daily-survey-24h-interval">Daily Survey (24h Interval)</a></li>
-            <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#monthly-bill-1mo-interval-with-multiple-payloads">Monthly Bill (1mo Interval with Multiple Payloads)</a>
-          </li>
-          </ul>
-        </li>
-        </ul>
+    <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#ies-meter-data-model">IES Meter Data Model</a>    <ul>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#1-the-shape-of-meterdatav06-in-one-glance">1. The shape of `MeterData/v0.6` in one glance</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#2-is-15959-profile-buffer-meterdatav06-profile">2. IS 15959 profile buffer → `MeterData/v0.6` profile</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#3-obis-register-payloaddescriptors">3. OBIS register → `payloadDescriptors[]`</a>      <ul>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#31-energy-registers-load-daily-monthly">3.1 Energy registers — Load / Daily / Monthly</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#32-instantaneous-registers">3.2 Instantaneous registers</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#33-identification-registers-customer-profile">3.3 Identification registers — `CUSTOMER` profile</a>
       </li>
       </ul>
-      <li><a href="use-cases/smart-meter-data-exchange/ies-data-model.md#5-complete-mapping-obis-codes-event-ids-to-openadr-3">5. Complete Mapping: OBIS Codes & Event IDs to OpenADR 3</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[survey-of-existing-terminology.md](use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md)**
-  - *Summary*: Comprehensive reference table of Indian smart metering OBIS codes and event log profiles.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#comprehensive-obis-codes-event-ids-for-india">Comprehensive OBIS Codes & Event IDs for India</a>    <ul>
-      <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#comprehensive-obis-codes-event-ids-for-india-is-15959-adaptation">Comprehensive OBIS Codes & Event IDs for India (IS 15959 Adaptation)</a>      <ul>
-        <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#1-core-obis-codes-registers-profiles">1. Core OBIS Codes (Registers & Profiles)</a>        <ul>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#11-general-and-instantaneous-parameters">1.1 General and Instantaneous Parameters</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#12-energy-demand-distinction-by-profile">1.2 Energy & Demand: Distinction by Profile</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#13-time-of-use-tou-registers">1.3 Time-of-Use (ToU) Registers</a>
-        </li>
-        </ul>
-        <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#2-profile-buffers-capture-logic">2. Profile Buffers & Capture Logic</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#3-event-log-profiles-event-ids">3. Event Log Profiles & Event IDs</a>        <ul>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#31-event-profile-identifiers-obis">3.1 Event Profile Identifiers (OBIS)</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#32-standardized-event-ids-india-specific">3.2 Standardized Event IDs (India Specific)</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#33-prepaid-control-specific-event-ids">3.3 Prepaid & Control Specific Event IDs</a>
-        </li>
-        </ul>
-        <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#4-communication-and-reporting-flow">4. Communication and Reporting Flow</a>        <ul>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#41-hes-to-meter-access-sequence-polling">4.1 HES-to-Meter Access Sequence (Polling)</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#42-reporting-events-meter-hes-mdm">4.2 Reporting Events (Meter → HES → MDM)</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#43-control-logic-mdm-hes-meter">4.3 Control Logic (MDM → HES → Meter)</a>
-        </li>
-        </ul>
-        <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#5-network-topology-connection-hierarchy">5. Network Topology & Connection Hierarchy</a>        <ul>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#51-typical-topology">5.1 Typical Topology</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#52-connectivity-mapping">5.2 Connectivity Mapping</a>
-        </li>
-        </ul>
-        <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#6-master-data-standards">6. Master Data Standards</a>        <ul>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#61-standards-for-master-data">6.1 Standards for Master Data</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#62-mandatory-master-data-fields-mdmcis">6.2 Mandatory Master Data Fields (MDM/CIS)</a></li>
-          <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#63-linking-data-to-connection">6.3 Linking Data to Connection</a>
-        </li>
-        </ul>
-        <li><a href="use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md#7-is-15959-annexures-summary">7. IS 15959 Annexures Summary</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[basic-checklist.md](use-cases/smart-meter-data-exchange/basic-checklist.md)**
-  - *Summary*: Quickcheck list for deploying smart meter exchange adapters and MDM connections.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#basic-checklist-smart-meter-data-exchange">Basic Checklist — Smart Meter Data Exchange</a>    <ul>
-      <ul>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#1-decide-the-scope-of-the-meter-data-flow">1. Decide the scope of the meter data flow</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#2-register-your-organisation-on-the-ies-network">2. Register your organisation on the IES network</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#3-issue-identifiers-for-every-meter-and-asset">3. Issue identifiers for every meter and asset</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#4-stand-up-the-data-exchange-adapter">4. Stand up the data-exchange adapter</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#5-connect-the-real-metering-system">5. Connect the real metering system</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#6-publish-your-dataset-catalogue">6. Publish your dataset catalogue</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#7-optional-enable-consented-third-party-access">7. (Optional) Enable consented third-party access</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#8-production-deployment-and-go-live">8. Production deployment and go-live</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/basic-checklist.md#9-nominate-your-team">9. Nominate your team</a>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#4-is-15959-event-ids-event-alarm">4. IS 15959 Event IDs → `EVENT` / `ALARM`</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#5-data-quality-validationstatus">5. Data quality — `validationStatus`</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#6-cim-master-data-customer-profile">6. CIM master data → `CUSTOMER` profile</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#7-worked-example-30-minute-load-survey">7. Worked example — 30-minute Load Survey</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#8-references">8. References</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#appendix-is-15959-deep-reference">Appendix — IS 15959 deep reference</a>      <ul>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#a1-profile-buffers">A1. Profile buffers</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#a2-event-log-buffers">A2. Event log buffers</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#a3-communication-flow">A3. Communication flow</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#a4-network-topology-assumed-by-atc-loss-accounting">A4. Network topology assumed by AT&C-loss accounting</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/ies-meter-data-model.md#a5-is-15959-annexure-summary">A5. IS 15959 annexure summary</a>
       </li>
       </ul>
     </li>
@@ -1512,23 +1465,32 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/consumer-energy-passport/README.md#consumer-energy-passport">Consumer Energy Passport</a>    <ul>
-      <li><a href="use-cases/consumer-energy-passport/README.md#scenario">Scenario</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#actors-and-roles">Actors and Roles</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#building-blocks-used">Building Blocks Used</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#whats-in-the-passport">What's in the Passport</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#setup-steps">Setup Steps</a>      <ul>
-        <li><a href="use-cases/consumer-energy-passport/README.md#1-be-a-registered-discom-issuer">1. Be a registered DISCOM issuer</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#2-run-opencred">2. Run OpenCred</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#3-map-your-cis-der-systems-to-the-passport-sub-profiles">3. Map your CIS + DER systems to the Passport sub-profiles</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#4-issue-the-passport">4. Issue the Passport</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#5-deliver-to-the-wallet">5. Deliver to the wallet</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#6-re-issue-on-material-change">6. Re-issue on material change</a>
+      <li><a href="use-cases/consumer-energy-passport/README.md#what-you-build-end-to-end">What you build, end-to-end</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#building-blocks-used">Building blocks used</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#whats-in-the-passport">What's in the Passport</a>      <ul>
+        <li><a href="use-cases/consumer-energy-passport/README.md#identitybinding-passport-specific">identityBinding (Passport-specific)</a>
       </li>
       </ul>
-      <li><a href="use-cases/consumer-energy-passport/README.md#how-a-verifier-uses-it">How a Verifier Uses It</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#selective-disclosure">Selective Disclosure</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#open-items">Open Items</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#references">References</a>
+      <li><a href="use-cases/consumer-energy-passport/README.md#steps-in-detail">Steps in detail</a>      <ul>
+        <li><a href="use-cases/consumer-energy-passport/README.md#1-register-as-an-issuer">1. Register as an issuer</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#2-run-opencred">2. Run OpenCred</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#3-map-your-existing-systems-to-the-passport-shape">3. Map your existing systems to the Passport shape</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#4-decide-your-identity-binding-method">4. Decide your identity-binding method</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#5-issue-the-passport">5. Issue the Passport</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#6-deliver">6. Deliver</a>
+      </li>
+      </ul>
+      <li><a href="use-cases/consumer-energy-passport/README.md#lifecycle">Lifecycle</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#how-a-verifier-uses-it">How a verifier uses it</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#optional-third-party-pull-over-beckn">Optional: third-party pull over Beckn</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#references">References</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#appendix">Appendix</a>      <ul>
+        <li><a href="use-cases/consumer-energy-passport/README.md#a1-why-a-wallet-held-credential">A1. Why a wallet-held credential</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#a2-identifier-reuse-your-ca-number-stays-intact">A2. Identifier reuse — your CA number stays intact</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#a3-selective-disclosure">A3. Selective disclosure</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#a4-open-items">A4. Open items</a>
+      </li>
+      </ul>
     </li>
     </ul>
   </li>
@@ -1541,15 +1503,15 @@ Practical deployment and mapping implementations for specific grid business proc
   <ul>
     <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#basic-checklist-consumer-energy-passport">Basic Checklist — Consumer Energy Passport</a>    <ul>
       <ul>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#1-confirm-the-foundational-pieces-are-in-place">1. Confirm the foundational pieces are in place</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#2-decide-how-you-will-bind-consumer-identity">2. Decide how you will bind consumer identity</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#3-map-your-existing-data-into-the-passport">3. Map your existing data into the Passport</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#4-decide-which-consumers-get-a-passport-in-phase-1">4. Decide which consumers get a Passport in Phase 1</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#5-set-up-the-lifecycle-triggers">5. Set up the lifecycle triggers</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#6-decide-delivery-to-the-consumers-wallet">6. Decide delivery to the consumer's wallet</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#7-test-the-full-loop-then-go-live">7. Test the full loop, then go live</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#8-production-deployment-and-rollout">8. Production deployment and rollout</a></li>
-        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#9-nominate-your-team">9. Nominate your team</a>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#1-foundations-in-place">1. Foundations in place</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#2-identity-binding-chosen">2. Identity binding chosen</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#3-existing-systems-mapped-to-the-passport">3. Existing systems mapped to the Passport</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#4-phase-1-cohort-decided">4. Phase 1 cohort decided</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#5-lifecycle-wired-up">5. Lifecycle wired up</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#6-wallet-delivery-live">6. Wallet delivery live</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#7-end-to-end-loop-verified">7. End-to-end loop verified</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#8-production-cut-over">8. Production cut-over</a></li>
+        <li><a href="use-cases/consumer-energy-passport/basic-checklist.md#9-team-nominated">9. Team nominated</a>
       </li>
       </ul>
     </li>

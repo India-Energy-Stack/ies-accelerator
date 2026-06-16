@@ -1,151 +1,195 @@
 # Consumer Energy Passport
 
-**A wallet-held credential, signed by the DISCOM, that binds the consumer's identity to their electricity connection, meter, sanctioned load, tariff category, and DER / storage assets — verifiable anywhere, by anyone, with no callback to the DISCOM.**
+**A wallet-held credential, signed by you (the DISCOM), that binds a consumer's identity to their connection, meter, sanctioned load, tariff category, and DER / storage assets. Any verifier validates it offline — no callback to you.**
+
+You issue it. The consumer carries it in [DigiLocker](../../glossary.md#digilocker) or a DID wallet. Banks, marketplaces, regulators, subsidy portals, and consented apps verify it from your published public key.
 
 ---
 
-## Scenario
+## What you build, end-to-end
 
-A consumer in India needs to prove "facts about their electricity service" in countless settings: opening a green-loan account at a bank, registering their rooftop solar with a marketplace, claiming a subsidy, signing up for a DR program, listing energy attributes when selling their flat, registering as an EV charging host. Today this means PDFs of electricity bills, scanned sanctioned-load letters, screenshots from DISCOM portals — each verifier has to trust the document and the consumer has to chase the DISCOM for fresh paperwork.
+Six concrete steps take a DISCOM from "no Passport today" to "issuing Passports to every customer":
 
-The Consumer Energy Passport replaces this paperwork with a single signed credential the consumer holds in their wallet (DigiLocker or a DID-enabled app). It composes the consumer's identity reference, customer profile, address, consumption profile, generation assets, and storage assets into one verifiable object. Any verifier resolves the DISCOM's public key from a public registry and validates the signature in milliseconds — no DISCOM API call, no shared database.
+1. **Be a registered issuer** — your `did:web` and signing key are published in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry).
+2. **Run OpenCred** — the same service you run for any electricity credential.
+3. **Map your CIS / billing / DER register** to the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) shape — this is the schema underneath the Passport.
+4. **Decide your identity-binding method** — how you link the consumer's wallet DID to a verifiable government-ID reference.
+5. **Issue Passports** through OpenCred's `POST /v1/credentials/issue`.
+6. **Deliver to wallets** — DigiLocker Pull URI for the bulk of customers; direct DID-push for the rest.
+
+Each step links into the building block that owns the detail.
 
 ---
 
-## Actors and Roles
+## Building blocks used
 
-| Role | Organisation | What they do |
+| Block | What it does for this use case | Where it lives |
 |---|---|---|
-| **Issuer** | DISCOM | Signs and emits the `ConsumerEnergyPassport` |
-| **Holder** | Consumer | Stores it in DigiLocker or a DID wallet; presents it to verifiers |
-| **Verifier** | Bank, marketplace, regulator, society, app | Validates the signature against the IES DISCOMs Reference Registry |
-
-The Passport is fundamentally a **composite** of the existing `CustomerCredential` sub-profiles, plus a binding to the consumer's identity reference. The DISCOM does not need to deploy new infrastructure beyond what [Energy Credentials](../../energy-credentials/README.md) already prescribes.
-
----
-
-## Building Blocks Used
-
-| Block | Role in this use case |
-|---|---|
-| [Identifiers](../../identifiers/README.md) | The Passport carries the consumer's DID, the meter ID, the connection ID, asset IDs for each DER/battery, and an `idRef` to a government identity (Aadhaar reference, never the raw number). |
-| [Registries](../../registries/README.md) | The DISCOM's `did:web` and public key are resolved through the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry). Revocation is checked via DeDi. |
-| [Energy Credentials](../../energy-credentials/README.md) | The Passport schema lives here — see [Consumer Energy Passport credential](../../energy-credentials/consumer-energy-passport.md) for the full schema. Issuance and verification reuse the OpenCred service the DISCOM already runs. |
-| [Data Exchange](../../data-exchange/README.md) | *Not used for issuance.* Comes in only when a third-party app pulls the Passport over Beckn from the DISCOM's BPP (an alternative to wallet pull). |
+| [Identifiers and Addressing](../../identifiers/README.md) | The Passport carries the consumer's wallet DID, your asset/meter/connection DIDs, and an `idRef` to a government identity reference (never the raw number). Your existing CA numbers stay as-is — they appear as the tail of the consumer DID. | `did:dedi:<your-namespace>:consumers:<CA-number>` |
+| [Registries and Directories](../../registries/README.md) | Your `did:web` and current public key are resolved through DeDi. Revocation status lives in your `vc-revocation-registry`. | `dedi.global` / your namespace |
+| [Energy Credentials](../../energy-credentials/README.md) | OpenCred signs, verifies, and revokes the Passport. The Passport is a W3C VC 2.0 carrying the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) subject plus an `identityBinding` block. | OpenCred + `ElectricityCredential/v1.2` |
+| [Data Exchange](../../data-exchange/README.md) | **Optional.** Not used for wallet delivery. Comes in only when a third-party app pulls the Passport over Beckn from your BPP — same flow you use for [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md). | Only when a third party pulls |
 
 ---
 
 ## What's in the Passport
 
-The Consumer Energy Passport is a W3C Verifiable Credential 2.0 of type `ConsumerEnergyPassport`. It is a **composite** credential: its `credentialSubject` carries the same five sub-profiles as a `CustomerCredential` (customer, details, consumption, generation, storage) plus an explicit `identityBinding` linking the consumer's DID to a verifiable government-ID reference.
+A W3C Verifiable Credential 2.0 of type `["VerifiableCredential", "ConsumerEnergyPassport"]`. Its subject is the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) shape plus the Passport's identity-binding block:
 
-| Block | What it attests |
+```
+credentialSubject
+├── id                  (consumer wallet DID — did:key / did:jwk)
+├── identityBinding     (Passport-specific — see below)
+├── customerProfile     (customerNumber, idRef, energyResources[])
+├── customerDetails     (PII — fullName, installationAddress, serviceConnectionDate)
+└── consumptionProfiles[] (per-meter sanctionedLoad, tariffCategoryCode, ...)
+```
+
+`energyResources[]` covers the meter and every asset behind it (solar, battery, EV charger, inverter, DT). `consumptionProfiles[]` carries the per-meter regulatory profile (`sanctionedLoad`, `tariffCategoryCode`, `serviceStatus`, ...). Full field tables and a worked example live in the [ElectricityCredential v1.2 README](../../schemas/ElectricityCredential/README.md).
+
+### identityBinding (Passport-specific)
+
+Elevates the consumer's identity reference to first-class status. Always present in the Passport (optional in plain `ElectricityCredential`).
+
+| Field | What it is |
 |---|---|
-| `identityBinding` | Consumer DID ↔ government-ID reference (e.g. masked Aadhaar via `idRef`) |
-| `customerProfile` | Customer number, meter number, meter type |
-| `customerDetails` | Full name, installation address (Beckn Location shape with Open Location Code), service-connection date |
-| `consumptionProfiles[]` | Premises type, connection type, sanctioned load (kW), tariff category |
-| `generationProfiles[]` | DER assets — solar / wind / micro-hydro, capacity, commissioning date |
-| `storageProfiles[]` | Batteries — kWh capacity, kW power rating, technology |
-
-The full schema and a worked example live in [Energy Credentials → Consumer Energy Passport](../../energy-credentials/consumer-energy-passport.md).
+| `subjectDid` | The consumer's wallet DID — must equal `credentialSubject.id` |
+| `idRef` | Reference to a government identity (e.g. masked Aadhaar) — see [IdRef](../../schemas/ElectricityCredential/README.md). Carry the **reference**, never the raw ID number. |
+| `bindingMethod` | `AADHAAR_OFFLINE_KYC` / `DIGILOCKER_PULL` / `IN_PERSON_VERIFICATION` / `DISCOM_RECORD_MATCH` |
+| `bindingDate` | When the binding was established |
 
 ---
 
-## Setup Steps
+## Steps in detail
 
-### 1. Be a registered DISCOM issuer
+### 1. Register as an issuer
 
-Pre-requisite: the DISCOM is registered in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry) with its `did:web` and current public key. If you are not yet registered, follow [Registry Creation](../../registries/registry-creation.md).
+You need a row in the IES DISCOMs Reference Registry pinning your `did:web` and current public key. If you do not yet have one, follow [Registry Creation](../../registries/registry-creation.md). If you already issue any electricity credential, you are done.
 
 ### 2. Run OpenCred
 
-The Passport is issued by the same OpenCred service used for `CustomerCredential`. If you've already followed the [Energy Credentials Deployment](../../energy-credentials/onboarding.md) guide, no additional service is needed. If not, stand up OpenCred per that guide (a single Docker container holding your signing key plus a thin integration service you write).
+Single Docker container (`ghcr.io/nfh-trust-labs/opencred/opencred-server`) holding your signing key, plus a thin integration service you write that pulls from CIS, billing, and your DER register. If you have followed the [Energy Credentials Deployment](../../energy-credentials/onboarding.md) guide, skip this step.
 
-### 3. Map your CIS + DER systems to the Passport sub-profiles
+### 3. Map your existing systems to the Passport shape
 
-The integration service pulls:
+You do not need new tables. You need read access from your integration service to the systems that already hold this data:
 
-- **Identity binding** — the consumer's DID (issued at first onboarding) plus their masked-Aadhaar `idRef`. If you don't yet capture consumer DIDs, the DigiLocker path will mint one on first delivery.
-- **Customer profile** — from your CIS / billing
-- **Address** — from your CIS, enriched with Open Location Code if you maintain GIS
-- **Consumption profile** — sanctioned load, tariff category — from CIS / billing
-- **Generation profiles** — from your DER / net-metering register
-- **Storage profiles** — from your battery / storage register (if maintained; otherwise empty)
+| Where in the Passport | Pulled from |
+|---|---|
+| `customerProfile.customerNumber` | CIS / billing — your existing CA number |
+| `customerProfile.energyResources[]` (METER) | CIS / billing for the meter |
+| `customerProfile.energyResources[]` (SOLAR_PV / BESS / EV_CHARGER / …) | Your DER, net-metering, and storage registers |
+| `customerDetails` (PII) | CIS — name, installation address |
+| `consumptionProfiles[]` | CIS — sanctioned load, tariff category, premises/connection type |
+| `identityBinding` | DigiLocker pull or your existing KYC record |
 
-These are the same data sources you use for `CustomerCredential`. The Passport adds the explicit identity binding and the wider `type` array.
+The [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) schema lists every field and its CIM alignment. v1.2 also accepts optional admin fields on each `energyResources[]` entry (`serialNumber`, `inspection`, `aggregator`) and on each `consumptionProfile` (`serviceStatus`) — use them if you already maintain the data.
 
-### 4. Issue the Passport
+### 4. Decide your identity-binding method
 
-Call OpenCred's `POST /v1/credentials/issue` with the composite `credentialSubject`, then post-process the returned credential to inject the full `issuer` block (name + `idRef`) — see the issuance pattern documented at [Issuing Credentials](../../energy-credentials/issuance.md).
+Pick one (or several) and document it for your privacy review:
 
-### 5. Deliver to the wallet
+| Method | What it looks like |
+|---|---|
+| `DIGILOCKER_PULL` | Consumer logs into DigiLocker; you mint a wallet DID from the verified Aadhaar pull. Simplest for new consumers. |
+| `AADHAAR_OFFLINE_KYC` | Consumer-supplied offline-KYC XML; you verify the UIDAI signature. |
+| `IN_PERSON_VERIFICATION` | Branch-counter or doorstep verification; the binding record names the verifying officer. |
+| `DISCOM_RECORD_MATCH` | Back-fill from your existing KYC on the CA — useful for bulk first issuance. |
 
-Two delivery paths:
+Only carry the `idRef` (masked Aadhaar reference). Never carry the raw 12-digit number.
 
-- **DigiLocker Pull URI** — the DISCOM publishes a Pull URI; DigiLocker fetches the credential when the consumer logs in. See [DigiLocker Integration](../../energy-credentials/digilocker-integration.md).
-- **Direct DID-to-DID push** — for consumers using a non-DigiLocker wallet, push the credential to their DID endpoint.
+### 5. Issue the Passport
 
-### 6. Re-issue on material change
+```
+POST /v1/credentials/issue
+{
+  "type": ["VerifiableCredential", "ConsumerEnergyPassport"],
+  "credentialSubject": { ...  /* see schema link above */ }
+}
+```
 
-Re-issue and revoke the previous Passport when:
+Post-process the returned credential to inject the full `issuer` block (`id` + `name` + `idRef`) per the [issuance pattern](../../energy-credentials/issuance.md). Use `proofFormat: "vc-jwt"` (the bootcamp default).
+
+### 6. Deliver
+
+| Channel | When |
+|---|---|
+| **DigiLocker Pull URI** | The bulk of Indian customers. You publish a Pull URI; DigiLocker fetches the Passport when the consumer logs in. See [DigiLocker Integration](../../energy-credentials/digilocker-integration.md). |
+| **Direct DID push** | Consumers using non-DigiLocker wallets — you push to their DID service endpoint. |
+
+---
+
+## Lifecycle
+
+Re-issue the Passport and revoke the previous one when a material fact changes. Revocation is hash-based via your DeDi `vc-revocation-registry` — see [Core Concepts → Revocation](../../energy-credentials/concepts.md).
 
 | Trigger | What changes |
 |---|---|
 | Tariff category change | `consumptionProfiles[].tariffCategoryCode` |
-| Sanctioned-load revision | `consumptionProfiles[].sanctionedLoadKW` |
-| Rooftop solar commissioned | New entry in `generationProfiles[]` |
-| Battery commissioned | New entry in `storageProfiles[]` |
+| Sanctioned-load revision | `consumptionProfiles[].sanctionedLoad` |
+| Rooftop solar / battery / EV charger commissioned | New `energyResources[]` entry (with topology via `parentResources[]`) |
 | Asset decommissioned | Entry removed |
 | Address change | `customerDetails.installationAddress` |
-| Connection closure | Revoke; do not re-issue |
-
-Revocation is hash-based via DeDi — see [Core Concepts § DeDi Revocation](../../energy-credentials/concepts.md).
+| Connection suspended | `consumptionProfiles[].serviceStatus = "suspended"` and re-issue |
+| Connection closed | Revoke; do not re-issue |
 
 ---
 
-## How a Verifier Uses It
+## How a verifier uses it
 
-A verifier (bank, marketplace, society) receives the Passport JSON from the consumer's wallet, then:
+A verifier (bank, marketplace, subsidy portal) receives the Passport JSON from the consumer's wallet, then:
 
 1. Reads `issuer.idRef` and looks up the entry in the IES DISCOMs Reference Registry.
-2. Resolves the DISCOM's `did:web` to its currently published public key.
-3. Verifies the `proof` signature locally — no network call to the DISCOM.
-4. Checks `credentialStatus` against DeDi to confirm the credential is not revoked.
-5. Reads the specific sub-profile fields it needs and proceeds.
+2. Resolves your `did:web` to your current public key.
+3. Verifies the `proof` locally — no network call to you.
+4. Checks `credentialStatus` against your DeDi revocation registry.
+5. Reads only the fields it needs (see [Selective Disclosure](#appendix-selective-disclosure)).
 
-For the verifier walkthrough, see [Energy Credentials → Verification](../../energy-credentials/verification.md).
-
----
-
-## Selective Disclosure
-
-The Passport supports SD-JWT-VC presentation so the consumer can disclose only the fields a verifier needs:
-
-- A green-loan bank may need `consumptionProfiles[].sanctionedLoadKW` and `generationProfiles[]` only — not name or address.
-- A society registering a member's rooftop solar may need `customerProfile.meterNumber` and `generationProfiles[]` only.
-- A government subsidy portal may need `identityBinding` and `consumptionProfiles[].tariffCategoryCode` only.
-
-OpenCred ships SD-JWT-VC support; see the [OpenCred docs](https://opencred.gitbook.io/docs).
+Walkthrough for verifier integrators: [Energy Credentials → Verification](../../energy-credentials/verification.md).
 
 ---
 
-## Open Items
+## Optional: third-party pull over Beckn
 
-- **`ConsumerEnergyPassport` credential schema** is in draft — the composite type is defined as a superset of `CustomerCredential` with an explicit `identityBinding` block. See [Energy Credentials → Consumer Energy Passport](../../energy-credentials/consumer-energy-passport.md) for the working schema.
-- **Selective-disclosure profile.** The agreed set of "minimum-disclosure presentations" (loan, marketplace, subsidy, society) is being formalised — they shape the SD-JWT-VC claim grouping.
-- **Cross-DISCOM portability.** Behaviour when a consumer moves between DISCOMs (issue a new Passport from the new DISCOM and revoke the prior one) is the agreed pattern; cross-DISCOM linking is intentionally not in scope.
+When a third-party app needs the Passport on the consumer's behalf without going through the wallet, it becomes a [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md)-style BAP and pulls from your BPP — the same Beckn flow, with the consumer's [Consumer Meter Digest](../consumer-meter-digest/README.md) (or a `MeterDataRequestCredential`-shaped consent) attached at `confirm`. No new protocol surface.
 
 ---
 
 ## References
 
-- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
+- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist for leadership
+- [ElectricityCredential v1.2 — schema](../../schemas/ElectricityCredential/README.md) — the subject shape underneath the Passport
+- [Energy Credentials chapter](../../energy-credentials/README.md) — OpenCred, issuance, verification, DigiLocker
+- [Data Exchange chapter](../../data-exchange/README.md) — used only for the optional third-party pull
+- [Identifiers and Addressing](../../identifiers/README.md) — DID grammar, how your CA numbers stay intact
 
-- [Energy Credentials → Consumer Energy Passport (schema)](../../energy-credentials/consumer-energy-passport.md)
-- [Energy Credentials → Core Concepts](../../energy-credentials/concepts.md)
-- [Energy Credentials → Issuance](../../energy-credentials/issuance.md)
-- [Energy Credentials → DigiLocker Integration](../../energy-credentials/digilocker-integration.md)
-- [Energy Credentials → Verification](../../energy-credentials/verification.md)
-- [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/)
-- [SD-JWT-VC](https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/)
+---
+
+## Appendix
+
+### A1. Why a wallet-held credential
+
+Today a consumer who needs to prove "facts about their electricity service" — opening a green-loan account, registering a rooftop installation, claiming a subsidy, listing a flat, signing up as an EV charging host — chases PDF bills, sanctioned-load letters, and portal screenshots. Each verifier has to trust the document; the consumer has to chase you for fresh paperwork.
+
+The Passport replaces that loop with one signed credential. Verifiers check your signature against your published public key in milliseconds — no DISCOM API call, no shared database. The consumer presents only the fields a given verifier needs.
+
+### A2. Identifier reuse — your CA number stays intact
+
+Issuing Passports does **not** require renumbering anything. Your existing CA number, meter serial, and asset codes are reused **verbatim** as the tail of the corresponding DID. For example, CA number `TPDDL-2025-001234567` becomes `did:dedi:tpddl:consumers:TPDDL-2025-001234567`. See [Identifiers → ID Patterns](../../identifiers/id-patterns.md).
+
+### A3. Selective disclosure
+
+SD-JWT-VC lets a verifier ask for, and the wallet release, only specific claims. Three minimum-disclosure presentations are being formalised in the IES profile:
+
+| Presentation | Reveals | Use case |
+|---|---|---|
+| `passport-loan` | `identityBinding`, `customerDetails.fullName`, `consumptionProfiles[].sanctionedLoad`, generation assets | Green-loan / energy-efficiency loan |
+| `passport-marketplace` | Meter ID, DER assets, storage assets | DER / V2G marketplace |
+| `passport-subsidy` | `identityBinding`, `consumptionProfiles[].tariffCategoryCode`, `premisesType` | Government subsidy portal |
+
+OpenCred ships SD-JWT-VC; see the [OpenCred docs](https://opencred.gitbook.io/docs).
+
+### A4. Open items
+
+- The exact SD-JWT-VC claim grouping for the three presentations is being finalised in the IES profile.
+- Cross-DISCOM portability when a consumer moves between licence areas — the agreed pattern is: the new DISCOM issues a fresh Passport, the old DISCOM revokes the prior one. Cross-DISCOM linking is intentionally out of scope.
