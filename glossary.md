@@ -16,10 +16,13 @@ This page is always visible in the left nav. If you hit a term you don't recogni
 
 ### DID methods used in IES
 
-- **`did:web`** — the DID is a domain (`did:web:ies.tpddl.in`). Resolution is an HTTPS GET to `/.well-known/did.json`. Used for institutions with public web presence (DISCOMs, regulators).
-- **`did:key`** — the public key is encoded directly into the DID string. No domain or certificate required. Useful for consumers and for first-deploy software keys.
+IES uses three standard W3C DID methods. There is no separate `did:dedi` method — DeDi-anchored identifiers are `did:web` DIDs whose document is hosted by a [DeDi runtime](#dedi) instead of (or alongside) the issuer's own domain.
+
+- **`did:web`** — the DID resolves to a DID document fetched over HTTPS. Two forms in IES:
+  - **Self-hosted by the institution.** `did:web:ies.tpddl.in` → `https://ies.tpddl.in/.well-known/did.json`. Used for DISCOMs, regulators, and other entities with a public web presence.
+  - **Hosted by a DeDi runtime.** `did:web:<dedi-host>:<namespace>:<class>:<id>` → `https://<dedi-host>/<namespace>/<class>/<id>/did.json`. Used to give consumers, meters, assets, connections, and credential subjects a network-resolvable DID without requiring each one to operate a web server. The method is still `did:web`; DeDi just hosts the document. Example: `did:web:dedi.global:tpddl:consumers:TPDDL-2025-001234567`.
+- **`did:key`** — the public key is encoded directly into the DID string. No domain or certificate required. Verifies fully offline; cannot rotate keys. Used for consumer wallets and first-deploy software keys.
 - **`did:jwk`** — same idea as `did:key`, using JSON Web Key encoding. Wallet-friendly.
-- **`did:dedi`** — DIDs anchored in the [DeDi](#dedi) registry.
 
 ### DeDi
 

@@ -109,9 +109,18 @@ The payload sits inside `message.contract.commitments[].resources[].resourceAttr
 
 Replace the sandbox response with a live connection to your HES / MDMS. Verify the Indian-OBIS → `MeterData/v0.6` mapping for every reading you ship — [IES Meter Data Model](./ies-meter-data-model.md) is the reference.
 
-### 7. (Optional, at the end) Issue stable IDs for every meter and asset
+### 7. (Optional, at the end) Adopt the `did:web` convention for meters and assets
 
-Once Phase 1 is flowing, you can mint stable DIDs for each meter, DT, feeder, and substation referenced in the exchange. **Your existing CA numbers and meter SLNOs work as-is** — the DID is just `did:dedi:<your-namespace>:meters:<meter-serial>` (and the same pattern for DT, feeder, substation). See [Identifiers → ID Patterns](../../identifiers/id-patterns.md). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData/v0.6` payloads and add DIDs incrementally.
+**There are no new IDs to allocate.** Your existing meter SLNOs, DT codes, feeder codes, and substation codes are the IDs of record and stay exactly as they are. The IES convention is a `did:web` wrapper format that reuses those existing IDs so they can be referenced across the network and used as the subject of Verifiable Credentials:
+
+```
+did:web:<dedi-host>:<your-namespace>:meters:<existing-meter-serial>
+did:web:<dedi-host>:<your-namespace>:dts:<existing-DT-code>
+did:web:<dedi-host>:<your-namespace>:feeders:<existing-feeder-code>
+did:web:<dedi-host>:<your-namespace>:substations:<existing-substation-code>
+```
+
+`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just hosts the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers → ID Patterns](../../identifiers/id-patterns.md). Once an asset has a `did:web` form, OpenCred can issue VCs about it (commissioning, inspection, ownership). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
 
 ---
 
@@ -127,7 +136,7 @@ The items below are **meter-data-specific** additions on top of that checklist:
 - [ ] Data-quality flags (missing / estimated) handled per the v0.6 `validationStatus` enum
 - [ ] Catalogue entry published (`programID`, geographic scope, refresh cadence, `accessMethod`, credential requirements)
 - [ ] (If third-party access in scope) `MeterDataRequestCredential` verification wired into the BPP — type, validity, DeDi status, scope ⊆ contract
-- [ ] (Optional) Stable DIDs minted for meters / DTs / feeders, reusing existing internal numbers
+- [ ] (Optional) `did:web` convention adopted for meters / DTs / feeders — wrapping (not replacing) existing internal numbers, so VCs can be issued about them
 - [ ] IT/data SPOC nominated; Authorised Signatory nominated
 
 ---
