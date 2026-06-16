@@ -27,31 +27,31 @@
         {
           "id": "did:web:example-utility.com:assets:meter:MET2025789456123",
           "type": "METER",
-          "attributes": {"meterCapability": "AMI", "energyDirection": "Forward", "location": {"geo": {"type": "Point", "coordinates": [-122.4194, 37.7749]}}},
+          "attributes": {"meterCapability": "AMI", "energyDirection": "Forward", "make": "Genus Power", "model": "Saksham-3P-AMI", "serialNumber": "MET2025789456123", "location": {"geo": {"type": "Point", "coordinates": [-122.4194, 37.7749]}}},
           "parentResources": ["did:web:example-utility.com:assets:feeder:DT-FEEDER-A1-001"]
         },
         {
           "id": "did:web:example-utility.com:assets:solar-plant:DER-SOLAR-001",
           "type": "SOLAR_PV",
-          "attributes": {"maxExport": {"value": 3, "unit": "kW"}, "make": "SunPower Corporation", "model": "SPR-X22-360", "commissioningDate": "2025-01-12T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 3, "unit": "kW"}, "dcArrayCapacity": {"value": 3.6, "unit": "kW"}, "make": "SunPower Corporation", "model": "SPR-X22-360", "serialNumber": "SPR-X22-360.78821", "commissioningDate": "2025-01-12T00:00:00-05:00", "inspection": {"date": "2025-01-10", "result": "pass", "inspectorId": "INSP-AP-204"}},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:wind-farm:DER-WIND-001",
           "type": "WIND",
-          "attributes": {"maxExport": {"value": 1.5, "unit": "kW"}, "make": "Windmill Co.", "model": "WM-MICRO-150", "commissioningDate": "2025-03-01T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 1.5, "unit": "kW"}, "make": "Windmill Co.", "model": "WM-MICRO-150", "serialNumber": "WM150-00427", "commissioningDate": "2025-03-01T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:bess:BESS-001",
           "type": "BESS",
-          "attributes": {"maxExport": {"value": 5, "unit": "kW"}, "maxImport": {"value": 5, "unit": "kW"}, "storageCapacity": {"value": 10, "unit": "kWh"}, "storageType": "LithiumIon", "commissioningDate": "2025-01-12T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 5, "unit": "kW"}, "maxImport": {"value": 5, "unit": "kW"}, "storageCapacity": {"value": 10, "unit": "kWh"}, "storageType": "LithiumIon", "stateOfHealthPct": 98, "roundTripEfficiencyPct": 92, "make": "Tesla", "model": "Powerwall-3", "serialNumber": "PW3-7H2K9-44182", "commissioningDate": "2025-01-12T00:00:00-05:00", "aggregator": {"id": "did:web:exampleflex.in", "name": "ExampleFlex Aggregator", "controllable": true, "enrolledOn": "2025-04-01"}},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         },
         {
           "id": "did:web:example-utility.com:assets:bess:BESS-002",
           "type": "BESS",
-          "attributes": {"maxExport": {"value": 2.5, "unit": "kW"}, "maxImport": {"value": 2.5, "unit": "kW"}, "storageCapacity": {"value": 5, "unit": "kWh"}, "storageType": "LithiumIon", "commissioningDate": "2025-06-01T00:00:00-05:00"},
+          "attributes": {"maxExport": {"value": 2.5, "unit": "kW"}, "maxImport": {"value": 2.5, "unit": "kW"}, "storageCapacity": {"value": 5, "unit": "kWh"}, "storageType": "LithiumIon", "serialNumber": "PW3-7H2K9-44183", "commissioningDate": "2025-06-01T00:00:00-05:00"},
           "parentResources": ["did:web:example-utility.com:assets:meter:MET2025789456123"]
         }
       ],
@@ -62,7 +62,8 @@
           "contractMaxDemand": {"value": 4, "unit": "kW"},
           "tariffCategoryCode": "RES-01",
           "premisesType": "Residential",
-          "connectionType": "Single-phase"
+          "connectionType": "Single-phase",
+          "serviceStatus": "active"
         }
       ]
     },
