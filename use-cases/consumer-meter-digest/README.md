@@ -129,7 +129,7 @@ A bank could in principle hit a DISCOM API directly with the consumer's consent 
 - **`ConsumerMeterDigest` credential schema** is in draft. The envelope and the `meterReference`/`period`/`granularity` fields are stable; the summary-type taxonomy (`SUMMARY_MONTHLY_LADDER`, `SUMMARY_TOD_PROFILE`, `SUMMARY_PEAK_DEMAND`) is being formalised. See [Energy Credentials → Consumer Meter Digest](../../energy-credentials/consumer-meter-digest.md).
 - **Wallet UX patterns.** The agreed wallet flow (consent screens, period selectors, scope display) for triggering a Digest pull is being documented in DigiLocker integration notes.
 - **Bulk / batch Digests.** A marketplace pattern for "100 consumers each authorise me to pull their Digests" is being designed; the per-consumer credential model is the foundation.
-- **`IES_Report` schema finalisation** (see [Smart Meter Data Exchange § Open Items](../smart-meter-data-exchange/README.md#open-items)) flows directly into this use case — the `readings` block of the Digest reuses the same OpenADR 3 envelope.
+- **`MeterData/v0.6` profile tightening** (see [Smart Meter Data Exchange § Open Items](../smart-meter-data-exchange/README.md#open-items)) flows directly into this use case — the `readings` block of the Digest reuses the same `MeterData/v0.6` profile shapes (`INTERVAL` / `DAILY` / `MONTHLY` / …). `MeterData/v0.6` supersedes the earlier `IES_Report` working name.
 
 ---
 

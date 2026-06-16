@@ -29,7 +29,7 @@ During our audit of the `ies-accelerator` documentation, we identified several i
     - [Energy Credentials Simple Checklist](checklists/energy-credentials-checklist.md) (Raw reference: `checklists/energy-credentials-checklist.md`)
     - [Energy Credentials Detailed Checklist](checklists/energy-credentials-checklist-detailed.md) (Raw reference: `checklists/energy-credentials-checklist-detailed.md`)
   - Link: [Use Cases Directory](use-cases/) (Raw reference: `use-cases/`)
-    - [Smart Meter Basic Checklist](use-cases/smart-meter-data-exchange/basic-checklist.md) (Raw reference: `use-cases/smart-meter-data-exchange/basic-checklist.md`)
+    - *Smart Meter — done.* The use-case-specific checklist now lives inline in [use-cases/smart-meter-data-exchange/README.md](use-cases/smart-meter-data-exchange/README.md) and the canonical network-onboarding checklist is [checklists/data-exchange-checklist.md](checklists/data-exchange-checklist.md).
     - [Consumer Meter Digest Basic Checklist](use-cases/consumer-meter-digest/basic-checklist.md) (Raw reference: `use-cases/consumer-meter-digest/basic-checklist.md`)
     - [Consumer Energy Passport Basic Checklist](use-cases/consumer-energy-passport/basic-checklist.md) (Raw reference: `use-cases/consumer-energy-passport/basic-checklist.md`)
     - [Regulatory Filing Basic Checklist](use-cases/discom-regulatory-filing/basic-checklist.md) (Raw reference: `use-cases/discom-regulatory-filing/basic-checklist.md`)

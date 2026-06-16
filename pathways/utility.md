@@ -244,8 +244,8 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 ### References & Anchors
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
   * [How It Works](../use-cases/smart-meter-data-exchange/README.md#how-it-works)
-* [Smart Meter Data Model Guide](../use-cases/smart-meter-data-exchange/ies-data-model.md)
-* [MeterData Schema Specification](../schemas/MeterData/v0.6/README.md)
+* [IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
+* [MeterData Schema Specification](../schemas/MeterData/README.md)
 </details>
 
 <details>

@@ -10,7 +10,7 @@ If the [Identifiers](../identifiers/README.md), [Registries](../registries/READM
 
 | # | Use Case | What it does | Primary actors | Building blocks |
 |---|---|---|---|---|
-| 1 | [Smart Meter Data Exchange](smart-meter-data-exchange/README.md) ([checklist](smart-meter-data-exchange/basic-checklist.md)) | Standard, audit-trailed API for sharing smart-meter data between AMISP, DISCOM, regulator, and consented third parties. | AMISP, DISCOM, SERC | Identifiers · Registries · Data Exchange |
+| 1 | [Smart Meter Data Exchange](smart-meter-data-exchange/README.md) ([data model](smart-meter-data-exchange/ies-meter-data-model.md)) | Standard, audit-trailed exchange of `MeterData` telemetry between AMISP, DISCOM, regulator, and consented third parties over IES Data Exchange. | AMISP, DISCOM, SERC | Identifiers · Registries · Data Exchange · Energy Credentials (optional consent) |
 | 2 | [Consumer Meter Digest](consumer-meter-digest/README.md) ([checklist](consumer-meter-digest/basic-checklist.md)) | Consumer pulls their own granular meter readings on demand as a signed credential and shares them with a third party of their choice. | Consumer, DISCOM, Third-party app | Identifiers · Registries · Energy Credentials · Data Exchange |
 | 3 | [Consumer Energy Passport](consumer-energy-passport/README.md) ([checklist](consumer-energy-passport/basic-checklist.md)) | Wallet-held credential binding consumer identity to their connection, meter, sanctioned load, and DER/storage assets — issued by the DISCOM, verifiable everywhere. | Consumer, DISCOM, Verifier (bank, marketplace, society) | Identifiers · Registries · Energy Credentials |
 | 4 | [DISCOM Regulatory Filing](discom-regulatory-filing/README.md) ([checklist](discom-regulatory-filing/basic-checklist.md)) | Aggregate Revenue Requirement (ARR) and compliance filings delivered as structured, signed, machine-verifiable objects from DISCOM to SERC. | DISCOM, SERC | Identifiers · Registries · Data Exchange |
@@ -40,13 +40,14 @@ Each use case page follows the same structure so you can navigate quickly:
 | Component | Status |
 |---|---|
 | Identifier patterns and DeDi registries | Stable |
-| Energy credential schemas — `CustomerCredential` | Stable |
+| Energy credential schemas — `ElectricityCredential v1.2` | Stable |
 | Energy credential schema — `ConsumerEnergyPassport` (composite) | Draft — see [credential docs](../energy-credentials/consumer-energy-passport.md) |
 | Energy credential schema — `ConsumerMeterDigest` | Draft — see [credential docs](../energy-credentials/consumer-meter-digest.md) |
 | Data exchange protocol (Beckn + DDM envelope) | Stable; shipped in devkit |
-| `IES_Report` (meter telemetry) schema | **Draft — being finalised** |
-| `IES_ARR_Filing` schema | **Draft — being finalised** |
-| `IES_Policy` (tariff) schema | Stable |
+| `MeterData v0.6` (meter telemetry) schema | Current canonical — supersedes the earlier `IES_Report` working name |
+| `MeterDataRequest v0.6` + `MeterDataRequestCredential v0.1` | Current |
+| `ArrFiling` schema | **Draft — being finalised** |
+| Tariff policy schema | Stable |
 | Tariff publication via data exchange | Shipped in devkit |
 
-The two open items (`IES_Report` and `IES_ARR_Filing`) do not block implementation — the example payloads in the devkit are stable enough to integrate against. Treat the field names as subject to minor renames until the canonical schemas land in `India-Energy-Stack`.
+The remaining open item (`ArrFiling`) does not block implementation — the example payloads in the devkit are stable enough to integrate against. Treat the field names as subject to minor renames until the canonical schema lands.

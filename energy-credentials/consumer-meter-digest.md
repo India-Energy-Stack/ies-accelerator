@@ -1,10 +1,10 @@
 # Consumer Meter Digest Credential
 
-The **Consumer Meter Digest** is a W3C Verifiable Credential 2.0 issued by a DISCOM, on consumer demand, that carries the consumer's own meter readings — either raw OpenADR 3 reports or derived summaries — in a form the consumer can hold in their wallet and share with any third party. It is the credential behind the [Consumer Meter Digest use case](../use-cases/consumer-meter-digest/README.md).
+The **Consumer Meter Digest** is a W3C Verifiable Credential 2.0 issued by a DISCOM, on consumer demand, that carries the consumer's own meter readings — either raw `MeterData/v0.6` profiles or derived summaries — in a form the consumer can hold in their wallet and share with any third party. It is the credential behind the [Consumer Meter Digest use case](../use-cases/consumer-meter-digest/README.md).
 
 > **Status — draft.** The envelope, `meterReference`, `period`, `granularity`, and `readings` blocks are stable. The `summary` taxonomy is being formalised.
 >
-> The `readings` block reuses the OpenADR 3 `REPORT` envelope from [`IES_Report`](../use-cases/smart-meter-data-exchange/README.md), which itself is being finalised — see [Smart Meter Data Exchange § Open Items](../use-cases/smart-meter-data-exchange/README.md#open-items).
+> The `readings` block carries [`MeterData`](../schemas/MeterData/README.md) profile shapes (`INTERVAL`, `DAILY`, `MONTHLY`, …; current schema is `v0.6`). `MeterData` supersedes the earlier `IES_Report` working name — see [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md).
 
 ---
 
@@ -83,7 +83,7 @@ Enum:
 
 ### readings
 
-When `granularity` ∈ `RAW_15M / RAW_30M / DAILY / MONTHLY`, the `readings` block carries an OpenADR 3 `REPORT` covering the requested period. Same envelope as [`IES_Report`](../use-cases/smart-meter-data-exchange/README.md#the-dataset--ies_report).
+When `granularity` ∈ `RAW_15M / RAW_30M / DAILY / MONTHLY`, the `readings` block carries the matching [`MeterData`](../schemas/MeterData/README.md) profile (`INTERVAL` / `DAILY` / `MONTHLY`) covering the requested period. Same shape as [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md#the-dataset--meterdatav06).
 
 ### summary
 
@@ -253,8 +253,8 @@ Same flow as [Verification](./verification.md):
 ## References
 
 - [Consumer Meter Digest — use case](../use-cases/consumer-meter-digest/README.md)
-- [`CustomerCredential` — base schema](./schemas.md)
-- [Smart Meter Data Exchange — `IES_Report`](../use-cases/smart-meter-data-exchange/README.md)
+- [`ElectricityCredential` — base schema](../schemas/ElectricityCredential/README.md) (current: `v1.2`)
+- [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) — same `MeterData` profile shapes
+- [`MeterData` schema](../schemas/MeterData/README.md) (current: `v0.6`)
 - [Issuance](./issuance.md)
 - [Verification](./verification.md)
-- [OpenADR 3.1.0 Specification](https://www.openadr.org)

@@ -23,7 +23,12 @@ This page is always visible in the left nav. If you hit a term you don't recogni
 
 ### DeDi
 
-**Decentralized Directory** — the public registry primitive IES uses for namespaces, network membership, public keys, revocation, and Beckn subscriber records. A DeDi record has a `subscriber_id` and `record_id` and is looked up via a public HTTPS URL (`https://dedi.global/dedi/lookup/...`). See [Registries chapter](registries/README.md).
+**Decentralised Directory** — distinguish the protocol from any runtime that implements it:
+
+- **DeDi the protocol** — an open specification developed under the [Linux Foundation Decentralized Trust labs](https://github.com/LF-Decentralized-Trust-labs/decentralized-directory-protocol). Defines record shapes, namespace ownership, lookup/query semantics, revocation, and trust-anchor records. **IES picks DeDi-the-protocol** as the registry primitive.
+- **DeDi runtimes** — any service that implements the DeDi protocol. [`dedi.global`](https://dedi.global) is one such hosted runtime; a DISCOM (or a network operator) can self-host a DeDi-compatible runtime — for a private internal mirror, for a regulated jurisdiction, or for redundancy. IES does not mandate a specific runtime; the same record shapes work across any conformant implementation.
+
+A DeDi record has a `subscriber_id` and `record_id` and is looked up via a public HTTPS URL (e.g. `https://<runtime-host>/dedi/lookup/...`). IES uses DeDi for namespaces, network membership, public keys, revocation, and Beckn subscriber records. See [Registries chapter](registries/README.md).
 
 <a id="verifiable-credential-vc"></a>
 

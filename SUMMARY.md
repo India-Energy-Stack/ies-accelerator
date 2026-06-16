@@ -61,9 +61,7 @@
 
 * [Use Cases](use-cases/README.md)
   * [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
-    * [Basic Checklist](use-cases/smart-meter-data-exchange/basic-checklist.md)
-    * [Survey of Existing Terminology](use-cases/smart-meter-data-exchange/survey-of-existing-terminology.md)
-    * [IES Data Model](use-cases/smart-meter-data-exchange/ies-data-model.md)
+    * [IES Meter Data Model](use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
   * [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md)
     * [Basic Checklist](use-cases/consumer-meter-digest/basic-checklist.md)
   * [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md)
