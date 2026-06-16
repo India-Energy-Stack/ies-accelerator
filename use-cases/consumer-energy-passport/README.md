@@ -25,7 +25,7 @@ Each step links into the building block that owns the detail.
 
 | Block | What it does for this use case | Where it lives |
 |---|---|---|
-| [Identifiers and Addressing](../../identifiers/README.md) | The Passport carries the consumer's wallet DID, your asset/meter/connection DIDs, and an `idRef` to a government identity reference (never the raw number). Your existing CA numbers stay as-is — they appear as the tail of the consumer DID. | `did:dedi:<your-namespace>:consumers:<CA-number>` |
+| [Identifiers and Addressing](../../identifiers/README.md) | The Passport carries the consumer's wallet DID, your asset/meter/connection DIDs, and an `idRef` to a government identity reference (never the raw number). Your existing CA numbers stay as-is — they appear as the tail of the consumer DID. | `did:web:<dedi-host>:<your-namespace>:consumers:<CA-number>` |
 | [Registries and Directories](../../registries/README.md) | Your `did:web` and current public key are resolved through DeDi. Revocation status lives in your `vc-revocation-registry`. | `dedi.global` / your namespace |
 | [Energy Credentials](../../energy-credentials/README.md) | OpenCred signs, verifies, and revokes the Passport. The Passport is a W3C VC 2.0 carrying the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) subject plus an `identityBinding` block. | OpenCred + `ElectricityCredential/v1.2` |
 | [Data Exchange](../../data-exchange/README.md) | **Optional.** Not used for wallet delivery. Comes in only when a third-party app pulls the Passport over Beckn from your BPP — same flow you use for [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md). | Only when a third party pulls |
@@ -175,7 +175,7 @@ The Passport replaces that loop with one signed credential. Verifiers check your
 
 ### A2. Identifier reuse — your CA number stays intact
 
-Issuing Passports does **not** require renumbering anything. Your existing CA number, meter serial, and asset codes are reused **verbatim** as the tail of the corresponding DID. For example, CA number `TPDDL-2025-001234567` becomes `did:dedi:tpddl:consumers:TPDDL-2025-001234567`. See [Identifiers → ID Patterns](../../identifiers/id-patterns.md).
+Issuing Passports does **not** require renumbering anything. Your existing CA number, meter serial, and asset codes are reused **verbatim** as the tail of the corresponding DID. For example, CA number `TPDDL-2025-001234567` becomes `did:web:<dedi-host>:tpddl:consumers:TPDDL-2025-001234567` — a plain `did:web` DID whose document is hosted by the chosen DeDi runtime (e.g. `did:web:dedi.global:tpddl:consumers:TPDDL-2025-001234567`). See [Identifiers → ID Patterns](../../identifiers/id-patterns.md).
 
 ### A3. Selective disclosure
 
