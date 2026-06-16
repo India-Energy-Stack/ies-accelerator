@@ -9,3 +9,6 @@ __pycache__/
 .DS_Store
 **/.DS_Store
 
+# PDF build artifacts (scripts/build_pdf.sh)
+build/
+
