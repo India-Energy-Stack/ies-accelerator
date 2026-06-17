@@ -70,5 +70,5 @@
     * [Checklist](use-cases/discom-regulatory-filing/checklist.md)
   * [Tariff Intelligence](use-cases/tariff-intelligence/README.md)
     * [Checklist](use-cases/tariff-intelligence/checklist.md)
-  * [P2P Energy Trading (WIP)](use-cases/p2p-energy-trading/README.md)
-    * [Checklist](use-cases/p2p-energy-trading/checklist.md)
+  * [Energy Trading (WIP)](use-cases/energy-trading/README.md)
+    * [Checklist](use-cases/energy-trading/checklist.md)

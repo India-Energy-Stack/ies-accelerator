@@ -1,10 +1,10 @@
-# P2P Energy Trading
+# Energy Trading
 
 > **Status — work in progress.**
 
 **Two prosumers on different discoms execute a direct, signed energy trade. Each discom is represented in the protocol by a regulated Ledger Provider. The same wire protocol that carries datasets in [Data Exchange](../../data-exchange/README.md) carries the trade — but the payload is a contract and its fulfillment, not a dataset.**
 
-P2P trading is a **variant of the Data Exchange building block**. The Beckn lifecycle (`search` → `select` → `init` → `confirm` → `status`), the ONIX adapter, registry-resolution, signing, and audit are reused unchanged. Every P2P leg carries its payload inline inside the Beckn `message.contract` block as a `DEGContract`; what differs by leg is the `BecknTimeSeries` **payloadType vocabulary** the contract carries:
+Energy Trading is a **variant of the Data Exchange building block**. The Beckn lifecycle (`search` → `select` → `init` → `confirm` → `status`), the ONIX adapter, registry-resolution, signing, and audit are reused unchanged. Every leg carries its payload inline inside the Beckn `message.contract` block as a `DEGContract`; what differs by leg is the `BecknTimeSeries` **payloadType vocabulary** the contract carries:
 
 - **TP ↔ TP and TP ↔ LP — trade-negotiation legs.** PayloadTypes describe price, quantity, and allocations: `PRICE_PER_KWH`, `AVAILABLE_QTY`, `REQUESTED_QTY`, `BUYER_DISCOM_ALLOC`, `SELLER_DISCOM_ALLOC`, `FINAL_ALLOC`.
 - **DISCOM ↔ LP — meter-data sub-transaction during reconciliation.** PayloadTypes describe actually injected / consumed quantities per interval, supplied by the DISCOM to its contracted LP as input to allocation. Same `message.contract` envelope, same `BecknTimeSeries` shape — just a different payloadType vocabulary. This is **not** Smart Meter Data Exchange and **does not use** the `MeterData` schema or the DDM `DatasetItem` envelope; the meter quantities ride inside the same contract block as everything else.
@@ -53,7 +53,7 @@ Two regulated ledger services in the protocol — one per discom — held by the
 |---|---|
 | [Identifiers and Addressing](../../identifiers/README.md) | Every actor (`buyer`, `seller`, two TPs, two LPs) is a `did:web` participant. Meters / DTs / feeders referenced in the trade reuse the existing IDs wrapped in `did:web` form (see [SMDX § Adopt the did:web convention](../smart-meter-data-exchange/README.md#7-optional-at-the-end-adopt-the-didweb-convention-for-meters-and-assets)). |
 | [Registries and Directories](../../registries/README.md) | The four actors are subscribers in the [network reference registry](../../registries/required-registries.md#network-reference-registry). Public keys resolve through any DeDi runtime. The LP↔discom mapping is recorded in `DiscomLedgerProvider.participantAttributes.utilityId` on each trade. |
-| [Data Exchange](../../data-exchange/README.md) | The wire. The same Beckn + ONIX stack carries every P2P leg — trade-negotiation and DISCOM↔LP meter-data alike — as `DEGContract` inside `message.contract`, with `BecknTimeSeries` payloads (`accessMethod: INLINE`). The DDM `DatasetItem` envelope is not used in P2P. |
+| [Data Exchange](../../data-exchange/README.md) | The wire. The same Beckn + ONIX stack carries every leg — trade-negotiation and DISCOM↔LP meter-data alike — as `DEGContract` inside `message.contract`, with `BecknTimeSeries` payloads (`accessMethod: INLINE`). The DDM `DatasetItem` envelope is not used in this use case. |
 | [Energy Credentials](../../energy-credentials/README.md) | The seller's [`ElectricityCredential`](../../schemas/ElectricityCredential/README.md) attests to the meter, sanctioned-load, and DER details that back the offer. |
 
 The "Energy Trading" half of the work is a payload schema family and a policy bundle that sit on top of Data Exchange.
@@ -73,7 +73,7 @@ The Beckn message body wraps six DEG schemas published at `schema.beckn.io`:
 | [`DiscomLedgerProvider`](https://schema.beckn.io/DiscomLedgerProvider/) | The LP↔discom binding (`utilityId`, `ledgerUrl`) | DEG |
 | [`BecknTimeSeries`](https://schema.beckn.io/BecknTimeSeries/) | The `commitmentAttributes` carrier — declares `payloadDescriptors` (`PRICE_PER_KWH` in INR, `AVAILABLE_QTY` / `REQUESTED_QTY` / `*_ALLOC` in kWh) and per-interval `payloads[]` | DEG |
 
-Trade contracts ride **inline** inside the Beckn `on_confirm` callback in `message.contract.commitments[].resources[].resourceAttributes`, qualified with the DEG `DEGContract` context. The DDM `DatasetItem` envelope is not used anywhere in P2P; the contract block carries every payload directly — trade-negotiation and DISCOM↔LP meter-quantity legs alike, both as `BecknTimeSeries` with the appropriate payloadType vocabulary.
+Trade contracts ride **inline** inside the Beckn `on_confirm` callback in `message.contract.commitments[].resources[].resourceAttributes`, qualified with the DEG `DEGContract` context. The DDM `DatasetItem` envelope is not used anywhere in this use case; the contract block carries every payload directly — trade-negotiation and DISCOM↔LP meter-quantity legs alike, both as `BecknTimeSeries` with the appropriate payloadType vocabulary.
 
 ---
 
@@ -123,9 +123,9 @@ sequenceDiagram
   STP->>SDL: settled qty
 
   Note over B,S: Phase 6 - Billing and settlement
-  B->>S: pay P2P trade (off-ledger, via TPs)
-  SDL->>S: monthly bill (excl. P2P sold, incl. wheeling)
-  BDL->>B: monthly bill (excl. P2P bought, incl. wheeling)
+  B->>S: pay for the trade (off-ledger, via TPs)
+  SDL->>S: monthly bill (excl. traded sold, incl. wheeling)
+  BDL->>B: monthly bill (excl. traded bought, incl. wheeling)
 ```
 
 The cascade choreography in Phases 3 and 5 — `Rule 1` (seller-side ledger record on `/confirm`), `Rule 2a` (peer-TP forward), `Rule 2b` (own-discom cascade) — is implemented by the [`degledgerrecorder`](https://github.com/beckn/DEG/tree/main/plugins/degledgerrecorder) ONIX plugin. You configure it; you do not write it. Full design and the loop-free proof live in the [DEG devkit README](https://github.com/beckn/DEG/blob/main/devkits/p2p-trading-ies-wave2/README.md).
@@ -182,7 +182,7 @@ The DEG devkit ships sandbox implementations of all four — replace one at a ti
 
 ## Policy-as-code (Rego / OPA)
 
-P2P trading carries a **`policyUrl`** on every `DEGContract`. That URL points to a Rego policy bundle hosted on a DeDi runtime and digitally signed. **Two distinct rego bundles** apply, both enforceable offline by any participant.
+Every `DEGContract` carries a **`policyUrl`**. That URL points to a Rego policy bundle hosted on a DeDi runtime and digitally signed. **Two distinct rego bundles** apply, both enforceable offline by any participant.
 
 The IES network mandates which policy bundles are in force on a given network and **publishes them as policy-as-code records on a DeDi runtime** (`dedi.global` or any DeDi-compatible host). DeDi serves the same role for policy that it does for keys: a trusted, verifiable, version-controlled source. A participant fetches the bundle, evaluates locally with OPA, and the answer is cryptographically attributable to the published version. There is no central policy server to call out to at trade time.
 
@@ -219,7 +219,7 @@ Mandating the settlement bundle the same way as the network bundle keeps every p
 ## References
 
 - [DEG devkit — `p2p-trading-ies-wave2`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2) — code, examples, Postman collections
-- [Inter-discom P2P Trading implementation guide](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/p2p_energy_exchange/%20Inter%20discom%20P2P%20trading.md)
+- [Inter-discom energy trading implementation guide](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/p2p_energy_exchange/%20Inter%20discom%20P2P%20trading.md)
 - [Full inter-discom specification](https://github.com/beckn/DEG/blob/main/docs/implementation-guides/v2/P2P_Trading/Inter_energy_retailer_P2P_trading.md)
 - [`degledgerrecorder` plugin](https://github.com/beckn/DEG/tree/main/plugins/degledgerrecorder) — the cascade engine
 - [Schemas on `schema.beckn.io`](https://schema.beckn.io/) — `P2PTrade`, `DEGContract`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DiscomLedgerProvider`, `BecknTimeSeries`

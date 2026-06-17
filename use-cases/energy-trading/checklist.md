@@ -1,8 +1,8 @@
-# Checklist — P2P Energy Trading
+# Checklist — Energy Trading
 
-> **Status — work in progress.** Track the [P2P Energy Trading use case](./README.md) page for moves. This checklist captures what is stable enough to plan against today.
+> **Status — work in progress.** Track the [Energy Trading use case](./README.md) page for moves. This checklist captures what is stable enough to plan against today.
 
-*Plain-English rollout checklist for a trading platform vendor (BAP or BPP), a regulated Ledger Provider (LP), or a discom standing up [P2P Energy Trading](./README.md) on the IES network. Items are P2P-specific additions on top of the canonical [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md); follow that one first.*
+*Plain-English rollout checklist for a trading platform vendor (BAP or BPP), a regulated Ledger Provider (LP), or a discom standing up [Energy Trading](./README.md) on the IES network. Items are use-case-specific additions on top of the canonical [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md); follow that one first.*
 
 ---
 
@@ -78,4 +78,4 @@ The DISCOM emits meter quantities to its contracted LP during Phase 5 as input t
 
 ---
 
-*Once these eight items are in place for your role and you have completed the same checklist against the counterparties on the other side of the trade, you can transact P2P energy on IES with full audit, signed contracts, signed allocations, and signed revenue-flow computations — no central exchange, no bilateral spreadsheets. See the [P2P Energy Trading use case](./README.md) for the protocol detail and the [Data Exchange chapter](../../data-exchange/README.md) for the underlying wire.*
+*Once these eight items are in place for your role and you have completed the same checklist against the counterparties on the other side of the trade, you can transact energy on IES with full audit, signed contracts, signed allocations, and signed revenue-flow computations — no central exchange, no bilateral spreadsheets. See the [Energy Trading use case](./README.md) for the protocol detail and the [Data Exchange chapter](../../data-exchange/README.md) for the underlying wire.*

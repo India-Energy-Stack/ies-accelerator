@@ -15,7 +15,7 @@ If the [Identifiers](../identifiers/README.md), [Registries](../registries/READM
 | 3 | [Consumer Energy Passport](consumer-energy-passport/README.md) ([checklist](consumer-energy-passport/checklist.md)) | Wallet-held credential binding consumer identity to their connection, meter, sanctioned load, and DER/storage assets — issued by the DISCOM, verifiable everywhere. | Consumer, DISCOM, Verifier (bank, marketplace, society) | Identifiers · Registries · Energy Credentials |
 | 4 | [DISCOM Regulatory Filing](discom-regulatory-filing/README.md) ([checklist](discom-regulatory-filing/checklist.md)) | Aggregate Revenue Requirement (ARR) and compliance filings delivered as structured, signed, machine-verifiable objects from DISCOM to SERC. | DISCOM, SERC | Identifiers · Registries · Data Exchange |
 | 5 | [Tariff Intelligence](tariff-intelligence/README.md) ([checklist](tariff-intelligence/checklist.md)) | Tariff orders (slab billing, time-of-day, deviation penalties) and data-exchange rules published as policy-as-code that billing systems, apps, and meters can consume directly. | SERC, DISCOM, App developer | Identifiers · Registries · Energy Credentials · Data Exchange |
-| 6 | [P2P Energy Trading](p2p-energy-trading/README.md) ([checklist](p2p-energy-trading/checklist.md)) — **WIP** | Inter-discom prosumer-to-prosumer energy trade carried as a signed contract over IES Data Exchange. Variant of Data Exchange: same wire, the payload is `DEGContract` + `EnergyTradeDelivery` instead of `DatasetItem`. Network rules and revenue flows enforced by signed Rego bundles hosted on DeDi. | Prosumer, Trading Platform (BAP/BPP), Ledger Provider, DISCOM | Identifiers · Registries · Data Exchange · Energy Credentials |
+| 6 | [Energy Trading](energy-trading/README.md) ([checklist](energy-trading/checklist.md)) — **WIP** | Inter-discom prosumer-to-prosumer energy trade carried as a signed contract over IES Data Exchange. Variant of Data Exchange: same wire, the payload is `DEGContract` + `EnergyTradeDelivery` instead of `DatasetItem`. Network rules and revenue flows enforced by signed Rego bundles hosted on DeDi. | Prosumer, Trading Platform (BAP/BPP), Ledger Provider, DISCOM | Identifiers · Registries · Data Exchange · Energy Credentials |
 
 > **DER Visibility** — tracking rooftop solar, batteries and EV chargers per feeder using IES identifiers — is a seventh flagship use case and is documented separately (out of scope for this section for now).
 
@@ -50,8 +50,8 @@ Each use case page follows the same structure so you can navigate quickly:
 | `ArrFiling` schema | **Draft — being finalised** |
 | Tariff policy schema | Stable |
 | Tariff publication via data exchange | Shipped in devkit |
-| P2P trade schemas (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DiscomLedgerProvider`, `BecknTimeSeries`) | Stable in DEG `p2p-trading-ies-wave2` devkit |
-| P2P Rego bundle — network rules | Stable; carried by `policyUrl` on the contract |
-| P2P Rego bundle — settlement / revenue flows | **Draft — wheeling and penalty placeholders pending** |
+| Energy-trading schemas (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DiscomLedgerProvider`, `BecknTimeSeries`) | Stable in DEG `p2p-trading-ies-wave2` devkit |
+| Energy-trading Rego bundle — network rules | Stable; carried by `policyUrl` on the contract |
+| Energy-trading Rego bundle — settlement / revenue flows | **Draft — wheeling and penalty placeholders pending** |
 
-The open items (`ArrFiling`, the wheeling / penalty rules in the P2P settlement bundle, and the auto-`revenueflows` middleware in the wave-2 ONIX config) do not block implementation — the example payloads in the devkit are stable enough to integrate against, and the rego bundles can be updated independently of code via DeDi.
+The open items (`ArrFiling`, the wheeling / penalty rules in the energy-trading settlement bundle, and the auto-`revenueflows` middleware in the wave-2 ONIX config) do not block implementation — the example payloads in the devkit are stable enough to integrate against, and the rego bundles can be updated independently of code via DeDi.
