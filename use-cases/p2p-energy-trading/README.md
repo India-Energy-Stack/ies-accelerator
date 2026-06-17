@@ -4,10 +4,10 @@
 
 **Two prosumers on different discoms execute a direct, signed energy trade. Each discom is represented in the protocol by a regulated Ledger Provider. The same wire protocol that carries datasets in [Data Exchange](../../data-exchange/README.md) carries the trade — but the payload is a contract and its fulfillment, not a dataset.**
 
-P2P trading is a **variant of the Data Exchange building block**. The Beckn lifecycle (`search` → `select` → `init` → `confirm` → `status`), the ONIX adapter, registry-resolution, signing, and audit are reused unchanged. What differs by leg is the **payload shape inside the Beckn message**:
+P2P trading is a **variant of the Data Exchange building block**. The Beckn lifecycle (`search` → `select` → `init` → `confirm` → `status`), the ONIX adapter, registry-resolution, signing, and audit are reused unchanged. Every P2P leg carries its payload inline inside the Beckn `message.contract` block as a `DEGContract`; what differs by leg is the `BecknTimeSeries` **payloadType vocabulary** the contract carries:
 
-- **TP ↔ TP and TP ↔ LP — trade-negotiation legs.** Payload is the contract itself — `DEGContract` carrying `P2PTrade`, `EnergyTradeOffer`, and `EnergyTradeDelivery` — ridden inline inside the Beckn `message.contract` block. **No DDM `DatasetItem` envelope here**; the contract is the message.
-- **DISCOM ↔ LP — meter-data sub-transaction during reconciliation.** Payload is meter telemetry, carried in the same **DDM `DatasetItem` envelope** that [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) uses, with `MeterData` as the inner shape. This leg is literally Smart Meter Data Exchange running as a sub-transaction inside Phase 5 — the DDM mechanism is reused only here.
+- **TP ↔ TP and TP ↔ LP — trade-negotiation legs.** PayloadTypes describe price, quantity, and allocations: `PRICE_PER_KWH`, `AVAILABLE_QTY`, `REQUESTED_QTY`, `BUYER_DISCOM_ALLOC`, `SELLER_DISCOM_ALLOC`, `FINAL_ALLOC`.
+- **DISCOM ↔ LP — meter-data sub-transaction during reconciliation.** PayloadTypes describe actually injected / consumed quantities per interval, supplied by the DISCOM to its contracted LP as input to allocation. Same `message.contract` envelope, same `BecknTimeSeries` shape — just a different payloadType vocabulary. This is **not** Smart Meter Data Exchange and **does not use** the `MeterData` schema or the DDM `DatasetItem` envelope; the meter quantities ride inside the same contract block as everything else.
 
 If you have [Data Exchange](../../data-exchange/README.md) working, you have the protocol; this page describes the payload, the four-actor topology, and the policy bundle on top.
 
@@ -53,8 +53,8 @@ Two regulated ledger services in the protocol — one per discom — held by the
 |---|---|
 | [Identifiers and Addressing](../../identifiers/README.md) | Every actor (`buyer`, `seller`, two TPs, two LPs) is a `did:web` participant. Meters / DTs / feeders referenced in the trade reuse the existing IDs wrapped in `did:web` form (see [SMDX § Adopt the did:web convention](../smart-meter-data-exchange/README.md#7-optional-at-the-end-adopt-the-didweb-convention-for-meters-and-assets)). |
 | [Registries and Directories](../../registries/README.md) | The four actors are subscribers in the [network reference registry](../../registries/required-registries.md#network-reference-registry). Public keys resolve through any DeDi runtime. The LP↔discom mapping is recorded in `DiscomLedgerProvider.participantAttributes.utilityId` on each trade. |
-| [Data Exchange](../../data-exchange/README.md) | The wire. The same Beckn + ONIX stack carries trade-negotiation legs as `DEGContract` / `P2PTrade` inside `message.contract`, and the DISCOM↔LP meter-data sub-transaction as `MeterData` inside the DDM `DatasetItem` envelope (`accessMethod: INLINE` for the trade contract; whatever is configured on the SMDX side for meter data). |
-| [Energy Credentials](../../energy-credentials/README.md) | The seller's [`ElectricityCredential`](../../schemas/ElectricityCredential/README.md) attests to the meter, sanctioned-load, and DER details that back the offer. Settlement-side meter data flows as `MeterData` (see [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md)) and can be wrapped in `MeterDataRequestCredential` for the LP↔discom hop when the network policy requires it. |
+| [Data Exchange](../../data-exchange/README.md) | The wire. The same Beckn + ONIX stack carries every P2P leg — trade-negotiation and DISCOM↔LP meter-data alike — as `DEGContract` inside `message.contract`, with `BecknTimeSeries` payloads (`accessMethod: INLINE`). The DDM `DatasetItem` envelope is not used in P2P. |
+| [Energy Credentials](../../energy-credentials/README.md) | The seller's [`ElectricityCredential`](../../schemas/ElectricityCredential/README.md) attests to the meter, sanctioned-load, and DER details that back the offer. |
 
 The "Energy Trading" half of the work is a payload schema family and a policy bundle that sit on top of Data Exchange.
 
@@ -73,7 +73,7 @@ The Beckn message body wraps six DEG schemas published at `schema.beckn.io`:
 | [`DiscomLedgerProvider`](https://schema.beckn.io/DiscomLedgerProvider/) | The LP↔discom binding (`utilityId`, `ledgerUrl`) | DEG |
 | [`BecknTimeSeries`](https://schema.beckn.io/BecknTimeSeries/) | The `commitmentAttributes` carrier — declares `payloadDescriptors` (`PRICE_PER_KWH` in INR, `AVAILABLE_QTY` / `REQUESTED_QTY` / `*_ALLOC` in kWh) and per-interval `payloads[]` | DEG |
 
-Trade contracts ride **inline** inside the Beckn `on_confirm` callback in `message.contract.commitments[].resources[].resourceAttributes`, qualified with the DEG `DEGContract` context. The trade-negotiation legs do not use the DDM `DatasetItem` envelope — the contract block carries the payload directly. The DDM `DatasetItem` envelope shows up only on the DISCOM↔LP meter-data sub-transaction in Phase 5, which is literally a [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) call running underneath the trade flow.
+Trade contracts ride **inline** inside the Beckn `on_confirm` callback in `message.contract.commitments[].resources[].resourceAttributes`, qualified with the DEG `DEGContract` context. The DDM `DatasetItem` envelope is not used anywhere in P2P; the contract block carries every payload directly — trade-negotiation and DISCOM↔LP meter-quantity legs alike, both as `BecknTimeSeries` with the appropriate payloadType vocabulary.
 
 ---
 

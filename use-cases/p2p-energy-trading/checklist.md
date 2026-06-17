@@ -56,13 +56,12 @@ Both bundles are published on DeDi by the network operator. Your job is to fetch
 - [ ] Local OPA eval wired into the BPP / LP path: rejects payloads that fail the network rules; computes revenue flows from the final allocation
 - [ ] Policy bundle version pinned per contract (so a mid-trade bundle change does not retroactively change outcomes)
 
-### 6. Meter-data sub-transaction
+### 6. DISCOM ↔ LP meter-data sub-transaction (Phase 5)
 
-The settlement-side meter data comes off the discom over Beckn — the same pattern as [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md), used as a sub-transaction inside Phase 5. When the network policy requires it, the LP attaches a [`MeterDataRequestCredential`](../../schemas/MeterDataRequestCredential/README.md) at `confirm`.
+The DISCOM emits meter quantities to its contracted LP during Phase 5 as input to allocation. This reuses the **`BecknTimeSeries` payload** shape that the trade-negotiation legs already use — same envelope inside `message.contract`, just a different payloadType vocabulary for the meter-quantity values. The `MeterData` schema and the DDM `DatasetItem` envelope are **not** involved.
 
-- [ ] (LP only) `MeterData` ingestion from your contracted discom over Beckn
-- [ ] (LP only) `MeterDataRequestCredential` issued / verified for the consent hop
-- [ ] (Discom only) `MeterData` BPP exposing your LP's meters only — scope locked to LP↔discom contract
+- [ ] (DISCOM only) Meter quantities published to the LP as `BecknTimeSeries` matching the descriptor-then-payload pattern used by the trade legs
+- [ ] (LP only) Meter-quantity payloadTypes wired into the allocation function — keyed by meter ID and interval index in the descriptor
 
 ### 7. Production cut-over (shared with Data Exchange)
 
