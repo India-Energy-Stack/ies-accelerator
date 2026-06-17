@@ -14,7 +14,7 @@ This use case is a thin composition over four existing building blocks. The setu
 
 | What you need | Building block | What it gives you |
 |---|---|---|
-| A name and a signing key your counterparties can verify | [Identifiers & Addressing](../../identifiers/README.md), [Registries](../../registries/README.md) | Your `did:web`, your public key in a DeDi runtime, your namespace |
+| A name and a signing key your counterparties can verify | [Identifiers & Addressing](../../identifiers/README.md), [Registries](../../registries/README.md) | A DeDi namespace under your control and your current public key published into it. A formal `did:web` document is **not** required for this use case; the namespace + key are enough for Beckn signing and verification. |
 | A trust boundary — "who can transact on this network" | [Required Registries — Network Reference Registry](../../registries/required-registries.md#network-reference-registry) | Your subscriber record in the IES network reference registry |
 | The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../data-exchange/README.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
 | (Optional) Cryptographic proof that the requester is authorised | [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/README.md) | A signed credential the seeker attaches at `confirm`; provider verifies offline |

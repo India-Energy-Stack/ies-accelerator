@@ -31,7 +31,7 @@ This is the **consumer-facing dual** of [Smart Meter Data Exchange](../smart-met
 | [Identifiers](../../identifiers/README.md) | The Digest references the consumer's DID, the meter ID, and the time-range it covers. The DISCOM's `did:web` is the issuer ID. |
 | [Registries](../../registries/README.md) | The DISCOM is looked up in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry); revocation is checked via DeDi. |
 | [Energy Credentials](../../energy-credentials/README.md) | The Digest is a `ConsumerMeterDigest` Verifiable Credential — see [Consumer Meter Digest credential](../../energy-credentials/consumer-meter-digest.md) for the schema. Issued by the same OpenCred service the DISCOM already runs. |
-| [Data Exchange](../../data-exchange/README.md) | The consumer's request to the DISCOM travels over the IES Data Exchange protocol — a `confirm` from the consumer's wallet (acting as a BAP) to the DISCOM (BPP). The Digest credential rides back inside `on_status`. Same protocol surface as Smart Meter Data Exchange; only the actors and the carried payload differ. |
+| [Data Exchange](../../data-exchange/README.md) | The DISCOM exposes a "consumer-pull" endpoint over IES Data Exchange that returns the Digest inline. The exact mechanism by which the consumer's wallet drives the request is still being agreed; what is stable is that the Digest is delivered back as a signed credential. |
 
 ---
 
@@ -67,9 +67,7 @@ The DISCOM must already have:
 
 ### 2. Wallet-side prerequisites
 
-Consumers need a wallet that can act as a BAP — either DigiLocker (if it offers Beckn-BAP issuance flows), or a DID-enabled wallet app the DISCOM recommends. The wallet holds the consumer's DID and the keypair that authenticates them to the DISCOM.
-
-The first time the consumer uses the wallet against the DISCOM, the consumer's [Consumer Energy Passport](../consumer-energy-passport/README.md) (or a minimal `CustomerCredential`) is what proves they have the right to request data for that meter.
+Consumers need a wallet — DigiLocker, or a DID-enabled wallet app the DISCOM recommends — that holds the consumer's DID, the keypair that authenticates them to the DISCOM, and the consumer's [Consumer Energy Passport](../consumer-energy-passport/README.md) (or a minimal `CustomerCredential`) which is what proves they have the right to request data for that meter.
 
 ### 3. Catalogue the consumer-pull endpoint
 
@@ -81,26 +79,7 @@ The DISCOM publishes a catalogue entry for the Digest service:
 - `granularityOptions` — supported `granularity` values (`RAW_15M`, `DAILY`, `MONTHLY`, `SUMMARY_*`)
 - `maxRange` — typically 24 months for `MONTHLY`, 90 days for `RAW_15M`
 
-### 4. The consumer makes a request
-
-From the wallet:
-
-1. Consumer selects the meter and the period (e.g. *"last 12 months, monthly"*).
-2. Wallet builds a Beckn `confirm` against the DISCOM's catalogue entry, including:
-   - The consumer's `CustomerCredential` (or Passport) presentation as proof of right.
-   - The requested `granularity` and `period`.
-3. Wallet signs the message with the consumer's DID key and sends it.
-
-### 5. The DISCOM responds
-
-DISCOM-side:
-
-1. BPP verifies the consumer's credential — issuer is this DISCOM, subject DID matches the BAP signer, meter is in scope, credential not revoked.
-2. BPP queries MDMS for the requested period and granularity.
-3. BPP calls OpenCred to mint a `ConsumerMeterDigest` credential whose `credentialSubject` is the consumer DID, populated with the requested readings or summary.
-4. BPP returns `on_confirm` (acknowledgement) and then `on_status` carrying the signed Digest inline.
-
-### 6. The consumer presents the Digest
+### 4. The consumer presents the Digest
 
 The Digest now lives in the consumer's wallet. They share it with a verifier — bank, marketplace, society — who:
 
