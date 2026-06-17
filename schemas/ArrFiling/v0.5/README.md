@@ -55,5 +55,5 @@ python scripts/validate_schema.py schemas/ArrFiling/v0.5/schema.json schemas/Arr
 ## JSON-LD Integration
 
 All example payloads in the `examples/` directory have been augmented to support standard Linked Data semantic resolution:
-1. **`@context`** — Points to the canonical absolute URL `https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ArrFiling/v0.5/context.jsonld` to resolve terms.
+1. **`@context`** — Points to the canonical absolute URL `https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/context.jsonld` to resolve terms.
 2. **`@type`** — Indicates the profile class shape (e.g., `ArrFiling`), aligning the regulatory datasets to the broader India Energy Stack ecosystem.

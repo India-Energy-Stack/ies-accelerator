@@ -187,7 +187,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 * [Batch Issuance at Scale (Queue & Workers)](../energy-credentials/issuance.md#batch-issuance-at-scale)
 * [Multi-Replica Deployment Guidance](../energy-credentials/onboarding.md#multi-replica-and-batch-worker-fleet)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
-* [Consumer Energy Passport Basic Checklist](../use-cases/consumer-energy-passport/basic-checklist.md)
+* [Consumer Energy Passport Checklist](../use-cases/consumer-energy-passport/checklist.md)
 * [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
 </details>
 
@@ -307,7 +307,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
    *Example `MeterDataRequest` for compiling a Digest:*
    ```json
    {
-       "@context": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataRequest/v0.6/context.jsonld",
+       "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
        "@type": "MeterDataRequest",
        "resources": [
            "did:dedi:ies:meter:IN-MH-MTR-89721"
@@ -331,7 +331,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 ### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
   * [How It Works](../use-cases/consumer-meter-digest/README.md#how-it-works)
-* [Consumer Meter Digest Checklist](../use-cases/consumer-meter-digest/basic-checklist.md)
+* [Consumer Meter Digest Checklist](../use-cases/consumer-meter-digest/checklist.md)
 </details>
 
 <details>

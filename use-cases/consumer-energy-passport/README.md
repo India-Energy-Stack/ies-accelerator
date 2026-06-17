@@ -157,7 +157,7 @@ When a third-party app needs the Passport on the consumer's behalf without going
 
 ## References
 
-- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist for leadership
+- [Checklist](./checklist.md) — plain-English rollout checklist for leadership
 - [ElectricityCredential v1.2 — schema](../../schemas/ElectricityCredential/README.md) — the subject shape underneath the Passport
 - [Energy Credentials chapter](../../energy-credentials/README.md) — OpenCred, issuance, verification, DigiLocker
 - [Data Exchange chapter](../../data-exchange/README.md) — used only for the optional third-party pull

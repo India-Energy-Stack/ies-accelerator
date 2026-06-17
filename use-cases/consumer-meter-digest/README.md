@@ -135,7 +135,7 @@ A bank could in principle hit a DISCOM API directly with the consumer's consent 
 
 ## References
 
-- [Basic Checklist](./basic-checklist.md) — plain-English rollout checklist
+- [Checklist](./checklist.md) — plain-English rollout checklist
 
 - [Energy Credentials → Consumer Meter Digest (schema)](../../energy-credentials/consumer-meter-digest.md)
 - [Energy Credentials → Core Concepts](../../energy-credentials/concepts.md)

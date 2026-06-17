@@ -458,7 +458,7 @@ This is the exact JSON-LD that travels in `VcContent`.
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld",
-    "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterDataCredential/v0.6/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld"
   ],
   "id": "urn:uuid:9b3c1f0a-2d4e-4ba8-9f1c-1e7a90c8a5d2",
   "type": ["VerifiableCredential", "MeterDataCredential"],

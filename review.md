@@ -30,10 +30,10 @@ During our audit of the `ies-accelerator` documentation, we identified several i
     - [Energy Credentials Detailed Checklist](checklists/energy-credentials-checklist-detailed.md) (Raw reference: `checklists/energy-credentials-checklist-detailed.md`)
   - Link: [Use Cases Directory](use-cases/) (Raw reference: `use-cases/`)
     - *Smart Meter — done.* The use-case-specific checklist now lives inline in [use-cases/smart-meter-data-exchange/README.md](use-cases/smart-meter-data-exchange/README.md) and the canonical network-onboarding checklist is [checklists/data-exchange-checklist.md](checklists/data-exchange-checklist.md).
-    - [Consumer Meter Digest Basic Checklist](use-cases/consumer-meter-digest/basic-checklist.md) (Raw reference: `use-cases/consumer-meter-digest/basic-checklist.md`)
-    - [Consumer Energy Passport Basic Checklist](use-cases/consumer-energy-passport/basic-checklist.md) (Raw reference: `use-cases/consumer-energy-passport/basic-checklist.md`)
-    - [Regulatory Filing Basic Checklist](use-cases/discom-regulatory-filing/basic-checklist.md) (Raw reference: `use-cases/discom-regulatory-filing/basic-checklist.md`)
-    - [Tariff Intelligence Basic Checklist](use-cases/tariff-intelligence/basic-checklist.md) (Raw reference: `use-cases/tariff-intelligence/basic-checklist.md`)
+    - [Consumer Meter Digest Checklist](use-cases/consumer-meter-digest/checklist.md) (Raw reference: `use-cases/consumer-meter-digest/checklist.md`)
+    - [Consumer Energy Passport Checklist](use-cases/consumer-energy-passport/checklist.md) (Raw reference: `use-cases/consumer-energy-passport/checklist.md`)
+    - [Regulatory Filing Checklist](use-cases/discom-regulatory-filing/checklist.md) (Raw reference: `use-cases/discom-regulatory-filing/checklist.md`)
+    - [Tariff Intelligence Checklist](use-cases/tariff-intelligence/checklist.md) (Raw reference: `use-cases/tariff-intelligence/checklist.md`)
 * **Description**: The generic checklists duplicate domain allocation, Docker configurations, and registry checks. Additionally, every use-case-specific basic checklist duplicates identical organizational registration steps.
 * **Suggested Corrective Action**: Consolidate generic onboarding audits into a single, multi-tier checklist under `checklists/` (e.g., Identity Setup, Credentials Setup, Exchange Setup). Replace individual use-case checklist files with short, use-case-specific checklists embedded directly in their respective `README.md` files.
 

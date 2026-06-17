@@ -6,17 +6,18 @@ If the [Identifiers](../identifiers/README.md), [Registries](../registries/READM
 
 ---
 
-## The Five Use Cases
+## The Six Use Cases
 
 | # | Use Case | What it does | Primary actors | Building blocks |
 |---|---|---|---|---|
 | 1 | [Smart Meter Data Exchange](smart-meter-data-exchange/README.md) ([data model](smart-meter-data-exchange/ies-meter-data-model.md)) | Standard, audit-trailed exchange of `MeterData` telemetry between AMISP, DISCOM, regulator, and consented third parties over IES Data Exchange. | AMISP, DISCOM, SERC | Identifiers · Registries · Data Exchange · Energy Credentials (optional consent) |
-| 2 | [Consumer Meter Digest](consumer-meter-digest/README.md) ([checklist](consumer-meter-digest/basic-checklist.md)) | Consumer pulls their own granular meter readings on demand as a signed credential and shares them with a third party of their choice. | Consumer, DISCOM, Third-party app | Identifiers · Registries · Energy Credentials · Data Exchange |
-| 3 | [Consumer Energy Passport](consumer-energy-passport/README.md) ([checklist](consumer-energy-passport/basic-checklist.md)) | Wallet-held credential binding consumer identity to their connection, meter, sanctioned load, and DER/storage assets — issued by the DISCOM, verifiable everywhere. | Consumer, DISCOM, Verifier (bank, marketplace, society) | Identifiers · Registries · Energy Credentials |
-| 4 | [DISCOM Regulatory Filing](discom-regulatory-filing/README.md) ([checklist](discom-regulatory-filing/basic-checklist.md)) | Aggregate Revenue Requirement (ARR) and compliance filings delivered as structured, signed, machine-verifiable objects from DISCOM to SERC. | DISCOM, SERC | Identifiers · Registries · Data Exchange |
-| 5 | [Tariff Intelligence](tariff-intelligence/README.md) ([checklist](tariff-intelligence/basic-checklist.md)) | Tariff orders (slab billing, time-of-day, deviation penalties) and data-exchange rules published as policy-as-code that billing systems, apps, and meters can consume directly. | SERC, DISCOM, App developer | Identifiers · Registries · Energy Credentials · Data Exchange |
+| 2 | [Consumer Meter Digest](consumer-meter-digest/README.md) ([checklist](consumer-meter-digest/checklist.md)) | Consumer pulls their own granular meter readings on demand as a signed credential and shares them with a third party of their choice. | Consumer, DISCOM, Third-party app | Identifiers · Registries · Energy Credentials · Data Exchange |
+| 3 | [Consumer Energy Passport](consumer-energy-passport/README.md) ([checklist](consumer-energy-passport/checklist.md)) | Wallet-held credential binding consumer identity to their connection, meter, sanctioned load, and DER/storage assets — issued by the DISCOM, verifiable everywhere. | Consumer, DISCOM, Verifier (bank, marketplace, society) | Identifiers · Registries · Energy Credentials |
+| 4 | [DISCOM Regulatory Filing](discom-regulatory-filing/README.md) ([checklist](discom-regulatory-filing/checklist.md)) | Aggregate Revenue Requirement (ARR) and compliance filings delivered as structured, signed, machine-verifiable objects from DISCOM to SERC. | DISCOM, SERC | Identifiers · Registries · Data Exchange |
+| 5 | [Tariff Intelligence](tariff-intelligence/README.md) ([checklist](tariff-intelligence/checklist.md)) | Tariff orders (slab billing, time-of-day, deviation penalties) and data-exchange rules published as policy-as-code that billing systems, apps, and meters can consume directly. | SERC, DISCOM, App developer | Identifiers · Registries · Energy Credentials · Data Exchange |
+| 6 | [P2P Energy Trading](p2p-energy-trading/README.md) ([checklist](p2p-energy-trading/checklist.md)) — **WIP** | Inter-discom prosumer-to-prosumer energy trade carried as a signed contract over IES Data Exchange. Variant of Data Exchange: same wire, the payload is `DEGContract` + `EnergyTradeDelivery` instead of `DatasetItem`. Network rules and revenue flows enforced by signed Rego bundles hosted on DeDi. | Prosumer, Trading Platform (BAP/BPP), Ledger Provider, DISCOM | Identifiers · Registries · Data Exchange · Energy Credentials |
 
-> **DER Visibility** — tracking rooftop solar, batteries and EV chargers per feeder using IES identifiers — is a sixth flagship use case and is documented separately (out of scope for this section for now).
+> **DER Visibility** — tracking rooftop solar, batteries and EV chargers per feeder using IES identifiers — is a seventh flagship use case and is documented separately (out of scope for this section for now).
 
 ---
 
@@ -35,7 +36,7 @@ Each use case page follows the same structure so you can navigate quickly:
 
 ---
 
-## Maturity Snapshot (as of 2026-05)
+## Maturity Snapshot (as of 2026-06)
 
 | Component | Status |
 |---|---|
@@ -49,5 +50,8 @@ Each use case page follows the same structure so you can navigate quickly:
 | `ArrFiling` schema | **Draft — being finalised** |
 | Tariff policy schema | Stable |
 | Tariff publication via data exchange | Shipped in devkit |
+| P2P trade schemas (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DiscomLedgerProvider`, `BecknTimeSeries`) | Stable in DEG `p2p-trading-ies-wave2` devkit |
+| P2P Rego bundle — network rules | Stable; carried by `policyUrl` on the contract |
+| P2P Rego bundle — settlement / revenue flows | **Draft — wheeling and penalty placeholders pending** |
 
-The remaining open item (`ArrFiling`) does not block implementation — the example payloads in the devkit are stable enough to integrate against. Treat the field names as subject to minor renames until the canonical schema lands.
+The open items (`ArrFiling`, the wheeling / penalty rules in the P2P settlement bundle, and the auto-`revenueflows` middleware in the wave-2 ONIX config) do not block implementation — the example payloads in the devkit are stable enough to integrate against, and the rego bundles can be updated independently of code via DeDi.

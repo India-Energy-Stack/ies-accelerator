@@ -1,4 +1,4 @@
-# Basic Checklist — Consumer Meter Digest
+# Checklist — Consumer Meter Digest
 
 *A plain-English, conceptual checklist for a DISCOM enabling the [Consumer Meter Digest use case](./README.md) — the consumer-pull flow where a consumer requests their own meter readings as a signed credential they can hand to any third party. Use it to brief leadership and align IT, MDMS, and consumer-experience teams.*
 
