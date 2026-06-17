@@ -28,7 +28,7 @@ Before you click anything, write down:
 
 - Namespace = `<discom-id>` (or `india-energy-stack` for the network operator).
 - Registry name = kebab-case, function-first: `vc-revocation-registry`, `subscribers-prod`, `assets-transformers`.
-- Record name = the **DISCOM's internal identifier verbatim** (consumer number, asset SAP code, credential UUID). This preserves your existing numbering — see [ID Patterns](../identifiers/id-patterns.md).
+- Record name = the **DISCOM's internal identifier verbatim** (consumer number, asset SAP code, credential UUID). This preserves your existing numbering — see [Identifiers and Addressing](../identifiers/README.md#appendix-c--identifying-assets-meters-connections-datasets).
 
 ---
 

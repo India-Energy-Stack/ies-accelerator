@@ -10,7 +10,7 @@ flowchart TB
     cred["<b>Energy Credentials</b><br/>W3C VCs + DigiLocker<br/><i>trust layer</i>"]
     data["<b>Data Exchange</b><br/>Beckn control plane + IES schemas<br/><i>data layer</i>"]
     reg["<b>Registries and Directories</b><br/>DeDi: namespaces + records<br/><i>discovery + revocation</i>"]
-    id["<b>Identifiers and Addressing</b><br/>DIDs: did:web · did:key · did:dedi<br/><i>identity foundation</i>"]
+    id["<b>Identifiers and Addressing</b><br/>DIDs: did:web · did:key · did:jwk<br/><i>identity foundation</i>"]
     cred ~~~ data
     data ~~~ reg
     reg ~~~ id

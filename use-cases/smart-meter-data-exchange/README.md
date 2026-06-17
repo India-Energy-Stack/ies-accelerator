@@ -120,7 +120,7 @@ did:web:<dedi-host>:<your-namespace>:feeders:<existing-feeder-code>
 did:web:<dedi-host>:<your-namespace>:substations:<existing-substation-code>
 ```
 
-`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just hosts the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers → ID Patterns](../../identifiers/id-patterns.md). Once an asset has a `did:web` form, OpenCred can issue VCs about it (commissioning, inspection, ownership). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
+`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just acts as a discovery layer for the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers and Addressing → Appendix C](../../identifiers/README.md#appendix-c--identifying-assets-meters-connections-datasets). Once an asset has a `did:web` form, OpenCred can issue VCs about it (commissioning, inspection, ownership). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
 
 ---
 
@@ -157,4 +157,4 @@ The items below are **meter-data-specific** additions on top of that checklist:
 - [Data Exchange chapter](../../data-exchange/README.md)
 - [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md)
 - [Registries — Required for onboarding](../../registries/required-registries.md)
-- [Identifiers — ID Patterns](../../identifiers/id-patterns.md)
+- [Identifiers and Addressing](../../identifiers/README.md)

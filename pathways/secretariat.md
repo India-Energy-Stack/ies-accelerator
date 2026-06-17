@@ -91,7 +91,7 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 
 ### References & Anchors
 * [Resolution & Routing — did:web resolution rules](../registries/resolution.md#didweb)
-* [Resolution & Routing — Constructing did.json](../identifiers/issuance-reference.md#step-1--mint-the-issuer-did-didweb)
+* [Identifiers and Addressing — Publish your did:web (step-by-step)](../identifiers/README.md#step-by-step-publish-your-didweb)
 </details>
 
 ---
@@ -114,7 +114,7 @@ Once verified, the Secretariat must append the participant's metadata to the can
    ```
 
 ### References & Anchors
-* [Reference Whitelisting Guide](../identifiers/issuance-reference.md#step-2--register-the-discom-in-the-ies-reference-registry)
+* [Identifiers and Addressing — Register with the IES network](../identifiers/README.md#5-register-with-the-ies-network)
 </details>
 
 <details>

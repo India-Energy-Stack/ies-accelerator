@@ -8,9 +8,6 @@
   * [Utility Pathway](pathways/utility.md)
 
 * [Identifiers and Addressing](identifiers/README.md)
-  * [Concepts](identifiers/concepts.md)
-  * [ID Patterns](identifiers/id-patterns.md)
-  * [Issuance Reference](identifiers/issuance-reference.md)
   * [Basic Checklist](checklists/identifiers-basic-checklist.md)
 
 * [Registries and Directories](registries/README.md)

@@ -16,7 +16,7 @@ IES has four developer-facing sections. The bottom two are the **foundations** e
 
 ### Identifiers and Addressing
 
-The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document, and dataset on the network — `did:web` for institutions, `did:key` / `did:jwk` for consumers, `did:dedi` for registry-anchored records. Internal numbering (consumer numbers, asset SAP codes) is preserved and wrapped, never replaced.
+The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document, and dataset on the network — `did:web` for institutions and their assets, `did:key` / `did:jwk` for consumer wallets. All three are standard W3C DID methods; DeDi acts as a key-discovery layer for `did:web`, not as a separate method. Internal numbering (consumer numbers, asset SAP codes) is preserved and wrapped, never replaced.
 
 **Who should use this:** Every participant — this is the addressing layer below everything else.
 

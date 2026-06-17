@@ -116,7 +116,7 @@ The registry entry pins the `did:web` and public key used to sign the `IES_Polic
 - A canonical `policyID` per policy (e.g. `MUM-RES-T1`, `KA-LT2-IND-TOD-2026`). This is the **stable handle** every downstream system uses to refer to this policy.
 - A `programID` per `IES_Program` (consumer category, regulatory scheme) that groups related policies.
 
-See [ID Patterns](../../identifiers/id-patterns.md).
+See [Identifiers and Addressing → Appendix C](../../identifiers/README.md#appendix-c--identifying-assets-meters-connections-datasets).
 
 ### 3. Author the policy
 

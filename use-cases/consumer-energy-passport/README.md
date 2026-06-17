@@ -179,7 +179,7 @@ The Passport replaces that loop with one signed credential. Verifiers check your
 
 ### A2. Identifier reuse — your CA number stays intact
 
-Issuing Passports does **not** require renumbering anything. Your existing CA number, meter serial, and asset codes are reused **verbatim** as the tail of the corresponding DID. For example, CA number `TPDDL-2025-001234567` becomes `did:web:<dedi-host>:tpddl:consumers:TPDDL-2025-001234567` — a plain `did:web` DID whose document is hosted by the chosen DeDi runtime (e.g. `did:web:dedi.global:tpddl:consumers:TPDDL-2025-001234567`). See [Identifiers → ID Patterns](../../identifiers/id-patterns.md).
+Issuing Passports does **not** require renumbering anything. The consumer's existing CA number stays as the literal `customerNumber` string inside the credential; asset codes (meters, transformers) are wrapped as path segments on your DISCOM's own `did:web` — e.g. `did:web:ies.tpddl.in:assets:meter:<meter-slno>`. See [Identifiers and Addressing](../../identifiers/README.md).
 
 ### A3. Selective disclosure
 
