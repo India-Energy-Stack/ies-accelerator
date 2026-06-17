@@ -168,24 +168,15 @@ docker compose up -d
 
 This starts the BAP-side (`onix-buyerapp`, `sandbox-buyerapp`, `onix-ledger-buyerdiscom`, `onix-buyerdiscom`) and BPP-side (`onix-sellerapp`, `sandbox-sellerapp`, `onix-ledger-sellerdiscom`, `onix-sellerdiscom`) stacks, bridged by one `beckn-router` (Caddy) on `:9000` resolving each actor by per-node hostname (e.g. `seller-discom-ledger.example.com`).
 
-### 2. Run the end-to-end Arazzo workflow
+### 2. Drive the flow via Postman
 
-```bash
-cd ../uc1/workflows
-./run-arazzo.sh -w select-through-settlement -v
-```
+Four collections sit under [`uc1/postman/`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2/uc1/postman) — one per role (buyer TP, seller TP, buyer discom ledger, seller discom ledger). Import the role you are integrating, leave the defaults in place, and fire `/select` → `/init` → `/confirm` → `/status` from there. The full Phase 1–5 lifecycle is covered by the role-specific requests in those collections.
 
-This walks the full lifecycle (Phases 1–5). Other named workflows cover the individual sub-flows — `publish-catalog`, `discover`, `status-roundtrip-via-seller-discom`, `buyerdiscom-pushes-allocation`, `sellerdiscom-pushes-settled-on-status`, and so on.
-
-### 3. Inspect a real exchange via Postman
-
-Four collections sit under [`uc1/postman/`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2/uc1/postman) — one per role (buyer TP, seller TP, buyer discom ledger, seller discom ledger). Import the role you are integrating and fire from there.
-
-### 4. Swap in your real identity
+### 3. Swap in your real identity
 
 Same procedure as Data Exchange: register your TP (or LP) as a DeDi subscriber under your namespace, point the ONIX adapter's `allowedNetworkIDs`, `networkParticipant`, and `keyId` at your real identity, and replace the sandbox containers with your TP / LP application. The full path is [Data Exchange → Registry Setup](../../data-exchange/registry-setup.md).
 
-### 5. Map your application logic to the four roles
+### 4. Map your application logic to the four roles
 
 | If you are a … | You implement | Talks to |
 |---|---|---|
@@ -233,18 +224,9 @@ Mandating the settlement bundle the same way as the network bundle keeps every p
 
 ---
 
-## Known WIP
-
-- The auto-`revenueflows` middleware in the seller ONIX config is currently disabled in the devkit pending a target-block fix; the rego computes the flows correctly but injection back into the contract is manual for now.
-- Wheeling and penalty charges in the settlement bundle are `0` placeholders. Plugging real tariff rules in is on the roadmap.
-- Discom-actor signing is intentionally off on the testnet (the discom does not yet register as a DeDi subscriber); production deployments will turn it on.
-- Field names and a couple of enum values in `EnergyTradeOffer` and `EnergyTradeDelivery` may move in a minor cleanup before GA.
-
----
-
 ## References
 
-- [DEG devkit — `p2p-trading-ies-wave2`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2) — code, examples, Arazzo workflows, Postman collections
+- [DEG devkit — `p2p-trading-ies-wave2`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2) — code, examples, Postman collections
 - [Inter-discom P2P Trading implementation guide](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/p2p_energy_exchange/%20Inter%20discom%20P2P%20trading.md)
 - [Full inter-discom specification](https://github.com/beckn/DEG/blob/main/docs/implementation-guides/v2/P2P_Trading/Inter_energy_retailer_P2P_trading.md)
 - [`degledgerrecorder` plugin](https://github.com/beckn/DEG/tree/main/plugins/degledgerrecorder) — the cascade engine

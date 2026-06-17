@@ -35,8 +35,7 @@ If you have already onboarded any Beckn flow on this network, reuse the same ide
 Goal: prove the four-actor topology and the Phase-3 cascade before integrating real systems.
 
 - [ ] `devkits/p2p-trading-ies-wave2/install/docker compose up -d` healthy
-- [ ] `uc1/workflows/run-arazzo.sh -w select-through-settlement -v` completes green
-- [ ] You can replay the run via the role-specific Postman collection
+- [ ] Role-specific Postman collection imported from `uc1/postman/`; `/select` → `/init` → `/confirm` → `/status` completes end-to-end
 
 ### 4. Schemas mapped
 
