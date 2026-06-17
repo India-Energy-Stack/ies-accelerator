@@ -42,10 +42,10 @@ Goal: prove the four-actor topology and the Phase-3 cascade before integrating r
 
 Map your application data to the DEG schema family. Don't invent — these schemas are stable.
 
-- [ ] [`P2PTrade`](https://github.com/beckn/DEG/tree/main/specification/schema/P2PTrade) and [`DEGContract`](https://github.com/beckn/DEG/tree/main/specification/schema/DEGContract) envelope mapped (the four roles, the policy URL)
-- [ ] [`EnergyTradeOffer`](https://github.com/beckn/DEG/tree/main/specification/schema/EnergyTradeOffer) populated for your catalogue (price, quantity, validity, source type)
-- [ ] [`BecknTimeSeries`](https://github.com/beckn/DEG/tree/main/specification/schema/BecknTimeSeries) descriptors declared for every `payloadType` you emit (`PRICE_PER_KWH` in INR, `AVAILABLE_QTY` / `REQUESTED_QTY` / `*_ALLOC` in kWh)
-- [ ] (LP only) [`DiscomLedgerProvider`](https://github.com/beckn/DEG/tree/main/specification/schema/DiscomLedgerProvider) entry registered (`utilityId`, `ledgerUrl`)
+- [ ] [`P2PTrade`](https://schema.beckn.io/P2PTrade/) and [`DEGContract`](https://schema.beckn.io/DEGContract/) envelope mapped (the four roles, the policy URL)
+- [ ] [`EnergyTradeOffer`](https://schema.beckn.io/EnergyTradeOffer/) populated for your catalogue (price, quantity, validity, source type)
+- [ ] [`BecknTimeSeries`](https://schema.beckn.io/BecknTimeSeries/) descriptors declared for every `payloadType` you emit (`PRICE_PER_KWH` in INR, `AVAILABLE_QTY` / `REQUESTED_QTY` / `*_ALLOC` in kWh)
+- [ ] (LP only) [`DiscomLedgerProvider`](https://schema.beckn.io/DiscomLedgerProvider/) entry registered (`utilityId`, `ledgerUrl`)
 
 ### 5. `degledgerrecorder` cascade configured
 
