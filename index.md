@@ -1627,51 +1627,51 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[README.md](use-cases/p2p-energy-trading/README.md)**
+* **[README.md](use-cases/energy-trading/README.md)**
   - *Summary*: WIP — inter-discom prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/p2p-energy-trading/README.md#p2p-energy-trading">P2P Energy Trading</a>    <ul>
-      <li><a href="use-cases/p2p-energy-trading/README.md#actors-and-roles">Actors and roles</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#block-diagram">Block diagram</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#building-blocks-used">Building blocks used</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#the-dataset-is-a-contract-p2ptrade">The dataset is a contract — `P2PTrade`</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#the-six-phases">The six phases</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#setup-steps">Setup steps</a>      <ul>
-        <li><a href="use-cases/p2p-energy-trading/README.md#1-stand-up-the-wave-2-devkit">1. Stand up the wave 2 devkit</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#2-drive-the-flow-via-postman">2. Drive the flow via Postman</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#3-swap-in-your-real-identity">3. Swap in your real identity</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#4-map-your-application-logic-to-the-four-roles">4. Map your application logic to the four roles</a>
+    <li><a href="use-cases/energy-trading/README.md#energy-trading">Energy Trading</a>    <ul>
+      <li><a href="use-cases/energy-trading/README.md#actors-and-roles">Actors and roles</a></li>
+      <li><a href="use-cases/energy-trading/README.md#block-diagram">Block diagram</a></li>
+      <li><a href="use-cases/energy-trading/README.md#building-blocks-used">Building blocks used</a></li>
+      <li><a href="use-cases/energy-trading/README.md#the-dataset-is-a-contract-p2ptrade">The dataset is a contract — `P2PTrade`</a></li>
+      <li><a href="use-cases/energy-trading/README.md#the-six-phases">The six phases</a></li>
+      <li><a href="use-cases/energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
+      <li><a href="use-cases/energy-trading/README.md#setup-steps">Setup steps</a>      <ul>
+        <li><a href="use-cases/energy-trading/README.md#1-stand-up-the-wave-2-devkit">1. Stand up the wave 2 devkit</a></li>
+        <li><a href="use-cases/energy-trading/README.md#2-drive-the-flow-via-postman">2. Drive the flow via Postman</a></li>
+        <li><a href="use-cases/energy-trading/README.md#3-swap-in-your-real-identity">3. Swap in your real identity</a></li>
+        <li><a href="use-cases/energy-trading/README.md#4-map-your-application-logic-to-the-four-roles">4. Map your application logic to the four roles</a>
       </li>
       </ul>
-      <li><a href="use-cases/p2p-energy-trading/README.md#policy-as-code-rego-opa">Policy-as-code (Rego / OPA)</a>      <ul>
-        <li><a href="use-cases/p2p-energy-trading/README.md#network-policy">Network policy</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#settlement-invoicing-policy">Settlement / invoicing policy</a>
+      <li><a href="use-cases/energy-trading/README.md#policy-as-code-rego-opa">Policy-as-code (Rego / OPA)</a>      <ul>
+        <li><a href="use-cases/energy-trading/README.md#network-policy">Network policy</a></li>
+        <li><a href="use-cases/energy-trading/README.md#settlement-invoicing-policy">Settlement / invoicing policy</a>
       </li>
       </ul>
-      <li><a href="use-cases/p2p-energy-trading/README.md#references">References</a>
+      <li><a href="use-cases/energy-trading/README.md#references">References</a>
     </li>
     </ul>
   </li>
   </ul>
   </details>
-* **[checklist.md](use-cases/p2p-energy-trading/checklist.md)**
-  - *Summary*: WIP — checklist for trading platforms, ledger providers, and discoms standing up P2P energy trading.
+* **[checklist.md](use-cases/energy-trading/checklist.md)**
+  - *Summary*: WIP — checklist for trading platforms, ledger providers, and discoms standing up energy trading.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/p2p-energy-trading/checklist.md#checklist-p2p-energy-trading">Checklist — P2P Energy Trading</a>    <ul>
+    <li><a href="use-cases/energy-trading/checklist.md#checklist-energy-trading">Checklist — Energy Trading</a>    <ul>
       <ul>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#1-network-identity-in-place-shared-with-data-exchange">1. Network identity in place (shared with Data Exchange)</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#2-devkit-running-end-to-end-on-your-machine">2. Devkit running end-to-end on your machine</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#3-schemas-mapped">3. Schemas mapped</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#4-degledgerrecorder-cascade-configured">4. `degledgerrecorder` cascade configured</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#5-policy-bundle-resolved">5. Policy bundle resolved</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#6-discom-lp-meter-data-sub-transaction-phase-5">6. DISCOM ↔ LP meter-data sub-transaction (Phase 5)</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#7-production-cut-over-shared-with-data-exchange">7. Production cut-over (shared with Data Exchange)</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#8-team-nominated">8. Team nominated</a>
+        <li><a href="use-cases/energy-trading/checklist.md#1-network-identity-in-place-shared-with-data-exchange">1. Network identity in place (shared with Data Exchange)</a></li>
+        <li><a href="use-cases/energy-trading/checklist.md#2-devkit-running-end-to-end-on-your-machine">2. Devkit running end-to-end on your machine</a></li>
+        <li><a href="use-cases/energy-trading/checklist.md#3-schemas-mapped">3. Schemas mapped</a></li>
+        <li><a href="use-cases/energy-trading/checklist.md#4-degledgerrecorder-cascade-configured">4. `degledgerrecorder` cascade configured</a></li>
+        <li><a href="use-cases/energy-trading/checklist.md#5-policy-bundle-resolved">5. Policy bundle resolved</a></li>
+        <li><a href="use-cases/energy-trading/checklist.md#6-discom-lp-meter-data-sub-transaction-phase-5">6. DISCOM ↔ LP meter-data sub-transaction (Phase 5)</a></li>
+        <li><a href="use-cases/energy-trading/checklist.md#7-production-cut-over-shared-with-data-exchange">7. Production cut-over (shared with Data Exchange)</a></li>
+        <li><a href="use-cases/energy-trading/checklist.md#8-team-nominated">8. Team nominated</a>
       </li>
       </ul>
     </li>

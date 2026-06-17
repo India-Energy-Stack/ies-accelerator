@@ -150,8 +150,8 @@ def main():
             ("use-cases/discom-regulatory-filing/checklist.md", "Checklist for regulatory cost mapping, adapter setup, and filing submissions."),
             ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
             ("use-cases/tariff-intelligence/checklist.md", "Checklist for policy authoring, signing, and billing integration testing."),
-            ("use-cases/p2p-energy-trading/README.md", "WIP — inter-discom prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi."),
-            ("use-cases/p2p-energy-trading/checklist.md", "WIP — checklist for trading platforms, ledger providers, and discoms standing up P2P energy trading.")
+            ("use-cases/energy-trading/README.md", "WIP — inter-discom prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi."),
+            ("use-cases/energy-trading/checklist.md", "WIP — checklist for trading platforms, ledger providers, and discoms standing up energy trading.")
         ],
         "pathways": [
             ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),
