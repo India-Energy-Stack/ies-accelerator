@@ -85,55 +85,47 @@ This is the inter-discom flow. Intra-discom (buyer and seller behind the same di
 sequenceDiagram
   autonumber
   participant B as Buyer
-  participant BTP as BuyerTP (BAP)
-  participant STP as SellerTP (BPP)
-  participant BDL as BuyerDiscomLedger
-  participant SDL as SellerDiscomLedger
+  participant BTP as BuyerTP
+  participant STP as SellerTP
+  participant BDL as BuyerLP
+  participant SDL as SellerLP
   participant S as Seller
 
-  rect rgb(230,245,255)
-  note over BTP,STP: Phase 1 — Discovery
-  BTP->>STP: /search → /on_search<br/>(catalog of offers)
-  end
+  Note over BTP,STP: Phase 1 - Discovery
+  BTP->>STP: search
+  STP->>BTP: on_search
 
-  rect rgb(255,250,230)
-  note over BTP,SDL: Phase 2 — Init (optional discom limit check)
-  BTP->>STP: /select → /on_select<br/>/init → /on_init
+  Note over BTP,SDL: Phase 2 - Select and init
+  BTP->>STP: select
+  STP->>BTP: on_select
+  BTP->>STP: init
+  STP->>BTP: on_init
   opt LP headroom pre-check
-    BTP-->>BDL: /init
-    STP-->>SDL: /init
-  end
-  end
-
-  rect rgb(230,255,230)
-  note over BDL,SDL: Phase 3 — Confirm (contract logged on both ledgers)
-  BTP->>STP: /confirm
-  STP-->>SDL: /confirm (Rule 1 — degledgerrecorder)
-  BTP-->>BDL: /confirm
-  STP->>BTP: /on_confirm
+    BTP->>BDL: init
+    STP->>SDL: init
   end
 
-  rect rgb(255,230,230)
-  note over B,S: Phase 4 — Delivery
-  S->>S: Inject
-  B->>B: Consume
-  end
+  Note over BDL,SDL: Phase 3 - Confirm
+  BTP->>STP: confirm
+  STP->>SDL: confirm (Rule 1)
+  BTP->>BDL: confirm
+  STP->>BTP: on_confirm
 
-  rect rgb(245,230,255)
-  note over BDL,SDL: Phase 5 — Allocation & reconciliation
-  BDL-->>BTP: /on_status (buyer-side allocation)
-  SDL-->>STP: /on_status (seller-side allocation)
-  STP->>BTP: /on_status (exchange allocations,<br/>compute FINAL_ALLOC = min(...))
-  BTP-->>BDL: settled qty<br/>(Rule 2b cascade)
-  STP-->>SDL: settled qty
-  end
+  Note over B,S: Phase 4 - Delivery
+  S->>S: inject
+  B->>B: consume
 
-  rect rgb(255,240,245)
-  note over B,S: Phase 6 — Billing & settlement
-  B->>S: Pay P2P trade (off-ledger, via TPs)
-  SDL->>S: Monthly bill (excl. P2P sold, incl. wheeling)
-  BDL->>B: Monthly bill (excl. P2P bought, incl. wheeling)
-  end
+  Note over BDL,SDL: Phase 5 - Allocation and reconciliation
+  BDL->>BTP: on_status (buyer-side allocation)
+  SDL->>STP: on_status (seller-side allocation)
+  STP->>BTP: on_status (exchange allocations, compute FINAL_ALLOC)
+  BTP->>BDL: settled qty (Rule 2b cascade)
+  STP->>SDL: settled qty
+
+  Note over B,S: Phase 6 - Billing and settlement
+  B->>S: pay P2P trade (off-ledger, via TPs)
+  SDL->>S: monthly bill (excl. P2P sold, incl. wheeling)
+  BDL->>B: monthly bill (excl. P2P bought, incl. wheeling)
 ```
 
 The cascade choreography in Phases 3 and 5 — `Rule 1` (seller-side ledger record on `/confirm`), `Rule 2a` (peer-TP forward), `Rule 2b` (own-discom cascade) — is implemented by the [`degledgerrecorder`](https://github.com/beckn/DEG/tree/main/plugins/degledgerrecorder) ONIX plugin. You configure it; you do not write it. Full design and the loop-free proof live in the [DEG devkit README](https://github.com/beckn/DEG/blob/main/devkits/p2p-trading-ies-wave2/README.md).
@@ -142,9 +134,9 @@ The allocation logic on each LP can be as simple as **pro-rata across the custom
 
 ---
 
-## How the ledger is talked to — Beckn, not REST
+## Ledger interfaces
 
-There is **no separate ledger HTTP API** to integrate against. Each LP exposes the same Beckn endpoints any BPP exposes:
+Each LP exposes the same Beckn endpoints any BPP exposes:
 
 - `/bpp/receiver` — accepts `/confirm` (contract entry) and `/status` (meter-data sub-transactions).
 - `/bap/receiver` — accepts `/on_confirm` and `/on_status` callbacks from the TPs.

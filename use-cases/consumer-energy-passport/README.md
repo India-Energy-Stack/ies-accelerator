@@ -62,9 +62,11 @@ Elevates the consumer's identity reference to first-class status. Always present
 
 ## Steps in detail
 
-### 1. Register as an issuer
+### 1. Publish your issuer identity
 
-You need a row in the IES DISCOMs Reference Registry pinning your `did:web` and current public key. If you do not yet have one, follow [Registry Creation](../../registries/registry-creation.md). If you already issue any electricity credential, you are done.
+**Minimum bar.** Host your DID document (`did.json`) at a URL you control — either on your own website (e.g. `https://ies.<discom-domain>/.well-known/did.json`) or on a DeDi runtime. Domain ownership is what proves you are the DISCOM; the document carries your current public key.
+
+**Recommended.** Cross-list your identity in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry). The Passport works without this row, but the entry is what unlocks DISCOM privileges on multi-discom networks — anything from cross-DISCOM portability lookups to network-policy allowlists. If you also publish other electricity credentials over the IES network, you almost certainly already have this row. [Registry Creation](../../registries/registry-creation.md) is the how-to.
 
 ### 2. Run OpenCred
 
@@ -112,10 +114,12 @@ Post-process the returned credential to inject the full `issuer` block (`id` + `
 
 ### 6. Deliver
 
-| Channel | When |
-|---|---|
-| **DigiLocker Pull URI** | The bulk of Indian customers. You publish a Pull URI; DigiLocker fetches the Passport when the consumer logs in. See [DigiLocker Integration](../../energy-credentials/digilocker-integration.md). |
-| **Direct DID push** | Consumers using non-DigiLocker wallets — you push to their DID service endpoint. |
+| Channel | When | Status |
+|---|---|---|
+| **DigiLocker Pull URI** | The bulk of Indian customers. You publish a Pull URI; DigiLocker fetches the Passport when the consumer logs in. See [DigiLocker Integration](../../energy-credentials/digilocker-integration.md). | Available |
+| **Direct DID push** | Consumers using non-DigiLocker wallets — you push to their DID service endpoint. | Available |
+| **Direct download from your website** | Consumer signs into your portal and downloads the Passport JSON / VC-JWT. Simplest path for self-serve consumers who do not have a wallet handy. | Available |
+| **In-app download** | The DISCOM's mobile or web app fetches and stores the Passport on behalf of the consumer. | To come — UX, signing-key custody, and re-issuance triggers still being worked out |
 
 ---
 

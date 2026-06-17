@@ -1423,9 +1423,7 @@ Practical deployment and mapping implementations for specific grid business proc
         <li><a href="use-cases/consumer-meter-digest/README.md#1-discom-side-prerequisites">1. DISCOM-side prerequisites</a></li>
         <li><a href="use-cases/consumer-meter-digest/README.md#2-wallet-side-prerequisites">2. Wallet-side prerequisites</a></li>
         <li><a href="use-cases/consumer-meter-digest/README.md#3-catalogue-the-consumer-pull-endpoint">3. Catalogue the consumer-pull endpoint</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#4-the-consumer-makes-a-request">4. The consumer makes a request</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#5-the-discom-responds">5. The DISCOM responds</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#6-the-consumer-presents-the-digest">6. The consumer presents the Digest</a>
+        <li><a href="use-cases/consumer-meter-digest/README.md#4-the-consumer-presents-the-digest">4. The consumer presents the Digest</a>
       </li>
       </ul>
       <li><a href="use-cases/consumer-meter-digest/README.md#why-a-credential-not-just-an-api-pull">Why a Credential, Not Just an API Pull</a></li>
@@ -1472,7 +1470,7 @@ Practical deployment and mapping implementations for specific grid business proc
       </li>
       </ul>
       <li><a href="use-cases/consumer-energy-passport/README.md#steps-in-detail">Steps in detail</a>      <ul>
-        <li><a href="use-cases/consumer-energy-passport/README.md#1-register-as-an-issuer">1. Register as an issuer</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#1-publish-your-issuer-identity">1. Publish your issuer identity</a></li>
         <li><a href="use-cases/consumer-energy-passport/README.md#2-run-opencred">2. Run OpenCred</a></li>
         <li><a href="use-cases/consumer-energy-passport/README.md#3-map-your-existing-systems-to-the-passport-shape">3. Map your existing systems to the Passport shape</a></li>
         <li><a href="use-cases/consumer-energy-passport/README.md#4-decide-your-identity-binding-method">4. Decide your identity-binding method</a></li>
@@ -1640,13 +1638,12 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/p2p-energy-trading/README.md#building-blocks-used">Building blocks used</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#the-dataset-is-a-contract-p2ptrade">The dataset is a contract — `P2PTrade`</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#the-six-phases">The six phases</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#how-the-ledger-is-talked-to-beckn-not-rest">How the ledger is talked to — Beckn, not REST</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#setup-steps">Setup steps</a>      <ul>
         <li><a href="use-cases/p2p-energy-trading/README.md#1-stand-up-the-wave-2-devkit">1. Stand up the wave 2 devkit</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#2-run-the-end-to-end-arazzo-workflow">2. Run the end-to-end Arazzo workflow</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#3-inspect-a-real-exchange-via-postman">3. Inspect a real exchange via Postman</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#4-swap-in-your-real-identity">4. Swap in your real identity</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#5-map-your-application-logic-to-the-four-roles">5. Map your application logic to the four roles</a>
+        <li><a href="use-cases/p2p-energy-trading/README.md#2-drive-the-flow-via-postman">2. Drive the flow via Postman</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#3-swap-in-your-real-identity">3. Swap in your real identity</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#4-map-your-application-logic-to-the-four-roles">4. Map your application logic to the four roles</a>
       </li>
       </ul>
       <li><a href="use-cases/p2p-energy-trading/README.md#policy-as-code-rego-opa">Policy-as-code (Rego / OPA)</a>      <ul>
@@ -1654,7 +1651,6 @@ Practical deployment and mapping implementations for specific grid business proc
         <li><a href="use-cases/p2p-energy-trading/README.md#settlement-invoicing-policy">Settlement / invoicing policy</a>
       </li>
       </ul>
-      <li><a href="use-cases/p2p-energy-trading/README.md#known-wip">Known WIP</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#references">References</a>
     </li>
     </ul>
@@ -1668,16 +1664,14 @@ Practical deployment and mapping implementations for specific grid business proc
   <ul>
     <li><a href="use-cases/p2p-energy-trading/checklist.md#checklist-p2p-energy-trading">Checklist — P2P Energy Trading</a>    <ul>
       <ul>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#1-scope-agreed">1. Scope agreed</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#2-network-identity-in-place-shared-with-data-exchange">2. Network identity in place (shared with Data Exchange)</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#3-devkit-running-end-to-end-on-your-machine">3. Devkit running end-to-end on your machine</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#4-schemas-mapped">4. Schemas mapped</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#5-degledgerrecorder-cascade-configured">5. `degledgerrecorder` cascade configured</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#6-policy-bundle-resolved">6. Policy bundle resolved</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#7-allocation-logic">7. Allocation logic</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#8-meter-data-sub-transaction">8. Meter-data sub-transaction</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#9-production-cut-over-shared-with-data-exchange">9. Production cut-over (shared with Data Exchange)</a></li>
-        <li><a href="use-cases/p2p-energy-trading/checklist.md#10-team-nominated">10. Team nominated</a>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#1-network-identity-in-place-shared-with-data-exchange">1. Network identity in place (shared with Data Exchange)</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#2-devkit-running-end-to-end-on-your-machine">2. Devkit running end-to-end on your machine</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#3-schemas-mapped">3. Schemas mapped</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#4-degledgerrecorder-cascade-configured">4. `degledgerrecorder` cascade configured</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#5-policy-bundle-resolved">5. Policy bundle resolved</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#6-discom-lp-meter-data-sub-transaction-phase-5">6. DISCOM ↔ LP meter-data sub-transaction (Phase 5)</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#7-production-cut-over-shared-with-data-exchange">7. Production cut-over (shared with Data Exchange)</a></li>
+        <li><a href="use-cases/p2p-energy-trading/checklist.md#8-team-nominated">8. Team nominated</a>
       </li>
       </ul>
     </li>
