@@ -20,6 +20,23 @@ Three credentials cover almost everything IES does:
 | **[MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md)** | A signed meter-reading payload (raw `MeterData` profiles or derived summaries) for a specified period | AMISP, MDM, or DISCOM | DISCOM (B2B telemetry) or the consumer (their own readings) |
 | **[MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md)** | A signed request for meter data — proves the requester has the right to ask | Seeker (typically a DISCOM) | Provider (typically an AMISP) at Beckn `confirm` time |
 
+### Lifecycle at a glance
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant DISCOM as DISCOM (Issuer)
+    participant Holder as Consumer / Authorized Holder
+    participant Verifier as Verifier / Recipient
+    Note over DISCOM: Build the credential from CIS/NMS data and sign with OpenCred's private key
+    DISCOM->>Holder: Issue (DigiLocker Pull URI / direct DID push)
+    Note over Holder: Hold in DigiLocker or a DID-controlled wallet
+    Holder->>Verifier: Present (push / share / scan QR)
+    Note over Verifier: Verify signature against DISCOM's published public key
+    Verifier->>DISCOM: (optional) revocation check via DeDi
+    Verifier-->>Holder: Service granted / KYC complete
+```
+
 ## Pick your role
 
 | If you are… | Read | Then |
