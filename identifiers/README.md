@@ -586,7 +586,7 @@ If your team ever finds itself trying to "parse" a DID to make a business decisi
 
 Your DISCOM's `did:web` proves who issued a credential. It does **not** by itself put you on a Beckn network. To send and receive Beckn messages (search, select, init, confirm, on_status…), other nodes need to discover your callback URL and your signing key, and they do that through a **subscriber registry** published on the Beckn fabric.
 
-The canonical source of truth for this flow is the NFH docs: [Onboarding Network Participants](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants). The steps below are the practical summary aligned to IES.
+Upstream documentation for this flow lives at the NFH docs: [Onboarding Network Participants](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants). The steps below are the practical summary aligned to IES.
 
 ### Model in one paragraph
 

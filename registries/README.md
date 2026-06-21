@@ -2,7 +2,7 @@
 
 This page is the single home for everything IES has to say about registries. Read the first three sections and you will know **why your organisation should claim a DeDi namespace, how to do it, and which registries you actually need**. The appendices cover deeper DeDi mechanics, a worked verification workflow, and troubleshooting.
 
-> **Source of truth for DeDi.** The canonical platform docs are the NFH Fabric ones — [DeDi developer documentation](https://docs.nfh.global/dedi/dedi.global-developers/developer-documentation) and [Setting up a Beckn network](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment). This page focuses on the **IES-specific** wiring on top of DeDi: which registries exist under the `india-energy-stack` namespace today, which ones [OpenCred](https://opencred.gitbook.io/docs) auto-creates for you, and how to get listed in the curated IES allow-lists.
+> Upstream documentation for DeDi (the open protocol) lives at [DeDi developer documentation](https://docs.nfh.global/dedi/dedi.global-developers/developer-documentation) and [Setting up a Beckn network](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment). This page focuses on the **IES-specific** wiring on top of DeDi: which registries exist under the `india-energy-stack` namespace today, which ones [OpenCred](https://opencred.gitbook.io/docs) auto-creates for you, and how to get listed in the curated IES allow-lists.
 
 ---
 
