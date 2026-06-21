@@ -58,7 +58,7 @@ A federated, policy-governed mechanism for discovering and exchanging structured
   → Go to [Registries → Onboarding Checklist](./registries/README.md#end-to-end-onboarding-checklist).
 
 - **Issuing or verifying credentials about energy consumers or assets?**
-  → Go to [Energy Credentials → Onboarding Guide](./energy-credentials/onboarding.md). You will also need the revocation + public-keys registries from the [Registries](./registries/README.md) chapter.
+  → Go to [Energy Credentials → Onboarding Guide](./energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](./registries/README.md) chapter.
 
 - **Exchanging structured energy datasets (telemetry, filings, tariffs)?**
   → Go to [Data Exchange → Quick Start](./data-exchange/quick-start.md). You will also need a Beckn subscriber registry from the [Registries](./registries/README.md) chapter.

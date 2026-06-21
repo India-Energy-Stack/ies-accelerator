@@ -1,87 +1,50 @@
-# Checklist — Consumer Meter Digest
+# Consumer Meter Digest — Use-case Checklist
 
-*A plain-English, conceptual checklist for a DISCOM enabling the [Consumer Meter Digest use case](./README.md) — the consumer-pull flow where a consumer requests their own meter readings as a signed credential they can hand to any third party. Use it to brief leadership and align IT, MDMS, and consumer-experience teams.*
-
----
-
-**DISCOM:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-**Point of Contact:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &nbsp;&nbsp; **Email:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+*The Digest is a holder-bound [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md) issued on consumer demand. Run the base credential-issuance checklist first; this page captures the use-case-specific items on top.*
 
 ---
 
-### 1. Confirm the foundational pieces are in place
+## Step 0 — Base credential issuance is in place
 
-The Consumer Meter Digest sits on top of three things you already have or are setting up: a credential issuer (OpenCred), a data-exchange adapter, and a connection to your MDMS. Confirm each is ready before scoping this use case.
+Complete [Energy Credentials — Onboarding Checklist](../../checklists/energy-credentials-checklist.md) Phases 1–2 (foundations, issue / verify / revoke).
 
-- [ ] DISCOM's `did:web` issuer identity published and regulator's licensing pointer obtained (for credentials). For the inter-DISCOM data exchange network, the DISCOM should also be in the IES DISCOMs reference registry — see [Identifiers and Addressing → Appendix E](../../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
-- [ ] OpenCred issuer service running (used for `CustomerCredential` already)
-- [ ] Data-exchange adapter (BPP) live or sandboxed
-- [ ] MDMS read access available to the BPP
+## Step 1 — MDM read path
 
-### 2. Decide what consumers can request
+- [ ] Read access to your MDM tested for the granularities you intend to support (`RAW_15M`, `DAILY`, `MONTHLY`, derived summaries)
+- [ ] Maximum-range policy decided (e.g. 24 months for `MONTHLY`, 90 days for `RAW_15M`)
+- [ ] Latency budget understood — most consumer use cases need a Digest in seconds, not minutes
 
-Pick the granularities you will offer in Phase 1 — typically a 12-month **monthly summary** is the simplest starting point. Decide the maximum periods (e.g. 90 days for raw 15-minute readings, 24 months for monthly).
+## Step 2 — Consumer-pull endpoint catalogued
 
-- [ ] Granularity options decided (raw / daily / monthly / summary types)
-- [ ] Maximum period per granularity decided
-- [ ] Refusal cases documented (suspended account, fraud hold, etc.)
+- [ ] A Beckn `DatasetItem` describing the consumer-pull endpoint published on your BPP (`accessMethod: INLINE`, the Digest delivered inline)
+- [ ] `requiredCredential` set so only consumers holding a valid [Consumer Energy Passport](../consumer-energy-passport/README.md) (or a minimal customer credential) can call it
+- [ ] `granularityOptions` and `maxRange` populated to match Step 1's policy
 
-### 3. Define how the consumer authorises the request
+## Step 3 — Issuance shape
 
-A consumer's request must be authenticated. Choose what proof of identity / right-to-the-meter the consumer presents — typically the [Consumer Energy Passport](../consumer-energy-passport/README.md) or a basic `CustomerCredential` issued by you.
+- [ ] Integration service sets `credentialSubject.id` to the consumer's wallet DID
+- [ ] `schemaId` is `MeterDataCredential/v0.6`
+- [ ] `validUntil` set short — 24h for loan portals, up to 7d for less time-sensitive flows
+- [ ] Schema validation passes against [`MeterDataCredential/v0.6`](../../schemas/MeterDataCredential/v0.6/README.md)
 
-- [ ] Required-credential type decided
-- [ ] Wallet (DigiLocker or DID-enabled app) recommended to consumers
+## Step 4 — Wallet delivery wired
 
-### 4. Publish the consumer-pull catalogue entry
+- [ ] DigiLocker pull tested end-to-end → [DigiLocker delivery](../../energy-credentials/digilocker.md)
+- [ ] At least one direct DID-push path tested for non-DigiLocker wallets
+- [ ] Consumer sees the Digest in their wallet within the latency budget from Step 1
 
-Publish a catalogue entry the consumer's wallet can target with `confirm`, declaring the supported granularities, the maximum period, and the required credential.
+## Step 5 — Verifier interop
 
-- [ ] Catalogue entry published
-- [ ] Per-request rate limits / fair-use policy documented
+- [ ] Verification flow rehearsed with at least one verifier (bank / marketplace / housing society / EV-charger installer)
+- [ ] If you support derived `summary` outputs, the schema and human-readable description shared with verifiers up front
+- [ ] Revocation flow tested — even though Digests typically expire faster than they would need revocation
 
-### 5. Wire up Digest minting
+## Team
 
-When a request arrives, the BPP queries MDMS for the requested period and asks OpenCred to mint a short-lived `ConsumerMeterDigest` credential. Decide the validity window for the issued Digest (typically 1 to 7 days).
-
-- [ ] BPP → MDMS query path tested
-- [ ] OpenCred issues the Digest with correct subject DID, period, and granularity
-- [ ] `validUntil` policy decided (e.g. 7 days for monthly summary)
-- [ ] Data quality block populated correctly (coverage %, estimated %)
-
-### 6. Test the end-to-end flow
-
-Run the full loop: a wallet sends `confirm`, the BPP issues the Digest, the wallet receives it, and a sample verifier validates the signature against your registry entry.
-
-- [ ] End-to-end test from wallet to Digest delivery succeeds
-- [ ] Sample verifier validates issuer signature and DeDi revocation status
-- [ ] Refusal paths tested (no credential, expired credential, out-of-scope meter, period exceeds max)
-
-### 7. Production deployment
-
-Deploy with the basics any production service needs — HTTPS, secrets management for signing keys, monitoring, on-call.
-
-- [ ] HTTPS endpoint live; signing keys in a secrets manager
-- [ ] Monitoring of issuance volume, error rates, and average latency
-- [ ] Operations runbook in place (key rotation, MDMS outage, surge handling)
-
-### 8. Consumer communication and rollout
-
-Most of the consumer's experience happens in their wallet, but they need to know the Digest exists and what it's for. Plan rollout messaging and a help path.
-
-- [ ] Consumer-facing explainer published (website / app / bill insert)
-- [ ] Customer-care team trained on common questions
-- [ ] Phased rollout plan agreed (pilot consumer cohort → full rollout)
-
-### 9. Nominate your team
-
-Identify three roles: an **IT point of contact** for the technical build, a **Commercial / consumer-experience point of contact** for the rollout, and an **Authorised Signatory** who approves the Digest issuance policy.
-
-- [ ] IT SPOC nominated (name, email, phone)
-- [ ] Commercial SPOC nominated (name, email, phone)
-- [ ] Authorised Signatory nominated (name, email, phone)
+- [ ] **IT SPOC** — owns MDM read path and BPP catalogue entry
+- [ ] **Customer ops SPOC** — owns wallet support and consumer experience
+- [ ] **Governance / Compliance SPOC** — owns the data-disclosure policy (what the consumer can pull, with what granularity, and how often)
 
 ---
 
-*Once these nine items are in place, consumers can pull their own meter data on demand as a signed, wallet-shareable credential. See the [Consumer Meter Digest use case](./README.md) for the detailed setup and the [credential schema](../../energy-credentials/README.md) for the data shape.*
+*Once these steps are complete, consumers can pull a signed, verifier-friendly snapshot of their own meter data into their wallet on demand — and any third party can verify it offline against your published key.*

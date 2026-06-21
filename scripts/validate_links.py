@@ -34,9 +34,12 @@ def slugify(heading: str) -> str:
     - Trims leading/trailing dashes.
     """
     text = heading.lower()
-    text = re.sub(r"[`*_]", "", text)
-    text = text.replace("—", "").replace("–", "")
-    text = re.sub(r"[.,!?;:/\\\"'()\[\]{}<>|=]", "", text)
+    text = re.sub(r"[`*]", "", text)  # Strip backticks and bold/italic markers; keep underscores (GitBook preserves them in slugs).
+    # Drop em-dash, en-dash, and arrows — their surrounding spaces become
+    # adjacent dashes once whitespace is mapped 1-for-1.
+    for ch in ("—", "–", "→", "←", "↔", "⇒", "⇐"):
+        text = text.replace(ch, "")
+    text = re.sub(r"[.,!?;:/\\\"'()\[\]{}<>|=+&]", "", text)
     text = re.sub(r"\s", "-", text)
     return text.strip("-")
 

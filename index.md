@@ -71,6 +71,7 @@ These documents provide a general introduction, terminology definitions, and lay
         <li><a href="glossary.md#bap">BAP</a></li>
         <li><a href="glossary.md#bpp">BPP</a></li>
         <li><a href="glossary.md#onix">ONIX</a></li>
+        <li><a href="glossary.md#nfo">NFO</a></li>
         <li><a href="glossary.md#deg">DEG</a></li>
         <li><a href="glossary.md#ddm">DDM</a></li>
         <li><a href="glossary.md#era">ERA</a>
@@ -136,86 +137,79 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
 
 ### ⚙️ Setup & Configuration
 * **[README.md](identifiers/README.md)**
-  - *Summary*: Introduction to the IES addressing layer, design principles, and role-based onboarding paths.
+  - *Summary*: Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="identifiers/README.md#ies-identifiers-and-addressing">IES Identifiers and Addressing</a>    <ul>
-      <li><a href="identifiers/README.md#what-you-can-do-with-this-section">What you can do with this section</a></li>
-      <li><a href="identifiers/README.md#reading-order">Reading order</a></li>
-      <li><a href="identifiers/README.md#design-principles">Design principles</a></li>
-      <li><a href="identifiers/README.md#quick-orientation-by-role">Quick orientation by role</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[concepts.md](identifiers/concepts.md)**
-  - *Summary*: Cryptographic theory behind DIDs (did:web, did:key, did:dedi) and identifier vs. record separation.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="identifiers/concepts.md#identifier-concepts">Identifier Concepts</a>    <ul>
-      <li><a href="identifiers/concepts.md#what-is-a-did">What is a DID?</a>      <ul>
-        <li><a href="identifiers/concepts.md#identifiers-as-names-and-resolution-details">Identifiers as Names and Resolution Details</a>
+    <li><a href="identifiers/README.md#identifiers-and-addressing">Identifiers and Addressing</a>    <ul>
+      <li><a href="identifiers/README.md#why-this-matters">Why this matters</a>      <ul>
+        <li><a href="identifiers/README.md#pick-your-role">Pick your role</a>
       </li>
       </ul>
-      <li><a href="identifiers/concepts.md#what-a-did-document-contains">What a DID Document contains</a></li>
-      <li><a href="identifiers/concepts.md#did-methods-used-in-ies">DID methods used in IES</a>      <ul>
-        <li><a href="identifiers/concepts.md#didweb">`did:web`</a></li>
-        <li><a href="identifiers/concepts.md#didkey">`did:key`</a></li>
-        <li><a href="identifiers/concepts.md#didjwk">`did:jwk`</a></li>
-        <li><a href="identifiers/concepts.md#diddedi-dedi-anchored">`did:dedi` (DeDi-anchored)</a>
+      <li><a href="identifiers/README.md#two-identities-youll-set-up-and-why">Two identities you'll set up (and why)</a>      <ul>
+        <li><a href="identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads">(a) Org identity — for credentials and data-exchange payloads</a></li>
+        <li><a href="identifiers/README.md#b-beckn-network-identity-for-participating-on-a-beckn-network">(b) Beckn network identity — for participating on a Beckn network</a>
       </li>
       </ul>
-      <li><a href="identifiers/concepts.md#when-to-use-which-method">When to use which method</a></li>
-      <li><a href="identifiers/concepts.md#identifier-vs-record">Identifier vs. record</a></li>
-      <li><a href="identifiers/concepts.md#where-each-id-lives">Where each ID lives</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[id-patterns.md](identifiers/id-patterns.md)**
-  - *Summary*: Grammar conventions and syntax rules for minting identifiers for DISCOMs, consumers, regulators, and assets.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="identifiers/id-patterns.md#id-patterns">ID Patterns</a>    <ul>
-      <li><a href="identifiers/id-patterns.md#conventions-used-in-this-section">Conventions used in this section</a></li>
-      <li><a href="identifiers/id-patterns.md#1-discom-issuer">1. DISCOM (Issuer)</a>      <ul>
-        <li><a href="identifiers/id-patterns.md#identifier">Identifier</a></li>
-        <li><a href="identifiers/id-patterns.md#example-tpddl">Example — TPDDL</a></li>
-        <li><a href="identifiers/id-patterns.md#how-it-relates-to-your-internal-world">How it relates to your internal world</a></li>
-        <li><a href="identifiers/id-patterns.md#where-it-goes">Where it goes</a>
+      <li><a href="identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally">Step-by-step: publish your `did:web` (and run OpenCred locally)</a>      <ul>
+        <li><a href="identifiers/README.md#what-youll-need">What you'll need</a></li>
+        <li><a href="identifiers/README.md#1-pull-the-opencred-image">1. Pull the OpenCred image</a></li>
+        <li><a href="identifiers/README.md#2-generate-a-signing-key-and-api-token">2. Generate a signing key and API token</a></li>
+        <li><a href="identifiers/README.md#3-run-opencred-in-didweb-mode">3. Run OpenCred in `did:web` mode</a></li>
+        <li><a href="identifiers/README.md#4-assemble-your-didjson-from-the-container">4. Assemble your `did.json` from the container</a></li>
+        <li><a href="identifiers/README.md#5-publish-the-file">5. Publish the file</a></li>
+        <li><a href="identifiers/README.md#6-verify-it-from-the-outside">6. Verify it from the outside</a>
       </li>
       </ul>
-      <li><a href="identifiers/id-patterns.md#2-regulator">2. Regulator</a>      <ul>
-        <li><a href="identifiers/id-patterns.md#identifier">Identifier</a></li>
-        <li><a href="identifiers/id-patterns.md#example-delhi-electricity-regulatory-commission">Example — Delhi Electricity Regulatory Commission</a>
+      <li><a href="identifiers/README.md#id-patterns-youll-use-day-one">ID patterns you'll use day one</a></li>
+      <li><a href="identifiers/README.md#where-each-id-goes-in-a-credential">Where each ID goes in a credential</a></li>
+      <li><a href="identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses">Appendix A — How DIDs work, and the three methods IES uses</a>      <ul>
+        <li><a href="identifiers/README.md#whats-in-a-did-document">What's in a DID document</a></li>
+        <li><a href="identifiers/README.md#the-three-did-methods-ies-uses">The three DID methods IES uses</a>        <ul>
+          <li><a href="identifiers/README.md#didweb-the-one-your-discom-will-use">`did:web` — the one your DISCOM will use</a></li>
+          <li><a href="identifiers/README.md#didkey-what-wallets-give-consumers">`did:key` — what wallets give consumers</a></li>
+          <li><a href="identifiers/README.md#didjwk-same-shape-as-didkey-jwk-encoded">`did:jwk` — same shape as `did:key`, JWK-encoded</a>
+        </li>
+        </ul>
+        <li><a href="identifiers/README.md#quick-reference">Quick reference</a>
       </li>
       </ul>
-      <li><a href="identifiers/id-patterns.md#3-consumer">3. Consumer</a>      <ul>
-        <li><a href="identifiers/id-patterns.md#two-distinct-identifiers-for-the-same-human">Two distinct identifiers for the same human</a></li>
-        <li><a href="identifiers/id-patterns.md#consumer-reference-id-the-grammar">Consumer reference ID — the grammar</a></li>
-        <li><a href="identifiers/id-patterns.md#example-tpddl-consumer">Example — TPDDL consumer</a></li>
-        <li><a href="identifiers/id-patterns.md#holder-did-generated-by-the-wallet">Holder DID — generated by the wallet</a></li>
-        <li><a href="identifiers/id-patterns.md#linking-them">Linking them</a></li>
-        <li><a href="identifiers/id-patterns.md#why-this-preserves-discom-autonomy">Why this preserves DISCOM autonomy</a>
+      <li><a href="identifiers/README.md#appendix-b-issuing-credentials-moved">Appendix B — Issuing credentials (moved)</a></li>
+      <li><a href="identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets">Appendix C — Identifying assets, meters, connections, datasets</a>      <ul>
+        <li><a href="identifiers/README.md#conventions">Conventions</a></li>
+        <li><a href="identifiers/README.md#meter">Meter</a></li>
+        <li><a href="identifiers/README.md#other-assets-transformer-feeder-substation-solar-bess-ev-charger">Other assets — transformer, feeder, substation, solar, BESS, EV charger</a></li>
+        <li><a href="identifiers/README.md#service-connection">Service connection</a></li>
+        <li><a href="identifiers/README.md#dataset-beckn-datasetitem">Dataset (Beckn `DatasetItem`)</a></li>
+        <li><a href="identifiers/README.md#summary">Summary</a>
       </li>
       </ul>
-      <li><a href="identifiers/id-patterns.md#4-asset-transformer-feeder-substation-solar-plant">4. Asset (Transformer, Feeder, Substation, Solar Plant)</a>      <ul>
-        <li><a href="identifiers/id-patterns.md#identifier">Identifier</a></li>
-        <li><a href="identifiers/id-patterns.md#example-a-tpddl-distribution-transformer">Example — a TPDDL distribution transformer</a></li>
-        <li><a href="identifiers/id-patterns.md#example-a-220kv-substation">Example — a 220kV substation</a></li>
-        <li><a href="identifiers/id-patterns.md#the-asset-record">The asset record</a></li>
-        <li><a href="identifiers/id-patterns.md#meters-as-a-special-case">Meters as a special case</a>
+      <li><a href="identifiers/README.md#appendix-d-identifier-vs-record">Appendix D — Identifier vs. record</a>      <ul>
+        <li><a href="identifiers/README.md#asset-did-resolution-patterns-pragmatic-programmatic-per-asset">Asset-DID resolution patterns (pragmatic / programmatic / per-asset)</a>
       </li>
       </ul>
-      <li><a href="identifiers/id-patterns.md#5-service-connection">5. Service Connection</a></li>
-      <li><a href="identifiers/id-patterns.md#6-credential-identifiers-and-revocation-handles">6. Credential identifiers and revocation handles</a></li>
-      <li><a href="identifiers/id-patterns.md#7-dataset-beckn-datasetitem">7. Dataset (Beckn `DatasetItem`)</a></li>
-      <li><a href="identifiers/id-patterns.md#summary-table">Summary table</a>
+      <li><a href="identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric">Appendix E — Joining a Beckn network (subscriber registry on the Beckn fabric)</a>      <ul>
+        <li><a href="identifiers/README.md#step-1-set-up-a-dedi-account-and-verify-your-namespace">Step 1 — Set up a DeDi account and verify your namespace</a></li>
+        <li><a href="identifiers/README.md#step-2-generate-your-beckn-signing-keypair">Step 2 — Generate your Beckn signing keypair</a></li>
+        <li><a href="identifiers/README.md#step-3-create-a-beckn-subscriber-registry-under-your-namespace">Step 3 — Create a Beckn subscriber registry under your namespace</a></li>
+        <li><a href="identifiers/README.md#step-4-publish-your-subscriber-record">Step 4 — Publish your subscriber record</a></li>
+        <li><a href="identifiers/README.md#step-5-verify-your-key-lookup">Step 5 — Verify your key lookup</a></li>
+        <li><a href="identifiers/README.md#step-6-get-added-to-the-nfos-network-registry">Step 6 — Get added to the NFO's network registry</a></li>
+        <li><a href="identifiers/README.md#how-other-beckn-nodes-consume-your-identity">How other Beckn nodes consume your identity</a></li>
+        <li><a href="identifiers/README.md#step-7-configure-your-onix-to-accept-the-right-networks-allowednetworkids">Step 7 — Configure your ONIX to accept the right networks (`allowedNetworkIDs`)</a></li>
+        <li><a href="identifiers/README.md#why-the-two-identity-model">Why the two-identity model</a>
+      </li>
+      </ul>
+      <li><a href="identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity">Appendix F — Binding the credential to a holder identity</a>      <ul>
+        <li><a href="identifiers/README.md#before-you-bind-anything-identity-proofing-at-issuance">Before you bind anything: identity-proofing at issuance</a></li>
+        <li><a href="identifiers/README.md#pattern-1-wallet-did-cryptographic-recommended-where-a-wallet-exists">Pattern 1 — Wallet DID (cryptographic, recommended where a wallet exists)</a></li>
+        <li><a href="identifiers/README.md#pattern-2-phone-number-uri-out-of-band-when-there-is-no-wallet">Pattern 2 — Phone-number URI (out-of-band, when there is no wallet)</a></li>
+        <li><a href="identifiers/README.md#pattern-3-digilocker-mediated-indian-context-shortcut">Pattern 3 — DigiLocker-mediated (Indian-context shortcut)</a></li>
+        <li><a href="identifiers/README.md#where-does-the-contact-identifier-live-in-the-schema">Where does the contact identifier live in the schema?</a></li>
+        <li><a href="identifiers/README.md#picking-a-pattern">Picking a pattern</a></li>
+        <li><a href="identifiers/README.md#quick-consistency-checklist-for-adopters">Quick consistency checklist for adopters</a>
+      </li>
+      </ul>
     </li>
     </ul>
   </li>
@@ -223,27 +217,6 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
   </details>
 
 ### 🔌 Use & Operations
-* **[issuance-reference.md](identifiers/issuance-reference.md)**
-  - *Summary*: Worked reference implementation (Python/OpenSSL) for key generation, did.json creation, and credential issuance.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="identifiers/issuance-reference.md#issuance-reference-implementation">Issuance Reference Implementation</a>    <ul>
-      <li><a href="identifiers/issuance-reference.md#prerequisites">Prerequisites</a></li>
-      <li><a href="identifiers/issuance-reference.md#step-1-mint-the-issuer-did-didweb">Step 1 — Mint the issuer DID (`did:web`)</a></li>
-      <li><a href="identifiers/issuance-reference.md#step-2-register-the-discom-in-the-ies-reference-registry">Step 2 — Register the DISCOM in the IES Reference Registry</a></li>
-      <li><a href="identifiers/issuance-reference.md#step-3-stand-up-your-per-discom-revocation-registry">Step 3 — Stand up your per-DISCOM revocation registry</a></li>
-      <li><a href="identifiers/issuance-reference.md#step-4-mint-and-register-a-consumer-reference-id">Step 4 — Mint and register a consumer reference ID</a></li>
-      <li><a href="identifiers/issuance-reference.md#step-5-mint-and-register-an-asset">Step 5 — Mint and register an asset</a></li>
-      <li><a href="identifiers/issuance-reference.md#step-6-issue-a-credential-that-references-everything">Step 6 — Issue a credential that references everything</a></li>
-      <li><a href="identifiers/issuance-reference.md#step-7-revoke">Step 7 — Revoke</a></li>
-      <li><a href="identifiers/issuance-reference.md#end-to-end-test">End-to-end test</a></li>
-      <li><a href="identifiers/issuance-reference.md#what-you-have-at-the-end">What you have at the end</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 * **[identifiers-basic-checklist.md](checklists/identifiers-basic-checklist.md)**
   - *Summary*: Self-audit checklist to verify domain ownership, key formats, and DID structures.
   <details>
@@ -255,7 +228,9 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
         <li><a href="checklists/identifiers-basic-checklist.md#2-set-up-your-digital-identity">2. Set up your digital identity</a></li>
         <li><a href="checklists/identifiers-basic-checklist.md#3-agree-on-how-you-will-identify-consumers-and-assets">3. Agree on how you will identify consumers and assets</a></li>
         <li><a href="checklists/identifiers-basic-checklist.md#4-decide-what-stays-private-and-what-becomes-public">4. Decide what stays private and what becomes public</a></li>
-        <li><a href="checklists/identifiers-basic-checklist.md#5-nominate-your-team">5. Nominate your team</a>
+        <li><a href="checklists/identifiers-basic-checklist.md#5-beckn-only-register-with-the-ies-network-operators-discom-reference">5. (Beckn only) Register with the IES network operator's DISCOM reference</a></li>
+        <li><a href="checklists/identifiers-basic-checklist.md#6-join-the-beckn-network-subscriber-registry-on-the-fabric">6. Join the Beckn network (subscriber registry on the fabric)</a></li>
+        <li><a href="checklists/identifiers-basic-checklist.md#7-nominate-your-team">7. Nominate your team</a>
       </li>
       </ul>
     </li>
@@ -276,165 +251,42 @@ This block describes the directories that store and resolve identifiers to parti
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="registries/README.md#ies-registries-and-directories">IES Registries and Directories</a>    <ul>
-      <li><a href="registries/README.md#reading-order">Reading order</a></li>
-      <li><a href="registries/README.md#quick-orientation-by-role">Quick orientation by role</a></li>
-      <li><a href="registries/README.md#how-this-section-relates-to-others">How this section relates to others</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[dedi-primer.md](registries/dedi-primer.md)**
-  - *Summary*: Conceptual primer on Decentralized Directories, namespace control, and trust pillars.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="registries/dedi-primer.md#dedi-primer">DeDi Primer</a>    <ul>
-      <li><a href="registries/dedi-primer.md#what-dedi-is">What DeDi is</a></li>
-      <li><a href="registries/dedi-primer.md#the-three-coordinate-model">The three-coordinate model</a></li>
-      <li><a href="registries/dedi-primer.md#identifiers-and-proofs">Identifiers and proofs</a></li>
-      <li><a href="registries/dedi-primer.md#the-three-trust-pillars">The three trust pillars</a></li>
-      <li><a href="registries/dedi-primer.md#deployment-options">Deployment options</a>      <ul>
-        <li><a href="registries/dedi-primer.md#option-a-dediglobal-hosted-embedded-in-your-site">Option A — DeDi.global hosted, embedded in your site</a></li>
-        <li><a href="registries/dedi-primer.md#option-b-dediglobal-hosted-only">Option B — DeDi.global hosted only</a></li>
-        <li><a href="registries/dedi-primer.md#option-c-self-hosted-ddp-node">Option C — Self-hosted DDP node</a>
+    <li><a href="registries/README.md#registries-and-directories">Registries and Directories</a>    <ul>
+      <li><a href="registries/README.md#why-dedi-and-the-three-questions-it-answers">Why DeDi (and the three questions it answers)</a></li>
+      <li><a href="registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries">Step-by-step: claim your DeDi namespace and create registries</a>      <ul>
+        <li><a href="registries/README.md#what-youll-need">What you'll need</a></li>
+        <li><a href="registries/README.md#1-sign-up-at-dediglobal">1. Sign up at dedi.global</a></li>
+        <li><a href="registries/README.md#2-create-a-namespace">2. Create a namespace</a></li>
+        <li><a href="registries/README.md#3-verify-your-domain-dns-txt-record">3. Verify your domain (DNS TXT record)</a></li>
+        <li><a href="registries/README.md#4-create-the-registries-you-need">4. Create the registries you need</a></li>
+        <li><a href="registries/README.md#idempotency-note-for-opencred-users">Idempotency note for OpenCred users</a></li>
+        <li><a href="registries/README.md#5-add-records-and-look-them-up">5. Add records and look them up</a>
       </li>
       </ul>
-      <li><a href="registries/dedi-primer.md#state-versioning-and-time-travel">State, versioning, and time-travel</a></li>
-      <li><a href="registries/dedi-primer.md#api-at-a-glance">API at a glance</a></li>
-      <li><a href="registries/dedi-primer.md#built-in-schema-templates">Built-in schema templates</a></li>
-      <li><a href="registries/dedi-primer.md#why-a-dedi-registry-is-not-just-a-database">Why a DeDi registry is not just a database</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[registry-creation.md](registries/registry-creation.md)**
-  - *Summary*: Developer walkthrough for creating namespaces, verification, and managing DeDi records via UI/API.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="registries/registry-creation.md#registry-creation-step-by-step">Registry Creation — Step by Step</a>    <ul>
-      <li><a href="registries/registry-creation.md#step-0-decide-what-you-are-about-to-publish">Step 0 — Decide what you are about to publish</a></li>
-      <li><a href="registries/registry-creation.md#step-1-create-a-dedi-account">Step 1 — Create a DeDi account</a></li>
-      <li><a href="registries/registry-creation.md#step-2-create-a-namespace">Step 2 — Create a namespace</a>      <ul>
-        <li><a href="registries/registry-creation.md#ui">UI</a></li>
-        <li><a href="registries/registry-creation.md#api">API</a>
+      <li><a href="registries/README.md#the-registries-youll-touch-in-ies-by-role">The registries you'll touch in IES, by role</a>      <ul>
+        <li><a href="registries/README.md#as-a-discom-issuer-running-opencred">As a DISCOM / issuer running OpenCred</a></li>
+        <li><a href="registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform">As a Beckn Network Participant (BAP / BPP, aggregator, AMISP, trading platform)</a></li>
+        <li><a href="registries/README.md#as-an-nfo">As an NFO</a></li>
+        <li><a href="registries/README.md#as-a-verifier-or-wallet">As a verifier or wallet</a>
       </li>
       </ul>
-      <li><a href="registries/registry-creation.md#step-3-verify-the-namespace-against-a-domain">Step 3 — Verify the namespace against a domain</a>      <ul>
-        <li><a href="registries/registry-creation.md#how-it-works">How it works</a></li>
-        <li><a href="registries/registry-creation.md#why-this-matters">Why this matters</a>
+      <li><a href="registries/README.md#ies-networks-and-registries-today">IES networks and registries today</a>      <ul>
+        <li><a href="registries/README.md#beckn-networks-nfo-operated-reference-registries">Beckn networks (NFO-operated reference registries)</a></li>
+        <li><a href="registries/README.md#reference-allow-lists-industry-coordination">Reference allow-lists (industry coordination)</a></li>
+        <li><a href="registries/README.md#how-to-apply-for-an-ies-listing">How to apply for an IES listing</a>
       </li>
       </ul>
-      <li><a href="registries/registry-creation.md#step-4-create-a-registry">Step 4 — Create a registry</a>      <ul>
-        <li><a href="registries/registry-creation.md#built-in-tags">Built-in tags</a></li>
-        <li><a href="registries/registry-creation.md#ui">UI</a></li>
-        <li><a href="registries/registry-creation.md#api-using-a-built-in-tag">API — using a built-in tag</a></li>
-        <li><a href="registries/registry-creation.md#api-using-a-custom-schema">API — using a custom schema</a>
+      <li><a href="registries/README.md#end-to-end-onboarding-checklist">End-to-end onboarding checklist</a></li>
+      <li><a href="registries/README.md#appendix-a-dedi-primer-just-enough-to-navigate">Appendix A — DeDi primer (just enough to navigate)</a>      <ul>
+        <li><a href="registries/README.md#the-three-coordinate-model">The three-coordinate model</a></li>
+        <li><a href="registries/README.md#built-in-schema-tags-used-in-ies">Built-in schema tags used in IES</a></li>
+        <li><a href="registries/README.md#api-at-a-glance">API at a glance</a></li>
+        <li><a href="registries/README.md#deployment-options">Deployment options</a></li>
+        <li><a href="registries/README.md#state-versioning-time-travel">State, versioning, time-travel</a>
       </li>
       </ul>
-      <li><a href="registries/registry-creation.md#step-5-add-records">Step 5 — Add records</a>      <ul>
-        <li><a href="registries/registry-creation.md#save-and-publish-in-one-call">Save and publish in one call</a></li>
-        <li><a href="registries/registry-creation.md#two-step-draft-then-batch-publish">Two-step: draft then batch-publish</a></li>
-        <li><a href="registries/registry-creation.md#bulk-csv-upload">Bulk CSV upload</a>
-      </li>
-      </ul>
-      <li><a href="registries/registry-creation.md#step-6-look-up-and-verify">Step 6 — Look up and verify</a>      <ul>
-        <li><a href="registries/registry-creation.md#resolve-a-single-record">Resolve a single record</a></li>
-        <li><a href="registries/registry-creation.md#list-records-in-a-registry">List records in a registry</a></li>
-        <li><a href="registries/registry-creation.md#list-registries-under-a-namespace">List registries under a namespace</a></li>
-        <li><a href="registries/registry-creation.md#historical-state-as-on">Historical state — `as_on`</a></li>
-        <li><a href="registries/registry-creation.md#version-pin">Version pin</a></li>
-        <li><a href="registries/registry-creation.md#export-everything-as-csv">Export everything as CSV</a>
-      </li>
-      </ul>
-      <li><a href="registries/registry-creation.md#step-7-day-2-operations">Step 7 — Day-2 operations</a></li>
-      <li><a href="registries/registry-creation.md#authorisation-model-what-to-remember">Authorisation model — what to remember</a></li>
-      <li><a href="registries/registry-creation.md#troubleshooting">Troubleshooting</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[required-registries.md](registries/required-registries.md)**
-  - *Summary*: Detailed specification of schemas, record shapes, and onboarding channels for public/private registries.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="registries/required-registries.md#required-registries-for-ies-onboarding">Required Registries for IES Onboarding</a>    <ul>
-      <li><a href="registries/required-registries.md#map-at-a-glance">Map at a glance</a></li>
-      <li><a href="registries/required-registries.md#onboarding-quick-guide-minimum-to-get-started">Onboarding-quick guide — minimum to get started</a></li>
-      <li><a href="registries/required-registries.md#discom-reference-registry">DISCOM reference registry</a>      <ul>
-        <li><a href="registries/required-registries.md#record-shape">Record shape</a></li>
-        <li><a href="registries/required-registries.md#how-to-get-added">How to get added</a>
-      </li>
-      </ul>
-      <li><a href="registries/required-registries.md#regulator-reference-registry">Regulator reference registry</a></li>
-      <li><a href="registries/required-registries.md#schemas-registry">Schemas registry</a></li>
-      <li><a href="registries/required-registries.md#network-reference-registry">Network reference registry</a>      <ul>
-        <li><a href="registries/required-registries.md#how-to-get-referenced-in">How to get referenced in</a>
-      </li>
-      </ul>
-      <li><a href="registries/required-registries.md#beckn-subscriber-registry">Beckn subscriber registry</a>      <ul>
-        <li><a href="registries/required-registries.md#record-shape">Record shape</a></li>
-        <li><a href="registries/required-registries.md#conventional-layout">Conventional layout</a>
-      </li>
-      </ul>
-      <li><a href="registries/required-registries.md#public-keys-registry">Public-keys registry</a>      <ul>
-        <li><a href="registries/required-registries.md#record-shape">Record shape</a></li>
-        <li><a href="registries/required-registries.md#key-rotation">Key rotation</a>
-      </li>
-      </ul>
-      <li><a href="registries/required-registries.md#revocation-registry">Revocation registry</a>      <ul>
-        <li><a href="registries/required-registries.md#record-shape">Record shape</a>
-      </li>
-      </ul>
-      <li><a href="registries/required-registries.md#asset-registry-optional">Asset registry (optional)</a></li>
-      <li><a href="registries/required-registries.md#dataset-registry-optional">Dataset registry (optional)</a></li>
-      <li><a href="registries/required-registries.md#private-registries-pii-billing-internal-asset-attributes">Private registries (PII, billing, internal asset attributes)</a></li>
-      <li><a href="registries/required-registries.md#governance-and-key-custody">Governance and key custody</a></li>
-      <li><a href="registries/required-registries.md#end-to-end-onboarding-checklist">End-to-end onboarding checklist</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[private_resolution.md](registries/private_resolution.md)**
-  - *Summary*: Overview of public vs. private resolution and namespace layout conventions for DeDi tables.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="registries/private_resolution.md#public-vs-private-resolution-of-identifiers-via-registries">Public vs Private Resolution of Identifiers via Registries</a>    <ul>
-      <li><a href="registries/private_resolution.md#dedi-registry-model-in-30-seconds">DeDi registry model in 30 seconds</a></li>
-      <li><a href="registries/private_resolution.md#the-public-ies-registries">The public IES registries</a>      <ul>
-        <li><a href="registries/private_resolution.md#ies-discoms-reference-registry">IES DISCOMs Reference Registry</a></li>
-        <li><a href="registries/private_resolution.md#ies-regulators-reference-registry">IES Regulators Reference Registry</a></li>
-        <li><a href="registries/private_resolution.md#ies-schemas-registry-forthcoming">IES Schemas Registry (forthcoming)</a>
-      </li>
-      </ul>
-      <li><a href="registries/private_resolution.md#per-discom-public-registries">Per-DISCOM public registries</a>      <ul>
-        <li><a href="registries/private_resolution.md#required-revocation-registry">Required: revocation registry</a></li>
-        <li><a href="registries/private_resolution.md#recommended-asset-registry">Recommended: asset registry</a></li>
-        <li><a href="registries/private_resolution.md#optional-consumer-reference-registry">Optional: consumer reference registry</a></li>
-        <li><a href="registries/private_resolution.md#optional-dataset-registry">Optional: dataset registry</a>
-      </li>
-      </ul>
-      <li><a href="registries/private_resolution.md#private-registries-inside-the-discom">Private registries inside the DISCOM</a>      <ul>
-        <li><a href="registries/private_resolution.md#what-to-host-privately">What to host privately</a></li>
-        <li><a href="registries/private_resolution.md#structure">Structure</a></li>
-        <li><a href="registries/private_resolution.md#implementation-options">Implementation options</a></li>
-        <li><a href="registries/private_resolution.md#promotion-private-public">Promotion: private → public</a></li>
-        <li><a href="registries/private_resolution.md#linkage-between-private-and-public-records">Linkage between private and public records</a>
-      </li>
-      </ul>
-      <li><a href="registries/private_resolution.md#governance-and-key-management-for-namespaces">Governance and key management for namespaces</a>      <ul>
-        <li><a href="registries/private_resolution.md#recommended-posture">Recommended posture</a></li>
-        <li><a href="registries/private_resolution.md#key-rotation">Key rotation</a>
-      </li>
-      </ul>
-      <li><a href="registries/private_resolution.md#operational-guidance">Operational guidance</a>
+      <li><a href="registries/README.md#appendix-b-verifying-a-credential-end-to-end">Appendix B — Verifying a credential, end-to-end</a></li>
+      <li><a href="registries/README.md#appendix-c-troubleshooting">Appendix C — Troubleshooting</a>
     </li>
     </ul>
   </li>
@@ -442,40 +294,6 @@ This block describes the directories that store and resolve identifiers to parti
   </details>
 
 ### 🔌 Use & Operations
-* **[resolution.md](registries/resolution.md)**
-  - *Summary*: Detailed specification of did:web, did:key, and did:dedi resolvers, error matrices, and caching rules.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="registries/resolution.md#resolution-and-routing">Resolution and Routing</a>    <ul>
-      <li><a href="registries/resolution.md#the-resolver">The resolver</a></li>
-      <li><a href="registries/resolution.md#resolution-by-did-method">Resolution by DID method</a>      <ul>
-        <li><a href="registries/resolution.md#didweb">`did:web`</a>        <ul>
-          <li><a href="registries/resolution.md#illustrative-didjson-document-for-a-utility">Illustrative `did.json` Document for a Utility</a>
-        </li>
-        </ul>
-        <li><a href="registries/resolution.md#didkey-and-didjwk-offline-cryptographic">`did:key` and `did:jwk` (Offline Cryptographic)</a></li>
-        <li><a href="registries/resolution.md#diddedi">`did:dedi:<ns>:<reg>:<id>`</a>
-      </li>
-      </ul>
-      <li><a href="registries/resolution.md#unification-of-public-vs-private-resolution-details">Unification of Public vs. Private Resolution Details</a>      <ul>
-        <li><a href="registries/resolution.md#the-two-resolver-model">The Two-Resolver Model</a></li>
-        <li><a href="registries/resolution.md#unification-via-privateref">Unification via `privateRef`</a>
-      </li>
-      </ul>
-      <li><a href="registries/resolution.md#workflow-1-verifying-a-credential">Workflow 1 — Verifying a credential</a></li>
-      <li><a href="registries/resolution.md#workflow-2-issuing-a-credential">Workflow 2 — Issuing a credential</a></li>
-      <li><a href="registries/resolution.md#workflow-3-routing-a-beckn-message">Workflow 3 — Routing a Beckn message</a></li>
-      <li><a href="registries/resolution.md#workflow-4-cross-discom-consumer-move">Workflow 4 — Cross-DISCOM consumer move</a></li>
-      <li><a href="registries/resolution.md#workflow-5-resolving-an-asset-for-an-outage-notification">Workflow 5 — Resolving an asset for an outage notification</a></li>
-      <li><a href="registries/resolution.md#caching-strategy">Caching strategy</a></li>
-      <li><a href="registries/resolution.md#error-handling">Error handling</a></li>
-      <li><a href="registries/resolution.md#sdk-shape">SDK shape</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 * **[registries-basic-checklist.md](checklists/registries-basic-checklist.md)**
   - *Summary*: Auditing checklist to confirm namespace delegation, key records, and registry accessibility.
   <details>
@@ -505,147 +323,60 @@ This block handles digital attestations of connections, billing summaries, and c
 
 ### ⚙️ Setup & Configuration
 * **[README.md](energy-credentials/README.md)**
-  - *Summary*: Introduction to W3C Verifiable Credentials (VCs) in the energy sector and recommended reading order.
+  - *Summary*: Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, onboarding checklist, and trust-model appendices.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="energy-credentials/README.md#energy-credentials-for-discoms">Energy Credentials for DISCOMs</a>    <ul>
-      <ul>
-        <li><a href="energy-credentials/README.md#credential-lifecycle-at-a-glance">Credential lifecycle at a glance</a>
+    <li><a href="energy-credentials/README.md#energy-credentials">Energy Credentials</a>    <ul>
+      <li><a href="energy-credentials/README.md#why-credentials">Why credentials</a></li>
+      <li><a href="energy-credentials/README.md#pick-your-role">Pick your role</a></li>
+      <li><a href="energy-credentials/README.md#prerequisites">Prerequisites</a></li>
+      <li><a href="energy-credentials/README.md#issue-your-first-credential">Issue your first credential</a>      <ul>
+        <li><a href="energy-credentials/README.md#1-confirm-the-issuer-did-opencred-reports">1. Confirm the issuer DID OpenCred reports</a></li>
+        <li><a href="energy-credentials/README.md#2-issue">2. Issue</a></li>
+        <li><a href="energy-credentials/README.md#3-verify">3. Verify</a></li>
+        <li><a href="energy-credentials/README.md#4-revoke">4. Revoke</a></li>
+        <li><a href="energy-credentials/README.md#5-smoke-test">5. Smoke test</a>
       </li>
       </ul>
-      <li><a href="energy-credentials/README.md#what-an-electricity-credential-is">What an Electricity Credential Is</a></li>
-      <li><a href="energy-credentials/README.md#what-you-can-issue">What You Can Issue</a>      <ul>
-        <li><a href="energy-credentials/README.md#customercredential-sub-profiles">`CustomerCredential` sub-profiles</a>
+      <li><a href="energy-credentials/README.md#credential-variants">Credential variants</a>      <ul>
+        <li><a href="energy-credentials/README.md#electricitycredential-v12-the-default">ElectricityCredential v1.2 — the default</a></li>
+        <li><a href="energy-credentials/README.md#meterdatacredential-v06-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
+        <li><a href="energy-credentials/README.md#meterdatarequestcredential-v01-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a></li>
+        <li><a href="energy-credentials/README.md#summary">Summary</a>
       </li>
       </ul>
-      <li><a href="energy-credentials/README.md#the-discom-issuance-flow">The DISCOM Issuance Flow</a></li>
-      <li><a href="energy-credentials/README.md#what-you-will-need">What You Will Need</a></li>
-      <li><a href="energy-credentials/README.md#recommended-reading-order">Recommended Reading Order</a></li>
-      <li><a href="energy-credentials/README.md#how-opencred-fits-in">How OpenCred Fits In</a></li>
+      <li><a href="energy-credentials/README.md#holder-binding">Holder binding</a></li>
+      <li><a href="energy-credentials/README.md#digilocker-delivery">DigiLocker delivery</a></li>
+      <li><a href="energy-credentials/README.md#onboarding-checklist">Onboarding checklist</a>      <ul>
+        <li><a href="energy-credentials/README.md#phase-1-foundations">Phase 1 — Foundations</a></li>
+        <li><a href="energy-credentials/README.md#phase-2-issue-and-revoke">Phase 2 — Issue and revoke</a></li>
+        <li><a href="energy-credentials/README.md#phase-3-decide-variants-youll-issue">Phase 3 — Decide variant(s) you'll issue</a></li>
+        <li><a href="energy-credentials/README.md#phase-4-production-hardening">Phase 4 — Production hardening</a></li>
+        <li><a href="energy-credentials/README.md#phase-5-data-exchange-optional-only-if-joining-beckn">Phase 5 — Data exchange (optional, only if joining Beckn)</a>
+      </li>
+      </ul>
+      <li><a href="energy-credentials/README.md#appendix-a-trust-model">Appendix A — Trust model</a>      <ul>
+        <li><a href="energy-credentials/README.md#signing-key-sources">Signing-key sources</a></li>
+        <li><a href="energy-credentials/README.md#proof-formats">Proof formats</a>
+      </li>
+      </ul>
+      <li><a href="energy-credentials/README.md#appendix-b-operational-notes">Appendix B — Operational notes</a>      <ul>
+        <li><a href="energy-credentials/README.md#key-rotation">Key rotation</a></li>
+        <li><a href="energy-credentials/README.md#schema-validation">Schema validation</a></li>
+        <li><a href="energy-credentials/README.md#batch-issuance">Batch issuance</a></li>
+        <li><a href="energy-credentials/README.md#reverse-proxy-tls">Reverse proxy + TLS</a></li>
+        <li><a href="energy-credentials/README.md#troubleshooting">Troubleshooting</a>
+      </li>
+      </ul>
+      <li><a href="energy-credentials/README.md#appendix-c-core-concepts">Appendix C — Core concepts</a>      <ul>
+        <li><a href="energy-credentials/README.md#whats-a-verifiable-credential">What's a Verifiable Credential</a></li>
+        <li><a href="energy-credentials/README.md#whats-a-did">What's a DID</a></li>
+        <li><a href="energy-credentials/README.md#identifier-vs-record">Identifier vs. record</a></li>
+        <li><a href="energy-credentials/README.md#credential-lifecycle">Credential lifecycle</a>
+      </li>
+      </ul>
       <li><a href="energy-credentials/README.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[concepts.md](energy-credentials/concepts.md)**
-  - *Summary*: Concepts of credential roles (Issuer, Holder, Verifier), trust delegation, and DeDi revocation patterns.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="energy-credentials/concepts.md#core-concepts">Core Concepts</a>    <ul>
-      <li><a href="energy-credentials/concepts.md#verifiable-credentials-vcs">Verifiable Credentials (VCs)</a></li>
-      <li><a href="energy-credentials/concepts.md#decentralized-identifiers-dids">Decentralized Identifiers (DIDs)</a>      <ul>
-        <li><a href="energy-credentials/concepts.md#didkey-from-a-self-generated-software-key-recommended-for-dev-first-deploy">`did:key` from a self-generated software key — recommended for dev / first deploy</a></li>
-        <li><a href="energy-credentials/concepts.md#didweb-recommended-for-production">`did:web` — recommended for production</a></li>
-        <li><a href="energy-credentials/concepts.md#didkey-from-an-existing-dsc">`did:key` from an existing DSC</a></li>
-        <li><a href="energy-credentials/concepts.md#didkey-and-didjwk-for-consumers">`did:key` and `did:jwk` for consumers</a></li>
-        <li><a href="energy-credentials/concepts.md#dedi-as-a-didweb-discovery-fallback">DeDi as a `did:web` discovery fallback</a></li>
-        <li><a href="energy-credentials/concepts.md#keystatus-rotation-flag-and-the-cord-anchor-proof">`keyStatus` rotation flag and the CORD anchor proof</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/concepts.md#signing-keys-and-trust">Signing Keys and Trust</a></li>
-      <li><a href="energy-credentials/concepts.md#trust-and-the-ies-reference-registry">Trust and the IES Reference Registry</a>      <ul>
-        <li><a href="energy-credentials/concepts.md#the-registry">The registry</a></li>
-        <li><a href="energy-credentials/concepts.md#the-trust-flow">The trust flow</a></li>
-        <li><a href="energy-credentials/concepts.md#why-this-is-better-than-relying-on-didweb-alone">Why this is better than relying on `did:web` alone</a></li>
-        <li><a href="energy-credentials/concepts.md#other-did-methods-still-work-for-signing">Other DID methods still work for signing</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/concepts.md#dedi-revocation">DeDi Revocation</a>      <ul>
-        <li><a href="energy-credentials/concepts.md#the-model">The model</a></li>
-        <li><a href="energy-credentials/concepts.md#lifecycle">Lifecycle</a></li>
-        <li><a href="energy-credentials/concepts.md#the-credentialstatus-block">The `credentialStatus` block</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/concepts.md#proof-formats">Proof Formats</a></li>
-      <li><a href="energy-credentials/concepts.md#packaging-outputs">Packaging Outputs</a></li>
-      <li><a href="energy-credentials/concepts.md#credential-lifecycle">Credential Lifecycle</a></li>
-      <li><a href="energy-credentials/concepts.md#next">Next</a></li>
-      <li><a href="energy-credentials/concepts.md#glossary">Glossary</a></li>
-      <li><a href="energy-credentials/concepts.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[schemas.md](energy-credentials/schemas.md)**
-  - *Summary*: Detailed breakdown of the electricity credential JSON schema and JSON-LD contexts.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="energy-credentials/schemas.md#electricity-credential-schema">Electricity Credential Schema</a>    <ul>
-      <li><a href="energy-credentials/schemas.md#common-envelope">Common Envelope</a></li>
-      <li><a href="energy-credentials/schemas.md#credentialsubject">credentialSubject</a>      <ul>
-        <li><a href="energy-credentials/schemas.md#customerprofile-required">customerProfile (required)</a>        <ul>
-          <li><a href="energy-credentials/schemas.md#metertype-enum">meterType enum</a>
-        </li>
-        </ul>
-        <li><a href="energy-credentials/schemas.md#customerdetails">customerDetails</a>        <ul>
-          <li><a href="energy-credentials/schemas.md#installationaddress">installationAddress</a>
-        </li>
-        </ul>
-        <li><a href="energy-credentials/schemas.md#consumptionprofiles">consumptionProfiles[]</a></li>
-        <li><a href="energy-credentials/schemas.md#generationprofiles">generationProfiles[]</a></li>
-        <li><a href="energy-credentials/schemas.md#storageprofiles">storageProfiles[]</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/schemas.md#idref">idRef</a>      <ul>
-        <li><a href="energy-credentials/schemas.md#ies-discoms-reference-registry">IES DISCOMs Reference Registry</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/schemas.md#full-example">Full example</a></li>
-      <li><a href="energy-credentials/schemas.md#lifecycle-patterns">Lifecycle Patterns</a></li>
-      <li><a href="energy-credentials/schemas.md#implementing-in-opencred">Implementing in OpenCred</a>      <ul>
-        <li><a href="energy-credentials/schemas.md#three-gotchas-first-time-issuers-hit">Three gotchas first-time issuers hit</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/schemas.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[onboarding.md](energy-credentials/onboarding.md)**
-  - *Summary*: Step-by-step instructions for deploying OpenCred docker instances and setting up signing keys.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="energy-credentials/onboarding.md#deployment">Deployment</a>    <ul>
-      <li><a href="energy-credentials/onboarding.md#prerequisites">Prerequisites</a></li>
-      <li><a href="energy-credentials/onboarding.md#step-0-register-in-the-ies-discoms-reference-registry">Step 0 — Register in the IES DISCOMs Reference Registry</a></li>
-      <li><a href="energy-credentials/onboarding.md#step-1-pull-the-opencred-image">Step 1 — Pull the OpenCred image</a></li>
-      <li><a href="energy-credentials/onboarding.md#step-2-decide-your-signing-key-model">Step 2 — Decide your signing-key model</a>      <ul>
-        <li><a href="energy-credentials/onboarding.md#generate-a-software-key">Generate a software key</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/onboarding.md#step-3-set-up-your-issuer-did">Step 3 — Set up your issuer DID</a>      <ul>
-        <li><a href="energy-credentials/onboarding.md#option-a-didkey-from-a-self-generated-software-key-recommended-for-dev-first-deploy">Option A — `did:key` from a self-generated software key (recommended for dev / first deploy)</a></li>
-        <li><a href="energy-credentials/onboarding.md#option-b-didweb-recommended-for-production">Option B — `did:web` (recommended for production)</a></li>
-        <li><a href="energy-credentials/onboarding.md#option-c-didkey-from-an-existing-cca-issued-dsc">Option C — `did:key` from an existing CCA-issued DSC</a></li>
-        <li><a href="energy-credentials/onboarding.md#option-d-didweb-hosted-by-dedi-no-well-knowndidjson-needed">Option D — `did:web` hosted by DeDi (no `.well-known/did.json` needed)</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/onboarding.md#step-4-run-opencred-dedi-together">Step 4 — Run OpenCred + DeDi together</a>      <ul>
-        <li><a href="energy-credentials/onboarding.md#quick-start-software-key-dedi">Quick start (software key + DeDi)</a></li>
-        <li><a href="energy-credentials/onboarding.md#local-dev-on-windows-macos-docker-desktop">Local dev on Windows / macOS (Docker Desktop)</a></li>
-        <li><a href="energy-credentials/onboarding.md#docker-compose-production">Docker Compose (production)</a></li>
-        <li><a href="energy-credentials/onboarding.md#cloud-kms-variants">Cloud KMS variants</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/onboarding.md#step-5-environment-variables-reference">Step 5 — Environment variables reference</a></li>
-      <li><a href="energy-credentials/onboarding.md#step-6-confirm-dedi-is-wired-in">Step 6 — Confirm DeDi is wired in</a>      <ul>
-        <li><a href="energy-credentials/onboarding.md#didweb-discovery-via-dedi-optional">`did:web` discovery via DeDi (optional)</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/onboarding.md#step-7-reverse-proxy-and-tls">Step 7 — Reverse proxy and TLS</a></li>
-      <li><a href="energy-credentials/onboarding.md#step-8-kubernetes-optional">Step 8 — Kubernetes (optional)</a></li>
-      <li><a href="energy-credentials/onboarding.md#multi-replica-and-batch-worker-fleet">Multi-replica and batch worker fleet</a></li>
-      <li><a href="energy-credentials/onboarding.md#production-checklist">Production checklist</a></li>
-      <li><a href="energy-credentials/onboarding.md#verifying-the-deployment">Verifying the deployment</a></li>
-      <li><a href="energy-credentials/onboarding.md#troubleshooting">Troubleshooting</a></li>
-      <li><a href="energy-credentials/onboarding.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -653,292 +384,72 @@ This block handles digital attestations of connections, billing summaries, and c
   </details>
 
 ### 🔌 Use & Operations
-* **[issuance.md](energy-credentials/issuance.md)**
-  - *Summary*: Guide to mapping customer master data to the issue API, batch issuance, and lifecycle patterns.
+* **[digilocker.md](energy-credentials/digilocker.md)**
+  - *Summary*: DigiLocker delivery: Pull URI, callback flow, signature pinning.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="energy-credentials/issuance.md#issuing-credentials">Issuing Credentials</a>    <ul>
-      <li><a href="energy-credentials/issuance.md#the-core-flow">The Core Flow</a></li>
-      <li><a href="energy-credentials/issuance.md#post-v1credentialsissue">`POST /v1/credentials/issue`</a>      <ul>
-        <li><a href="energy-credentials/issuance.md#request-body">Request body</a></li>
-        <li><a href="energy-credentials/issuance.md#response">Response</a>
+    <li><a href="energy-credentials/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
+      <li><a href="energy-credentials/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
+      <li><a href="energy-credentials/digilocker.md#flow-overview">Flow Overview</a></li>
+      <li><a href="energy-credentials/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
+        <li><a href="energy-credentials/digilocker.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
       </li>
       </ul>
-      <li><a href="energy-credentials/issuance.md#worked-example-new-connection-identity-consumption">Worked Example — new connection (identity + consumption)</a></li>
-      <li><a href="energy-credentials/issuance.md#worked-example-rooftop-solar-commissioning">Worked Example — rooftop solar commissioning</a></li>
-      <li><a href="energy-credentials/issuance.md#verify-immediately-after-issue">Verify immediately after issue</a></li>
-      <li><a href="energy-credentials/issuance.md#integrating-with-your-cis-nms">Integrating With Your CIS / NMS</a>      <ul>
-        <li><a href="energy-credentials/issuance.md#reference-architecture">Reference architecture</a></li>
-        <li><a href="energy-credentials/issuance.md#triggers">Triggers</a></li>
-        <li><a href="energy-credentials/issuance.md#reference-handler-python">Reference handler — Python</a></li>
-        <li><a href="energy-credentials/issuance.md#where-the-consumers-did-comes-from">Where the consumer's DID comes from</a>
+      <li><a href="energy-credentials/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
+        <li><a href="energy-credentials/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
+        <li><a href="energy-credentials/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
+        <li><a href="energy-credentials/digilocker.md#handler-logic-summary">Handler Logic Summary</a></li>
+        <li><a href="energy-credentials/digilocker.md#routing-by-doctype">Routing by DocType</a>
       </li>
       </ul>
-      <li><a href="energy-credentials/issuance.md#batch-issuance">Batch Issuance</a>      <ul>
-        <li><a href="energy-credentials/issuance.md#post-v1credentialsbatch">`POST /v1/credentials/batch`</a></li>
-        <li><a href="energy-credentials/issuance.md#batch-issuance-at-scale-v150">Batch issuance at scale (v1.5.0+)</a>
+      <li><a href="energy-credentials/digilocker.md#issuing-nycer-the-electricity-credential-v12">Issuing NYCER — the Electricity Credential v1.2</a>      <ul>
+        <li><a href="energy-credentials/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
+        <li><a href="energy-credentials/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
+        <li><a href="energy-credentials/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
+        <li><a href="energy-credentials/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
       </li>
       </ul>
-      <li><a href="energy-credentials/issuance.md#revoking-a-credential">Revoking a Credential</a>      <ul>
-        <li><a href="energy-credentials/issuance.md#compute-the-hash-first-optional-for-audit-logs">Compute the hash first (optional, for audit logs)</a></li>
-        <li><a href="energy-credentials/issuance.md#publish-the-revocation">Publish the revocation</a></li>
-        <li><a href="energy-credentials/issuance.md#batch-revocation-hashes">Batch revocation hashes</a></li>
-        <li><a href="energy-credentials/issuance.md#hash-stability-rules">Hash stability rules</a>
+      <li><a href="energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mtrdt">The Consumer Meter Digest (DocType `MTRDT`)</a>      <ul>
+        <li><a href="energy-credentials/digilocker.md#the-core-idea-a-statement-not-a-bill">The core idea — a statement, not a bill</a></li>
+        <li><a href="energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
+        <li><a href="energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
+        <li><a href="energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
+        <li><a href="energy-credentials/digilocker.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
+        <li><a href="energy-credentials/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
+        <li><a href="energy-credentials/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
+        <li><a href="energy-credentials/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
+        <li><a href="energy-credentials/digilocker.md#the-ask-to-digilocker-mtrdt">The ask to DigiLocker (MTRDT)</a>
       </li>
       </ul>
-      <li><a href="energy-credentials/issuance.md#lifecycle-patterns">Lifecycle Patterns</a>      <ul>
-        <li><a href="energy-credentials/issuance.md#re-issuing-on-data-change">Re-issuing on data change</a></li>
-        <li><a href="energy-credentials/issuance.md#connection-closures">Connection closures</a></li>
-        <li><a href="energy-credentials/issuance.md#time-bounded-validity">Time-bounded validity</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/issuance.md#operational-notes">Operational Notes</a>      <ul>
-        <li><a href="energy-credentials/issuance.md#logging-and-audit">Logging and audit</a></li>
-        <li><a href="energy-credentials/issuance.md#rate-limits">Rate limits</a></li>
-        <li><a href="energy-credentials/issuance.md#idempotency">Idempotency</a></li>
-        <li><a href="energy-credentials/issuance.md#selective-disclosure">Selective disclosure</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/issuance.md#all-endpoints-at-a-glance">All Endpoints at a Glance</a></li>
-      <li><a href="energy-credentials/issuance.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[verification.md](energy-credentials/verification.md)**
-  - *Summary*: Specifications for verifying signatures, schema compliance, and DeDi revocation status list updates.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="energy-credentials/verification.md#verification">Verification</a>    <ul>
-      <li><a href="energy-credentials/verification.md#four-verification-surfaces">Four Verification Surfaces</a></li>
-      <li><a href="energy-credentials/verification.md#what-verification-checks">What Verification Checks</a>      <ul>
-        <li><a href="energy-credentials/verification.md#silent-skip-warning">Silent-skip warning</a></li>
-        <li><a href="energy-credentials/verification.md#keyrotation-advisory">keyRotation (advisory)</a></li>
-        <li><a href="energy-credentials/verification.md#registryanchor-advisory">registryAnchor (advisory)</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/verification.md#verifying-with-opencred">Verifying With OpenCred</a>      <ul>
-        <li><a href="energy-credentials/verification.md#post-v1credentialsverify">`POST /v1/credentials/verify`</a>        <ul>
-          <li><a href="energy-credentials/verification.md#request-shapes-per-proof-format">Request shapes per proof format</a>
-        </li>
-        </ul>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/verification.md#how-a-partner-verifies-what-you-issued">How a Partner Verifies What You Issued</a></li>
-      <li><a href="energy-credentials/verification.md#checking-revocation-status-separately">Checking Revocation Status Separately</a></li>
-      <li><a href="energy-credentials/verification.md#qa-pattern-for-discom-teams">QA Pattern for DISCOM Teams</a>      <ul>
-        <li><a href="energy-credentials/verification.md#inspecting-issuer-did-identities-from-a-key-file">Inspecting issuer-DID identities from a key file</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/verification.md#common-failure-modes">Common Failure Modes</a></li>
-      <li><a href="energy-credentials/verification.md#digilocker-delivered-credentials">DigiLocker-Delivered Credentials</a></li>
-      <li><a href="energy-credentials/verification.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[digilocker-integration.md](energy-credentials/digilocker-integration.md)**
-  - *Summary*: Integration guide for connecting OpenCred with India's DigiLocker Pull URI protocol.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="energy-credentials/digilocker-integration.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
-      <li><a href="energy-credentials/digilocker-integration.md#what-digilocker-does">What DigiLocker Does</a></li>
-      <li><a href="energy-credentials/digilocker-integration.md#flow-overview">Flow Overview</a></li>
-      <li><a href="energy-credentials/digilocker-integration.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
-        <li><a href="energy-credentials/digilocker-integration.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/digilocker-integration.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
-        <li><a href="energy-credentials/digilocker-integration.md#endpoint-specification">Endpoint Specification</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#handler-logic-summary">Handler Logic Summary</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#routing-by-doctype">Routing by DocType</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/digilocker-integration.md#issuing-nycer-the-electricity-credential-v12">Issuing NYCER — the Electricity Credential v1.2</a>      <ul>
-        <li><a href="energy-credentials/digilocker-integration.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#credentialsubject-shape">credentialSubject shape</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#the-opencred-issue-call">The OpenCred issue call</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/digilocker-integration.md#the-consumer-meter-digest-doctype-mtrdt">The Consumer Meter Digest (DocType `MTRDT`)</a>      <ul>
-        <li><a href="energy-credentials/digilocker-integration.md#the-core-idea-a-statement-not-a-bill">The core idea — a statement, not a bill</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
-        <li><a href="energy-credentials/digilocker-integration.md#the-ask-to-digilocker-mtrdt">The ask to DigiLocker (MTRDT)</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/digilocker-integration.md#error-response-format">Error Response Format</a></li>
-      <li><a href="energy-credentials/digilocker-integration.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
-      <li><a href="energy-credentials/digilocker-integration.md#security-checklist">Security Checklist</a></li>
-      <li><a href="energy-credentials/digilocker-integration.md#reference">Reference</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[consumer-energy-passport.md](energy-credentials/consumer-energy-passport.md)**
-  - *Summary*: Envelope specification and fields for the Consumer Energy Passport credential.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="energy-credentials/consumer-energy-passport.md#consumer-energy-passport-credential-reference">Consumer Energy Passport — credential reference</a>    <ul>
-      <li><a href="energy-credentials/consumer-energy-passport.md#what-it-is">What it is</a>      <ul>
-        <li><a href="energy-credentials/consumer-energy-passport.md#how-it-differs-from-a-plain-electricitycredential">How it differs from a plain `ElectricityCredential`</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/consumer-energy-passport.md#identitybinding-passport-specific">identityBinding (Passport-specific)</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#envelope">Envelope</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#issuing-the-passport">Issuing the Passport</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#verification">Verification</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#selective-disclosure">Selective disclosure</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#status">Status</a></li>
-      <li><a href="energy-credentials/consumer-energy-passport.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[consumer-meter-digest.md](energy-credentials/consumer-meter-digest.md)**
-  - *Summary*: Envelope specification and readings structure for the Consumer Meter Digest credential.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="energy-credentials/consumer-meter-digest.md#consumer-meter-digest-credential">Consumer Meter Digest Credential</a>    <ul>
-      <li><a href="energy-credentials/consumer-meter-digest.md#whats-different-from-other-credentials">What's Different From Other Credentials</a></li>
-      <li><a href="energy-credentials/consumer-meter-digest.md#common-envelope">Common Envelope</a></li>
-      <li><a href="energy-credentials/consumer-meter-digest.md#credentialsubject">credentialSubject</a>      <ul>
-        <li><a href="energy-credentials/consumer-meter-digest.md#meterreference-required">meterReference (required)</a></li>
-        <li><a href="energy-credentials/consumer-meter-digest.md#period-required">period (required)</a></li>
-        <li><a href="energy-credentials/consumer-meter-digest.md#granularity-required">granularity (required)</a></li>
-        <li><a href="energy-credentials/consumer-meter-digest.md#readings">readings</a></li>
-        <li><a href="energy-credentials/consumer-meter-digest.md#summary">summary</a></li>
-        <li><a href="energy-credentials/consumer-meter-digest.md#dataquality-required">dataQuality (required)</a>
-      </li>
-      </ul>
-      <li><a href="energy-credentials/consumer-meter-digest.md#full-example-monthly-summary">Full Example — Monthly Summary</a></li>
-      <li><a href="energy-credentials/consumer-meter-digest.md#full-example-raw-readings-excerpt">Full Example — Raw Readings (excerpt)</a></li>
-      <li><a href="energy-credentials/consumer-meter-digest.md#issuing-the-digest">Issuing the Digest</a></li>
-      <li><a href="energy-credentials/consumer-meter-digest.md#verifying-the-digest">Verifying the Digest</a></li>
-      <li><a href="energy-credentials/consumer-meter-digest.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[energy-credentials-basic-checklist.md](checklists/energy-credentials-basic-checklist.md)**
-  - *Summary*: Basic check list for credential issuance and environment testing.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/energy-credentials-basic-checklist.md#basic-checklist-energy-credentials">Basic Checklist — Energy Credentials</a>    <ul>
-      <ul>
-        <li><a href="checklists/energy-credentials-basic-checklist.md#1-set-up-your-discom-as-a-credential-issuer">1. Set up your DISCOM as a credential issuer</a></li>
-        <li><a href="checklists/energy-credentials-basic-checklist.md#2-decide-which-credentials-you-will-issue-in-phase-1">2. Decide which credentials you will issue in Phase 1</a></li>
-        <li><a href="checklists/energy-credentials-basic-checklist.md#3-map-your-existing-data-to-the-standard-credential-format">3. Map your existing data to the standard credential format</a></li>
-        <li><a href="checklists/energy-credentials-basic-checklist.md#4-stand-up-dedi-for-revocation-and-optionally-for-did-document-discovery">4. Stand up DeDi for revocation (and optionally for DID-document discovery)</a></li>
-        <li><a href="checklists/energy-credentials-basic-checklist.md#5-decide-how-credentials-reach-the-consumer">5. Decide how credentials reach the consumer</a></li>
-        <li><a href="checklists/energy-credentials-basic-checklist.md#6-test-the-full-loop-then-go-live">6. Test the full loop, then go live</a></li>
-        <li><a href="checklists/energy-credentials-basic-checklist.md#7-nominate-your-team">7. Nominate your team</a>
-      </li>
-      </ul>
+      <li><a href="energy-credentials/digilocker.md#error-response-format">Error Response Format</a></li>
+      <li><a href="energy-credentials/digilocker.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
+      <li><a href="energy-credentials/digilocker.md#security-checklist">Security Checklist</a></li>
+      <li><a href="energy-credentials/digilocker.md#reference">Reference</a>
     </li>
     </ul>
   </li>
   </ul>
   </details>
 * **[energy-credentials-checklist.md](checklists/energy-credentials-checklist.md)**
-  - *Summary*: Overview readiness checklist for credential deployments.
+  - *Summary*: Onboarding checklist for credential issuance — section-linked to the Energy Credentials README.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="checklists/energy-credentials-checklist.md#india-energy-stack">India Energy Stack</a>    <ul>
-      <li><a href="checklists/energy-credentials-checklist.md#ies-electricity-credentials">IES Electricity Credentials</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist.md#discom-readiness-checklist">DISCOM Readiness Checklist</a></li>
-        <li><a href="checklists/energy-credentials-checklist.md#1-infrastructure-setup-opencred-dedi-combo">1. Infrastructure Setup (OpenCred + DeDi combo)</a></li>
-        <li><a href="checklists/energy-credentials-checklist.md#2-credential-schema">2. Credential Schema</a></li>
-        <li><a href="checklists/energy-credentials-checklist.md#3-credential-issuance">3. Credential Issuance</a></li>
-        <li><a href="checklists/energy-credentials-checklist.md#4-credential-verification">4. Credential Verification</a></li>
-        <li><a href="checklists/energy-credentials-checklist.md#5-revocation">5. Revocation</a></li>
-        <li><a href="checklists/energy-credentials-checklist.md#6-consumer-delivery">6. Consumer Delivery</a></li>
-        <li><a href="checklists/energy-credentials-checklist.md#7-go-live">7. Go-Live</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[energy-credentials-checklist-detailed.md](checklists/energy-credentials-checklist-detailed.md)**
-  - *Summary*: Production implementation reference for key management, batching, and delivery.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/energy-credentials-checklist-detailed.md#india-energy-stack">India Energy Stack</a>    <ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#ies-electricity-credentials-implementation-checklist">IES Electricity Credentials — Implementation Checklist</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#detailed-technical-reference-for-discom-integration-teams">Detailed Technical Reference for DISCOM Integration Teams</a>
-      </li>
-      </ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-0-pre-requisites">Phase 0 — Pre-requisites</a></li>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-1-opencred-infrastructure">Phase 1 — OpenCred Infrastructure</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#11-deploy-opencred-docker-service">1.1 Deploy OpenCred Docker Service</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#12-signing-key-setup">1.2 Signing Key Setup</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#13-dedi-namespace-setup">1.3 DeDi Namespace Setup</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#14-optional-did-document-discovery-via-dedi">1.4 (Optional) DID-document discovery via DeDi</a>
-      </li>
-      </ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-2-credential-schema">Phase 2 — Credential Schema</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#21-use-the-built-in-electricityv1-schema">2.1 Use the built-in `electricity/v1` schema</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#22-issuer-object-enrichment">2.2 Issuer object enrichment</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#23-customer-external-id">2.3 Customer external ID</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#24-proof-format">2.4 Proof format</a>
-      </li>
-      </ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-3-credential-issuance">Phase 3 — Credential Issuance</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#31-single-credential-issuance-api">3.1 Single Credential Issuance (API)</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#32-single-issuance-via-cli">3.2 Single Issuance via CLI</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#33-single-issuance-via-desktop-client">3.3 Single Issuance via Desktop Client</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#34-batch-issuance">3.4 Batch Issuance</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#35-packaging-and-delivery">3.5 Packaging and Delivery</a>
-      </li>
-      </ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-4-credential-verification">Phase 4 — Credential Verification</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#41-api-verification">4.1 API Verification</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#42-desktop-client-verification">4.2 Desktop Client Verification</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#43-cli-verification">4.3 CLI Verification</a>
-      </li>
-      </ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-5-revocation">Phase 5 — Revocation</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#51-hash-computation">5.1 Hash Computation</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#52-publishing-revocation">5.2 Publishing Revocation</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#53-revocation-runbook">5.3 Revocation Runbook</a>
-      </li>
-      </ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-6-consumer-delivery-channels">Phase 6 — Consumer Delivery Channels</a>      <ul>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#61-direct-vc-delivery">6.1 Direct VC Delivery</a></li>
-        <li><a href="checklists/energy-credentials-checklist-detailed.md#62-digilocker-integration">6.2 DigiLocker Integration</a>
-      </li>
-      </ul>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-7-security-review">Phase 7 — Security Review</a></li>
-      <li><a href="checklists/energy-credentials-checklist-detailed.md#phase-8-observability-and-go-live">Phase 8 — Observability and Go-Live</a>
+    <li><a href="checklists/energy-credentials-checklist.md#energy-credentials-onboarding-checklist">Energy Credentials — Onboarding Checklist</a>    <ul>
+      <li><a href="checklists/energy-credentials-checklist.md#phase-1-foundations">Phase 1 — Foundations</a></li>
+      <li><a href="checklists/energy-credentials-checklist.md#phase-2-issue-and-revoke">Phase 2 — Issue and revoke</a></li>
+      <li><a href="checklists/energy-credentials-checklist.md#phase-3-decide-variants-youll-issue">Phase 3 — Decide variant(s) you'll issue</a></li>
+      <li><a href="checklists/energy-credentials-checklist.md#phase-4-production-hardening">Phase 4 — Production hardening</a></li>
+      <li><a href="checklists/energy-credentials-checklist.md#phase-5-data-exchange-optional-only-if-joining-beckn">Phase 5 — Data exchange (optional, only if joining Beckn)</a></li>
+      <li><a href="checklists/energy-credentials-checklist.md#team">Team</a>
     </li>
     </ul>
   </li>
@@ -1415,19 +926,12 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/consumer-meter-digest/README.md#consumer-meter-digest">Consumer Meter Digest</a>    <ul>
-      <li><a href="use-cases/consumer-meter-digest/README.md#scenario">Scenario</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#actors-and-roles">Actors and Roles</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#building-blocks-used">Building Blocks Used</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#whats-in-the-digest">What's in the Digest</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#setup-steps">Setup Steps</a>      <ul>
-        <li><a href="use-cases/consumer-meter-digest/README.md#1-discom-side-prerequisites">1. DISCOM-side prerequisites</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#2-wallet-side-prerequisites">2. Wallet-side prerequisites</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#3-catalogue-the-consumer-pull-endpoint">3. Catalogue the consumer-pull endpoint</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#4-the-consumer-presents-the-digest">4. The consumer presents the Digest</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/consumer-meter-digest/README.md#why-a-credential-not-just-an-api-pull">Why a Credential, Not Just an API Pull</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#open-items">Open Items</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#why-this-use-case-exists">Why this use case exists</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#how-it-differs-from-a-b2b-meterdatacredential">How it differs from a B2B MeterDataCredential</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#actors-and-flow">Actors and flow</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#building-blocks">Building blocks</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#what-you-actually-do">What you actually do</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#operational-checklist">Operational checklist</a></li>
       <li><a href="use-cases/consumer-meter-digest/README.md#references">References</a>
     </li>
     </ul>
@@ -1439,19 +943,14 @@ Practical deployment and mapping implementations for specific grid business proc
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/consumer-meter-digest/checklist.md#checklist-consumer-meter-digest">Checklist — Consumer Meter Digest</a>    <ul>
-      <ul>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#1-confirm-the-foundational-pieces-are-in-place">1. Confirm the foundational pieces are in place</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#2-decide-what-consumers-can-request">2. Decide what consumers can request</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#3-define-how-the-consumer-authorises-the-request">3. Define how the consumer authorises the request</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#4-publish-the-consumer-pull-catalogue-entry">4. Publish the consumer-pull catalogue entry</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#5-wire-up-digest-minting">5. Wire up Digest minting</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#6-test-the-end-to-end-flow">6. Test the end-to-end flow</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#7-production-deployment">7. Production deployment</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#8-consumer-communication-and-rollout">8. Consumer communication and rollout</a></li>
-        <li><a href="use-cases/consumer-meter-digest/checklist.md#9-nominate-your-team">9. Nominate your team</a>
-      </li>
-      </ul>
+    <li><a href="use-cases/consumer-meter-digest/checklist.md#consumer-meter-digest-use-case-checklist">Consumer Meter Digest — Use-case Checklist</a>    <ul>
+      <li><a href="use-cases/consumer-meter-digest/checklist.md#step-0-base-credential-issuance-is-in-place">Step 0 — Base credential issuance is in place</a></li>
+      <li><a href="use-cases/consumer-meter-digest/checklist.md#step-1-mdm-read-path">Step 1 — MDM read path</a></li>
+      <li><a href="use-cases/consumer-meter-digest/checklist.md#step-2-consumer-pull-endpoint-catalogued">Step 2 — Consumer-pull endpoint catalogued</a></li>
+      <li><a href="use-cases/consumer-meter-digest/checklist.md#step-3-issuance-shape">Step 3 — Issuance shape</a></li>
+      <li><a href="use-cases/consumer-meter-digest/checklist.md#step-4-wallet-delivery-wired">Step 4 — Wallet delivery wired</a></li>
+      <li><a href="use-cases/consumer-meter-digest/checklist.md#step-5-verifier-interop">Step 5 — Verifier interop</a></li>
+      <li><a href="use-cases/consumer-meter-digest/checklist.md#team">Team</a>
     </li>
     </ul>
   </li>
@@ -1463,32 +962,14 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/consumer-energy-passport/README.md#consumer-energy-passport">Consumer Energy Passport</a>    <ul>
-      <li><a href="use-cases/consumer-energy-passport/README.md#what-you-build-end-to-end">What you build, end-to-end</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#building-blocks-used">Building blocks used</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#whats-in-the-passport">What's in the Passport</a>      <ul>
-        <li><a href="use-cases/consumer-energy-passport/README.md#identitybinding-passport-specific">identityBinding (Passport-specific)</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/consumer-energy-passport/README.md#steps-in-detail">Steps in detail</a>      <ul>
-        <li><a href="use-cases/consumer-energy-passport/README.md#1-publish-your-issuer-identity">1. Publish your issuer identity</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#2-run-opencred">2. Run OpenCred</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#3-map-your-existing-systems-to-the-passport-shape">3. Map your existing systems to the Passport shape</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#4-decide-your-identity-binding-method">4. Decide your identity-binding method</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#5-issue-the-passport">5. Issue the Passport</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#6-deliver">6. Deliver</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/consumer-energy-passport/README.md#lifecycle">Lifecycle</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#how-a-verifier-uses-it">How a verifier uses it</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#optional-third-party-pull-over-beckn">Optional: third-party pull over Beckn</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#references">References</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#appendix">Appendix</a>      <ul>
-        <li><a href="use-cases/consumer-energy-passport/README.md#a1-why-a-wallet-held-credential">A1. Why a wallet-held credential</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#a2-identifier-reuse-your-ca-number-stays-intact">A2. Identifier reuse — your CA number stays intact</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#a3-selective-disclosure">A3. Selective disclosure</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#a4-open-items">A4. Open items</a>
-      </li>
-      </ul>
+      <li><a href="use-cases/consumer-energy-passport/README.md#why-this-use-case-exists">Why this use case exists</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#how-it-differs-from-a-bearer-electricitycredential">How it differs from a bearer ElectricityCredential</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#actors-and-flow">Actors and flow</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#building-blocks">Building blocks</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#what-you-actually-do">What you actually do</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#selective-disclosure">Selective disclosure</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#operational-checklist">Operational checklist</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -1499,19 +980,13 @@ Practical deployment and mapping implementations for specific grid business proc
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/consumer-energy-passport/checklist.md#checklist-consumer-energy-passport">Checklist — Consumer Energy Passport</a>    <ul>
-      <ul>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#1-foundations-in-place">1. Foundations in place</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#2-identity-binding-chosen">2. Identity binding chosen</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#3-existing-systems-mapped-to-the-passport">3. Existing systems mapped to the Passport</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#4-phase-1-cohort-decided">4. Phase 1 cohort decided</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#5-lifecycle-wired-up">5. Lifecycle wired up</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#6-wallet-delivery-live">6. Wallet delivery live</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#7-end-to-end-loop-verified">7. End-to-end loop verified</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#8-production-cut-over">8. Production cut-over</a></li>
-        <li><a href="use-cases/consumer-energy-passport/checklist.md#9-team-nominated">9. Team nominated</a>
-      </li>
-      </ul>
+    <li><a href="use-cases/consumer-energy-passport/checklist.md#consumer-energy-passport-use-case-checklist">Consumer Energy Passport — Use-case Checklist</a>    <ul>
+      <li><a href="use-cases/consumer-energy-passport/checklist.md#step-0-base-credential-issuance-is-in-place">Step 0 — Base credential issuance is in place</a></li>
+      <li><a href="use-cases/consumer-energy-passport/checklist.md#step-1-identity-proofing-decided-and-documented">Step 1 — Identity proofing decided and documented</a></li>
+      <li><a href="use-cases/consumer-energy-passport/checklist.md#step-2-wallet-delivery-wired">Step 2 — Wallet delivery wired</a></li>
+      <li><a href="use-cases/consumer-energy-passport/checklist.md#step-3-issuance-shape">Step 3 — Issuance shape</a></li>
+      <li><a href="use-cases/consumer-energy-passport/checklist.md#step-4-verifier-interop">Step 4 — Verifier interop</a></li>
+      <li><a href="use-cases/consumer-energy-passport/checklist.md#team">Team</a>
     </li>
     </ul>
   </li>
@@ -1741,7 +1216,7 @@ Step-by-step project-management pathways for onboarding and network operations.
         <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
       </li>
       </ul>
-      <li><a href="pathways/utility.md#phase-4-smart-meter-data-exchange-beckn-data-pipesdata-exchangeconceptsmd">Phase 4: Smart Meter Data Exchange ([Beckn Data Pipes](../data-exchange/concepts.md))</a>      <ul>
+      <li><a href="pathways/utility.md#phase-4-smart-meter-data-exchange-beckn-data-pipes">Phase 4: Smart Meter Data Exchange (Beckn Data Pipes)</a>      <ul>
         <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
         <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
         <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
@@ -1759,7 +1234,7 @@ Step-by-step project-management pathways for onboarding and network operations.
         <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
       </li>
       </ul>
-      <li><a href="pathways/utility.md#phase-5-consumer-meter-digestuse-casesconsumer-meter-digestreadmemd-electricity-bill">Phase 5: [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (Electricity Bill)</a>      <ul>
+      <li><a href="pathways/utility.md#phase-5-consumer-meter-digest-electricity-bill">Phase 5: Consumer Meter Digest (Electricity Bill)</a>      <ul>
         <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
         <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
         <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>

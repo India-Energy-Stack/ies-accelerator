@@ -1,81 +1,46 @@
-# Checklist — Consumer Energy Passport
+# Consumer Energy Passport — Use-case Checklist
 
-*Plain-English rollout checklist for a DISCOM standing up the [Consumer Energy Passport use case](./README.md). Use it to brief leadership and align IT, commercial, and consumer-experience teams.*
-
----
-
-**DISCOM:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-**Point of Contact:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &nbsp;&nbsp; **Email:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+*The Passport is a holder-bound [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md). Run the base credential-issuance checklist first; this page captures the use-case-specific items on top.*
 
 ---
 
-### 1. Foundations in place
+## Step 0 — Base credential issuance is in place
 
-The Passport reuses the [Energy Credentials](../../energy-credentials/README.md) infrastructure. If you already issue any electricity credential, you only add a new type and the identity-binding step.
+Complete [Energy Credentials — Onboarding Checklist](../../checklists/energy-credentials-checklist.md) Phases 1–2 (foundations, issue / verify / revoke).
 
-- [ ] DISCOM `did:web` published and regulator's licensing pointer obtained (for `issuer.idRef`). The [IES DISCOMs Reference Registry](../../registries/README.md#reference-allow-lists-industry-coordination) entry is required only for joining the inter-DISCOM data exchange network, not for credential issuance.
-- [ ] OpenCred issuer service running
-- [ ] DigiLocker (or alternative wallet) integration in place
+## Step 1 — Identity proofing decided and documented
 
-### 2. Identity binding chosen
+The Passport sets `credentialSubject.id` to the consumer's wallet DID and populates `customerProfile.idRef` with a government-ID reference. Both must be vouched for at issuance time — see [Identifiers — Identity-proofing at issuance](../../identifiers/README.md#before-you-bind-anything-identity-proofing-at-issuance).
 
-The Passport binds the consumer's wallet DID to a verifiable government-ID reference. Decide which methods you accept and document the policy.
+- [ ] Identity-proofing method chosen — DigiLocker pull, AADHAAR_OFFLINE_KYC, in-person verification, or DISCOM record match
+- [ ] Privacy review for the chosen method completed
+- [ ] Procedure tested end-to-end with one consumer
 
-- [ ] Binding method(s) chosen (DigiLocker pull / Aadhaar offline KYC / in-person / DISCOM record match)
-- [ ] Privacy review completed — `idRef` only, never the raw ID number
+## Step 2 — Wallet delivery wired
 
-### 3. Existing systems mapped to the Passport
+- [ ] DigiLocker Pull URI registered for the Passport → [DigiLocker delivery](../../energy-credentials/digilocker.md)
+- [ ] Direct DID-push delivery tested for at least one non-DigiLocker wallet (where relevant)
+- [ ] Wallet receives a freshly-issued Passport end-to-end
 
-Map your CIS, billing, and DER / storage register fields to the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) shape. Your CA numbers stay as-is — they appear as the tail of the consumer DID.
+## Step 3 — Issuance shape
 
-- [ ] Field mapping completed (`customerProfile`, `customerDetails`, `energyResources[]`, `consumptionProfiles[]`)
-- [ ] Sample Passport issued in staging and reviewed internally
-- [ ] Address enrichment (Open Location Code, GIS) added where you maintain it
+- [ ] Integration service sets `credentialSubject.id` to the consumer's wallet DID
+- [ ] Integration service populates `customerProfile.idRef` with the verified government-ID reference (the reference, **not** the raw number)
+- [ ] `validUntil` set to a sensible horizon (years, re-issued on material change)
+- [ ] Schema validation passes against [`ElectricityCredential/v1.2`](../../schemas/ElectricityCredential/v1.2/README.md)
 
-### 4. Phase 1 cohort decided
+## Step 4 — Verifier interop
 
-Pick a starting cohort where the Passport unlocks the highest-value verifier journeys — typically rooftop-solar consumers (loans, marketplaces) or RDSS AMI rollout cohorts.
+- [ ] Selective-disclosure presentation profile agreed with the first set of verifiers (SD-JWT-VC is the typical 2026 choice)
+- [ ] Sample verification flow rehearsed with at least one verifier (a bank, marketplace, or subsidy portal)
+- [ ] Revocation tested: revoking a Passport invalidates all presentations within minutes
 
-- [ ] Phase 1 consumer cohort defined
-- [ ] Issuance triggers agreed (new connection, DER commissioning, on consumer request, bulk back-fill)
+## Team
 
-### 5. Lifecycle wired up
-
-Re-issue and revoke on material change. Without this, the Passport rots in the wallet.
-
-- [ ] Re-issuance triggered by: tariff change, sanctioned-load revision, DER added/removed, address change, service-status change
-- [ ] DeDi `vc-revocation-registry` configured under your namespace
-- [ ] Connection closure triggers revocation (no re-issue)
-
-### 6. Wallet delivery live
-
-DigiLocker Pull URI for the bulk of consumers; direct DID push for non-DigiLocker wallets.
-
-- [ ] DigiLocker Pull URI live and tested
-- [ ] Consumer notification template ready (SMS / email / app)
-
-### 7. End-to-end loop verified
-
-Issue → wallet receipt → verifier presentation → revocation, exercised in staging before go-live.
-
-- [ ] Issue → wallet receipt → verify → revoke loop tested
-- [ ] Selective-disclosure presentation works for the verifier kinds you target
-- [ ] Monitoring and incident response in place
-
-### 8. Production cut-over
-
-- [ ] HTTPS endpoint live; signing keys in a secrets manager
-- [ ] Monitoring of issuance, revocation, and verifier-side errors
-- [ ] Customer-care trained on consumer queries
-- [ ] Phased rollout plan agreed
-
-### 9. Team nominated
-
-- [ ] IT SPOC (name, email, phone)
-- [ ] Commercial SPOC (name, email, phone)
-- [ ] Authorised Signatory (name, email, phone)
+- [ ] **Customer ops SPOC** — owns identity-proofing rollout
+- [ ] **IT SPOC** — owns wallet-delivery integration
+- [ ] **Governance / Compliance SPOC** — owns the identity-proofing privacy review
 
 ---
 
-*Once these nine items are in place, consumers in your service area hold a wallet-shareable, tamper-evident Passport that any verifier can validate offline against your published public key. See the [Consumer Energy Passport use case](./README.md) for setup detail and the [Energy Credentials chapter](../../energy-credentials/README.md) for the underlying credential infrastructure.*
+*Once these steps are complete, your DISCOM is issuing wallet-held, holder-bound ElectricityCredential v1.2 credentials that consumers can present anywhere on the IES network.*

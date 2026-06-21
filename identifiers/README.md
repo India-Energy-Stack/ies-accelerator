@@ -20,10 +20,10 @@ The same page covers four roles. Skim the row that matches you to jump to the ri
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit ElectricityCredentials) | [§(a) Org identity](#a-org-identity--for-credentials-and-data-exchange-payloads) → [Step-by-step: publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally) | [Appendix B](#appendix-b--issuing-and-revoking-an-electricitycredential-v12) (issue/revoke), [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets) (asset IDs) |
+| **A DISCOM / issuer** (you sign and emit ElectricityCredentials) | [§(a) Org identity](#a-org-identity--for-credentials-and-data-exchange-payloads) → [Step-by-step: publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally) | [Energy Credentials — Issue your first credential](../energy-credentials/README.md#issue-your-first-credential), [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets) (asset IDs) |
 | **A Beckn participant** (BAP / BPP, aggregator, AMISP, trading platform) | [§(b) Beckn network identity](#b-beckn-network-identity--for-participating-on-a-beckn-network) → [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric) | [Registries — by role](../registries/README.md#the-registries-youll-touch-in-ies-by-role) for the registry mechanics |
 | **A regulator** (you license DISCOMs and may sign credentials yourself) | [§(a) Org identity](#a-org-identity--for-credentials-and-data-exchange-payloads) — same `did:web` flow as a DISCOM | Note that your `did:web` is what DISCOMs cite as `issuer.idRef.issuedBy`; see [Where each ID goes in a credential](#where-each-id-goes-in-a-credential) |
-| **A verifier or wallet** (you receive and check credentials) | [Appendix A](#appendix-a--how-dids-work-and-the-three-methods-ies-uses) (DID methods) → [Appendix B §3 (verify)](#3-verify-the-credential) → [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity) (holder binding at presentation time) | [Registries — Appendix B (verifying a credential)](../registries/README.md#appendix-b--verifying-a-credential-end-to-end) for the end-to-end resolution walk |
+| **A verifier or wallet** (you receive and check credentials) | [Appendix A](#appendix-a--how-dids-work-and-the-three-methods-ies-uses) (DID methods) → [Energy Credentials — Verify](../energy-credentials/README.md#3-verify) → [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity) (holder binding at presentation time) | [Registries — Verifying a credential](../registries/README.md#appendix-b--verifying-a-credential-end-to-end) for the end-to-end resolution walk |
 
 ---
 
@@ -209,7 +209,7 @@ A few things worth knowing before you start:
 - **The holder identifier is optional and you can defer it.** See [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity) for the bearer-vs-bound trade-off and the binding patterns.
 - **You do not assign wallet DIDs.** If you opt for the wallet-DID pattern, the consumer's wallet (or DigiLocker) generates the `did:key` and sends it to you. You verify the consumer controls it (Appendix F explains how), then include it verbatim in `credentialSubject.id`. You never store the consumer's private key.
 
-For identifiers covering assets (meters, transformers, feeders), service connections, and datasets, see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets) — these are not needed for your first credential.
+For identifiers covering assets (meters, transformers, feeders), service connections, and datasets, see [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets) — these are not needed for your first credential.
 
 ---
 
@@ -356,136 +356,9 @@ The price you pay is that you cannot rotate the key — rotating means a new DID
 
 ---
 
-## Appendix B — Issuing and revoking an ElectricityCredential v1.2
+## Appendix B — Issuing credentials (moved)
 
-This appendix walks end-to-end through issuing and revoking an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md). The commands use the [OpenCred](https://opencred.gitbook.io/docs) container you started in [Step 3](#3-run-opencred-in-didweb-mode) because it's an open SDK that gets you to a working issuer fastest; any W3C-compliant signing pipeline that consumes the same key and emits the same credential shape will work just as well.
-
-### Prerequisites
-
-- The OpenCred container from Step 3 is running, with `$OPENCRED_API_KEY` exported in your shell.
-- `https://ies.tpddl.in/.well-known/did.json` is serving your DID document (Steps 4–5).
-- *(Optional — include only if you have a regulator to cite)* The regulator (e.g. DERC) has issued a licensing pointer you can quote in `issuer.idRef` (`issuedBy` = regulator's `did:web`, `subjectId` = regulator-issued licence ID). `issuer.idRef` is optional per the schema and the W3C spec — omit it for pilots, non-regulated issuers, or before your regulator's DID is set up. Credential issuance does **not** require any IES-side DISCOM-registry entry either way.
-
-### 1. Confirm the issuer DID OpenCred reports
-
-```bash
-export ISSUER_DID="$(curl -s http://localhost:3100/v1/keys \
-  -H "Authorization: Bearer $OPENCRED_API_KEY" | jq -r '.keys[0].id | split("#")[0]')"
-echo "$ISSUER_DID"
-# did:web:ies.tpddl.in
-```
-
-If you ran the container in `did:key` mode, this prints `did:key:z…` instead — the rest of the flow is identical, only the issuer string changes.
-
-### 2. Issue the credential
-
-A new-connection ElectricityCredential carries the consumer's CIS number and one `energyResources[]` entry per meter. The payload below mirrors the [OpenCred bootcamp](https://opencred.gitbook.io/docs/bootcamp/local-docker) — domain-specific fields in `credentialSubject`, no holder identifier (bearer style). For holder-binding patterns (wallet DID or `tel:` URI), see [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity). POST to `/v1/credentials/issue`:
-
-```bash
-curl -s http://localhost:3100/v1/credentials/issue \
-  -H "Authorization: Bearer $OPENCRED_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"schemaId\":    \"ElectricityCredential/v1.2\",
-    \"issuerDid\":   \"$ISSUER_DID\",
-    \"proofFormat\": \"vc-jwt\",
-    \"validFrom\":   \"2026-04-01T00:00:00+05:30\",
-    \"validUntil\":  \"2031-04-01T00:00:00+05:30\",
-    \"credentialSubject\": {
-      \"customerProfile\": {
-        \"customerNumber\": \"TPDDL-2025-00987654\",
-        \"energyResources\": [{
-          \"id\":   \"did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001\",
-          \"type\": \"METER\",
-          \"attributes\": {\"meterCapability\": \"AMI\", \"energyDirection\": \"Forward\"}
-        }],
-        \"consumptionProfiles\": [{
-          \"meterId\":            \"did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001\",
-          \"sanctionedLoad\":     {\"value\": 10, \"unit\": \"kW\"},
-          \"tariffCategoryCode\": \"DS-I\",
-          \"premisesType\":       \"Residential\",
-          \"connectionType\":     \"Single-phase\"
-        }]
-      },
-      \"customerDetails\": {
-        \"fullName\":              \"Arjun Mehra\",
-        \"serviceConnectionDate\": \"2018-07-15T00:00:00+05:30\"
-      }
-    }
-  }" | tee credential.json | jq .credential
-```
-
-Three things worth noting:
-
-- This payload mirrors the [OpenCred bootcamp](https://opencred.gitbook.io/docs/bootcamp/local-docker) shape — only the `schemaId` and the `credentialSubject` fields change to fit v1.2. **No `credentialSubject.id`** is set here, which means the credential is issued in **bearer style** — anyone holding the JSON is treated as the subject. For consumer-facing flows where the presenter must be the legitimate subject, set `credentialSubject.id` to a holder identifier and require a presentation-time proof — see [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity).
-- **Every IES identifier is a `did:web` derived from a domain you control.** Meter IDs use the colon-path form (`did:web:ies.tpddl.in:assets:meter:<slno>`). The same pattern works for transformers, feeders, and substations — see [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets).
-- **The regulator's `issuer.idRef`** (`{ issuedBy, subjectId }`) is optional. If you have a regulator to cite, your pipeline appends it after OpenCred returns the credential and (if your flow requires a single signed artefact) re-signs the result. OpenCred itself does not know your regulator relationship. If you have no regulator to cite, omit `idRef` entirely — `issuer.id` plus `issuer.name` is a valid issuer block on its own.
-
-### 3. Verify the credential
-
-```bash
-jq -n --arg c "$(jq -r '.credential.proof.jwt' credential.json)" '{credential: $c}' | \
-  curl -s http://localhost:3100/v1/credentials/verify \
-    -H "Authorization: Bearer $OPENCRED_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d @- | jq
-# expect "valid": true
-```
-
-### 4. Revoke the credential
-
-OpenCred publishes revocation as a hash entry into a DeDi-hosted revocation registry. The credential format does not change; the verifier reads `credentialStatus` and looks up the hash. See [OpenCred → Revocation](https://opencred.gitbook.io/docs/concepts/revocation) for the conceptual model.
-
-Compute the revocation hash from the issued credential, then submit the revoke call:
-
-```bash
-HASH=$(jq '{credential: .credential}' credential.json | \
-  curl -s http://localhost:3100/v1/credentials/revocation-hash \
-    -H "Authorization: Bearer $OPENCRED_API_KEY" \
-    -H "Content-Type: application/json" -d @- | jq -r .revocationHash)
-
-curl -s http://localhost:3100/v1/credentials/revoke \
-  -H "Authorization: Bearer $OPENCRED_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d "{\"hash\": \"$HASH\", \"reason\": \"connection-terminated\"}" | jq
-```
-
-Check status:
-
-```bash
-curl -s http://localhost:3100/v1/credentials/revocation-status \
-  -H "Authorization: Bearer $OPENCRED_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d "{\"hash\": \"$HASH\"}" | jq
-```
-
-Revocation via DeDi requires the relevant `OPENCRED_DEDI_*` env vars on the container (`OPENCRED_DEDI_BASE_URL`, `OPENCRED_DEDI_AUTH_TYPE`, `OPENCRED_DEDI_API_KEY`, `OPENCRED_DEDI_NAMESPACE`). The [OpenCred bootcamp page](https://opencred.gitbook.io/docs/bootcamp/local-docker) lists the full set and where to obtain them for your network.
-
-### 5. End-to-end smoke test
-
-A passing integration test should:
-
-1. Issue a credential (bearer-style by default, or add a holder identifier per [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity)).
-2. Resolve `issuer.id` (fetch `did.json` over HTTPS) and confirm the public key matches the one that signed `proof`.
-3. *(If `issuer.idRef` is present)* Resolve `issuer.idRef.issuedBy` (the regulator's `did:web`) and confirm your DISCOM is listed under their registry. Skip this step for credentials issued without an `idRef`.
-4. Verify the credential via `/v1/credentials/verify` and confirm `valid: true`.
-5. Check `revocation-status` — expect "not revoked".
-6. Revoke the credential.
-7. Re-check `revocation-status` — expect "revoked".
-
-Run this on every release. It is the simplest possible smoke test that covers all the identifier flows in one credential.
-
-### What you have at the end
-
-| Artefact | Where |
-|---|---|
-| Issuer DID document | `https://ies.tpddl.in/.well-known/did.json` |
-| Regulator licensing pointer *(optional)* | `issuer.idRef` on every credential, pointing at the regulator's `did:web` — included when you cite a regulator, omitted otherwise |
-| Asset DIDs | `did:web:ies.tpddl.in:assets:<class>:<id>` (no extra hosting required if you serve a directory listing or DID document per asset) |
-| Revocation entries | Hash records in the DeDi revocation registry your OpenCred is configured against |
-| Signed credentials | OpenCred output, delivered to wallets or DigiLocker |
-
-For production deployments using OpenCred — horizontal scale, Cloud HSM key management, the full HTTP API — see [OpenCred → Docker image](https://opencred.gitbook.io/docs/docker-image/docker) and [OpenCred → API reference](https://opencred.gitbook.io/docs/docker-image/api-reference). If you're building your own issuer, the IES-specific identifier wiring on this page is independent of the SDK you pick.
+The end-to-end walkthrough for issuing, verifying, and revoking an ElectricityCredential v1.2 now lives in **[Energy Credentials](../energy-credentials/README.md)**. Pick up there once your `did:web` is published (Step-by-step above).
 
 ---
 
@@ -774,7 +647,7 @@ A stolen credential JSON does not pass step 5: the attacker doesn't have the wal
 
 This is the model OpenID for Verifiable Presentations (OID4VP), DIDComm, and most W3C wallet ecosystems implement.
 
-**Wallet rotation.** A wallet `did:key` cannot rotate (rotating means a new DID). If a consumer's wallet is lost or compromised, they generate a new `did:key` and you re-issue the credential bound to it. The old credential is revoked through your DeDi revocation registry (Appendix B Step 4).
+**Wallet rotation.** A wallet `did:key` cannot rotate (rotating means a new DID). If a consumer's wallet is lost or compromised, they generate a new `did:key` and you re-issue the credential bound to it. The old credential is revoked through your DeDi revocation registry (see [Energy Credentials — Revoke](../energy-credentials/README.md#4-revoke)).
 
 ### Pattern 2 — Phone-number URI (out-of-band, when there is no wallet)
 

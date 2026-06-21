@@ -1,124 +1,68 @@
 # Consumer Meter Digest
 
-**The consumer pulls their own granular meter readings on demand from their DISCOM as a signed credential, and shares it with a third party of their choice — bank, marketplace, energy app, society — directly from their wallet.**
+**The Consumer Meter Digest is a [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md) issued, on consumer demand, holder-bound to the consumer's wallet, carrying their own meter readings for a specified period.** It is not a new credential type — it is *how* an existing MeterDataCredential is configured when a consumer (rather than another DISCOM or AMISP) is the audience.
+
+The Digest gives a consumer a portable, signed, verifier-friendly bundle of their telemetry — for a loan application, a rooftop-solar quote, a tariff comparison, a marketplace listing, a housing-society compliance check — without those parties having to phone the DISCOM.
 
 ---
 
-## Scenario
+## Why this use case exists
 
-Smart-meter data flows freely between the AMISP and the DISCOM. But the consumer who actually pays the bill — and whose data it is — has no clean way to put that data in front of a third party they trust. Today they screenshot bills, download messy CSVs from DISCOM portals, or grant blanket account access to apps via screen-scraping.
+Consumers regularly need to share their actual electricity-consumption pattern. Today they print PDFs of monthly bills and email scans. Verifiers have no way to confirm the bill is real and unaltered, so most of them call the DISCOM anyway. The Digest replaces that loop with a credential the verifier can check offline against the DISCOM's published key.
 
-The Consumer Meter Digest replaces this with a request the consumer initiates from their wallet. The DISCOM returns the consumer's own meter readings (or a derived summary — monthly bill ladder, peak-time profile, last-12-months consumption) as a signed credential the consumer can hand to anyone. The recipient verifies the DISCOM's signature against the public registry and consumes the data with full confidence in its provenance.
+## How it differs from a B2B MeterDataCredential
 
-This is the **consumer-facing dual** of [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md). Where that flow is bulk, machine-to-machine, and DISCOM-internal, this flow is one-meter, on-demand, consumer-mediated, wallet-shareable.
+Same schema, same issuance pipeline. Three issuance-time differences:
 
----
-
-## Actors and Roles
-
-| Role | Organisation | What they do |
+| Concern | B2B MeterDataCredential v0.6 | Consumer Meter Digest |
 |---|---|---|
-| **Issuer** | DISCOM | Holds the canonical meter data; issues the signed Digest on consumer request |
-| **Holder** | Consumer | Initiates the request from their wallet; stores the Digest; presents it to verifiers of their choosing |
-| **Verifier** | Bank, marketplace, energy app, housing society, EV-charger installer | Receives the Digest from the consumer's wallet; resolves the DISCOM's `did:web` and the regulator's licensing pointer (`issuer.idRef`) to validate the signature; consumes the data |
+| Triggered by | Beckn `confirm` from a DISCOM consumer-pull | Consumer request (often via DigiLocker or a consented wallet app) |
+| `credentialSubject.id` | absent — bearer; the receiving DISCOM is the implicit subject | **set** to the consumer's wallet DID |
+| `validUntil` | days to weeks | **hours to days** — Digests are point-in-time snapshots |
 
----
+The schema body — the `meterReference`, the `period`, the `readings` (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles) or `summary` (aggregates), `dataQuality`, the issuer block, the proof — is identical to any other MeterDataCredential v0.6.
 
-## Building Blocks Used
+The `type` array stays `["VerifiableCredential", "MeterDataCredential"]` — no new VC type is introduced.
 
-| Block | Role in this use case |
+## Actors and flow
+
+| Role | Who | What they do |
+|---|---|---|
+| **Holder** | Consumer | Initiates the request from their wallet / DigiLocker; stores the returned Digest; presents it to verifiers of their choosing |
+| **Issuer** | DISCOM | Pulls the relevant readings from its MDM, signs the Digest, delivers it back into the consumer's wallet |
+| **Verifier** | Bank, marketplace, energy app, housing society, EV-charger installer | Reads the Digest; resolves the DISCOM's `did:web` and (if cited) the regulator's licensing pointer to validate; reads the readings or summary |
+
+Granularity options today: `RAW_15M` (15-minute interval data), `DAILY`, `MONTHLY`, plus derived summaries (`SUMMARY_TOTAL`, `SUMMARY_PEAK`, `SUMMARY_TOD`). Maximum period typically 24 months for `MONTHLY`, 90 days for `RAW_15M`.
+
+## Building blocks
+
+| Block | Used for |
 |---|---|
-| [Identifiers](../../identifiers/README.md) | The Digest references the consumer's DID, the meter ID, and the time-range it covers. The DISCOM's `did:web` is the issuer ID. |
-| [Registries](../../registries/README.md) | Credential verification uses the DISCOM's `did:web` plus the regulator's licensing pointer. The DISCOM also appears in the [IES DISCOMs Reference Registry](../../registries/README.md#reference-allow-lists-industry-coordination) because the Digest is delivered over Beckn (where the IES-registry entry is the trust boundary). Revocation is checked via DeDi. |
-| [Energy Credentials](../../energy-credentials/README.md) | The Digest is a `ConsumerMeterDigest` Verifiable Credential — see [Consumer Meter Digest credential](../../energy-credentials/consumer-meter-digest.md) for the schema. Issued by the same OpenCred service the DISCOM already runs. |
-| [Data Exchange](../../data-exchange/README.md) | The DISCOM exposes a "consumer-pull" endpoint over IES Data Exchange that returns the Digest inline. The exact mechanism by which the consumer's wallet drives the request is still being agreed; what is stable is that the Digest is delivered back as a signed credential. |
+| [Identifiers and Addressing](../../identifiers/README.md) | DISCOM's `did:web`; consumer's wallet `did:key`; meter and connection DIDs that anchor the Digest |
+| [Energy Credentials](../../energy-credentials/README.md) | Issuance, signing, verification, revocation — including the [Consumer Meter Digest variant](../../energy-credentials/README.md#credential-variants) under "Credential variants" |
+| [Data Exchange](../../data-exchange/README.md) | If the consumer-pull endpoint is fronted by your BPP over Beckn, the BAP/BPP machinery is the same as [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) — only the trigger (consumer, not DISCOM) and the `validUntil` differ |
+| [DigiLocker delivery](../../energy-credentials/digilocker.md) | The dominant delivery channel into the consumer's wallet |
 
----
+## What you actually do
 
-## What's in the Digest
+1. The consumer must hold a credential proving the right to request data for this meter — typically a [Consumer Energy Passport](../consumer-energy-passport/README.md) (the holder-bound ElectricityCredential v1.2) or a minimal customer credential.
+2. Catalogue a "consumer-pull" endpoint on your BPP that accepts a request bearing that credential and returns a MeterDataCredential v0.6.
+3. Issue the Digest via [Energy Credentials — Issue your first credential](../../energy-credentials/README.md#issue-your-first-credential), setting `credentialSubject.id` to the consumer's wallet DID, `schemaId` to `MeterDataCredential/v0.6`, and `validUntil` to a short window matching the use case (24h for loan portals, up to 7d for non-time-sensitive flows).
+4. Deliver to the consumer's wallet — [DigiLocker delivery](../../energy-credentials/digilocker.md), or directly to a known DID inbox if the wallet exposes one.
+5. Revocation rarely matters in practice (Digests typically expire faster than they would need revocation), but the same DeDi-hash revocation flow is available if you need it.
 
-The `ConsumerMeterDigest` is a W3C Verifiable Credential 2.0 of type `ConsumerMeterDigest`. Its `credentialSubject` carries:
+## Operational checklist
 
-| Block | What it contains |
-|---|---|
-| `meterReference` | Meter ID, customer number, DISCOM ID — links the Digest unambiguously to the meter |
-| `period` | ISO 8601 start / end of the readings range |
-| `granularity` | `RAW_15M` (raw 15-minute readings), `DAILY`, `MONTHLY`, or a derived summary type |
-| `readings` | An OpenADR 3 `REPORT` block — same envelope as Smart Meter Data Exchange — when raw readings are returned |
-| `summary` | Aggregates (total kWh, peak demand, ToD breakdown, monthly ladder) when a derived summary is returned |
-| `dataQuality` | Coverage % and flag for any estimated/missing intervals in the range |
+See [Energy Credentials — Onboarding checklist](../../checklists/energy-credentials-checklist.md). The Digest adds:
 
-The full schema and a worked example live in [Energy Credentials → Consumer Meter Digest](../../energy-credentials/consumer-meter-digest.md).
-
-The Digest is a credential, not just a data dump: the DISCOM signs it, the consumer holds it, and any verifier can confirm both the readings and the issuer with no callback to the DISCOM.
-
----
-
-## Setup Steps
-
-### 1. DISCOM-side prerequisites
-
-The DISCOM must already have:
-
-- A published `did:web` (and the regulator's licensing pointer for `issuer.idRef`). Because the Digest is delivered over Beckn, the DISCOM also needs a [IES DISCOMs Reference Registry](../../registries/README.md#reference-allow-lists-industry-coordination) entry for the Beckn trust boundary.
-- An OpenCred service running (per [Energy Credentials Deployment](../../energy-credentials/onboarding.md)) — the same instance that issues `CustomerCredential` and the Consumer Energy Passport.
-- A BPP adapter exposing a "consumer-pull" catalogue entry on the IES Data Exchange (per [Data Exchange Quick Start](../../data-exchange/quick-start.md)).
-- A connection from the BPP to its MDMS so a consumer-pull can resolve to actual meter readings.
-
-### 2. Wallet-side prerequisites
-
-Consumers need a wallet — DigiLocker, or a DID-enabled wallet app the DISCOM recommends — that holds the consumer's DID, the keypair that authenticates them to the DISCOM, and the consumer's [Consumer Energy Passport](../consumer-energy-passport/README.md) (or a minimal `CustomerCredential`) which is what proves they have the right to request data for that meter.
-
-### 3. Catalogue the consumer-pull endpoint
-
-The DISCOM publishes a catalogue entry for the Digest service:
-
-- `descriptor.name` — e.g. *"BESCOM Consumer Meter Digest"*
-- `accessMethod` — `INLINE` (Digests are small)
-- `requiredCredential` — type `CustomerCredential` or `ConsumerEnergyPassport` issued by this DISCOM, with the meter ID matching the request
-- `granularityOptions` — supported `granularity` values (`RAW_15M`, `DAILY`, `MONTHLY`, `SUMMARY_*`)
-- `maxRange` — typically 24 months for `MONTHLY`, 90 days for `RAW_15M`
-
-### 4. The consumer presents the Digest
-
-The Digest now lives in the consumer's wallet. They share it with a verifier — bank, marketplace, society — who:
-
-1. Resolves the DISCOM's `did:web` (directly over HTTPS from `.well-known/did.json`).
-2. Verifies the Digest's signature.
-3. Checks the DeDi revocation status.
-4. Reads the readings or summary and proceeds.
-
-For larger operations (e.g. a marketplace pulling Digests for many consumers), the verifier may also become a BAP against the DISCOM — but only when presenting a Digest authorisation credential issued by the consumer to the marketplace.
-
----
-
-## Why a Credential, Not Just an API Pull
-
-A bank could in principle hit a DISCOM API directly with the consumer's consent token and read CSV. Returning the data **inside a signed credential** instead gives:
-
-- **Portability** — the Digest moves with the consumer; no per-verifier integration with each DISCOM.
-- **Provenance** — every verifier sees the DISCOM's signature; the data cannot be silently altered after issue.
-- **Time-bound caching** — the Digest carries `validFrom`/`validUntil`; verifiers can cache without staleness anxiety.
-- **Selective disclosure** — SD-JWT-VC presentation lets the consumer reveal *"my last-12-months total kWh"* without exposing the per-interval profile.
-
----
-
-## Open Items
-
-- **`ConsumerMeterDigest` credential schema** is in draft. The envelope and the `meterReference`/`period`/`granularity` fields are stable; the summary-type taxonomy (`SUMMARY_MONTHLY_LADDER`, `SUMMARY_TOD_PROFILE`, `SUMMARY_PEAK_DEMAND`) is being formalised. See [Energy Credentials → Consumer Meter Digest](../../energy-credentials/consumer-meter-digest.md).
-- **Wallet UX patterns.** The agreed wallet flow (consent screens, period selectors, scope display) for triggering a Digest pull is being documented in DigiLocker integration notes.
-- **Bulk / batch Digests.** A marketplace pattern for "100 consumers each authorise me to pull their Digests" is being designed; the per-consumer credential model is the foundation.
-- **`MeterData/v0.6` profile tightening** (see [Smart Meter Data Exchange § Open Items](../smart-meter-data-exchange/README.md#open-items)) flows directly into this use case — the `readings` block of the Digest reuses the same `MeterData/v0.6` profile shapes (`INTERVAL` / `DAILY` / `MONTHLY` / …). `MeterData/v0.6` supersedes the earlier `IES_Report` working name.
-
----
+- [ ] Consumer-pull catalogue entry published on your BPP
+- [ ] MDM read path tuned for the supported granularities and ranges
+- [ ] Wallet → Digest round-trip tested with both DigiLocker and at least one direct-DID wallet
+- [ ] `validUntil` window agreed with the first set of verifiers (loan portals tend to want fresh; subsidy portals tolerate a week)
 
 ## References
 
-- [Checklist](./checklist.md) — plain-English rollout checklist
-
-- [Energy Credentials → Consumer Meter Digest (schema)](../../energy-credentials/consumer-meter-digest.md)
-- [Energy Credentials → Core Concepts](../../energy-credentials/concepts.md)
-- [Energy Credentials → Issuance](../../energy-credentials/issuance.md)
-- [Energy Credentials → Verification](../../energy-credentials/verification.md)
-- [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) — the bulk M2M dual of this use case
-- [Consumer Energy Passport](../consumer-energy-passport/README.md) — the identity / asset Passport the consumer presents to authorise the Digest
+- [MeterDataCredential v0.6 schema](../../schemas/MeterDataCredential/v0.6/README.md) — the schema this use case rides on
+- [Energy Credentials — Credential variants](../../energy-credentials/README.md#credential-variants) — where the Digest variant is documented
+- [Smart Meter Data Exchange use case](../smart-meter-data-exchange/README.md) — the B2B sibling of this consumer flow
+- [DigiLocker delivery](../../energy-credentials/digilocker.md)
