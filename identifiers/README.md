@@ -2,7 +2,7 @@
 
 This page is the single home for everything IES has to say about identifiers. Read the first three sections and you will have enough to claim your DISCOM's identity on the network and issue your first credential. The appendices are there when you want more depth, want to issue at scale, or need to identify assets, meters, and datasets too.
 
-> **Source of truth for the practical steps.** All key-generation, `did:web` / `did:key` setup, and credential issuance/revocation steps below mirror the [OpenCred bootcamp — Local Docker](https://opencred.gitbook.io/docs/bootcamp/local-docker). OpenCred is the canonical IES issuer; if any command here ever drifts from that page, treat the OpenCred page as authoritative. For the underlying theory of DID methods and revocation, see [OpenCred → DIDs](https://opencred.gitbook.io/docs/concepts/dids) and [OpenCred → Revocation](https://opencred.gitbook.io/docs/concepts/revocation). This page focuses on the IES-specific framing — which method to pick when, what each identifier means inside an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md), and how internal numbering survives the wrapping.
+> **About the walkthroughs.** The concrete commands below use [OpenCred](https://opencred.gitbook.io/docs) — an open-source SDK that packages DID generation, credential issuance, and revocation into a single Docker container, so you can get to a working issuer in an afternoon rather than wiring everything yourself. OpenCred is one option among many; any W3C-compliant issuer that signs with the same key and publishes the same `did.json` will produce credentials that verify identically on the network. If you already have an in-house signing pipeline, swap OpenCred for it and the rest of this page still applies. For deeper theory on DID methods and revocation, the [OpenCred concept pages](https://opencred.gitbook.io/docs/concepts/dids) are a good reference. This page focuses on the IES-specific framing — which method to pick when, what each identifier means inside an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md), and how internal numbering survives the wrapping.
 
 ---
 
@@ -53,9 +53,9 @@ The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#ap
 
 ---
 
-## Step-by-step: publish your `did:web` (and run OpenCred locally)
+## Step-by-step: publish your `did:web`
 
-The practical setup is one Docker container plus one JSON file on a web server you already run. The commands below are taken verbatim from the [OpenCred bootcamp — Local Docker](https://opencred.gitbook.io/docs/bootcamp/local-docker) page; if you want the why behind any step, follow the link.
+The practical setup is one JSON file on a web server you already run, plus a process that signs credentials with the matching private key. The walkthrough below uses the [OpenCred Docker image](https://opencred.gitbook.io/docs/bootcamp/local-docker) as the signing process — it's an open SDK that handles the key-format plumbing for you so you can be issuing in an afternoon. If you'd rather wire up signing in your own service, the published `did.json` and the credential format are unchanged; only Steps 1 and 3 (pull the image, run the container) become "use your existing signing service".
 
 ### What you'll need
 
@@ -289,7 +289,7 @@ Two rules cover most confusion in DID systems:
 
 IES uses three standard W3C DID methods. All three are listed in the [W3C DID Spec Registries](https://www.w3.org/TR/did-spec-registries/), so any standards-compliant verifier already knows how to resolve them. **There is no separate `did:dedi` method.** When you see DeDi mentioned, it is acting as a key-discovery layer for `did:web` (or `did:key`), not as a new DID method.
 
-For the underlying theory — when each method is appropriate, what they buy you, what they cost — the canonical reference is [OpenCred → DIDs](https://opencred.gitbook.io/docs/concepts/dids). This section is the IES-flavoured summary.
+For the underlying theory — when each method is appropriate, what they buy you, what they cost — [OpenCred → DIDs](https://opencred.gitbook.io/docs/concepts/dids) is a good reference. This section is the IES-flavoured summary.
 
 #### `did:web` — the one your DISCOM will use
 
@@ -345,9 +345,9 @@ The price you pay is that you cannot rotate the key — rotating means a new DID
 
 ---
 
-## Appendix B — Issuing and revoking an ElectricityCredential v1.2 with OpenCred
+## Appendix B — Issuing and revoking an ElectricityCredential v1.2
 
-This appendix walks end-to-end through issuing and revoking an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) using the OpenCred container you started in [Step 3](#3-run-opencred-in-didweb-mode). It is the IES-flavoured continuation of the [OpenCred bootcamp — Local Docker](https://opencred.gitbook.io/docs/bootcamp/local-docker); refer to that page for the underlying API contracts, error shapes, and production-hardening notes.
+This appendix walks end-to-end through issuing and revoking an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md). The commands use the [OpenCred](https://opencred.gitbook.io/docs) container you started in [Step 3](#3-run-opencred-in-didweb-mode) because it's an open SDK that gets you to a working issuer fastest; any W3C-compliant signing pipeline that consumes the same key and emits the same credential shape will work just as well.
 
 ### Prerequisites
 
@@ -474,7 +474,7 @@ Run this on every release. It is the simplest possible smoke test that covers al
 | Revocation entries | Hash records in the DeDi revocation registry your OpenCred is configured against |
 | Signed credentials | OpenCred output, delivered to wallets or DigiLocker |
 
-For production deployments — horizontal scale, Cloud HSM key management, the full HTTP API — go straight to [OpenCred → Docker image](https://opencred.gitbook.io/docs/docker-image/docker) and [OpenCred → API reference](https://opencred.gitbook.io/docs/docker-image/api-reference). Nothing on this page contradicts those; this page just adds the IES-specific identifier wiring on top.
+For production deployments using OpenCred — horizontal scale, Cloud HSM key management, the full HTTP API — see [OpenCred → Docker image](https://opencred.gitbook.io/docs/docker-image/docker) and [OpenCred → API reference](https://opencred.gitbook.io/docs/docker-image/api-reference). If you're building your own issuer, the IES-specific identifier wiring on this page is independent of the SDK you pick.
 
 ---
 
