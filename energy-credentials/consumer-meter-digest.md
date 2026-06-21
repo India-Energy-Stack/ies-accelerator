@@ -241,7 +241,7 @@ Use `proofFormat: "vc-jwt"` (the bootcamp default since OpenCred PR #599) for th
 
 Same flow as [Verification](./verification.md):
 
-1. Resolve the DISCOM's `did:web` from the IES DISCOMs Reference Registry.
+1. Resolve the DISCOM's `did:web` (directly over HTTPS from `.well-known/did.json`) and the regulator quoted in `issuer.idRef`.
 2. Verify the `proof` signature locally.
 3. Check `credentialStatus` against DeDi for revocation.
 4. Confirm `validUntil` is in the future.

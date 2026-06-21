@@ -32,8 +32,8 @@ indiaenergystack.in           (NFO namespace for Beckn, same operator)
 
 | Registry | Operator | Purpose | Required for |
 |---|---|---|---|
-| [DISCOM reference registry](#discom-reference-registry) | IES | Allow-list of DISCOMs | Every credential a DISCOM issues |
-| [Regulator reference registry](#regulator-reference-registry) | IES | Allow-list of regulators | Tariff orders, regulator-signed messages |
+| [DISCOM reference registry](#discom-reference-registry) | IES | Curated allow-list of DISCOMs (Beckn trust boundary) | Beckn data exchange (not credential issuance) |
+| [Regulator reference registry](#regulator-reference-registry) | IES | Curated allow-list of regulators | Beckn data exchange; optional sanity-check on `issuer.idRef.issuedBy` |
 | [Schemas registry](#schemas-registry) | IES | Canonical credential / DDM schemas | Schema-validated flows (forthcoming) |
 | [Network reference registry](#network-reference-registry) | IES | Beckn network membership | Beckn data exchange |
 | [Subscriber registry](#beckn-subscriber-registry) | You (NP) | Your BAP/BPP identity + signing key | Beckn data exchange |
@@ -41,6 +41,8 @@ indiaenergystack.in           (NFO namespace for Beckn, same operator)
 | [Revocation registry](#revocation-registry) | You (issuer) | Per-credential revocation status | Credential issuance |
 | [Asset registry](#asset-registry-optional) | You (DISCOM) | Public asset metadata | Beckn search of physical assets |
 | [Dataset registry](#dataset-registry-optional) | You (DISCOM) | Beckn `DatasetItem` discovery | Beckn data discovery |
+
+> **Credential trust does not require any IES-operated registry.** Verifiers trust an ElectricityCredential by resolving the issuer's `did:web` for the signing key and the regulator's `did:web` (cited in `issuer.idRef.issuedBy`) for the licensing assertion. The IES DISCOMs and Regulator reference registries above are Beckn-side / industry-coordination tools; they are the trust boundary for **data exchange over Beckn**, not for credential issuance.
 
 ---
 
@@ -50,8 +52,8 @@ Pick the row that describes your situation. The **bold** registries are what you
 
 | You are… | Need referenced into | Need to operate yourself |
 |---|---|---|
-| **A DISCOM issuing electricity credentials** | DISCOM reference, IES schemas (when live) | **`vc-revocation-registry`**, **`public-keys`** |
-| **A DISCOM joining Beckn data exchange** | Network reference (test + prod) | **`subscribers-test`**, **`subscribers-prod`** (`beckn_subscriber` tag) |
+| **A DISCOM issuing electricity credentials** | (nothing IES-operated) — credential trust flows from your `did:web` + the regulator's `idRef`. IES schemas registry (when live) for schema validation. | **`vc-revocation-registry`**, **`public-keys`** |
+| **A DISCOM joining Beckn data exchange** | **DISCOM reference** (Beckn trust boundary), **Network reference** (test + prod) | **`subscribers-test`**, **`subscribers-prod`** (`beckn_subscriber` tag) |
 | **A regulator publishing tariff orders** | Regulator reference, IES schemas | **`public-keys`**, **`vc-revocation-registry`** |
 | **An AMISP / aggregator BAP** | Network reference | **`subscribers-test`**, **`subscribers-prod`** |
 | **An application / verifier** | (nothing — read-only) | (nothing) |
@@ -62,14 +64,14 @@ The three sections below cover the IES-operated registries you get **referenced 
 
 ## DISCOM reference registry
 
-The IES network's authoritative list of recognised DISCOMs. **Every electricity credential verifier reads this** to decide whether to trust the issuer.
+The IES network operator's curated list of recognised DISCOMs. It is the **Beckn data-exchange trust boundary** — the NFO references DISCOM records from here into Beckn network registries so other nodes treat the DISCOM as in-network. **Credential issuance does not require an entry here**: an ElectricityCredential is trusted via the issuer's `did:web` signature and the regulator's licensing assertion in `issuer.idRef`.
 
 | Property | Value |
 |---|---|
 | Path | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
 | Tag | `membership` |
 | Written by | IES network operator |
-| Read by | All credential verifiers |
+| Read by | NFO (to compose Beckn network registries); Beckn counterparties for trust-boundary checks |
 
 ### Record shape
 
@@ -344,16 +346,16 @@ A DeDi namespace is controlled by **its namespace DID** (i.e. the account/keys a
 
 ## End-to-end onboarding checklist
 
-For a DISCOM that wants to be fully onboarded for credentials + Beckn:
+For a DISCOM that wants to be fully onboarded for credentials + Beckn. Steps 6–8 are needed **only for Beckn data exchange**; a DISCOM that is only issuing credentials can stop after Step 4 plus the regulator-issued licensing pointer for `issuer.idRef`.
 
 1. [ ] DeDi account created (role mailbox, MFA, API token in your secret manager). → [Registry Creation §1](./registry-creation.md#step-1--create-a-dedi-account)
 2. [ ] Namespace `<discom-id>` created and **domain-verified** against `<discom>.in`. → [§2](./registry-creation.md#step-2--create-a-namespace), [§3](./registry-creation.md#step-3--verify-the-namespace-against-a-domain)
 3. [ ] `vc-revocation-registry` registry created (tag `revoke`). → [Revocation registry](#revocation-registry)
 4. [ ] `public-keys` registry created (tag `public_key`), with at least one active key record. → [Public-keys registry](#public-keys-registry)
-5. [ ] `subscribers-test` registry created (tag `beckn_subscriber`), with one BAP and/or BPP record per ONIX deployment. → [Beckn subscriber registry](#beckn-subscriber-registry)
-6. [ ] Email IES Secretariat with: DISCOM short-code, `did:web` domain, public key, x5c, service areas, endpoints. → [DISCOM reference registry](#discom-reference-registry)
-7. [ ] Email IES Secretariat with: DeDi URL of `subscribers-test` registry (or a single record), specifying Registry vs Record. → [Network reference registry](#network-reference-registry)
-8. [ ] Confirm both references appear: lookup `india-energy-stack/ies-discoms-reference-registry/<discom-id>` and the relevant network registry.
+5. [ ] (Beckn) `subscribers-test` registry created (tag `beckn_subscriber`), with one BAP and/or BPP record per ONIX deployment. → [Beckn subscriber registry](#beckn-subscriber-registry)
+6. [ ] (Beckn) Email IES Secretariat with: DISCOM short-code, `did:web` domain, public key, x5c, service areas, endpoints. → [DISCOM reference registry](#discom-reference-registry)
+7. [ ] (Beckn) Email IES Secretariat with: DeDi URL of `subscribers-test` registry (or a single record), specifying Registry vs Record. → [Network reference registry](#network-reference-registry)
+8. [ ] (Beckn) Confirm both references appear: lookup `india-energy-stack/ies-discoms-reference-registry/<discom-id>` and the relevant network registry.
 9. [ ] Run end-to-end test transactions over the test network.
 10. [ ] Repeat steps 5–8 against `subscribers-prod` and the prod network when ready to go live.
 

@@ -24,13 +24,15 @@ You will issue your first credential in [Issuing Credentials](./issuance.md).
   - An AWS / Azure / GCP KMS key with appropriate IAM access
 - A **DeDi namespace** — the base URL of the DeDi instance, plus either an API key or bearer credentials, plus the namespace ID. This is part of the default OpenCred + DeDi combo from the first run; contact your DeDi operator if you don't have one yet.
 - A secrets manager (Vault, AWS Secrets Manager, Azure Key Vault) for `OPENCRED_API_KEY` and DeDi credentials
-- A DISCOM short code and a registration in the **IES DISCOMs Reference Registry** (see Step 0 below) — required for credentials to be trusted on the IES network
+- The regulator's licensing pointer (`issuedBy` = regulator's `did:web`, `subjectId` = your regulator-issued licence ID) — this is what you quote in every credential's `issuer.idRef`. Obtain this from your state regulator (DERC, KERC, etc.).
+
+> **You do not need to be in the IES DISCOMs Reference Registry to issue credentials.** That registry is the IES network operator's curated list used as the Beckn data-exchange trust boundary; it is **not** a prerequisite for credential trust. Step 0 below is left in place for DISCOMs that also plan to participate in Beckn data exchange — others can skip directly to Step 1.
 
 ---
 
-## Step 0 — Register in the IES DISCOMs Reference Registry
+## Step 0 — (Beckn-side, optional) Register in the IES DISCOMs Reference Registry
 
-Credentials issued on the IES network are trusted only if the issuing DISCOM is listed in the **IES DISCOMs Reference Registry**. The registry holds, per DISCOM, the issuer DID and the published public key(s) verifiers use to check signatures.
+Skip this step if you are only issuing credentials. Come back to it when you start Beckn data exchange — the IES DISCOMs Reference Registry is the curated membership list the NFO uses to enforce the Beckn network's trust boundary. The full subscriber-registry flow is in [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 The registry lives on [`dedi.global`](https://dedi.global) under the `india-energy-stack` namespace. Full base URL:
 
@@ -54,11 +56,8 @@ Steps:
    ```bash
    curl https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/ies-discoms-reference-registry/<your-discom-id>
    ```
-4. Note these values — they go into every credential's `issuer.idRef`:
-   - `issuedBy: did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`
-   - `subjectId: india-energy-stack:<your-discom-id>`
 
-You can do Steps 1–8 below (deploy OpenCred, issue test credentials locally) without a registry entry — the registry only gates whether *third-party verifiers on the IES network* will trust your credentials. For local dev and internal testing it can be deferred.
+For the credential's `issuer.idRef` you will continue to use the regulator's licensing pointer (e.g. `issuedBy: did:web:derc.delhi.gov.in`, `subjectId: derc.delhi.gov.in:<your-licence-id>`), not this registry entry.
 
 ---
 

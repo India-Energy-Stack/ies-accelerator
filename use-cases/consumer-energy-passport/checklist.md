@@ -14,7 +14,7 @@
 
 The Passport reuses the [Energy Credentials](../../energy-credentials/README.md) infrastructure. If you already issue any electricity credential, you only add a new type and the identity-binding step.
 
-- [ ] DISCOM registered in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry)
+- [ ] DISCOM `did:web` published and regulator's licensing pointer obtained (for `issuer.idRef`). The [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry) entry is required only for Beckn data exchange, not for credential issuance.
 - [ ] OpenCred issuer service running
 - [ ] DigiLocker (or alternative wallet) integration in place
 

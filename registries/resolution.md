@@ -158,7 +158,7 @@ Given a signed credential JSON, the verifier walks this path:
 
 Steps 3, 7, and 9 are DeDi lookups. Steps 5 and 6 use cryptography only — no network.
 
-A verifier that caches the IES DISCOMs Reference Registry (say, refresh every 10 minutes) can complete verification entirely offline except for the revocation check.
+A verifier that caches the issuer's and regulator's `did.json` (say, refresh every 10 minutes) can complete verification entirely offline except for the revocation check.
 
 ---
 

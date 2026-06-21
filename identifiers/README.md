@@ -31,19 +31,23 @@ This is your DISCOM's `did:web`. It is the issuer string on every ElectricityCre
 | **A consumer holding a credential** | `did:key` (their wallet generates it) | `did:key:z6Mkj...` |
 | **Your meter / transformer / feeder** | `did:web` under your domain | `did:web:ies.tpddl.in:assets:meter:MET-001` |
 
-Three steps get you here:
+Two steps get you here:
 
 1. **Pick a domain or subdomain** you control (covered in the next section).
 2. **Generate a key pair** and **publish a small `did.json` file** declaring the public key (Steps 1–6 of [Publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally)).
-3. **Hand that DID** (`did:web:ies.tpddl.in`) to the IES network operator to add to the reference list of registered DISCOMs.
+
+That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** A credential carries the regulator's `issuer.idRef` (the licensing assertion); verifiers fetch your `did.json` for the key and the regulator's record to confirm the license. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
 Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. Consumers do not need to do anything; their wallet (or DigiLocker) generates a `did:key` for them automatically the first time they receive a credential.
 
 ### (b) Beckn network identity — for participating on a Beckn network
 
-To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. The Beckn fabric uses a separate **subscriber registry** model: each participant (BAP / BPP) publishes a subscriber record under a verified DeDi namespace, and other nodes look that record up to find your callback URL and your Ed25519 signing key.
+To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. Beckn is a **trust-bounded network**: the Network Facilitator Organisation (NFO) curates who is on the network, and counterparties verify each message against that membership boundary. Two registries enforce this boundary:
 
-The setup is independent from the credential-issuance flow — different key (Ed25519, not P-256), different registry (a Beckn subscriber registry under your DeDi namespace, not `.well-known/did.json`), different consumer (other Beckn nodes, not credential verifiers).
+- **Your own Beckn subscriber registry** under your verified DeDi namespace — declares your callback URL, your role (BAP / BPP), and your Ed25519 signing public key. Other nodes look this up to verify your message signatures and route to you.
+- **The NFO's network reference registry** — a curated allow-list of which subscribers belong to the network. For IES, this is also where a "DISCOM" is recognised as a network participant. The NFO writes a reference entry pointing at your subscriber record; counterparties then know your record is in-network.
+
+Different key (Ed25519, not P-256), different registries (a Beckn subscriber registry under your DeDi namespace, plus an NFO-side reference; not `.well-known/did.json`), different consumer (other Beckn nodes, not credential verifiers). The setup is independent from the credential-issuance flow.
 
 The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
@@ -171,11 +175,9 @@ curl -s https://ies.tpddl.in/.well-known/did.json | jq .id
 
 If that command prints your DID, you're done — any participant on the network can now resolve `did:web:ies.tpddl.in` to your public key and verify any credential you sign.
 
-### 7. Register with the IES network
-
-Send your DID, your legal name, and your service-area list to the IES network operator. They add an entry under their own namespace pointing at your DID, and from that moment your credentials are recognised as coming from a known DISCOM on the network. The operator's onboarding kit lists the exact fields. The OpenCred-side issuance call that follows assumes this step is done.
-
 That's all you need to start signing credentials. Everything below is optional reading.
+
+> **Note on the IES-side DISCOM registry.** Registering your DISCOM in the IES DISCOMs Reference Registry is **not** a prerequisite for credential issuance — credential trust flows from your `did:web` signature plus the regulator's licensing assertion in `issuer.idRef`. The IES-side registry is part of the **Beckn data-exchange trust boundary** (the NFO's curated network allow-list) and is covered in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ---
 
@@ -311,7 +313,7 @@ The strengths of `did:web` for an institutional issuer:
 - Key rotation is one file replace.
 - No new infrastructure beyond a static-file host.
 
-The main limitation is that domain hijack would mean identity hijack. IES mitigates this by *also* registering each DISCOM in the network's reference list, which acts as the curated allow-list of "who counts as a DISCOM". An attacker who steals a domain still cannot pass for a registered DISCOM on the network unless they also compromise that list.
+The main limitation is that domain hijack would mean identity hijack of the issuer key. Credential-level mitigation comes from the **regulator's licensing assertion** (`issuer.idRef`): a verifier resolves the regulator's DID and confirms the regulator vouches for this DISCOM. Even if a domain is hijacked, the attacker cannot forge the regulator's vouching record without also compromising the regulator's key. For Beckn data exchange, the NFO's curated network reference registry adds a second mitigation by gating which subscribers are on the network.
 
 #### `did:key` — what wallets give consumers
 
@@ -351,7 +353,7 @@ This appendix walks end-to-end through issuing and revoking an [ElectricityCrede
 
 - The OpenCred container from Step 3 is running, with `$OPENCRED_API_KEY` exported in your shell.
 - `https://ies.tpddl.in/.well-known/did.json` is serving your DID document (Steps 4–5).
-- The IES network operator has accepted your registration (Step 7) and the regulator has issued the `idRef` you will quote in `issuer.idRef`.
+- The regulator (e.g. DERC) has issued the licensing pointer you will quote in `issuer.idRef` (`issuedBy` = regulator's `did:web`, `subjectId` = regulator-issued licence ID). Credential issuance does **not** require any IES-side DISCOM-registry entry.
 
 ### 1. Confirm the issuer DID OpenCred reports
 
@@ -467,7 +469,7 @@ Run this on every release. It is the simplest possible smoke test that covers al
 | Artefact | Where |
 |---|---|
 | Issuer DID document | `https://ies.tpddl.in/.well-known/did.json` |
-| Registered DISCOM entry | Under the IES network operator's reference registry |
+| Regulator licensing pointer | `issuer.idRef` on every credential, pointing at the regulator's `did:web` |
 | Asset DIDs | `did:web:ies.tpddl.in:assets:<class>:<id>` (no extra hosting required if you serve a directory listing or DID document per asset) |
 | Revocation entries | Hash records in the DeDi revocation registry your OpenCred is configured against |
 | Signed credentials | OpenCred output, delivered to wallets or DigiLocker |

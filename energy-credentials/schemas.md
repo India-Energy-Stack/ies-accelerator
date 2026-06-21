@@ -151,17 +151,30 @@ Array with `minItems: 1` when present. One entry per battery.
 
 A reusable identity-reference pattern used in two places:
 
-- **`issuer.idRef`** — the DISCOM's entry in the **IES DISCOMs Reference Registry**. This is the trust anchor verifiers use to look up the issuer's published public key and confirm the DISCOM is a registered IES participant.
+- **`issuer.idRef`** — the **regulator's licensing assertion** for this DISCOM. `issuedBy` is the regulator's DID (e.g. the State Electricity Regulatory Commission); `subjectId` is the regulator-issued licence identifier for this DISCOM. This is what a verifier checks to confirm the DISCOM is a licensed distribution utility.
 - **`customerProfile.idRef`** — the customer's external identity (e.g. Aadhaar / government ID), used **instead of** carrying the raw ID
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `issuedBy` | URI (DID) | ✓ | DID of the issuing authority |
-| `subjectId` | string | ✓ | `authority-domain:id-value`, e.g. `india-energy-stack:tpddl` |
+| `issuedBy` | URI (DID) | ✓ | DID of the issuing authority (the regulator, for `issuer.idRef`) |
+| `subjectId` | string | ✓ | `authority-domain:id-value`, e.g. `derc.delhi.gov.in:TPDDL-REG-0042` |
 
-### IES DISCOMs Reference Registry
+Example (matches the v1.2 reference examples):
 
-A DISCOM acting as an issuer must be registered in the **IES DISCOMs Reference Registry**. The registry is the canonical source of truth for **which DISCOMs are trusted issuers and what public key each has published**. Verifiers consult it during signature verification — without a registry entry, a credential cannot be trusted, even if the cryptographic signature itself is valid.
+```json
+"issuer": {
+  "id":   "did:web:tpddl.delhi.gov.in",
+  "name": "TPDDL — Tata Power Delhi Distribution Ltd",
+  "idRef": {
+    "issuedBy":  "did:web:derc.delhi.gov.in",
+    "subjectId": "derc.delhi.gov.in:TPDDL-REG-0042"
+  }
+}
+```
+
+### IES DISCOMs Reference Registry (industry coordination / Beckn-side)
+
+The **IES DISCOMs Reference Registry** is the IES network operator's curated allow-list of recognised DISCOMs. **It is not a prerequisite for credential issuance** — credential trust flows from the issuer's `did:web` signature plus the regulator's licensing assertion above. The registry's role is **industry coordination and the Beckn data-exchange trust boundary**: it is the membership list that the NFO references into a Beckn network registry so other Beckn nodes treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 The registry lives on [`dedi.global`](https://dedi.global) under the IES namespace. Its full base URL is:
 
@@ -181,9 +194,7 @@ That long path segment is the URL-encoded form of the namespace DID `did:web:did
 | Issuer (`issuedBy`) DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
 | `subjectId` format | `india-energy-stack:<discom-short-code>` (e.g. `india-energy-stack:tpddl`, `india-energy-stack:bescom`) |
 
-> A sibling registry — `ies-regulators-reference-registry` — lives in the same namespace and holds regulator entries (DERCs, KERCs, etc.). It is not consulted for `issuer.idRef` on electricity credentials, but it is the lookup destination if your application needs to verify a regulator separately.
-
-Setting `issuer.idRef` to point at this registry is what makes a credential **verifiable on the IES network**. Verifiers do not need to know your DISCOM out-of-band — they resolve the registry entry and obtain both the trust assertion and the public key in one lookup.
+> A sibling registry — `ies-regulators-reference-registry` — lives in the same namespace and holds regulator entries (DERCs, KERCs, etc.). It is useful when an application wants to confirm that the regulator quoted in `issuer.idRef.issuedBy` is a recognised IES regulator, but it is not required for the cryptographic credential check itself.
 
 Customer example (masked Aadhaar reference):
 

@@ -80,7 +80,7 @@ A minimum IES electricity credential (`type: "CustomerCredential"`) looks like t
 | `@context` | Defines the JSON-LD vocabulary. Must contain `https://www.w3.org/ns/credentials/v2`. |
 | `id` | A globally unique URN UUID for this specific credential |
 | `type` | Always `"VerifiableCredential"` + `"CustomerCredential"` |
-| `issuer` | DID, legal name, and `idRef` pointing at the DISCOM's entry in the **IES DISCOMs Reference Registry** (see [Trust and the IES Reference Registry](#trust-and-the-ies-reference-registry)) |
+| `issuer` | DID, legal name, and `idRef` carrying the **regulator's licensing assertion** for this DISCOM (see [Trust and the regulator's licensing assertion](#trust-and-the-regulators-licensing-assertion)) |
 | `validFrom` / `validUntil` | ISO 8601 timestamps with timezone offset |
 | `credentialSubject` | The actual facts you are attesting — see [Schemas](./schemas.md) for the sub-profile structure |
 | `credentialStatus` | DeDi revocation pointer (see below) |
@@ -167,57 +167,39 @@ When OpenCred boots, it loads exactly one **signing key** from one of these sour
 
 ---
 
-## Trust and the IES Reference Registry
+## Trust and the regulator's licensing assertion
 
-A cryptographically valid signature is not enough on its own — it proves the credential was signed by *whoever holds that DID's private key*, but a verifier still needs to answer: **"is that DID a trusted DISCOM?"** On the IES network, the answer comes from the **IES DISCOMs Reference Registry**.
-
-### The registry
-
-The registry is hosted on [`dedi.global`](https://dedi.global). Its full base URL is:
-
-```
-https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/
-```
-
-Throughout these docs we refer to a DISCOM's entry by its **relative path** `india-energy-stack/ies-discoms-reference-registry/<discom-id>`; prepend the base URL above to resolve.
-
-| Property | Value |
-|---|---|
-| Host | `api.dedi.global` |
-| Namespace (friendly) | `india-energy-stack` |
-| Namespace DID | `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma` |
-| Registry | `ies-discoms-reference-registry` |
-| Relative path | `india-energy-stack/ies-discoms-reference-registry/<discom-id>` |
-
-Each registry entry holds, at a minimum: the DISCOM's issuer DID, its legal name, and its **published public key(s)**. Registry entries are managed by the IES network operator; DISCOMs cannot self-publish.
+A cryptographically valid signature proves the credential was signed by *whoever holds that DID's private key*. The verifier still needs to answer: **"is that DID a licensed DISCOM?"** On IES, that answer comes from the **regulator** the credential cites in `issuer.idRef`, not from any IES-operator-curated allow-list. The state regulator (DERC, KERC, etc.) is the statutory authority that licenses distribution utilities; the credential references that licensing act.
 
 ### The trust flow
 
-When a verifier checks a credential issued on the IES network:
+When a verifier checks an ElectricityCredential:
 
-1. Parse the credential and read `issuer.idRef.subjectId` (e.g. `india-energy-stack:tpddl`)
-2. Resolve the registry entry at `india-energy-stack/ies-discoms-reference-registry/tpddl` (i.e. the full URL formed by prepending the base above)
-3. Confirm `issuer.id` in the credential matches the DID recorded in the registry entry
-4. Read the public key from the registry entry
-5. Verify the credential's `proof` against that public key
+1. Parse the credential and read `issuer.id` (e.g. `did:web:tpddl.delhi.gov.in`).
+2. Resolve `issuer.id` to obtain the public key (fetch `.well-known/did.json` for `did:web`).
+3. Verify the credential's `proof` signature against that key.
+4. Read `issuer.idRef.issuedBy` (the regulator's DID, e.g. `did:web:derc.delhi.gov.in`) and `issuer.idRef.subjectId` (the licence identifier the regulator issued).
+5. Confirm the regulator vouches for this DISCOM under that licence — either by resolving a regulator-published record (a credential or a registry entry under the regulator's namespace) or by checking the regulator's signed licensing credential, depending on the regulator's chosen publication style.
 
-If any of steps 2–4 fails, the credential is **not trusted**, even if step 5 would have succeeded. This is what makes the registry the trust anchor: a forged credential signed with an unregistered key has no path to acceptance.
+That's the credential trust chain: **issuer signature → regulator licence**. No IES-operator gate sits between the credential and the verifier.
 
-### Why this is better than relying on `did:web` alone
+### Why the regulator, not an IES-operator registry
 
-A pure `did:web` model anchors trust in the issuer's own TLS certificate. That works for organisations a verifier already knows out-of-band, but it does not answer "is this DISCOM real?" — anyone can stand up `did:web:not-a-real-discom.example` and self-attest.
+A pure `did:web` model anchors trust in the issuer's own TLS certificate, which works for organisations a verifier already knows out-of-band but does not answer "is this DISCOM real?" — anyone can stand up `did:web:not-a-real-discom.example` and self-attest. Routing the answer through the **regulator** mirrors how DISCOM identity already works offline: a DISCOM is a DISCOM because the state regulator licensed it. The credential carries a pointer to that licence; the verifier checks the pointer with the regulator. The IES network operator does not need to gate-keep credentials for this to work.
 
-The IES Reference Registry is the network's curated list of who counts as a DISCOM. A DISCOM still publishes its public key via `did:web` (so key rotation remains simple and self-service), but **registration in the IES registry is the act that makes that key trustworthy on this network**.
+### Where the IES DISCOMs Reference Registry fits
+
+The **IES DISCOMs Reference Registry** (the curated `india-energy-stack/ies-discoms-reference-registry/<discom-id>` list operated by the IES network operator) is **not** a prerequisite for credential issuance. Its purpose is **industry coordination and the Beckn data-exchange trust boundary**: it is the membership list that the NFO references into a Beckn network registry so other Beckn nodes treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric). Skip it until you start data exchange over Beckn.
 
 ### Other DID methods still work for signing
 
-The registry is the trust authority, but the underlying signing key can come from any of OpenCred's supported sources:
+The issuer can sign with any of OpenCred's supported sources, and the same trust flow applies:
 
-- **`did:web`** is the most common production setup — the registry entry references your `did:web:<your-domain>` and the public key resolves from your `.well-known/did.json`.
-- **`did:key` from a self-generated PEM** — useful for dev and for early-stage DISCOMs. The registry entry references the `did:key:...` directly.
-- **`did:key` from a DSC** — for DISCOMs anchoring trust additionally in the CSCA chain (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)). The registry entry can carry the certificate's `x5c` chain alongside the bare public key.
+- **`did:web`** is the most common production setup — your public key resolves from `.well-known/did.json` on your domain.
+- **`did:key` from a self-generated PEM** — useful for dev and for early-stage DISCOMs. The credential carries the `did:key:...` as `issuer.id`.
+- **`did:key` from a DSC** — for DISCOMs anchoring trust additionally in the CSCA chain (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)). Embed the `x5c` chain alongside the bare public key.
 
-In every case, the verifier reaches the public key via the registry entry, not by trusting the DISCOM's domain or certificate authority on its own.
+In every case, the verifier resolves `issuer.id` for the public key and `issuer.idRef.issuedBy` for the licensing assertion.
 
 ---
 

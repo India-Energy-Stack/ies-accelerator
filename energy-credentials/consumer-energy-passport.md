@@ -81,8 +81,8 @@ End-to-end implementer guide: [Use cases → Consumer Energy Passport](../use-ca
 
 A verifier:
 
-1. Resolves the issuer DISCOM via the [IES DISCOMs Reference Registry](../registries/required-registries.md#discom-reference-registry).
-2. Resolves the DISCOM's `did:web` to its current public key.
+1. Resolves the DISCOM's `did:web` directly (`.well-known/did.json`) to obtain the current public key.
+2. Resolves the regulator quoted in `issuer.idRef` to confirm the licensing assertion.
 3. Validates the `proof` locally — no callback to the DISCOM.
 4. Checks `credentialStatus` against the DISCOM's DeDi revocation registry.
 

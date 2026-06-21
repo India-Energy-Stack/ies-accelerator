@@ -149,7 +149,7 @@ curl -X POST http://localhost:3100/v1/credentials/issue \
   }'
 ```
 
-OpenCred sets `issuer` to the `issuerDid` string, fills `proof`, and (with `revocationRegistryUrl`) fills `credentialStatus`. **The schema requires the full `issuer` object** (`id`, `name`, optional `idRef`), but OpenCred only accepts the DID string. Your integration service must replace the returned `issuer` field with the schema-conformant object before delivery. The `idRef` points at your DISCOM's entry in the IES DISCOMs Reference Registry — that registry is the trust anchor verifiers use (see [Trust and the IES Reference Registry](./concepts.md#trust-and-the-ies-reference-registry)):
+OpenCred sets `issuer` to the `issuerDid` string, fills `proof`, and (with `revocationRegistryUrl`) fills `credentialStatus`. **The schema requires the full `issuer` object** (`id`, `name`, optional `idRef`), but OpenCred only accepts the DID string. Your integration service must replace the returned `issuer` field with the schema-conformant object before delivery. The `idRef` carries the **regulator's licensing assertion** — `issuedBy` is the regulator's `did:web`, `subjectId` is the regulator-issued licence identifier for your DISCOM. This is the trust anchor verifiers consult (see [Trust and the regulator's licensing assertion](./concepts.md#trust-and-the-regulators-licensing-assertion)):
 
 ```python
 vc = response["credential"]
@@ -157,8 +157,8 @@ vc["issuer"] = {
     "id":   ISSUER_DID,
     "name": ISSUER_NAME,
     "idRef": {
-        "issuedBy":  IES_REGISTRY_DID,         # namespace DID of india-energy-stack
-        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:tpddl
+        "issuedBy":  REGULATOR_DID,        # e.g. did:web:derc.delhi.gov.in
+        "subjectId": REGULATOR_LICENCE_ID, # e.g. derc.delhi.gov.in:TPDDL-REG-0042
     },
 }
 ```
@@ -307,11 +307,9 @@ OPENCRED_URL = "http://opencred:3100"
 OPENCRED_API_KEY = os.environ["OPENCRED_API_KEY"]
 ISSUER_DID = "did:web:ies.tpddl.in"
 ISSUER_NAME = "Tata Power Delhi Distribution Limited"
-# DISCOM's entry in the IES DISCOMs Reference Registry — the trust anchor verifiers use.
-# Relative path: india-energy-stack/ies-discoms-reference-registry/tpddl
-# Full base URL declared in energy-credentials/schemas.md § IES DISCOMs Reference Registry.
-IES_REGISTRY_DID = "did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma"
-IES_REGISTRY_SUBJECT_ID = "india-energy-stack:tpddl"
+# Regulator's licensing pointer — what verifiers consult to confirm DISCOM licensing.
+REGULATOR_DID = "did:web:derc.delhi.gov.in"
+REGULATOR_LICENCE_ID = "derc.delhi.gov.in:TPDDL-REG-0042"
 DEDI_REVOCATION_URL = "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"
 
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -371,7 +369,7 @@ def issue_customer_credential(consumer, holder_did):
     result["credential"]["issuer"] = {
         "id":   ISSUER_DID,
         "name": ISSUER_NAME,
-        "idRef": {"issuedBy": IES_REGISTRY_DID, "subjectId": IES_REGISTRY_SUBJECT_ID},
+        "idRef": {"issuedBy": REGULATOR_DID, "subjectId": REGULATOR_LICENCE_ID},
     }
     return result
 ```
