@@ -1,6 +1,6 @@
 # Data Exchange — Onboarding Checklist
 
-*One staged checklist from devkit sandbox to production go-live. Stage 1 is the [Quick Start](../data-exchange/quick-start.md); Stages 2–3 are [Registry Setup](../data-exchange/registry-setup.md). Use the early stages to brief leadership and align IT/data teams; the later stages are the technical execution path.*
+*One staged checklist from devkit sandbox to production go-live. Each item links to the section in [Data Exchange](../data-exchange/README.md) (or the foundational chapters) that walks the step. No field-level detail is duplicated here — follow the link if you need depth.*
 
 ---
 
@@ -18,67 +18,68 @@
 
 *Decide what you'll exchange and who owns it. Start with one or two datasets.*
 
-- [ ] Datasets identified (meter telemetry, ARR filings, tariff policies, …)
+- [ ] Datasets identified (meter telemetry, ARR filings, tariff policies, …) → [What you can exchange](../data-exchange/README.md#what-you-can-exchange-schema-families)
 - [ ] Source system mapped for each dataset (MDMS / billing / regulatory filing system)
-- [ ] IT/data point of contact nominated (name, email, phone)
-- [ ] Authorised Signatory nominated — approves what your organisation publishes
+- [ ] IT/data point of contact nominated
+- [ ] Authorised signatory nominated — approves what your organisation publishes
 
 ## Stage 1 — Devkit validation (local sandbox)
 
-*Goal: prove the wiring and your application's handling of the payload shape — no real identity, no real network. This is [Quick Start](../data-exchange/quick-start.md) Phases A–C.*
+*Goal: prove the wiring and your application's handling of the payload shape — no real identity, no real network.*
 
-- [ ] Devkit cloned, stack up (`docker compose up -d` in `install/`), all containers healthy
-- [ ] Postman collection for your role and use case imported (defaults left intact)
-- [ ] `confirm` → `on_confirm` round-trip succeeds against the sandbox
+- [ ] [Step 1 — clone and start the stack](../data-exchange/README.md#1-clone-and-start-the-stack); all 7 containers healthy
+- [ ] [Step 2 — Postman collection imported](../data-exchange/README.md#2-import-the-postman-collection-for-your-use-case) for your role + use case (defaults left intact)
+- [ ] [Step 3 — `confirm` sent](../data-exchange/README.md#3-send-confirm); ACK received
+- [ ] [Step 4 — `on_confirm` landed](../data-exchange/README.md#4-watch-on_confirm-land) in `sandbox-bap` (BAP) or `sandbox-bpp` (BPP)
 - [ ] (BAP) Your application consumes the `dataPayload` body ([MeterData](../schemas/MeterData/README.md) / [ArrFiling](../schemas/ArrFiling/README.md) / tariff policy)
-- [ ] (BPP) Your provider handles inbound `confirm` and emits `on_confirm` (or `on_status` for async delivery); wire format matches `uc*/examples/`
-- [ ] *(Optional)* Interop over a public tunnel (ngrok) with another participant's stack
+- [ ] (BPP) Your provider handles inbound `confirm` and emits `on_confirm` (or `on_status` for async / paged delivery)
+- [ ] *(Optional)* Interop over a public tunnel with another participant — [Go over the public internet (ngrok)](../data-exchange/README.md#go-over-the-public-internet-ngrok)
 
 ## Stage 2 — Network identity (DeDi)
 
-*Goal: self-owned identity that counterparties can resolve and verify. Full steps: [Registry Setup](../data-exchange/registry-setup.md).*
+*Goal: self-owned identity that counterparties can resolve and verify.*
 
-- [ ] DeDi namespace verified for a domain you control (DNS TXT record)
-- [ ] Subscriber registry created under your namespace (type `beckn-subscriber`; separate test/prod registries recommended)
-- [ ] Ed25519 signing key pair generated; private key stored in a secrets manager — never in config files or the repo
-- [ ] Subscriber record published (`subscriber_id`, `subscriber_url`, `type`, public key); `recordId` noted
-- [ ] DeDi lookup URL sent to the IES Secretariat ([IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org)); reference entry confirmed in the **test** network registry (`indiaenergystack.in/test-ies-data-sharing-network`)
+- [ ] DeDi account created; namespace claimed and domain-verified → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
+- [ ] Ed25519 signing keypair generated (`tools/sign` in beckn-onix) → [Identifiers — Step 2 (Beckn keypair)](../identifiers/README.md#step-2--generate-your-beckn-signing-keypair)
+- [ ] Beckn subscriber registry created (tag `beckn_subscriber`) under your namespace
+- [ ] Subscriber record published (`subscriber_id`, `subscriber_url`, `type`, `signing_public_key`, `countries`)
+- [ ] Lookup verified at `https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`
+- [ ] DeDi values noted: `subscriber_id`, `record_id` (= ONIX `keyId`), Ed25519 keypair
 
-## Stage 3 — Test network validation
+## Stage 3 — Test-network certification
 
-*Goal: same flows as Stage 1, now with your real identity on the IES test network.*
+*Goal: appear in `indiaenergystack.in/test-ies-data-sharing-network` and run end-to-end exchanges with another participant.*
 
-- [ ] ONIX config updated: `allowedNetworkIDs` (test network), `networkParticipant`, `keyId`, signing keys ([Quick Start § Swap in your real identity](../data-exchange/quick-start.md#swap-in-your-real-identity))
-- [ ] End-to-end exchange completes with another participant on the test network
-- [ ] Delivered `dataPayload` validates against the declared schema family
+- [ ] ONIX config updated with your real identity → [Swap in your real identity](../data-exchange/README.md#swap-in-your-real-identity) (`networkParticipant`, `keyId`, `signingPrivateKey`, `signingPublicKey`)
+- [ ] `allowedNetworkIDs` set to `indiaenergystack.in/test-ies-data-sharing-network`
+- [ ] IES Secretariat emailed with your DeDi lookup URL → [Registries — How to apply](../registries/README.md#how-to-apply-for-an-ies-listing)
+- [ ] Confirmed your subscriber appears under `indiaenergystack.in/test-ies-data-sharing-network` (re-query the namespace)
+- [ ] End-to-end `confirm` → `on_confirm` round-trip with at least one other participant on the test network
+- [ ] *(If applicable)* [Pagination](../data-exchange/README.md#pagination--large-datasets-across-multiple-status--on_status-messages) flow tested — BAP-PULL or BPP-PUSH per your use case
 
-## Stage 4 — Real data integration
+## Stage 4 — Production deployment
 
-*Goal: replace sandbox containers and example payloads with your production logic and live sources.*
+*Goal: live exchange with real DISCOMs / regulators / AMISPs on `indiaenergystack.in/ies-data-sharing-network`.*
 
-- [ ] (BPP) Live connection to source system (MDMS / AMISP, ARR filing system, tariff management system)
-- [ ] (BPP) `on_confirm` / `on_status` carries real, schema-valid `dataPayload` — not example data
-- [ ] (BPP) Catalogue published (`publish-catalog`) and access policy documented (who can request, under what conditions)
-- [ ] (BAP) `dataPayload` ingested into downstream systems; duplicate callbacks for the same `transactionId` handled idempotently
-- [ ] Data refresh cadence confirmed (annual / quarterly / per tariff order, as applicable)
+- [ ] Second ONIX deployment stood up on production hostname with TLS termination (separate keypair, separate DeDi subscriber record) → [Two registries, two ONIX deployments](../data-exchange/README.md#two-registries-two-onix-deployments)
+- [ ] Prod ONIX `allowedNetworkIDs` set narrowly to `indiaenergystack.in/ies-data-sharing-network`
+- [ ] IES Secretariat re-applied for the **prod** network reference
+- [ ] First prod exchange completed end-to-end
+- [ ] Test ONIX kept running for ongoing certification / staging traffic
 
-## Stage 5 — Production infrastructure
+## Stage 5 — Operational hardening
 
-*Goal: production-grade deployment. Recommended pattern: [two ONIX deployments, test and prod](../data-exchange/registry-setup.md#two-registries-two-onix-deployments).*
+*Goal: graduate from one-off success to a maintainable production deployment.*
 
-- [ ] Separate **production** ONIX deployment — own hostname, own TLS cert, own keypair, own DeDi subscriber record
-- [ ] `subscriber_url` published in DeDi is the TLS-terminated public URL
-- [ ] `allowedNetworkIDs` narrowed per deployment (test ONIX accepts only test; prod only prod)
-- [ ] Secrets (signing keys) injected from a secrets manager at runtime
-- [ ] Monitoring and alerting active for adapter health and callback delivery
-
-## Stage 6 — Go-live
-
-- [ ] Prod DeDi lookup URL referenced by IES into `indiaenergystack.in/ies-data-sharing-network`
-- [ ] End-to-end production exchange completed with a real counterpart (not a sandbox)
-- [ ] Data integrity spot-checked — delivered `dataPayload` matches the source system
-- [ ] Operations runbook ready: key rotation, incident response, dataset/catalogue updates
+- [ ] Reverse proxy + TLS in front of ONIX (never expose `:8081` / `:8082` directly)
+- [ ] Signing key in a secret manager (Vault, AWS Secrets Manager, Azure Key Vault)
+- [ ] Schema validation enabled and tested → [Appendix C — Schema validation](../data-exchange/README.md#appendix-c--schema-validation)
+- [ ] Monitoring / alerting on ONIX health, signature-verification failures, and registry lookups
+- [ ] Key-rotation runbook in place
+- [ ] On-call rota for inbound message handling on the BAP / BPP webhooks
+- [ ] *(BAP)* Your own application has replaced `sandbox-bap` → [Make the sandbox your own](../data-exchange/README.md#make-the-sandbox-your-own)
+- [ ] *(BPP)* Your provider has replaced `sandbox-bpp`
 
 ---
 
-*Reference: [Data Exchange docs](../data-exchange/README.md) · [Quick Start](../data-exchange/quick-start.md) · [Registry Setup](../data-exchange/registry-setup.md) · [DEG Devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange)*
+*Once Stages 0–4 are complete, you're a live participant on the IES inter-DISCOM data exchange network. Stage 5 is ongoing operational discipline.*

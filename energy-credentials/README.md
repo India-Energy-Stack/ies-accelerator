@@ -2,7 +2,7 @@
 
 This page is the single home for everything IES has to say about issuing, verifying, and revoking energy credentials. The first three sections take you from a fresh deployment to your first signed credential. The appendices cover trust theory, batch / production patterns, and core concepts.
 
-> **About the walkthrough.** The concrete commands below use [OpenCred](https://opencred.gitbook.io/docs) — a W3C-compliant issuer that's integrated with DeDi out of the box (credential revocation entries flow into a DeDi revocation registry automatically, and the container can optionally back up your `did.json` to DeDi so your DID stays resolvable even when your own domain is unreachable). If you already have an in-house signing pipeline, swap it in — the walkthrough still applies as long as your pipeline produces the same `did.json` and W3C VC-2.0 proofs.
+> **About the walkthrough.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
 ---
 
@@ -29,9 +29,18 @@ sequenceDiagram
     participant Holder as Consumer / Authorized Holder
     participant Verifier as Verifier / Recipient
     Note over DISCOM: Build the credential from CIS/NMS data and sign with OpenCred's private key
-    DISCOM->>Holder: Issue (DigiLocker Pull URI / direct DID push)
-    Note over Holder: Hold in DigiLocker or a DID-controlled wallet
-    Holder->>Verifier: Present (push / share / scan QR)
+    alt Issuance — push to wallet
+        DISCOM->>Holder: DigiLocker Pull URI / direct DID push
+    else Issuance — website download
+        Holder->>DISCOM: Sign in to the DISCOM portal and download the signed JSON
+        DISCOM-->>Holder: credential.json (downloaded to device)
+    end
+    Note over Holder: Hold in DigiLocker / a DID-controlled wallet / a device file
+    alt Presentation — push / scan
+        Holder->>Verifier: Push, share link, or scan QR
+    else Presentation — file upload
+        Holder->>Verifier: Upload credential.json on the verifier's portal
+    end
     Note over Verifier: Verify signature against DISCOM's published public key
     Verifier->>DISCOM: (optional) revocation check via DeDi
     Verifier-->>Holder: Service granted / KYC complete

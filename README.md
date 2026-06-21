@@ -38,7 +38,7 @@ This **Accelerator** is the developer hub for building on it. Five core sections
 - **New to IES?** Read [Getting Started](./getting-started.md) for a five-minute orientation.
 - **Onboarding as a DISCOM, regulator, or [NP](glossary.md#np)?** Go to the [Registries onboarding checklist](./registries/README.md#end-to-end-onboarding-checklist).
 - **Integrating Energy Credentials?** Go to the [Energy Credentials onboarding guide](./energy-credentials/README.md).
-- **Building a data exchange application?** Go to the [Data Exchange quick start](./data-exchange/quick-start.md).
+- **Building a data exchange application?** Go to the [Data Exchange quick start](./data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes).
 - **Need a term defined?** Check the always-visible [Glossary](./glossary.md).
 
 ---

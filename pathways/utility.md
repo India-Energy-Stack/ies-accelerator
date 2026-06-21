@@ -204,12 +204,12 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 
 ## Phase 4: Smart Meter Data Exchange (Beckn Data Pipes)
 
-*(See [Data Exchange — Core Concepts](../data-exchange/concepts.md) for the underlying Beckn primitives.)*
+*(See [Data Exchange — Core Concepts](../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle) for the underlying Beckn primitives.)*
 
 Enable federated, policy-governed data sharing of smart meter telemetry and master data with authorized third parties.
 
 <details>
-<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../data-exchange/quick-start.md))</b></summary>
+<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes))</b></summary>
 
 ### 💡 Phase Advice
 > Deploying the ONIX adapter as a Docker service takes less than 10 minutes. Run the test sandbox local container first to easily verify your configurations before going to production.
@@ -220,9 +220,9 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 3. Register your BPP credentials in DeDi [`subscribers-test`](../registries/README.md#as-a-beckn-network-participant-bap--bpp-aggregator-amisp-trading-platform).
 
 ### References & Anchors
-* [Data Exchange Concepts](../data-exchange/concepts.md)
-* [Data Exchange Quick Start](../data-exchange/quick-start.md)
-* [ONIX Registry Setup](../data-exchange/registry-setup.md)
+* [Data Exchange Concepts](../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle)
+* [Data Exchange Quick Start](../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes)
+* [ONIX Registry Setup](../data-exchange/README.md#swap-in-your-real-identity)
 * [Data Exchange Onboarding Checklist](../checklists/data-exchange-checklist.md)
 </details>
 
@@ -271,7 +271,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > **Clarity Gap**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../data-exchange/concepts.md)
+* [Data Exchange Security & Auth](../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle)
 * [MeterDataRequestCredential Schema](../schemas/MeterDataRequestCredential/v0.1/README.md)
 * [MeterDataRequestCredential Example](../schemas/MeterDataRequestCredential/v0.1/examples/example.json)
 </details>

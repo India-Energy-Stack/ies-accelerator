@@ -101,11 +101,7 @@ def main():
             ("checklists/energy-credentials-checklist.md", "Onboarding checklist for credential issuance — section-linked to the Energy Credentials README.")
         ],
         "exchange_setup": [
-            ("data-exchange/README.md", "Introduction to Beckn-based federated energy data exchange and network components."),
-            ("data-exchange/concepts.md", "Just-enough theory: Beckn lifecycle, trust, DatasetItem, schema families, validation, stack topology."),
-            ("data-exchange/quick-start.md", "Developer guide to starting local sandboxes and sending confirm -> on_confirm exchanges."),
-            ("data-exchange/registry-setup.md", "Detailed steps for configuring ONIX with real identities and whitelisting namespaces."),
-            ("data-exchange/appendix.md", "Reference detail: context invariants, validation dispatch, endpoints, sequence diagram.")
+            ("data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
         "exchange_ops": [
             ("checklists/data-exchange-checklist.md", "Staged onboarding checklist from devkit sandbox to production go-live.")

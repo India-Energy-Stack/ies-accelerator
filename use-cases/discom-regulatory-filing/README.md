@@ -138,7 +138,7 @@ cd DEG/devkits/data-exchange/install
 docker compose up -d
 ```
 
-For production, follow [Registry Setup](../../data-exchange/registry-setup.md) and point the adapter at the IES registry endpoint and your `did:web` keys.
+For production, follow [Registry Setup](../../data-exchange/README.md#swap-in-your-real-identity) and point the adapter at the IES registry endpoint and your `did:web` keys.
 
 ### 4. Catalogue the filing as a published dataset
 
@@ -210,5 +210,5 @@ ARR filings arrive today as PDFs/Excel sheets that regulators manually re-key. D
 - [`IES_ARR_Filing` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/arr)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc2-regulatory-data/examples)
 - [ies-docs ARR examples](https://github.com/India-Energy-Stack/ies-docs/tree/main/implementation-guides/data_exchange/examples)
-- [Data Exchange — Core Concepts](../../data-exchange/concepts.md)
-- [Data Exchange — Quick Start](../../data-exchange/quick-start.md)
+- [Data Exchange — Core Concepts](../../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle)
+- [Data Exchange — Quick Start](../../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes)
