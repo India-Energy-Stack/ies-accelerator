@@ -32,8 +32,8 @@ indiaenergystack.in           (NFO namespace for Beckn, same operator)
 
 | Registry | Operator | Purpose | Required for |
 |---|---|---|---|
-| [DISCOM reference registry](#discom-reference-registry) | IES | Curated allow-list of DISCOMs (Beckn trust boundary) | Beckn data exchange (not credential issuance) |
-| [Regulator reference registry](#regulator-reference-registry) | IES | Curated allow-list of regulators | Beckn data exchange; optional sanity-check on `issuer.idRef.issuedBy` |
+| [DISCOM reference registry](#discom-reference-registry) | IES | Curated allow-list of DISCOMs (inter-DISCOM data exchange network's trust boundary) | Joining the inter-DISCOM data exchange network (not credential issuance) |
+| [Regulator reference registry](#regulator-reference-registry) | IES | Curated allow-list of regulators | Joining the inter-DISCOM data exchange network; optional sanity-check on `issuer.idRef.issuedBy` |
 | [Schemas registry](#schemas-registry) | IES | Canonical credential / DDM schemas | Schema-validated flows (forthcoming) |
 | [Network reference registry](#network-reference-registry) | IES | Beckn network membership | Beckn data exchange |
 | [Subscriber registry](#beckn-subscriber-registry) | You (NP) | Your BAP/BPP identity + signing key | Beckn data exchange |
@@ -53,7 +53,7 @@ Pick the row that describes your situation. The **bold** registries are what you
 | You are… | Need referenced into | Need to operate yourself |
 |---|---|---|
 | **A DISCOM issuing electricity credentials** | (nothing IES-operated) — credential trust flows from your `did:web` + the regulator's `idRef`. IES schemas registry (when live) for schema validation. | **`vc-revocation-registry`**, **`public-keys`** |
-| **A DISCOM joining Beckn data exchange** | **DISCOM reference** (Beckn trust boundary), **Network reference** (test + prod) | **`subscribers-test`**, **`subscribers-prod`** (`beckn_subscriber` tag) |
+| **A DISCOM joining the inter-DISCOM data exchange network** | **DISCOM reference** (network trust boundary), **Network reference** (test + prod) | **`subscribers-test`**, **`subscribers-prod`** (`beckn_subscriber` tag) |
 | **A regulator publishing tariff orders** | Regulator reference, IES schemas | **`public-keys`**, **`vc-revocation-registry`** |
 | **An AMISP / aggregator BAP** | Network reference | **`subscribers-test`**, **`subscribers-prod`** |
 | **An application / verifier** | (nothing — read-only) | (nothing) |
@@ -64,7 +64,7 @@ The three sections below cover the IES-operated registries you get **referenced 
 
 ## DISCOM reference registry
 
-The IES network operator's curated list of recognised DISCOMs. It is the **Beckn data-exchange trust boundary** — the NFO references DISCOM records from here into Beckn network registries so other nodes treat the DISCOM as in-network. **Credential issuance does not require an entry here**: an ElectricityCredential is trusted via the issuer's `did:web` signature and the regulator's licensing assertion in `issuer.idRef`.
+The IES network operator's curated list of recognised DISCOMs. It is the **trust boundary for the inter-DISCOM data exchange network** — the NFO references DISCOM records from here into the network's subscriber registry so other nodes treat the DISCOM as in-network. **Credential issuance does not require an entry here**: an ElectricityCredential is trusted via the issuer's `did:web` signature and the regulator's licensing assertion in `issuer.idRef`.
 
 | Property | Value |
 |---|---|
@@ -346,7 +346,7 @@ A DeDi namespace is controlled by **its namespace DID** (i.e. the account/keys a
 
 ## End-to-end onboarding checklist
 
-For a DISCOM that wants to be fully onboarded for credentials + Beckn. Steps 6–8 are needed **only for Beckn data exchange**; a DISCOM that is only issuing credentials can stop after Step 4 plus the regulator-issued licensing pointer for `issuer.idRef`.
+For a DISCOM that wants to be fully onboarded for credentials + the inter-DISCOM data exchange network. Steps 6–8 are needed **only for joining the inter-DISCOM data exchange network**; a DISCOM that is only issuing credentials can stop after Step 4 plus the regulator-issued licensing pointer for `issuer.idRef`.
 
 1. [ ] DeDi account created (role mailbox, MFA, API token in your secret manager). → [Registry Creation §1](./registry-creation.md#step-1--create-a-dedi-account)
 2. [ ] Namespace `<discom-id>` created and **domain-verified** against `<discom>.in`. → [§2](./registry-creation.md#step-2--create-a-namespace), [§3](./registry-creation.md#step-3--verify-the-namespace-against-a-domain)

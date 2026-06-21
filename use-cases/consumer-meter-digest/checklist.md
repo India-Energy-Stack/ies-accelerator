@@ -14,7 +14,7 @@
 
 The Consumer Meter Digest sits on top of three things you already have or are setting up: a credential issuer (OpenCred), a data-exchange adapter, and a connection to your MDMS. Confirm each is ready before scoping this use case.
 
-- [ ] DISCOM's `did:web` issuer identity published and regulator's licensing pointer obtained (for credentials). For Beckn data exchange, the DISCOM should also be in the IES DISCOMs reference registry — see [Identifiers and Addressing → Appendix E](../../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+- [ ] DISCOM's `did:web` issuer identity published and regulator's licensing pointer obtained (for credentials). For the inter-DISCOM data exchange network, the DISCOM should also be in the IES DISCOMs reference registry — see [Identifiers and Addressing → Appendix E](../../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 - [ ] OpenCred issuer service running (used for `CustomerCredential` already)
 - [ ] Data-exchange adapter (BPP) live or sandboxed
 - [ ] MDMS read access available to the BPP

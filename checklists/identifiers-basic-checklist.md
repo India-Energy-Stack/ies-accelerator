@@ -47,9 +47,9 @@ For each type of identifier (consumer, meter, asset, document), decide whether i
 
 ### 5. (Beckn only) Register with the IES network operator's DISCOM reference
 
-This step is **not required for credential issuance** — your `did:web` plus the regulator's licensing pointer (`issuer.idRef`) carry the credential trust. The IES DISCOMs reference registry is part of the **Beckn data-exchange trust boundary**: the NFO references your DISCOM into its curated network registry so other Beckn nodes treat you as in-network. Skip this step until you start data exchange.
+This step is **not required for credential issuance** — your `did:web` plus the regulator's licensing pointer (`issuer.idRef`) carry the credential trust. The IES DISCOMs reference registry is the trust boundary for the **inter-DISCOM data exchange network**: the NFO references your DISCOM into its curated network registry so other nodes on that network treat you as in-network. Skip this step until you join the inter-DISCOM data exchange network.
 
-- [ ] Registration request sent to the network operator (only if joining Beckn data exchange)
+- [ ] Registration request sent to the network operator (only if joining the inter-DISCOM data exchange network)
 - [ ] Confirmation received that your DISCOM appears in the network reference registry
 
 ### 6. Join the Beckn network (subscriber registry on the fabric)

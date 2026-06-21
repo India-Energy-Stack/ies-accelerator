@@ -26,13 +26,13 @@ You will issue your first credential in [Issuing Credentials](./issuance.md).
 - A secrets manager (Vault, AWS Secrets Manager, Azure Key Vault) for `OPENCRED_API_KEY` and DeDi credentials
 - The regulator's licensing pointer (`issuedBy` = regulator's `did:web`, `subjectId` = your regulator-issued licence ID) — this is what you quote in every credential's `issuer.idRef`. Obtain this from your state regulator (DERC, KERC, etc.).
 
-> **You do not need to be in the IES DISCOMs Reference Registry to issue credentials.** That registry is the IES network operator's curated list used as the Beckn data-exchange trust boundary; it is **not** a prerequisite for credential trust. Step 0 below is left in place for DISCOMs that also plan to participate in Beckn data exchange — others can skip directly to Step 1.
+> **You do not need to be in the IES DISCOMs Reference Registry to issue credentials.** That registry is the IES network operator's curated trust boundary for the **inter-DISCOM data exchange network**; it is **not** a prerequisite for credential trust. Step 0 below is left in place for DISCOMs that also plan to join the inter-DISCOM data exchange network — others can skip directly to Step 1.
 
 ---
 
-## Step 0 — (Beckn-side, optional) Register in the IES DISCOMs Reference Registry
+## Step 0 — (Optional, for the inter-DISCOM data exchange network) Register in the IES DISCOMs Reference Registry
 
-Skip this step if you are only issuing credentials. Come back to it when you start Beckn data exchange — the IES DISCOMs Reference Registry is the curated membership list the NFO uses to enforce the Beckn network's trust boundary. The full subscriber-registry flow is in [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+Skip this step if you are only issuing credentials. Come back to it when you join the inter-DISCOM data exchange network — the IES DISCOMs Reference Registry is the curated membership list the NFO uses to enforce that network's trust boundary. The full subscriber-registry flow is in [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 The registry lives on [`dedi.global`](https://dedi.global) under the `india-energy-stack` namespace. Full base URL:
 

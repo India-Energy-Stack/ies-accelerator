@@ -189,7 +189,7 @@ A pure `did:web` model anchors trust in the issuer's own TLS certificate, which 
 
 ### Where the IES DISCOMs Reference Registry fits
 
-The **IES DISCOMs Reference Registry** (the curated `india-energy-stack/ies-discoms-reference-registry/<discom-id>` list operated by the IES network operator) is **not** a prerequisite for credential issuance. Its purpose is **industry coordination and the Beckn data-exchange trust boundary**: it is the membership list that the NFO references into a Beckn network registry so other Beckn nodes treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric). Skip it until you start data exchange over Beckn.
+The **IES DISCOMs Reference Registry** (the curated `india-energy-stack/ies-discoms-reference-registry/<discom-id>` list operated by the IES network operator) is **not** a prerequisite for credential issuance. Its purpose is **industry coordination and the inter-DISCOM data exchange network's trust boundary**: it is the membership list that the NFO references into the network's subscriber registry so other nodes on that network treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric). Skip it until you join the inter-DISCOM data exchange network.
 
 ### Other DID methods still work for signing
 

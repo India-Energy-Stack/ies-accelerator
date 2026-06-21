@@ -177,7 +177,7 @@ If that command prints your DID, you're done — any participant on the network 
 
 That's all you need to start signing credentials. Everything below is optional reading.
 
-> **Note on the IES-side DISCOM registry.** Registering your DISCOM in the IES DISCOMs Reference Registry is **not** a prerequisite for credential issuance — credential trust flows from your `did:web` signature plus the regulator's licensing assertion in `issuer.idRef`. The IES-side registry is part of the **Beckn data-exchange trust boundary** (the NFO's curated network allow-list) and is covered in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+> **Note on the IES-side DISCOM registry.** Registering your DISCOM in the IES DISCOMs Reference Registry is **not** a prerequisite for credential issuance — credential trust flows from your `did:web` signature plus the regulator's licensing assertion in `issuer.idRef`. The IES-side registry is the trust boundary for the **inter-DISCOM data exchange network** (the NFO's curated allow-list of participants on that network) and is covered in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ---
 
@@ -313,7 +313,7 @@ The strengths of `did:web` for an institutional issuer:
 - Key rotation is one file replace.
 - No new infrastructure beyond a static-file host.
 
-The main limitation is that domain hijack would mean identity hijack of the issuer key. Credential-level mitigation comes from the **regulator's licensing assertion** (`issuer.idRef`): a verifier resolves the regulator's DID and confirms the regulator vouches for this DISCOM. Even if a domain is hijacked, the attacker cannot forge the regulator's vouching record without also compromising the regulator's key. For Beckn data exchange, the NFO's curated network reference registry adds a second mitigation by gating which subscribers are on the network.
+The main limitation is that domain hijack would mean identity hijack of the issuer key. Credential-level mitigation comes from the **regulator's licensing assertion** (`issuer.idRef`): a verifier resolves the regulator's DID and confirms the regulator vouches for this DISCOM. Even if a domain is hijacked, the attacker cannot forge the regulator's vouching record without also compromising the regulator's key. For the inter-DISCOM data exchange network, the NFO's curated network reference registry adds a second mitigation by gating which subscribers are on the network.
 
 #### `did:key` — what wallets give consumers
 

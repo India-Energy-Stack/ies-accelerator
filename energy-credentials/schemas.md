@@ -174,7 +174,7 @@ Example (matches the v1.2 reference examples):
 
 ### IES DISCOMs Reference Registry (industry coordination / Beckn-side)
 
-The **IES DISCOMs Reference Registry** is the IES network operator's curated allow-list of recognised DISCOMs. **It is not a prerequisite for credential issuance** — credential trust flows from the issuer's `did:web` signature plus the regulator's licensing assertion above. The registry's role is **industry coordination and the Beckn data-exchange trust boundary**: it is the membership list that the NFO references into a Beckn network registry so other Beckn nodes treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+The **IES DISCOMs Reference Registry** is the IES network operator's curated allow-list of recognised DISCOMs. **It is not a prerequisite for credential issuance** — credential trust flows from the issuer's `did:web` signature plus the regulator's licensing assertion above. The registry's role is **industry coordination and the inter-DISCOM data exchange network's trust boundary**: it is the membership list that the NFO references into the network's subscriber registry so other nodes on that network treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 The registry lives on [`dedi.global`](https://dedi.global) under the IES namespace. Its full base URL is:
 

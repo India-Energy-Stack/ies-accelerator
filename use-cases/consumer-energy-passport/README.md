@@ -10,7 +10,7 @@ You issue it. The consumer carries it in [DigiLocker](../../glossary.md#digilock
 
 Six concrete steps take a DISCOM from "no Passport today" to "issuing Passports to every customer":
 
-1. **Publish your issuer identity** — your `did:web` and signing key are published as `did.json` on a domain you control. You also need the regulator's licensing pointer (for `issuer.idRef`). Listing in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry) is **not** required for credential issuance; it is the Beckn data-exchange trust boundary and becomes relevant when you join Beckn flows.
+1. **Publish your issuer identity** — your `did:web` and signing key are published as `did.json` on a domain you control. You also need the regulator's licensing pointer (for `issuer.idRef`). Listing in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry) is **not** required for credential issuance; it is the trust boundary for the inter-DISCOM data exchange network and becomes relevant when you join that network.
 2. **Run OpenCred** — the same service you run for any electricity credential.
 3. **Map your CIS / billing / DER register** to the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) shape — this is the schema underneath the Passport.
 4. **Decide your identity-binding method** — how you link the consumer's wallet DID to a verifiable government-ID reference.
@@ -66,7 +66,7 @@ Elevates the consumer's identity reference to first-class status. Always present
 
 **Minimum bar.** Host your DID document (`did.json`) at a URL you control — either on your own website (e.g. `https://ies.<discom-domain>/.well-known/did.json`) or on a DeDi runtime. Domain ownership is what proves you are the DISCOM; the document carries your current public key.
 
-**Recommended only when joining Beckn.** Cross-list your identity in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry). The Passport works without this row — credential trust flows from your `did:web` signature plus the regulator's `issuer.idRef`. The IES-registry entry is what makes you part of the Beckn data-exchange trust boundary (cross-DISCOM portability lookups, network-policy allowlists). [Registry Creation](../../registries/registry-creation.md) is the how-to.
+**Recommended only when joining the inter-DISCOM data exchange network.** Cross-list your identity in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry). The Passport works without this row — credential trust flows from your `did:web` signature plus the regulator's `issuer.idRef`. The IES-registry entry is what places you inside that network's trust boundary (cross-DISCOM portability lookups, network-policy allowlists). [Registry Creation](../../registries/registry-creation.md) is the how-to.
 
 ### 2. Run OpenCred
 
