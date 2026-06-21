@@ -38,7 +38,7 @@ Two steps get you here:
 
 That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
-Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential is **bearer-style** (no holder identifier) — anyone holding the JSON is treated as the subject, which is fine for paper or counter-issued credentials. When you want presentation-time proof that the presenter is the legitimate subject (typical for consumer-facing flows), bind the credential to a holder identifier — a wallet DID or a phone-number URI — per [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity).
+Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential carries no holder identifier (bearer style); when the verifier needs presentation-time proof of subject, bind to a wallet DID or `tel:` URI — full guidance in [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity).
 
 ### (b) Beckn network identity — for participating on a Beckn network
 
@@ -55,7 +55,7 @@ The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#ap
 
 ## Step-by-step: publish your `did:web` (and run OpenCred locally)
 
-The practical setup is one JSON file on a web server you already run, plus a process that signs credentials with the matching private key. The walkthrough below uses the [OpenCred Docker image](https://opencred.gitbook.io/docs/bootcamp/local-docker) as the recommended signing process — it's an open SDK that handles the key-format plumbing for you so you can be issuing in an afternoon. OpenCred is the recommended issuer for IES but not mandatory: if you'd rather wire up signing in your own service, the published `did.json` and the credential format are unchanged; only Steps 1 and 3 (pull the image, run the container) become "use your existing signing service".
+The practical setup is one JSON file on a web server you already run, plus a process that signs credentials with the matching private key. The walkthrough below uses the [OpenCred Docker image](https://opencred.gitbook.io/docs/bootcamp/local-docker) as the signing process; the top-of-page callout covers when to swap it for your own service.
 
 ### What you'll need
 
@@ -177,7 +177,7 @@ If that command prints your DID, you're done — any participant on the network 
 
 That's all you need to start signing credentials. Everything below is optional reading.
 
-> **Note on the IES-side DISCOM registry.** Registering your DISCOM in the IES DISCOMs Reference Registry is **not** a prerequisite for credential issuance — credential trust flows from your `did:web` signature, with an optional second leg from the regulator's licensing assertion in `issuer.idRef` when you have a regulator to cite. The IES-side registry is the trust boundary for the **inter-DISCOM data exchange network** (the NFO's curated allow-list of participants on that network) and is covered in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+> The IES-side DISCOM registry is not a credential-issuance prerequisite — see (a) above. It is the trust boundary for the inter-DISCOM data exchange network; full flow in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ---
 
@@ -195,7 +195,7 @@ You only need two or three identifier shapes to start issuing credentials. They'
 A few things worth knowing before you start:
 
 - **Your CIS consumer numbers stay exactly as they are.** They go into `customerProfile.customerNumber` in the credential, in the same human-readable form your call centre and billing letters use today.
-- **The holder identifier is optional and you can defer it.** The simplest first credential is bearer-style (no `credentialSubject.id`) — anyone presenting the JSON is treated as the subject. When you are ready for presentation-time proof-of-subject — either a wallet DID the consumer controls or a phone-number challenge — see [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity).
+- **The holder identifier is optional and you can defer it.** See [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity) for the bearer-vs-bound trade-off and the binding patterns.
 - **You do not assign wallet DIDs.** If you opt for the wallet-DID pattern, the consumer's wallet (or DigiLocker) generates the `did:key` and sends it to you. You verify the consumer controls it (Appendix F explains how), then include it verbatim in `credentialSubject.id`. You never store the consumer's private key.
 
 For identifiers covering assets (meters, transformers, feeders), service connections, and datasets, see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets) — these are not needed for your first credential.
@@ -688,6 +688,38 @@ When a counterparty BAP or BPP receives a Beckn message claiming to come from `i
 3. It uses the `subscriber_url` to route its callback.
 
 You do the symmetric thing for messages you receive: look up the counterparty's subscriber record, verify their signature, and route to their callback. ONIX handles all of this once it is configured with your subscriber ID, record ID, and Ed25519 private key.
+
+### Step 7 — Configure your ONIX to accept the right networks (`allowedNetworkIDs`)
+
+A subscriber record on DeDi carries a `network_memberships[]` field listing every network the subscriber has been referenced into (e.g. `["indiaenergystack.in/ies-data-sharing-network"]`). Each entry is a `network_id` — the canonical `<nfo-domain>/<registry-name>` string. Membership is written by the NFO when it adds the subscriber-reference record (Step 6 above) and read by every receiving ONIX instance during signature validation.
+
+To enforce a network boundary at your receiver — i.e. only accept signed messages from subscribers who belong to the IES networks you've joined — configure the [`dediregistry`](https://github.com/beckn/beckn-onix/tree/main/pkg/plugin/implementation/dediregistry) plugin in your ONIX module. The relevant key is **`allowedNetworkIDs`**:
+
+```yaml
+modules:
+  - name: bppTxnReceiver
+    handler:
+      plugins:
+        registry:
+          id: dediregistry
+          config:
+            url: "https://fabric.nfh.global/registry/dedi"
+            allowedNetworkIDs: "indiaenergystack.in/ies-data-sharing-network,indiaenergystack.in/test-ies-data-sharing-network"
+            timeout: 30
+            retry_max: 3
+      steps:
+        - validateSign
+        - addRoute
+```
+
+`allowedNetworkIDs` is a comma-separated list of full network IDs. When the plugin looks up an incoming subscriber on DeDi, it intersects the response's `data.network_memberships` with this list — if the subscriber doesn't belong to any configured network, ONIX rejects the message with `registry entry with subscriber_id '...' does not belong to any configured networks (registry.config.allowedNetworkIDs)`.
+
+Practical rules of thumb:
+
+- **One ONIX instance per environment.** Configure the prod instance with prod-network IDs and the test instance with `test-` IDs. Mixing creates audit trail confusion and accidentally lets test traffic into prod.
+- **Use full network IDs**, not bare registry names — `indiaenergystack.in/ies-data-sharing-network`, not `ies-data-sharing-network`.
+- **Leaving `allowedNetworkIDs` unset accepts everything.** Useful for a discovery / catalogue node; never the right setting for a transactional BAP / BPP.
+- The older config key `allowedParentNamespaces` is **deprecated**; the plugin errors until you migrate to `allowedNetworkIDs` with full network membership IDs.
 
 ### Why the two-identity model
 
