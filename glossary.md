@@ -75,6 +75,10 @@ The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **c
 
 The reference Beckn adapter used in IES. Handles message signing, signature verification, DeDi lookup, network-membership checks, schema validation, and async callback routing. Ships as a container; your application code does not handle signing or key management directly.
 
+### NFO
+
+**Network Facilitator Organisation** — the organisation that operates a Beckn network: claims a verified DeDi namespace under its own domain, publishes one or more **network registries** under that namespace (one per environment / sector), curates membership by writing **subscriber reference records** that point at participant-owned subscriber records, and publishes the network's policy manifest. The network's identifier (`network_id`) is `<nfo-domain>/<registry-name>`. For IES, the network operator (REC / IES Secretariat) acts as the NFO under the `indiaenergystack.in` namespace. See [NFH docs — Setting up the network environment](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment).
+
 ### DEG
 
 **Digital Energy Grid** — the broader architecture from which IES Data Exchange inherits primitives (Energy Resource, Energy Catalogue, Energy Contract, Energy Credentials). See [Beckn DEG repo](https://github.com/Beckn-One/DEG).

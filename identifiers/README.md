@@ -42,7 +42,7 @@ Internal consumer numbers, meter SLNOs, and asset codes do **not** need to chang
 
 ### (b) Beckn network identity — for participating on a Beckn network
 
-To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. Beckn is a **trust-bounded network**: the Network Facilitator Organisation (NFO) curates who is on the network, and counterparties verify each message against that membership boundary. Two registries enforce this boundary:
+To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. Beckn is a **trust-bounded network**: the [Network Facilitator Organisation (NFO)](../glossary.md#nfo) curates who is on the network, and counterparties verify each message against that membership boundary. Two registries enforce this boundary:
 
 - **Your own Beckn subscriber registry** under your verified DeDi namespace — declares your callback URL, your role (BAP / BPP), and your Ed25519 signing public key. Other nodes look this up to verify your message signatures and route to you.
 - **The NFO's network reference registry** — a curated allow-list of which subscribers belong to the network. For IES, this is also where a "DISCOM" is recognised as a network participant. The NFO writes a reference entry pointing at your subscriber record; counterparties then know your record is in-network.
@@ -590,7 +590,7 @@ The canonical source of truth for this flow is the NFH docs: [Onboarding Network
 
 ### Model in one paragraph
 
-You publish your subscriber details (subscriber ID, callback URL, role, public key) under your own verified DeDi namespace. The Network Facilitator Organisation (NFO) of any Beckn network you want to join references your record in its **network registry**. From that point on, every other node on that network can look up your callback URL and public key, verify your signed messages, and route to you.
+You publish your subscriber details (subscriber ID, callback URL, role, public key) under your own verified DeDi namespace. The [NFO](../glossary.md#nfo) of any Beckn network you want to join references your record in its **network registry**. From that point on, every other node on that network can look up your callback URL and public key, verify your signed messages, and route to you.
 
 ### Step 1 — Set up a DeDi account and verify your namespace
 
@@ -606,10 +606,25 @@ Example: if your DISCOM operates `ies.tpddl.in`, your DeDi namespace is anchored
 
 Beckn signing uses **Ed25519** keys. This is a different key from your OpenCred P-256 issuer key; the two identities (credential issuance vs. Beckn participation) intentionally use separate keys.
 
-You can use the keypair-generation utility shipped with [Beckn ONIX](https://github.com/beckn/beckn-onix), or any tool that produces:
+**Prerequisite:** Go 1.24 or higher — see [the official Go install guide](https://go.dev/doc/install). Beckn ONIX ships its keypair tool as a small Go program.
 
-- Private key: raw 32-byte Ed25519 seed, Base64-encoded (RFC 4648 with padding).
-- Public key: raw 32-byte Ed25519 public key, Base64-encoded (RFC 4648 with padding).
+Clone the repo and run [`tools/sign`](https://github.com/beckn/beckn-onix/tree/main/tools/sign):
+
+```bash
+git clone https://github.com/beckn/beckn-onix.git
+cd beckn-onix/tools/sign
+go run . gen-key --priv beckn_private.key --pub beckn_public_key.pem
+# keypair generated
+#   public key  → beckn_public_key.pem  (publish in the subscriber record)
+#   private key → beckn_private.key     (store in your CI secret manager, never commit)
+```
+
+The tool writes:
+
+- **Private key** (`beckn_private.key`): raw 32-byte Ed25519 seed, Base64-encoded — this is what ONIX loads to sign outgoing messages.
+- **Public key** (`beckn_public_key.pem`): PKIX-encoded PEM. Extract the raw 32-byte Ed25519 public key from this PEM and Base64-encode it (no header/footer) for the `signing_public_key` field in Step 4.
+
+Any other Ed25519 keypair generator works as long as it produces those two artefacts in the same encoding.
 
 ### Step 3 — Create a Beckn subscriber registry under your namespace
 
