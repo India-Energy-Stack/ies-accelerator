@@ -16,7 +16,7 @@ IES has four developer-facing sections. The bottom two are the **foundations** e
 
 ### Identifiers and Addressing
 
-The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document, and dataset on the network — `did:web` for institutions, `did:key` / `did:jwk` for consumers, `did:dedi` for registry-anchored records. Internal numbering (consumer numbers, asset SAP codes) is preserved and wrapped, never replaced.
+The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document, and dataset on the network — `did:web` for institutions and their assets, `did:key` / `did:jwk` for consumer wallets. All three are standard W3C DID methods; DeDi acts as a key-discovery layer for `did:web`, not as a separate method. Internal numbering (consumer numbers, asset SAP codes) is preserved and wrapped, never replaced.
 
 **Who should use this:** Every participant — this is the addressing layer below everything else.
 
@@ -24,7 +24,7 @@ The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document
 
 [DeDi](glossary.md#dedi)-based public registries that resolve identifiers to records and act as the trust layer for credentials and [Beckn](glossary.md#beckn). Covers the IES reference registries ([DISCOMs](glossary.md#discom), regulators, network), the per-participant registries you need to operate (Beckn subscriber, revocation, public-keys), and the step-by-step process for creating them.
 
-**Who should use this:** Every participant onboarding to IES. Start here with the [end-to-end onboarding checklist](./registries/required-registries.md#end-to-end-onboarding-checklist).
+**Who should use this:** Every participant onboarding to IES. Start here with the [end-to-end onboarding checklist](./registries/README.md#end-to-end-onboarding-checklist).
 
 ### Energy Credentials
 
@@ -55,7 +55,7 @@ A federated, policy-governed mechanism for discovering and exchanging structured
 ## Choosing Your Path
 
 - **A DISCOM, regulator, or [NP](glossary.md#np) onboarding to the IES network for the first time?**
-  → Go to [Required Registries → Onboarding Checklist](./registries/required-registries.md#end-to-end-onboarding-checklist).
+  → Go to [Registries → Onboarding Checklist](./registries/README.md#end-to-end-onboarding-checklist).
 
 - **Issuing or verifying credentials about energy consumers or assets?**
   → Go to [Energy Credentials → Onboarding Guide](./energy-credentials/onboarding.md). You will also need the revocation + public-keys registries from the [Registries](./registries/README.md) chapter.

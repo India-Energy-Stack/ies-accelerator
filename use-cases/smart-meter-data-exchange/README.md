@@ -15,7 +15,7 @@ This use case is a thin composition over four existing building blocks. The setu
 | What you need | Building block | What it gives you |
 |---|---|---|
 | A name and a signing key your counterparties can verify | [Identifiers & Addressing](../../identifiers/README.md), [Registries](../../registries/README.md) | A DeDi namespace under your control and your current public key published into it. A formal `did:web` document is **not** required for this use case; the namespace + key are enough for Beckn signing and verification. |
-| A trust boundary — "who can transact on this network" | [Required Registries — Network Reference Registry](../../registries/required-registries.md#network-reference-registry) | Your subscriber record in the IES network reference registry |
+| A trust boundary — "who can transact on this network" | [Registries — IES networks today](../../registries/README.md#ies-networks-and-registries-today) | Your subscriber record referenced in the IES network registry |
 | The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../data-exchange/README.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
 | (Optional) Cryptographic proof that the requester is authorised | [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/README.md) | A signed credential the seeker attaches at `confirm`; provider verifies offline |
 
@@ -73,7 +73,7 @@ Meter population, geography, granularity (15-min / daily / monthly), counterpart
 
 ### 2. Get a network identity
 
-Both BAP and BPP need a DeDi subscriber record with a published signing key. If you have one already (any other Beckn flow on this network), reuse it. If not, follow [Required Registries — minimum to get started](../../registries/required-registries.md#onboarding-quick-guide-minimum-to-get-started).
+Both BAP and BPP need a DeDi subscriber record with a published signing key. If you have one already (any other Beckn flow on this network), reuse it. If not, follow [Registries — onboarding checklist](../../registries/README.md#end-to-end-onboarding-checklist).
 
 You do **not** need to rename anything in your CIS, MDMS, or asset registers. Your existing IDs are reused as the tail of the DID.
 
@@ -120,7 +120,7 @@ did:web:<dedi-host>:<your-namespace>:feeders:<existing-feeder-code>
 did:web:<dedi-host>:<your-namespace>:substations:<existing-substation-code>
 ```
 
-`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just hosts the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers → ID Patterns](../../identifiers/id-patterns.md). Once an asset has a `did:web` form, OpenCred can issue VCs about it (commissioning, inspection, ownership). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
+`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just acts as a discovery layer for the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers and Addressing → Appendix C](../../identifiers/README.md#appendix-c--identifying-assets-meters-connections-datasets). Once an asset has a `did:web` form, OpenCred can issue VCs about it (commissioning, inspection, ownership). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
 
 ---
 
@@ -156,5 +156,5 @@ The items below are **meter-data-specific** additions on top of that checklist:
 - [IES Meter Data Model](./ies-meter-data-model.md) — OBIS / IS 15959 / CIM → MeterData v0.6 mapping
 - [Data Exchange chapter](../../data-exchange/README.md)
 - [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md)
-- [Registries — Required for onboarding](../../registries/required-registries.md)
-- [Identifiers — ID Patterns](../../identifiers/id-patterns.md)
+- [Registries and Directories](../../registries/README.md)
+- [Identifiers and Addressing](../../identifiers/README.md)

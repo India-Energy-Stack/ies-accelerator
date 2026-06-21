@@ -106,8 +106,8 @@ The pattern is the same: a signed, addressable, machine-verifiable rule that con
 
 The SERC (or utility) publishing the policy is registered in the appropriate DeDi registry:
 
-- SERC → [`ies-regulators-reference-registry`](../../registries/required-registries.md#regulators-registry)
-- DISCOM publishing a sub-policy → [`ies-discoms-reference-registry`](../../registries/required-registries.md#discoms-registry)
+- SERC → [`ies-regulators-reference-registry`](../../registries/README.md#reference-allow-lists-industry-coordination)
+- DISCOM publishing a sub-policy → [`ies-discoms-reference-registry`](../../registries/README.md#reference-allow-lists-industry-coordination)
 
 The registry entry pins the `did:web` and public key used to sign the `IES_Policy` object.
 
@@ -116,7 +116,7 @@ The registry entry pins the `did:web` and public key used to sign the `IES_Polic
 - A canonical `policyID` per policy (e.g. `MUM-RES-T1`, `KA-LT2-IND-TOD-2026`). This is the **stable handle** every downstream system uses to refer to this policy.
 - A `programID` per `IES_Program` (consumer category, regulatory scheme) that groups related policies.
 
-See [ID Patterns](../../identifiers/id-patterns.md).
+See [Identifiers and Addressing → Appendix C](../../identifiers/README.md#appendix-c--identifying-assets-meters-connections-datasets).
 
 ### 3. Author the policy
 

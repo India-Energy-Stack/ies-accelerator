@@ -30,8 +30,8 @@ Note: unlike Smart Meter Data Exchange, here the **DISCOM is the BPP** (data pro
 
 | Block | Role in this use case |
 |---|---|
-| [Identifiers](../../identifiers/README.md) | The DISCOM and SERC each have a `did:web` identity registered in the IES registries; the filing object carries identifiers for the filing, the fiscal year, the regulatory order it responds to, and the cost line items. |
-| [Registries](../../registries/README.md) | DISCOM looked up in [IES DISCOMs Reference Registry](../../registries/required-registries.md#discoms-registry); SERC in [IES Regulators Reference Registry](../../registries/required-registries.md#regulators-registry). |
+| [Identifiers](../../identifiers/README.md) | The DISCOM and SERC each have a `did:web` identity (published `did.json` on their domain). The filing object carries identifiers for the filing, the fiscal year, the regulatory order it responds to, and the cost line items. Because the filing rides over Beckn, both parties also have entries in the IES DISCOMs / Regulators reference registries — see [Identifiers and Addressing → Appendix E](../../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric). |
+| [Registries](../../registries/README.md) | For Beckn message-signature verification: DISCOM and SERC subscriber records resolved via DeDi / `fabric.nfh.global`. The IES-curated [DISCOM reference registry](../../registries/README.md#reference-allow-lists-industry-coordination) and [Regulator reference registry](../../registries/README.md#reference-allow-lists-industry-coordination) provide the Beckn network trust boundary. |
 | [Data Exchange](../../data-exchange/README.md) | The Beckn-based protocol carries the `IES_ARR_Filing` payload from BPP (DISCOM) to BAP (SERC), with the same `confirm` / `on_confirm` / `status` / `on_status` lifecycle as the meter-data flow. |
 | [Energy Credentials](../../energy-credentials/README.md) | *Not used for the filing itself* — the filing is signed by the Beckn message envelope. Credentials enter the picture only if a consumer-rep needs an attested DISCOM identity letter, which is the [Consumer Energy Passport / DISCOM-side analogue](../../energy-credentials/README.md), not part of the filing flow. |
 
@@ -117,10 +117,10 @@ Either shape can be exchanged; the BAP declares which it expects in the catalogu
 
 Both parties need DeDi entries:
 
-- DISCOM in [`ies-discoms-reference-registry`](../../registries/required-registries.md#discoms-registry) under `india-energy-stack:<discom-short-code>`.
-- SERC in [`ies-regulators-reference-registry`](../../registries/required-registries.md#regulators-registry) under `india-energy-stack:<serc-short-code>`.
+- DISCOM in [`ies-discoms-reference-registry`](../../registries/README.md#reference-allow-lists-industry-coordination) under `india-energy-stack:<discom-short-code>`.
+- SERC in [`ies-regulators-reference-registry`](../../registries/README.md#reference-allow-lists-industry-coordination) under `india-energy-stack:<serc-short-code>`.
 
-Each registration pins a `did:web` and the public key for Beckn message signing. See [Registry Creation](../../registries/registry-creation.md).
+Each registration pins a `did:web` and the public key for Beckn message signing. See [Registries — step-by-step](../../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries).
 
 ### 2. Identifier hygiene
 

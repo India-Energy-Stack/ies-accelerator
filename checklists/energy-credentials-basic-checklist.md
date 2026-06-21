@@ -12,9 +12,10 @@
 
 ### 1. Set up your DISCOM as a credential issuer
 
-Your IT team configures a secure issuer identity (a digital seal tied to your DISCOM's domain) that will sign every credential you issue. This is what proves a credential genuinely came from your DISCOM.
+Your IT team configures a secure issuer identity (a digital seal tied to your DISCOM's domain) that will sign every credential you issue. This is what proves a credential genuinely came from your DISCOM. *Optionally* (recommended for licensed utilities), include `issuer.idRef` pointing at your regulator so verifiers can resolve the regulator's `did:web` to confirm the licensing claim. Listing in the IES-operated DISCOM directory is **not** required for credential issuance; it becomes relevant when you join the inter-DISCOM data exchange network.
 
-- [ ] Issuer identity set up and registered in the IES directory
+- [ ] Issuer identity set up (DISCOM's `did:web` published)
+- [ ] *(Optional)* Regulator's licensing pointer obtained, if you have a regulator to cite (for `issuer.idRef`)
 
 ### 2. Decide which credentials you will issue in Phase 1
 

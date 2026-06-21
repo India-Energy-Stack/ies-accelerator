@@ -10,7 +10,7 @@ You issue it. The consumer carries it in [DigiLocker](../../glossary.md#digilock
 
 Six concrete steps take a DISCOM from "no Passport today" to "issuing Passports to every customer":
 
-1. **Be a registered issuer** — your `did:web` and signing key are published in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry).
+1. **Publish your issuer identity** — your `did:web` and signing key are published as `did.json` on a domain you control. You also need the regulator's licensing pointer (for `issuer.idRef`). Listing in the [IES DISCOMs Reference Registry](../../registries/README.md#reference-allow-lists-industry-coordination) is **not** required for credential issuance; it is the trust boundary for the inter-DISCOM data exchange network and becomes relevant when you join that network.
 2. **Run OpenCred** — the same service you run for any electricity credential.
 3. **Map your CIS / billing / DER register** to the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/README.md) shape — this is the schema underneath the Passport.
 4. **Decide your identity-binding method** — how you link the consumer's wallet DID to a verifiable government-ID reference.
@@ -66,7 +66,7 @@ Elevates the consumer's identity reference to first-class status. Always present
 
 **Minimum bar.** Host your DID document (`did.json`) at a URL you control — either on your own website (e.g. `https://ies.<discom-domain>/.well-known/did.json`) or on a DeDi runtime. Domain ownership is what proves you are the DISCOM; the document carries your current public key.
 
-**Recommended.** Cross-list your identity in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry). The Passport works without this row, but the entry is what unlocks DISCOM privileges on multi-discom networks — anything from cross-DISCOM portability lookups to network-policy allowlists. If you also publish other electricity credentials over the IES network, you almost certainly already have this row. [Registry Creation](../../registries/registry-creation.md) is the how-to.
+**Recommended only when joining the inter-DISCOM data exchange network.** Cross-list your identity in the [IES DISCOMs Reference Registry](../../registries/README.md#reference-allow-lists-industry-coordination). The Passport works without this row — credential trust flows from your `did:web` signature plus the regulator's `issuer.idRef`. The IES-registry entry is what places you inside that network's trust boundary (cross-DISCOM portability lookups, network-policy allowlists). [Registries — step-by-step](../../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries) is the how-to.
 
 ### 2. Run OpenCred
 
@@ -143,8 +143,8 @@ Re-issue the Passport and revoke the previous one when a material fact changes. 
 
 A verifier (bank, marketplace, subsidy portal) receives the Passport JSON from the consumer's wallet, then:
 
-1. Reads `issuer.idRef` and looks up the entry in the IES DISCOMs Reference Registry.
-2. Resolves your `did:web` to your current public key.
+1. Reads `issuer.id` and resolves your `did:web` to your current public key.
+2. Reads `issuer.idRef` (the regulator's licensing pointer) and confirms with the regulator that the licence is valid.
 3. Verifies the `proof` locally — no network call to you.
 4. Checks `credentialStatus` against your DeDi revocation registry.
 5. Reads only the fields it needs (see [Selective Disclosure](#appendix-selective-disclosure)).
@@ -179,7 +179,7 @@ The Passport replaces that loop with one signed credential. Verifiers check your
 
 ### A2. Identifier reuse — your CA number stays intact
 
-Issuing Passports does **not** require renumbering anything. Your existing CA number, meter serial, and asset codes are reused **verbatim** as the tail of the corresponding DID. For example, CA number `TPDDL-2025-001234567` becomes `did:web:<dedi-host>:tpddl:consumers:TPDDL-2025-001234567` — a plain `did:web` DID whose document is hosted by the chosen DeDi runtime (e.g. `did:web:dedi.global:tpddl:consumers:TPDDL-2025-001234567`). See [Identifiers → ID Patterns](../../identifiers/id-patterns.md).
+Issuing Passports does **not** require renumbering anything. The consumer's existing CA number stays as the literal `customerNumber` string inside the credential; asset codes (meters, transformers) are wrapped as path segments on your DISCOM's own `did:web` — e.g. `did:web:ies.tpddl.in:assets:meter:<meter-slno>`. See [Identifiers and Addressing](../../identifiers/README.md).
 
 ### A3. Selective disclosure
 
