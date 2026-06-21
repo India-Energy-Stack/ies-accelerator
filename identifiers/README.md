@@ -6,35 +6,46 @@ This page is the single home for everything IES has to say about identifiers. Re
 
 ---
 
-## Why this matters (the gentle version)
+## Why this matters
 
-When your DISCOM hands a consumer a digital electricity credential, or shares meter data with a regulator, the recipient needs to be able to answer one simple question on their own: *"Is this really from TPDDL?"* If they have to call you, email your IT team, or trust a screenshot, the system does not scale and it is not really verifiable.
+When your DISCOM hands a consumer a digital electricity credential, or shares meter data with a regulator, the recipient needs to answer one question on their own: *"Is this really from TPDDL?"* If they have to call you, email your IT team, or trust a screenshot, the system does not scale and it is not really verifiable.
 
-The way the rest of the digital-public-infrastructure world solves this is with a small, well-understood standard called a **Decentralized Identifier (DID)**. You publish a tiny JSON file on a web address you control. That file lists the public key you sign things with. Anyone — a wallet, another DISCOM, a regulator — can fetch that file over plain HTTPS and check signatures on their own. No central authority, no API key, no special middleware.
+The way digital-public-infrastructure stacks solve this is with **Decentralized Identifiers (DIDs)**. You publish a small JSON file on a web address you control. That file lists the public key you sign things with. Anyone — a wallet, another DISCOM, a regulator — can fetch that file over plain HTTPS and check signatures on their own. No central authority, no API key, no special middleware.
 
-You already have the two things you need: **a domain you own** and **a key your IT team can generate**. The rest of this page shows you what to put where. The setup is genuinely small; the harder part is just deciding which domain name represents your DISCOM on the network.
+You need two things: **a domain you own** and **a key your IT team can generate**. The rest of this page shows what to put where.
 
 ---
 
-## The short version
+## Two identities you'll set up (and why)
 
-If you only read this far, here is the whole picture for a DISCOM joining IES:
+A DISCOM on IES needs **two** identifier setups, and they exist for different reasons. They share the same private key, but they live in different places and serve different verifiers.
+
+### (a) Org identity — for credentials and data-exchange payloads
+
+This is your DISCOM's `did:web`. It is the issuer string on every ElectricityCredential you sign, and the root that **all the IDs you reference inside payloads** — meter DIDs, transformer DIDs, connection DIDs — extend by adding path segments. Verifiers of a credential resolve only this one DID to check your signature; the asset DIDs ride inside the signed payload as stable references.
 
 | Who | Identifier method | What it looks like |
 |---|---|---|
 | **Your DISCOM (the issuer)** | `did:web` on a domain you own | `did:web:ies.tpddl.in` |
 | **A regulator** | Same — `did:web` on their own domain | `did:web:ies.derc.gov.in` |
 | **A consumer holding a credential** | `did:key` (their wallet generates it) | `did:key:z6Mkj...` |
+| **Your meter / transformer / feeder** | `did:web` under your domain | `did:web:ies.tpddl.in:assets:meter:MET-001` |
 
-Three steps get you to "I can issue credentials":
+Three steps get you here:
 
-1. **Pick a subdomain** under a domain you already own — e.g. `ies.tpddl.in`.
-2. **Generate a key pair** and **publish a small `did.json` file** at `https://ies.tpddl.in/.well-known/did.json`.
+1. **Pick a domain or subdomain** you control (covered in the next section).
+2. **Generate a key pair** and **publish a small `did.json` file** declaring the public key (Steps 1–6 of [Publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally)).
 3. **Hand that DID** (`did:web:ies.tpddl.in`) to the IES network operator to add to the reference list of registered DISCOMs.
 
-That's it for identity. Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. Consumers do not need to do anything; their wallet (or DigiLocker) generates a `did:key` for them automatically the first time they receive a credential.
+Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. Consumers do not need to do anything; their wallet (or DigiLocker) generates a `did:key` for them automatically the first time they receive a credential.
 
-If something in those three steps feels unfamiliar — what a key pair is, what JSON to put in the file — the next section walks through it in full.
+### (b) Beckn network identity — for participating on a Beckn network
+
+To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. The Beckn fabric uses a separate **subscriber registry** model: each participant (BAP / BPP) publishes a subscriber record under a verified DeDi namespace, and other nodes look that record up to find your callback URL and your Ed25519 signing key.
+
+The setup is independent from the credential-issuance flow — different key (Ed25519, not P-256), different registry (a Beckn subscriber registry under your DeDi namespace, not `.well-known/did.json`), different consumer (other Beckn nodes, not credential verifiers).
+
+The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ---
 
@@ -44,7 +55,18 @@ The practical setup is one Docker container plus one JSON file on a web server y
 
 ### What you'll need
 
-- A subdomain you control, e.g. `ies.tpddl.in`. Most DISCOMs pick a dedicated subdomain so the credential-issuing identity is cleanly separated from the public-facing website.
+- **A domain or subdomain you control.** Either works. Most DISCOMs pick a dedicated subdomain (e.g. `ies.tpddl.in`) so the credential-issuing identity is cleanly separated from the marketing site, but a bare apex domain (`tpddl.in`) is equally valid. The host you pick becomes the host portion of your `did:web`, and you will publish one small JSON file under it — `did.json` — that declares your DISCOM's public key. Verifiers fetch that file to check signatures. See [Appendix A — What's in a DID document](#whats-in-a-did-document) for the file's anatomy.
+
+  > **About path segments.** `did:web` lets you encode a sub-path with colons. If you don't want to host at `.well-known/`, you can host the document at any path and reflect it in the DID via the colon hierarchy. Examples:
+  > | DID string | DID document URL |
+  > |---|---|
+  > | `did:web:ies.tpddl.in` | `https://ies.tpddl.in/.well-known/did.json` |
+  > | `did:web:tpddl.in:ies` | `https://tpddl.in/ies/did.json` |
+  > | `did:web:tpddl.in:ies:issuer` | `https://tpddl.in/ies/issuer/did.json` |
+  > | `did:web:tpddl.in%3A8443` | `https://tpddl.in:8443/.well-known/did.json` (port encoded as `%3A`) |
+  >
+  > Same identifier system covers your DISCOM's own identity *and* every asset ID you reference inside payloads (meters, transformers, datasets) — see [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets).
+
 - A static-file host serving HTTPS — any nginx, S3-with-CloudFront, GitHub Pages, or your existing web server is fine.
 - Docker 24+, `curl`, `jq`, `openssl`, and ~2 GB free disk. The OpenCred container ships ready to issue.
 
@@ -458,6 +480,20 @@ For production deployments — horizontal scale, Cloud HSM key management, the f
 
 You will eventually want stable identifiers for the things you operate (meters, transformers, feeders, service connections) and the data you publish (telemetry, tariff schedules). Use the same `did:web` you already own and add path segments. No new DID method needed.
 
+### Do asset DIDs need their own resolvable `did.json`?
+
+Strictly per the W3C `did:web` method, every DID should resolve to a DID document at the corresponding URL. In IES practice, the trust on an asset DID inside a credential comes from the **issuer's** signature on that credential — the issuer's `did:web` is what verifiers must resolve. Asset DIDs ride inside the signed payload as stable references.
+
+Three patterns are in active use; pick the one that matches your operational constraints:
+
+| Pattern | What you host | When to use |
+|---|---|---|
+| **Pragmatic — no per-asset document** | Only your DISCOM's top-level `did.json`. Asset DIDs are stable identifiers carried inside signed credentials and Beckn payloads; verification is via the issuer's signature, not asset-level resolution. | Most internal asset IDs (meters, feeders) that only appear inside credentials your DISCOM signs. |
+| **Programmatic — one endpoint, many DIDs** | A small service under your domain that synthesises a DID document for any `assets/<class>/<id>` path on demand. | When you want strict `did:web` compliance without operating a static file per asset. |
+| **Per-asset documents** | A separate `did.json` for each asset (e.g. `https://ies.tpddl.in/assets/meter/MET-001/did.json`). | High-value, public-facing assets (substations, large DERs) that other networks may resolve independently. |
+
+Start pragmatic; promote individual assets to programmatic or per-asset documents only when an external verifier actually needs to resolve them.
+
 ### Conventions
 
 | Symbol | Meaning |
@@ -541,3 +577,101 @@ One last conceptual rule worth internalising, because it removes most confusion 
 The **identifier** is the string that travels — in a credential, a Beckn message, a database row. The **record** is the JSON a resolver returns, and the thing trust decisions read. Identifiers are stable; records can be updated (key rotation, asset commissioning, address change) without changing the identifier they live under.
 
 If your team ever finds itself trying to "parse" a DID to make a business decision, stop and resolve it instead. The document at the end of the resolution is the source of truth, never the string.
+
+---
+
+## Appendix E — Joining a Beckn network (subscriber registry on the Beckn fabric)
+
+Your DISCOM's `did:web` proves who issued a credential. It does **not** by itself put you on a Beckn network. To send and receive Beckn messages (search, select, init, confirm, on_status…), other nodes need to discover your callback URL and your signing key, and they do that through a **subscriber registry** published on the Beckn fabric.
+
+The canonical source of truth for this flow is the NFH docs: [Onboarding Network Participants](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants). The steps below are the practical summary aligned to IES.
+
+### Model in one paragraph
+
+You publish your subscriber details (subscriber ID, callback URL, role, public key) under your own verified DeDi namespace. The Network Facilitator Organisation (NFO) of any Beckn network you want to join references your record in its **network registry**. From that point on, every other node on that network can look up your callback URL and public key, verify your signed messages, and route to you.
+
+### Step 1 — Set up a DeDi account and verify your namespace
+
+1. Create an account on [DeDi Global](https://dedi.global).
+2. Create a namespace under your DISCOM's domain.
+3. Request domain whitelisting; DeDi generates a TXT record.
+4. Add the TXT record to your domain's DNS configuration. Propagation takes 15 min to 48 h.
+5. Click "Verify". Once verified, the namespace is your root of trust on the Beckn fabric.
+
+Example: if your DISCOM operates `ies.tpddl.in`, your DeDi namespace is anchored to that domain.
+
+### Step 2 — Generate your Beckn signing keypair
+
+Beckn signing uses **Ed25519** keys. This is a different key from your OpenCred P-256 issuer key; the two identities (credential issuance vs. Beckn participation) intentionally use separate keys.
+
+You can use the keypair-generation utility shipped with [Beckn ONIX](https://github.com/beckn/beckn-onix), or any tool that produces:
+
+- Private key: raw 32-byte Ed25519 seed, Base64-encoded (RFC 4648 with padding).
+- Public key: raw 32-byte Ed25519 public key, Base64-encoded (RFC 4648 with padding).
+
+### Step 3 — Create a Beckn subscriber registry under your namespace
+
+In the DeDi console, under your verified namespace, create a registry using the **Beckn subscriber schema**. This registry holds one or more subscriber records for your DISCOM (one per role you take on each Beckn network).
+
+### Step 4 — Publish your subscriber record
+
+Add a record with the following fields:
+
+| Field | What to fill | Example |
+|---|---|---|
+| `subscriber_id` | Your unique identifier, typically your domain | `ies.tpddl.in` |
+| `subscriber_url` | Your Beckn ONIX receiver endpoint | `https://ies.tpddl.in/bpp/beckn` |
+| `type` | Your role on the network | `BAP` or `BPP` |
+| `signing_public_key` | Your Ed25519 public key, Base64-encoded, no header/footer | `eyAeqGFtAuks...` |
+| `encryption_public_key` | (Optional) encryption public key | `lCI84I0Q0U0w...` |
+| `countries` | Countries where you operate | `["IND"]` |
+
+If you operate in multiple roles (e.g. both BAP and BPP on the same network), publish a separate record per role.
+
+Once published, note the **record ID** — this is the key ID you will configure in your ONIX instance.
+
+### Step 5 — Verify your key lookup
+
+Other nodes resolve your subscriber details through the Beckn fabric lookup URL:
+
+```
+https://fabric.nfh.global/registry/dedi/lookup/<your_subscriber_id>/subscribers.beckn.one/<your_record_id>
+```
+
+Allow 5–10 minutes for the cache to update, then `curl` the URL and confirm it returns the record you just published.
+
+### Step 6 — Get added to the NFO's network registry
+
+The NFO does **not** copy your record. Instead, the NFO creates a reference entry in its own network registry pointing at your DeDi-published subscriber record (or your whole subscriber registry, if every record under it belongs to the network).
+
+The reference fields the NFO uses:
+
+| Field | Description | Example |
+|---|---|---|
+| `subscriber_id` | Your unique identifier | `ies.tpddl.in` |
+| `url` | Your DeDi lookup URL (record or registry form) | `https://api.dedi.global/dedi/lookup/...` |
+| `type` | Whether the URL points to a full registry or one record | `Registry` or `Record` |
+
+Before approving, the NFO validates that:
+
+- You have published subscriber details under your own verified namespace.
+- The published callback URL is correct and reachable.
+- The published public key is valid for signing and verification.
+- The role and participant details match the network's expectations.
+- You are being added to the correct environment-specific registry (test, prod, etc.).
+
+Once the NFO writes the reference entry, your DISCOM is part of the curated network and other nodes can route to you.
+
+### How other Beckn nodes consume your identity
+
+When a counterparty BAP or BPP receives a Beckn message claiming to come from `ies.tpddl.in`:
+
+1. It calls `https://fabric.nfh.global/registry/dedi/lookup/ies.tpddl.in/subscribers.beckn.one/<record_id>` (or the equivalent NFO-side lookup) to retrieve your subscriber record.
+2. It uses the `signing_public_key` from that record to verify the Ed25519 signature on the incoming Beckn header.
+3. It uses the `subscriber_url` to route its callback.
+
+You do the symmetric thing for messages you receive: look up the counterparty's subscriber record, verify their signature, and route to their callback. ONIX handles all of this once it is configured with your subscriber ID, record ID, and Ed25519 private key.
+
+### Why the two-identity model
+
+Your `did:web` identity proves *"this credential was issued by TPDDL"* to anyone who fetches your `did.json`. Your subscriber-registry identity proves *"this Beckn message was sent by TPDDL"* to other nodes on the network. The first is content-level trust; the second is transport-level trust. They share an organisational root (your domain) but live on different rails and use different keys, so a compromise of one does not automatically compromise the other.

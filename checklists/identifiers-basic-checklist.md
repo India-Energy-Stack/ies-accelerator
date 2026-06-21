@@ -1,6 +1,6 @@
 # Basic Checklist — Identifiers and Addressing
 
-*A plain-English checklist for a DISCOM (or any organisation) joining IES. Each item maps to a concrete step in the [OpenCred bootcamp — Local Docker](https://opencred.gitbook.io/docs/bootcamp/local-docker), which is the source of truth for the actual commands. The narrative version with full code is in [Identifiers and Addressing](../identifiers/README.md).*
+*A plain-English checklist for a DISCOM (or any organisation) joining IES. Each item maps to a concrete step in the upstream OpenCred [documentation](https://opencred.gitbook.io/docs/bootcamp/local-docker). The narrative version with full code is in [Identifiers and Addressing](../identifiers/README.md).*
 
 ---
 
@@ -12,9 +12,10 @@
 
 ### 1. Decide your organisation's public name on the network
 
-Pick the subdomain the rest of the ecosystem will use to refer to your DISCOM — typically a subdomain of a domain you already own (e.g. `ies.discom.org`). This becomes the host portion of your `did:web` and the anchor for everything else you publish.
+Pick a domain or subdomain you control — either works. Most DISCOMs pick a dedicated subdomain (e.g. `ies.discom.org`) so the credential-issuing identity is separated from the marketing site; an apex domain is equally valid. This host becomes the anchor for your `did:web` and is where you will publish a `did.json` file declaring your DISCOM's public key. If you'd rather host the document at a sub-path (e.g. `discom.org/ies/did.json`), reflect that in the DID using the colon hierarchy (`did:web:discom.org:ies`). See [Identifiers and Addressing → What you'll need](../identifiers/README.md#what-youll-need) for the path-mapping table.
 
-- [ ] Subdomain selected and confirmed available for use as an IES identifier
+- [ ] Domain or subdomain selected and confirmed available for use as an IES identifier
+- [ ] Decision recorded on whether `did.json` lives at `/.well-known/did.json` or a sub-path
 
 ### 2. Set up your digital identity
 
@@ -51,9 +52,20 @@ Send your `did:web`, your legal name, and your service-area list to the IES netw
 - [ ] Registration request sent to the network operator
 - [ ] Confirmation received that your DISCOM appears in the reference registry
 
-### 6. Nominate your team
+### 6. Join the Beckn network (subscriber registry on the fabric)
 
-Identify two roles: an **IT point of contact** for the OpenCred / key-management setup, and a **Governance / Compliance point of contact** to approve what gets published publicly.
+For data exchange over Beckn (search, select, init, confirm, on_status…) your `did:web` alone is not enough. Publish a Beckn subscriber record under your verified DeDi namespace so other nodes can discover your callback URL and Ed25519 signing key. Full walkthrough in [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric), aligned to the upstream NFH [docs](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants).
+
+- [ ] DeDi account created and namespace verified (TXT-record domain ownership)
+- [ ] Ed25519 signing keypair generated for Beckn
+- [ ] Beckn subscriber registry created under your namespace
+- [ ] Subscriber record published (subscriber ID, callback URL, role, signing public key)
+- [ ] Lookup verified at `https://fabric.nfh.global/registry/dedi/lookup/<your_subscriber_id>/subscribers.beckn.one/<record_id>`
+- [ ] NFO of each Beckn network you join has added a reference to your record
+
+### 7. Nominate your team
+
+Identify two roles: an **IT point of contact** for the OpenCred / key-management / ONIX setup, and a **Governance / Compliance point of contact** to approve what gets published publicly.
 
 - [ ] IT SPOC nominated (name, email, phone)
 - [ ] Governance SPOC nominated (name, email, phone)
