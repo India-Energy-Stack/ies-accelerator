@@ -568,16 +568,27 @@ The DID resolves to a `DatasetItem` record (DDM schema) carrying the Beckn BPP e
 
 ## Appendix D — Identifier vs. record
 
-One last conceptual rule worth internalising, because it removes most confusion later:
+Think of a DID like a **vehicle's licence plate**. The plate (`KA-01-MN-1234`) stays the same for the life of the registration. The RTO record it resolves to — owner, insurance status, address — can change. When a cop reads your plate at a checkpoint, they query the RTO for the *current* record; they don't try to guess your address from the digits.
 
-| Identifier | Record |
+A DID works the same way:
+
+| Identifier (stable, travels in payloads) | Record (current, can change over time) |
 |---|---|
-| `did:web:ies.tpddl.in` | The DID document at `https://ies.tpddl.in/.well-known/did.json` |
-| `did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001` | The asset record served under that path |
+| `did:web:ies.tpddl.in` | The `did.json` at `https://ies.tpddl.in/.well-known/did.json` — TPDDL's current public keys and endpoints |
+| `did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001` | The asset record under that path — current make, model, geo, commissioning date |
 
-The **identifier** is the string that travels — in a credential, a Beckn message, a database row. The **record** is the JSON a resolver returns, and the thing trust decisions read. Identifiers are stable; records can be updated (key rotation, asset commissioning, address change) without changing the identifier they live under.
+Two rules follow:
 
-If your team ever finds itself trying to "parse" a DID to make a business decision, stop and resolve it instead. The document at the end of the resolution is the source of truth, never the string.
+- **Don't parse the identifier for business logic.** Resolve it and read the record's fields. A path that looks predictable today (`...:consumers:TPDDL-2025-...`) may need percent-encoding or restructuring tomorrow; structured fields in the record won't.
+- **Records can update without re-issuing identifiers.** Key rotation, meter replacement, address correction — change the record, the identifier stays.
+
+### Five places this matters in IES
+
+1. **DISCOM signing-key rotation.** TPDDL rotates its credential-issuing key. `did:web:ies.tpddl.in` doesn't change; the new key is added to `did.json`. Every ElectricityCredential ever issued by TPDDL keeps verifying because verifiers fetch the current document.
+2. **Meter replacement.** A meter is swapped for a newer model. `did:web:ies.tpddl.in:assets:meter:MET-001` stays the same; the record gets a new `make`, `model`, `commissioningDate`. No credential rewrites.
+3. **Beckn subscriber key rotation.** A BPP rotates its Ed25519 signing key. The DeDi subscriber record is updated. The `subscriber_id` in every Beckn header keeps working — ONIX re-resolves for each message.
+4. **Audit / historical lookup.** `GET .../<record>?as_on=2025-01-01` returns the record version that was live on that date — same identifier, point-in-time record. Useful for "what was the public key when this credential was signed?".
+5. **Anti-pattern: parsing the DID string.** Code that reads `did:web:ies.tpddl.in:consumers:<n>` to route a request will break the day a special character needs percent-encoding or a DISCOM restructures its asset hierarchy. Always resolve, then read.
 
 ### Asset-DID resolution patterns (pragmatic / programmatic / per-asset)
 
