@@ -50,7 +50,7 @@ A namespace is a **trust container**. Only the controller's DID key can write re
 
 In the console, request whitelisting for your domain. DeDi issues a TXT record. Add it to your DNS zone, click **Verify**, and wait for propagation. Once verified, the namespace is anchored to that domain — anyone resolving it can see it is genuinely yours.
 
-If you cannot add a TXT record for some operational reason (delegated DNS, dev environments), the IES network operator runs a [`temporary_subscriber_registry`](#ies-networks-and-registries-today) you can be added to for the duration of an evaluation; ask the Secretariat.
+If you cannot add a TXT record for some operational reason (delegated DNS, dev environments), contact the IES Secretariat — there are evaluation paths that don't require domain verification up-front.
 
 ### 4. Create the registries you need
 
@@ -192,15 +192,6 @@ All carry the `beckn_subscriber_reference` tag and are curated by the [NFO](../g
 | `test-ies-discoms-reference-registry` | `beckn_subscriber_reference` | Test variant of the DISCOMs list |
 
 These are the curated industry-coordination lists that NFOs (including the IES NFO) reference into network registries to enforce a trust boundary. Credential issuance does **not** require an entry here — see [Identifiers and Addressing — Two identities](../identifiers/README.md#two-identities-youll-set-up-and-why).
-
-### Special-purpose registries
-
-| Registry | Tag | Purpose |
-|---|---|---|
-| `temporary_subscriber_registry` | `beckn_subscriber` | A holding pen for participants who cannot yet verify a domain via TXT record (used for sandbox / "winroom" sessions). Records here are short-lived. |
-| `winroom-ies-data-exchange` | `beckn_subscriber_reference` | NFO registry only for IES "winroom" sessions |
-| `winroom-ies-data-exchange-public-data` | `Public-Data-Set` | Public datasets shared during winroom sessions |
-| `ies-p2p-energy-ledger` | `beckn_subscriber` | The IES-operated P2P energy ledger node's own subscriber record |
 
 ### How to apply for an IES listing
 
