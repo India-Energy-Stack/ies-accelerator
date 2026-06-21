@@ -14,6 +14,17 @@ The way digital-public-infrastructure stacks solve this is with **Decentralized 
 
 You need two things: **a domain you own** and **a key your IT team can generate**. The rest of this page shows what to put where.
 
+### Pick your role
+
+The same page covers four roles. Skim the row that matches you to jump to the right section.
+
+| If you are… | Read | Then |
+|---|---|---|
+| **A DISCOM / issuer** (you sign and emit ElectricityCredentials) | [§(a) Org identity](#a-org-identity--for-credentials-and-data-exchange-payloads) → [Step-by-step: publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally) | [Appendix B](#appendix-b--issuing-and-revoking-an-electricitycredential-v12) (issue/revoke), [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets) (asset IDs) |
+| **A Beckn participant** (BAP / BPP, aggregator, AMISP, trading platform) | [§(b) Beckn network identity](#b-beckn-network-identity--for-participating-on-a-beckn-network) → [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric) | [Registries — by role](../registries/README.md#the-registries-youll-touch-in-ies-by-role) for the registry mechanics |
+| **A regulator** (you license DISCOMs and may sign credentials yourself) | [§(a) Org identity](#a-org-identity--for-credentials-and-data-exchange-payloads) — same `did:web` flow as a DISCOM | Note that your `did:web` is what DISCOMs cite as `issuer.idRef.issuedBy`; see [Where each ID goes in a credential](#where-each-id-goes-in-a-credential) |
+| **A verifier or wallet** (you receive and check credentials) | [Appendix A](#appendix-a--how-dids-work-and-the-three-methods-ies-uses) (DID methods) → [Appendix B §3 (verify)](#3-verify-the-credential) → [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity) (holder binding at presentation time) | [Registries — Appendix B (verifying a credential)](../registries/README.md#appendix-b--verifying-a-credential-end-to-end) for the end-to-end resolution walk |
+
 ---
 
 ## Two identities you'll set up (and why)
@@ -482,19 +493,7 @@ For production deployments using OpenCred — horizontal scale, Cloud HSM key ma
 
 You will eventually want stable identifiers for the things you operate (meters, transformers, feeders, service connections) and the data you publish (telemetry, tariff schedules). Use the same `did:web` you already own and add path segments. No new DID method needed.
 
-### Do asset DIDs need their own resolvable `did.json`?
-
-Strictly per the W3C `did:web` method, every DID should resolve to a DID document at the corresponding URL. In IES practice, the trust on an asset DID inside a credential comes from the **issuer's** signature on that credential — the issuer's `did:web` is what verifiers must resolve. Asset DIDs ride inside the signed payload as stable references.
-
-Three patterns are in active use; pick the one that matches your operational constraints:
-
-| Pattern | What you host | When to use |
-|---|---|---|
-| **Pragmatic — no per-asset document** | Only your DISCOM's top-level `did.json`. Asset DIDs are stable identifiers carried inside signed credentials and Beckn payloads; verification is via the issuer's signature, not asset-level resolution. | Most internal asset IDs (meters, feeders) that only appear inside credentials your DISCOM signs. |
-| **Programmatic — one endpoint, many DIDs** | A small service under your domain that synthesises a DID document for any `assets/<class>/<id>` path on demand. | When you want strict `did:web` compliance without operating a static file per asset. |
-| **Per-asset documents** | A separate `did.json` for each asset (e.g. `https://ies.tpddl.in/assets/meter/MET-001/did.json`). | High-value, public-facing assets (substations, large DERs) that other networks may resolve independently. |
-
-Start pragmatic; promote individual assets to programmatic or per-asset documents only when an external verifier actually needs to resolve them.
+> **Asset DIDs are stable identifiers, not necessarily resolvable documents.** Most asset DIDs ride inside credentials your DISCOM signs; trust comes from the issuer's signature, not asset-level resolution. See [Appendix D — Asset-DID resolution patterns](#asset-did-resolution-patterns-pragmatic--programmatic--per-asset) for when to promote an asset DID to a resolvable document.
 
 ### Conventions
 
@@ -580,6 +579,20 @@ The **identifier** is the string that travels — in a credential, a Beckn messa
 
 If your team ever finds itself trying to "parse" a DID to make a business decision, stop and resolve it instead. The document at the end of the resolution is the source of truth, never the string.
 
+### Asset-DID resolution patterns (pragmatic / programmatic / per-asset)
+
+Strictly per the W3C `did:web` method, every DID should resolve to a DID document at the corresponding URL. In IES practice, the trust on an asset DID inside a credential comes from the **issuer's** signature on that credential — the issuer's `did:web` is what verifiers must resolve. Asset DIDs ride inside the signed payload as stable references.
+
+Three patterns are in active use; pick the one that matches your operational constraints:
+
+| Pattern | What you host | When to use |
+|---|---|---|
+| **Pragmatic — no per-asset document** | Only your DISCOM's top-level `did.json`. Asset DIDs are stable identifiers carried inside signed credentials and Beckn payloads; verification is via the issuer's signature, not asset-level resolution. | Most internal asset IDs (meters, feeders) that only appear inside credentials your DISCOM signs. |
+| **Programmatic — one endpoint, many DIDs** | A small service under your domain that synthesises a DID document for any `assets/<class>/<id>` path on demand. | When you want strict `did:web` compliance without operating a static file per asset. |
+| **Per-asset documents** | A separate `did.json` for each asset (e.g. `https://ies.tpddl.in/assets/meter/MET-001/did.json`). | High-value, public-facing assets (substations, large DERs) that other networks may resolve independently. |
+
+Start pragmatic; promote individual assets to programmatic or per-asset documents only when an external verifier actually needs to resolve them.
+
 ---
 
 ## Appendix E — Joining a Beckn network (subscriber registry on the Beckn fabric)
@@ -588,19 +601,9 @@ Your DISCOM's `did:web` proves who issued a credential. It does **not** by itsel
 
 Upstream documentation for this flow lives at the NFH docs: [Onboarding Network Participants](https://docs.nfh.global/beckn/creating-an-open-network/onboarding-network-participants). The steps below are the practical summary aligned to IES.
 
-### Model in one paragraph
-
-You publish your subscriber details (subscriber ID, callback URL, role, public key) under your own verified DeDi namespace. The [NFO](../glossary.md#nfo) of any Beckn network you want to join references your record in its **network registry**. From that point on, every other node on that network can look up your callback URL and public key, verify your signed messages, and route to you.
-
 ### Step 1 — Set up a DeDi account and verify your namespace
 
-1. Create an account on [DeDi Global](https://dedi.global).
-2. Create a namespace under your DISCOM's domain.
-3. Request domain whitelisting; DeDi generates a TXT record.
-4. Add the TXT record to your domain's DNS configuration. Propagation takes 15 min to 48 h.
-5. Click "Verify". Once verified, the namespace is your root of trust on the Beckn fabric.
-
-Example: if your DISCOM operates `ies.tpddl.in`, your DeDi namespace is anchored to that domain.
+Follow [Registries → Step-by-step: claim your DeDi namespace](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
 
 ### Step 2 — Generate your Beckn signing keypair
 
@@ -628,7 +631,7 @@ Any other Ed25519 keypair generator works as long as it produces those two artef
 
 ### Step 3 — Create a Beckn subscriber registry under your namespace
 
-In the DeDi console, under your verified namespace, create a registry using the **Beckn subscriber schema**. This registry holds one or more subscriber records for your DISCOM (one per role you take on each Beckn network).
+Under your verified namespace, create a registry with the built-in `beckn_subscriber` tag — see [Registries → built-in tags](../registries/README.md#built-in-schema-tags-used-in-ies). This registry holds one record per role you take on each Beckn network (separate `subscribers-test` and `subscribers-prod` are the conventional split).
 
 ### Step 4 — Publish your subscriber record
 
@@ -659,17 +662,9 @@ Allow 5–10 minutes for the cache to update, then `curl` the URL and confirm it
 
 ### Step 6 — Get added to the NFO's network registry
 
-The NFO does **not** copy your record. Instead, the NFO creates a reference entry in its own network registry pointing at your DeDi-published subscriber record (or your whole subscriber registry, if every record under it belongs to the network).
+Apply via the IES Secretariat per [Registries → How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing) — that page lists every field the NFO needs and which IES networks are available. The NFO does **not** copy your record; it writes a small reference entry pointing at your DeDi-published subscriber record (or your whole subscriber registry, if every record under it belongs to the network), so your identity stays self-owned.
 
-The reference fields the NFO uses:
-
-| Field | Description | Example |
-|---|---|---|
-| `subscriber_id` | Your unique identifier | `ies.tpddl.in` |
-| `url` | Your DeDi lookup URL (record or registry form) | `https://api.dedi.global/dedi/lookup/...` |
-| `type` | Whether the URL points to a full registry or one record | `Registry` or `Record` |
-
-Before approving, the NFO validates that:
+What the NFO checks before approving — useful to know so you don't get bounced:
 
 - You have published subscriber details under your own verified namespace.
 - The published callback URL is correct and reachable.
