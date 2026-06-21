@@ -24,7 +24,7 @@ You will issue your first credential in [Issuing Credentials](./issuance.md).
   - An AWS / Azure / GCP KMS key with appropriate IAM access
 - A **DeDi namespace** — the base URL of the DeDi instance, plus either an API key or bearer credentials, plus the namespace ID. This is part of the default OpenCred + DeDi combo from the first run; contact your DeDi operator if you don't have one yet.
 - A secrets manager (Vault, AWS Secrets Manager, Azure Key Vault) for `OPENCRED_API_KEY` and DeDi credentials
-- The regulator's licensing pointer (`issuedBy` = regulator's `did:web`, `subjectId` = your regulator-issued licence ID) — this is what you quote in every credential's `issuer.idRef`. Obtain this from your state regulator (DERC, KERC, etc.).
+- *(Optional — if you have a regulator to cite)* The regulator's licensing pointer (`issuedBy` = regulator's `did:web`, `subjectId` = your regulator-issued licence ID) — this is what you quote in `issuer.idRef`. Obtain it from your state regulator (DERC, KERC, etc.). `issuer.idRef` is optional per the schema and W3C VC 2.0; omit it for pilots or non-regulated issuers.
 
 > **You do not need to be in the IES DISCOMs Reference Registry to issue credentials.** That registry is the IES network operator's curated trust boundary for the **inter-DISCOM data exchange network**; it is **not** a prerequisite for credential trust. Step 0 below is left in place for DISCOMs that also plan to join the inter-DISCOM data exchange network — others can skip directly to Step 1.
 
@@ -57,7 +57,7 @@ Steps:
    curl https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/ies-discoms-reference-registry/<your-discom-id>
    ```
 
-For the credential's `issuer.idRef` you will continue to use the regulator's licensing pointer (e.g. `issuedBy: did:web:derc.delhi.gov.in`, `subjectId: derc.delhi.gov.in:<your-licence-id>`), not this registry entry.
+For the credential's `issuer.idRef` — when you choose to include one — continue to use the regulator's licensing pointer (e.g. `issuedBy: did:web:derc.delhi.gov.in`, `subjectId: derc.delhi.gov.in:<your-licence-id>`), not this registry entry. `issuer.idRef` itself remains optional.
 
 ---
 

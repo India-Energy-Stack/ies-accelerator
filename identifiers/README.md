@@ -36,7 +36,7 @@ Two steps get you here:
 1. **Pick a domain or subdomain** you control (covered in the next section).
 2. **Generate a key pair** and **publish a small `did.json` file** declaring the public key (Steps 1–6 of [Publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally)).
 
-That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** A credential carries the regulator's `issuer.idRef` (the licensing assertion); verifiers fetch your `did.json` for the key and the regulator's record to confirm the license. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
+That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
 Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential is **bearer-style** (no holder identifier) — anyone holding the JSON is treated as the subject, which is fine for paper or counter-issued credentials. When you want presentation-time proof that the presenter is the legitimate subject (typical for consumer-facing flows), bind the credential to a holder identifier — a wallet DID or a phone-number URI — per [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity).
 
@@ -177,7 +177,7 @@ If that command prints your DID, you're done — any participant on the network 
 
 That's all you need to start signing credentials. Everything below is optional reading.
 
-> **Note on the IES-side DISCOM registry.** Registering your DISCOM in the IES DISCOMs Reference Registry is **not** a prerequisite for credential issuance — credential trust flows from your `did:web` signature plus the regulator's licensing assertion in `issuer.idRef`. The IES-side registry is the trust boundary for the **inter-DISCOM data exchange network** (the NFO's curated allow-list of participants on that network) and is covered in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+> **Note on the IES-side DISCOM registry.** Registering your DISCOM in the IES DISCOMs Reference Registry is **not** a prerequisite for credential issuance — credential trust flows from your `did:web` signature, with an optional second leg from the regulator's licensing assertion in `issuer.idRef` when you have a regulator to cite. The IES-side registry is the trust boundary for the **inter-DISCOM data exchange network** (the NFO's curated allow-list of participants on that network) and is covered in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ---
 
@@ -219,6 +219,7 @@ Here is one filled-in ElectricityCredential v1.2 showing every identifier in one
     "id":   "did:web:ies.tpddl.in",
     "name": "Tata Power Delhi Distribution Limited",
     "idRef": {
+      "_comment":  "optional — include only when citing a regulator",
       "issuedBy":  "did:web:ies.derc.gov.in",
       "subjectId": "derc.delhi.gov.in:TPDDL-REG-0042"
     }
@@ -253,7 +254,7 @@ Here is one filled-in ElectricityCredential v1.2 showing every identifier in one
 | Field | What it carries | Set by |
 |---|---|---|
 | `issuer.id` | Your `did:web` | You |
-| `issuer.idRef` | A pointer the regulator gave you that confirms you are a licensed DISCOM in their service area | Regulator + you |
+| `issuer.idRef` *(optional)* | A pointer the regulator gave you that confirms you are a licensed DISCOM in their service area. Include when you have a regulator to cite; omit otherwise — `issuer.idRef` is optional per both the v1.2 schema and W3C VC 2.0. | Regulator + you |
 | `customerProfile.customerNumber` | Your existing CIS number, unchanged | You |
 | `energyResources[].id` | A `did:web` for each meter / asset, built from your domain plus a path segment | You |
 | `proof.verificationMethod` | A pointer back into your `did.json` saying which key did the signing | OpenCred / your signing pipeline |
@@ -312,7 +313,7 @@ The strengths of `did:web` for an institutional issuer:
 - Key rotation is one file replace.
 - No new infrastructure beyond a static-file host.
 
-The main limitation is that domain hijack would mean identity hijack of the issuer key. Credential-level mitigation comes from the **regulator's licensing assertion** (`issuer.idRef`): a verifier resolves the regulator's DID and confirms the regulator vouches for this DISCOM. Even if a domain is hijacked, the attacker cannot forge the regulator's vouching record without also compromising the regulator's key. For the inter-DISCOM data exchange network, the NFO's curated network reference registry adds a second mitigation by gating which subscribers are on the network.
+The main limitation is that domain hijack would mean identity hijack of the issuer key. If you cite a regulator in `issuer.idRef`, credential-level mitigation comes from that **licensing assertion**: a verifier resolves the regulator's DID and confirms the regulator vouches for this DISCOM. Even if a domain is hijacked, the attacker cannot forge the regulator's vouching record without also compromising the regulator's key. When `issuer.idRef` is omitted (e.g. for a pilot or non-regulated issuer), this leg of the mitigation isn't available — verifiers fall back to whatever out-of-band recognition they have of your `did:web`. For the inter-DISCOM data exchange network, the NFO's curated network reference registry adds a separate mitigation by gating which subscribers are on the network.
 
 #### `did:key` — what wallets give consumers
 
@@ -352,7 +353,7 @@ This appendix walks end-to-end through issuing and revoking an [ElectricityCrede
 
 - The OpenCred container from Step 3 is running, with `$OPENCRED_API_KEY` exported in your shell.
 - `https://ies.tpddl.in/.well-known/did.json` is serving your DID document (Steps 4–5).
-- The regulator (e.g. DERC) has issued the licensing pointer you will quote in `issuer.idRef` (`issuedBy` = regulator's `did:web`, `subjectId` = regulator-issued licence ID). Credential issuance does **not** require any IES-side DISCOM-registry entry.
+- *(Optional — include only if you have a regulator to cite)* The regulator (e.g. DERC) has issued a licensing pointer you can quote in `issuer.idRef` (`issuedBy` = regulator's `did:web`, `subjectId` = regulator-issued licence ID). `issuer.idRef` is optional per the schema and the W3C spec — omit it for pilots, non-regulated issuers, or before your regulator's DID is set up. Credential issuance does **not** require any IES-side DISCOM-registry entry either way.
 
 ### 1. Confirm the issuer DID OpenCred reports
 
@@ -407,7 +408,7 @@ Three things worth noting:
 
 - This payload mirrors the [OpenCred bootcamp](https://opencred.gitbook.io/docs/bootcamp/local-docker) shape — only the `schemaId` and the `credentialSubject` fields change to fit v1.2. **No `credentialSubject.id`** is set here, which means the credential is issued in **bearer style** — anyone holding the JSON is treated as the subject. For consumer-facing flows where the presenter must be the legitimate subject, set `credentialSubject.id` to a holder identifier and require a presentation-time proof — see [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity).
 - **Every IES identifier is a `did:web` derived from a domain you control.** Meter IDs use the colon-path form (`did:web:ies.tpddl.in:assets:meter:<slno>`). The same pattern works for transformers, feeders, and substations — see [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets).
-- **The regulator's `issuer.idRef`** (`{ issuedBy, subjectId }`) is appended by your pipeline after OpenCred returns the credential, then re-submitted for signing if your flow requires it. OpenCred itself does not know your regulator relationship.
+- **The regulator's `issuer.idRef`** (`{ issuedBy, subjectId }`) is optional. If you have a regulator to cite, your pipeline appends it after OpenCred returns the credential and (if your flow requires a single signed artefact) re-signs the result. OpenCred itself does not know your regulator relationship. If you have no regulator to cite, omit `idRef` entirely — `issuer.id` plus `issuer.name` is a valid issuer block on its own.
 
 ### 3. Verify the credential
 
@@ -455,7 +456,7 @@ A passing integration test should:
 
 1. Issue a credential (bearer-style by default, or add a holder identifier per [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity)).
 2. Resolve `issuer.id` (fetch `did.json` over HTTPS) and confirm the public key matches the one that signed `proof`.
-3. Resolve `issuer.idRef.issuedBy` (the regulator's `did:web`) and confirm your DISCOM is listed under their registry.
+3. *(If `issuer.idRef` is present)* Resolve `issuer.idRef.issuedBy` (the regulator's `did:web`) and confirm your DISCOM is listed under their registry. Skip this step for credentials issued without an `idRef`.
 4. Verify the credential via `/v1/credentials/verify` and confirm `valid: true`.
 5. Check `revocation-status` — expect "not revoked".
 6. Revoke the credential.
@@ -468,7 +469,7 @@ Run this on every release. It is the simplest possible smoke test that covers al
 | Artefact | Where |
 |---|---|
 | Issuer DID document | `https://ies.tpddl.in/.well-known/did.json` |
-| Regulator licensing pointer | `issuer.idRef` on every credential, pointing at the regulator's `did:web` |
+| Regulator licensing pointer *(optional)* | `issuer.idRef` on every credential, pointing at the regulator's `did:web` — included when you cite a regulator, omitted otherwise |
 | Asset DIDs | `did:web:ies.tpddl.in:assets:<class>:<id>` (no extra hosting required if you serve a directory listing or DID document per asset) |
 | Revocation entries | Hash records in the DeDi revocation registry your OpenCred is configured against |
 | Signed credentials | OpenCred output, delivered to wallets or DigiLocker |

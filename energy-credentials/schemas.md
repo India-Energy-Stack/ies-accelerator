@@ -151,7 +151,7 @@ Array with `minItems: 1` when present. One entry per battery.
 
 A reusable identity-reference pattern used in two places:
 
-- **`issuer.idRef`** — the **regulator's licensing assertion** for this DISCOM. `issuedBy` is the regulator's DID (e.g. the State Electricity Regulatory Commission); `subjectId` is the regulator-issued licence identifier for this DISCOM. This is what a verifier checks to confirm the DISCOM is a licensed distribution utility.
+- **`issuer.idRef`** *(optional)* — the **regulator's licensing assertion** for this DISCOM. `issuedBy` is the regulator's DID (e.g. the State Electricity Regulatory Commission); `subjectId` is the regulator-issued licence identifier for this DISCOM. When present, a verifier can resolve it to confirm the DISCOM is a licensed distribution utility. Optional per both the v1.2 schema (which requires only `id` and `name` on the issuer block) and the W3C VC Data Model 2.0 — omit it for pilots, non-regulated issuers, or before your regulator's DID is set up.
 - **`customerProfile.idRef`** — the customer's external identity (e.g. Aadhaar / government ID), used **instead of** carrying the raw ID
 
 | Field | Type | Required | Description |
@@ -174,7 +174,7 @@ Example (matches the v1.2 reference examples):
 
 ### IES DISCOMs Reference Registry (industry coordination / Beckn-side)
 
-The **IES DISCOMs Reference Registry** is the IES network operator's curated allow-list of recognised DISCOMs. **It is not a prerequisite for credential issuance** — credential trust flows from the issuer's `did:web` signature plus the regulator's licensing assertion above. The registry's role is **industry coordination and the inter-DISCOM data exchange network's trust boundary**: it is the membership list that the NFO references into the network's subscriber registry so other nodes on that network treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+The **IES DISCOMs Reference Registry** is the IES network operator's curated allow-list of recognised DISCOMs. **It is not a prerequisite for credential issuance** — credential trust flows from the issuer's `did:web` signature, with an optional second leg from the regulator's licensing assertion above when present. The registry's role is **industry coordination and the inter-DISCOM data exchange network's trust boundary**: it is the membership list that the NFO references into the network's subscriber registry so other nodes on that network treat a DISCOM as in-network. See [Identifiers and Addressing → Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 The registry lives on [`dedi.global`](https://dedi.global) under the IES namespace. Its full base URL is:
 

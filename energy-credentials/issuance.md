@@ -149,7 +149,7 @@ curl -X POST http://localhost:3100/v1/credentials/issue \
   }'
 ```
 
-OpenCred sets `issuer` to the `issuerDid` string, fills `proof`, and (with `revocationRegistryUrl`) fills `credentialStatus`. **The schema requires the full `issuer` object** (`id`, `name`, optional `idRef`), but OpenCred only accepts the DID string. Your integration service must replace the returned `issuer` field with the schema-conformant object before delivery. The `idRef` carries the **regulator's licensing assertion** — `issuedBy` is the regulator's `did:web`, `subjectId` is the regulator-issued licence identifier for your DISCOM. This is the trust anchor verifiers consult (see [Trust and the regulator's licensing assertion](./concepts.md#trust-and-the-regulators-licensing-assertion)):
+OpenCred sets `issuer` to the `issuerDid` string, fills `proof`, and (with `revocationRegistryUrl`) fills `credentialStatus`. **The schema requires `issuer.id` and `issuer.name`**, with `issuer.idRef` being optional, but OpenCred only accepts the DID string — so your integration service must replace the returned `issuer` field with the schema-conformant object before delivery. If you have a regulator to cite, include `idRef` so that verifiers can resolve the **regulator's licensing assertion** — `issuedBy` is the regulator's `did:web`, `subjectId` is the regulator-issued licence identifier for your DISCOM (see [Trust and the regulator's licensing assertion](./concepts.md#trust-and-the-regulators-licensing-assertion)). Omit `idRef` for pilots or non-regulated issuers:
 
 ```python
 vc = response["credential"]
@@ -308,6 +308,7 @@ OPENCRED_API_KEY = os.environ["OPENCRED_API_KEY"]
 ISSUER_DID = "did:web:ies.tpddl.in"
 ISSUER_NAME = "Tata Power Delhi Distribution Limited"
 # Regulator's licensing pointer — what verifiers consult to confirm DISCOM licensing.
+# Optional per the schema; set only if you have a regulator to cite.
 REGULATOR_DID = "did:web:derc.delhi.gov.in"
 REGULATOR_LICENCE_ID = "derc.delhi.gov.in:TPDDL-REG-0042"
 DEDI_REVOCATION_URL = "https://dedi.global/dedi/query/tpddl/vc-revocation-registry"

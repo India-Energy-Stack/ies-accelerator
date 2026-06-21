@@ -80,7 +80,7 @@ A minimum IES electricity credential (`type: "CustomerCredential"`) looks like t
 | `@context` | Defines the JSON-LD vocabulary. Must contain `https://www.w3.org/ns/credentials/v2`. |
 | `id` | A globally unique URN UUID for this specific credential |
 | `type` | Always `"VerifiableCredential"` + `"CustomerCredential"` |
-| `issuer` | DID, legal name, and `idRef` carrying the **regulator's licensing assertion** for this DISCOM (see [Trust and the regulator's licensing assertion](#trust-and-the-regulators-licensing-assertion)) |
+| `issuer` | DID and legal name (both required); optional `idRef` carrying the **regulator's licensing assertion** for this DISCOM when one is available (see [Trust and the regulator's licensing assertion](#trust-and-the-regulators-licensing-assertion)) |
 | `validFrom` / `validUntil` | ISO 8601 timestamps with timezone offset |
 | `credentialSubject` | The actual facts you are attesting — see [Schemas](./schemas.md) for the sub-profile structure |
 | `credentialStatus` | DeDi revocation pointer (see below) |
@@ -169,7 +169,7 @@ When OpenCred boots, it loads exactly one **signing key** from one of these sour
 
 ## Trust and the regulator's licensing assertion
 
-A cryptographically valid signature proves the credential was signed by *whoever holds that DID's private key*. The verifier still needs to answer: **"is that DID a licensed DISCOM?"** On IES, that answer comes from the **regulator** the credential cites in `issuer.idRef`, not from any IES-operator-curated allow-list. The state regulator (DERC, KERC, etc.) is the statutory authority that licenses distribution utilities; the credential references that licensing act.
+A cryptographically valid signature proves the credential was signed by *whoever holds that DID's private key*. The verifier still needs to answer: **"is that DID a licensed DISCOM?"** On IES, the recommended answer comes from the **regulator** the credential optionally cites in `issuer.idRef`, not from any IES-operator-curated allow-list. The state regulator (DERC, KERC, etc.) is the statutory authority that licenses distribution utilities; when present, the credential references that licensing act so any verifier can check it independently. When `issuer.idRef` is omitted — for example a pilot, a non-statutory issuer, or before the regulator's DID is set up — verifiers fall back to whatever out-of-band recognition they have of the issuer's `did:web`.
 
 ### The trust flow
 
@@ -179,7 +179,7 @@ When a verifier checks an ElectricityCredential:
 2. Resolve `issuer.id` to obtain the public key (fetch `.well-known/did.json` for `did:web`).
 3. Verify the credential's `proof` signature against that key.
 4. Read `issuer.idRef.issuedBy` (the regulator's DID, e.g. `did:web:derc.delhi.gov.in`) and `issuer.idRef.subjectId` (the licence identifier the regulator issued).
-5. Confirm the regulator vouches for this DISCOM under that licence — either by resolving a regulator-published record (a credential or a registry entry under the regulator's namespace) or by checking the regulator's signed licensing credential, depending on the regulator's chosen publication style.
+5. *(If `issuer.idRef` is present)* Confirm the regulator vouches for this DISCOM under that licence — either by resolving a regulator-published record (a credential or a registry entry under the regulator's namespace) or by checking the regulator's signed licensing credential, depending on the regulator's chosen publication style. Skip this step when `issuer.idRef` is absent; the credential is then accepted based on the issuer's signature alone, plus whatever out-of-band trust the verifier has in that `did:web`.
 
 That's the credential trust chain: **issuer signature → regulator licence**. No IES-operator gate sits between the credential and the verifier.
 
@@ -199,7 +199,7 @@ The issuer can sign with any of OpenCred's supported sources, and the same trust
 - **`did:key` from a self-generated PEM** — useful for dev and for early-stage DISCOMs. The credential carries the `did:key:...` as `issuer.id`.
 - **`did:key` from a DSC** — for DISCOMs anchoring trust additionally in the CSCA chain (Type 1 issuer in OpenCred's [trust chains model](https://opencred.gitbook.io/docs/concepts/trust-chains)). Embed the `x5c` chain alongside the bare public key.
 
-In every case, the verifier resolves `issuer.id` for the public key and `issuer.idRef.issuedBy` for the licensing assertion.
+In every case, the verifier resolves `issuer.id` for the public key. When `issuer.idRef` is present, the verifier additionally resolves `issuer.idRef.issuedBy` for the licensing assertion.
 
 ---
 
