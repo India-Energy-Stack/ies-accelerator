@@ -328,7 +328,10 @@ This block handles digital attestations of connections, billing summaries, and c
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="energy-credentials/README.md#energy-credentials">Energy Credentials</a>    <ul>
-      <li><a href="energy-credentials/README.md#why-credentials">Why credentials</a></li>
+      <li><a href="energy-credentials/README.md#why-credentials">Why credentials</a>      <ul>
+        <li><a href="energy-credentials/README.md#lifecycle-at-a-glance">Lifecycle at a glance</a>
+      </li>
+      </ul>
       <li><a href="energy-credentials/README.md#pick-your-role">Pick your role</a></li>
       <li><a href="energy-credentials/README.md#prerequisites">Prerequisites</a></li>
       <li><a href="energy-credentials/README.md#issue-your-first-credential">Issue your first credential</a>      <ul>
@@ -464,127 +467,59 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 ### ⚙️ Setup & Configuration
 * **[README.md](data-exchange/README.md)**
-  - *Summary*: Introduction to Beckn-based federated energy data exchange and network components.
+  - *Summary*: Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="data-exchange/README.md#ies-data-exchange">IES Data Exchange</a>    <ul>
-      <li><a href="data-exchange/README.md#the-problem-it-solves">The Problem It Solves</a></li>
-      <li><a href="data-exchange/README.md#how-it-works">How It Works</a>      <ul>
-        <li><a href="data-exchange/README.md#choosing-inline-vs-access-pattern-handoff">Choosing inline vs access-pattern handoff</a>
+    <li><a href="data-exchange/README.md#data-exchange">Data Exchange</a>    <ul>
+      <li><a href="data-exchange/README.md#why-this-page">Why this page</a></li>
+      <li><a href="data-exchange/README.md#pick-your-role">Pick your role</a></li>
+      <li><a href="data-exchange/README.md#prerequisites">Prerequisites</a></li>
+      <li><a href="data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes">Quick start — run a local exchange in 10 minutes</a>      <ul>
+        <li><a href="data-exchange/README.md#1-clone-and-start-the-stack">1. Clone and start the stack</a></li>
+        <li><a href="data-exchange/README.md#2-import-the-postman-collection-for-your-use-case">2. Import the Postman collection for your use case</a></li>
+        <li><a href="data-exchange/README.md#3-send-confirm">3. Send `confirm`</a></li>
+        <li><a href="data-exchange/README.md#4-watch-on-confirm-land">4. Watch `on_confirm` land</a></li>
+        <li><a href="data-exchange/README.md#5-stop-the-stack-when-done">5. Stop the stack when done</a></li>
+        <li><a href="data-exchange/README.md#bpp-path">BPP path</a>
       </li>
       </ul>
-      <li><a href="data-exchange/README.md#what-data-can-be-exchanged">What Data Can Be Exchanged</a></li>
-      <li><a href="data-exchange/README.md#key-components">Key Components</a></li>
-      <li><a href="data-exchange/README.md#sections-in-this-chapter">Sections in This Chapter</a></li>
-      <li><a href="data-exchange/README.md#related-repositories">Related Repositories</a>
+      <li><a href="data-exchange/README.md#go-over-the-public-internet-ngrok">Go over the public internet (ngrok)</a></li>
+      <li><a href="data-exchange/README.md#swap-in-your-real-identity">Swap in your real identity</a></li>
+      <li><a href="data-exchange/README.md#the-ies-networks">The IES networks</a></li>
+      <li><a href="data-exchange/README.md#pagination-large-datasets-across-multiple-status-on-status-messages">Pagination — large datasets across multiple `status` / `on_status` messages</a>      <ul>
+        <li><a href="data-exchange/README.md#bap-pull-the-bap-drives-the-cadence">BAP-PULL — the BAP drives the cadence</a></li>
+        <li><a href="data-exchange/README.md#bpp-push-the-bpp-drives-the-cadence">BPP-PUSH — the BPP drives the cadence</a></li>
+        <li><a href="data-exchange/README.md#worked-examples-in-the-devkit">Worked examples in the devkit</a>
+      </li>
+      </ul>
+      <li><a href="data-exchange/README.md#optional-beckn-actions">Optional Beckn actions</a></li>
+      <li><a href="data-exchange/README.md#two-registries-two-onix-deployments">Two registries, two ONIX deployments</a></li>
+      <li><a href="data-exchange/README.md#make-the-sandbox-your-own">Make the sandbox your own</a></li>
+      <li><a href="data-exchange/README.md#what-you-can-exchange-schema-families">What you can exchange (schema families)</a></li>
+      <li><a href="data-exchange/README.md#onboarding-checklist">Onboarding checklist</a>
     </li>
     </ul>
-  </li>
-  </ul>
-  </details>
-* **[concepts.md](data-exchange/concepts.md)**
-  - *Summary*: Just-enough theory: Beckn lifecycle, trust, DatasetItem, schema families, validation, stack topology.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="data-exchange/concepts.md#core-concepts-data-exchange">Core Concepts — Data Exchange</a>    <ul>
-      <li><a href="data-exchange/concepts.md#beckn-protocol-lifecycle">Beckn Protocol Lifecycle</a>      <ul>
-        <li><a href="data-exchange/concepts.md#message-structure">Message Structure</a>
+    <li><a href="data-exchange/README.md#appendices">Appendices</a>    <ul>
+      <li><a href="data-exchange/README.md#appendix-a-beckn-protocol-lifecycle">Appendix A — Beckn protocol lifecycle</a>      <ul>
+        <li><a href="data-exchange/README.md#message-structure">Message structure</a></li>
+        <li><a href="data-exchange/README.md#context-invariants">Context invariants</a></li>
+        <li><a href="data-exchange/README.md#datasetitem-and-accessmethod">`DatasetItem` and `accessMethod`</a>
       </li>
       </ul>
-      <li><a href="data-exchange/concepts.md#building-trust">Building Trust</a></li>
-      <li><a href="data-exchange/concepts.md#the-datasetitem-schema">The DatasetItem Schema</a></li>
-      <li><a href="data-exchange/concepts.md#schema-families">Schema families</a></li>
-      <li><a href="data-exchange/concepts.md#how-schema-validation-works">How schema validation works</a></li>
-      <li><a href="data-exchange/concepts.md#architecture-at-a-glance">Architecture at a glance</a></li>
-      <li><a href="data-exchange/concepts.md#where-next">Where next</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[quick-start.md](data-exchange/quick-start.md)**
-  - *Summary*: Developer guide to starting local sandboxes and sending confirm -> on_confirm exchanges.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="data-exchange/quick-start.md#quick-start-data-exchange">Quick Start — Data Exchange</a>    <ul>
-      <li><a href="data-exchange/quick-start.md#1-pick-your-role">1. Pick your role</a></li>
-      <li><a href="data-exchange/quick-start.md#2-prerequisites">2. Prerequisites</a></li>
-      <li><a href="data-exchange/quick-start.md#phase-a-run-it-locally">Phase A — Run it locally</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#a1-clone-and-start-the-stack">A1. Clone and start the stack</a></li>
-        <li><a href="data-exchange/quick-start.md#a2-run-the-minimal-exchange-confirm-on-confirm">A2. Run the minimal exchange (`confirm` → `on_confirm`)</a>        <ul>
-          <li><a href="data-exchange/quick-start.md#bpp-path">BPP path</a>
-        </li>
-        </ul>
-        <li><a href="data-exchange/quick-start.md#a3-optional-add-other-beckn-actions">A3. (Optional) Add other Beckn actions</a>
+      <li><a href="data-exchange/README.md#appendix-b-architecture-at-a-glance">Appendix B — Architecture at a glance</a>      <ul>
+        <li><a href="data-exchange/README.md#the-four-onix-endpoints">The four ONIX endpoints</a></li>
+        <li><a href="data-exchange/README.md#identity-resolution">Identity resolution</a>
       </li>
       </ul>
-      <li><a href="data-exchange/quick-start.md#phase-b-go-over-the-public-internet-ngrok">Phase B — Go over the public internet (ngrok)</a></li>
-      <li><a href="data-exchange/quick-start.md#phase-c-make-the-sandbox-your-own">Phase C — Make the sandbox your own</a>      <ul>
-        <li><a href="data-exchange/quick-start.md#replacing-the-sandbox-with-your-own-application">Replacing the sandbox with your own application</a>
+      <li><a href="data-exchange/README.md#appendix-c-schema-validation">Appendix C — Schema validation</a>      <ul>
+        <li><a href="data-exchange/README.md#failure-modes">Failure modes</a></li>
+        <li><a href="data-exchange/README.md#publishing-your-own-schema-for-onix-to-validate">Publishing your own schema for ONIX to validate</a>
       </li>
       </ul>
-      <li><a href="data-exchange/quick-start.md#stop-the-stack">Stop the stack</a></li>
-      <li><a href="data-exchange/quick-start.md#swap-in-your-real-identity">Swap in your real identity</a></li>
-      <li><a href="data-exchange/quick-start.md#reference">Reference</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[registry-setup.md](data-exchange/registry-setup.md)**
-  - *Summary*: Detailed steps for configuring ONIX with real identities and whitelisting namespaces.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="data-exchange/registry-setup.md#registry-setup">Registry Setup</a>    <ul>
-      <li><a href="data-exchange/registry-setup.md#the-ies-networks">The IES networks</a></li>
-      <li><a href="data-exchange/registry-setup.md#the-model-in-one-paragraph">The model in one paragraph</a></li>
-      <li><a href="data-exchange/registry-setup.md#step-by-step-for-a-network-participant-bap-bpp">Step-by-step for a Network Participant (BAP / BPP)</a>      <ul>
-        <li><a href="data-exchange/registry-setup.md#1-create-a-dedi-global-account-and-verify-your-namespace">1. Create a DeDi Global account and verify your namespace</a></li>
-        <li><a href="data-exchange/registry-setup.md#2-create-a-subscriber-registry-under-your-namespace">2. Create a subscriber registry under your namespace</a></li>
-        <li><a href="data-exchange/registry-setup.md#3-publish-your-subscriber-record">3. Publish your subscriber record</a></li>
-        <li><a href="data-exchange/registry-setup.md#4-ask-ies-to-add-your-dedi-url-to-the-network-reference-registry">4. Ask IES to add your DeDi URL to the network reference registry</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/registry-setup.md#configure-onix-with-your-real-identity">Configure ONIX with your real identity</a>      <ul>
-        <li><a href="data-exchange/registry-setup.md#allowednetworkids-is-the-gate">`allowedNetworkIDs` is the gate</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/registry-setup.md#two-registries-two-onix-deployments">Two registries, two ONIX deployments</a>      <ul>
-        <li><a href="data-exchange/registry-setup.md#running-two-devkit-stacks-side-by-side">Running two devkit stacks side-by-side</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/registry-setup.md#hosting-checklist">Hosting checklist</a></li>
-      <li><a href="data-exchange/registry-setup.md#reference">Reference</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[appendix.md](data-exchange/appendix.md)**
-  - *Summary*: Reference detail: context invariants, validation dispatch, endpoints, sequence diagram.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="data-exchange/appendix.md#appendix-data-exchange-reference">Appendix — Data Exchange Reference</a>    <ul>
-      <li><a href="data-exchange/appendix.md#context-invariants">Context invariants</a></li>
-      <li><a href="data-exchange/appendix.md#identity-resolution-step-by-step">Identity resolution, step by step</a></li>
-      <li><a href="data-exchange/appendix.md#schema-validation-reference">Schema validation reference</a>      <ul>
-        <li><a href="data-exchange/appendix.md#failure-modes">Failure modes</a></li>
-        <li><a href="data-exchange/appendix.md#domain-allow-list">Domain allow-list</a></li>
-        <li><a href="data-exchange/appendix.md#publishing-your-own-schema">Publishing your own schema</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/appendix.md#the-four-onix-endpoints">The four ONIX endpoints</a>      <ul>
-        <li><a href="data-exchange/appendix.md#where-onix-delivers-the-routing-configs">Where ONIX delivers — the routing configs</a>
-      </li>
-      </ul>
-      <li><a href="data-exchange/appendix.md#generic-beckn-flow">Generic Beckn flow</a></li>
-      <li><a href="data-exchange/appendix.md#hostnames-and-endpoints-sandbox-vs-production">Hostnames and endpoints — sandbox vs production</a></li>
-      <li><a href="data-exchange/appendix.md#further-reading">Further reading</a>
+      <li><a href="data-exchange/README.md#appendix-d-hostnames-sandbox-vs-production">Appendix D — Hostnames sandbox vs production</a></li>
+      <li><a href="data-exchange/README.md#appendix-e-generic-beckn-flow-sequence-diagram">Appendix E — Generic Beckn flow (sequence diagram)</a></li>
+      <li><a href="data-exchange/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -601,10 +536,9 @@ This block governs data discovery, consent, and the transfer of telemetry and re
       <li><a href="checklists/data-exchange-checklist.md#stage-0-scope-and-team">Stage 0 — Scope and team</a></li>
       <li><a href="checklists/data-exchange-checklist.md#stage-1-devkit-validation-local-sandbox">Stage 1 — Devkit validation (local sandbox)</a></li>
       <li><a href="checklists/data-exchange-checklist.md#stage-2-network-identity-dedi">Stage 2 — Network identity (DeDi)</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-3-test-network-validation">Stage 3 — Test network validation</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-4-real-data-integration">Stage 4 — Real data integration</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-5-production-infrastructure">Stage 5 — Production infrastructure</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-6-go-live">Stage 6 — Go-live</a>
+      <li><a href="checklists/data-exchange-checklist.md#stage-3-test-network-certification">Stage 3 — Test-network certification</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-4-production-deployment">Stage 4 — Production deployment</a></li>
+      <li><a href="checklists/data-exchange-checklist.md#stage-5-operational-hardening">Stage 5 — Operational hardening</a>
     </li>
     </ul>
   </li>

@@ -128,7 +128,7 @@ To authorize data exchange, you must link the participant's subscriber registry 
 
 ### References & Anchors
 * [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
-* [ONIX Registry Setup Guide](../data-exchange/registry-setup.md)
+* [ONIX Registry Setup Guide](../data-exchange/README.md#swap-in-your-real-identity)
 </details>
 
 ---
@@ -159,7 +159,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. Establish guidelines for node timeout configurations (e.g. maximum 5-second Beckn timeouts) to prevent cascading database latency.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../data-exchange/concepts.md)
+* [Data Exchange Security & Auth](../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle)
 </details>
 
 ---

@@ -2,7 +2,7 @@
 
 This page is the single home for everything IES has to say about identifiers. Read the first three sections and you will have enough to claim your DISCOM's identity on the network and issue your first credential. The appendices are there when you want more depth, want to issue at scale, or need to identify assets, meters, and datasets too.
 
-> **About the walkthroughs.** The concrete commands below use [OpenCred](https://opencred.gitbook.io/docs) — an open-source SDK that packages DID generation, credential issuance, and revocation into a single Docker container, so you can get to a working issuer in an afternoon rather than wiring everything yourself. OpenCred is one option among many; any W3C-compliant issuer that signs with the same key and publishes the same `did.json` will produce credentials that verify identically on the network. If you already have an in-house signing pipeline, swap OpenCred for it and the rest of this page still applies. For deeper theory on DID methods and revocation, the [OpenCred concept pages](https://opencred.gitbook.io/docs/concepts/dids) are a good reference. This page focuses on the IES-specific framing — which method to pick when, what each identifier means inside an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md), and how internal numbering survives the wrapping.
+> **About the walkthroughs.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
 ---
 

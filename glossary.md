@@ -45,7 +45,11 @@ The three roles in any credential exchange. **Issuer** signs and emits the crede
 
 ### OpenCred
 
-The open-source credential service IES DISCOMs deploy to sign, verify, and revoke credentials. Image: `ghcr.io/nfh-trust-labs/opencred/opencred-server`. Holds the DISCOM's private signing key locally and exposes an HTTP API. See [Energy Credentials chapter](energy-credentials/README.md).
+The open-source credential service IES DISCOMs deploy to sign, verify, and revoke credentials. Holds your private signing key locally (or in a KMS) and exposes an HTTP API. **W3C-compliant** issuer: produces credentials that any standards-conformant verifier can validate. **DeDi-integrated** out of the box: credential revocation entries flow into a DeDi revocation registry automatically, and the container can optionally back up your `did.json` to DeDi so your DID stays resolvable even when your own domain is unreachable. Swap it for any other W3C-compliant signing pipeline if you prefer — the published `did.json` and credential format are unchanged.
+
+- Image: `ghcr.io/nfh-trust-labs/opencred/opencred-server` ([releases](https://github.com/nfh-trust-labs/opencred/releases) · [docs](https://opencred.gitbook.io/docs))
+- Bootcamp / first deploy: [opencred.gitbook.io/docs/bootcamp/local-docker](https://opencred.gitbook.io/docs/bootcamp/local-docker)
+- See the [Energy Credentials chapter](energy-credentials/README.md) for the IES-specific issuance walkthrough.
 
 ### DigiLocker
 
@@ -85,7 +89,7 @@ The reference Beckn adapter used in IES. Handles message signing, signature veri
 
 ### DDM
 
-**Dataset Descriptor Model** — the Beckn schema family for describing datasets exchanged over the network. IES extends DDM with the `IES_*` schema family. See [beckn/DDM](https://github.com/beckn/DDM).
+**Decentralized Data Marketplace** — the Beckn-protocol-based open network for buyers and providers to discover, offer, contract, and exchange datasets without a central middleman. The schema family describing the exchanged datasets is published at [beckn/DDM](https://github.com/beckn/DDM); IES extends it with the `IES_*` schemas.
 
 ### ERA
 

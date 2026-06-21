@@ -232,6 +232,6 @@ cd DEG/devkits/data-exchange/uc3-tariff-policy/workflows
 - [`IES_Policy`, `IES_Program`, `EnergySlab`, `SurchargeTariff` (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [ies-docs tariff specification example](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/examples/tariff_specification_example.jsonld)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy/examples)
-- [Data Exchange — Core Concepts](../../data-exchange/concepts.md)
-- [Data Exchange — Quick Start](../../data-exchange/quick-start.md)
+- [Data Exchange — Core Concepts](../../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle)
+- [Data Exchange — Quick Start](../../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes)
 - [ies-docs `08_Energy_policy_as_code.md`](https://github.com/India-Energy-Stack/ies-docs/blob/main/architecture/08_Energy_policy_as_code.md)

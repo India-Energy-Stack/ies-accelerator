@@ -148,7 +148,7 @@ Authentication is the standard Beckn signing flow against the network registry. 
 
 ## Setup steps
 
-Mirrors the [Data Exchange Quick Start](../../data-exchange/quick-start.md). Everything below assumes you've already followed [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md) Stages 0–2 (devkit running, DeDi subscriber record, signing key).
+Mirrors the [Data Exchange Quick Start](../../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes). Everything below assumes you've already followed [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md) Stages 0–2 (devkit running, DeDi subscriber record, signing key).
 
 ### 1. Stand up the wave 2 devkit
 
@@ -166,7 +166,7 @@ Four collections sit under [`uc1/postman/`](https://github.com/beckn/DEG/tree/ma
 
 ### 3. Swap in your real identity
 
-Same procedure as Data Exchange: register your TP (or LP) as a DeDi subscriber under your namespace, point the ONIX adapter's `allowedNetworkIDs`, `networkParticipant`, and `keyId` at your real identity, and replace the sandbox containers with your TP / LP application. The full path is [Data Exchange → Registry Setup](../../data-exchange/registry-setup.md).
+Same procedure as Data Exchange: register your TP (or LP) as a DeDi subscriber under your namespace, point the ONIX adapter's `allowedNetworkIDs`, `networkParticipant`, and `keyId` at your real identity, and replace the sandbox containers with your TP / LP application. The full path is [Data Exchange → Registry Setup](../../data-exchange/README.md#swap-in-your-real-identity).
 
 ### 4. Map your application logic to the four roles
 
