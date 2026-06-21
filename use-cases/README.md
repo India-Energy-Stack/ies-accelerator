@@ -42,8 +42,8 @@ Each use case page follows the same structure so you can navigate quickly:
 |---|---|
 | Identifier patterns and DeDi registries | Stable |
 | Energy credential schemas — `ElectricityCredential v1.2` | Stable |
-| Energy credential schema — `ConsumerEnergyPassport` (composite) | Draft — see [credential docs](../energy-credentials/consumer-energy-passport.md) |
-| Energy credential schema — `ConsumerMeterDigest` | Draft — see [credential docs](../energy-credentials/consumer-meter-digest.md) |
+| Energy credential variant — Consumer Energy Passport (issuance pattern over `ElectricityCredential/v1.2`) | See [Consumer Energy Passport use case](./consumer-energy-passport/README.md) |
+| Energy credential variant — Consumer Meter Digest (issuance pattern over `MeterDataCredential/v0.6`) | See [Consumer Meter Digest use case](./consumer-meter-digest/README.md) |
 | Data exchange protocol (Beckn + DDM envelope) | Stable; shipped in devkit |
 | `MeterData v0.6` (meter telemetry) schema | Current canonical — supersedes the earlier `IES_Report` working name |
 | `MeterDataRequest v0.6` + `MeterDataRequestCredential v0.1` | Current |

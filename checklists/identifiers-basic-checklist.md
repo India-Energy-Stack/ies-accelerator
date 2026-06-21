@@ -72,4 +72,4 @@ Identify two roles: an **IT point of contact** for the OpenCred / key-management
 
 ---
 
-*Once these items are in place, your DISCOM is ready to issue [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) credentials. For the practical issuance and revocation commands, see [Identifiers and Addressing → Appendix B](../identifiers/README.md#appendix-b--issuing-and-revoking-an-electricitycredential-v12-with-opencred). For the theory of DIDs and revocation, see [OpenCred → DIDs](https://opencred.gitbook.io/docs/concepts/dids) and [OpenCred → Revocation](https://opencred.gitbook.io/docs/concepts/revocation).*
+*Once these items are in place, your DISCOM is ready to issue [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) credentials. For the practical issuance and revocation commands, see [Identifiers and Addressing → Appendix B](../energy-credentials/README.md#issue-your-first-credential). For the theory of DIDs and revocation, see [OpenCred → DIDs](https://opencred.gitbook.io/docs/concepts/dids) and [OpenCred → Revocation](https://opencred.gitbook.io/docs/concepts/revocation).*

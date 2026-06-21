@@ -51,13 +51,13 @@ A [`did:web`](../identifiers/README.md#didweb--the-one-your-discom-will-use) ide
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
 2. **Expose the DID Document (First Step)**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
-   Construct the `did.json` document according to the W3C DID Core specification, ensuring your public verification key is correctly mapped and referenced. Refer to [Step-by-step: publish your did:web](../identifiers/README.md#step-by-step-publish-your-didweb) for the structural checklist.
+   Construct the `did.json` document according to the W3C DID Core specification, ensuring your public verification key is correctly mapped and referenced. Refer to [Step-by-step: publish your did:web](../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally) for the structural checklist.
 
 ### References & Anchors
 * [Identifiers & Addressing Overview](../identifiers/README.md)
 * [Resolution & Routing Specification](../identifiers/README.md#didweb--the-one-your-discom-will-use) (Detailed resolution rules for `did:web` endpoints)
-* [Step-by-step: publish your did:web](../identifiers/README.md#step-by-step-publish-your-didweb) (Document parameters)
-* [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md#1-institutional-identity)
+* [Step-by-step: publish your did:web](../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally) (Document parameters)
+* [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md)
 </details>
 
 <details>
@@ -130,7 +130,7 @@ Create and initialize the following registries under your namespace (OpenCred au
 * [The registries you'll touch in IES (by role)](../registries/README.md#the-registries-youll-touch-in-ies-by-role)
 * [As a DISCOM / issuer running OpenCred](../registries/README.md#as-a-discom--issuer-running-opencred)
 * [As a Beckn Network Participant](../registries/README.md#as-a-beckn-network-participant-bap--bpp-aggregator-amisp-trading-platform)
-* [OpenCred Key & DID Publishing Configuration](../energy-credentials/onboarding.md#deploy-opencred)
+* [OpenCred Key & DID Publishing Configuration](../energy-credentials/README.md#issue-your-first-credential)
 </details>
 
 <details>
@@ -171,38 +171,40 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 2. **Configure Authentication**: Setup OTP or Aadhaar reference authentication gateways on your client portal.
 3. **Deploy OpenCred**: Deploy the containerized OpenCred service using your secured P-256 signing keys.
 4. **CRM Status Logging & Issuance**: Store active credential UUIDs in your database to coordinate revocations. Format and trigger credential issuance via OpenCred's `/v1/credentials/issue` API using the `ElectricityCredential` JSON shape.
-5. **Verify Revocation Handling**: Ensure the verifier's revocation check logic is active. Be mindful of the silent-skip behavior if DeDi namespaces are misconfigured (refer to the [OpenCred Silent-Skip Warning](../energy-credentials/verification.md#silent-skip-warning)).
-6. **Validate the Issued Credential**: Call the OpenCred verification endpoint (`/v1/credentials/verify`) using the issued VC to test the full verification cycle. This confirms that the verifier can successfully resolve the issuer's DID and validate the cryptographic signature. Note that if DeDi is disabled or the namespaces are not fully synchronized, the validation engine might exhibit specific resolve behaviors (refer to the [OpenCred Resolve Verification Check](../energy-credentials/onboarding.md#verifying-the-deployment)).
+5. **Verify Revocation Handling**: Ensure the verifier's revocation check logic is active. Be mindful of the silent-skip behavior if DeDi namespaces are misconfigured (refer to the [OpenCred Silent-Skip Warning](../energy-credentials/README.md#troubleshooting)).
+6. **Validate the Issued Credential**: Call the OpenCred verification endpoint (`/v1/credentials/verify`) using the issued VC to test the full verification cycle. This confirms that the verifier can successfully resolve the issuer's DID and validate the cryptographic signature. Note that if DeDi is disabled or the namespaces are not fully synchronized, the validation engine might exhibit specific resolve behaviors (refer to the [OpenCred Resolve Verification Check](../energy-credentials/README.md#5-smoke-test)).
 
 ### References & Anchors
 * [Energy Credentials Overview](../energy-credentials/README.md)
-* [Energy Credentials Deployment Guide](../energy-credentials/onboarding.md)
-* [OpenCred Resolve Verification Check & Env Options](../energy-credentials/onboarding.md#verifying-the-deployment)
-* [OpenCred Silent-Skip Revocation Warning](../energy-credentials/verification.md#silent-skip-warning)
-* [Batch Issuance at Scale (Queue & Workers)](../energy-credentials/issuance.md#batch-issuance-at-scale)
-* [Multi-Replica Deployment Guidance](../energy-credentials/onboarding.md#multi-replica-and-batch-worker-fleet)
+* [Energy Credentials Deployment Guide](../energy-credentials/README.md)
+* [OpenCred Resolve Verification Check & Env Options](../energy-credentials/README.md#5-smoke-test)
+* [OpenCred Silent-Skip Revocation Warning](../energy-credentials/README.md#troubleshooting)
+* [Batch Issuance at Scale (Queue & Workers)](../energy-credentials/README.md#batch-issuance)
+* [Multi-Replica Deployment Guidance](../energy-credentials/README.md#batch-issuance)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
 * [Consumer Energy Passport Checklist](../use-cases/consumer-energy-passport/checklist.md)
 * [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
 </details>
 
 <details>
-<summary><b>Step 3.2: Register with [DigiLocker](../energy-credentials/digilocker-integration.md)</b></summary>
+<summary><b>Step 3.2: Register with [DigiLocker](../energy-credentials/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
-> [API Setu](../energy-credentials/digilocker-integration.md) compliance checks can take time. Start your legal and institutional registrations on API Setu early in Phase 3 so that production gateways are cleared by the time your code is ready.
+> [API Setu](../energy-credentials/digilocker.md) compliance checks can take time. Start your legal and institutional registrations on API Setu early in Phase 3 so that production gateways are cleared by the time your code is ready.
 
 ### 📋 Prework Required
-* Secure authorization letters and corporate certificates from your legal department for [API Setu](../energy-credentials/digilocker-integration.md) access.
+* Secure authorization letters and corporate certificates from your legal department for [API Setu](../energy-credentials/digilocker.md) access.
 
 ### References & Anchors
-* [DigiLocker Integration Guide](../energy-credentials/digilocker-integration.md)
-* [Issuing Credentials Checklist](../energy-credentials/issuance.md)
+* [DigiLocker Integration Guide](../energy-credentials/digilocker.md)
+* [Issuing Credentials Checklist](../energy-credentials/README.md#issue-your-first-credential)
 </details>
 
 ---
 
-## Phase 4: Smart Meter Data Exchange ([Beckn Data Pipes](../data-exchange/concepts.md))
+## Phase 4: Smart Meter Data Exchange (Beckn Data Pipes)
+
+*(See [Data Exchange — Core Concepts](../data-exchange/concepts.md) for the underlying Beckn primitives.)*
 
 Enable federated, policy-governed data sharing of smart meter telemetry and master data with authorized third parties.
 
@@ -238,7 +240,7 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 
 ### References & Anchors
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
-  * [How It Works](../use-cases/smart-meter-data-exchange/README.md#how-it-works)
+  * [How It Works](../use-cases/smart-meter-data-exchange/README.md)
 * [IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
 * [MeterData Schema Specification](../schemas/MeterData/README.md)
 </details>
@@ -269,7 +271,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > **Clarity Gap**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../data-exchange/concepts.md#context-invariants)
+* [Data Exchange Security & Auth](../data-exchange/concepts.md)
 * [MeterDataRequestCredential Schema](../schemas/MeterDataRequestCredential/v0.1/README.md)
 * [MeterDataRequestCredential Example](../schemas/MeterDataRequestCredential/v0.1/examples/example.json)
 </details>
@@ -286,7 +288,9 @@ While the technical authorisation logic is ultimately left to the utility, we su
 
 ---
 
-## Phase 5: [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (Electricity Bill)
+## Phase 5: Consumer Meter Digest (Electricity Bill)
+
+*(See [Use cases → Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md).)*
 
 Move beyond static PDFs to compile and issue verifiable, machine-readable monthly electricity bills.
 
@@ -325,18 +329,18 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 
 ### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
-  * [How It Works](../use-cases/consumer-meter-digest/README.md#how-it-works)
+  * [How It Works](../use-cases/consumer-meter-digest/README.md)
 * [Consumer Meter Digest Checklist](../use-cases/consumer-meter-digest/checklist.md)
 </details>
 
 <details>
-<summary><b>Step 5.2: Link Bills to [DigiLocker](../energy-credentials/digilocker-integration.md)</b></summary>
+<summary><b>Step 5.2: Link Bills to [DigiLocker](../energy-credentials/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
 > Re-use your DigiLocker gateway! Since you cleared API Setu audits in Step 3.2, adding the verifiable bill credential is a simple path extension on your existing issuer record.
 
 ### References & Anchors
-* [DigiLocker Issuer Setup](../energy-credentials/digilocker-integration.md)
+* [DigiLocker Issuer Setup](../energy-credentials/digilocker.md)
 </details>
 
 ---

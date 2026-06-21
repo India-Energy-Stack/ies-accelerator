@@ -114,7 +114,7 @@ Once verified, the Secretariat must append the participant's metadata to the can
    ```
 
 ### References & Anchors
-* [Identifiers and Addressing — Register with the IES network](../identifiers/README.md#5-register-with-the-ies-network)
+* [Identifiers and Addressing — Register with the IES network](../registries/README.md#how-to-apply-for-an-ies-listing)
 </details>
 
 <details>
@@ -159,7 +159,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. Establish guidelines for node timeout configurations (e.g. maximum 5-second Beckn timeouts) to prevent cascading database latency.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../data-exchange/concepts.md#context-invariants)
+* [Data Exchange Security & Auth](../data-exchange/concepts.md)
 </details>
 
 ---

@@ -82,40 +82,23 @@ def main():
             ("SUMMARY.md", "Table of Contents sidebar structure configuration for GitBook deployment.")
         ],
         "identifiers_setup": [
-            ("identifiers/README.md", "Introduction to the IES addressing layer, design principles, and role-based onboarding paths."),
-            ("identifiers/concepts.md", "Cryptographic theory behind DIDs (did:web, did:key, did:dedi) and identifier vs. record separation."),
-            ("identifiers/id-patterns.md", "Grammar conventions and syntax rules for minting identifiers for DISCOMs, consumers, regulators, and assets.")
+            ("identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
         ],
         "identifiers_ops": [
-            ("identifiers/issuance-reference.md", "Worked reference implementation (Python/OpenSSL) for key generation, did.json creation, and credential issuance."),
             ("checklists/identifiers-basic-checklist.md", "Self-audit checklist to verify domain ownership, key formats, and DID structures.")
         ],
         "registries_setup": [
             ("registries/README.md", "Introduction to the trust registry layer and related building blocks."),
-            ("registries/dedi-primer.md", "Conceptual primer on Decentralized Directories, namespace control, and trust pillars."),
-            ("registries/registry-creation.md", "Developer walkthrough for creating namespaces, verification, and managing DeDi records via UI/API."),
-            ("registries/required-registries.md", "Detailed specification of schemas, record shapes, and onboarding channels for public/private registries."),
-            ("registries/private_resolution.md", "Overview of public vs. private resolution and namespace layout conventions for DeDi tables.")
         ],
         "registries_ops": [
-            ("registries/resolution.md", "Detailed specification of did:web, did:key, and did:dedi resolvers, error matrices, and caching rules."),
             ("checklists/registries-basic-checklist.md", "Auditing checklist to confirm namespace delegation, key records, and registry accessibility.")
         ],
         "credentials_setup": [
-            ("energy-credentials/README.md", "Introduction to W3C Verifiable Credentials (VCs) in the energy sector and recommended reading order."),
-            ("energy-credentials/concepts.md", "Concepts of credential roles (Issuer, Holder, Verifier), trust delegation, and DeDi revocation patterns."),
-            ("energy-credentials/schemas.md", "Detailed breakdown of the electricity credential JSON schema and JSON-LD contexts."),
-            ("energy-credentials/onboarding.md", "Step-by-step instructions for deploying OpenCred docker instances and setting up signing keys.")
+            ("energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, onboarding checklist, and trust-model appendices.")
         ],
         "credentials_ops": [
-            ("energy-credentials/issuance.md", "Guide to mapping customer master data to the issue API, batch issuance, and lifecycle patterns."),
-            ("energy-credentials/verification.md", "Specifications for verifying signatures, schema compliance, and DeDi revocation status list updates."),
-            ("energy-credentials/digilocker-integration.md", "Integration guide for connecting OpenCred with India's DigiLocker Pull URI protocol."),
-            ("energy-credentials/consumer-energy-passport.md", "Envelope specification and fields for the Consumer Energy Passport credential."),
-            ("energy-credentials/consumer-meter-digest.md", "Envelope specification and readings structure for the Consumer Meter Digest credential."),
-            ("checklists/energy-credentials-basic-checklist.md", "Basic check list for credential issuance and environment testing."),
-            ("checklists/energy-credentials-checklist.md", "Overview readiness checklist for credential deployments."),
-            ("checklists/energy-credentials-checklist-detailed.md", "Production implementation reference for key management, batching, and delivery.")
+            ("energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning."),
+            ("checklists/energy-credentials-checklist.md", "Onboarding checklist for credential issuance — section-linked to the Energy Credentials README.")
         ],
         "exchange_setup": [
             ("data-exchange/README.md", "Introduction to Beckn-based federated energy data exchange and network components."),

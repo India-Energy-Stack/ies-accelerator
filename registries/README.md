@@ -130,7 +130,9 @@ The IES network registries — `ies-data-sharing-network`, `ies-p2p-trading-netw
 
 The end-to-end "publish your subscriber details + get added to a network" walkthrough is in [Identifiers and Addressing — Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
-### As an [NFO](../glossary.md#nfo)
+### As an NFO
+
+*([Network Facilitator Organisation](../glossary.md#nfo) — the organisation that curates a Beckn network.)*
 
 | Registry | Who creates | Purpose |
 |---|---|---|
