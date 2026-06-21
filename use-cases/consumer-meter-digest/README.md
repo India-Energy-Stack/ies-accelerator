@@ -29,7 +29,7 @@ This is the **consumer-facing dual** of [Smart Meter Data Exchange](../smart-met
 | Block | Role in this use case |
 |---|---|
 | [Identifiers](../../identifiers/README.md) | The Digest references the consumer's DID, the meter ID, and the time-range it covers. The DISCOM's `did:web` is the issuer ID. |
-| [Registries](../../registries/README.md) | Credential verification uses the DISCOM's `did:web` plus the regulator's licensing pointer. The DISCOM also appears in the [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry) because the Digest is delivered over Beckn (where the IES-registry entry is the trust boundary). Revocation is checked via DeDi. |
+| [Registries](../../registries/README.md) | Credential verification uses the DISCOM's `did:web` plus the regulator's licensing pointer. The DISCOM also appears in the [IES DISCOMs Reference Registry](../../registries/README.md#reference-allow-lists-industry-coordination) because the Digest is delivered over Beckn (where the IES-registry entry is the trust boundary). Revocation is checked via DeDi. |
 | [Energy Credentials](../../energy-credentials/README.md) | The Digest is a `ConsumerMeterDigest` Verifiable Credential — see [Consumer Meter Digest credential](../../energy-credentials/consumer-meter-digest.md) for the schema. Issued by the same OpenCred service the DISCOM already runs. |
 | [Data Exchange](../../data-exchange/README.md) | The DISCOM exposes a "consumer-pull" endpoint over IES Data Exchange that returns the Digest inline. The exact mechanism by which the consumer's wallet drives the request is still being agreed; what is stable is that the Digest is delivered back as a signed credential. |
 
@@ -60,7 +60,7 @@ The Digest is a credential, not just a data dump: the DISCOM signs it, the consu
 
 The DISCOM must already have:
 
-- A published `did:web` (and the regulator's licensing pointer for `issuer.idRef`). Because the Digest is delivered over Beckn, the DISCOM also needs a [IES DISCOMs Reference Registry](../../registries/required-registries.md#discom-reference-registry) entry for the Beckn trust boundary.
+- A published `did:web` (and the regulator's licensing pointer for `issuer.idRef`). Because the Digest is delivered over Beckn, the DISCOM also needs a [IES DISCOMs Reference Registry](../../registries/README.md#reference-allow-lists-industry-coordination) entry for the Beckn trust boundary.
 - An OpenCred service running (per [Energy Credentials Deployment](../../energy-credentials/onboarding.md)) — the same instance that issues `CustomerCredential` and the Consumer Energy Passport.
 - A BPP adapter exposing a "consumer-pull" catalogue entry on the IES Data Exchange (per [Data Exchange Quick Start](../../data-exchange/quick-start.md)).
 - A connection from the BPP to its MDMS so a consumer-pull can resolve to actual meter readings.

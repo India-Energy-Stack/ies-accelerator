@@ -16,7 +16,7 @@
 
 ### 1. Network identity in place (shared with Data Exchange)
 
-If you have already onboarded any Beckn flow on this network, reuse the same identity. New entrants follow [Required Registries — minimum to get started](../../registries/required-registries.md#onboarding-quick-guide-minimum-to-get-started).
+If you have already onboarded any Beckn flow on this network, reuse the same identity. New entrants follow [Registries — onboarding checklist](../../registries/README.md#end-to-end-onboarding-checklist).
 
 - [ ] DeDi subscriber record under the right network namespace
 - [ ] Signing key in a secrets manager, never in config files

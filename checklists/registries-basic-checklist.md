@@ -29,7 +29,7 @@ Publish a single public record that says "this is our DISCOM, here is our public
 
 Depending on which IES capabilities you are adopting, you will need to set up a small number of additional registries inside your namespace — for example, a list of revoked credentials, a list of approved data subscribers, or a list of your assets. Pick what applies to you.
 
-- [ ] Required registries identified for your use case (see [Required Registries](../registries/required-registries.md))
+- [ ] Required registries identified for your use case (see [The registries you'll touch in IES](../registries/README.md#the-registries-youll-touch-in-ies-by-role))
 - [ ] Owner nominated for each registry
 
 ### 4. Decide who can write to each registry

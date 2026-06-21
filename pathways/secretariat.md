@@ -34,8 +34,8 @@ The IES operator operates the canonical DeDi namespace `india-energy-stack` (and
 4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): Registry lists defining the official participant directories for production and pre-production Beckn networks.
 
 ### References & Anchors
-* [Required Registries Catalogue](../registries/required-registries.md#map-at-a-glance)
-* [DeDi Primer](../registries/dedi-primer.md)
+* [Registries — IES networks and registries today](../registries/README.md#ies-networks-and-registries-today)
+* [DeDi primer (Appendix A)](../registries/README.md#appendix-a--dedi-primer-just-enough-to-navigate)
 </details>
 
 <details>
@@ -49,7 +49,7 @@ The IES operator operates the canonical DeDi namespace `india-energy-stack` (and
 2. Implement key access logs and administrative role assignments to prevent unauthorized writes to the membership registries.
 
 ### References & Anchors
-* [Governance and Key Custody](../registries/required-registries.md#governance-and-key-custody)
+* [Registries — Step-by-step (claim namespace + create registries)](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
 </details>
 
 ---
@@ -71,8 +71,8 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 * **Digital Signature Certificate (DSC)**: (Optional) `x5c` certificate chain if they anchor in CSCA.
 
 ### References & Anchors
-* [Onboarding-quick guide](../registries/required-registries.md#onboarding-quick-guide--minimum-to-get-started)
-* [DISCOM Reference Registry Onboarding](../registries/required-registries.md#how-to-get-added)
+* [Registries — End-to-end onboarding checklist](../registries/README.md#end-to-end-onboarding-checklist)
+* [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
 </details>
 
 <details>
@@ -90,8 +90,8 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`public-keys`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
 
 ### References & Anchors
-* [Resolution & Routing — did:web resolution rules](../registries/resolution.md#didweb)
-* [Identifiers and Addressing — Publish your did:web (step-by-step)](../identifiers/README.md#step-by-step-publish-your-didweb)
+* [Identifiers and Addressing — Publish your did:web (step-by-step)](../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally)
+* [Registries — Verifying a credential end-to-end (Appendix B)](../registries/README.md#appendix-b--verifying-a-credential-end-to-end)
 </details>
 
 ---
@@ -127,7 +127,7 @@ To authorize data exchange, you must link the participant's subscriber registry 
 3. Confirm that the reference is active. This allows other network participants' ONIX adapters to automatically resolve the new participant's keys and endpoints.
 
 ### References & Anchors
-* [Beckn Network Reference Registry Onboarding](../registries/required-registries.md#how-to-get-referenced-in)
+* [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
 * [ONIX Registry Setup Guide](../data-exchange/registry-setup.md)
 </details>
 
@@ -148,7 +148,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. **Handle Suspension**: In case of policy violations or service termination, mark the participant's reference status to `suspended` or `inactive` inside the authoritative reference registries.
 
 ### References & Anchors
-* [Revocation Registry details](../registries/required-registries.md#revocation-registry)
+* [Registries — As a DISCOM / issuer running OpenCred (revocation registry auto-created)](../registries/README.md#as-a-discom--issuer-running-opencred)
 </details>
 
 <details>
@@ -178,7 +178,7 @@ In this phase, you manage the publication, versioning, and migration of canonica
 3. Maintain the mappings and documentation so that verifiers can resolve schemas in an anchored, tamper-proof manner.
 
 ### References & Anchors
-* [Schemas Registry Overview](../registries/required-registries.md#schemas-registry)
+* [Registries — Built-in schema tags](../registries/README.md#built-in-schema-tags-used-in-ies)
 </details>
 
 <details>

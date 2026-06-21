@@ -38,7 +38,7 @@ Before commencing the integration pathway, we recommend aligning the following i
 In this phase, you will establish your institutional cryptographic identity and define clear naming grammars for your grid resources and consumers.
 
 <details>
-<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../registries/resolution.md#didweb))</b></summary>
+<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../identifiers/README.md#didweb--the-one-your-discom-will-use))</b></summary>
 
 ### 💡 Phase Advice
 > Set up a quick call with your DNS administrator as your very first step. Securing a dedicated subdomain takes only a few minutes but forms the foundation of your secure cryptographic brand.
@@ -47,7 +47,7 @@ In this phase, you will establish your institutional cryptographic identity and 
 * Confirm that your web admin has write-access to your target domain (e.g., `ies.tpddl.co.in`) to host the verification path.
 
 ### Execution Guidance
-A [`did:web`](../registries/resolution.md#didweb) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
+A [`did:web`](../identifiers/README.md#didweb--the-one-your-discom-will-use) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
 2. **Expose the DID Document (First Step)**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
@@ -55,7 +55,7 @@ A [`did:web`](../registries/resolution.md#didweb) identifier leverages your exis
 
 ### References & Anchors
 * [Identifiers & Addressing Overview](../identifiers/README.md)
-* [Resolution & Routing Specification](../registries/resolution.md#didweb) (Detailed resolution rules for `did:web` endpoints)
+* [Resolution & Routing Specification](../identifiers/README.md#didweb--the-one-your-discom-will-use) (Detailed resolution rules for `did:web` endpoints)
 * [Step-by-step: publish your did:web](../identifiers/README.md#step-by-step-publish-your-didweb) (Document parameters)
 * [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md#1-institutional-identity)
 </details>
@@ -91,7 +91,7 @@ The reference patterns (all `did:web` under your DISCOM's own domain):
 
 ## Phase 2: Getting Started (Registry Setup)
 
-Establish your administrative namespaces on the public [Decentralized Directory (DeDi)](../registries/dedi-primer.md) and register your active endpoints with the network.
+Establish your administrative namespaces on the public [Decentralized Directory (DeDi)](../registries/README.md#why-dedi-and-the-three-questions-it-answers) and register your active endpoints with the network.
 
 <details>
 <summary><b>Step 2.1: Setup DeDi Namespace</b></summary>
@@ -105,11 +105,11 @@ Establish your administrative namespaces on the public [Decentralized Directory 
 ### Execution Guidance
 1. Register a secure role-mailbox on the DeDi Portal.
 2. Establish a namespace matching your utility short-code (`<utility>`).
-3. Expose the verification token in your DNS TXT records. Refer to [Registry Creation § Step 3](../registries/registry-creation.md#step-3--verify-the-namespace-against-a-domain) for formatting.
+3. Expose the verification token in your DNS TXT records. Refer to [Registries — Step 3 (verify your domain)](../registries/README.md#3-verify-your-domain-dns-txt-record) for formatting.
 
 ### References & Anchors
-* [DeDi Primer](../registries/dedi-primer.md)
-* [Registry Creation Guide](../registries/registry-creation.md#step-3--verify-the-namespace-against-a-domain)
+* [Why DeDi (and the three questions it answers)](../registries/README.md#why-dedi-and-the-three-questions-it-answers)
+* [Registries — Step-by-step (claim namespace + create registries)](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
 * [Basic Registries Checklist](../checklists/registries-basic-checklist.md)
 </details>
 
@@ -120,17 +120,16 @@ Establish your administrative namespaces on the public [Decentralized Directory 
 > Maintain strict separation of duties! Use separate registries for your keys, revocation list, and Beckn profiles to keep access privileges isolated.
 
 ### Execution Guidance
-Create and initialize the following registries under your namespace:
-* [`public-keys`](../registries/required-registries.md#public-keys-registry) (tag `public_key`): Houses versioned P-256 signing keys.
-* [`vc-revocation-registry`](../registries/required-registries.md#revocation-registry) (tag `revoke`): Tracks real-time verifiable credential revocation.
-* [`subscribers-test` & `subscribers-prod`](../registries/required-registries.md#beckn-subscriber-registry) (tag `beckn_subscriber`): Manages Beckn node configs.
-* **Configure Backup Resolution via DeDi (Fallback Step)**: Once your DeDi namespace and registries are established, configure your OpenCred deployment to publish your primary DID document to DeDi. Set `OPENCRED_DEDI_HOST_DID_DOC=true` on the container (or by programmatically calling `/v1/keys/publish`). This registers your DID document within the DeDi `public-keys` registry, providing a fallback discovery mechanism for network participants if the primary HTTPS endpoint becomes temporarily unreachable.
+Create and initialize the following registries under your namespace (OpenCred auto-creates several of these on first boot — see [Idempotency note for OpenCred users](../registries/README.md#idempotency-note-for-opencred-users)):
+* `opencred-key-registry` (tag `public_key`): Versioned signing keys. **Auto-created by OpenCred.**
+* `vc-revocation-registry` (tag `revocation`): Real-time verifiable credential revocation. **Auto-created by OpenCred.**
+* `subscribers-test` & `subscribers-prod` (tag `beckn_subscriber`): Beckn participant identity records. **You create these manually** — see [As a Beckn Network Participant](../registries/README.md#as-a-beckn-network-participant-bap--bpp-aggregator-amisp-trading-platform).
+* **Optional fallback: publish DID doc to DeDi.** Set `OPENCRED_DEDI_HOST_DID_DOC=true` (or call `/v1/keys/publish`) so the DID document is reachable via DeDi when your HTTPS endpoint is temporarily unreachable.
 
 ### References & Anchors
-* [Required Registries Catalog](../registries/required-registries.md)
-  * [Public-keys registry](../registries/required-registries.md#public-keys-registry)
-  * [Revocation registry](../registries/required-registries.md#revocation-registry)
-  * [Beckn subscriber registry](../registries/required-registries.md#beckn-subscriber-registry)
+* [The registries you'll touch in IES (by role)](../registries/README.md#the-registries-youll-touch-in-ies-by-role)
+* [As a DISCOM / issuer running OpenCred](../registries/README.md#as-a-discom--issuer-running-opencred)
+* [As a Beckn Network Participant](../registries/README.md#as-a-beckn-network-participant-bap--bpp-aggregator-amisp-trading-platform)
 * [OpenCred Key & DID Publishing Configuration](../energy-credentials/onboarding.md#deploy-opencred)
 </details>
 
@@ -151,8 +150,8 @@ Email your registration package (utility short-code, legal name, service area li
 The Secretariat will verify your credentials and register your endpoints inside the authoritative `ies-discoms-reference-registry` path.
 
 ### References & Anchors
-* [Required Registries § How to get added](../registries/required-registries.md#how-to-get-added)
-* [End-to-End Onboarding Checklist](../registries/required-registries.md#end-to-end-onboarding-checklist)
+* [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
+* [End-to-End Onboarding Checklist](../registries/README.md#end-to-end-onboarding-checklist)
 </details>
 
 ---
@@ -216,7 +215,7 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 ### Execution Guidance
 1. Deploy the standard Docker-based Beckn ONIX container.
 2. Generate your Ed25519 node keypair.
-3. Register your BPP credentials in DeDi [`subscribers-test`](../registries/required-registries.md#beckn-subscriber-registry).
+3. Register your BPP credentials in DeDi [`subscribers-test`](../registries/README.md#as-a-beckn-network-participant-bap--bpp-aggregator-amisp-trading-platform).
 
 ### References & Anchors
 * [Data Exchange Concepts](../data-exchange/concepts.md)

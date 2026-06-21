@@ -11,11 +11,6 @@
   * [Basic Checklist](checklists/identifiers-basic-checklist.md)
 
 * [Registries and Directories](registries/README.md)
-  * [DeDi Primer](registries/dedi-primer.md)
-  * [Registry Creation](registries/registry-creation.md)
-  * [Required Registries for Onboarding](registries/required-registries.md)
-  * [Resolution and Routing](registries/resolution.md)
-  * [Private Resolution](registries/private_resolution.md)
   * [Basic Checklist](checklists/registries-basic-checklist.md)
 
 * [Energy Credentials](energy-credentials/README.md)
