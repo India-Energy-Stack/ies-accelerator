@@ -20,10 +20,10 @@ The same page covers four roles. Skim the row that matches you to jump to the ri
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit ElectricityCredentials) | [§(a) Org identity](#a-org-identity--for-credentials-and-data-exchange-payloads) → [Step-by-step: publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally) | [Energy Credentials — Issue your first credential](../energy-credentials/README.md#issue-your-first-credential), [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets) (asset IDs) |
-| **A Beckn participant** (BAP / BPP, aggregator, AMISP, trading platform) | [§(b) Beckn network identity](#b-beckn-network-identity--for-participating-on-a-beckn-network) → [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric) | [Registries — by role](../registries/README.md#the-registries-youll-touch-in-ies-by-role) for the registry mechanics |
-| **A regulator** (you license DISCOMs and may sign credentials yourself) | [§(a) Org identity](#a-org-identity--for-credentials-and-data-exchange-payloads) — same `did:web` flow as a DISCOM | Note that your `did:web` is what DISCOMs cite as `issuer.idRef.issuedBy`; see [Where each ID goes in a credential](#where-each-id-goes-in-a-credential) |
-| **A verifier or wallet** (you receive and check credentials) | [Appendix A](#appendix-a--how-dids-work-and-the-three-methods-ies-uses) (DID methods) → [Energy Credentials — Verify](../energy-credentials/README.md#3-verify) → [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity) (holder binding at presentation time) | [Registries — Verifying a credential](../registries/README.md#appendix-b--verifying-a-credential-end-to-end) for the end-to-end resolution walk |
+| **A DISCOM / issuer** (you sign and emit ElectricityCredentials) | [§(a) Org identity](#a-org-identity-for-credentials-and-data-exchange-payloads) → [Step-by-step: publish your `did:web`](#step-by-step-publish-your-did-web-and-run-opencred-locally) | [Energy Credentials — Issue your first credential](../energy-credentials/README.md#issue-your-first-credential), [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets) (asset IDs) |
+| **A Beckn participant** (BAP / BPP, aggregator, AMISP, trading platform) | [§(b) Beckn network identity](#b-beckn-network-identity-for-participating-on-a-beckn-network) → [Appendix E](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric) | [Registries — by role](../registries/README.md#the-registries-youll-touch-in-ies-by-role) for the registry mechanics |
+| **A regulator** (you license DISCOMs and may sign credentials yourself) | [§(a) Org identity](#a-org-identity-for-credentials-and-data-exchange-payloads) — same `did:web` flow as a DISCOM | Note that your `did:web` is what DISCOMs cite as `issuer.idRef.issuedBy`; see [Where each ID goes in a credential](#where-each-id-goes-in-a-credential) |
+| **A verifier or wallet** (you receive and check credentials) | [Appendix A](#appendix-a-how-dids-work-and-the-three-methods-ies-uses) (DID methods) → [Energy Credentials — Verify](../energy-credentials/README.md#3-verify) → [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity) (holder binding at presentation time) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the end-to-end resolution walk |
 
 ---
 
@@ -39,17 +39,17 @@ This is your DISCOM's `did:web`. It is the issuer string on every ElectricityCre
 |---|---|---|
 | **Your DISCOM (the issuer)** | `did:web` on a domain you own | `did:web:ies.tpddl.in` |
 | **A regulator** | Same — `did:web` on their own domain | `did:web:ies.derc.gov.in` |
-| **A consumer holding a credential** *(optional)* | A holder identifier — `did:key` (wallet) or `tel:+91...` ([RFC 3966](https://datatracker.ietf.org/doc/html/rfc3966)) — set when you want presentation-time proof of subject. See [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity). | `did:key:z6Mkj...` or `tel:+919876543210` |
+| **A consumer holding a credential** *(optional)* | A holder identifier — `did:key` (wallet) or `tel:+91...` ([RFC 3966](https://datatracker.ietf.org/doc/html/rfc3966)) — set when you want presentation-time proof of subject. See [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity). | `did:key:z6Mkj...` or `tel:+919876543210` |
 | **Your meter / transformer / feeder** | `did:web` under your domain | `did:web:ies.tpddl.in:assets:meter:MET-001` |
 
 Two steps get you here:
 
 1. **Pick a domain or subdomain** you control (covered in the next section).
-2. **Generate a key pair** and **publish a small `did.json` file** declaring the public key (Steps 1–6 of [Publish your `did:web`](#step-by-step-publish-your-didweb-and-run-opencred-locally)).
+2. **Generate a key pair** and **publish a small `did.json` file** declaring the public key (Steps 1–6 of [Publish your `did:web`](#step-by-step-publish-your-did-web-and-run-opencred-locally)).
 
 That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
-Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential carries no holder identifier (bearer style); when the verifier needs presentation-time proof of subject, bind to a wallet DID or `tel:` URI — full guidance in [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity).
+Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential carries no holder identifier (bearer style); when the verifier needs presentation-time proof of subject, bind to a wallet DID or `tel:` URI — full guidance in [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity).
 
 ### (b) Beckn network identity — for participating on a Beckn network
 
@@ -60,7 +60,7 @@ To send and receive Beckn messages (search, select, init, confirm, on_status…)
 
 Different key (Ed25519, not P-256), different registries (a Beckn subscriber registry under your DeDi namespace, plus an NFO-side reference; not `.well-known/did.json`), different consumer (other Beckn nodes, not credential verifiers). The setup is independent from the credential-issuance flow.
 
-The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ---
 
@@ -80,7 +80,7 @@ The practical setup is one JSON file on a web server you already run, plus a pro
   > | `did:web:tpddl.in:ies:issuer` | `https://tpddl.in/ies/issuer/did.json` |
   > | `did:web:tpddl.in%3A8443` | `https://tpddl.in:8443/.well-known/did.json` (port encoded as `%3A`) |
   >
-  > Same identifier system covers your DISCOM's own identity *and* every asset ID you reference inside payloads (meters, transformers, datasets) — see [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets).
+  > Same identifier system covers your DISCOM's own identity *and* every asset ID you reference inside payloads (meters, transformers, datasets) — see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets).
 
 - A static-file host serving HTTPS — any nginx, S3-with-CloudFront, GitHub Pages, or your existing web server is fine.
 - Docker 24+, `curl`, `jq`, `openssl`, and ~2 GB free disk. The OpenCred container ships ready to issue.
@@ -128,7 +128,7 @@ curl -s http://localhost:3100/v1/health | jq
 # expect "signingKeyLoaded": true
 ```
 
-> **Want offline-verifiable identity instead?** Drop `OPENCRED_ISSUER_DID_METHOD` and `OPENCRED_ISSUER_DOMAIN` and OpenCred runs in `did:key` mode by default. The same key, the same API — only the `did:` string the container reports changes. This is the right choice for first-deploy testing, demos, and consumer wallets. See [`did:key` in Appendix A](#didkey--what-wallets-give-consumers).
+> **Want offline-verifiable identity instead?** Drop `OPENCRED_ISSUER_DID_METHOD` and `OPENCRED_ISSUER_DOMAIN` and OpenCred runs in `did:key` mode by default. The same key, the same API — only the `did:` string the container reports changes. This is the right choice for first-deploy testing, demos, and consumer wallets. See [`did:key` in Appendix A](#did-key-what-wallets-give-consumers).
 
 ### 4. Assemble your `did.json` from the container
 
@@ -188,7 +188,7 @@ If that command prints your DID, you're done — any participant on the network 
 
 That's all you need to start signing credentials. Everything below is optional reading.
 
-> The IES-side DISCOM registry is not a credential-issuance prerequisite — see (a) above. It is the trust boundary for the inter-DISCOM data exchange network; full flow in [Appendix E](#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+> The IES-side DISCOM registry is not a credential-issuance prerequisite — see (a) above. It is the trust boundary for the inter-DISCOM data exchange network; full flow in [Appendix E](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ---
 
@@ -206,10 +206,10 @@ You only need two or three identifier shapes to start issuing credentials. They'
 A few things worth knowing before you start:
 
 - **Your CIS consumer numbers stay exactly as they are.** They go into `customerProfile.customerNumber` in the credential, in the same human-readable form your call centre and billing letters use today.
-- **The holder identifier is optional and you can defer it.** See [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity) for the bearer-vs-bound trade-off and the binding patterns.
+- **The holder identifier is optional and you can defer it.** See [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity) for the bearer-vs-bound trade-off and the binding patterns.
 - **You do not assign wallet DIDs.** If you opt for the wallet-DID pattern, the consumer's wallet (or DigiLocker) generates the `did:key` and sends it to you. You verify the consumer controls it (Appendix F explains how), then include it verbatim in `credentialSubject.id`. You never store the consumer's private key.
 
-For identifiers covering assets (meters, transformers, feeders), service connections, and datasets, see [Appendix C](#appendix-c--identifying-assets-meters-connections-datasets) — these are not needed for your first credential.
+For identifiers covering assets (meters, transformers, feeders), service connections, and datasets, see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets) — these are not needed for your first credential.
 
 ---
 
@@ -269,7 +269,7 @@ Here is one filled-in ElectricityCredential v1.2 showing every identifier in one
 | `customerProfile.customerNumber` | Your existing CIS number, unchanged | You |
 | `energyResources[].id` | A `did:web` for each meter / asset, built from your domain plus a path segment | You |
 | `proof.verificationMethod` | A pointer back into your `did.json` saying which key did the signing | OpenCred / your signing pipeline |
-| `credentialSubject.id` *(optional)* | A holder identifier — a wallet `did:key` or a `tel:` URI — set when you want presentation-time proof that the presenter is the legitimate subject | Set by you, after verifying the consumer controls it. See [Appendix F](#appendix-f--binding-the-credential-to-a-holder-identity). |
+| `credentialSubject.id` *(optional)* | A holder identifier — a wallet `did:key` or a `tel:` URI — set when you want presentation-time proof that the presenter is the legitimate subject | Set by you, after verifying the consumer controls it. See [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity). |
 
 Notice what is *not* required there: no central registry of consumers, no national ID, no separate identifier system that competes with your CIS. Everything cross-references your DID document plus the regulator's, both of which are just static files on websites you control.
 
@@ -372,7 +372,7 @@ The end-to-end walkthrough for issuing, verifying, and revoking an ElectricityCr
 
 You will eventually want stable identifiers for the things you operate (meters, transformers, feeders, service connections) and the data you publish (telemetry, tariff schedules). Use the same `did:web` you already own and add path segments. No new DID method needed.
 
-> **Asset DIDs are stable identifiers, not necessarily resolvable documents.** Most asset DIDs ride inside credentials your DISCOM signs; trust comes from the issuer's signature, not asset-level resolution. See [Appendix D — Asset-DID resolution patterns](#asset-did-resolution-patterns-pragmatic--programmatic--per-asset) for when to promote an asset DID to a resolvable document.
+> **Asset DIDs are stable identifiers, not necessarily resolvable documents.** Most asset DIDs ride inside credentials your DISCOM signs; trust comes from the issuer's signature, not asset-level resolution. See [Appendix D — Asset-DID resolution patterns](#asset-did-resolution-patterns-pragmatic-programmatic-per-asset) for when to promote an asset DID to a resolvable document.
 
 ### Conventions
 

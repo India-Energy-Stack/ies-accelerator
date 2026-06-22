@@ -51,7 +51,7 @@ Two regulated ledger services in the protocol — one per discom — held by the
 
 | Block | Role in this use case |
 |---|---|
-| [Identifiers and Addressing](../../identifiers/README.md) | Every actor (`buyer`, `seller`, two TPs, two LPs) is a `did:web` participant. Meters / DTs / feeders referenced in the trade reuse the existing IDs wrapped in `did:web` form (see [SMDX § Adopt the did:web convention](../smart-meter-data-exchange/README.md#7-optional-at-the-end-adopt-the-didweb-convention-for-meters-and-assets)). |
+| [Identifiers and Addressing](../../identifiers/README.md) | Every actor (`buyer`, `seller`, two TPs, two LPs) is a `did:web` participant. Meters / DTs / feeders referenced in the trade reuse the existing IDs wrapped in `did:web` form (see [SMDX § Adopt the did:web convention](../smart-meter-data-exchange/README.md#7-optional-at-the-end-adopt-the-did-web-convention-for-meters-and-assets)). |
 | [Registries and Directories](../../registries/README.md) | The four actors are subscribers referenced in [the IES network registries](../../registries/README.md#ies-networks-and-registries-today). Public keys resolve through any DeDi runtime. The LP↔discom mapping is recorded in `DiscomLedgerProvider.participantAttributes.utilityId` on each trade. |
 | [Data Exchange](../../data-exchange/README.md) | The wire. The same Beckn + ONIX stack carries every leg — trade-negotiation and DISCOM↔LP meter-data alike — as `DEGContract` inside `message.contract`, with `BecknTimeSeries` payloads (`accessMethod: INLINE`). The DDM `DatasetItem` envelope is not used in this use case. |
 | [Energy Credentials](../../energy-credentials/README.md) | The seller's [`ElectricityCredential`](../../schemas/ElectricityCredential/README.md) attests to the meter, sanctioned-load, and DER details that back the offer. |
@@ -148,7 +148,7 @@ Authentication is the standard Beckn signing flow against the network registry. 
 
 ## Setup steps
 
-Mirrors the [Data Exchange Quick Start](../../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes). Everything below assumes you've already followed [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md) Stages 0–2 (devkit running, DeDi subscriber record, signing key).
+Mirrors the [Data Exchange Quick Start](../../data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes). Everything below assumes you've already followed [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md) Stages 0–2 (devkit running, DeDi subscriber record, signing key).
 
 ### 1. Stand up the wave 2 devkit
 

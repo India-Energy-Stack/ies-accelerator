@@ -14,7 +14,7 @@
 
 - [ ] Domain selected; decision made on apex vs. subdomain and on path layout → [Identifiers — What you'll need](../identifiers/README.md#what-youll-need)
 - [ ] OpenCred-friendly signing key generated; private key in KMS / HSM (software PEM only for dev) → [Energy Credentials — Signing-key sources](../energy-credentials/README.md#signing-key-sources)
-- [ ] OpenCred container running; `/v1/health` returns `signingKeyLoaded: true` → [Identifiers — Run OpenCred](../identifiers/README.md#3-run-opencred-in-didweb-mode)
+- [ ] OpenCred container running; `/v1/health` returns `signingKeyLoaded: true` → [Identifiers — Run OpenCred](../identifiers/README.md#3-run-opencred-in-did-web-mode)
 - [ ] `did.json` published at `https://<your-domain>/.well-known/did.json`; `curl` returns the expected DID → [Identifiers — Publish the file](../identifiers/README.md#5-publish-the-file)
 - [ ] DeDi namespace claimed and **domain-verified** → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
 - [ ] OpenCred has auto-created its four registries; `/v1/health` reports `dediConfigured: true` → [Energy Credentials — Prerequisites](../energy-credentials/README.md#prerequisites)
@@ -36,7 +36,7 @@
   - B2B MeterDataCredential v0.6 (telemetry to a DISCOM)
   - Consumer Meter Digest (MeterDataCredential v0.6 + holder binding, short `validUntil`) → [Use case](../use-cases/consumer-meter-digest/README.md)
   - MeterDataRequestCredential v0.1 (right-to-ask credential at Beckn `confirm`)
-- [ ] For holder-bound variants: choose binding pattern → [Identifiers — Appendix F](../identifiers/README.md#appendix-f--binding-the-credential-to-a-holder-identity)
+- [ ] For holder-bound variants: choose binding pattern → [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity)
 - [ ] Identity-proofing-at-issuance procedure documented (challenge-sign for wallet DIDs, OTP for phone, DigiLocker grant otherwise)
 
 ## Phase 4 — Production hardening
@@ -44,15 +44,15 @@
 - [ ] Signing key in HSM / Cloud KMS (AWS / Azure / GCP) → [Energy Credentials — Signing-key sources](../energy-credentials/README.md#signing-key-sources)
 - [ ] Schema validation in your integration service before `POST /v1/credentials/issue` → [Schema validation](../energy-credentials/README.md#schema-validation)
 - [ ] Key-rotation runbook in place → [Key rotation](../energy-credentials/README.md#key-rotation)
-- [ ] Reverse-proxy + TLS in front of OpenCred (never expose `:3100` directly) → [Reverse proxy + TLS](../energy-credentials/README.md#reverse-proxy--tls)
+- [ ] Reverse-proxy + TLS in front of OpenCred (never expose `:3100` directly) → [Reverse proxy + TLS](../energy-credentials/README.md#reverse-proxy-tls)
 - [ ] Backups of `did.json`, KMS key handle, and DeDi credentials
 - [ ] DigiLocker delivery configured if applicable → [DigiLocker delivery](../energy-credentials/digilocker.md)
 
 ## Phase 5 — Data exchange (optional, only if joining Beckn)
 
-- [ ] Beckn subscriber registry published → [Identifiers — Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric)
+- [ ] Beckn subscriber registry published → [Identifiers — Appendix E](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric)
 - [ ] IES Secretariat has referenced your subscriber into the relevant network registry → [Registries — How to apply](../registries/README.md#how-to-apply-for-an-ies-listing)
-- [ ] ONIX configured with `allowedNetworkIDs` for the right environment → [Identifiers — Step 7](../identifiers/README.md#step-7--configure-your-onix-to-accept-the-right-networks-allowednetworkids)
+- [ ] ONIX configured with `allowedNetworkIDs` for the right environment → [Identifiers — Step 7](../identifiers/README.md#step-7-configure-your-onix-to-accept-the-right-networks-allowednetworkids)
 
 ## Team
 

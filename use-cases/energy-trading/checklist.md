@@ -16,7 +16,7 @@
 
 ### 1. Network identity in place (shared with Data Exchange)
 
-If you have already onboarded any Beckn flow on this network, reuse the same identity. New entrants follow [Data Exchange — Checklist → Stage 2 (Network identity)](../../checklists/data-exchange-checklist.md#stage-2--network-identity-dedi).
+If you have already onboarded any Beckn flow on this network, reuse the same identity. New entrants follow [Data Exchange — Checklist → Stage 2 (Network identity)](../../checklists/data-exchange-checklist.md#stage-2-network-identity-dedi).
 
 - [ ] DeDi subscriber record under the right network namespace
 - [ ] Signing key in a secrets manager, never in config files

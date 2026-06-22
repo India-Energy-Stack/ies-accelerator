@@ -186,7 +186,7 @@ if not consumer:
 
 ### Step 4 — Call OpenCred to Issue the Credential
 
-This step differs by DocType — see [Issuing NYCER (v1.2)](./README.md#issue-your-first-credential) and [Issuing the Digest (MTRDT)](#issuing-the-digest-meterdatacredential-v06) below. Both return a signed VC; both can ask OpenCred to render the PDF via `packageFormats: ["pdf"]`.
+This step differs by DocType — see [Issuing NYCER (v1.2)](./README.md#issue-your-first-credential) and [Issuing the Digest (MTRDT)](#issuing-the-digest-meterdatacredential-v0-6) below. Both return a signed VC; both can ask OpenCred to render the PDF via `packageFormats: ["pdf"]`.
 
 ### Step 5 — Package the PDF and VC for the response
 
@@ -226,7 +226,7 @@ def build_pulluri_response(ts, txn, doc_type, uri, issued_to, valid_from, valid_
 | Field | Description |
 |---|---|
 | `Status="1"` | Success. Use `Status="0"` for errors. |
-| `URI` | Unique identifier for this document in DigiLocker. NYCER: `{issuer_id}-NYCER-{consumerNo}`. MTRDT: `{issuer_id}-MTRDT-{consumerNo}-{period}` — **the period makes each statement a distinct document** (see [The document key](#the-one-real-gap--the-document-key)). |
+| `URI` | Unique identifier for this document in DigiLocker. NYCER: `{issuer_id}-NYCER-{consumerNo}`. MTRDT: `{issuer_id}-MTRDT-{consumerNo}-{period}` — **the period makes each statement a distinct document** (see [The document key](#the-one-real-gap-the-document-key)). |
 | `IssuedTo` | Consumer's full name — DigiLocker validates this against the user's profile |
 | `DocContent` | Base64-encoded PDF (the rendered statement / certificate card) |
 | `VcContent` | Base64-encoded W3C VC JSON-LD — the signed credential, proof intact |

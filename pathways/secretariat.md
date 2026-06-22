@@ -35,7 +35,7 @@ The IES operator operates the canonical DeDi namespace `india-energy-stack` (and
 
 ### References & Anchors
 * [Registries — IES networks and registries today](../registries/README.md#ies-networks-and-registries-today)
-* [DeDi primer (Appendix A)](../registries/README.md#appendix-a--dedi-primer-just-enough-to-navigate)
+* [DeDi primer (Appendix A)](../registries/README.md#appendix-a-dedi-primer-just-enough-to-navigate)
 </details>
 
 <details>
@@ -90,8 +90,8 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`public-keys`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
 
 ### References & Anchors
-* [Identifiers and Addressing — Publish your did:web (step-by-step)](../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally)
-* [Registries — Verifying a credential end-to-end (Appendix B)](../registries/README.md#appendix-b--verifying-a-credential-end-to-end)
+* [Identifiers and Addressing — Publish your did:web (step-by-step)](../identifiers/README.md#step-by-step-publish-your-did-web-and-run-opencred-locally)
+* [Registries — Verifying a credential end-to-end (Appendix B)](../registries/README.md#appendix-b-verifying-a-credential-end-to-end)
 </details>
 
 ---
@@ -148,7 +148,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. **Handle Suspension**: In case of policy violations or service termination, mark the participant's reference status to `suspended` or `inactive` inside the authoritative reference registries.
 
 ### References & Anchors
-* [Registries — As a DISCOM / issuer running OpenCred (revocation registry auto-created)](../registries/README.md#as-a-discom--issuer-running-opencred)
+* [Registries — As a DISCOM / issuer running OpenCred (revocation registry auto-created)](../registries/README.md#as-a-discom-issuer-running-opencred)
 </details>
 
 <details>
@@ -159,7 +159,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. Establish guidelines for node timeout configurations (e.g. maximum 5-second Beckn timeouts) to prevent cascading database latency.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle)
+* [Data Exchange Security & Auth](../data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
 </details>
 
 ---

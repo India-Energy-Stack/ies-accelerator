@@ -39,12 +39,12 @@ A typical issuance happens once at customer onboarding (and then is re-issued on
 |---|---|
 | [Identifiers and Addressing](../../identifiers/README.md) | DISCOM's `did:web`; consumer's wallet `did:key`; asset / meter / connection DIDs that appear inside the credential |
 | [Energy Credentials](../../energy-credentials/README.md) | The single home for signing, verifying, and revoking — including the [Consumer Energy Passport variant](../../energy-credentials/README.md#credential-variants) under "Credential variants" |
-| [Holder binding](../../identifiers/README.md#appendix-f--binding-the-credential-to-a-holder-identity) | Wallet-DID binding pattern; presentation-time challenge / VP proof |
+| [Holder binding](../../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity) | Wallet-DID binding pattern; presentation-time challenge / VP proof |
 | [DigiLocker delivery](../../energy-credentials/digilocker.md) | The bulk delivery channel for Indian consumers; for many use cases DigiLocker's Aadhaar pull also acts as the identity-binding step |
 
 ## What you actually do
 
-1. Set up the DISCOM `did:web` and run OpenCred → [Identifiers — Step-by-step](../../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally).
+1. Set up the DISCOM `did:web` and run OpenCred → [Identifiers — Step-by-step](../../identifiers/README.md#step-by-step-publish-your-did-web-and-run-opencred-locally).
 2. Decide your identity-proofing method (DigiLocker pull, offline-KYC XML, in-person KYC, record-match) and document it for privacy review.
 3. Issue the Passport via [Energy Credentials — Issue your first credential](../../energy-credentials/README.md#issue-your-first-credential), setting `credentialSubject.id` to the wallet DID and populating `customerProfile.idRef` with the government-ID reference.
 4. Deliver into the consumer's DigiLocker or wallet → [DigiLocker delivery](../../energy-credentials/digilocker.md).
@@ -66,5 +66,5 @@ See [Energy Credentials — Checklist](../../checklists/energy-credentials-check
 
 - [ElectricityCredential v1.2 schema](../../schemas/ElectricityCredential/v1.2/README.md) — the schema this use case rides on
 - [Energy Credentials — Credential variants](../../energy-credentials/README.md#credential-variants) — where the Passport variant is documented
-- [Identifiers — Holder binding patterns](../../identifiers/README.md#appendix-f--binding-the-credential-to-a-holder-identity)
+- [Identifiers — Holder binding patterns](../../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity)
 - [DigiLocker delivery](../../energy-credentials/digilocker.md)
