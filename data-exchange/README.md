@@ -1,6 +1,6 @@
 # Data Exchange
 
-This page is the single home for everything IES has to say about exchanging structured datasets over the network. If you're a **TSP, DISCOM, or AMISP** looking to share data as fast as possible — meter telemetry, ARR filings, tariff orders, anything else — start with [Quick start](#quick-start--run-a-local-exchange-in-10-minutes) and you'll have a signed `confirm` → `on_confirm` round-trip running locally in under 10 minutes. The appendices cover the protocol theory, ONIX architecture, and validation mechanics when you need them.
+This page is the single home for everything IES has to say about exchanging structured datasets over the network. If you're a **TSP, DISCOM, or AMISP** looking to share data as fast as possible — meter telemetry, ARR filings, tariff orders, anything else — start with [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) and you'll have a signed `confirm` → `on_confirm` round-trip running locally in under 10 minutes. The appendices cover the protocol theory, ONIX architecture, and validation mechanics when you need them.
 
 > **About the walkthrough.** The commands below use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
 
@@ -8,7 +8,7 @@ This page is the single home for everything IES has to say about exchanging stru
 
 ## Why this page
 
-Energy data in India moves through bespoke bilateral channels today — PDF filings, vendor-locked MDMS exports, opaque tariff interpretations. IES Data Exchange replaces those with one **coordination layer**: [Beckn Protocol v2.0](#appendix-a--beckn-protocol-lifecycle) for discovery / terms / consent / contract / audit, and the same flow either delivers the payload **inline** (for small datasets — typical IES default) or carries an **access method** (signed URL, MQTT topic, Kafka credential, etc.) for established bulk channels. Every exchange — inline or handoff — gets the same signed-audit story.
+Energy data in India moves through bespoke bilateral channels today — PDF filings, vendor-locked MDMS exports, opaque tariff interpretations. IES Data Exchange replaces those with one **coordination layer**: [Beckn Protocol v2.0](#appendix-a-beckn-protocol-lifecycle) for discovery / terms / consent / contract / audit, and the same flow either delivers the payload **inline** (for small datasets — typical IES default) or carries an **access method** (signed URL, MQTT topic, Kafka credential, etc.) for established bulk channels. Every exchange — inline or handoff — gets the same signed-audit story.
 
 ---
 
@@ -27,7 +27,7 @@ The walkthrough uses the **BAP** path by default. The minimal flow — `confirm`
 ## Prerequisites
 
 - **Docker 24+**, **Docker Compose**, **Git**, **Python 3**, and **Postman** *(or `curl`)*. ~2 GB free disk.
-- *(For real-network exchange, not the local sandbox)* A **published DeDi subscriber identity** under a verified namespace — see [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries) and [Identifiers — Joining a Beckn network](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+- *(For real-network exchange, not the local sandbox)* A **published DeDi subscriber identity** under a verified namespace — see [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries) and [Identifiers — Joining a Beckn network](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 - *(For real-network exchange)* **IES NFO has referenced you into a network registry** — see [Registries — How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing).
 
 **Domains to whitelist** — if your organisation restricts outbound traffic, allow these before starting:
@@ -78,7 +78,7 @@ devkits/data-exchange/uc2-regulatory-data/postman/data-exchange-uc2-regulatory-d
 devkits/data-exchange/uc3-tariff-policy/postman/data-exchange-uc3-tariff-policy.BAP-DEG.postman_collection.json
 ```
 
-Defaults are correct for local runs — don't change `beckn_adapter_url` (`http://localhost:8081/bap/caller`) or the `bap_host_root`/`bpp_host_root` docker hostnames. The two layers of URL are explained in [Appendix D — Hostnames sandbox vs production](#appendix-d--hostnames-sandbox-vs-production).
+Defaults are correct for local runs — don't change `beckn_adapter_url` (`http://localhost:8081/bap/caller`) or the `bap_host_root`/`bpp_host_root` docker hostnames. The two layers of URL are explained in [Appendix D — Hostnames sandbox vs production](#appendix-d-hostnames-sandbox-vs-production).
 
 ### 3. Send `confirm`
 
@@ -156,7 +156,7 @@ modules:
 | Your Ed25519 **public** key | `plugins.keyManager.config.signingPublicKey` *(matches what you published in DeDi)* |
 | Network you're joining | `plugins.registry.config.allowedNetworkIDs` *(comma-separated string)* |
 
-Where these values come from — DeDi namespace claim, subscriber record publication, the keypair you generate with `tools/sign`, and the IES NFO handoff — is covered in [Identifiers — Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric) and [Registries — How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing). Stay on the **test network** until certified; the recommended prod pattern is [two ONIX deployments](#two-registries-two-onix-deployments) below.
+Where these values come from — DeDi namespace claim, subscriber record publication, the keypair you generate with `tools/sign`, and the IES NFO handoff — is covered in [Identifiers — Appendix E](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric) and [Registries — How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing). Stay on the **test network** until certified; the recommended prod pattern is [two ONIX deployments](#two-registries-two-onix-deployments) below.
 
 After the config swap, re-import the same Postman collection — only the identity ONIX signs with and the network it claims change. Use the same network ID in every payload's `context.networkId`: ONIX rejects messages whose `networkId` isn't in its `allowedNetworkIDs`.
 
@@ -252,7 +252,7 @@ Beyond the minimal `confirm` → `on_confirm`, fire these only when your use cas
 | `publish-catalog` | BPP | You're a provider listing datasets for discovery |
 | `discover` / `on_discover` | BAP | The consumer doesn't yet know which BPP holds the dataset |
 | `select` / `init` (+ `on_*`) | BAP | Terms (price, SLA, delivery mode) need agreeing before commitment |
-| `status` / `on_status` | BAP / BPP | Payload prepared asynchronously *after* `on_confirm`; also the carrier for paged delivery (see [Pagination](#pagination--large-datasets-across-multiple-status--on_status-messages)) |
+| `status` / `on_status` | BAP / BPP | Payload prepared asynchronously *after* `on_confirm`; also the carrier for paged delivery (see [Pagination](#pagination-large-datasets-across-multiple-status-on_status-messages)) |
 | `update` / `on_update` | BAP / BPP | Post-fulfilment changes — credential rotation, contract amendments |
 
 Each [use-case page](../use-cases/README.md) lists which actions it actually exercises.
@@ -295,7 +295,7 @@ You can also build the bundled [beckn/sandbox](https://github.com/beckn/sandbox)
 
 ## What you can exchange (schema families)
 
-The wire envelope accepts arbitrary JSON inside `dataPayload`; **validation is opt-in per object**, driven by JSON-LD self-description (see [Appendix C — Schema validation](#appendix-c--schema-validation)). The IES schema families maintained in this repo:
+The wire envelope accepts arbitrary JSON inside `dataPayload`; **validation is opt-in per object**, driven by JSON-LD self-description (see [Appendix C — Schema validation](#appendix-c-schema-validation)). The IES schema families maintained in this repo:
 
 | Family | What it carries | Use case |
 |---|---|---|
@@ -328,7 +328,7 @@ IES Data Exchange uses the [Beckn Protocol v2.0](../glossary.md#beckn) interacti
 | Discovery | `discover` | `on_discover` | Consumer doesn't yet know which provider to contract with. Requires the BPP to have called `publish-catalog` earlier. |
 | Negotiation | `select` / `init` | `on_select` / `on_init` | Terms (price, SLA, delivery mode) need to be agreed before commitment. |
 | Commitment | `confirm` | `on_confirm` | **The minimal flow.** Payload can be delivered inline here. |
-| Polled / paged delivery | `status` | `on_status` | Payload prepared asynchronously after `on_confirm`; also the carrier for [pagination](#pagination--large-datasets-across-multiple-status--on_status-messages). |
+| Polled / paged delivery | `status` | `on_status` | Payload prepared asynchronously after `on_confirm`; also the carrier for [pagination](#pagination-large-datasets-across-multiple-status-on_status-messages). |
 | Post-fulfilment | `update` | `on_update` | Credential rotation, contract amendments. |
 
 **Minimal viable exchange**: `confirm` → `on_confirm`, with the dataset embedded in the callback. Everything else is optional.
@@ -394,7 +394,7 @@ The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from
 | `DATA_ENCLAVE` | Data accessible only within a secure compute environment |
 | `OFF_CHANNEL` | Delivery through an agreed out-of-band channel |
 
-IES Data Exchange today primarily uses `INLINE` (often paged via the [pagination protocol](#pagination--large-datasets-across-multiple-status--on_status-messages)) — data arrives as part of the protocol message, making the exchange end-to-end verifiable.
+IES Data Exchange today primarily uses `INLINE` (often paged via the [pagination protocol](#pagination-large-datasets-across-multiple-status-on_status-messages)) — data arrives as part of the protocol message, making the exchange end-to-end verifiable.
 
 ---
 

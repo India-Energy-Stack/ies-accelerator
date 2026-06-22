@@ -16,44 +16,65 @@ import urllib.parse
 from typing import Set
 
 
-HEADING_RE = re.compile(r"^#{1,6}\s+(.*)$", re.MULTILINE)
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 SKIP_DIRS = {".git", "venv", ".venv", "scratch", "node_modules", "build"}
 
 
 def slugify(heading: str) -> str:
-    """Approximate GitHub / GitBook heading-anchor slugification.
+    """Slugify a markdown heading to match GitBook's observed behaviour.
 
-    GitBook's observed behaviour on these docs:
-    - Lowercases the heading.
-    - Drops inline-code backticks and most punctuation.
-    - Drops em-dashes and en-dashes outright (surrounding spaces survive,
-      so " — " between words becomes "--" once spaces map to dashes).
-    - Maps each whitespace character to one dash (multiple spaces are
-      NOT collapsed — that's what preserves the "--" separator).
-    - Trims leading/trailing dashes.
+    Verified against IDs embedded in the live deployment
+    (india-energy-stack.gitbook.io/docs):
+
+    1. Lowercase the text.
+    2. Drop apostrophes, backticks, and asterisks outright — they
+       evaporate with no separator (so "What's" → "whats", not "what-s").
+    3. Replace every other non-word character (anything outside
+       [a-z0-9_-]) with a dash — that includes em-dash, en-dash,
+       parens, comma, colon, period, slash, ?, +, &, whitespace, etc.
+       Underscores are word characters and survive.
+    4. Collapse runs of dashes to a single dash.
+    5. Strip leading/trailing dashes.
+
+    This matches GitBook's actual anchor generation. The earlier version
+    of this function preserved double dashes (from " — " sequences),
+    which produced slugs like "appendix-a--how-dids-work…" — those
+    don't exist on the deployed site, where GitBook renders
+    "appendix-a-how-dids-work…".
     """
     text = heading.lower()
-    text = re.sub(r"[`*]", "", text)  # Strip backticks and bold/italic markers; keep underscores (GitBook preserves them in slugs).
-    # Drop em-dash, en-dash, and arrows — their surrounding spaces become
-    # adjacent dashes once whitespace is mapped 1-for-1.
-    for ch in ("—", "–", "→", "←", "↔", "⇒", "⇐"):
-        text = text.replace(ch, "")
-    text = re.sub(r"[.,!?;:/\\\"'()\[\]{}<>|=+&]", "", text)
-    text = re.sub(r"\s", "-", text)
-    return text.strip("-")
+    # Apostrophes and inline-formatting markers vanish (no separator)
+    text = re.sub(r"[`*'’‘\"“”]", "", text)
+    # Every other non-word, non-dash character becomes a dash
+    text = re.sub(r"[^a-z0-9_-]+", "-", text)
+    # Collapse runs of dashes and trim
+    text = re.sub(r"-+", "-", text).strip("-")
+    return text
 
 
 def collect_anchors(filepath: str) -> Set[str]:
-    """Return the set of anchor slugs derived from markdown headings."""
+    """Return the set of anchor slugs from real markdown headings.
+
+    Skips lines starting with `#` that appear inside fenced code
+    blocks — those are code comments, not headings, and the markdown
+    renderer (and GitBook) does not generate anchors for them.
+    """
     anchors: Set[str] = set()
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
     except OSError:
         return anchors
-    for match in HEADING_RE.findall(content):
-        anchors.add(slugify(match))
+    in_fence = False
+    for line in content.splitlines():
+        if line.startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        m = re.match(r"^#{1,6}\s+(.*)$", line)
+        if m:
+            anchors.add(slugify(m.group(1)))
     return anchors
 
 

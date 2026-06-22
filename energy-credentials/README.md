@@ -50,10 +50,10 @@ sequenceDiagram
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Checklist](#checklist) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b--operational-notes) |
+| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Checklist](#checklist) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b-operational-notes) |
 | **An AMISP / MDM / aggregator** (you sign telemetry) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) using `MeterDataCredential` | [Smart Meter Data Exchange use case](../use-cases/smart-meter-data-exchange/README.md) |
-| **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](#digilocker-delivery) | [Identifiers — Appendix F](../identifiers/README.md#appendix-f--binding-the-credential-to-a-holder-identity) for binding patterns |
-| **A verifier** (you receive and check credentials) | [Verify](#3-verify), [Revocation check](#4-revoke) → [Appendix A — Trust model](#appendix-a--trust-model) | [Registries — Verifying a credential](../registries/README.md#appendix-b--verifying-a-credential-end-to-end) for the resolution walk |
+| **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](#digilocker-delivery) | [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity) for binding patterns |
+| **A verifier** (you receive and check credentials) | [Verify](#3-verify), [Revocation check](#4-revoke) → [Appendix A — Trust model](#appendix-a-trust-model) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the resolution walk |
 
 ---
 
@@ -61,7 +61,7 @@ sequenceDiagram
 
 Before you can issue, get these in place. Each link takes you to the section that walks through the step:
 
-1. **Your `did:web` is published** at `https://<your-domain>/.well-known/did.json`. See [Identifiers — Publish your did:web](../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally).
+1. **Your `did:web` is published** at `https://<your-domain>/.well-known/did.json`. See [Identifiers — Publish your did:web](../identifiers/README.md#step-by-step-publish-your-did-web-and-run-opencred-locally).
 2. **A DeDi namespace** under your verified domain. See [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries). OpenCred will auto-create the four registries it needs (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) on first boot.
 3. **OpenCred running** with `OPENCRED_DEDI_*` env vars set (or an equivalent W3C-compliant signing pipeline of your choice).
 4. *(Optional, recommended for licensed utilities)* **A regulator's licensing pointer** to quote in `issuer.idRef` — the regulator's `did:web` and the regulator-issued licence identifier for your DISCOM. Omit for pilots / non-regulated issuers.
@@ -127,9 +127,9 @@ curl -s http://localhost:3100/v1/credentials/issue \
 
 Three things worth noting:
 
-- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:ies.tpddl.in:assets:meter:<slno>`). Same pattern for transformers, feeders, substations — see [Identifiers — Asset patterns](../identifiers/README.md#appendix-c--identifying-assets-meters-connections-datasets). No per-asset `did.json` hosting required for the pragmatic case.
+- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:ies.tpddl.in:assets:meter:<slno>`). Same pattern for transformers, feeders, substations — see [Identifiers — Asset patterns](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). No per-asset `did.json` hosting required for the pragmatic case.
 - **`issuer.idRef` is optional.** OpenCred fills `issuer` with the DID string only. Your integration service appends `name` and (if you have a regulator to cite) `idRef` on egress, then re-signs if your flow requires a single signed artefact.
-- **`credentialSubject.id` is absent here.** That's the bearer-style default. Set it to a wallet `did:key` or `tel:+91...` URI for holder-bound issuance — full guidance in [Identifiers — Holder binding](../identifiers/README.md#appendix-f--binding-the-credential-to-a-holder-identity).
+- **`credentialSubject.id` is absent here.** That's the bearer-style default. Set it to a wallet `did:key` or `tel:+91...` URI for holder-bound issuance — full guidance in [Identifiers — Holder binding](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity).
 
 ### 3. Verify
 
@@ -142,7 +142,7 @@ jq -n --arg c "$(jq -r '.credential.proof.jwt' credential.json)" '{credential: $
 # expect "valid": true
 ```
 
-For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.proof.jwt`), not the JSON envelope. For `data-integrity` proofs, send the full credential JSON. The full verification flow — checking the issuer's signature, the regulator's licensing assertion (if cited), and revocation status — is detailed in [Appendix A](#appendix-a--trust-model).
+For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.proof.jwt`), not the JSON envelope. For `data-integrity` proofs, send the full credential JSON. The full verification flow — checking the issuer's signature, the regulator's licensing assertion (if cited), and revocation status — is detailed in [Appendix A](#appendix-a-trust-model).
 
 ### 4. Revoke
 
@@ -201,7 +201,7 @@ Two common shapes:
 **Holder-bound, consumer-presentable** — the **Consumer Energy Passport** pattern. Same schema, but:
 - `credentialSubject.id` = the consumer's wallet `did:key` (or `did:jwk`).
 - `customerProfile.idRef` carries a verifiable government-ID reference (Aadhaar offline KYC, DigiLocker pull, etc.) — **the reference**, never the raw number.
-- At presentation time, the verifier issues a challenge, the wallet signs a Verifiable Presentation, and the verifier confirms the presenter holds the matching private key. See [Identifiers — Pattern 1](../identifiers/README.md#pattern-1--wallet-did-cryptographic-recommended-where-a-wallet-exists).
+- At presentation time, the verifier issues a challenge, the wallet signs a Verifiable Presentation, and the verifier confirms the presenter holds the matching private key. See [Identifiers — Pattern 1](../identifiers/README.md#pattern-1-wallet-did-cryptographic-recommended-where-a-wallet-exists).
 
 The Consumer Energy Passport use case ([use-cases/consumer-energy-passport/](../use-cases/consumer-energy-passport/README.md)) is about *who*, *when*, and *why* the holder-bound shape is issued; the credential itself is an ElectricityCredential v1.2.
 
@@ -235,7 +235,7 @@ A signed VC carried at Beckn `confirm` time by a seeker (typically a DISCOM) whe
 
 Holder binding turns a credential from a bearer token into something only the consumer's wallet can present. Choose a pattern (wallet DID, `tel:+91...` URI, or DigiLocker-mediated) based on the consumer's situation. **Identity-proofing at issuance is mandatory** — you must verify the consumer controls the identifier before embedding it.
 
-Full guidance: [Identifiers — Appendix F](../identifiers/README.md#appendix-f--binding-the-credential-to-a-holder-identity).
+Full guidance: [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity).
 
 ---
 
@@ -270,7 +270,7 @@ And a validity-window check:
 
 The Consumer Energy Passport and Consumer Meter Digest variants add a fifth check at presentation time:
 
-5. **Holder-binding proof.** The wallet signs a Verifiable Presentation with the private key matching `credentialSubject.id`, embedding a fresh `challenge` and `domain`. The verifier verifies the VP signature against the public key in `credentialSubject.id`. See [Identifiers — Pattern 1](../identifiers/README.md#pattern-1--wallet-did-cryptographic-recommended-where-a-wallet-exists).
+5. **Holder-binding proof.** The wallet signs a Verifiable Presentation with the private key matching `credentialSubject.id`, embedding a fresh `challenge` and `domain`. The verifier verifies the VP signature against the public key in `credentialSubject.id`. See [Identifiers — Pattern 1](../identifiers/README.md#pattern-1-wallet-did-cryptographic-recommended-where-a-wallet-exists).
 
 No IES-curated registry sits between the credential and the verifier. The IES DISCOMs Reference Registry is the **inter-DISCOM data exchange network**'s trust boundary (Beckn-side); it is not a credential prerequisite — see [Identifiers — Two identities](../identifiers/README.md#two-identities-youll-set-up-and-why).
 
@@ -363,11 +363,11 @@ A **Decentralized Identifier (DID)** is a globally unique string that resolves t
 - `did:key` — the public key is encoded in the DID string itself (offline-resolvable; used for consumer wallets).
 - `did:jwk` — same idea as `did:key`, JWK-encoded.
 
-There is no `did:dedi` method; DeDi is a key-discovery and registry layer over `did:web`. Full treatment: [Identifiers — Appendix A](../identifiers/README.md#appendix-a--how-dids-work-and-the-three-methods-ies-uses).
+There is no `did:dedi` method; DeDi is a key-discovery and registry layer over `did:web`. Full treatment: [Identifiers — Appendix A](../identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses).
 
 ### Identifier vs. record
 
-A DID is a stable identifier that resolves to a record (the DID document, or in DeDi's case any registry record). Records change — keys rotate, addresses update — without the identifier changing. See [Identifiers — Appendix D](../identifiers/README.md#appendix-d--identifier-vs-record) for the licence-plate analogy and concrete IES scenarios.
+A DID is a stable identifier that resolves to a record (the DID document, or in DeDi's case any registry record). Records change — keys rotate, addresses update — without the identifier changing. See [Identifiers — Appendix D](../identifiers/README.md#appendix-d-identifier-vs-record) for the licence-plate analogy and concrete IES scenarios.
 
 ### Credential lifecycle
 

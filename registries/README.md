@@ -128,7 +128,7 @@ To also **exchange data over Beckn**, add the Beckn-participant rows below.
 
 The IES network registries — `ies-data-sharing-network`, `ies-p2p-trading-network`, `ies-der-integration-network` (plus their `test-` variants) — are operated by the IES network operator (acting as [NFO](../glossary.md#nfo)). You don't write to them directly; the NFO references your record after a short onboarding review. See [IES networks and registries today](#ies-networks-and-registries-today) below for the names and how to apply.
 
-The end-to-end "publish your subscriber details + get added to a network" walkthrough is in [Identifiers and Addressing — Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+The end-to-end "publish your subscriber details + get added to a network" walkthrough is in [Identifiers and Addressing — Appendix E](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ### As an NFO
 
@@ -151,7 +151,7 @@ You don't write to anything; you only read. Two registries matter:
 | Verify a credential's signature | The issuer's own `did:web` (`.well-known/did.json`) — and, if you cache, the issuer's `opencred-key-registry` for key history |
 | Check revocation status | The issuer's `vc-revocation-registry` |
 
-A worked verification walkthrough is in [Appendix B](#appendix-b--verifying-a-credential-end-to-end).
+A worked verification walkthrough is in [Appendix B](#appendix-b-verifying-a-credential-end-to-end).
 
 ---
 

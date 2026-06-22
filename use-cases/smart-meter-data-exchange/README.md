@@ -73,7 +73,7 @@ Meter population, geography, granularity (15-min / daily / monthly), counterpart
 
 ### 2. Get a network identity
 
-Both BAP and BPP need a DeDi subscriber record with a published signing key. If you have one already (any other Beckn flow on this network), reuse it. If not, follow [Data Exchange — Checklist → Stage 2 (Network identity)](../../checklists/data-exchange-checklist.md#stage-2--network-identity-dedi).
+Both BAP and BPP need a DeDi subscriber record with a published signing key. If you have one already (any other Beckn flow on this network), reuse it. If not, follow [Data Exchange — Checklist → Stage 2 (Network identity)](../../checklists/data-exchange-checklist.md#stage-2-network-identity-dedi).
 
 You do **not** need to rename anything in your CIS, MDMS, or asset registers. Your existing IDs are reused as the tail of the DID.
 
@@ -120,7 +120,7 @@ did:web:<dedi-host>:<your-namespace>:feeders:<existing-feeder-code>
 did:web:<dedi-host>:<your-namespace>:substations:<existing-substation-code>
 ```
 
-`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just acts as a discovery layer for the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers and Addressing → Appendix C](../../identifiers/README.md#appendix-c--identifying-assets-meters-connections-datasets). Once an asset has a `did:web` form, OpenCred can issue VCs about it (commissioning, inspection, ownership). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
+`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just acts as a discovery layer for the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers and Addressing → Appendix C](../../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). Once an asset has a `did:web` form, OpenCred can issue VCs about it (commissioning, inspection, ownership). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
 
 ---
 

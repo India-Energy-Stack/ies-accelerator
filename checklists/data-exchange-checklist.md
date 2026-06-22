@@ -40,7 +40,7 @@
 *Goal: self-owned identity that counterparties can resolve and verify.*
 
 - [ ] DeDi account created; namespace claimed and domain-verified → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
-- [ ] Ed25519 signing keypair generated (`tools/sign` in beckn-onix) → [Identifiers — Step 2 (Beckn keypair)](../identifiers/README.md#step-2--generate-your-beckn-signing-keypair)
+- [ ] Ed25519 signing keypair generated (`tools/sign` in beckn-onix) → [Identifiers — Step 2 (Beckn keypair)](../identifiers/README.md#step-2-generate-your-beckn-signing-keypair)
 - [ ] Beckn subscriber registry created (tag `beckn_subscriber`) under your namespace
 - [ ] Subscriber record published (`subscriber_id`, `subscriber_url`, `type`, `signing_public_key`, `countries`)
 - [ ] Lookup verified at `https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`
@@ -55,7 +55,7 @@
 - [ ] IES Secretariat emailed with your DeDi lookup URL → [Registries — How to apply](../registries/README.md#how-to-apply-for-an-ies-listing)
 - [ ] Confirmed your subscriber appears under `indiaenergystack.in/test-ies-data-sharing-network` (re-query the namespace)
 - [ ] End-to-end `confirm` → `on_confirm` round-trip with at least one other participant on the test network
-- [ ] *(If applicable)* [Pagination](../data-exchange/README.md#pagination--large-datasets-across-multiple-status--on_status-messages) flow tested — BAP-PULL or BPP-PUSH per your use case
+- [ ] *(If applicable)* [Pagination](../data-exchange/README.md#pagination-large-datasets-across-multiple-status-on_status-messages) flow tested — BAP-PULL or BPP-PUSH per your use case
 
 ## Stage 4 — Production deployment
 
@@ -73,7 +73,7 @@
 
 - [ ] Reverse proxy + TLS in front of ONIX (never expose `:8081` / `:8082` directly)
 - [ ] Signing key in a secret manager (Vault, AWS Secrets Manager, Azure Key Vault)
-- [ ] Schema validation enabled and tested → [Appendix C — Schema validation](../data-exchange/README.md#appendix-c--schema-validation)
+- [ ] Schema validation enabled and tested → [Appendix C — Schema validation](../data-exchange/README.md#appendix-c-schema-validation)
 - [ ] Monitoring / alerting on ONIX health, signature-verification failures, and registry lookups
 - [ ] Key-rotation runbook in place
 - [ ] On-call rota for inbound message handling on the BAP / BPP webhooks
