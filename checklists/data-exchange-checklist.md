@@ -1,4 +1,4 @@
-# Data Exchange — Onboarding Checklist
+# Data Exchange — Checklist
 
 *One staged checklist from devkit sandbox to production go-live. Each item links to the section in [Data Exchange](../data-exchange/README.md) (or the foundational chapters) that walks the step. No field-level detail is duplicated here — follow the link if you need depth.*
 

@@ -82,4 +82,4 @@ Identify three roles: a **Legal / regulatory point of contact** for the policy c
 
 ---
 
-*Once these nine items are in place, your tariffs (and other policies) reach DISCOM billing systems, consumer apps, and smart meters as signed, machine-readable artefacts — no PDF re-keying, no interpretation drift. See the [Tariff Intelligence use case](./README.md) for the detailed setup and the [data-exchange onboarding checklist](../../checklists/data-exchange-checklist.md) for the underlying network-onboarding steps.*
+*Once these nine items are in place, your tariffs (and other policies) reach DISCOM billing systems, consumer apps, and smart meters as signed, machine-readable artefacts — no PDF re-keying, no interpretation drift. See the [Tariff Intelligence use case](./README.md) for the detailed setup and the [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md) for the underlying network-onboarding steps.*

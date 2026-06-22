@@ -1,4 +1,4 @@
-# Basic Checklist — Identifiers and Addressing
+# Checklist — Identifiers and Addressing
 
 *A plain-English checklist for a DISCOM (or any organisation) joining IES. Each item maps to a concrete step in the upstream OpenCred [documentation](https://opencred.gitbook.io/docs/bootcamp/local-docker). The narrative version with full code is in [Identifiers and Addressing](../identifiers/README.md).*
 

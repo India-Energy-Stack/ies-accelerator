@@ -1,4 +1,4 @@
-# Basic Checklist — Registries and Directories
+# Checklist — Registries and Directories
 
 *A plain-English, conceptual checklist for a DISCOM (or any organisation) setting itself up on the IES trust layer. Use it to scope the work and align your team. The [detailed reference](../registries/README.md) covers exactly how each step is done.*
 

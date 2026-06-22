@@ -86,4 +86,4 @@ Identify three roles: a **Regulatory affairs / finance point of contact** for th
 
 ---
 
-*Once these nine items are in place, regulatory filings between the DISCOM and the SERC flow as signed, machine-verifiable objects with a non-repudiable audit trail. See the [DISCOM Regulatory Filing use case](./README.md) for the detailed setup and the [data-exchange onboarding checklist](../../checklists/data-exchange-checklist.md) for the underlying network-onboarding steps.*
+*Once these nine items are in place, regulatory filings between the DISCOM and the SERC flow as signed, machine-verifiable objects with a non-repudiable audit trail. See the [DISCOM Regulatory Filing use case](./README.md) for the detailed setup and the [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md) for the underlying network-onboarding steps.*

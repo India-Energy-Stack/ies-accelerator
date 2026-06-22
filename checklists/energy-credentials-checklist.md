@@ -1,4 +1,4 @@
-# Energy Credentials — Onboarding Checklist
+# Energy Credentials — Checklist
 
 *A practical sequence for getting from zero to issuing your first signed credential. Each item links to the section in [Energy Credentials](../energy-credentials/README.md) (or its sister chapters) that walks the step. There is no separate field-level checklist; if you need field detail, follow the link.*
 

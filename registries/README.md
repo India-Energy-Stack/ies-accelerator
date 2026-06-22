@@ -220,19 +220,11 @@ Before approving, the Secretariat validates: your namespace is domain-verified, 
 
 ---
 
-## End-to-end onboarding checklist
+## Checklist
 
-For a participant that wants to be fully onboarded for **credentials + the IES inter-DISCOM data exchange network**:
+A plain-English checklist for standing up your registries trust layer — claim a namespace, publish a trust anchor, decide which registries to operate, and assign writers — is a separate sub-page so it stays printable and trackable: **[Registries and Directories — Checklist](../checklists/registries-checklist.md)**.
 
-1. [ ] DeDi account created (role mailbox, MFA, API token in your secret manager).
-2. [ ] Namespace created and **domain-verified** against your domain.
-3. [ ] OpenCred running with `OPENCRED_DEDI_*` env vars set — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry` auto-created on first boot. (Skip if you are issuing without OpenCred; provision the equivalents manually.)
-4. [ ] `subscribers-test` registry created under your namespace (tag `beckn_subscriber`), with one record per BAP/BPP role. *(Beckn-only; skip if you are only issuing credentials.)*
-5. [ ] Subscriber record's `subscriber_id`, `subscriber_url`, `type`, `signing_public_key`, and `countries` populated and verified at `https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`.
-6. [ ] Email IES Secretariat with the application fields above. → [How to apply](#how-to-apply-for-an-ies-listing)
-7. [ ] Confirm references appear by re-querying `https://api.dedi.global/dedi/query/indiaenergystack.in` and looking for your `subscriber_id` inside the relevant network registry.
-8. [ ] Run end-to-end test transactions over `test-ies-…-network`.
-9. [ ] Repeat steps 4–7 for `subscribers-prod` and the prod network when ready to go live.
+End-to-end network onboarding (credentials issuance and joining the IES data exchange network) is staged on the chapter checklists it spans: **[Energy Credentials — Checklist](../checklists/energy-credentials-checklist.md)** and **[Data Exchange — Checklist](../checklists/data-exchange-checklist.md)**.
 
 ---
 

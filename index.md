@@ -163,6 +163,7 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
       </ul>
       <li><a href="identifiers/README.md#id-patterns-youll-use-day-one">ID patterns you'll use day one</a></li>
       <li><a href="identifiers/README.md#where-each-id-goes-in-a-credential">Where each ID goes in a credential</a></li>
+      <li><a href="identifiers/README.md#checklist">Checklist</a></li>
       <li><a href="identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses">Appendix A — How DIDs work, and the three methods IES uses</a>      <ul>
         <li><a href="identifiers/README.md#whats-in-a-did-document">What's in a DID document</a></li>
         <li><a href="identifiers/README.md#the-three-did-methods-ies-uses">The three DID methods IES uses</a>        <ul>
@@ -217,20 +218,20 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
   </details>
 
 ### 🔌 Use & Operations
-* **[identifiers-basic-checklist.md](checklists/identifiers-basic-checklist.md)**
+* **[identifiers-checklist.md](checklists/identifiers-checklist.md)**
   - *Summary*: Self-audit checklist to verify domain ownership, key formats, and DID structures.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="checklists/identifiers-basic-checklist.md#basic-checklist-identifiers-and-addressing">Basic Checklist — Identifiers and Addressing</a>    <ul>
+    <li><a href="checklists/identifiers-checklist.md#checklist-identifiers-and-addressing">Checklist — Identifiers and Addressing</a>    <ul>
       <ul>
-        <li><a href="checklists/identifiers-basic-checklist.md#1-decide-your-organisations-public-name-on-the-network">1. Decide your organisation's public name on the network</a></li>
-        <li><a href="checklists/identifiers-basic-checklist.md#2-set-up-your-digital-identity">2. Set up your digital identity</a></li>
-        <li><a href="checklists/identifiers-basic-checklist.md#3-agree-on-how-you-will-identify-consumers-and-assets">3. Agree on how you will identify consumers and assets</a></li>
-        <li><a href="checklists/identifiers-basic-checklist.md#4-decide-what-stays-private-and-what-becomes-public">4. Decide what stays private and what becomes public</a></li>
-        <li><a href="checklists/identifiers-basic-checklist.md#5-beckn-only-register-with-the-ies-network-operators-discom-reference">5. (Beckn only) Register with the IES network operator's DISCOM reference</a></li>
-        <li><a href="checklists/identifiers-basic-checklist.md#6-join-the-beckn-network-subscriber-registry-on-the-fabric">6. Join the Beckn network (subscriber registry on the fabric)</a></li>
-        <li><a href="checklists/identifiers-basic-checklist.md#7-nominate-your-team">7. Nominate your team</a>
+        <li><a href="checklists/identifiers-checklist.md#1-decide-your-organisations-public-name-on-the-network">1. Decide your organisation's public name on the network</a></li>
+        <li><a href="checklists/identifiers-checklist.md#2-set-up-your-digital-identity">2. Set up your digital identity</a></li>
+        <li><a href="checklists/identifiers-checklist.md#3-agree-on-how-you-will-identify-consumers-and-assets">3. Agree on how you will identify consumers and assets</a></li>
+        <li><a href="checklists/identifiers-checklist.md#4-decide-what-stays-private-and-what-becomes-public">4. Decide what stays private and what becomes public</a></li>
+        <li><a href="checklists/identifiers-checklist.md#5-beckn-only-register-with-the-ies-network-operators-discom-reference">5. (Beckn only) Register with the IES network operator's DISCOM reference</a></li>
+        <li><a href="checklists/identifiers-checklist.md#6-join-the-beckn-network-subscriber-registry-on-the-fabric">6. Join the Beckn network (subscriber registry on the fabric)</a></li>
+        <li><a href="checklists/identifiers-checklist.md#7-nominate-your-team">7. Nominate your team</a>
       </li>
       </ul>
     </li>
@@ -276,7 +277,7 @@ This block describes the directories that store and resolve identifiers to parti
         <li><a href="registries/README.md#how-to-apply-for-an-ies-listing">How to apply for an IES listing</a>
       </li>
       </ul>
-      <li><a href="registries/README.md#end-to-end-onboarding-checklist">End-to-end onboarding checklist</a></li>
+      <li><a href="registries/README.md#checklist">Checklist</a></li>
       <li><a href="registries/README.md#appendix-a-dedi-primer-just-enough-to-navigate">Appendix A — DeDi primer (just enough to navigate)</a>      <ul>
         <li><a href="registries/README.md#the-three-coordinate-model">The three-coordinate model</a></li>
         <li><a href="registries/README.md#built-in-schema-tags-used-in-ies">Built-in schema tags used in IES</a></li>
@@ -294,19 +295,19 @@ This block describes the directories that store and resolve identifiers to parti
   </details>
 
 ### 🔌 Use & Operations
-* **[registries-basic-checklist.md](checklists/registries-basic-checklist.md)**
+* **[registries-checklist.md](checklists/registries-checklist.md)**
   - *Summary*: Auditing checklist to confirm namespace delegation, key records, and registry accessibility.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="checklists/registries-basic-checklist.md#basic-checklist-registries-and-directories">Basic Checklist — Registries and Directories</a>    <ul>
+    <li><a href="checklists/registries-checklist.md#checklist-registries-and-directories">Checklist — Registries and Directories</a>    <ul>
       <ul>
-        <li><a href="checklists/registries-basic-checklist.md#1-claim-your-space-in-the-public-directory">1. Claim your space in the public directory</a></li>
-        <li><a href="checklists/registries-basic-checklist.md#2-publish-your-trust-anchor">2. Publish your trust anchor</a></li>
-        <li><a href="checklists/registries-basic-checklist.md#3-decide-which-registries-you-need-to-operate">3. Decide which registries you need to operate</a></li>
-        <li><a href="checklists/registries-basic-checklist.md#4-decide-who-can-write-to-each-registry">4. Decide who can write to each registry</a></li>
-        <li><a href="checklists/registries-basic-checklist.md#5-set-up-a-process-to-keep-registries-current">5. Set up a process to keep registries current</a></li>
-        <li><a href="checklists/registries-basic-checklist.md#6-nominate-your-team">6. Nominate your team</a>
+        <li><a href="checklists/registries-checklist.md#1-claim-your-space-in-the-public-directory">1. Claim your space in the public directory</a></li>
+        <li><a href="checklists/registries-checklist.md#2-publish-your-trust-anchor">2. Publish your trust anchor</a></li>
+        <li><a href="checklists/registries-checklist.md#3-decide-which-registries-you-need-to-operate">3. Decide which registries you need to operate</a></li>
+        <li><a href="checklists/registries-checklist.md#4-decide-who-can-write-to-each-registry">4. Decide who can write to each registry</a></li>
+        <li><a href="checklists/registries-checklist.md#5-set-up-a-process-to-keep-registries-current">5. Set up a process to keep registries current</a></li>
+        <li><a href="checklists/registries-checklist.md#6-nominate-your-team">6. Nominate your team</a>
       </li>
       </ul>
     </li>
@@ -323,7 +324,7 @@ This block handles digital attestations of connections, billing summaries, and c
 
 ### ⚙️ Setup & Configuration
 * **[README.md](energy-credentials/README.md)**
-  - *Summary*: Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, onboarding checklist, and trust-model appendices.
+  - *Summary*: Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -351,14 +352,7 @@ This block handles digital attestations of connections, billing summaries, and c
       </ul>
       <li><a href="energy-credentials/README.md#holder-binding">Holder binding</a></li>
       <li><a href="energy-credentials/README.md#digilocker-delivery">DigiLocker delivery</a></li>
-      <li><a href="energy-credentials/README.md#onboarding-checklist">Onboarding checklist</a>      <ul>
-        <li><a href="energy-credentials/README.md#phase-1-foundations">Phase 1 — Foundations</a></li>
-        <li><a href="energy-credentials/README.md#phase-2-issue-and-revoke">Phase 2 — Issue and revoke</a></li>
-        <li><a href="energy-credentials/README.md#phase-3-decide-variants-youll-issue">Phase 3 — Decide variant(s) you'll issue</a></li>
-        <li><a href="energy-credentials/README.md#phase-4-production-hardening">Phase 4 — Production hardening</a></li>
-        <li><a href="energy-credentials/README.md#phase-5-data-exchange-optional-only-if-joining-beckn">Phase 5 — Data exchange (optional, only if joining Beckn)</a>
-      </li>
-      </ul>
+      <li><a href="energy-credentials/README.md#checklist">Checklist</a></li>
       <li><a href="energy-credentials/README.md#appendix-a-trust-model">Appendix A — Trust model</a>      <ul>
         <li><a href="energy-credentials/README.md#signing-key-sources">Signing-key sources</a></li>
         <li><a href="energy-credentials/README.md#proof-formats">Proof formats</a>
@@ -442,11 +436,11 @@ This block handles digital attestations of connections, billing summaries, and c
   </ul>
   </details>
 * **[energy-credentials-checklist.md](checklists/energy-credentials-checklist.md)**
-  - *Summary*: Onboarding checklist for credential issuance — section-linked to the Energy Credentials README.
+  - *Summary*: Checklist for credential issuance — section-linked to the Energy Credentials README.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="checklists/energy-credentials-checklist.md#energy-credentials-onboarding-checklist">Energy Credentials — Onboarding Checklist</a>    <ul>
+    <li><a href="checklists/energy-credentials-checklist.md#energy-credentials-checklist">Energy Credentials — Checklist</a>    <ul>
       <li><a href="checklists/energy-credentials-checklist.md#phase-1-foundations">Phase 1 — Foundations</a></li>
       <li><a href="checklists/energy-credentials-checklist.md#phase-2-issue-and-revoke">Phase 2 — Issue and revoke</a></li>
       <li><a href="checklists/energy-credentials-checklist.md#phase-3-decide-variants-youll-issue">Phase 3 — Decide variant(s) you'll issue</a></li>
@@ -475,7 +469,7 @@ This block governs data discovery, consent, and the transfer of telemetry and re
       <li><a href="data-exchange/README.md#why-this-page">Why this page</a></li>
       <li><a href="data-exchange/README.md#pick-your-role">Pick your role</a></li>
       <li><a href="data-exchange/README.md#prerequisites">Prerequisites</a></li>
-      <li><a href="data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes">Quick start — run a local exchange in 10 minutes</a>      <ul>
+      <li><a href="data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes">Quick start — run a local exchange in 10 minutes</a>      <ul>
         <li><a href="data-exchange/README.md#1-clone-and-start-the-stack">1. Clone and start the stack</a></li>
         <li><a href="data-exchange/README.md#2-import-the-postman-collection-for-your-use-case">2. Import the Postman collection for your use case</a></li>
         <li><a href="data-exchange/README.md#3-send-confirm">3. Send `confirm`</a></li>
@@ -497,7 +491,7 @@ This block governs data discovery, consent, and the transfer of telemetry and re
       <li><a href="data-exchange/README.md#two-registries-two-onix-deployments">Two registries, two ONIX deployments</a></li>
       <li><a href="data-exchange/README.md#make-the-sandbox-your-own">Make the sandbox your own</a></li>
       <li><a href="data-exchange/README.md#what-you-can-exchange-schema-families">What you can exchange (schema families)</a></li>
-      <li><a href="data-exchange/README.md#onboarding-checklist">Onboarding checklist</a>
+      <li><a href="data-exchange/README.md#checklist">Checklist</a>
     </li>
     </ul>
     <li><a href="data-exchange/README.md#appendices">Appendices</a>    <ul>
@@ -528,11 +522,11 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 ### 🔌 Use & Operations
 * **[data-exchange-checklist.md](checklists/data-exchange-checklist.md)**
-  - *Summary*: Staged onboarding checklist from devkit sandbox to production go-live.
+  - *Summary*: Staged checklist from devkit sandbox to production go-live.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="checklists/data-exchange-checklist.md#data-exchange-onboarding-checklist">Data Exchange — Onboarding Checklist</a>    <ul>
+    <li><a href="checklists/data-exchange-checklist.md#data-exchange-checklist">Data Exchange — Checklist</a>    <ul>
       <li><a href="checklists/data-exchange-checklist.md#stage-0-scope-and-team">Stage 0 — Scope and team</a></li>
       <li><a href="checklists/data-exchange-checklist.md#stage-1-devkit-validation-local-sandbox">Stage 1 — Devkit validation (local sandbox)</a></li>
       <li><a href="checklists/data-exchange-checklist.md#stage-2-network-identity-dedi">Stage 2 — Network identity (DeDi)</a></li>

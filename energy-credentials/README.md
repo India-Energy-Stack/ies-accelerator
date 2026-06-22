@@ -50,7 +50,7 @@ sequenceDiagram
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Onboarding checklist](#onboarding-checklist) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b--operational-notes) |
+| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Checklist](#checklist) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b--operational-notes) |
 | **An AMISP / MDM / aggregator** (you sign telemetry) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) using `MeterDataCredential` | [Smart Meter Data Exchange use case](../use-cases/smart-meter-data-exchange/README.md) |
 | **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](#digilocker-delivery) | [Identifiers — Appendix F](../identifiers/README.md#appendix-f--binding-the-credential-to-a-holder-identity) for binding patterns |
 | **A verifier** (you receive and check credentials) | [Verify](#3-verify), [Revocation check](#4-revoke) → [Appendix A — Trust model](#appendix-a--trust-model) | [Registries — Verifying a credential](../registries/README.md#appendix-b--verifying-a-credential-end-to-end) for the resolution walk |
@@ -247,47 +247,9 @@ Walkthrough (Pull URI shape, callback flow, signature pinning, common failure mo
 
 ---
 
-## Onboarding checklist
+## Checklist
 
-A practical sequence. Each row links to the section that walks the step.
-
-### Phase 1 — Foundations
-
-- [ ] Domain selected; `did:web` decision made → [Identifiers — Step-by-step](../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally)
-- [ ] OpenCred-friendly signing key generated; key in KMS or secured PEM
-- [ ] OpenCred container running; `/v1/health` returns `signingKeyLoaded: true`
-- [ ] `did.json` published at `https://<your-domain>/.well-known/did.json`; `curl` returns the expected DID
-- [ ] DeDi namespace claimed and domain-verified → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
-- [ ] OpenCred auto-created its four registries; `/v1/health` reports `dediConfigured: true`
-
-### Phase 2 — Issue and revoke
-
-- [ ] [Step 1 — issuer DID confirmed](#1-confirm-the-issuer-did-opencred-reports)
-- [ ] [Step 2 — first ElectricityCredential v1.2 issued](#2-issue) (bearer style)
-- [ ] [Step 3 — verify returns `valid: true`](#3-verify)
-- [ ] [Step 4 — revocation publishes; status flips](#4-revoke)
-- [ ] [Step 5 — smoke test wired into CI](#5-smoke-test)
-- [ ] Integration service appends `issuer.name` (and `issuer.idRef` if regulator-cited) on egress; re-signs if your flow needs a single signed artefact
-
-### Phase 3 — Decide variant(s) you'll issue
-
-- [ ] Decide which [credential variants](#credential-variants) you'll issue (bearer, Passport, MeterDataCredential B2B, Consumer Meter Digest, MeterDataRequest)
-- [ ] For holder-bound variants: choose binding pattern → [Holder binding](#holder-binding)
-- [ ] Identity-proofing-at-issuance procedure documented (challenge-sign for wallet DIDs, OTP for phone, DigiLocker grant otherwise)
-
-### Phase 4 — Production hardening
-
-- [ ] Signing key in HSM / Cloud KMS (AWS / Azure / GCP) — software PEM only for dev → [Appendix B](#appendix-b--operational-notes)
-- [ ] Schema validation in your integration service before `POST /v1/credentials/issue`
-- [ ] Key-rotation runbook in place
-- [ ] Reverse-proxy + TLS terminating in front of OpenCred (never expose `:3100` directly)
-- [ ] Backups of `did.json`, KMS key handle, and DeDi credentials
-
-### Phase 5 — Data exchange (optional, only if joining Beckn)
-
-- [ ] Beckn subscriber registry published → [Identifiers — Appendix E](../identifiers/README.md#appendix-e--joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric)
-- [ ] IES Secretariat has referenced your subscriber into the relevant network registry → [Registries — How to apply](../registries/README.md#how-to-apply-for-an-ies-listing)
-- [ ] ONIX configured with `allowedNetworkIDs` for the right environment
+The full zero-to-issuance sequence — foundations, issue / verify / revoke, variant selection, production hardening, and optional data-exchange onboarding — lives on a separate sub-page so it stays printable and trackable: **[Energy Credentials — Checklist](../checklists/energy-credentials-checklist.md)**.
 
 ---
 
