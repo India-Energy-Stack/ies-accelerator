@@ -275,6 +275,12 @@ Notice what is *not* required there: no central registry of consumers, no nation
 
 ---
 
+## Checklist
+
+A plain-English, printable checklist for a DISCOM (or any organisation) standing up its `did:web` identity and identifier conventions is a separate sub-page: **[Identifiers and Addressing — Checklist](../checklists/identifiers-checklist.md)**.
+
+---
+
 ## Appendix A — How DIDs work, and the three methods IES uses
 
 This appendix exists so that if a colleague asks "but how does this actually work?" you can answer. Skip it if you are mid-deployment.

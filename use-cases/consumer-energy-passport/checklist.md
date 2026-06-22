@@ -6,7 +6,7 @@
 
 ## Step 0 — Base credential issuance is in place
 
-Complete [Energy Credentials — Onboarding Checklist](../../checklists/energy-credentials-checklist.md) Phases 1–2 (foundations, issue / verify / revoke).
+Complete [Energy Credentials — Checklist](../../checklists/energy-credentials-checklist.md) Phases 1–2 (foundations, issue / verify / revoke).
 
 ## Step 1 — Identity proofing decided and documented
 

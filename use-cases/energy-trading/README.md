@@ -148,7 +148,7 @@ Authentication is the standard Beckn signing flow against the network registry. 
 
 ## Setup steps
 
-Mirrors the [Data Exchange Quick Start](../../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes). Everything below assumes you've already followed [Data Exchange — Onboarding Checklist](../../checklists/data-exchange-checklist.md) Stages 0–2 (devkit running, DeDi subscriber record, signing key).
+Mirrors the [Data Exchange Quick Start](../../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes). Everything below assumes you've already followed [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md) Stages 0–2 (devkit running, DeDi subscriber record, signing key).
 
 ### 1. Stand up the wave 2 devkit
 

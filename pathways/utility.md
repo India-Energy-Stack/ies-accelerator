@@ -57,7 +57,7 @@ A [`did:web`](../identifiers/README.md#didweb--the-one-your-discom-will-use) ide
 * [Identifiers & Addressing Overview](../identifiers/README.md)
 * [Resolution & Routing Specification](../identifiers/README.md#didweb--the-one-your-discom-will-use) (Detailed resolution rules for `did:web` endpoints)
 * [Step-by-step: publish your did:web](../identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally) (Document parameters)
-* [Basic Identifiers Checklist](../checklists/identifiers-basic-checklist.md)
+* [Identifiers Checklist](../checklists/identifiers-checklist.md)
 </details>
 
 <details>
@@ -110,7 +110,7 @@ Establish your administrative namespaces on the public [Decentralized Directory 
 ### References & Anchors
 * [Why DeDi (and the three questions it answers)](../registries/README.md#why-dedi-and-the-three-questions-it-answers)
 * [Registries — Step-by-step (claim namespace + create registries)](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
-* [Basic Registries Checklist](../checklists/registries-basic-checklist.md)
+* [Registries Checklist](../checklists/registries-checklist.md)
 </details>
 
 <details>
@@ -151,7 +151,7 @@ The Secretariat will verify your credentials and register your endpoints inside 
 
 ### References & Anchors
 * [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
-* [End-to-End Onboarding Checklist](../registries/README.md#end-to-end-onboarding-checklist)
+* [Registries Checklist](../checklists/registries-checklist.md)
 </details>
 
 ---
@@ -223,7 +223,7 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 * [Data Exchange Concepts](../data-exchange/README.md#appendix-a--beckn-protocol-lifecycle)
 * [Data Exchange Quick Start](../data-exchange/README.md#quick-start--run-a-local-exchange-in-10-minutes)
 * [ONIX Registry Setup](../data-exchange/README.md#swap-in-your-real-identity)
-* [Data Exchange Onboarding Checklist](../checklists/data-exchange-checklist.md)
+* [Data Exchange Checklist](../checklists/data-exchange-checklist.md)
 </details>
 
 <details>
@@ -283,7 +283,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > Run a parallel pilot! Trade smart meter telemetry with a friendly test consumer or partner BAP to confirm that signing, encryption, and logging flows operate perfectly before live production exchange.
 
 ### References & Anchors
-* [Data Exchange Onboarding Checklist](../checklists/data-exchange-checklist.md)
+* [Data Exchange Checklist](../checklists/data-exchange-checklist.md)
 </details>
 
 ---

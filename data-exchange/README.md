@@ -309,9 +309,9 @@ Any JSON payload can be exchanged; the families above are simply the ones IES sh
 
 ---
 
-## Onboarding checklist
+## Checklist
 
-The staged checklist from devkit sandbox to production go-live is a separate sub-page so it stays printable and trackable: **[Data Exchange — Onboarding Checklist](../checklists/data-exchange-checklist.md)**.
+The staged checklist from devkit sandbox to production go-live is a separate sub-page so it stays printable and trackable: **[Data Exchange — Checklist](../checklists/data-exchange-checklist.md)**.
 
 ---
 

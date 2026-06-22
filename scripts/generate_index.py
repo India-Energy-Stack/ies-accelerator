@@ -85,26 +85,26 @@ def main():
             ("identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
         ],
         "identifiers_ops": [
-            ("checklists/identifiers-basic-checklist.md", "Self-audit checklist to verify domain ownership, key formats, and DID structures.")
+            ("checklists/identifiers-checklist.md", "Self-audit checklist to verify domain ownership, key formats, and DID structures.")
         ],
         "registries_setup": [
             ("registries/README.md", "Introduction to the trust registry layer and related building blocks."),
         ],
         "registries_ops": [
-            ("checklists/registries-basic-checklist.md", "Auditing checklist to confirm namespace delegation, key records, and registry accessibility.")
+            ("checklists/registries-checklist.md", "Auditing checklist to confirm namespace delegation, key records, and registry accessibility.")
         ],
         "credentials_setup": [
-            ("energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, onboarding checklist, and trust-model appendices.")
+            ("energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.")
         ],
         "credentials_ops": [
             ("energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning."),
-            ("checklists/energy-credentials-checklist.md", "Onboarding checklist for credential issuance — section-linked to the Energy Credentials README.")
+            ("checklists/energy-credentials-checklist.md", "Checklist for credential issuance — section-linked to the Energy Credentials README.")
         ],
         "exchange_setup": [
             ("data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
         "exchange_ops": [
-            ("checklists/data-exchange-checklist.md", "Staged onboarding checklist from devkit sandbox to production go-live.")
+            ("checklists/data-exchange-checklist.md", "Staged checklist from devkit sandbox to production go-live.")
         ],
         "schemas": [
             ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),

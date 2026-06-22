@@ -56,7 +56,7 @@ The Passport is a regular VC, so any selective-disclosure profile your wallet su
 
 ## Operational checklist
 
-See [Energy Credentials — Onboarding checklist](../../checklists/energy-credentials-checklist.md). The Passport adds:
+See [Energy Credentials — Checklist](../../checklists/energy-credentials-checklist.md). The Passport adds:
 
 - [ ] Identity-proofing-at-issuance procedure documented and approved
 - [ ] Wallet/DigiLocker integration tested end-to-end
