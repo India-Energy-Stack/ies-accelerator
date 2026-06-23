@@ -203,7 +203,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
   -d "{
-    \"schemaId\":    \"ElectricityCredential/v1.2\",
+    \"schemaId\":    \"ies/electricity-credential/v1.2\",
     \"issuerDid\":   \"$ISSUER_DID\",
     \"proofFormat\": \"vc-jwt\",
     \"validFrom\":   \"2026-04-01T00:00:00+05:30\",
@@ -226,6 +226,19 @@ curl -s http://localhost:3100/v1/credentials/issue \
       },
       \"customerDetails\": {
         \"fullName\":              \"Arjun Mehra\",
+        \"installationAddress\": {
+          \"geo\": {
+            \"type\": \"Point\",
+            \"coordinates\": [-122.4194, 37.7749]
+          },
+          \"address\": {
+            \"streetAddress\": \"123 Energy Street, Unit 4\",
+            \"addressLocality\": \"Metro City\",
+            \"addressRegion\": \"Example State\",
+            \"postalCode\": \"12345\",
+            \"addressCountry\": \"US\"
+          }
+        },
         \"serviceConnectionDate\": \"2018-07-15T00:00:00+05:30\"
       }
     }
