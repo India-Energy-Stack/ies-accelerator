@@ -1,0 +1,367 @@
+openapi: 3.1.0
+info:
+  title: IES Outage Notification Schema
+  version: 0.1.0
+  description: |
+    WORK IN PROGRESS — subject to change.
+
+    Machine-readable schema for a distribution licensee (DISCOM) to publish
+    planned and unplanned electricity outage details. One canonical object that
+    is publishable as a website / outage-map feed (pull) and pushable to
+    affected or subscribed consumers (push).
+
+    Designed to be GIS-ready (GeoJSON geometry, WGS84) and future-proof
+    (additive enums, namespaced extensions). Grounded in the UPPCL Outage
+    Management System data model, the PVVNL planned-shutdown publication, and
+    the global standards survey (CIM IEC 61968-3, ODIN, OASIS CAP v1.2,
+    MultiSpeak, GeoJSON RFC 7946, IEEE 1366 / RDSS reliability reporting).
+
+    Provenance links back to the IES MeterData AlarmProfile, so an
+    auto-detected outage is traceable to the originating smart-meter signal.
+
+components:
+  schemas:
+    OutageNotification:
+      title: OutageNotification Payload
+      description: |
+        A planned or unplanned electricity outage notice. A feed is an array of
+        these; a push delivers one. Reuses IES conventions: Identifier
+        {scheme,value}, TimePeriod {start,duration}, GeoJSON geometry.
+      type: object
+      required: [objectType, id, outageClass, status, affectedAssets, timing]
+      properties:
+        "@context":
+          type: string
+        objectType:
+          type: string
+          enum: [OUTAGE_NOTIFICATION]
+        id:
+          allOf: [{ $ref: '#/components/schemas/Identifier' }]
+          description: Stable notice identity; reused across UPDATE/CANCEL messages.
+        outageClass:
+          type: string
+          enum: [PLANNED, BREAKDOWN, ROSTER, LOAD_SHEDDING]
+          description: |
+            OMS "Down Info" classification (dashboards group as SD/BD/RS).
+            PLANNED  - scheduled maintenance shutdown (SD).
+            BREAKDOWN - unplanned/fault outage (BD).
+            ROSTER   - scheduled rotational load-shedding on a published roster (RS).
+            LOAD_SHEDDING - ad-hoc / emergency demand-driven cut (not on a roster).
+            Note: restoration is a status transition (status=RESTORED), not a class.
+            The exact SD/BD/RS legend should be confirmed with the DISCOM's OMS.
+        status:
+          type: string
+          enum: [SCHEDULED, ACTIVE, PARTIALLY_RESTORED, RESTORED, CANCELLED]
+        msgType:
+          type: string
+          enum: [ALERT, UPDATE, CANCEL]
+          default: ALERT
+          description: CAP message type. UPDATE/CANCEL refer to a prior notice via references.
+        references:
+          type: array
+          items: { $ref: '#/components/schemas/Identifier' }
+          description: Prior notice ids this message updates or cancels (CAP references).
+        severity:
+          type: string
+          enum: [EXTREME, SEVERE, MODERATE, MINOR, UNKNOWN]
+          default: UNKNOWN
+          description: CAP severity.
+        category:
+          type: string
+          enum: [MAINTENANCE, UPGRADE, FAULT, LOAD_SHEDDING, WEATHER, SAFETY, OTHER]
+        cause:
+          $ref: '#/components/schemas/OutageCause'
+        forceMajeure:
+          type: boolean
+          description: OMS "Force Majeure" flag.
+        issuedBy:
+          $ref: '#/components/schemas/Party'
+        issuedAt:
+          type: string
+          format: date-time
+        detectedAt:
+          type: string
+          format: date-time
+          description: When MDMS/SCADA first detected the outage (unplanned).
+        lastUpdatedAt:
+          type: string
+          format: date-time
+        network:
+          $ref: '#/components/schemas/OutageNetworkContext'
+        affectedAssets:
+          type: array
+          minItems: 1
+          items: { $ref: '#/components/schemas/OutageAsset' }
+        affectedArea:
+          $ref: '#/components/schemas/OutageAffectedArea'
+        impact:
+          $ref: '#/components/schemas/OutageImpact'
+        timing:
+          $ref: '#/components/schemas/OutageTiming'
+        response:
+          $ref: '#/components/schemas/OutageResponse'
+        publicInfo:
+          $ref: '#/components/schemas/OutagePublicInfo'
+        provenance:
+          $ref: '#/components/schemas/OutageProvenance'
+        extensions:
+          type: object
+          description: |
+            Namespaced DISCOM-specific fields, e.g.
+            { "uppcl": { "breakdownId": "6357257", "downType": "FEEDER" } }.
+
+    OutageCause:
+      title: OutageCause
+      description: Coded (OMS Fault Type/SubType) plus free text (ODIN-style). Open vocabulary.
+      type: object
+      properties:
+        faultType:
+          type: string
+          description: Asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT.
+        code:
+          type: string
+          description: |
+            Fault subtype code (open, seeded from OMS), e.g. INCOMER_FAULT,
+            BREAKER_FAULT, UNDERGROUND_CABLE_FAULT, OVERHEAD_CONDUCTOR_FAULT,
+            LOW_HIGH_VOLTAGE, MAJOR_POWER_FAILURE, SCHEDULED_OUTAGE, FUSE_OFF,
+            DT_DAMAGE.
+        text:
+          type: string
+          description: Free-text reason; may be localized (e.g. Hindi).
+
+    OutageAsset:
+      title: OutageAsset
+      description: |
+        A network asset affected by the outage. Generic across feeder, DT,
+        substation, and line so new asset levels are additive.
+      type: object
+      required: [id, assetLevel]
+      properties:
+        id:
+          allOf: [{ $ref: '#/components/schemas/Identifier' }]
+          description: Asset id/name; ideally a stable GIS feature id or MRID for map join.
+        assetLevel:
+          type: string
+          enum: [SUBSTATION, FEEDER, DT, LINE_SEGMENT, SERVICE_POINT]
+        voltageLevel:
+          type: string
+          description: e.g. 33kV, 11kV, LT, DT.
+        consumerCategory:
+          type: string
+          enum: [URBAN, RURAL, AGRICULTURE, INDUSTRIAL, MIXED, OTHER]
+          description: Consumer mix on the asset (PVVNL sheet "Feeder Type").
+        meterRef:
+          allOf: [{ $ref: '#/components/schemas/Identifier' }]
+          description: Feeder/substation smart-meter number — join key to MDMS/MeterData.
+        parentRef:
+          allOf: [{ $ref: '#/components/schemas/Identifier' }]
+          description: Parent asset (e.g. a feeder's substation, a DT's feeder).
+        geo:
+          allOf: [{ $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry' }]
+          description: |
+            Optional inline geometry (WGS84): Point (substation/DT),
+            LineString (feeder route), Polygon (service area).
+
+    OutageNetworkContext:
+      title: OutageNetworkContext
+      description: |
+        DISCOM org hierarchy (UPPCL):
+        Discom > Zone > Circle > Division > Subdivision > Substation.
+        All optional for flat utilities.
+      type: object
+      properties:
+        discom:
+          $ref: '#/components/schemas/Identifier'
+        zone:
+          type: string
+        circle:
+          type: string
+        division:
+          type: string
+        subdivision:
+          type: string
+        substation:
+          $ref: '#/components/schemas/Identifier'
+        district:
+          type: string
+
+    OutageAffectedArea:
+      title: OutageAffectedArea
+      description: CAP area block — free text plus structured admin areas plus GIS geometry.
+      type: object
+      properties:
+        text:
+          type: string
+          description: Free-text localities (CAP areaDesc), e.g. "SEC-14, 9, 11 Rajnagar".
+        adminAreas:
+          type: array
+          items: { type: string }
+          description: Named localities / wards / villages.
+        geo:
+          allOf: [{ $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry' }]
+          description: Polygon/MultiPolygon service area, or Point/circle (CAP). WGS84.
+
+    OutageImpact:
+      title: OutageImpact
+      description: CIM-aligned affected service points and customer counts (feeds SAIDI/SAIFI).
+      type: object
+      properties:
+        customersAffected:
+          type: integer
+          minimum: 0
+        deEnergized:
+          type: array
+          items: { $ref: '#/components/schemas/Identifier' }
+          description: Optional SDP/UsagePoint refs (authenticated tier).
+        energized:
+          type: array
+          items: { $ref: '#/components/schemas/Identifier' }
+          description: Optional points confirmed still energized.
+
+    OutageTiming:
+      title: OutageTiming
+      description: Outage window and restoration timing. One canonical TimePeriod; end is derived.
+      type: object
+      required: [period]
+      properties:
+        period:
+          allOf: [{ $ref: '#/components/schemas/TimePeriod' }]
+          description: Outage window (Down From + duration).
+        estimatedRestoration:
+          type: string
+          format: date-time
+          description: ETR (OMS "Estimated Time").
+        actualRestoration:
+          type: string
+          format: date-time
+          description: Set when status=RESTORED; feeds IEEE 1366 indices.
+        slaTargetMinutes:
+          type: integer
+          minimum: 0
+          description: SLA target, e.g. 240 (4 hrs).
+
+    OutageResponse:
+      title: OutageResponse
+      description: Field-response and consumer-impact tracking from the OMS.
+      type: object
+      properties:
+        backFeedGiven:
+          type: boolean
+          description: Partial restoration via alternate feed (OMS "Back-Feed given").
+        resourceStatus:
+          type: string
+          description: e.g. PENDING, RESOURCE_ALLOCATED, IN_PROGRESS.
+        complaintCount:
+          type: integer
+          minimum: 0
+          description: Linked consumer complaints (OMS "No. of Complaints").
+
+    OutagePublicInfo:
+      title: OutagePublicInfo
+      description: CAP info block — human-readable text for web publishing and push.
+      type: object
+      properties:
+        language:
+          type: string
+          description: BCP-47, e.g. en, hi.
+        headline:
+          type: string
+        description:
+          type: string
+        instruction:
+          type: string
+          description: What the consumer should do.
+
+    OutageProvenance:
+      title: OutageProvenance
+      description: Link to the smart-meter alarm(s)/signal that triggered or confirmed the outage.
+      type: object
+      properties:
+        source:
+          type: string
+          enum: [MDMS, OMS, SCADA, AMI, MANUAL]
+          description: System that raised this notice.
+        amispCode:
+          type: string
+          description: AMI Service Provider that supplied the detection signal (feeder-status ingest API).
+        signal:
+          $ref: '#/components/schemas/OutageSignal'
+        alarmRefs:
+          type: array
+          items: { $ref: '#/components/schemas/OutageAlarmRef' }
+          description: References into MeterData AlarmProfile records.
+
+    OutageSignal:
+      title: OutageSignal
+      description: Raw real-time feeder-status signal that triggered detection.
+      type: object
+      properties:
+        eventId:
+          type: string
+          description: Idempotency key of the originating feeder-status event.
+        feederStatus:
+          type: string
+          enum: [ENERGIZED, DE_ENERGIZED, UNKNOWN]
+          description: Normalized status; raw vendor code preserved in rawCode.
+        diPort:
+          type: string
+          description: Digital-input port on the substation meter that carried the signal.
+        rawCode:
+          type: string
+          description: Vendor-native status code as received (e.g. FEEDER_STATUS=102), for traceability.
+
+    OutageAlarmRef:
+      title: OutageAlarmRef
+      description: Pointer to a MeterData AlarmProfile entry (meter + alarmId + timestamp).
+      type: object
+      required: [meterRef]
+      properties:
+        meterRef:
+          $ref: '#/components/schemas/Identifier'
+        alarmId:
+          type: integer
+          minimum: 1
+        timestamp:
+          type: string
+          format: date-time
+
+    Party:
+      title: Party
+      description: An organisation or contact (e.g. the issuing DISCOM).
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        name:
+          type: string
+        contact:
+          type: string
+          description: Phone/email/URL for queries (e.g. 1912).
+
+    Identifier:
+      title: Identifier
+      description: Canonical {scheme, value} reference, optionally namespaced.
+      type: object
+      required: [scheme, value]
+      properties:
+        scheme:
+          type: string
+          enum: [METER_SERIAL, MRID, GIS_FEATURE_ID, SERVICE_DELIVERY_POINT, FEEDER, SUBSTATION, DT, CONSUMER_NUMBER, ORG, DID, OTHER]
+        value:
+          type: string
+        namespace:
+          type: string
+
+    TimePeriod:
+      title: TimePeriod
+      description: Period defined by a start time and an ISO-8601 duration.
+      type: object
+      required: [start, duration]
+      properties:
+        start:
+          type: string
+          format: date-time
+        duration:
+          type: string
+          format: duration
+          description: ISO-8601, e.g. PT2H.

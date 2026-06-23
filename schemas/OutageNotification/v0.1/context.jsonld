@@ -1,0 +1,935 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+        "OutageNotification": {
+            "@id": "ies:OutageNotification",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "@context": {
+                    "@id": "ies:@context",
+                    "@type": "xsd:string"
+                },
+                "objectType": {
+                    "@id": "ies:objectType",
+                    "@type": "xsd:string"
+                },
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "xsd:string"
+                },
+                "outageClass": {
+                    "@id": "ies:outageClass",
+                    "@type": "xsd:string"
+                },
+                "status": {
+                    "@id": "ies:status",
+                    "@type": "xsd:string"
+                },
+                "msgType": {
+                    "@id": "ies:msgType",
+                    "@type": "xsd:string"
+                },
+                "references": {
+                    "@id": "ies:references",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "severity": {
+                    "@id": "ies:severity",
+                    "@type": "xsd:string"
+                },
+                "category": {
+                    "@id": "ies:category",
+                    "@type": "xsd:string"
+                },
+                "cause": {
+                    "@id": "ies:cause",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "faultType": {
+                            "@id": "ies:faultType",
+                            "@type": "xsd:string"
+                        },
+                        "code": {
+                            "@id": "ies:code",
+                            "@type": "xsd:string"
+                        },
+                        "text": {
+                            "@id": "ies:text",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "forceMajeure": {
+                    "@id": "ies:forceMajeure",
+                    "@type": "xsd:boolean"
+                },
+                "issuedBy": {
+                    "@id": "ies:issuedBy",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "ies:id",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        },
+                        "contact": {
+                            "@id": "ies:contact",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "issuedAt": {
+                    "@id": "ies:issuedAt",
+                    "@type": "xsd:dateTime"
+                },
+                "detectedAt": {
+                    "@id": "ies:detectedAt",
+                    "@type": "xsd:dateTime"
+                },
+                "lastUpdatedAt": {
+                    "@id": "ies:lastUpdatedAt",
+                    "@type": "xsd:dateTime"
+                },
+                "network": {
+                    "@id": "ies:network",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "discom": {
+                            "@id": "ies:discom",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "zone": {
+                            "@id": "ies:zone",
+                            "@type": "xsd:string"
+                        },
+                        "circle": {
+                            "@id": "ies:circle",
+                            "@type": "xsd:string"
+                        },
+                        "division": {
+                            "@id": "ies:division",
+                            "@type": "xsd:string"
+                        },
+                        "subdivision": {
+                            "@id": "ies:subdivision",
+                            "@type": "xsd:string"
+                        },
+                        "substation": {
+                            "@id": "ies:substation",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "district": {
+                            "@id": "ies:district",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "affectedAssets": {
+                    "@id": "ies:affectedAssets",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "ies:id",
+                            "@type": "xsd:string"
+                        },
+                        "assetLevel": {
+                            "@id": "ies:assetLevel",
+                            "@type": "xsd:string"
+                        },
+                        "voltageLevel": {
+                            "@id": "ies:voltageLevel",
+                            "@type": "xsd:string"
+                        },
+                        "consumerCategory": {
+                            "@id": "ies:consumerCategory",
+                            "@type": "xsd:string"
+                        },
+                        "meterRef": {
+                            "@id": "ies:meterRef",
+                            "@type": "xsd:string"
+                        },
+                        "parentRef": {
+                            "@id": "ies:parentRef",
+                            "@type": "xsd:string"
+                        },
+                        "geo": {
+                            "@id": "ies:geo",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "affectedArea": {
+                    "@id": "ies:affectedArea",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "text": {
+                            "@id": "ies:text",
+                            "@type": "xsd:string"
+                        },
+                        "adminAreas": {
+                            "@id": "ies:adminAreas",
+                            "@type": "@id",
+                            "@container": "@set"
+                        },
+                        "geo": {
+                            "@id": "ies:geo",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "impact": {
+                    "@id": "ies:impact",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "customersAffected": {
+                            "@id": "ies:customersAffected",
+                            "@type": "xsd:integer"
+                        },
+                        "deEnergized": {
+                            "@id": "ies:deEnergized",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "energized": {
+                            "@id": "ies:energized",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "timing": {
+                    "@id": "ies:timing",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "period": {
+                            "@id": "ies:period",
+                            "@type": "xsd:string"
+                        },
+                        "estimatedRestoration": {
+                            "@id": "ies:estimatedRestoration",
+                            "@type": "xsd:dateTime"
+                        },
+                        "actualRestoration": {
+                            "@id": "ies:actualRestoration",
+                            "@type": "xsd:dateTime"
+                        },
+                        "slaTargetMinutes": {
+                            "@id": "ies:slaTargetMinutes",
+                            "@type": "xsd:integer"
+                        }
+                    }
+                },
+                "response": {
+                    "@id": "ies:response",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "backFeedGiven": {
+                            "@id": "ies:backFeedGiven",
+                            "@type": "xsd:boolean"
+                        },
+                        "resourceStatus": {
+                            "@id": "ies:resourceStatus",
+                            "@type": "xsd:string"
+                        },
+                        "complaintCount": {
+                            "@id": "ies:complaintCount",
+                            "@type": "xsd:integer"
+                        }
+                    }
+                },
+                "publicInfo": {
+                    "@id": "ies:publicInfo",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "language": {
+                            "@id": "ies:language",
+                            "@type": "xsd:string"
+                        },
+                        "headline": {
+                            "@id": "ies:headline",
+                            "@type": "xsd:string"
+                        },
+                        "description": {
+                            "@id": "ies:description",
+                            "@type": "xsd:string"
+                        },
+                        "instruction": {
+                            "@id": "ies:instruction",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "provenance": {
+                    "@id": "ies:provenance",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "xsd:string"
+                        },
+                        "amispCode": {
+                            "@id": "ies:amispCode",
+                            "@type": "xsd:string"
+                        },
+                        "signal": {
+                            "@id": "ies:signal",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "eventId": {
+                                    "@id": "ies:eventId",
+                                    "@type": "xsd:string"
+                                },
+                                "feederStatus": {
+                                    "@id": "ies:feederStatus",
+                                    "@type": "xsd:string"
+                                },
+                                "diPort": {
+                                    "@id": "ies:diPort",
+                                    "@type": "xsd:string"
+                                },
+                                "rawCode": {
+                                    "@id": "ies:rawCode",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "alarmRefs": {
+                            "@id": "ies:alarmRefs",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "meterRef": {
+                                    "@id": "ies:meterRef",
+                                    "@type": "@id",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "scheme": {
+                                            "@id": "ies:scheme",
+                                            "@type": "xsd:string"
+                                        },
+                                        "value": {
+                                            "@id": "ies:value",
+                                            "@type": "xsd:string"
+                                        },
+                                        "namespace": {
+                                            "@id": "ies:namespace",
+                                            "@type": "xsd:string"
+                                        }
+                                    }
+                                },
+                                "alarmId": {
+                                    "@id": "ies:alarmId",
+                                    "@type": "xsd:integer"
+                                },
+                                "timestamp": {
+                                    "@id": "ies:timestamp",
+                                    "@type": "xsd:dateTime"
+                                }
+                            }
+                        }
+                    }
+                },
+                "extensions": {
+                    "@id": "ies:extensions",
+                    "@type": "@id"
+                }
+            }
+        },
+        "OutageCause": {
+            "@id": "ies:OutageCause",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "faultType": {
+                    "@id": "ies:faultType",
+                    "@type": "xsd:string"
+                },
+                "code": {
+                    "@id": "ies:code",
+                    "@type": "xsd:string"
+                },
+                "text": {
+                    "@id": "ies:text",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "OutageAsset": {
+            "@id": "ies:OutageAsset",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "xsd:string"
+                },
+                "assetLevel": {
+                    "@id": "ies:assetLevel",
+                    "@type": "xsd:string"
+                },
+                "voltageLevel": {
+                    "@id": "ies:voltageLevel",
+                    "@type": "xsd:string"
+                },
+                "consumerCategory": {
+                    "@id": "ies:consumerCategory",
+                    "@type": "xsd:string"
+                },
+                "meterRef": {
+                    "@id": "ies:meterRef",
+                    "@type": "xsd:string"
+                },
+                "parentRef": {
+                    "@id": "ies:parentRef",
+                    "@type": "xsd:string"
+                },
+                "geo": {
+                    "@id": "ies:geo",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "OutageNetworkContext": {
+            "@id": "ies:OutageNetworkContext",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "discom": {
+                    "@id": "ies:discom",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "zone": {
+                    "@id": "ies:zone",
+                    "@type": "xsd:string"
+                },
+                "circle": {
+                    "@id": "ies:circle",
+                    "@type": "xsd:string"
+                },
+                "division": {
+                    "@id": "ies:division",
+                    "@type": "xsd:string"
+                },
+                "subdivision": {
+                    "@id": "ies:subdivision",
+                    "@type": "xsd:string"
+                },
+                "substation": {
+                    "@id": "ies:substation",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "district": {
+                    "@id": "ies:district",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "OutageAffectedArea": {
+            "@id": "ies:OutageAffectedArea",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "text": {
+                    "@id": "ies:text",
+                    "@type": "xsd:string"
+                },
+                "adminAreas": {
+                    "@id": "ies:adminAreas",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "geo": {
+                    "@id": "ies:geo",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "OutageImpact": {
+            "@id": "ies:OutageImpact",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "customersAffected": {
+                    "@id": "ies:customersAffected",
+                    "@type": "xsd:integer"
+                },
+                "deEnergized": {
+                    "@id": "ies:deEnergized",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "energized": {
+                    "@id": "ies:energized",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "OutageTiming": {
+            "@id": "ies:OutageTiming",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "period": {
+                    "@id": "ies:period",
+                    "@type": "xsd:string"
+                },
+                "estimatedRestoration": {
+                    "@id": "ies:estimatedRestoration",
+                    "@type": "xsd:dateTime"
+                },
+                "actualRestoration": {
+                    "@id": "ies:actualRestoration",
+                    "@type": "xsd:dateTime"
+                },
+                "slaTargetMinutes": {
+                    "@id": "ies:slaTargetMinutes",
+                    "@type": "xsd:integer"
+                }
+            }
+        },
+        "OutageResponse": {
+            "@id": "ies:OutageResponse",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "backFeedGiven": {
+                    "@id": "ies:backFeedGiven",
+                    "@type": "xsd:boolean"
+                },
+                "resourceStatus": {
+                    "@id": "ies:resourceStatus",
+                    "@type": "xsd:string"
+                },
+                "complaintCount": {
+                    "@id": "ies:complaintCount",
+                    "@type": "xsd:integer"
+                }
+            }
+        },
+        "OutagePublicInfo": {
+            "@id": "ies:OutagePublicInfo",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "language": {
+                    "@id": "ies:language",
+                    "@type": "xsd:string"
+                },
+                "headline": {
+                    "@id": "ies:headline",
+                    "@type": "xsd:string"
+                },
+                "description": {
+                    "@id": "ies:description",
+                    "@type": "xsd:string"
+                },
+                "instruction": {
+                    "@id": "ies:instruction",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "OutageProvenance": {
+            "@id": "ies:OutageProvenance",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "source": {
+                    "@id": "ies:source",
+                    "@type": "xsd:string"
+                },
+                "amispCode": {
+                    "@id": "ies:amispCode",
+                    "@type": "xsd:string"
+                },
+                "signal": {
+                    "@id": "ies:signal",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "eventId": {
+                            "@id": "ies:eventId",
+                            "@type": "xsd:string"
+                        },
+                        "feederStatus": {
+                            "@id": "ies:feederStatus",
+                            "@type": "xsd:string"
+                        },
+                        "diPort": {
+                            "@id": "ies:diPort",
+                            "@type": "xsd:string"
+                        },
+                        "rawCode": {
+                            "@id": "ies:rawCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "alarmRefs": {
+                    "@id": "ies:alarmRefs",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "meterRef": {
+                            "@id": "ies:meterRef",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "alarmId": {
+                            "@id": "ies:alarmId",
+                            "@type": "xsd:integer"
+                        },
+                        "timestamp": {
+                            "@id": "ies:timestamp",
+                            "@type": "xsd:dateTime"
+                        }
+                    }
+                }
+            }
+        },
+        "OutageSignal": {
+            "@id": "ies:OutageSignal",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "eventId": {
+                    "@id": "ies:eventId",
+                    "@type": "xsd:string"
+                },
+                "feederStatus": {
+                    "@id": "ies:feederStatus",
+                    "@type": "xsd:string"
+                },
+                "diPort": {
+                    "@id": "ies:diPort",
+                    "@type": "xsd:string"
+                },
+                "rawCode": {
+                    "@id": "ies:rawCode",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "OutageAlarmRef": {
+            "@id": "ies:OutageAlarmRef",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "meterRef": {
+                    "@id": "ies:meterRef",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "alarmId": {
+                    "@id": "ies:alarmId",
+                    "@type": "xsd:integer"
+                },
+                "timestamp": {
+                    "@id": "ies:timestamp",
+                    "@type": "xsd:dateTime"
+                }
+            }
+        },
+        "Party": {
+            "@id": "ies:Party",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
+                },
+                "contact": {
+                    "@id": "ies:contact",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "Identifier": {
+            "@id": "ies:Identifier",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "scheme": {
+                    "@id": "ies:scheme",
+                    "@type": "xsd:string"
+                },
+                "value": {
+                    "@id": "ies:value",
+                    "@type": "xsd:string"
+                },
+                "namespace": {
+                    "@id": "ies:namespace",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "TimePeriod": {
+            "@id": "ies:TimePeriod",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "start": {
+                    "@id": "ies:start",
+                    "@type": "xsd:dateTime"
+                },
+                "duration": {
+                    "@id": "ies:duration",
+                    "@type": "xsd:string"
+                }
+            }
+        }
+    }
+}
