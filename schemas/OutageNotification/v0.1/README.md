@@ -19,7 +19,7 @@ It composes proven standards by layer:
 - **GeoJSON (RFC 7946)** — GIS geometry, WGS84, for outage maps.
 - **IEEE 1366 / RDSS** — restoration time + customer counts for SAIDI/SAIFI.
 
-Design rationale, the full standards survey, mapping tables (OMS/PVVNL/CAP/CIM), the GIS/outage-map readiness section, and the comparison with the draft real-time feeder-status push API live in the IES docs implementation guide for outage notifications.
+Design rationale, the full standards survey, mapping tables (OMS/PVVNL/CAP/CIM), the GIS/outage-map readiness section, and the comparison with the draft real-time feeder-status push API are in the design note alongside this schema: [OutageNotification_Design.md](./OutageNotification_Design.md) (and the ingest stub [FeederStatusIngest.openapi.yaml](./FeederStatusIngest.openapi.yaml)).
 
 ---
 
@@ -66,7 +66,9 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | [`schema.json`](./schema.json) | Compiled Draft 2020-12 JSON Schema for payload validation. |
 | [`context.jsonld`](./context.jsonld) | Compiled JSON-LD context mapping attributes to `ies:` terms. |
 | [`vocab.jsonld`](./vocab.jsonld) | Compiled JSON-LD vocabulary (classes and properties). |
-| [`examples/`](./examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance). |
+| [`examples/`](./examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance; restoration UPDATE). |
+| [`OutageNotification_Design.md`](./OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
+| [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Cleaned-up real-time feeder-status ingest API stub. |
 
 ---
 

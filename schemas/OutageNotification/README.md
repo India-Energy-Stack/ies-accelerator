@@ -28,6 +28,13 @@ Schema for a distribution licensee (DISCOM) to publish **planned and unplanned e
 
 ---
 
+## Design note
+
+The full design rationale — standards survey, mapping tables (OMS/PVVNL/CAP/CIM), GIS/outage-map readiness, enum provenance, and the comparison with the draft real-time feeder-status push API — lives alongside the schema:
+
+- [v0.1/OutageNotification_Design.md](v0.1/OutageNotification_Design.md) — design note
+- [v0.1/FeederStatusIngest.openapi.yaml](v0.1/FeederStatusIngest.openapi.yaml) — cleaned feeder-status ingest API stub
+
 ## Usage
 
-DISCOMs publish outage notices as a feed (`/outages`, `/outages.geojson`), a CAP feed for alerting, and webhooks to subscribers. Auto-detected outages carry provenance back to the smart-meter signal and the [MeterData](../MeterData/README.md) `AlarmProfile`. See the IES docs implementation guide for the standards survey, mapping tables, GIS readiness, and the comparison with the draft feeder-status push API.
+DISCOMs publish outage notices as a feed (`/outages`, `/outages.geojson`), a CAP feed for alerting, and webhooks to subscribers. Auto-detected outages carry provenance back to the smart-meter signal and the [MeterData](../MeterData/README.md) `AlarmProfile`.
