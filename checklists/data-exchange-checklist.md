@@ -27,10 +27,10 @@
 
 *Goal: prove the wiring and your application's handling of the payload shape — no real identity, no real network.*
 
-- [ ] [Step 1 — clone and start the stack](../data-exchange/README.md#1-clone-and-start-the-stack); all 7 containers healthy
-- [ ] [Step 2 — Postman collection imported](../data-exchange/README.md#2-import-the-postman-collection-for-your-use-case) for your role + use case (defaults left intact)
-- [ ] [Step 3 — `confirm` sent](../data-exchange/README.md#3-send-confirm); ACK received
-- [ ] [Step 4 — `on_confirm` landed](../data-exchange/README.md#4-watch-on_confirm-land) in `sandbox-bap` (BAP) or `sandbox-bpp` (BPP)
+- [ ] [Step 1 — clone and start the stack](../data-exchange/README.md#id-1.-clone-and-start-the-stack); all 7 containers healthy
+- [ ] [Step 2 — Postman collection imported](../data-exchange/README.md#id-2.-import-the-postman-collection-for-your-use-case) for your role + use case (defaults left intact)
+- [ ] [Step 3 — `confirm` sent](../data-exchange/README.md#id-3.-send-confirm); ACK received
+- [ ] [Step 4 — `on_confirm` landed](../data-exchange/README.md#id-4.-watch-on_confirm-land) in `sandbox-bap` (BAP) or `sandbox-bpp` (BPP)
 - [ ] (BAP) Your application consumes the `dataPayload` body ([MeterData](../schemas/MeterData/README.md) / [ArrFiling](../schemas/ArrFiling/README.md) / tariff policy)
 - [ ] (BPP) Your provider handles inbound `confirm` and emits `on_confirm` (or `on_status` for async / paged delivery)
 - [ ] *(Optional)* Interop over a public tunnel with another participant — [Go over the public internet (ngrok)](../data-exchange/README.md#go-over-the-public-internet-ngrok)

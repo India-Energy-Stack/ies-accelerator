@@ -90,7 +90,7 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`public-keys`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
 
 ### References & Anchors
-* [Identifiers and Addressing — Publish your did:web (step-by-step)](../identifiers/README.md#step-by-step-publish-your-did-web-and-run-opencred-locally)
+* [Identifiers and Addressing — Publish your did:web (step-by-step)](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)
 * [Registries — Verifying a credential end-to-end (Appendix B)](../registries/README.md#appendix-b-verifying-a-credential-end-to-end)
 </details>
 

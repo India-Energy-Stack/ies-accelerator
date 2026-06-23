@@ -20,10 +20,10 @@ The same page covers four roles. Skim the row that matches you to jump to the ri
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit ElectricityCredentials) | [§(a) Org identity](#a-org-identity-for-credentials-and-data-exchange-payloads) → [Step-by-step: publish your `did:web`](#step-by-step-publish-your-did-web-and-run-opencred-locally) | [Energy Credentials — Issue your first credential](../energy-credentials/README.md#issue-your-first-credential), [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets) (asset IDs) |
+| **A DISCOM / issuer** (you sign and emit ElectricityCredentials) | [§(a) Org identity](#a-org-identity-for-credentials-and-data-exchange-payloads) → [Energy Credentials — Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web) | [Energy Credentials — Issue your first credential](../energy-credentials/README.md#issue-your-first-credential), [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets) (asset IDs) |
 | **A Beckn participant** (BAP / BPP, aggregator, AMISP, trading platform) | [§(b) Beckn network identity](#b-beckn-network-identity-for-participating-on-a-beckn-network) → [Appendix E](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric) | [Registries — by role](../registries/README.md#the-registries-youll-touch-in-ies-by-role) for the registry mechanics |
 | **A regulator** (you license DISCOMs and may sign credentials yourself) | [§(a) Org identity](#a-org-identity-for-credentials-and-data-exchange-payloads) — same `did:web` flow as a DISCOM | Note that your `did:web` is what DISCOMs cite as `issuer.idRef.issuedBy`; see [Where each ID goes in a credential](#where-each-id-goes-in-a-credential) |
-| **A verifier or wallet** (you receive and check credentials) | [Appendix A](#appendix-a-how-dids-work-and-the-three-methods-ies-uses) (DID methods) → [Energy Credentials — Verify](../energy-credentials/README.md#3-verify) → [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity) (holder binding at presentation time) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the end-to-end resolution walk |
+| **A verifier or wallet** (you receive and check credentials) | [Appendix A](#appendix-a-how-dids-work-and-the-three-methods-ies-uses) (DID methods) → [Energy Credentials — Verify](../energy-credentials/README.md#id-3.-verify) → [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity) (holder binding at presentation time) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the end-to-end resolution walk |
 
 ---
 
@@ -44,8 +44,20 @@ This is your DISCOM's `did:web`. It is the issuer string on every ElectricityCre
 
 Two steps get you here:
 
-1. **Pick a domain or subdomain** you control (covered in the next section).
-2. **Generate a key pair** and **publish a small `did.json` file** declaring the public key (Steps 1–6 of [Publish your `did:web`](#step-by-step-publish-your-did-web-and-run-opencred-locally)).
+1. **Pick a domain or subdomain you control.** Either works. Most DISCOMs use a dedicated subdomain (e.g. `ies.tpddl.in`) so the credential-issuing identity is cleanly separated from the marketing site, but a bare apex domain (`tpddl.in`) is equally valid. The host you pick becomes the host portion of your `did:web`, and you will publish one small JSON file under it — `did.json` — that declares your public key.
+
+    > **About path segments.** `did:web` lets you encode a sub-path with colons. If you don't want to host at `.well-known/`, host the document at any path and reflect it in the DID via the colon hierarchy:
+    >
+    > | DID string | DID document URL |
+    > |---|---|
+    > | `did:web:ies.tpddl.in` | `https://ies.tpddl.in/.well-known/did.json` |
+    > | `did:web:tpddl.in:ies` | `https://tpddl.in/ies/did.json` |
+    > | `did:web:tpddl.in:ies:issuer` | `https://tpddl.in/ies/issuer/did.json` |
+    > | `did:web:tpddl.in%3A8443` | `https://tpddl.in:8443/.well-known/did.json` (port encoded as `%3A`) |
+    >
+    > Same identifier system covers your DISCOM's own identity *and* every asset ID you reference inside payloads (meters, transformers, datasets) — see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets).
+
+2. **Generate a key pair and publish `did.json`.** The concrete commands — install OpenCred, generate the signing key, assemble `did.json` from the container, publish to your web host, and verify — live in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Keeping them with the rest of the OpenCred operations means you don't context-switch between chapters during a single setup.
 
 That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
@@ -64,131 +76,9 @@ The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#ap
 
 ---
 
-## Step-by-step: publish your `did:web` (and run OpenCred locally)
+## Publish your `did:web`
 
-The practical setup is one JSON file on a web server you already run, plus a process that signs credentials with the matching private key. The walkthrough below uses the [OpenCred Docker image](https://opencred.gitbook.io/docs/bootcamp/local-docker) as the signing process; the top-of-page callout covers when to swap it for your own service.
-
-### What you'll need
-
-- **A domain or subdomain you control.** Either works. Most DISCOMs pick a dedicated subdomain (e.g. `ies.tpddl.in`) so the credential-issuing identity is cleanly separated from the marketing site, but a bare apex domain (`tpddl.in`) is equally valid. The host you pick becomes the host portion of your `did:web`, and you will publish one small JSON file under it — `did.json` — that declares your DISCOM's public key. Verifiers fetch that file to check signatures. See [Appendix A — What's in a DID document](#whats-in-a-did-document) for the file's anatomy.
-
-  > **About path segments.** `did:web` lets you encode a sub-path with colons. If you don't want to host at `.well-known/`, you can host the document at any path and reflect it in the DID via the colon hierarchy. Examples:
-  > | DID string | DID document URL |
-  > |---|---|
-  > | `did:web:ies.tpddl.in` | `https://ies.tpddl.in/.well-known/did.json` |
-  > | `did:web:tpddl.in:ies` | `https://tpddl.in/ies/did.json` |
-  > | `did:web:tpddl.in:ies:issuer` | `https://tpddl.in/ies/issuer/did.json` |
-  > | `did:web:tpddl.in%3A8443` | `https://tpddl.in:8443/.well-known/did.json` (port encoded as `%3A`) |
-  >
-  > Same identifier system covers your DISCOM's own identity *and* every asset ID you reference inside payloads (meters, transformers, datasets) — see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets).
-
-- A static-file host serving HTTPS — any nginx, S3-with-CloudFront, GitHub Pages, or your existing web server is fine.
-- Docker 24+, `curl`, `jq`, `openssl`, and ~2 GB free disk. The OpenCred container ships ready to issue.
-
-### 1. Pull the OpenCred image
-
-```bash
-docker pull ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
-docker tag  ghcr.io/nfh-trust-labs/opencred/opencred-server:latest opencred:bootcamp
-```
-
-### 2. Generate a signing key and API token
-
-The same EC P-256 key works for both `did:web` and `did:key`; the difference is just which DID method OpenCred presents it as.
-
-```bash
-mkdir -p ~/opencred/keys
-cd ~/opencred
-
-openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 \
-  -out keys/issuer-key.pem
-chmod 600 keys/issuer-key.pem
-
-export OPENCRED_API_KEY="$(openssl rand -base64 32)"
-echo "Save this: $OPENCRED_API_KEY"
-```
-
-Keep `issuer-key.pem` in your KMS in production. Treat it like a TLS private key.
-
-### 3. Run OpenCred in `did:web` mode
-
-```bash
-docker run -d \
-  --name opencred \
-  -p 3100:3100 \
-  -e OPENCRED_API_KEY="$OPENCRED_API_KEY" \
-  -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
-  -e OPENCRED_ISSUER_DID_METHOD=web \
-  -e OPENCRED_ISSUER_DOMAIN=ies.tpddl.in \
-  -v "$HOME/opencred/keys/issuer-key.pem:/secrets/issuer-key.pem:ro" \
-  --read-only --cap-drop ALL \
-  opencred:bootcamp
-
-curl -s http://localhost:3100/v1/health | jq
-# expect "signingKeyLoaded": true
-```
-
-> **Want offline-verifiable identity instead?** Drop `OPENCRED_ISSUER_DID_METHOD` and `OPENCRED_ISSUER_DOMAIN` and OpenCred runs in `did:key` mode by default. The same key, the same API — only the `did:` string the container reports changes. This is the right choice for first-deploy testing, demos, and consumer wallets. See [`did:key` in Appendix A](#did-key-what-wallets-give-consumers).
-
-### 4. Assemble your `did.json` from the container
-
-OpenCred publishes the JWK form of your public key on its keys endpoint. Fetch it, drop it into the standard DID document template, and publish.
-
-```bash
-curl -s http://localhost:3100/v1/keys \
-  -H "Authorization: Bearer $OPENCRED_API_KEY" | jq '.keys[0]'
-```
-
-Use the JWK from that response in this template:
-
-```json
-{
-  "@context": [
-    "https://www.w3.org/ns/did/v1",
-    "https://w3id.org/security/suites/jws-2020/v1"
-  ],
-  "id": "did:web:ies.tpddl.in",
-  "verificationMethod": [{
-    "id": "did:web:ies.tpddl.in#key-0",
-    "type": "JsonWebKey",
-    "controller": "did:web:ies.tpddl.in",
-    "publicKeyJwk": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." }
-  }],
-  "authentication":  ["did:web:ies.tpddl.in#key-0"],
-  "assertionMethod": ["did:web:ies.tpddl.in#key-0"]
-}
-```
-
-Three things matter, and you can ignore the rest until later:
-
-- **`verificationMethod`** is the public key. Verifiers use it to check your signatures.
-- **`assertionMethod`** says which key is allowed to issue credentials.
-- **`authentication`** says which key can sign requests on behalf of the DID.
-
-You can add a `service` array later when your Beckn BPP and OpenCred endpoints are publicly addressable; the DID is valid without it.
-
-### 5. Publish the file
-
-Upload it so this URL returns the JSON:
-
-```
-https://ies.tpddl.in/.well-known/did.json
-```
-
-The `.well-known/` path is a standard convention; verifiers know to look there. A normal TLS cert is enough — the same one that already terminates your subdomain — and there must be no redirect.
-
-### 6. Verify it from the outside
-
-```bash
-curl -s https://ies.tpddl.in/.well-known/did.json | jq .id
-# "did:web:ies.tpddl.in"
-```
-
-If that command prints your DID, you're done — any participant on the network can now resolve `did:web:ies.tpddl.in` to your public key and verify any credential you sign.
-
-That's all you need to start signing credentials. Everything below is optional reading.
-
-> The IES-side DISCOM registry is not a credential-issuance prerequisite — see (a) above. It is the trust boundary for the inter-DISCOM data exchange network; full flow in [Appendix E](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+The end-to-end walkthrough — install OpenCred, generate the signing key, assemble `did.json` from the container, publish it on your web host, and verify it resolves from the outside — lives in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Pick up there once you have a domain or subdomain decided per (a) above.
 
 ---
 
@@ -653,7 +543,7 @@ A stolen credential JSON does not pass step 5: the attacker doesn't have the wal
 
 This is the model OpenID for Verifiable Presentations (OID4VP), DIDComm, and most W3C wallet ecosystems implement.
 
-**Wallet rotation.** A wallet `did:key` cannot rotate (rotating means a new DID). If a consumer's wallet is lost or compromised, they generate a new `did:key` and you re-issue the credential bound to it. The old credential is revoked through your DeDi revocation registry (see [Energy Credentials — Revoke](../energy-credentials/README.md#4-revoke)).
+**Wallet rotation.** A wallet `did:key` cannot rotate (rotating means a new DID). If a consumer's wallet is lost or compromised, they generate a new `did:key` and you re-issue the credential bound to it. The old credential is revoked through your DeDi revocation registry (see [Energy Credentials — Revoke](../energy-credentials/README.md#id-4.-revoke)).
 
 ### Pattern 2 — Phone-number URI (out-of-band, when there is no wallet)
 

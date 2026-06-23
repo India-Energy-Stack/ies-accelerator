@@ -44,7 +44,7 @@ A typical issuance happens once at customer onboarding (and then is re-issued on
 
 ## What you actually do
 
-1. Set up the DISCOM `did:web` and run OpenCred → [Identifiers — Step-by-step](../../identifiers/README.md#step-by-step-publish-your-did-web-and-run-opencred-locally).
+1. Set up the DISCOM `did:web` and run OpenCred → [Identifiers — Step-by-step](../../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web).
 2. Decide your identity-proofing method (DigiLocker pull, offline-KYC XML, in-person KYC, record-match) and document it for privacy review.
 3. Issue the Passport via [Energy Credentials — Issue your first credential](../../energy-credentials/README.md#issue-your-first-credential), setting `credentialSubject.id` to the wallet DID and populating `customerProfile.idRef` with the government-ID reference.
 4. Deliver into the consumer's DigiLocker or wallet → [DigiLocker delivery](../../energy-credentials/digilocker.md).

@@ -29,26 +29,29 @@ def slugify(heading: str) -> str:
     1. Lowercase the text.
     2. Drop apostrophes, backticks, and asterisks outright — they
        evaporate with no separator (so "What's" → "whats", not "what-s").
-    3. Replace every other non-word character (anything outside
-       [a-z0-9_-]) with a dash — that includes em-dash, en-dash,
-       parens, comma, colon, period, slash, ?, +, &, whitespace, etc.
-       Underscores are word characters and survive.
-    4. Collapse runs of dashes to a single dash.
-    5. Strip leading/trailing dashes.
-
-    This matches GitBook's actual anchor generation. The earlier version
-    of this function preserved double dashes (from " — " sequences),
-    which produced slugs like "appendix-a--how-dids-work…" — those
-    don't exist on the deployed site, where GitBook renders
-    "appendix-a-how-dids-work…".
+    3. Periods, underscores, and hyphens are KEPT LITERALLY. So
+       "did.json" stays "did.json" and "on_confirm" stays "on_confirm".
+       Note that this means slugs are NOT always lowercase a-z + dash —
+       periods can appear ("id-1.-sign-up-at-dedi.global").
+    4. Every other character (parens, em-dash, comma, colon, slash,
+       ?, +, &, whitespace, etc.) becomes a dash separator.
+    5. Collapse runs of dashes to a single dash, then trim.
+    6. If the result starts with a digit, GitBook prepends "id-" so
+       the HTML id attribute starts with a letter. "### 5. Smoke test"
+       → "id-5.-smoke-test".
     """
     text = heading.lower()
     # Apostrophes and inline-formatting markers vanish (no separator)
     text = re.sub(r"[`*'’‘\"“”]", "", text)
-    # Every other non-word, non-dash character becomes a dash
-    text = re.sub(r"[^a-z0-9_-]+", "-", text)
+    # Keep word chars, hyphens, AND periods literally;
+    # every other char becomes a dash separator
+    text = re.sub(r"[^a-z0-9._-]+", "-", text)
     # Collapse runs of dashes and trim
     text = re.sub(r"-+", "-", text).strip("-")
+    # Headings starting with a digit get an "id-" prefix
+    # (HTML id attributes can't start with a digit in legacy parsers)
+    if text and text[0].isdigit():
+        text = "id-" + text
     return text
 
 
