@@ -8,7 +8,7 @@
     "status": "SCHEDULED",
     "msgType": "ALERT",
     "category": "MAINTENANCE",
-    "cause": { "code": "SCHEDULED_OUTAGE", "text": "Pole erection on long span & VCB replacement under Business Plan" },
+    "cause": { "category": "PLANNED", "code": "SCHEDULED_OUTAGE", "codeNamespace": "uppcl-oms", "text": "Pole erection on long span & VCB replacement under Business Plan" },
     "forceMajeure": false,
     "issuedBy": { "name": "PVVNL", "contact": "1912" },
     "issuedAt": "2026-06-21T18:00:00+05:30",
@@ -38,7 +38,7 @@
     "msgType": "ALERT",
     "severity": "SEVERE",
     "category": "FAULT",
-    "cause": { "faultType": "11KV", "code": "INCOMER_FAULT", "text": "11 KV incomer fault" },
+    "cause": { "category": "EQUIPMENT_FAILURE", "faultType": "11KV", "code": "6", "codeNamespace": "uppcl-oms", "text": "11 KV incomer fault" },
     "forceMajeure": false,
     "detectedAt": "2026-06-22T15:41:55+05:30",
     "network": { "substation": { "scheme": "SUBSTATION", "value": "Gharaaha" }, "district": "SULTANPUR" },
@@ -49,8 +49,9 @@
     "timing": { "period": { "start": "2026-06-22T15:41:55+05:30", "duration": "PT0S" }, "estimatedRestoration": "2026-06-22T18:42:00+05:30", "slaTargetMinutes": 240 },
     "response": { "backFeedGiven": false, "resourceStatus": "RESOURCE_ALLOCATED", "complaintCount": 28 },
     "provenance": {
-      "source": "MDMS",
+      "source": "RTDAS",
       "amispCode": "AMISP1001",
+      "detectionRef": { "scheme": "OTHER", "value": "1233680000000000000", "namespace": "uppcl-rtdas" },
       "signal": { "eventId": "AMISP1001-Gharaaha-20260622T1541", "feederStatus": "DE_ENERGIZED", "diPort": "DI1", "rawCode": "102" },
       "alarmRefs": [{ "meterRef": { "scheme": "METER_SERIAL", "value": "HP3008071" }, "alarmId": 7, "timestamp": "2026-06-22T15:41:55+05:30" }]
     }

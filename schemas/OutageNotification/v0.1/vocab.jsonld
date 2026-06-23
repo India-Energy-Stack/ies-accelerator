@@ -18,7 +18,7 @@
             "@id": "ies:OutageCause",
             "@type": "rdfs:Class",
             "rdfs:label": "Outage Cause",
-            "rdfs:comment": "Coded (OMS Fault Type/SubType) plus free text (ODIN-style). Open vocabulary."
+            "rdfs:comment": "Two-layer cause: a standardized `category` (IEEE 1782-aligned, for\ncross-DISCOM analytics) plus the vendor/OMS `code` carried verbatim (for\nfidelity) and free-text `text` (ODIN-style)."
         },
         {
             "@id": "ies:OutageAsset",
@@ -120,37 +120,19 @@
             "@id": "ies:outageClass",
             "@type": "rdf:Property",
             "rdfs:label": "outage Class",
-            "rdfs:comment": "OMS \"Down Info\" classification (dashboards group as SD/BD/RS).\nPLANNED  - scheduled maintenance shutdown (SD).\nBREAKDOWN - unplanned/fault outage (BD).\nROSTER   - scheduled rotational load-shedding on a published roster (RS).\nLOAD_SHEDDING - ad-hoc / emergency demand-driven cut (not on a roster).\nNote: restoration is a status transition (status=RESTORED), not a class.\nThe exact SD/BD/RS legend should be confirmed with the DISCOM's OMS."
+            "rdfs:comment": "LOCAL enum (not from a standard) — derived from the UPPCL OMS\n\"Down Info\" value set (confirmed from the UPPCL BDSD export):\nPLANNED              - \"Planned Shutdown\" (scheduled maintenance).\nBREAKDOWN            - \"Breakdown Shutdown\" (unplanned / fault outage).\nSCHEDULED_ROSTERING  - \"Scheduled Rostering\" (planned rotational load-shedding on a roster).\nEMERGENCY_ROSTERING  - \"Emergency Rostering\" (load-driven, e.g. overload, rotational shedding).\nAdditive enum: extend if the OMS adds further Down Info values.\nRestoration is a status transition (status=RESTORED), not a class."
         },
         {
             "@id": "ies:status",
             "@type": "rdf:Property",
             "rdfs:label": "status",
-            "rdfs:comment": ""
-        },
-        {
-            "@id": "ies:msgType",
-            "@type": "rdf:Property",
-            "rdfs:label": "msg Type",
-            "rdfs:comment": "CAP message type. UPDATE/CANCEL refer to a prior notice via references."
+            "rdfs:comment": "Outage lifecycle state. LOCAL enum (not from a published standard);\nloosely aligned with the CIM Outage lifecycle."
         },
         {
             "@id": "ies:references",
             "@type": "rdf:Property",
             "rdfs:label": "references",
-            "rdfs:comment": "Prior notice ids this message updates or cancels (CAP references)."
-        },
-        {
-            "@id": "ies:severity",
-            "@type": "rdf:Property",
-            "rdfs:label": "severity",
-            "rdfs:comment": "CAP severity."
-        },
-        {
-            "@id": "ies:category",
-            "@type": "rdf:Property",
-            "rdfs:label": "category",
-            "rdfs:comment": ""
+            "rdfs:comment": "Prior notice ids this message updates or cancels (CAP `references`)."
         },
         {
             "@id": "ies:cause",
@@ -252,7 +234,13 @@
             "@id": "ies:code",
             "@type": "rdf:Property",
             "rdfs:label": "code",
-            "rdfs:comment": "Fault subtype code (open, seeded from OMS), e.g. INCOMER_FAULT,\nBREAKER_FAULT, UNDERGROUND_CABLE_FAULT, OVERHEAD_CONDUCTOR_FAULT,\nLOW_HIGH_VOLTAGE, MAJOR_POWER_FAILURE, SCHEDULED_OUTAGE, FUSE_OFF,\nDT_DAMAGE."
+            "rdfs:comment": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the standardized\n`category` for interoperability. Provide `namespace` where the code's\nissuing authority matters."
+        },
+        {
+            "@id": "ies:codeNamespace",
+            "@type": "rdf:Property",
+            "rdfs:label": "code Namespace",
+            "rdfs:comment": "Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM)."
         },
         {
             "@id": "ies:text",
@@ -264,7 +252,7 @@
             "@id": "ies:assetLevel",
             "@type": "rdf:Property",
             "rdfs:label": "asset Level",
-            "rdfs:comment": ""
+            "rdfs:comment": "Network level of the affected asset. LOCAL enum (not from a standard);\nconcepts align with CIM (IEC 61968/61970) Equipment/UsagePoint."
         },
         {
             "@id": "ies:voltageLevel",
@@ -276,7 +264,7 @@
             "@id": "ies:consumerCategory",
             "@type": "rdf:Property",
             "rdfs:label": "consumer Category",
-            "rdfs:comment": "Consumer mix on the asset (PVVNL sheet \"Feeder Type\")."
+            "rdfs:comment": "Consumer mix on the asset (PVVNL sheet \"Feeder Type\"). LOCAL enum\n(not from a standard); derived from Indian DISCOM feeder typing."
         },
         {
             "@id": "ies:meterRef",
@@ -432,13 +420,19 @@
             "@id": "ies:source",
             "@type": "rdf:Property",
             "rdfs:label": "source",
-            "rdfs:comment": "System that raised this notice."
+            "rdfs:comment": "System that raised this notice (RTDAS = Real-Time Data Acquisition\nSystem). LOCAL enum (not from a standard)."
         },
         {
             "@id": "ies:amispCode",
             "@type": "rdf:Property",
             "rdfs:label": "amisp Code",
             "rdfs:comment": "AMI Service Provider that supplied the detection signal (feeder-status ingest API)."
+        },
+        {
+            "@id": "ies:detectionRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "detection Ref",
+            "rdfs:comment": "Reference to the automated real-time detection record that raised the\noutage — e.g. the UPPCL RTDAS_DATA_ID. A sentinel like \"0\" / absence\nindicates a manually entered outage (source=MANUAL) rather than\nauto-detected."
         },
         {
             "@id": "ies:signal",
@@ -462,7 +456,7 @@
             "@id": "ies:feederStatus",
             "@type": "rdf:Property",
             "rdfs:label": "feeder Status",
-            "rdfs:comment": "Normalized status; raw vendor code preserved in rawCode."
+            "rdfs:comment": "Normalized feeder status; raw vendor code preserved in rawCode.\nLOCAL enum (the normalization is ours); the energized / de-energized\nterms align with CIM (IEC 61968-3) UsagePoint energization semantics."
         },
         {
             "@id": "ies:diPort",
@@ -504,7 +498,7 @@
             "@id": "ies:scheme",
             "@type": "rdf:Property",
             "rdfs:label": "scheme",
-            "rdfs:comment": ""
+            "rdfs:comment": "Identifier scheme. MIXED provenance:\n- MRID is BORROWED from CIM (IEC 61968 / IEC 61970) master resource id.\n- DID is BORROWED from W3C Decentralized Identifiers (DID Core).\n- the remaining values are LOCAL (vendor/DISCOM master keys, e.g.\n  METER_SERIAL, FEEDER, SUBSTATION, CONSUMER_NUMBER)."
         },
         {
             "@id": "ies:value",

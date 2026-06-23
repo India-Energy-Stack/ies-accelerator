@@ -23,6 +23,24 @@ Design rationale, the full standards survey, mapping tables (OMS/PVVNL/CAP/CIM),
 
 ---
 
+## Enum provenance (borrowed vs local)
+
+Each enum declares its origin in its `description` (and a machine-readable `$comment`); enums borrowed wholesale from a standard are also semantically anchored in `context.jsonld` via their term IRI.
+
+| Enum | Origin |
+|------|--------|
+| `msgType` | **Borrowed** — OASIS CAP v1.2 `alert/msgType` (anchored `urn:oasis:names:tc:emergency:cap:1.2#msgType`) |
+| `severity` | **Borrowed** — OASIS CAP v1.2 `info/severity` (anchored `urn:oasis:names:tc:emergency:cap:1.2#severity`) |
+| `cause.category` | **Borrowed/aligned** — IEEE 1782-2022 cause categories, used with IEEE 1366 (anchored to the IEEE 1782 term IRI) |
+| `Identifier.scheme` | **Mixed** — `MRID` from CIM (IEC 61968/61970), `DID` from W3C DID Core; remaining values local |
+| `feederStatus` | **Local** normalization; energized/de-energized align with CIM UsagePoint semantics |
+| `outageClass` | **Local** — UPPCL OMS "Down Info" value set |
+| `status`, `category`, `assetLevel`, `consumerCategory`, `source` | **Local** — not from a published standard |
+
+> Note: `category` (outage category) is **not** CAP's `info/category` — it is a local value set with a deliberately different membership.
+
+---
+
 ## Models
 
 | Model | Purpose |

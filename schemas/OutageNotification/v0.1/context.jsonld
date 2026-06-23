@@ -34,7 +34,7 @@
                     "@type": "xsd:string"
                 },
                 "msgType": {
-                    "@id": "ies:msgType",
+                    "@id": "urn:oasis:names:tc:emergency:cap:1.2#msgType",
                     "@type": "xsd:string"
                 },
                 "references": {
@@ -59,7 +59,7 @@
                     }
                 },
                 "severity": {
-                    "@id": "ies:severity",
+                    "@id": "urn:oasis:names:tc:emergency:cap:1.2#severity",
                     "@type": "xsd:string"
                 },
                 "category": {
@@ -72,12 +72,20 @@
                     "@context": {
                         "@version": 1.1,
                         "@protected": true,
+                        "category": {
+                            "@id": "https://standards.ieee.org/ieee/1782/10257/#causeCategory",
+                            "@type": "xsd:string"
+                        },
                         "faultType": {
                             "@id": "ies:faultType",
                             "@type": "xsd:string"
                         },
                         "code": {
                             "@id": "ies:code",
+                            "@type": "xsd:string"
+                        },
+                        "codeNamespace": {
+                            "@id": "ies:codeNamespace",
                             "@type": "xsd:string"
                         },
                         "text": {
@@ -400,6 +408,10 @@
                             "@id": "ies:amispCode",
                             "@type": "xsd:string"
                         },
+                        "detectionRef": {
+                            "@id": "ies:detectionRef",
+                            "@type": "xsd:string"
+                        },
                         "signal": {
                             "@id": "ies:signal",
                             "@type": "@id",
@@ -474,12 +486,20 @@
             "@context": {
                 "@version": 1.1,
                 "@protected": true,
+                "category": {
+                    "@id": "https://standards.ieee.org/ieee/1782/10257/#causeCategory",
+                    "@type": "xsd:string"
+                },
                 "faultType": {
                     "@id": "ies:faultType",
                     "@type": "xsd:string"
                 },
                 "code": {
                     "@id": "ies:code",
+                    "@type": "xsd:string"
+                },
+                "codeNamespace": {
+                    "@id": "ies:codeNamespace",
                     "@type": "xsd:string"
                 },
                 "text": {
@@ -739,6 +759,10 @@
                 },
                 "amispCode": {
                     "@id": "ies:amispCode",
+                    "@type": "xsd:string"
+                },
+                "detectionRef": {
+                    "@id": "ies:detectionRef",
                     "@type": "xsd:string"
                 },
                 "signal": {

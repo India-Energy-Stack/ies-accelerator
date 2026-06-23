@@ -40,35 +40,52 @@ components:
           description: Stable notice identity; reused across UPDATE/CANCEL messages.
         outageClass:
           type: string
-          enum: [PLANNED, BREAKDOWN, ROSTER, LOAD_SHEDDING]
+          enum: [PLANNED, BREAKDOWN, SCHEDULED_ROSTERING, EMERGENCY_ROSTERING]
           description: |
-            OMS "Down Info" classification (dashboards group as SD/BD/RS).
-            PLANNED  - scheduled maintenance shutdown (SD).
-            BREAKDOWN - unplanned/fault outage (BD).
-            ROSTER   - scheduled rotational load-shedding on a published roster (RS).
-            LOAD_SHEDDING - ad-hoc / emergency demand-driven cut (not on a roster).
-            Note: restoration is a status transition (status=RESTORED), not a class.
-            The exact SD/BD/RS legend should be confirmed with the DISCOM's OMS.
+            LOCAL enum (not from a standard) — derived from the UPPCL OMS
+            "Down Info" value set (confirmed from the UPPCL BDSD export):
+            PLANNED              - "Planned Shutdown" (scheduled maintenance).
+            BREAKDOWN            - "Breakdown Shutdown" (unplanned / fault outage).
+            SCHEDULED_ROSTERING  - "Scheduled Rostering" (planned rotational load-shedding on a roster).
+            EMERGENCY_ROSTERING  - "Emergency Rostering" (load-driven, e.g. overload, rotational shedding).
+            Additive enum: extend if the OMS adds further Down Info values.
+            Restoration is a status transition (status=RESTORED), not a class.
         status:
           type: string
           enum: [SCHEDULED, ACTIVE, PARTIALLY_RESTORED, RESTORED, CANCELLED]
+          description: |
+            Outage lifecycle state. LOCAL enum (not from a published standard);
+            loosely aligned with the CIM Outage lifecycle.
         msgType:
           type: string
           enum: [ALERT, UPDATE, CANCEL]
           default: ALERT
-          description: CAP message type. UPDATE/CANCEL refer to a prior notice via references.
+          description: |
+            Message type. Enum BORROWED from OASIS CAP v1.2 `alert/msgType`
+            (Alert/Update/Cancel). UPDATE/CANCEL refer to a prior notice via references.
+          $comment: "Enum borrowed from OASIS CAP v1.2 (alert/msgType)."
+          x-jsonld:
+            "@id": "urn:oasis:names:tc:emergency:cap:1.2#msgType"
         references:
           type: array
           items: { $ref: '#/components/schemas/Identifier' }
-          description: Prior notice ids this message updates or cancels (CAP references).
+          description: Prior notice ids this message updates or cancels (CAP `references`).
         severity:
           type: string
           enum: [EXTREME, SEVERE, MODERATE, MINOR, UNKNOWN]
           default: UNKNOWN
-          description: CAP severity.
+          description: |
+            Severity. Enum BORROWED from OASIS CAP v1.2 `info/severity`
+            (Extreme/Severe/Moderate/Minor/Unknown).
+          $comment: "Enum borrowed from OASIS CAP v1.2 (info/severity)."
+          x-jsonld:
+            "@id": "urn:oasis:names:tc:emergency:cap:1.2#severity"
         category:
           type: string
           enum: [MAINTENANCE, UPGRADE, FAULT, LOAD_SHEDDING, WEATHER, SAFETY, OTHER]
+          description: |
+            High-level outage category. LOCAL enum (not from a standard) — note
+            this is NOT CAP's `info/category` (which has a different value set).
         cause:
           $ref: '#/components/schemas/OutageCause'
         forceMajeure:
@@ -112,19 +129,39 @@ components:
 
     OutageCause:
       title: OutageCause
-      description: Coded (OMS Fault Type/SubType) plus free text (ODIN-style). Open vocabulary.
+      description: |
+        Two-layer cause: a standardized `category` (IEEE 1782-aligned, for
+        cross-DISCOM analytics) plus the vendor/OMS `code` carried verbatim (for
+        fidelity) and free-text `text` (ODIN-style).
       type: object
       properties:
+        category:
+          type: string
+          enum: [PLANNED, EQUIPMENT_FAILURE, WEATHER, VEGETATION, ANIMAL, HUMAN_THIRD_PARTY, OVERLOAD, UPSTREAM_GRID, LOAD_SHEDDING_ROSTER, UNKNOWN, OTHER]
+          description: |
+            Standardized cause category aligned to IEEE 1782-2022 (Guide for
+            Collecting, Categorizing, and Utilizing Information Related to
+            Electric Power Distribution Interruption Events), used together with
+            IEEE 1366 for reliability benchmarking. Vendor/OMS fault-reason codes
+            map onto this set; the raw code is preserved in `code`. Exact value
+            wording to be reconciled with the IEEE 1782-2022 cause-category list.
+          $comment: "Cause-category taxonomy conforms to IEEE 1782-2022 (used with IEEE 1366 for SAIDI/SAIFI)."
+          x-jsonld:
+            "@id": "https://standards.ieee.org/ieee/1782/10257/#causeCategory"
         faultType:
           type: string
           description: Asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT.
         code:
           type: string
           description: |
-            Fault subtype code (open, seeded from OMS), e.g. INCOMER_FAULT,
-            BREAKER_FAULT, UNDERGROUND_CABLE_FAULT, OVERHEAD_CONDUCTOR_FAULT,
-            LOW_HIGH_VOLTAGE, MAJOR_POWER_FAILURE, SCHEDULED_OUTAGE, FUSE_OFF,
-            DT_DAMAGE.
+            Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric
+            FAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes
+            are vendor-defined and NOT standardized; map them to the standardized
+            `category` for interoperability. Provide `namespace` where the code's
+            issuing authority matters.
+        codeNamespace:
+          type: string
+          description: Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM).
         text:
           type: string
           description: Free-text reason; may be localized (e.g. Hindi).
@@ -143,13 +180,18 @@ components:
         assetLevel:
           type: string
           enum: [SUBSTATION, FEEDER, DT, LINE_SEGMENT, SERVICE_POINT]
+          description: |
+            Network level of the affected asset. LOCAL enum (not from a standard);
+            concepts align with CIM (IEC 61968/61970) Equipment/UsagePoint.
         voltageLevel:
           type: string
           description: e.g. 33kV, 11kV, LT, DT.
         consumerCategory:
           type: string
           enum: [URBAN, RURAL, AGRICULTURE, INDUSTRIAL, MIXED, OTHER]
-          description: Consumer mix on the asset (PVVNL sheet "Feeder Type").
+          description: |
+            Consumer mix on the asset (PVVNL sheet "Feeder Type"). LOCAL enum
+            (not from a standard); derived from Indian DISCOM feeder typing.
         meterRef:
           allOf: [{ $ref: '#/components/schemas/Identifier' }]
           description: Feeder/substation smart-meter number — join key to MDMS/MeterData.
@@ -279,11 +321,20 @@ components:
       properties:
         source:
           type: string
-          enum: [MDMS, OMS, SCADA, AMI, MANUAL]
-          description: System that raised this notice.
+          enum: [MDMS, OMS, SCADA, RTDAS, AMI, MANUAL]
+          description: |
+            System that raised this notice (RTDAS = Real-Time Data Acquisition
+            System). LOCAL enum (not from a standard).
         amispCode:
           type: string
           description: AMI Service Provider that supplied the detection signal (feeder-status ingest API).
+        detectionRef:
+          allOf: [{ $ref: '#/components/schemas/Identifier' }]
+          description: |
+            Reference to the automated real-time detection record that raised the
+            outage — e.g. the UPPCL RTDAS_DATA_ID. A sentinel like "0" / absence
+            indicates a manually entered outage (source=MANUAL) rather than
+            auto-detected.
         signal:
           $ref: '#/components/schemas/OutageSignal'
         alarmRefs:
@@ -302,7 +353,10 @@ components:
         feederStatus:
           type: string
           enum: [ENERGIZED, DE_ENERGIZED, UNKNOWN]
-          description: Normalized status; raw vendor code preserved in rawCode.
+          description: |
+            Normalized feeder status; raw vendor code preserved in rawCode.
+            LOCAL enum (the normalization is ours); the energized / de-energized
+            terms align with CIM (IEC 61968-3) UsagePoint energization semantics.
         diPort:
           type: string
           description: Digital-input port on the substation meter that carried the signal.
@@ -347,6 +401,13 @@ components:
         scheme:
           type: string
           enum: [METER_SERIAL, MRID, GIS_FEATURE_ID, SERVICE_DELIVERY_POINT, FEEDER, SUBSTATION, DT, CONSUMER_NUMBER, ORG, DID, OTHER]
+          description: |
+            Identifier scheme. MIXED provenance:
+            - MRID is BORROWED from CIM (IEC 61968 / IEC 61970) master resource id.
+            - DID is BORROWED from W3C Decentralized Identifiers (DID Core).
+            - the remaining values are LOCAL (vendor/DISCOM master keys, e.g.
+              METER_SERIAL, FEEDER, SUBSTATION, CONSUMER_NUMBER).
+          $comment: "MRID borrowed from IEC 61968/61970 (CIM); DID borrowed from W3C DID Core; remaining values local."
         value:
           type: string
         namespace:
