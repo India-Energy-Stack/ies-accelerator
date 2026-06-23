@@ -67,37 +67,9 @@ The IES-relevant tags:
 
 A practical rule of thumb: **create one registry per environment** (`subscribers-test`, `subscribers-prod`) so a misconfigured test run can't pollute a production lookup.
 
-### Idempotency note for OpenCred users
+> **If you run OpenCred, four of these registries are managed for you on first boot** — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`. The OpenCred container auto-creates them if missing and reuses them if they exist. Details: [Appendix A — OpenCred auto-creates four registries](#opencred-auto-creates-four-registries).
 
-If you run [OpenCred](https://opencred.gitbook.io/docs), it manages four of these registries for you on first boot:
-
-| Registry | Tag | OpenCred behaviour |
-|---|---|---|
-| `vc-revocation-registry` | `revocation` | Auto-created if missing; reused if it already exists |
-| `opencred-key-registry` | `public_key` | Auto-created if missing; reused if it already exists |
-| `schema_registry` | custom | Auto-created if missing; reused if it already exists |
-| `context_registry` | custom | Auto-created if missing; reused if it already exists |
-
-OpenCred's startup hook calls `ensureRegistries()` on first boot; idempotent restarts log "already published" and continue. Required env vars: `OPENCRED_DEDI_BASE_URL`, `OPENCRED_DEDI_AUTH_TYPE` (`api-key` or `bearer`), `OPENCRED_DEDI_NAMESPACE`, plus matching credentials. See the [OpenCred deployment docs](https://opencred.gitbook.io/docs/docker-image/deployment).
-
-A caveat from OpenCred's docs: if those registries pre-exist with **schemas that don't match OpenCred's expectations** (e.g. DeDi's built-in `public_key` tag with a different shape), `/v1/keys/publish` will fail validation. So either let OpenCred create them, or pre-create them with OpenCred's exact schemas — don't mix.
-
-### 5. Add records and look them up
-
-Once a registry exists, add records with a signed write (`POST /dedi/...`); read them with a plain `GET`:
-
-```bash
-# Resolve a single record
-GET https://api.dedi.global/dedi/lookup/<namespace>/<registry>/<record-id>
-
-# List records in a registry (filterable, paginated)
-GET https://api.dedi.global/dedi/query/<namespace>/<registry>?filter=...
-
-# Time-travel: what did this look like on a past date?
-GET https://api.dedi.global/dedi/lookup/<namespace>/<registry>/<record-id>?as_on=2026-01-01
-```
-
-Writes are signed by the namespace controller's key (kept in your KMS); reads are public. The full API surface is in the NFH [Standard APIs](https://docs.nfh.global/dedi/dedi.global-developers/standard-apis) reference.
+To add records once a registry exists, the simplest start is the **[DeDi console](https://dedi.global)** — pick the registry, click *Add record*, fill the fields. For the API equivalent (signed `POST` for writes, plain `GET` for lookups) see **[Appendix A — API at a glance](#api-at-a-glance)**.
 
 ---
 
@@ -252,6 +224,21 @@ Three things uniquely address any record: **namespace + registry + record-id**. 
 | `beckn_subscriber_reference` | `subscriber_id`, `url`, `type` (Registry/Record) | A pointer that includes another subscriber record or registry into a network |
 | `public_key` | Key id, JWK, validity window | Versioned signing keys for an issuer |
 | `revocation` | Credential hash, status | Per-credential revocation entries |
+
+### OpenCred auto-creates four registries
+
+If you run [OpenCred](../glossary.md#opencred), it manages four of these registries for you on first boot:
+
+| Registry | Tag | OpenCred behaviour |
+|---|---|---|
+| `vc-revocation-registry` | `revocation` | Auto-created if missing; reused if it already exists |
+| `opencred-key-registry` | `public_key` | Auto-created if missing; reused if it already exists |
+| `schema_registry` | custom | Auto-created if missing; reused if it already exists |
+| `context_registry` | custom | Auto-created if missing; reused if it already exists |
+
+OpenCred's startup hook calls `ensureRegistries()` on first boot; idempotent restarts log "already published" and continue. Required env vars: `OPENCRED_DEDI_BASE_URL`, `OPENCRED_DEDI_AUTH_TYPE` (`api-key` or `bearer`), `OPENCRED_DEDI_NAMESPACE`, plus matching credentials. See the [OpenCred deployment docs](https://opencred.gitbook.io/docs/docker-image/deployment).
+
+A caveat from OpenCred's docs: if those registries pre-exist with **schemas that don't match OpenCred's expectations** (e.g. DeDi's built-in `public_key` tag with a different shape), `/v1/keys/publish` will fail validation. So either let OpenCred create them, or pre-create them with OpenCred's exact schemas — don't mix.
 
 ### API at a glance
 

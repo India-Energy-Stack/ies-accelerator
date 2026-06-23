@@ -12,21 +12,21 @@
 
 ## Phase 1 — Foundations
 
-- [ ] Domain selected; decision made on apex vs. subdomain and on path layout → [Identifiers — What you'll need](../identifiers/README.md#what-youll-need)
+- [ ] Domain selected; decision made on apex vs. subdomain and on path layout → [Identifiers — What you'll need](../identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads)
 - [ ] OpenCred-friendly signing key generated; private key in KMS / HSM (software PEM only for dev) → [Energy Credentials — Signing-key sources](../energy-credentials/README.md#signing-key-sources)
-- [ ] OpenCred container running; `/v1/health` returns `signingKeyLoaded: true` → [Identifiers — Run OpenCred](../identifiers/README.md#3-run-opencred-in-did-web-mode)
-- [ ] `did.json` published at `https://<your-domain>/.well-known/did.json`; `curl` returns the expected DID → [Identifiers — Publish the file](../identifiers/README.md#5-publish-the-file)
+- [ ] OpenCred container running; `/v1/health` returns `signingKeyLoaded: true` → [Identifiers — Run OpenCred](../energy-credentials/README.md#id-3.-run-opencred-in-did-web-mode)
+- [ ] `did.json` published at `https://<your-domain>/.well-known/did.json`; `curl` returns the expected DID → [Identifiers — Publish the file](../energy-credentials/README.md#id-5.-publish-the-file)
 - [ ] DeDi namespace claimed and **domain-verified** → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
 - [ ] OpenCred has auto-created its four registries; `/v1/health` reports `dediConfigured: true` → [Energy Credentials — Prerequisites](../energy-credentials/README.md#prerequisites)
 
 ## Phase 2 — Issue and revoke
 
-- [ ] Confirm the issuer DID OpenCred reports → [Step 1](../energy-credentials/README.md#1-confirm-the-issuer-did-opencred-reports)
-- [ ] First ElectricityCredential v1.2 issued (bearer style) → [Step 2](../energy-credentials/README.md#2-issue)
-- [ ] Verify returns `valid: true` → [Step 3](../energy-credentials/README.md#3-verify)
-- [ ] Revocation publishes; status flips → [Step 4](../energy-credentials/README.md#4-revoke)
-- [ ] Smoke test wired into CI → [Step 5](../energy-credentials/README.md#5-smoke-test)
-- [ ] Integration service appends `issuer.name` (and `issuer.idRef` if you cite a regulator) on egress; re-signs if your flow needs a single signed artefact → [Step 2 — three things worth noting](../energy-credentials/README.md#2-issue)
+- [ ] Confirm the issuer DID OpenCred reports → [Step 1](../energy-credentials/README.md#id-1.-confirm-the-issuer-did-opencred-reports)
+- [ ] First ElectricityCredential v1.2 issued (bearer style) → [Step 2](../energy-credentials/README.md#id-2.-issue)
+- [ ] Verify returns `valid: true` → [Step 3](../energy-credentials/README.md#id-3.-verify)
+- [ ] Revocation publishes; status flips → [Step 4](../energy-credentials/README.md#id-4.-revoke)
+- [ ] Smoke test wired into CI → [Step 5](../energy-credentials/README.md#id-5.-smoke-test)
+- [ ] Integration service appends `issuer.name` (and `issuer.idRef` if you cite a regulator) on egress; re-signs if your flow needs a single signed artefact → [Step 2 — three things worth noting](../energy-credentials/README.md#id-2.-issue)
 
 ## Phase 3 — Decide variant(s) you'll issue
 

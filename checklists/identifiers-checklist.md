@@ -12,7 +12,7 @@
 
 ### 1. Decide your organisation's public name on the network
 
-Pick a domain or subdomain you control — either works. Most DISCOMs pick a dedicated subdomain (e.g. `ies.discom.org`) so the credential-issuing identity is separated from the marketing site; an apex domain is equally valid. This host becomes the anchor for your `did:web` and is where you will publish a `did.json` file declaring your DISCOM's public key. If you'd rather host the document at a sub-path (e.g. `discom.org/ies/did.json`), reflect that in the DID using the colon hierarchy (`did:web:discom.org:ies`). See [Identifiers and Addressing → What you'll need](../identifiers/README.md#what-youll-need) for the path-mapping table.
+Pick a domain or subdomain you control — either works. Most DISCOMs pick a dedicated subdomain (e.g. `ies.discom.org`) so the credential-issuing identity is separated from the marketing site; an apex domain is equally valid. This host becomes the anchor for your `did:web` and is where you will publish a `did.json` file declaring your DISCOM's public key. If you'd rather host the document at a sub-path (e.g. `discom.org/ies/did.json`), reflect that in the DID using the colon hierarchy (`did:web:discom.org:ies`). See [Identifiers and Addressing → What you'll need](../identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads) for the path-mapping table.
 
 - [ ] Domain or subdomain selected and confirmed available for use as an IES identifier
 - [ ] Decision recorded on whether `did.json` lives at `/.well-known/did.json` or a sub-path

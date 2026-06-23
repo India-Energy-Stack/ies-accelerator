@@ -53,21 +53,128 @@ sequenceDiagram
 | **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Checklist](#checklist) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b-operational-notes) |
 | **An AMISP / MDM / aggregator** (you sign telemetry) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) using `MeterDataCredential` | [Smart Meter Data Exchange use case](../use-cases/smart-meter-data-exchange/README.md) |
 | **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](#digilocker-delivery) | [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity) for binding patterns |
-| **A verifier** (you receive and check credentials) | [Verify](#3-verify), [Revocation check](#4-revoke) → [Appendix A — Trust model](#appendix-a-trust-model) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the resolution walk |
+| **A verifier** (you receive and check credentials) | [Verify](#id-3.-verify), [Revocation check](#id-4.-revoke) → [Appendix A — Trust model](#appendix-a-trust-model) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the resolution walk |
 
 ---
 
 ## Prerequisites
 
-Before you can issue, get these in place. Each link takes you to the section that walks through the step:
+Before you can issue, get these in place:
 
-1. **Your `did:web` is published** at `https://<your-domain>/.well-known/did.json`. See [Identifiers — Publish your did:web](../identifiers/README.md#step-by-step-publish-your-did-web-and-run-opencred-locally).
+1. **A domain or subdomain you control**, with the ability to host one small static file under it. This becomes the host portion of your `did:web`. See [Identifiers — (a) Org identity](../identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads) for naming + path-segment guidance.
 2. **A DeDi namespace** under your verified domain. See [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries). OpenCred will auto-create the four registries it needs (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) on first boot.
-3. **OpenCred running** with `OPENCRED_DEDI_*` env vars set (or an equivalent W3C-compliant signing pipeline of your choice).
+3. **Docker 24+**, plus `curl`, `jq`, `openssl`, and ~2 GB free disk. The OpenCred container ships ready to issue.
 4. *(Optional, recommended for licensed utilities)* **A regulator's licensing pointer** to quote in `issuer.idRef` — the regulator's `did:web` and the regulator-issued licence identifier for your DISCOM. Omit for pilots / non-regulated issuers.
 5. **A signed payload schema in mind.** Default: [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md). For telemetry, [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md).
 
 > **No IES-side DISCOM-registry entry is required to issue credentials.** That registry is the inter-DISCOM data exchange network's trust boundary, not a credential prerequisite. See [Registries — IES networks today](../registries/README.md#ies-networks-and-registries-today) for when you'd need it.
+
+---
+
+## Set up OpenCred and publish your `did:web`
+
+The practical setup is one JSON file on a web server you already run, plus the [OpenCred](../glossary.md#opencred) container that signs credentials with the matching private key. Six steps; ~15 minutes end-to-end.
+
+### 1. Pull the OpenCred image
+
+```bash
+docker pull ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
+docker tag  ghcr.io/nfh-trust-labs/opencred/opencred-server:latest opencred:bootcamp
+```
+
+### 2. Generate a signing key and API token
+
+The same EC P-256 key works for both `did:web` and `did:key`; the difference is just which DID method OpenCred presents it as.
+
+```bash
+mkdir -p ~/opencred/keys
+cd ~/opencred
+
+openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 \
+  -out keys/issuer-key.pem
+chmod 600 keys/issuer-key.pem
+
+export OPENCRED_API_KEY="$(openssl rand -base64 32)"
+echo "Save this: $OPENCRED_API_KEY"
+```
+
+Keep `issuer-key.pem` in your KMS in production. Treat it like a TLS private key.
+
+### 3. Run OpenCred in `did:web` mode
+
+```bash
+docker run -d \
+  --name opencred \
+  -p 3100:3100 \
+  -e OPENCRED_API_KEY="$OPENCRED_API_KEY" \
+  -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
+  -e OPENCRED_ISSUER_DID_METHOD=web \
+  -e OPENCRED_ISSUER_DOMAIN=ies.tpddl.in \
+  -v "$HOME/opencred/keys/issuer-key.pem:/secrets/issuer-key.pem:ro" \
+  --read-only --cap-drop ALL \
+  opencred:bootcamp
+
+curl -s http://localhost:3100/v1/health | jq
+# expect "signingKeyLoaded": true
+```
+
+> **Want offline-verifiable identity instead?** Drop `OPENCRED_ISSUER_DID_METHOD` and `OPENCRED_ISSUER_DOMAIN` and OpenCred runs in `did:key` mode by default. The same key, the same API — only the `did:` string the container reports changes. This is the right choice for first-deploy testing, demos, and consumer wallets. See [Identifiers — `did:key`](../identifiers/README.md#did-key-what-wallets-give-consumers).
+
+### 4. Assemble your `did.json` from the container
+
+OpenCred publishes the JWK form of your public key on its keys endpoint. Fetch it, drop it into the standard DID document template, and publish.
+
+```bash
+curl -s http://localhost:3100/v1/keys \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" | jq '.keys[0]'
+```
+
+Use the JWK from that response in this template:
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1"
+  ],
+  "id": "did:web:ies.tpddl.in",
+  "verificationMethod": [{
+    "id": "did:web:ies.tpddl.in#key-0",
+    "type": "JsonWebKey",
+    "controller": "did:web:ies.tpddl.in",
+    "publicKeyJwk": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." }
+  }],
+  "authentication":  ["did:web:ies.tpddl.in#key-0"],
+  "assertionMethod": ["did:web:ies.tpddl.in#key-0"]
+}
+```
+
+Three things matter, and you can ignore the rest until later:
+
+- **`verificationMethod`** is the public key. Verifiers use it to check your signatures.
+- **`assertionMethod`** says which key is allowed to issue credentials.
+- **`authentication`** says which key can sign requests on behalf of the DID.
+
+You can add a `service` array later when your Beckn BPP and OpenCred endpoints are publicly addressable; the DID is valid without it.
+
+### 5. Publish the file
+
+Upload it so this URL returns the JSON:
+
+```
+https://ies.tpddl.in/.well-known/did.json
+```
+
+The `.well-known/` path is a standard convention; verifiers know to look there. A normal TLS cert is enough — the same one that already terminates your subdomain — and there must be no redirect.
+
+### 6. Verify it from the outside
+
+```bash
+curl -s https://ies.tpddl.in/.well-known/did.json | jq .id
+# "did:web:ies.tpddl.in"
+```
+
+If that command prints your DID, you're done — any participant on the network can now resolve `did:web:ies.tpddl.in` to your public key and verify any credential you sign. Move on to [Issue your first credential](#issue-your-first-credential).
 
 ---
 
@@ -367,7 +474,7 @@ There is no `did:dedi` method; DeDi is a key-discovery and registry layer over `
 
 ### Identifier vs. record
 
-A DID is a stable identifier that resolves to a record (the DID document, or in DeDi's case any registry record). Records change — keys rotate, addresses update — without the identifier changing. See [Identifiers — Appendix D](../identifiers/README.md#appendix-d-identifier-vs-record) for the licence-plate analogy and concrete IES scenarios.
+A DID is a stable identifier that resolves to a record (the DID document, or in DeDi's case any registry record). Records change — keys rotate, addresses update — without the identifier changing. See [Identifiers — Appendix D](../identifiers/README.md#appendix-d-identifier-vs.-record) for the licence-plate analogy and concrete IES scenarios.
 
 ### Credential lifecycle
 
