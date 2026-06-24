@@ -71,6 +71,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
 | [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category`/`cause.subcategory` (IEEE 1782 §4.4/§4.5) crosswalk. |
 | [`OutageNotification_Implementation.md`](./OutageNotification_Implementation.md) | Step-by-step guide to build a production pull/push outage-notification system. |
+| [`tools/`](./tools) | PVVNL planned-shutdown CSV + transformer script (CSV → OutageNotification JSON). |
 
 ---
 
