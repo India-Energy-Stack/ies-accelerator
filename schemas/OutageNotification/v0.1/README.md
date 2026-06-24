@@ -70,6 +70,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | [`OutageNotification_Design.md`](./OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
 | [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
 | [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category` taxonomy crosswalk. |
+| [`OutageNotification_Implementation.md`](./OutageNotification_Implementation.md) | Step-by-step guide to build a production pull/push outage-notification system. |
 
 ---
 
