@@ -51,3 +51,5 @@
     * [v0.1](schemas/MeterDataRequestCredential/v0.1/README.md)
   * [ArrFiling](schemas/ArrFiling/README.md)
     * [v0.5](schemas/ArrFiling/v0.5/README.md)
+  * [OutageNotification](schemas/OutageNotification/README.md)
+    * [v0.1](schemas/OutageNotification/v0.1/README.md)
