@@ -18,7 +18,7 @@
             "@id": "ies:OutageCause",
             "@type": "rdfs:Class",
             "rdfs:label": "Outage Cause",
-            "rdfs:comment": "Two-layer cause: a `category` (a pragmatic IES taxonomy informed by\nIEEE 1782-2022, for cross-DISCOM analytics) plus the vendor/OMS `code`\ncarried verbatim (for fidelity) and free-text `text` (ODIN-style)."
+            "rdfs:comment": "Three-layer cause: a `category` + `subcategory` aligned to IEEE 1782-2022\n(the standardized, cross-DISCOM dimension) plus the vendor/OMS `code`\ncarried verbatim (for fidelity) and free-text `text` (ODIN-style)."
         },
         {
             "@id": "ies:OutageAsset",
@@ -138,7 +138,7 @@
             "@id": "ies:category",
             "@type": "rdf:Property",
             "rdfs:label": "category",
-            "rdfs:comment": "High-level outage category. LOCAL enum (not from a standard) — note\nthis is NOT CAP's `info/category` (which has a different value set)."
+            "rdfs:comment": "Coarse outage descriptor for display/filtering. LOCAL enum (not from a\nstandard). Distinct from the standardized `cause.category` (IEEE 1782)\nand from `outageClass` (OMS Down Info); this is NOT CAP's\n`info/category`. For analytics, prefer `cause.category`."
         },
         {
             "@id": "ies:cause",
@@ -231,16 +231,22 @@
             "rdfs:comment": "Namespaced DISCOM-specific fields, e.g.\n{ \"uppcl\": { \"breakdownId\": \"6357257\", \"downType\": \"FEEDER\" } }."
         },
         {
+            "@id": "ies:subcategory",
+            "@type": "rdf:Property",
+            "rdfs:label": "subcategory",
+            "rdfs:comment": "Standardized cause subcategory from IEEE 1782-2022 §4.5. Must be a\nsubcategory valid for the chosen `category`:\nEQUIPMENT={DEGRADATION,EQUIPMENT_ERROR,ENVIRONMENTAL,OTHER};\nLIGHTNING={DIRECT_STRIKE,INDIRECT_STRIKE};\nPLANNED={NEW_CONSTRUCTION,MAINTENANCE,CUSTOMER_REQUEST,OTHER_UTILITY_REQUEST,OTHER};\nPOWER_SUPPLY={GENERATION,TRANSMISSION,SUBTRANSMISSION,DISTRIBUTION,DISTRIBUTED_GENERATION_STORAGE,OTHER_UTILITY_SUPPLY};\nPUBLIC={DIG_IN,FOREIGN_CONTACT,FIRE_POLICE,VEHICLE,OTHER};\nVEGETATION={WITHIN_CLEARANCE_ZONE,OUTSIDE_CLEARANCE_ZONE,OTHER};\nWEATHER={PRECIPITATION,ICE,WIND,EXTREME_TEMPERATURE,OTHER};\nWILDLIFE={MAMMAL,BIRD,REPTILE_AMPHIBIAN,OTHER};\nUNKNOWN={NO_SPECIFIC_CAUSE_FOUND}; OTHER={UTILITY_ERROR,OTHER_UTILITY_INITIATED,OTHER}.\nLeave unset if the field finding is inconclusive (IEEE 1782 §4.5)."
+        },
+        {
             "@id": "ies:faultType",
             "@type": "rdf:Property",
             "rdfs:label": "fault Type",
-            "rdfs:comment": "Asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT."
+            "rdfs:comment": "Vendor asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT."
         },
         {
             "@id": "ies:code",
             "@type": "rdf:Property",
             "rdfs:label": "code",
-            "rdfs:comment": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the `category`\ntaxonomy for interoperability. For the UPPCL FAULT_REASON master\n(FORM_ID 8312) see fault_reason_crosswalk.json in this folder.\nProvide `codeNamespace` where the code's issuing authority matters."
+            "rdfs:comment": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the standardized\n`category`/`subcategory` for interoperability. For the UPPCL\nFAULT_REASON master (FORM_ID 8312) see fault_reason_crosswalk.json in\nthis folder. Provide `codeNamespace` where the code's authority matters."
         },
         {
             "@id": "ies:codeNamespace",

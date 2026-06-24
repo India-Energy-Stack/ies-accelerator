@@ -76,6 +76,10 @@
                             "@id": "ies:category",
                             "@type": "xsd:string"
                         },
+                        "subcategory": {
+                            "@id": "ies:subcategory",
+                            "@type": "xsd:string"
+                        },
                         "faultType": {
                             "@id": "ies:faultType",
                             "@type": "xsd:string"
@@ -488,6 +492,10 @@
                 "@protected": true,
                 "category": {
                     "@id": "ies:category",
+                    "@type": "xsd:string"
+                },
+                "subcategory": {
+                    "@id": "ies:subcategory",
                     "@type": "xsd:string"
                 },
                 "faultType": {

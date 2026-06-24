@@ -31,7 +31,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 |------|--------|
 | `msgType` | **Borrowed** — OASIS CAP v1.2 `alert/msgType` (anchored `urn:oasis:names:tc:emergency:cap:1.2#msgType`) |
 | `severity` | **Borrowed** — OASIS CAP v1.2 `info/severity` (anchored `urn:oasis:names:tc:emergency:cap:1.2#severity`) |
-| `cause.category` | **Local taxonomy** — informed by IEEE 1782-2022 (used with IEEE 1366); the IEEE normative list is paywalled and these values are **not verified** against it |
+| `cause.category` / `cause.subcategory` | **Aligned** — IEEE 1782-2022 §4.4 (ten cause categories) and §4.5 (subcategories), used with IEEE 1366 |
 | `Identifier.scheme` | **Mixed** — `MRID` from CIM (IEC 61968/61970), `DID` from W3C DID Core; remaining values local |
 | `feederStatus` | **Local** normalization; energized/de-energized align with CIM UsagePoint semantics |
 | `outageClass` | **Local** — UPPCL OMS "Down Info" value set |
@@ -46,7 +46,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | Model | Purpose |
 |-------|---------|
 | `OutageNotification` | Root — class, status, cause, assets, area, timing, impact, response, public info, provenance |
-| `OutageCause` | Coded (OMS fault type/subtype) + free-text reason |
+| `OutageCause` | IEEE 1782 cause category + subcategory, vendor code (verbatim), free-text reason |
 | `OutageAsset` | Affected asset (feeder/DT/substation/line) with meter ref + optional geometry |
 | `OutageNetworkContext` | DISCOM org hierarchy (Discom > Zone > Circle > Division > Subdivision > Substation) |
 | `OutageAffectedArea` | CAP area — text + admin areas + GeoJSON geometry |
@@ -69,7 +69,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | [`examples/`](./examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance; restoration UPDATE). |
 | [`OutageNotification_Design.md`](./OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
 | [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
-| [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category` taxonomy crosswalk. |
+| [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category`/`cause.subcategory` (IEEE 1782 §4.4/§4.5) crosswalk. |
 | [`OutageNotification_Implementation.md`](./OutageNotification_Implementation.md) | Step-by-step guide to build a production pull/push outage-notification system. |
 
 ---
