@@ -69,6 +69,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | [`examples/`](./examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance; restoration UPDATE). |
 | [`OutageNotification_Design.md`](./OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
 | [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
+| [`OutageNotification_Implementation.md`](./OutageNotification_Implementation.md) | Step-by-step guide to build a production pull/push outage-notification system. |
 
 ---
 
