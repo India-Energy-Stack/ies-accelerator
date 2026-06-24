@@ -1,0 +1,528 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "schema": "https://schema.org/"
+    },
+    "@graph": [
+        {
+            "@id": "ies:OutageNotification",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Notification",
+            "rdfs:comment": "A planned or unplanned electricity outage notice. A feed is an array of\nthese; a push delivers one. Reuses IES conventions: Identifier\n{scheme,value}, TimePeriod {start,duration}, GeoJSON geometry."
+        },
+        {
+            "@id": "ies:OutageCause",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Cause",
+            "rdfs:comment": "Two-layer cause: a standardized `category` (IEEE 1782-aligned, for\ncross-DISCOM analytics) plus the vendor/OMS `code` carried verbatim (for\nfidelity) and free-text `text` (ODIN-style)."
+        },
+        {
+            "@id": "ies:OutageAsset",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Asset",
+            "rdfs:comment": "A network asset affected by the outage. Generic across feeder, DT,\nsubstation, and line so new asset levels are additive."
+        },
+        {
+            "@id": "ies:OutageNetworkContext",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Network Context",
+            "rdfs:comment": "DISCOM org hierarchy (UPPCL):\nDiscom > Zone > Circle > Division > Subdivision > Substation.\nAll optional for flat utilities."
+        },
+        {
+            "@id": "ies:OutageAffectedArea",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Affected Area",
+            "rdfs:comment": "CAP area block — free text plus structured admin areas plus GIS geometry."
+        },
+        {
+            "@id": "ies:OutageImpact",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Impact",
+            "rdfs:comment": "CIM-aligned affected service points and customer counts (feeds SAIDI/SAIFI)."
+        },
+        {
+            "@id": "ies:OutageTiming",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Timing",
+            "rdfs:comment": "Outage window and restoration timing. One canonical TimePeriod; end is derived."
+        },
+        {
+            "@id": "ies:OutageResponse",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Response",
+            "rdfs:comment": "Field-response and consumer-impact tracking from the OMS."
+        },
+        {
+            "@id": "ies:OutagePublicInfo",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Public Info",
+            "rdfs:comment": "CAP info block — human-readable text for web publishing and push."
+        },
+        {
+            "@id": "ies:OutageProvenance",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Provenance",
+            "rdfs:comment": "Link to the smart-meter alarm(s)/signal that triggered or confirmed the outage."
+        },
+        {
+            "@id": "ies:OutageSignal",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Signal",
+            "rdfs:comment": "Raw real-time feeder-status signal that triggered detection."
+        },
+        {
+            "@id": "ies:OutageAlarmRef",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Outage Alarm Ref",
+            "rdfs:comment": "Pointer to a MeterData AlarmProfile entry (meter + alarmId + timestamp)."
+        },
+        {
+            "@id": "ies:Party",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Party",
+            "rdfs:comment": "An organisation or contact (e.g. the issuing DISCOM)."
+        },
+        {
+            "@id": "ies:Identifier",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Identifier",
+            "rdfs:comment": "Canonical {scheme, value} reference, optionally namespaced."
+        },
+        {
+            "@id": "ies:TimePeriod",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Time Period",
+            "rdfs:comment": "Period defined by a start time and an ISO-8601 duration."
+        },
+        {
+            "@id": "ies:@context",
+            "@type": "rdf:Property",
+            "rdfs:label": "@context",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:objectType",
+            "@type": "rdf:Property",
+            "rdfs:label": "object Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:id",
+            "@type": "rdf:Property",
+            "rdfs:label": "id",
+            "rdfs:comment": "Stable notice identity; reused across UPDATE/CANCEL messages."
+        },
+        {
+            "@id": "ies:outageClass",
+            "@type": "rdf:Property",
+            "rdfs:label": "outage Class",
+            "rdfs:comment": "LOCAL enum (not from a standard) — derived from the UPPCL OMS\n\"Down Info\" value set (confirmed from the UPPCL BDSD export):\nPLANNED              - \"Planned Shutdown\" (scheduled maintenance).\nBREAKDOWN            - \"Breakdown Shutdown\" (unplanned / fault outage).\nSCHEDULED_ROSTERING  - \"Scheduled Rostering\" (planned rotational load-shedding on a roster).\nEMERGENCY_ROSTERING  - \"Emergency Rostering\" (load-driven, e.g. overload, rotational shedding).\nAdditive enum: extend if the OMS adds further Down Info values.\nRestoration is a status transition (status=RESTORED), not a class."
+        },
+        {
+            "@id": "ies:status",
+            "@type": "rdf:Property",
+            "rdfs:label": "status",
+            "rdfs:comment": "Outage lifecycle state. LOCAL enum (not from a published standard);\nloosely aligned with the CIM Outage lifecycle."
+        },
+        {
+            "@id": "ies:references",
+            "@type": "rdf:Property",
+            "rdfs:label": "references",
+            "rdfs:comment": "Prior notice ids this message updates or cancels (CAP `references`)."
+        },
+        {
+            "@id": "ies:cause",
+            "@type": "rdf:Property",
+            "rdfs:label": "cause",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:forceMajeure",
+            "@type": "rdf:Property",
+            "rdfs:label": "force Majeure",
+            "rdfs:comment": "OMS \"Force Majeure\" flag."
+        },
+        {
+            "@id": "ies:issuedBy",
+            "@type": "rdf:Property",
+            "rdfs:label": "issued By",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:issuedAt",
+            "@type": "rdf:Property",
+            "rdfs:label": "issued At",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:detectedAt",
+            "@type": "rdf:Property",
+            "rdfs:label": "detected At",
+            "rdfs:comment": "When MDMS/SCADA first detected the outage (unplanned)."
+        },
+        {
+            "@id": "ies:lastUpdatedAt",
+            "@type": "rdf:Property",
+            "rdfs:label": "last Updated At",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:network",
+            "@type": "rdf:Property",
+            "rdfs:label": "network",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:affectedAssets",
+            "@type": "rdf:Property",
+            "rdfs:label": "affected Assets",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:affectedArea",
+            "@type": "rdf:Property",
+            "rdfs:label": "affected Area",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:impact",
+            "@type": "rdf:Property",
+            "rdfs:label": "impact",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:timing",
+            "@type": "rdf:Property",
+            "rdfs:label": "timing",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:response",
+            "@type": "rdf:Property",
+            "rdfs:label": "response",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:publicInfo",
+            "@type": "rdf:Property",
+            "rdfs:label": "public Info",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:provenance",
+            "@type": "rdf:Property",
+            "rdfs:label": "provenance",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:extensions",
+            "@type": "rdf:Property",
+            "rdfs:label": "extensions",
+            "rdfs:comment": "Namespaced DISCOM-specific fields, e.g.\n{ \"uppcl\": { \"breakdownId\": \"6357257\", \"downType\": \"FEEDER\" } }."
+        },
+        {
+            "@id": "ies:faultType",
+            "@type": "rdf:Property",
+            "rdfs:label": "fault Type",
+            "rdfs:comment": "Asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT."
+        },
+        {
+            "@id": "ies:code",
+            "@type": "rdf:Property",
+            "rdfs:label": "code",
+            "rdfs:comment": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the standardized\n`category` for interoperability. Provide `namespace` where the code's\nissuing authority matters."
+        },
+        {
+            "@id": "ies:codeNamespace",
+            "@type": "rdf:Property",
+            "rdfs:label": "code Namespace",
+            "rdfs:comment": "Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM)."
+        },
+        {
+            "@id": "ies:text",
+            "@type": "rdf:Property",
+            "rdfs:label": "text",
+            "rdfs:comment": "Free-text reason; may be localized (e.g. Hindi)."
+        },
+        {
+            "@id": "ies:assetLevel",
+            "@type": "rdf:Property",
+            "rdfs:label": "asset Level",
+            "rdfs:comment": "Network level of the affected asset. LOCAL enum (not from a standard);\nconcepts align with CIM (IEC 61968/61970) Equipment/UsagePoint."
+        },
+        {
+            "@id": "ies:voltageLevel",
+            "@type": "rdf:Property",
+            "rdfs:label": "voltage Level",
+            "rdfs:comment": "e.g. 33kV, 11kV, LT, DT."
+        },
+        {
+            "@id": "ies:consumerCategory",
+            "@type": "rdf:Property",
+            "rdfs:label": "consumer Category",
+            "rdfs:comment": "Consumer mix on the asset (PVVNL sheet \"Feeder Type\"). LOCAL enum\n(not from a standard); derived from Indian DISCOM feeder typing."
+        },
+        {
+            "@id": "ies:meterRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "meter Ref",
+            "rdfs:comment": "Feeder/substation smart-meter number — join key to MDMS/MeterData."
+        },
+        {
+            "@id": "ies:parentRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "parent Ref",
+            "rdfs:comment": "Parent asset (e.g. a feeder's substation, a DT's feeder)."
+        },
+        {
+            "@id": "ies:geo",
+            "@type": "rdf:Property",
+            "rdfs:label": "geo",
+            "rdfs:comment": "Optional inline geometry (WGS84): Point (substation/DT),\nLineString (feeder route), Polygon (service area)."
+        },
+        {
+            "@id": "ies:discom",
+            "@type": "rdf:Property",
+            "rdfs:label": "discom",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:zone",
+            "@type": "rdf:Property",
+            "rdfs:label": "zone",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:circle",
+            "@type": "rdf:Property",
+            "rdfs:label": "circle",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:division",
+            "@type": "rdf:Property",
+            "rdfs:label": "division",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:subdivision",
+            "@type": "rdf:Property",
+            "rdfs:label": "subdivision",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:substation",
+            "@type": "rdf:Property",
+            "rdfs:label": "substation",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:district",
+            "@type": "rdf:Property",
+            "rdfs:label": "district",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:adminAreas",
+            "@type": "rdf:Property",
+            "rdfs:label": "admin Areas",
+            "rdfs:comment": "Named localities / wards / villages."
+        },
+        {
+            "@id": "ies:customersAffected",
+            "@type": "rdf:Property",
+            "rdfs:label": "customers Affected",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:deEnergized",
+            "@type": "rdf:Property",
+            "rdfs:label": "de Energized",
+            "rdfs:comment": "Optional SDP/UsagePoint refs (authenticated tier)."
+        },
+        {
+            "@id": "ies:energized",
+            "@type": "rdf:Property",
+            "rdfs:label": "energized",
+            "rdfs:comment": "Optional points confirmed still energized."
+        },
+        {
+            "@id": "ies:period",
+            "@type": "rdf:Property",
+            "rdfs:label": "period",
+            "rdfs:comment": "Outage window (Down From + duration)."
+        },
+        {
+            "@id": "ies:estimatedRestoration",
+            "@type": "rdf:Property",
+            "rdfs:label": "estimated Restoration",
+            "rdfs:comment": "ETR (OMS \"Estimated Time\")."
+        },
+        {
+            "@id": "ies:actualRestoration",
+            "@type": "rdf:Property",
+            "rdfs:label": "actual Restoration",
+            "rdfs:comment": "Set when status=RESTORED; feeds IEEE 1366 indices."
+        },
+        {
+            "@id": "ies:slaTargetMinutes",
+            "@type": "rdf:Property",
+            "rdfs:label": "sla Target Minutes",
+            "rdfs:comment": "SLA target, e.g. 240 (4 hrs)."
+        },
+        {
+            "@id": "ies:backFeedGiven",
+            "@type": "rdf:Property",
+            "rdfs:label": "back Feed Given",
+            "rdfs:comment": "Partial restoration via alternate feed (OMS \"Back-Feed given\")."
+        },
+        {
+            "@id": "ies:resourceStatus",
+            "@type": "rdf:Property",
+            "rdfs:label": "resource Status",
+            "rdfs:comment": "e.g. PENDING, RESOURCE_ALLOCATED, IN_PROGRESS."
+        },
+        {
+            "@id": "ies:complaintCount",
+            "@type": "rdf:Property",
+            "rdfs:label": "complaint Count",
+            "rdfs:comment": "Linked consumer complaints (OMS \"No. of Complaints\")."
+        },
+        {
+            "@id": "ies:language",
+            "@type": "rdf:Property",
+            "rdfs:label": "language",
+            "rdfs:comment": "BCP-47, e.g. en, hi."
+        },
+        {
+            "@id": "ies:headline",
+            "@type": "rdf:Property",
+            "rdfs:label": "headline",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:description",
+            "@type": "rdf:Property",
+            "rdfs:label": "description",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:instruction",
+            "@type": "rdf:Property",
+            "rdfs:label": "instruction",
+            "rdfs:comment": "What the consumer should do."
+        },
+        {
+            "@id": "ies:source",
+            "@type": "rdf:Property",
+            "rdfs:label": "source",
+            "rdfs:comment": "System that raised this notice (RTDAS = Real-Time Data Acquisition\nSystem). LOCAL enum (not from a standard)."
+        },
+        {
+            "@id": "ies:amispCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "amisp Code",
+            "rdfs:comment": "AMI Service Provider that supplied the detection signal (feeder-status ingest API)."
+        },
+        {
+            "@id": "ies:detectionRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "detection Ref",
+            "rdfs:comment": "Reference to the automated real-time detection record that raised the\noutage — e.g. the UPPCL RTDAS_DATA_ID. A sentinel like \"0\" / absence\nindicates a manually entered outage (source=MANUAL) rather than\nauto-detected."
+        },
+        {
+            "@id": "ies:signal",
+            "@type": "rdf:Property",
+            "rdfs:label": "signal",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:alarmRefs",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarm Refs",
+            "rdfs:comment": "References into MeterData AlarmProfile records."
+        },
+        {
+            "@id": "ies:eventId",
+            "@type": "rdf:Property",
+            "rdfs:label": "event Id",
+            "rdfs:comment": "Idempotency key of the originating feeder-status event."
+        },
+        {
+            "@id": "ies:feederStatus",
+            "@type": "rdf:Property",
+            "rdfs:label": "feeder Status",
+            "rdfs:comment": "Normalized feeder status; raw vendor code preserved in rawCode.\nLOCAL enum (the normalization is ours); the energized / de-energized\nterms align with CIM (IEC 61968-3) UsagePoint energization semantics."
+        },
+        {
+            "@id": "ies:diPort",
+            "@type": "rdf:Property",
+            "rdfs:label": "di Port",
+            "rdfs:comment": "Digital-input port on the substation meter that carried the signal."
+        },
+        {
+            "@id": "ies:rawCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "raw Code",
+            "rdfs:comment": "Vendor-native status code as received (e.g. FEEDER_STATUS=102), for traceability."
+        },
+        {
+            "@id": "ies:alarmId",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarm Id",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:timestamp",
+            "@type": "rdf:Property",
+            "rdfs:label": "timestamp",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "schema:name",
+            "@type": "rdf:Property",
+            "rdfs:label": "name",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:contact",
+            "@type": "rdf:Property",
+            "rdfs:label": "contact",
+            "rdfs:comment": "Phone/email/URL for queries (e.g. 1912)."
+        },
+        {
+            "@id": "ies:scheme",
+            "@type": "rdf:Property",
+            "rdfs:label": "scheme",
+            "rdfs:comment": "Identifier scheme. MIXED provenance:\n- MRID is BORROWED from CIM (IEC 61968 / IEC 61970) master resource id.\n- DID is BORROWED from W3C Decentralized Identifiers (DID Core).\n- the remaining values are LOCAL (vendor/DISCOM master keys, e.g.\n  METER_SERIAL, FEEDER, SUBSTATION, CONSUMER_NUMBER)."
+        },
+        {
+            "@id": "ies:value",
+            "@type": "rdf:Property",
+            "rdfs:label": "value",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:namespace",
+            "@type": "rdf:Property",
+            "rdfs:label": "namespace",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:start",
+            "@type": "rdf:Property",
+            "rdfs:label": "start",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:duration",
+            "@type": "rdf:Property",
+            "rdfs:label": "duration",
+            "rdfs:comment": "ISO-8601, e.g. PT2H."
+        }
+    ]
+}

@@ -37,3 +37,4 @@ If you find a discrepancy between a mirrored file and the upstream source, treat
 | [MeterDataRequest](MeterDataRequest/README.md) | [v0.6](MeterDataRequest/v0.6/README.md) | v0.5 · v0.6 | Query schema: capabilities, authorisation, request |
 | [MeterDataRequestCredential](MeterDataRequestCredential/README.md) | [v0.1](MeterDataRequestCredential/v0.1/README.md) | v0.1 | W3C VC wrapping MeterDataRequest for seeker authorisation |
 | [ArrFiling](ArrFiling/README.md) | [v0.5](ArrFiling/v0.5/README.md) | v0.5 | DISCOM regulatory ARR filing — ArrFiling, ArrFiscalYear, ArrLineItem |
+| [OutageNotification](OutageNotification/README.md) | [v0.1](OutageNotification/v0.1/README.md) | v0.1 | **WIP** — planned/unplanned outage notices for web/outage-map publishing + push to consumers |

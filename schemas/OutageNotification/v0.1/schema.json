@@ -1,0 +1,591 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/OutageNotification/v0.1/schema.json",
+  "title": "OutageNotification Payload",
+  "description": "A planned or unplanned electricity outage notice. A feed is an array of\nthese; a push delivers one. Reuses IES conventions: Identifier\n{scheme,value}, TimePeriod {start,duration}, GeoJSON geometry.\n",
+  "type": "object",
+  "required": [
+    "objectType",
+    "id",
+    "outageClass",
+    "status",
+    "affectedAssets",
+    "timing"
+  ],
+  "properties": {
+    "@context": {
+      "type": "string"
+    },
+    "objectType": {
+      "type": "string",
+      "enum": [
+        "OUTAGE_NOTIFICATION"
+      ]
+    },
+    "id": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/Identifier"
+        }
+      ],
+      "description": "Stable notice identity; reused across UPDATE/CANCEL messages."
+    },
+    "outageClass": {
+      "type": "string",
+      "enum": [
+        "PLANNED",
+        "BREAKDOWN",
+        "SCHEDULED_ROSTERING",
+        "EMERGENCY_ROSTERING"
+      ],
+      "description": "LOCAL enum (not from a standard) — derived from the UPPCL OMS\n\"Down Info\" value set (confirmed from the UPPCL BDSD export):\nPLANNED              - \"Planned Shutdown\" (scheduled maintenance).\nBREAKDOWN            - \"Breakdown Shutdown\" (unplanned / fault outage).\nSCHEDULED_ROSTERING  - \"Scheduled Rostering\" (planned rotational load-shedding on a roster).\nEMERGENCY_ROSTERING  - \"Emergency Rostering\" (load-driven, e.g. overload, rotational shedding).\nAdditive enum: extend if the OMS adds further Down Info values.\nRestoration is a status transition (status=RESTORED), not a class.\n"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "SCHEDULED",
+        "ACTIVE",
+        "PARTIALLY_RESTORED",
+        "RESTORED",
+        "CANCELLED"
+      ],
+      "description": "Outage lifecycle state. LOCAL enum (not from a published standard);\nloosely aligned with the CIM Outage lifecycle.\n"
+    },
+    "msgType": {
+      "type": "string",
+      "enum": [
+        "ALERT",
+        "UPDATE",
+        "CANCEL"
+      ],
+      "default": "ALERT",
+      "description": "Message type. Enum BORROWED from OASIS CAP v1.2 `alert/msgType`\n(Alert/Update/Cancel). UPDATE/CANCEL refer to a prior notice via references.\n",
+      "$comment": "Enum borrowed from OASIS CAP v1.2 (alert/msgType).",
+      "x-jsonld": {
+        "@id": "urn:oasis:names:tc:emergency:cap:1.2#msgType"
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Identifier"
+      },
+      "description": "Prior notice ids this message updates or cancels (CAP `references`)."
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "EXTREME",
+        "SEVERE",
+        "MODERATE",
+        "MINOR",
+        "UNKNOWN"
+      ],
+      "default": "UNKNOWN",
+      "description": "Severity. Enum BORROWED from OASIS CAP v1.2 `info/severity`\n(Extreme/Severe/Moderate/Minor/Unknown).\n",
+      "$comment": "Enum borrowed from OASIS CAP v1.2 (info/severity).",
+      "x-jsonld": {
+        "@id": "urn:oasis:names:tc:emergency:cap:1.2#severity"
+      }
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "MAINTENANCE",
+        "UPGRADE",
+        "FAULT",
+        "LOAD_SHEDDING",
+        "WEATHER",
+        "SAFETY",
+        "OTHER"
+      ],
+      "description": "High-level outage category. LOCAL enum (not from a standard) — note\nthis is NOT CAP's `info/category` (which has a different value set).\n"
+    },
+    "cause": {
+      "$ref": "#/$defs/OutageCause"
+    },
+    "forceMajeure": {
+      "type": "boolean",
+      "description": "OMS \"Force Majeure\" flag."
+    },
+    "issuedBy": {
+      "$ref": "#/$defs/Party"
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "detectedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When MDMS/SCADA first detected the outage (unplanned)."
+    },
+    "lastUpdatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "network": {
+      "$ref": "#/$defs/OutageNetworkContext"
+    },
+    "affectedAssets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/OutageAsset"
+      }
+    },
+    "affectedArea": {
+      "$ref": "#/$defs/OutageAffectedArea"
+    },
+    "impact": {
+      "$ref": "#/$defs/OutageImpact"
+    },
+    "timing": {
+      "$ref": "#/$defs/OutageTiming"
+    },
+    "response": {
+      "$ref": "#/$defs/OutageResponse"
+    },
+    "publicInfo": {
+      "$ref": "#/$defs/OutagePublicInfo"
+    },
+    "provenance": {
+      "$ref": "#/$defs/OutageProvenance"
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Namespaced DISCOM-specific fields, e.g.\n{ \"uppcl\": { \"breakdownId\": \"6357257\", \"downType\": \"FEEDER\" } }.\n"
+    }
+  },
+  "$defs": {
+    "OutageCause": {
+      "title": "OutageCause",
+      "description": "Two-layer cause: a standardized `category` (IEEE 1782-aligned, for\ncross-DISCOM analytics) plus the vendor/OMS `code` carried verbatim (for\nfidelity) and free-text `text` (ODIN-style).\n",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "PLANNED",
+            "EQUIPMENT_FAILURE",
+            "WEATHER",
+            "VEGETATION",
+            "ANIMAL",
+            "HUMAN_THIRD_PARTY",
+            "OVERLOAD",
+            "UPSTREAM_GRID",
+            "LOAD_SHEDDING_ROSTER",
+            "UNKNOWN",
+            "OTHER"
+          ],
+          "description": "Standardized cause category aligned to IEEE 1782-2022 (Guide for\nCollecting, Categorizing, and Utilizing Information Related to\nElectric Power Distribution Interruption Events), used together with\nIEEE 1366 for reliability benchmarking. Vendor/OMS fault-reason codes\nmap onto this set; the raw code is preserved in `code`. Exact value\nwording to be reconciled with the IEEE 1782-2022 cause-category list.\n",
+          "$comment": "Cause-category taxonomy conforms to IEEE 1782-2022 (used with IEEE 1366 for SAIDI/SAIFI).",
+          "x-jsonld": {
+            "@id": "https://standards.ieee.org/ieee/1782/10257/#causeCategory"
+          }
+        },
+        "faultType": {
+          "type": "string",
+          "description": "Asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT."
+        },
+        "code": {
+          "type": "string",
+          "description": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the standardized\n`category` for interoperability. Provide `namespace` where the code's\nissuing authority matters.\n"
+        },
+        "codeNamespace": {
+          "type": "string",
+          "description": "Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM)."
+        },
+        "text": {
+          "type": "string",
+          "description": "Free-text reason; may be localized (e.g. Hindi)."
+        }
+      }
+    },
+    "OutageAsset": {
+      "title": "OutageAsset",
+      "description": "A network asset affected by the outage. Generic across feeder, DT,\nsubstation, and line so new asset levels are additive.\n",
+      "type": "object",
+      "required": [
+        "id",
+        "assetLevel"
+      ],
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Identifier"
+            }
+          ],
+          "description": "Asset id/name; ideally a stable GIS feature id or MRID for map join."
+        },
+        "assetLevel": {
+          "type": "string",
+          "enum": [
+            "SUBSTATION",
+            "FEEDER",
+            "DT",
+            "LINE_SEGMENT",
+            "SERVICE_POINT"
+          ],
+          "description": "Network level of the affected asset. LOCAL enum (not from a standard);\nconcepts align with CIM (IEC 61968/61970) Equipment/UsagePoint.\n"
+        },
+        "voltageLevel": {
+          "type": "string",
+          "description": "e.g. 33kV, 11kV, LT, DT."
+        },
+        "consumerCategory": {
+          "type": "string",
+          "enum": [
+            "URBAN",
+            "RURAL",
+            "AGRICULTURE",
+            "INDUSTRIAL",
+            "MIXED",
+            "OTHER"
+          ],
+          "description": "Consumer mix on the asset (PVVNL sheet \"Feeder Type\"). LOCAL enum\n(not from a standard); derived from Indian DISCOM feeder typing.\n"
+        },
+        "meterRef": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Identifier"
+            }
+          ],
+          "description": "Feeder/substation smart-meter number — join key to MDMS/MeterData."
+        },
+        "parentRef": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Identifier"
+            }
+          ],
+          "description": "Parent asset (e.g. a feeder's substation, a DT's feeder)."
+        },
+        "geo": {
+          "allOf": [
+            {
+              "$ref": "https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
+            }
+          ],
+          "description": "Optional inline geometry (WGS84): Point (substation/DT),\nLineString (feeder route), Polygon (service area).\n"
+        }
+      }
+    },
+    "OutageNetworkContext": {
+      "title": "OutageNetworkContext",
+      "description": "DISCOM org hierarchy (UPPCL):\nDiscom > Zone > Circle > Division > Subdivision > Substation.\nAll optional for flat utilities.\n",
+      "type": "object",
+      "properties": {
+        "discom": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "zone": {
+          "type": "string"
+        },
+        "circle": {
+          "type": "string"
+        },
+        "division": {
+          "type": "string"
+        },
+        "subdivision": {
+          "type": "string"
+        },
+        "substation": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "district": {
+          "type": "string"
+        }
+      }
+    },
+    "OutageAffectedArea": {
+      "title": "OutageAffectedArea",
+      "description": "CAP area block — free text plus structured admin areas plus GIS geometry.",
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Free-text localities (CAP areaDesc), e.g. \"SEC-14, 9, 11 Rajnagar\"."
+        },
+        "adminAreas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Named localities / wards / villages."
+        },
+        "geo": {
+          "allOf": [
+            {
+              "$ref": "https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
+            }
+          ],
+          "description": "Polygon/MultiPolygon service area, or Point/circle (CAP). WGS84."
+        }
+      }
+    },
+    "OutageImpact": {
+      "title": "OutageImpact",
+      "description": "CIM-aligned affected service points and customer counts (feeds SAIDI/SAIFI).",
+      "type": "object",
+      "properties": {
+        "customersAffected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "deEnergized": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "description": "Optional SDP/UsagePoint refs (authenticated tier)."
+        },
+        "energized": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          },
+          "description": "Optional points confirmed still energized."
+        }
+      }
+    },
+    "OutageTiming": {
+      "title": "OutageTiming",
+      "description": "Outage window and restoration timing. One canonical TimePeriod; end is derived.",
+      "type": "object",
+      "required": [
+        "period"
+      ],
+      "properties": {
+        "period": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/TimePeriod"
+            }
+          ],
+          "description": "Outage window (Down From + duration)."
+        },
+        "estimatedRestoration": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ETR (OMS \"Estimated Time\")."
+        },
+        "actualRestoration": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Set when status=RESTORED; feeds IEEE 1366 indices."
+        },
+        "slaTargetMinutes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "SLA target, e.g. 240 (4 hrs)."
+        }
+      }
+    },
+    "OutageResponse": {
+      "title": "OutageResponse",
+      "description": "Field-response and consumer-impact tracking from the OMS.",
+      "type": "object",
+      "properties": {
+        "backFeedGiven": {
+          "type": "boolean",
+          "description": "Partial restoration via alternate feed (OMS \"Back-Feed given\")."
+        },
+        "resourceStatus": {
+          "type": "string",
+          "description": "e.g. PENDING, RESOURCE_ALLOCATED, IN_PROGRESS."
+        },
+        "complaintCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Linked consumer complaints (OMS \"No. of Complaints\")."
+        }
+      }
+    },
+    "OutagePublicInfo": {
+      "title": "OutagePublicInfo",
+      "description": "CAP info block — human-readable text for web publishing and push.",
+      "type": "object",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "BCP-47, e.g. en, hi."
+        },
+        "headline": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "instruction": {
+          "type": "string",
+          "description": "What the consumer should do."
+        }
+      }
+    },
+    "OutageProvenance": {
+      "title": "OutageProvenance",
+      "description": "Link to the smart-meter alarm(s)/signal that triggered or confirmed the outage.",
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": [
+            "MDMS",
+            "OMS",
+            "SCADA",
+            "RTDAS",
+            "AMI",
+            "MANUAL"
+          ],
+          "description": "System that raised this notice (RTDAS = Real-Time Data Acquisition\nSystem). LOCAL enum (not from a standard).\n"
+        },
+        "amispCode": {
+          "type": "string",
+          "description": "AMI Service Provider that supplied the detection signal (feeder-status ingest API)."
+        },
+        "detectionRef": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Identifier"
+            }
+          ],
+          "description": "Reference to the automated real-time detection record that raised the\noutage — e.g. the UPPCL RTDAS_DATA_ID. A sentinel like \"0\" / absence\nindicates a manually entered outage (source=MANUAL) rather than\nauto-detected.\n"
+        },
+        "signal": {
+          "$ref": "#/$defs/OutageSignal"
+        },
+        "alarmRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutageAlarmRef"
+          },
+          "description": "References into MeterData AlarmProfile records."
+        }
+      }
+    },
+    "OutageSignal": {
+      "title": "OutageSignal",
+      "description": "Raw real-time feeder-status signal that triggered detection.",
+      "type": "object",
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Idempotency key of the originating feeder-status event."
+        },
+        "feederStatus": {
+          "type": "string",
+          "enum": [
+            "ENERGIZED",
+            "DE_ENERGIZED",
+            "UNKNOWN"
+          ],
+          "description": "Normalized feeder status; raw vendor code preserved in rawCode.\nLOCAL enum (the normalization is ours); the energized / de-energized\nterms align with CIM (IEC 61968-3) UsagePoint energization semantics.\n"
+        },
+        "diPort": {
+          "type": "string",
+          "description": "Digital-input port on the substation meter that carried the signal."
+        },
+        "rawCode": {
+          "type": "string",
+          "description": "Vendor-native status code as received (e.g. FEEDER_STATUS=102), for traceability."
+        }
+      }
+    },
+    "OutageAlarmRef": {
+      "title": "OutageAlarmRef",
+      "description": "Pointer to a MeterData AlarmProfile entry (meter + alarmId + timestamp).",
+      "type": "object",
+      "required": [
+        "meterRef"
+      ],
+      "properties": {
+        "meterRef": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "alarmId": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Party": {
+      "title": "Party",
+      "description": "An organisation or contact (e.g. the issuing DISCOM).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "name": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "string",
+          "description": "Phone/email/URL for queries (e.g. 1912)."
+        }
+      }
+    },
+    "Identifier": {
+      "title": "Identifier",
+      "description": "Canonical {scheme, value} reference, optionally namespaced.",
+      "type": "object",
+      "required": [
+        "scheme",
+        "value"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "enum": [
+            "METER_SERIAL",
+            "MRID",
+            "GIS_FEATURE_ID",
+            "SERVICE_DELIVERY_POINT",
+            "FEEDER",
+            "SUBSTATION",
+            "DT",
+            "CONSUMER_NUMBER",
+            "ORG",
+            "DID",
+            "OTHER"
+          ],
+          "description": "Identifier scheme. MIXED provenance:\n- MRID is BORROWED from CIM (IEC 61968 / IEC 61970) master resource id.\n- DID is BORROWED from W3C Decentralized Identifiers (DID Core).\n- the remaining values are LOCAL (vendor/DISCOM master keys, e.g.\n  METER_SERIAL, FEEDER, SUBSTATION, CONSUMER_NUMBER).\n",
+          "$comment": "MRID borrowed from IEC 61968/61970 (CIM); DID borrowed from W3C DID Core; remaining values local."
+        },
+        "value": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        }
+      }
+    },
+    "TimePeriod": {
+      "title": "TimePeriod",
+      "description": "Period defined by a start time and an ISO-8601 duration.",
+      "type": "object",
+      "required": [
+        "start",
+        "duration"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration": {
+          "type": "string",
+          "format": "duration",
+          "description": "ISO-8601, e.g. PT2H."
+        }
+      }
+    }
+  }
+}
