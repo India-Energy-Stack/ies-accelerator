@@ -426,41 +426,18 @@ GET /outages/lookup?sdp=... | ?lat=&lon=  outages affecting a given connection /
 ### 7.3 Optional — Verifiable Credential wrapper
 For tamper-evidence / cross-network trust (consistent with `MeterDataCredential`), wrap as a W3C VC (`OutageNotificationCredential`) issued by the DISCOM DID. Optional; bare JSON suffices for web publishing.
 
-### 7.4 Relationship to the draft real-time Feeder-Status push API
+### 7.4 Feeder-status ingest (detection layer)
 
-A draft "GET REAL TIME FEEDER STATUS" push API was contemplated, where an **AMI Service Provider (AMISP)** posts a single feeder on/off signal — derived from a substation meter's **digital-input (DI) port** — to a central endpoint:
+Publication is fed by a thin **detection / ingest** layer, kept separate from publication. An **AMI Service Provider (AMISP)** posts a real-time feeder energized/de-energized signal — derived from a substation meter's **digital-input (DI) port** — to the central platform (MDMS/OMS). The OMS correlates consecutive signals per feeder, enriches them (cause, hierarchy, area, geometry, customer count), and emits an `OutageNotification`. The published notice's `provenance` carries `amispCode` + `signal.eventId` + `signal.rawCode`, so every public outage is traceable to its originating meter signal. Full contract: [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml).
 
-```jsonc
-// headers: sid/pid/fid/cid/uid/roleid/TokenKey (all "constant")
-{ "SID": "517", "AMISP_CODE": "AMISP1001", "DI_PORT_STATUS": "402",
-  "DISCOM": "1001", "EVENT_TIMESTAMP": "2025-07-23 00:31:00.000",
-  "FEEDER_CODE": "24391110044ALG", "FEEDER_STATUS": "102" }
-// -> { "result": "1", "resultmessage": "Record saved successfully..." }
-```
-
-**This is a different layer, not a competitor.** It is the **detection / ingest** contract (AMISP → MDMS/platform); `OutageNotification` is the **publication** contract (DISCOM → public/subscribers). They chain: the DI/feeder-status event is the *signal*, the OMS correlates and enriches it (cause, scope, ETR, area, geometry), and the result is a published `OutageNotification` whose `provenance.signal` / `provenance.amispCode` point back at this event. **Keep both.**
-
-**What's good and worth keeping:**
-- **`AMISP_CODE`** — explicit data-source provenance. Adopted as `provenance.amispCode`.
-- **DI-port origin** — capturing the physical signal source (which DI port, raw code). Adopted as `provenance.signal.diPort` / `rawCode`.
-- **`FEEDER_CODE` as the join key** — aligns with our feeder `Identifier` / `meterRef`.
-- **Thin synchronous push with an ack** — correct shape for a real-time detection feed.
-
-**What to fix (don't adopt verbatim):**
-
-| Issue in draft | Why it hurts | Recommendation |
-|---|---|---|
-| Opaque magic codes (`FEEDER_STATUS:"102"`, `DI_PORT_STATUS:"402"`, `SID:"517"`) | Unreadable, error-prone, undocumented | Named enums (`ENERGIZED`/`DE_ENERGIZED`/`UNKNOWN`); keep vendor code in a `rawCode` field with a published legend |
-| Timestamp `"2025-07-23 00:31:00.000"` — not ISO-8601, **no timezone** | Ambiguous outage times; breaks SLA/ETR math | RFC 3339 with offset: `2025-07-23T00:31:00+05:30` |
-| 6 "constant" platform IDs as headers (`sid/pid/fid/cid/roleid`) | Couples integrators to vendor-internal session/form IDs; brittle | Standard `Authorization: Bearer <token>` (or API key) + one clean `discomCode`/tenant; drop the rest |
-| `SID` duplicated in header and body | Redundant, drift risk | Identify the tenant once |
-| No `eventId` / idempotency | Replays & duplicate detections can't be deduped | Require a client-supplied `eventId`; ack echoes it |
-| Single event only | Substation trips cascade many feeders at once | Accept an **array**; ack returns per-item results |
-| `result:"1"` ack | No created-id, no typed error codes | Return `{ accepted, eventId, errors[] }` with documented codes |
-| Numbers-as-strings throughout | Type ambiguity | Use proper types; codes that are truly enumerations become enums |
-| No outage correlation | OFF event and later ON event aren't linked | Optional `outageRef` so a restoration ties to its onset |
-
-**Suggested cleaned-up ingest contract** (keeps their intent, fixes hygiene) — full OpenAPI stub: [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml):
+**Contract principles:**
+- **Named status enums** (`ENERGIZED`/`DE_ENERGIZED`/`UNKNOWN`); the raw vendor code is preserved in `rawStatus`. Vendor status codes are not standardized — the standard layer is IS 15959 / DLMS-COSEM (OBIS + event codes), which `MeterData` `AlarmProfile.alarmId` aligns to.
+- **RFC 3339 timestamps with offset** (e.g. `2025-07-23T00:31:00+05:30`) — outage timing drives SLA/ETR math.
+- **Bearer-token auth + a single `discomCode` tenant.**
+- **Substation + feeder identification** (`substationCode` = the draft's SID, `feederCode`) — supports both feeder- and substation-level events and groups a cascaded trip by substation.
+- **Client-supplied `eventId`** for idempotency / de-duplication of replayed signals.
+- **Batch array input** — a substation trip cascades many feeders at once; the ack returns per-item results with typed error codes.
+- **Optional `outageRef`** so a restoration (ENERGIZED) ties back to its onset (DE_ENERGIZED).
 
 ```jsonc
 // POST /feeder-status   Authorization: Bearer <token>
@@ -468,6 +445,7 @@ A draft "GET REAL TIME FEEDER STATUS" push API was contemplated, where an **AMI 
   {
     "eventId": "AMISP1001-24391110044ALG-20250723T0031",   // idempotency key
     "discomCode": "1001",
+    "substationCode": "517",              // SID = substation id
     "amispCode": "AMISP1001",
     "feederCode": "24391110044ALG",
     "feederStatus": "DE_ENERGIZED",       // normalized
@@ -480,7 +458,9 @@ A draft "GET REAL TIME FEEDER STATUS" push API was contemplated, where an **AMI 
 ```
 
 **End-to-end flow:**
-`AMISP → POST /feeder-status (above)` → MDMS/OMS correlates consecutive DE_ENERGIZED/ENERGIZED events per feeder, enriches (cause, hierarchy, area, geometry, customer count) → emits **`OutageNotification`** on `/outages`, `/outages.geojson`, CAP, and webhooks → consumers/outage map. The published notice's `provenance` carries `amispCode` + `signal.eventId` + `signal.rawCode`, so every public outage is traceable to the originating meter signal.
+`AMISP → POST /feeder-status` → MDMS/OMS correlates consecutive DE_ENERGIZED/ENERGIZED events per feeder, enriches them → emits **`OutageNotification`** on `/outages`, `/outages.geojson`, CAP, and webhooks → consumers / outage map.
+
+> This ingest contract was informed by a draft "REAL TIME FEEDER STATUS" push API contemplated by the DISCOM — see §11 References.
 
 ---
 
@@ -562,7 +542,7 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 - GIS source of truth: do feeders/DTs have geometry in a GIS today (for `geo` and `GIS_FEATURE_ID`), or only substation points? Drives §6 rollout.
 - Privacy: granularity of `impact.deEnergized[]` on the public vs authenticated tier.
 - **SD/BD/RS legend** — confirm with UPPCL that **RS = Roster Shutdown** (rotational load-shedding), as interpreted here, and not another controlled-outage category. Restoration is modelled as `status=RESTORED` (a transition / CAP `Update`), not as a class.
-- **Vendor status codes** — the draft feeder-status API's numeric values (`FEEDER_STATUS:102`, `DI_PORT_STATUS:402`, `SID:517`) are **vendor/platform-specific, not a standard enum**. The standardised layer for Indian meters is **IS 15959 Part 1/2 (DLMS/COSEM, IEC 62056)** — OBIS codes + the standard event/alarm code list (which `MeterData` `AlarmProfile.alarmId` aligns to). Obtain the vendor's code legend and map it to the normalized `feederStatus` enum.
+- **Vendor status codes** — feeder-status numeric values (e.g. `FEEDER_STATUS:102`, `DI_PORT_STATUS:402`) are **vendor/platform-specific, not a standard enum**. The standardised layer for Indian meters is **IS 15959 Part 1/2 (DLMS/COSEM, IEC 62056)** — OBIS codes + the standard event/alarm code list (which `MeterData` `AlarmProfile.alarmId` aligns to). Obtain the vendor's code legend and map it to the normalized `feederStatus` enum.
 
 ---
 
@@ -582,3 +562,4 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 - **IES MeterData v0.6** (carries smart-meter alarms via `AlarmProfile`) — <https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6>
 - **UPPCL OMS** (`1912.uppcl.org`) — system of record reviewed for this design.
 - **PVVNL planned-shutdown example** — <https://pvvnl.org/uploads/news/1782054913.pdf>
+- **DISCOM draft "REAL TIME FEEDER STATUS" push API** — vendor-contemplated AMISP push contract that informed the feeder-status ingest layer (§7.4).
