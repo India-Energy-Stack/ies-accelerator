@@ -73,7 +73,7 @@
                         "@version": 1.1,
                         "@protected": true,
                         "category": {
-                            "@id": "https://standards.ieee.org/ieee/1782/10257/#causeCategory",
+                            "@id": "ies:category",
                             "@type": "xsd:string"
                         },
                         "faultType": {
@@ -487,7 +487,7 @@
                 "@version": 1.1,
                 "@protected": true,
                 "category": {
-                    "@id": "https://standards.ieee.org/ieee/1782/10257/#causeCategory",
+                    "@id": "ies:category",
                     "@type": "xsd:string"
                 },
                 "faultType": {
