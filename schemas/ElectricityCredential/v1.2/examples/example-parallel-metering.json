@@ -54,6 +54,7 @@
     },
     "customerDetails": {
       "fullName": "Arjun Mehra",
+      "careOf": [{ "name": "Lakshmi Mehra", "relationship": "parent" }],
       "installationAddress": {
         "geo": {"type": "Point", "coordinates": [77.2090, 28.6139]},
         "address": {"streetAddress": "45 Rohini Sector 9", "addressLocality": "Delhi", "addressRegion": "Delhi", "postalCode": "110085", "addressCountry": "IN"}

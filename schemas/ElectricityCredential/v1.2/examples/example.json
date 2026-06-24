@@ -69,6 +69,7 @@
     },
     "customerDetails": {
       "fullName": "Jane Doe",
+      "careOf": [{ "name": "John Doe", "relationship": "parent" }],
       "installationAddress": {
         "geo": {"type": "Point", "coordinates": [-122.4194, 37.7749]},
         "address": {"streetAddress": "123 Energy Street, Unit 4", "addressLocality": "Metro City", "addressRegion": "Example State", "postalCode": "12345", "addressCountry": "US"}
