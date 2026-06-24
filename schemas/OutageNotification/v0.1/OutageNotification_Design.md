@@ -534,6 +534,22 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 
 > `category` (outage category) is **not** CAP's `info/category` — deliberately a different value set.
 
+### 9.1 UPPCL FAULT_REASON master → IEEE 1782 crosswalk
+
+The UPPCL OMS carries a fault-reason pick-list (`FORM_ID 8312`, 31 codes). It is **operational and India-specific — not a published standard**, and contains duplicates (`13 Overload`≈`26 Overloading`; `20 System improvement`≈`29 …/Deposit Works`; transformer split across `3/4/10/11/23`). It maps cleanly onto the standardized `cause.category` (IEEE 1782): the vendor code is carried verbatim in `cause.code` (`codeNamespace: uppcl-oms`) and resolved to a category via the machine-readable crosswalk [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json). Examples:
+
+| FAULT_REASON | `cause.code` | `cause.category` | `outageClass` |
+|---|---|---|---|
+| 11KV Line Fault | `6` | `EQUIPMENT_FAILURE` | `BREAKDOWN` |
+| Tree fallen on line | `19` | `VEGETATION` | `BREAKDOWN` |
+| Animal/bird dead on line | `17` | `ANIMAL` | `BREAKDOWN` |
+| Overload / Overloading | `13` / `26` | `OVERLOAD` | `BREAKDOWN` |
+| Rostering | `1` | `LOAD_SHEDDING_ROSTER` | `SCHEDULED_ROSTERING` |
+| Other than Schedule Rostering | `28` | `LOAD_SHEDDING_ROSTER` | `EMERGENCY_ROSTERING` |
+| Substation / Line / DT Maintenance | `9` / `15` / `30` | `PLANNED` | `PLANNED` |
+
+Recommendation to the DISCOM: de-duplicate the master list, and treat the crosswalk's `category` as the published cross-DISCOM dimension while keeping the local code for fidelity.
+
 ---
 
 ## 10. Open questions

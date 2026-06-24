@@ -157,8 +157,9 @@ components:
             Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric
             FAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes
             are vendor-defined and NOT standardized; map them to the standardized
-            `category` for interoperability. Provide `namespace` where the code's
-            issuing authority matters.
+            `category` for interoperability. For the UPPCL FAULT_REASON master
+            (FORM_ID 8312) see fault_reason_crosswalk.json in this folder.
+            Provide `codeNamespace` where the code's issuing authority matters.
         codeNamespace:
           type: string
           description: Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM).
