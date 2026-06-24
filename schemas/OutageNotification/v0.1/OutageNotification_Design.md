@@ -132,7 +132,7 @@ OutageNotification
 ├── references[]        Identifier         prior notice ids superseded (CAP references)
 ├── severity            EXTREME|SEVERE|MODERATE|MINOR|UNKNOWN          (CAP)
 ├── category            MAINTENANCE|UPGRADE|FAULT|LOAD_SHEDDING|WEATHER|SAFETY|OTHER
-├── cause               { category (IEEE 1782), code (vendor verbatim), codeNamespace?, faultType?, text }
+├── cause               { category (IES taxonomy, informed by IEEE 1782), code (vendor verbatim), codeNamespace?, faultType?, text }
 ├── forceMajeure        boolean
 ├── issuedBy            Party
 ├── issuedAt / lastUpdatedAt / detectedAt   date-time
@@ -173,9 +173,9 @@ OutageNotification
         "category": { "type": "string", "enum": ["MAINTENANCE", "UPGRADE", "FAULT", "LOAD_SHEDDING", "WEATHER", "SAFETY", "OTHER"] },
         "cause": {
           "type": "object",
-          "description": "Standardized category (IEEE 1782) + vendor code (verbatim) + free text (ODIN).",
+          "description": "Cause category (IES taxonomy, informed by IEEE 1782) + vendor code (verbatim) + free text (ODIN).",
           "properties": {
-            "category": { "type": "string", "enum": ["PLANNED", "EQUIPMENT_FAILURE", "WEATHER", "VEGETATION", "ANIMAL", "HUMAN_THIRD_PARTY", "OVERLOAD", "UPSTREAM_GRID", "LOAD_SHEDDING_ROSTER", "UNKNOWN", "OTHER"], "description": "BORROWED/aligned — IEEE 1782-2022 cause categories (used with IEEE 1366); semantically anchored in context.jsonld." },
+            "category": { "type": "string", "enum": ["PLANNED", "EQUIPMENT_FAILURE", "WEATHER", "VEGETATION", "ANIMAL", "HUMAN_THIRD_PARTY", "OVERLOAD", "UPSTREAM_GRID", "LOAD_SHEDDING_ROSTER", "UNKNOWN", "OTHER"], "description": "IES taxonomy, informed by IEEE 1782-2022 (used with IEEE 1366). IEEE normative list is paywalled; values NOT verified against it — reconcile before claiming conformance." },
             "faultType": { "type": "string", "description": "e.g. 33KV, 11KV, DT, LT." },
             "code": { "type": "string", "description": "Vendor FAULT_REASON carried VERBATIM (vendor-defined, not standardized); map to category." },
             "codeNamespace": { "type": "string", "description": "Authority/vendor that defines `code`." },
@@ -522,7 +522,7 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 |------|--------|
 | `msgType` | **Borrowed** — OASIS CAP v1.2 `alert/msgType` |
 | `severity` | **Borrowed** — OASIS CAP v1.2 `info/severity` |
-| `cause.category` | **Borrowed/aligned** — IEEE 1782-2022 (with IEEE 1366): `PLANNED · EQUIPMENT_FAILURE · WEATHER · VEGETATION · ANIMAL · HUMAN_THIRD_PARTY · OVERLOAD · UPSTREAM_GRID · LOAD_SHEDDING_ROSTER · UNKNOWN · OTHER` |
+| `cause.category` | **Local taxonomy, informed by** IEEE 1782-2022 (with IEEE 1366) — IEEE normative list paywalled, values **not verified** against it: `PLANNED · EQUIPMENT_FAILURE · WEATHER · VEGETATION · ANIMAL · HUMAN_THIRD_PARTY · OVERLOAD · UPSTREAM_GRID · LOAD_SHEDDING_ROSTER · UNKNOWN · OTHER` |
 | `Identifier.scheme` | **Mixed** — `MRID` (CIM IEC 61968/61970), `DID` (W3C DID Core); rest local |
 | `feederStatus` | **Local** normalization; energized/de-energized align with CIM UsagePoint |
 | `outageClass` | **Local** — UPPCL OMS Down Info: `PLANNED · BREAKDOWN · SCHEDULED_ROSTERING · EMERGENCY_ROSTERING` |
@@ -534,9 +534,9 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 
 > `category` (outage category) is **not** CAP's `info/category` — deliberately a different value set.
 
-### 9.1 UPPCL FAULT_REASON master → IEEE 1782 crosswalk
+### 9.1 UPPCL FAULT_REASON master → `cause.category` crosswalk
 
-The UPPCL OMS carries a fault-reason pick-list (`FORM_ID 8312`, 31 codes). It is **operational and India-specific — not a published standard**, and contains duplicates (`13 Overload`≈`26 Overloading`; `20 System improvement`≈`29 …/Deposit Works`; transformer split across `3/4/10/11/23`). It maps cleanly onto the standardized `cause.category` (IEEE 1782): the vendor code is carried verbatim in `cause.code` (`codeNamespace: uppcl-oms`) and resolved to a category via the machine-readable crosswalk [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json). Examples:
+The UPPCL OMS carries a fault-reason pick-list (`FORM_ID 8312`, 31 codes). It is **operational and India-specific — not a published standard**, and contains duplicates (`13 Overload`≈`26 Overloading`; `20 System improvement`≈`29 …/Deposit Works`; transformer split across `3/4/10/11/23`). It maps onto the IES `cause.category` taxonomy (a pragmatic set informed by IEEE 1782-2022, **not verified against the paywalled IEEE normative list**): the vendor code is carried verbatim in `cause.code` (`codeNamespace: uppcl-oms`) and resolved to a category via the machine-readable crosswalk [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json). Examples:
 
 | FAULT_REASON | `cause.code` | `cause.category` | `outageClass` |
 |---|---|---|---|
@@ -571,7 +571,7 @@ Recommendation to the DISCOM: de-duplicate the master list, and treat the crossw
 - **UK Power Networks — Live Faults open dataset/API** — <https://ukpowernetworks.opendatasoft.com/explore/dataset/ukpn-live-faults/> · ENA — <https://www.energynetworks.org/customers/power-cut>
 - **GeoJSON (RFC 7946)** — <https://datatracker.ietf.org/doc/html/rfc7946>
 - **IEEE 1366** — Guide for Electric Power Distribution Reliability Indices (SAIDI/SAIFI/CAIDI/MAIFI).
-- **IEEE 1782-2022** — Guide for Collecting, Categorizing, and Utilizing Information Related to Electric Power Distribution Interruption Events (cause categorization; used with IEEE 1366) — <https://standards.ieee.org/ieee/1782/10257/>
+- **IEEE 1782-2022** — Guide for Collecting, Categorizing, and Utilizing Information Related to Electric Power Distribution Interruption Events (defines ~10 cause categories with subcategories, used with IEEE 1366). **Normative cause list is paywalled** — our `cause.category` is informed by it but not verified; reconcile against the standard. Abstract/purchase: <https://standards.ieee.org/ieee/1782/10257/> · <https://ieeexplore.ieee.org/document/9882080>
 - **W3C Decentralized Identifiers (DID) Core** — <https://www.w3.org/TR/did-core/>
 - **India reliability/RDSS context** — MPERC SAIFI/SAIDI order: <https://mperc.in/uploads/editor/Other%20Orders%20by%20MPERC/MPERC_ORDER_Specifying_Reliability_Indices_SAIFI_AND_SAIDI_20_06_2024.pdf> · Review of Indian DISCOM outage reporting: <https://blog.theleapjournal.org/2025/09/a-review-of-outage-reporting-by-indian.html> · UPCL reliability indices: <https://upcl.uk.gov.in/reliability-indices-saifi-saidi-maifi/>
 - **ENTSO-E Transparency Platform** — <https://transparency.entsoe.eu/>

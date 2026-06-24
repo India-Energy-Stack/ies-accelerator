@@ -31,7 +31,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 |------|--------|
 | `msgType` | **Borrowed** — OASIS CAP v1.2 `alert/msgType` (anchored `urn:oasis:names:tc:emergency:cap:1.2#msgType`) |
 | `severity` | **Borrowed** — OASIS CAP v1.2 `info/severity` (anchored `urn:oasis:names:tc:emergency:cap:1.2#severity`) |
-| `cause.category` | **Borrowed/aligned** — IEEE 1782-2022 cause categories, used with IEEE 1366 (anchored to the IEEE 1782 term IRI) |
+| `cause.category` | **Local taxonomy** — informed by IEEE 1782-2022 (used with IEEE 1366); the IEEE normative list is paywalled and these values are **not verified** against it |
 | `Identifier.scheme` | **Mixed** — `MRID` from CIM (IEC 61968/61970), `DID` from W3C DID Core; remaining values local |
 | `feederStatus` | **Local** normalization; energized/de-energized align with CIM UsagePoint semantics |
 | `outageClass` | **Local** — UPPCL OMS "Down Info" value set |
@@ -69,7 +69,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | [`examples/`](./examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance; restoration UPDATE). |
 | [`OutageNotification_Design.md`](./OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
 | [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
-| [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → IEEE 1782 `cause.category` crosswalk. |
+| [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category` taxonomy crosswalk. |
 
 ---
 

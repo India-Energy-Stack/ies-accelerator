@@ -1,7 +1,7 @@
 {
-  "$comment": "Crosswalk from the UPPCL OMS FAULT_REASON master pick-list (vendor/India-specific, FORM_ID 8312) to the standardized OutageNotification cause.category (IEEE 1782-2022, used with IEEE 1366) and an outageClass hint. The vendor code is carried verbatim in cause.code (codeNamespace 'uppcl-oms'); this file maps it to the interoperable category. Not a published standard — the source list is operational and contains duplicates (see notes).",
+  "$comment": "Crosswalk from the UPPCL OMS FAULT_REASON master pick-list (vendor/India-specific, FORM_ID 8312) to the IES OutageNotification cause.category taxonomy (a pragmatic taxonomy informed by IEEE 1782-2022, used with IEEE 1366) plus an outageClass hint. The vendor code is carried verbatim in cause.code (codeNamespace 'uppcl-oms'). Neither list is a verified standard: the source is operational and contains duplicates (see notes), and the IEEE 1782-2022 normative cause list is paywalled, so cause.category has NOT been verified against it.",
   "source": { "system": "UPPCL OMS", "formId": "8312", "companyId": "64", "kind": "FAULT_REASON master pick-list", "standardized": false },
-  "target": { "categoryStandard": "IEEE 1782-2022 (with IEEE 1366)", "field": "cause.category" },
+  "target": { "categoryTaxonomy": "IES cause.category (informed by IEEE 1782-2022, with IEEE 1366; NOT verified against the paywalled IEEE normative list)", "field": "cause.category" },
   "codes": [
     { "code": "1",  "label": "Rostering",                                     "category": "LOAD_SHEDDING_ROSTER", "outageClass": "SCHEDULED_ROSTERING" },
     { "code": "2",  "label": "Storm/lightening/heavy rain",                   "category": "WEATHER",           "outageClass": "BREAKDOWN" },
@@ -10,7 +10,7 @@
     { "code": "5",  "label": "33KV Line Fault",                              "category": "EQUIPMENT_FAILURE", "outageClass": "BREAKDOWN", "note": "If the 33kV source feeding the substation is lost, UPSTREAM_GRID may be more accurate." },
     { "code": "6",  "label": "11KV Line Fault",                              "category": "EQUIPMENT_FAILURE", "outageClass": "BREAKDOWN" },
     { "code": "7",  "label": "LT/ABC Line Fault",                            "category": "EQUIPMENT_FAILURE", "outageClass": "BREAKDOWN" },
-    { "code": "8",  "label": "Fire",                                         "category": "OTHER",             "outageClass": "BREAKDOWN", "note": "Fire as a cause; no dedicated IEEE 1782 top-level category here." },
+    { "code": "8",  "label": "Fire",                                         "category": "OTHER",             "outageClass": "BREAKDOWN", "note": "Fire as a cause; mapped to OTHER in this taxonomy." },
     { "code": "9",  "label": "Substation Maintenance",                      "category": "PLANNED",           "outageClass": "PLANNED" },
     { "code": "10", "label": "Power Transformer Fault",                     "category": "EQUIPMENT_FAILURE", "outageClass": "BREAKDOWN" },
     { "code": "11", "label": "Transformer phase fault",                     "category": "EQUIPMENT_FAILURE", "outageClass": "BREAKDOWN" },

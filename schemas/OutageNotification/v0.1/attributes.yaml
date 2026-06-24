@@ -130,24 +130,26 @@ components:
     OutageCause:
       title: OutageCause
       description: |
-        Two-layer cause: a standardized `category` (IEEE 1782-aligned, for
-        cross-DISCOM analytics) plus the vendor/OMS `code` carried verbatim (for
-        fidelity) and free-text `text` (ODIN-style).
+        Two-layer cause: a `category` (a pragmatic IES taxonomy informed by
+        IEEE 1782-2022, for cross-DISCOM analytics) plus the vendor/OMS `code`
+        carried verbatim (for fidelity) and free-text `text` (ODIN-style).
       type: object
       properties:
         category:
           type: string
           enum: [PLANNED, EQUIPMENT_FAILURE, WEATHER, VEGETATION, ANIMAL, HUMAN_THIRD_PARTY, OVERLOAD, UPSTREAM_GRID, LOAD_SHEDDING_ROSTER, UNKNOWN, OTHER]
           description: |
-            Standardized cause category aligned to IEEE 1782-2022 (Guide for
-            Collecting, Categorizing, and Utilizing Information Related to
-            Electric Power Distribution Interruption Events), used together with
-            IEEE 1366 for reliability benchmarking. Vendor/OMS fault-reason codes
-            map onto this set; the raw code is preserved in `code`. Exact value
-            wording to be reconciled with the IEEE 1782-2022 cause-category list.
-          $comment: "Cause-category taxonomy conforms to IEEE 1782-2022 (used with IEEE 1366 for SAIDI/SAIFI)."
-          x-jsonld:
-            "@id": "https://standards.ieee.org/ieee/1782/10257/#causeCategory"
+            Cause category for cross-DISCOM analytics and reliability reporting.
+            This is a PRAGMATIC IES taxonomy, INFORMED BY (not verified against)
+            IEEE 1782-2022 — the IEEE Guide for Collecting, Categorizing, and
+            Utilizing Information Related to Electric Power Distribution
+            Interruption Events, which defines ~10 cause categories with
+            subcategories, used with IEEE 1366. The IEEE normative list is
+            PAYWALLED; these values have NOT been confirmed against it and MUST
+            be reconciled with IEEE 1782-2022 before claiming conformance.
+            Vendor/OMS fault-reason codes map onto this set; the raw code is
+            preserved in `code`.
+          $comment: "IES cause-category taxonomy informed by IEEE 1782-2022 (paywalled; values NOT verified against its normative ~10-category list). Used with IEEE 1366 for SAIDI/SAIFI."
         faultType:
           type: string
           description: Asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT.
@@ -156,8 +158,8 @@ components:
           description: |
             Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric
             FAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes
-            are vendor-defined and NOT standardized; map them to the standardized
-            `category` for interoperability. For the UPPCL FAULT_REASON master
+            are vendor-defined and NOT standardized; map them to the `category`
+            taxonomy for interoperability. For the UPPCL FAULT_REASON master
             (FORM_ID 8312) see fault_reason_crosswalk.json in this folder.
             Provide `codeNamespace` where the code's issuing authority matters.
         codeNamespace:

@@ -18,7 +18,7 @@
             "@id": "ies:OutageCause",
             "@type": "rdfs:Class",
             "rdfs:label": "Outage Cause",
-            "rdfs:comment": "Two-layer cause: a standardized `category` (IEEE 1782-aligned, for\ncross-DISCOM analytics) plus the vendor/OMS `code` carried verbatim (for\nfidelity) and free-text `text` (ODIN-style)."
+            "rdfs:comment": "Two-layer cause: a `category` (a pragmatic IES taxonomy informed by\nIEEE 1782-2022, for cross-DISCOM analytics) plus the vendor/OMS `code`\ncarried verbatim (for fidelity) and free-text `text` (ODIN-style)."
         },
         {
             "@id": "ies:OutageAsset",
@@ -135,6 +135,12 @@
             "rdfs:comment": "Prior notice ids this message updates or cancels (CAP `references`)."
         },
         {
+            "@id": "ies:category",
+            "@type": "rdf:Property",
+            "rdfs:label": "category",
+            "rdfs:comment": "High-level outage category. LOCAL enum (not from a standard) — note\nthis is NOT CAP's `info/category` (which has a different value set)."
+        },
+        {
             "@id": "ies:cause",
             "@type": "rdf:Property",
             "rdfs:label": "cause",
@@ -234,7 +240,7 @@
             "@id": "ies:code",
             "@type": "rdf:Property",
             "rdfs:label": "code",
-            "rdfs:comment": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the standardized\n`category` for interoperability. For the UPPCL FAULT_REASON master\n(FORM_ID 8312) see fault_reason_crosswalk.json in this folder.\nProvide `codeNamespace` where the code's issuing authority matters."
+            "rdfs:comment": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the `category`\ntaxonomy for interoperability. For the UPPCL FAULT_REASON master\n(FORM_ID 8312) see fault_reason_crosswalk.json in this folder.\nProvide `codeNamespace` where the code's issuing authority matters."
         },
         {
             "@id": "ies:codeNamespace",
