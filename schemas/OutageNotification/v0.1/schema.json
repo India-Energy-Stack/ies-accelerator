@@ -99,7 +99,7 @@
         "SAFETY",
         "OTHER"
       ],
-      "description": "High-level outage category. LOCAL enum (not from a standard) — note\nthis is NOT CAP's `info/category` (which has a different value set).\n"
+      "description": "Coarse outage descriptor for display/filtering. LOCAL enum (not from a\nstandard). Distinct from the standardized `cause.category` (IEEE 1782)\nand from `outageClass` (OMS Down Info); this is NOT CAP's\n`info/category`. For analytics, prefer `cause.category`.\n"
     },
     "cause": {
       "$ref": "#/$defs/OutageCause"
@@ -160,34 +160,72 @@
   "$defs": {
     "OutageCause": {
       "title": "OutageCause",
-      "description": "Two-layer cause: a `category` (a pragmatic IES taxonomy informed by\nIEEE 1782-2022, for cross-DISCOM analytics) plus the vendor/OMS `code`\ncarried verbatim (for fidelity) and free-text `text` (ODIN-style).\n",
+      "description": "Three-layer cause: a `category` + `subcategory` aligned to IEEE 1782-2022\n(the standardized, cross-DISCOM dimension) plus the vendor/OMS `code`\ncarried verbatim (for fidelity) and free-text `text` (ODIN-style).\n",
       "type": "object",
       "properties": {
         "category": {
           "type": "string",
           "enum": [
+            "EQUIPMENT",
+            "LIGHTNING",
             "PLANNED",
-            "EQUIPMENT_FAILURE",
-            "WEATHER",
+            "POWER_SUPPLY",
+            "PUBLIC",
             "VEGETATION",
-            "ANIMAL",
-            "HUMAN_THIRD_PARTY",
-            "OVERLOAD",
-            "UPSTREAM_GRID",
-            "LOAD_SHEDDING_ROSTER",
+            "WEATHER",
+            "WILDLIFE",
             "UNKNOWN",
             "OTHER"
           ],
-          "description": "Cause category for cross-DISCOM analytics and reliability reporting.\nThis is a PRAGMATIC IES taxonomy, INFORMED BY (not verified against)\nIEEE 1782-2022 — the IEEE Guide for Collecting, Categorizing, and\nUtilizing Information Related to Electric Power Distribution\nInterruption Events, which defines ~10 cause categories with\nsubcategories, used with IEEE 1366. The IEEE normative list is\nPAYWALLED; these values have NOT been confirmed against it and MUST\nbe reconciled with IEEE 1782-2022 before claiming conformance.\nVendor/OMS fault-reason codes map onto this set; the raw code is\npreserved in `code`.\n",
-          "$comment": "IES cause-category taxonomy informed by IEEE 1782-2022 (paywalled; values NOT verified against its normative ~10-category list). Used with IEEE 1366 for SAIDI/SAIFI."
+          "description": "Standardized interruption cause category — the ten categories of\nIEEE 1782-2022 §4.4 (IEEE Guide for Collecting, Categorizing, and\nUtilizing Information Related to Electric Power Distribution\nInterruption Events), used with IEEE 1366 for reliability\nbenchmarking. EQUIPMENT, LIGHTNING, PLANNED, POWER_SUPPLY, PUBLIC,\nVEGETATION, WEATHER (other than lightning), WILDLIFE, UNKNOWN, OTHER.\nIEEE 1782 is a guide (recommended practice). Note: load-shedding /\nrostering has no IEEE 1782 cause category — scheduled rostering maps\nto PLANNED, forced/emergency rostering to OTHER, with the rostering\nnature carried in `outageClass`.\n",
+          "$comment": "Cause categories aligned to IEEE 1782-2022 §4.4 (ten categories), used with IEEE 1366 for SAIDI/SAIFI."
+        },
+        "subcategory": {
+          "type": "string",
+          "enum": [
+            "DEGRADATION",
+            "EQUIPMENT_ERROR",
+            "ENVIRONMENTAL",
+            "DIRECT_STRIKE",
+            "INDIRECT_STRIKE",
+            "NEW_CONSTRUCTION",
+            "MAINTENANCE",
+            "CUSTOMER_REQUEST",
+            "OTHER_UTILITY_REQUEST",
+            "GENERATION",
+            "TRANSMISSION",
+            "SUBTRANSMISSION",
+            "DISTRIBUTION",
+            "DISTRIBUTED_GENERATION_STORAGE",
+            "OTHER_UTILITY_SUPPLY",
+            "DIG_IN",
+            "FOREIGN_CONTACT",
+            "FIRE_POLICE",
+            "VEHICLE",
+            "WITHIN_CLEARANCE_ZONE",
+            "OUTSIDE_CLEARANCE_ZONE",
+            "PRECIPITATION",
+            "ICE",
+            "WIND",
+            "EXTREME_TEMPERATURE",
+            "MAMMAL",
+            "BIRD",
+            "REPTILE_AMPHIBIAN",
+            "NO_SPECIFIC_CAUSE_FOUND",
+            "UTILITY_ERROR",
+            "OTHER_UTILITY_INITIATED",
+            "OTHER"
+          ],
+          "description": "Standardized cause subcategory from IEEE 1782-2022 §4.5. Must be a\nsubcategory valid for the chosen `category`:\nEQUIPMENT={DEGRADATION,EQUIPMENT_ERROR,ENVIRONMENTAL,OTHER};\nLIGHTNING={DIRECT_STRIKE,INDIRECT_STRIKE};\nPLANNED={NEW_CONSTRUCTION,MAINTENANCE,CUSTOMER_REQUEST,OTHER_UTILITY_REQUEST,OTHER};\nPOWER_SUPPLY={GENERATION,TRANSMISSION,SUBTRANSMISSION,DISTRIBUTION,DISTRIBUTED_GENERATION_STORAGE,OTHER_UTILITY_SUPPLY};\nPUBLIC={DIG_IN,FOREIGN_CONTACT,FIRE_POLICE,VEHICLE,OTHER};\nVEGETATION={WITHIN_CLEARANCE_ZONE,OUTSIDE_CLEARANCE_ZONE,OTHER};\nWEATHER={PRECIPITATION,ICE,WIND,EXTREME_TEMPERATURE,OTHER};\nWILDLIFE={MAMMAL,BIRD,REPTILE_AMPHIBIAN,OTHER};\nUNKNOWN={NO_SPECIFIC_CAUSE_FOUND}; OTHER={UTILITY_ERROR,OTHER_UTILITY_INITIATED,OTHER}.\nLeave unset if the field finding is inconclusive (IEEE 1782 §4.5).\n",
+          "$comment": "Cause subcategories aligned to IEEE 1782-2022 §4.5; valid value depends on category."
         },
         "faultType": {
           "type": "string",
-          "description": "Asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT."
+          "description": "Vendor asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT."
         },
         "code": {
           "type": "string",
-          "description": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the `category`\ntaxonomy for interoperability. For the UPPCL FAULT_REASON master\n(FORM_ID 8312) see fault_reason_crosswalk.json in this folder.\nProvide `codeNamespace` where the code's issuing authority matters.\n"
+          "description": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the standardized\n`category`/`subcategory` for interoperability. For the UPPCL\nFAULT_REASON master (FORM_ID 8312) see fault_reason_crosswalk.json in\nthis folder. Provide `codeNamespace` where the code's authority matters.\n"
         },
         "codeNamespace": {
           "type": "string",
