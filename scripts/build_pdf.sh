@@ -49,7 +49,7 @@ pandoc "$COMBINED_MD" \
     --pdf-engine=tectonic \
     --from=markdown-task_lists \
     --toc \
-    --toc-depth=3 \
+    --toc-depth=2 \
     -V documentclass=report \
     -V geometry:margin=1in \
     -V monofont="Menlo" \
