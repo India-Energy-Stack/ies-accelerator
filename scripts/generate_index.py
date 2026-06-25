@@ -84,27 +84,17 @@ def main():
         "identifiers_setup": [
             ("identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
         ],
-        "identifiers_ops": [
-            ("checklists/identifiers-checklist.md", "Self-audit checklist to verify domain ownership, key formats, and DID structures.")
-        ],
         "registries_setup": [
             ("registries/README.md", "Introduction to the trust registry layer and related building blocks."),
-        ],
-        "registries_ops": [
-            ("checklists/registries-checklist.md", "Auditing checklist to confirm namespace delegation, key records, and registry accessibility.")
         ],
         "credentials_setup": [
             ("energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.")
         ],
         "credentials_ops": [
-            ("energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning."),
-            ("checklists/energy-credentials-checklist.md", "Checklist for credential issuance — section-linked to the Energy Credentials README.")
+            ("energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
             ("data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
-        ],
-        "exchange_ops": [
-            ("checklists/data-exchange-checklist.md", "Staged checklist from devkit sandbox to production go-live.")
         ],
         "schemas": [
             ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),
@@ -165,12 +155,6 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
 """
     for rel_path, summary in sections["identifiers_setup"]:
         content += generate_file_entry(root_dir, rel_path, summary)
-        
-    content += """
-### 🔌 Use & Operations
-"""
-    for rel_path, summary in sections["identifiers_ops"]:
-        content += generate_file_entry(root_dir, rel_path, summary)
 
     content += """
 ---
@@ -182,12 +166,6 @@ This block describes the directories that store and resolve identifiers to parti
 ### ⚙️ Setup & Configuration
 """
     for rel_path, summary in sections["registries_setup"]:
-        content += generate_file_entry(root_dir, rel_path, summary)
-        
-    content += """
-### 🔌 Use & Operations
-"""
-    for rel_path, summary in sections["registries_ops"]:
         content += generate_file_entry(root_dir, rel_path, summary)
 
     content += """
@@ -218,12 +196,6 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 ### ⚙️ Setup & Configuration
 """
     for rel_path, summary in sections["exchange_setup"]:
-        content += generate_file_entry(root_dir, rel_path, summary)
-        
-    content += """
-### 🔌 Use & Operations
-"""
-    for rel_path, summary in sections["exchange_ops"]:
         content += generate_file_entry(root_dir, rel_path, summary)
 
     content += """

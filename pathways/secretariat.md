@@ -71,7 +71,7 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 * **Digital Signature Certificate (DSC)**: (Optional) `x5c` certificate chain if they anchor in CSCA.
 
 ### References & Anchors
-* [Registries — Checklist](../checklists/registries-checklist.md)
+* [Registries — Checklist](../registries/README.md#checklist)
 * [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
 </details>
 

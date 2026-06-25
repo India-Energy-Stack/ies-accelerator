@@ -8,17 +8,13 @@
   * [Utility Pathway](pathways/utility.md)
 
 * [Identifiers and Addressing](identifiers/README.md)
-  * [Checklist](checklists/identifiers-checklist.md)
 
 * [Registries and Directories](registries/README.md)
-  * [Checklist](checklists/registries-checklist.md)
 
 * [Energy Credentials](energy-credentials/README.md)
   * [DigiLocker delivery](energy-credentials/digilocker.md)
-  * [Checklist](checklists/energy-credentials-checklist.md)
 
 * [Data Exchange](data-exchange/README.md)
-  * [Checklist](checklists/data-exchange-checklist.md)
 
 * [Use Cases](use-cases/README.md)
   * [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)

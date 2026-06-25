@@ -1,5 +1,7 @@
 # Energy Credentials
 
+**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
+
 This page is the single home for everything IES has to say about issuing, verifying, and revoking energy credentials. The first three sections take you from a fresh deployment to your first signed credential. The appendices cover trust theory, batch / production patterns, and core concepts.
 
 > **About the walkthrough.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
@@ -369,7 +371,51 @@ Walkthrough (Pull URI shape, callback flow, signature pinning, common failure mo
 
 ## Checklist
 
-The full zero-to-issuance sequence — foundations, issue / verify / revoke, variant selection, production hardening, and optional data-exchange onboarding — lives on a separate sub-page so it stays printable and trackable: **[Energy Credentials — Checklist](../checklists/energy-credentials-checklist.md)**.
+Zero to issuing your first signed credential. Each item links to the section that walks it.
+
+### Phase 1 — Foundations
+
+- [ ] Domain selected; apex-vs-subdomain and path layout decided → [Identifiers — What you'll need](../identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads)
+- [ ] Signing key generated; private key in KMS / HSM (software PEM for dev only) → [Signing-key sources](#signing-key-sources)
+- [ ] OpenCred running; `/v1/health` returns `signingKeyLoaded: true` → [Run OpenCred](#id-3.-run-opencred-in-did-web-mode)
+- [ ] `did.json` published; `curl` returns the expected DID → [Publish the file](#id-5.-publish-the-file)
+- [ ] DeDi namespace claimed and **domain-verified** → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
+- [ ] OpenCred's four registries auto-created; `/v1/health` reports `dediConfigured: true` → [Prerequisites](#prerequisites)
+
+### Phase 2 — Issue and revoke
+
+- [ ] Issuer DID confirmed → [Step 1](#id-1.-confirm-the-issuer-did-opencred-reports)
+- [ ] First ElectricityCredential v1.2 issued (bearer) → [Step 2](#id-2.-issue)
+- [ ] Verify returns `valid: true` → [Step 3](#id-3.-verify)
+- [ ] Revocation publishes; status flips → [Step 4](#id-4.-revoke)
+- [ ] Smoke test wired into CI → [Step 5](#id-5.-smoke-test)
+- [ ] Integration service appends `issuer.name` (and `issuer.idRef` if citing a regulator) on egress → [Step 2 notes](#id-2.-issue)
+
+### Phase 3 — Decide variant(s) you'll issue
+
+- [ ] Variant(s) chosen → [Credential variants](#credential-variants): bearer ElectricityCredential v1.2; [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) (+ holder binding + `customerProfile.idRef`); B2B MeterDataCredential v0.6; [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (+ holder binding, short `validUntil`); MeterDataRequestCredential v0.1
+- [ ] For holder-bound variants: binding pattern chosen → [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity)
+- [ ] Identity-proofing-at-issuance documented (challenge-sign for wallet DIDs, OTP for phone, DigiLocker grant otherwise)
+
+### Phase 4 — Production hardening
+
+- [ ] Signing key in HSM / Cloud KMS → [Signing-key sources](#signing-key-sources)
+- [ ] Schema validation before `POST /v1/credentials/issue` → [Schema validation](#schema-validation)
+- [ ] Key-rotation runbook in place → [Key rotation](#key-rotation)
+- [ ] Reverse proxy + TLS in front of OpenCred (never expose `:3100`) → [Reverse proxy + TLS](#reverse-proxy-tls)
+- [ ] Backups of `did.json`, KMS key handle, DeDi credentials
+- [ ] DigiLocker delivery configured if applicable → [DigiLocker delivery](digilocker.md)
+
+### Phase 5 — Data exchange (optional, only if joining Beckn)
+
+- [ ] Beckn subscriber record published → [Identifiers — Appendix E](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric)
+- [ ] IES Secretariat has referenced your subscriber into the network registry → [Registries — How to apply](../registries/README.md#how-to-apply-for-an-ies-listing)
+- [ ] ONIX `allowedNetworkIDs` set for the right environment → [Identifiers — Step 7](../identifiers/README.md#step-7-configure-your-onix-to-accept-the-right-networks-allowednetworkids)
+
+### Team
+
+- [ ] IT SPOC — operates OpenCred, owns key rotation (name, email, phone)
+- [ ] Governance / Compliance SPOC — approves publishing, owns regulator-pointer setup
 
 ---
 
