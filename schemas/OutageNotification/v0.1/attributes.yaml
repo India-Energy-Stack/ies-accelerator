@@ -64,12 +64,14 @@ components:
             Message type. Enum BORROWED from OASIS CAP v1.2 `alert/msgType`
             (Alert/Update/Cancel). UPDATE/CANCEL refer to a prior notice via references.
           $comment: "Enum borrowed from OASIS CAP v1.2 (alert/msgType)."
+          x-standard: "OASIS CAP v1.2 (alert/msgType)"
           x-jsonld:
             "@id": "urn:oasis:names:tc:emergency:cap:1.2#msgType"
         references:
           type: array
           items: { $ref: '#/components/schemas/Identifier' }
           description: Prior notice ids this message updates or cancels (CAP `references`).
+          x-standard: "OASIS CAP v1.2 (alert/references)"
         severity:
           type: string
           enum: [EXTREME, SEVERE, MODERATE, MINOR, UNKNOWN]
@@ -78,6 +80,7 @@ components:
             Severity. Enum BORROWED from OASIS CAP v1.2 `info/severity`
             (Extreme/Severe/Moderate/Minor/Unknown).
           $comment: "Enum borrowed from OASIS CAP v1.2 (info/severity)."
+          x-standard: "OASIS CAP v1.2 (info/severity)"
           x-jsonld:
             "@id": "urn:oasis:names:tc:emergency:cap:1.2#severity"
         category:
@@ -152,6 +155,7 @@ components:
             to PLANNED, forced/emergency rostering to OTHER, with the rostering
             nature carried in `outageClass`.
           $comment: "Cause categories aligned to IEEE 1782-2022 §4.4 (ten categories), used with IEEE 1366 for SAIDI/SAIFI."
+          x-standard: "IEEE 1782-2022 §4.4 (with IEEE 1366)"
         subcategory:
           type: string
           enum: [DEGRADATION, EQUIPMENT_ERROR, ENVIRONMENTAL, DIRECT_STRIKE, INDIRECT_STRIKE, NEW_CONSTRUCTION, MAINTENANCE, CUSTOMER_REQUEST, OTHER_UTILITY_REQUEST, GENERATION, TRANSMISSION, SUBTRANSMISSION, DISTRIBUTION, DISTRIBUTED_GENERATION_STORAGE, OTHER_UTILITY_SUPPLY, DIG_IN, FOREIGN_CONTACT, FIRE_POLICE, VEHICLE, WITHIN_CLEARANCE_ZONE, OUTSIDE_CLEARANCE_ZONE, PRECIPITATION, ICE, WIND, EXTREME_TEMPERATURE, MAMMAL, BIRD, REPTILE_AMPHIBIAN, NO_SPECIFIC_CAUSE_FOUND, UTILITY_ERROR, OTHER_UTILITY_INITIATED, OTHER]
@@ -169,6 +173,7 @@ components:
             UNKNOWN={NO_SPECIFIC_CAUSE_FOUND}; OTHER={UTILITY_ERROR,OTHER_UTILITY_INITIATED,OTHER}.
             Leave unset if the field finding is inconclusive (IEEE 1782 §4.5).
           $comment: "Cause subcategories aligned to IEEE 1782-2022 §4.5; valid value depends on category."
+          x-standard: "IEEE 1782-2022 §4.5"
         faultType:
           type: string
           description: Vendor asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT.
@@ -225,6 +230,7 @@ components:
           description: |
             Optional inline geometry (WGS84): Point (substation/DT),
             LineString (feeder route), Polygon (service area).
+          x-standard: "GeoJSON (RFC 7946), WGS84"
 
     OutageNetworkContext:
       title: OutageNetworkContext
@@ -264,6 +270,7 @@ components:
         geo:
           allOf: [{ $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry' }]
           description: Polygon/MultiPolygon service area, or Point/circle (CAP). WGS84.
+          x-standard: "GeoJSON (RFC 7946); CAP area"
 
     OutageImpact:
       title: OutageImpact
@@ -277,10 +284,12 @@ components:
           type: array
           items: { $ref: '#/components/schemas/Identifier' }
           description: Optional SDP/UsagePoint refs (authenticated tier).
+          x-standard: "CIM (IEC 61968-3 UsagePoint)"
         energized:
           type: array
           items: { $ref: '#/components/schemas/Identifier' }
           description: Optional points confirmed still energized.
+          x-standard: "CIM (IEC 61968-3 UsagePoint)"
 
     OutageTiming:
       title: OutageTiming
@@ -430,6 +439,7 @@ components:
             - the remaining values are LOCAL (vendor/DISCOM master keys, e.g.
               METER_SERIAL, FEEDER, SUBSTATION, CONSUMER_NUMBER).
           $comment: "MRID borrowed from IEC 61968/61970 (CIM); DID borrowed from W3C DID Core; remaining values local."
+          x-standard: "MRID: CIM (IEC 61968/61970); DID: W3C DID Core"
         value:
           type: string
         namespace:
