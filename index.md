@@ -151,19 +151,19 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
         <li><a href="identifiers/README.md#b-beckn-network-identity-for-participating-on-a-beckn-network">(b) Beckn network identity — for participating on a Beckn network</a>
       </li>
       </ul>
-      <li><a href="identifiers/README.md#step-by-step-publish-your-didweb-and-run-opencred-locally">Step-by-step: publish your `did:web` (and run OpenCred locally)</a>      <ul>
-        <li><a href="identifiers/README.md#what-youll-need">What you'll need</a></li>
-        <li><a href="identifiers/README.md#1-pull-the-opencred-image">1. Pull the OpenCred image</a></li>
-        <li><a href="identifiers/README.md#2-generate-a-signing-key-and-api-token">2. Generate a signing key and API token</a></li>
-        <li><a href="identifiers/README.md#3-run-opencred-in-didweb-mode">3. Run OpenCred in `did:web` mode</a></li>
-        <li><a href="identifiers/README.md#4-assemble-your-didjson-from-the-container">4. Assemble your `did.json` from the container</a></li>
-        <li><a href="identifiers/README.md#5-publish-the-file">5. Publish the file</a></li>
-        <li><a href="identifiers/README.md#6-verify-it-from-the-outside">6. Verify it from the outside</a>
-      </li>
-      </ul>
+      <li><a href="identifiers/README.md#publish-your-didweb">Publish your `did:web`</a></li>
       <li><a href="identifiers/README.md#id-patterns-youll-use-day-one">ID patterns you'll use day one</a></li>
       <li><a href="identifiers/README.md#where-each-id-goes-in-a-credential">Where each ID goes in a credential</a></li>
-      <li><a href="identifiers/README.md#checklist">Checklist</a></li>
+      <li><a href="identifiers/README.md#checklist">Checklist</a>      <ul>
+        <li><a href="identifiers/README.md#1-decide-your-organisations-public-name-on-the-network">1. Decide your organisation's public name on the network</a></li>
+        <li><a href="identifiers/README.md#2-set-up-your-digital-identity">2. Set up your digital identity</a></li>
+        <li><a href="identifiers/README.md#3-agree-how-you-will-identify-consumers-and-assets">3. Agree how you will identify consumers and assets</a></li>
+        <li><a href="identifiers/README.md#4-decide-what-stays-private-and-what-becomes-public">4. Decide what stays private and what becomes public</a></li>
+        <li><a href="identifiers/README.md#5-beckn-only-get-referenced-in-the-ies-discom-registry">5. (Beckn only) Get referenced in the IES DISCOM registry</a></li>
+        <li><a href="identifiers/README.md#6-beckn-only-publish-your-beckn-subscriber-record">6. (Beckn only) Publish your Beckn subscriber record</a></li>
+        <li><a href="identifiers/README.md#7-nominate-your-team">7. Nominate your team</a>
+      </li>
+      </ul>
       <li><a href="identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses">Appendix A — How DIDs work, and the three methods IES uses</a>      <ul>
         <li><a href="identifiers/README.md#whats-in-a-did-document">What's in a DID document</a></li>
         <li><a href="identifiers/README.md#the-three-did-methods-ies-uses">The three DID methods IES uses</a>        <ul>
@@ -186,6 +186,7 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
       </li>
       </ul>
       <li><a href="identifiers/README.md#appendix-d-identifier-vs-record">Appendix D — Identifier vs. record</a>      <ul>
+        <li><a href="identifiers/README.md#five-places-this-matters-in-ies">Five places this matters in IES</a></li>
         <li><a href="identifiers/README.md#asset-did-resolution-patterns-pragmatic-programmatic-per-asset">Asset-DID resolution patterns (pragmatic / programmatic / per-asset)</a>
       </li>
       </ul>
@@ -217,29 +218,6 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
   </ul>
   </details>
 
-### 🔌 Use & Operations
-* **[identifiers-checklist.md](checklists/identifiers-checklist.md)**
-  - *Summary*: Self-audit checklist to verify domain ownership, key formats, and DID structures.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/identifiers-checklist.md#checklist-identifiers-and-addressing">Checklist — Identifiers and Addressing</a>    <ul>
-      <ul>
-        <li><a href="checklists/identifiers-checklist.md#1-decide-your-organisations-public-name-on-the-network">1. Decide your organisation's public name on the network</a></li>
-        <li><a href="checklists/identifiers-checklist.md#2-set-up-your-digital-identity">2. Set up your digital identity</a></li>
-        <li><a href="checklists/identifiers-checklist.md#3-agree-on-how-you-will-identify-consumers-and-assets">3. Agree on how you will identify consumers and assets</a></li>
-        <li><a href="checklists/identifiers-checklist.md#4-decide-what-stays-private-and-what-becomes-public">4. Decide what stays private and what becomes public</a></li>
-        <li><a href="checklists/identifiers-checklist.md#5-beckn-only-register-with-the-ies-network-operators-discom-reference">5. (Beckn only) Register with the IES network operator's DISCOM reference</a></li>
-        <li><a href="checklists/identifiers-checklist.md#6-join-the-beckn-network-subscriber-registry-on-the-fabric">6. Join the Beckn network (subscriber registry on the fabric)</a></li>
-        <li><a href="checklists/identifiers-checklist.md#7-nominate-your-team">7. Nominate your team</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-
 ---
 
 ## 🗄️ 2. Registries and Directories (DeDi)
@@ -259,9 +237,7 @@ This block describes the directories that store and resolve identifiers to parti
         <li><a href="registries/README.md#1-sign-up-at-dediglobal">1. Sign up at dedi.global</a></li>
         <li><a href="registries/README.md#2-create-a-namespace">2. Create a namespace</a></li>
         <li><a href="registries/README.md#3-verify-your-domain-dns-txt-record">3. Verify your domain (DNS TXT record)</a></li>
-        <li><a href="registries/README.md#4-create-the-registries-you-need">4. Create the registries you need</a></li>
-        <li><a href="registries/README.md#idempotency-note-for-opencred-users">Idempotency note for OpenCred users</a></li>
-        <li><a href="registries/README.md#5-add-records-and-look-them-up">5. Add records and look them up</a>
+        <li><a href="registries/README.md#4-create-the-registries-you-need">4. Create the registries you need</a>
       </li>
       </ul>
       <li><a href="registries/README.md#the-registries-youll-touch-in-ies-by-role">The registries you'll touch in IES, by role</a>      <ul>
@@ -277,10 +253,19 @@ This block describes the directories that store and resolve identifiers to parti
         <li><a href="registries/README.md#how-to-apply-for-an-ies-listing">How to apply for an IES listing</a>
       </li>
       </ul>
-      <li><a href="registries/README.md#checklist">Checklist</a></li>
+      <li><a href="registries/README.md#checklist">Checklist</a>      <ul>
+        <li><a href="registries/README.md#1-claim-your-dedi-namespace">1. Claim your DeDi namespace</a></li>
+        <li><a href="registries/README.md#2-publish-your-trust-anchor">2. Publish your trust anchor</a></li>
+        <li><a href="registries/README.md#3-create-the-registries-your-use-case-needs">3. Create the registries your use case needs</a></li>
+        <li><a href="registries/README.md#4-set-writers-per-registry">4. Set writers per registry</a></li>
+        <li><a href="registries/README.md#5-agree-an-update-cadence">5. Agree an update cadence</a></li>
+        <li><a href="registries/README.md#6-nominate-your-team">6. Nominate your team</a>
+      </li>
+      </ul>
       <li><a href="registries/README.md#appendix-a-dedi-primer-just-enough-to-navigate">Appendix A — DeDi primer (just enough to navigate)</a>      <ul>
         <li><a href="registries/README.md#the-three-coordinate-model">The three-coordinate model</a></li>
         <li><a href="registries/README.md#built-in-schema-tags-used-in-ies">Built-in schema tags used in IES</a></li>
+        <li><a href="registries/README.md#opencred-auto-creates-four-registries">OpenCred auto-creates four registries</a></li>
         <li><a href="registries/README.md#api-at-a-glance">API at a glance</a></li>
         <li><a href="registries/README.md#deployment-options">Deployment options</a></li>
         <li><a href="registries/README.md#state-versioning-time-travel">State, versioning, time-travel</a>
@@ -288,28 +273,6 @@ This block describes the directories that store and resolve identifiers to parti
       </ul>
       <li><a href="registries/README.md#appendix-b-verifying-a-credential-end-to-end">Appendix B — Verifying a credential, end-to-end</a></li>
       <li><a href="registries/README.md#appendix-c-troubleshooting">Appendix C — Troubleshooting</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-
-### 🔌 Use & Operations
-* **[registries-checklist.md](checklists/registries-checklist.md)**
-  - *Summary*: Auditing checklist to confirm namespace delegation, key records, and registry accessibility.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/registries-checklist.md#checklist-registries-and-directories">Checklist — Registries and Directories</a>    <ul>
-      <ul>
-        <li><a href="checklists/registries-checklist.md#1-claim-your-space-in-the-public-directory">1. Claim your space in the public directory</a></li>
-        <li><a href="checklists/registries-checklist.md#2-publish-your-trust-anchor">2. Publish your trust anchor</a></li>
-        <li><a href="checklists/registries-checklist.md#3-decide-which-registries-you-need-to-operate">3. Decide which registries you need to operate</a></li>
-        <li><a href="checklists/registries-checklist.md#4-decide-who-can-write-to-each-registry">4. Decide who can write to each registry</a></li>
-        <li><a href="checklists/registries-checklist.md#5-set-up-a-process-to-keep-registries-current">5. Set up a process to keep registries current</a></li>
-        <li><a href="checklists/registries-checklist.md#6-nominate-your-team">6. Nominate your team</a>
-      </li>
-      </ul>
     </li>
     </ul>
   </li>
@@ -335,6 +298,15 @@ This block handles digital attestations of connections, billing summaries, and c
       </ul>
       <li><a href="energy-credentials/README.md#pick-your-role">Pick your role</a></li>
       <li><a href="energy-credentials/README.md#prerequisites">Prerequisites</a></li>
+      <li><a href="energy-credentials/README.md#set-up-opencred-and-publish-your-didweb">Set up OpenCred and publish your `did:web`</a>      <ul>
+        <li><a href="energy-credentials/README.md#1-pull-the-opencred-image">1. Pull the OpenCred image</a></li>
+        <li><a href="energy-credentials/README.md#2-generate-a-signing-key-and-api-token">2. Generate a signing key and API token</a></li>
+        <li><a href="energy-credentials/README.md#3-run-opencred-in-didweb-mode">3. Run OpenCred in `did:web` mode</a></li>
+        <li><a href="energy-credentials/README.md#4-assemble-your-didjson-from-the-container">4. Assemble your `did.json` from the container</a></li>
+        <li><a href="energy-credentials/README.md#5-publish-the-file">5. Publish the file</a></li>
+        <li><a href="energy-credentials/README.md#6-verify-it-from-the-outside">6. Verify it from the outside</a>
+      </li>
+      </ul>
       <li><a href="energy-credentials/README.md#issue-your-first-credential">Issue your first credential</a>      <ul>
         <li><a href="energy-credentials/README.md#1-confirm-the-issuer-did-opencred-reports">1. Confirm the issuer DID OpenCred reports</a></li>
         <li><a href="energy-credentials/README.md#2-issue">2. Issue</a></li>
@@ -352,7 +324,15 @@ This block handles digital attestations of connections, billing summaries, and c
       </ul>
       <li><a href="energy-credentials/README.md#holder-binding">Holder binding</a></li>
       <li><a href="energy-credentials/README.md#digilocker-delivery">DigiLocker delivery</a></li>
-      <li><a href="energy-credentials/README.md#checklist">Checklist</a></li>
+      <li><a href="energy-credentials/README.md#checklist">Checklist</a>      <ul>
+        <li><a href="energy-credentials/README.md#phase-1-foundations">Phase 1 — Foundations</a></li>
+        <li><a href="energy-credentials/README.md#phase-2-issue-and-revoke">Phase 2 — Issue and revoke</a></li>
+        <li><a href="energy-credentials/README.md#phase-3-decide-variants-youll-issue">Phase 3 — Decide variant(s) you'll issue</a></li>
+        <li><a href="energy-credentials/README.md#phase-4-production-hardening">Phase 4 — Production hardening</a></li>
+        <li><a href="energy-credentials/README.md#phase-5-data-exchange-optional-only-if-joining-beckn">Phase 5 — Data exchange (optional, only if joining Beckn)</a></li>
+        <li><a href="energy-credentials/README.md#team">Team</a>
+      </li>
+      </ul>
       <li><a href="energy-credentials/README.md#appendix-a-trust-model">Appendix A — Trust model</a>      <ul>
         <li><a href="energy-credentials/README.md#signing-key-sources">Signing-key sources</a></li>
         <li><a href="energy-credentials/README.md#proof-formats">Proof formats</a>
@@ -435,23 +415,6 @@ This block handles digital attestations of connections, billing summaries, and c
   </li>
   </ul>
   </details>
-* **[energy-credentials-checklist.md](checklists/energy-credentials-checklist.md)**
-  - *Summary*: Checklist for credential issuance — section-linked to the Energy Credentials README.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/energy-credentials-checklist.md#energy-credentials-checklist">Energy Credentials — Checklist</a>    <ul>
-      <li><a href="checklists/energy-credentials-checklist.md#phase-1-foundations">Phase 1 — Foundations</a></li>
-      <li><a href="checklists/energy-credentials-checklist.md#phase-2-issue-and-revoke">Phase 2 — Issue and revoke</a></li>
-      <li><a href="checklists/energy-credentials-checklist.md#phase-3-decide-variants-youll-issue">Phase 3 — Decide variant(s) you'll issue</a></li>
-      <li><a href="checklists/energy-credentials-checklist.md#phase-4-production-hardening">Phase 4 — Production hardening</a></li>
-      <li><a href="checklists/energy-credentials-checklist.md#phase-5-data-exchange-optional-only-if-joining-beckn">Phase 5 — Data exchange (optional, only if joining Beckn)</a></li>
-      <li><a href="checklists/energy-credentials-checklist.md#team">Team</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 
 ---
 
@@ -491,7 +454,15 @@ This block governs data discovery, consent, and the transfer of telemetry and re
       <li><a href="data-exchange/README.md#two-registries-two-onix-deployments">Two registries, two ONIX deployments</a></li>
       <li><a href="data-exchange/README.md#make-the-sandbox-your-own">Make the sandbox your own</a></li>
       <li><a href="data-exchange/README.md#what-you-can-exchange-schema-families">What you can exchange (schema families)</a></li>
-      <li><a href="data-exchange/README.md#checklist">Checklist</a>
+      <li><a href="data-exchange/README.md#checklist">Checklist</a>      <ul>
+        <li><a href="data-exchange/README.md#stage-0-scope-and-team">Stage 0 — Scope and team</a></li>
+        <li><a href="data-exchange/README.md#stage-1-devkit-validation-local-sandbox">Stage 1 — Devkit validation (local sandbox)</a></li>
+        <li><a href="data-exchange/README.md#stage-2-network-identity-dedi">Stage 2 — Network identity (DeDi)</a></li>
+        <li><a href="data-exchange/README.md#stage-3-test-network-certification">Stage 3 — Test-network certification</a></li>
+        <li><a href="data-exchange/README.md#stage-4-production-deployment">Stage 4 — Production deployment</a></li>
+        <li><a href="data-exchange/README.md#stage-5-operational-hardening">Stage 5 — Operational hardening</a>
+      </li>
+      </ul>
     </li>
     </ul>
     <li><a href="data-exchange/README.md#appendices">Appendices</a>    <ul>
@@ -514,25 +485,6 @@ This block governs data discovery, consent, and the transfer of telemetry and re
       <li><a href="data-exchange/README.md#appendix-d-hostnames-sandbox-vs-production">Appendix D — Hostnames sandbox vs production</a></li>
       <li><a href="data-exchange/README.md#appendix-e-generic-beckn-flow-sequence-diagram">Appendix E — Generic Beckn flow (sequence diagram)</a></li>
       <li><a href="data-exchange/README.md#references">References</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-
-### 🔌 Use & Operations
-* **[data-exchange-checklist.md](checklists/data-exchange-checklist.md)**
-  - *Summary*: Staged checklist from devkit sandbox to production go-live.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="checklists/data-exchange-checklist.md#data-exchange-checklist">Data Exchange — Checklist</a>    <ul>
-      <li><a href="checklists/data-exchange-checklist.md#stage-0-scope-and-team">Stage 0 — Scope and team</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-1-devkit-validation-local-sandbox">Stage 1 — Devkit validation (local sandbox)</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-2-network-identity-dedi">Stage 2 — Network identity (DeDi)</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-3-test-network-certification">Stage 3 — Test-network certification</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-4-production-deployment">Stage 4 — Production deployment</a></li>
-      <li><a href="checklists/data-exchange-checklist.md#stage-5-operational-hardening">Stage 5 — Operational hardening</a>
     </li>
     </ul>
   </li>

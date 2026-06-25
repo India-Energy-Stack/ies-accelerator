@@ -1,5 +1,7 @@
 # Registries and Directories
 
+**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
+
 This page is the single home for everything IES has to say about registries. Read the first three sections and you will know **why your organisation should claim a DeDi namespace, how to do it, and which registries you actually need**. The appendices cover deeper DeDi mechanics, a worked verification workflow, and troubleshooting.
 
 > Upstream documentation for DeDi (the open protocol) lives at [DeDi developer documentation](https://docs.nfh.global/dedi/dedi.global-developers/developer-documentation) and [Setting up a Beckn network](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment). This page focuses on the **IES-specific** wiring on top of DeDi: which registries exist under the `india-energy-stack` namespace today, which ones [OpenCred](https://opencred.gitbook.io/docs) auto-creates for you, and how to get listed in the curated IES allow-lists.
@@ -194,9 +196,48 @@ Before approving, the Secretariat validates: your namespace is domain-verified, 
 
 ## Checklist
 
-A plain-English checklist for standing up your registries trust layer — claim a namespace, publish a trust anchor, decide which registries to operate, and assign writers — is a separate sub-page so it stays printable and trackable: **[Registries and Directories — Checklist](../checklists/registries-checklist.md)**.
+Standing up your registries trust layer. Each item maps to a section above.
 
-End-to-end network onboarding (credentials issuance and joining the IES data exchange network) is staged on the chapter checklists it spans: **[Energy Credentials — Checklist](../checklists/energy-credentials-checklist.md)** and **[Data Exchange — Checklist](../checklists/data-exchange-checklist.md)**.
+### 1. Claim your DeDi namespace
+
+Create an account on `dedi.global`, choose a namespace (your DISCOM short code), and complete domain verification — see [Step-by-step](#step-by-step-claim-your-dedi-namespace-and-create-registries).
+
+- [ ] Account created on `dedi.global`
+- [ ] Namespace claimed and **domain-verified** (TXT record)
+
+### 2. Publish your trust anchor
+
+Publish the record that names your organisation, its public signing key, and its domain — what verifiers look up before trusting anything you sign.
+
+- [ ] Trust-anchor record published and resolvable via public lookup
+
+### 3. Create the registries your use case needs
+
+Add only the registries you'll actually use (e.g. revocation list, allowed-subscriber list, asset registry). OpenCred auto-creates its four credential registries — see [The registries you'll touch in IES](#the-registries-youll-touch-in-ies-by-role).
+
+- [ ] Required registries created under your namespace
+- [ ] Owner named for each registry
+
+### 4. Set writers per registry
+
+For each registry, list who may add/change records (keep it short — this is a security boundary); everyone else is read-only.
+
+- [ ] Writer role(s) assigned and documented per registry
+- [ ] Write credentials issued only to those roles
+
+### 5. Agree an update cadence
+
+Decide who updates each registry when a key rotates, a credential is revoked, a meter is replaced, or an asset is decommissioned.
+
+- [ ] Update process documented per registry
+- [ ] Namespace-key backup / recovery plan agreed
+
+### 6. Nominate your team
+
+- [ ] IT SPOC (operates the registries) — name, email, phone
+- [ ] Authorised Signatory (approves what's published) — name, email, phone
+
+For end-to-end network onboarding that builds on this layer, see the [Energy Credentials → Checklist](../energy-credentials/README.md#checklist) and [Data Exchange → Checklist](../data-exchange/README.md#checklist).
 
 ---
 

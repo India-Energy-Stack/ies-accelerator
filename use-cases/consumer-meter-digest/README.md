@@ -53,7 +53,7 @@ Granularity options today: `RAW_15M` (15-minute interval data), `DAILY`, `MONTHL
 
 ## Operational checklist
 
-See [Energy Credentials — Checklist](../../checklists/energy-credentials-checklist.md). The Digest adds:
+See [Energy Credentials — Checklist](../../energy-credentials/README.md#checklist). The Digest adds:
 
 - [ ] Consumer-pull catalogue entry published on your BPP
 - [ ] MDM read path tuned for the supported granularities and ranges

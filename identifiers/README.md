@@ -1,5 +1,7 @@
 # Identifiers and Addressing
 
+**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
+
 This page is the single home for everything IES has to say about identifiers. Read the first three sections and you will have enough to claim your DISCOM's identity on the network and issue your first credential. The appendices are there when you want more depth, want to issue at scale, or need to identify assets, meters, and datasets too.
 
 > **About the walkthroughs.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
@@ -167,7 +169,56 @@ Notice what is *not* required there: no central registry of consumers, no nation
 
 ## Checklist
 
-A plain-English, printable checklist for a DISCOM (or any organisation) standing up its `did:web` identity and identifier conventions is a separate sub-page: **[Identifiers and Addressing — Checklist](../checklists/identifiers-checklist.md)**.
+A DISCOM (or any organisation) joining IES, working top-to-bottom. Each item maps to a section above.
+
+### 1. Decide your organisation's public name on the network
+
+Pick a domain or subdomain you control (e.g. `ies.discom.org`). It anchors your `did:web` and hosts your `did.json`. For a sub-path, reflect it in the DID (`did:web:discom.org:ies`) — see [What you'll need](#a-org-identity-for-credentials-and-data-exchange-payloads).
+
+- [ ] Domain/subdomain selected and available
+- [ ] Decided whether `did.json` lives at `/.well-known/did.json` or a sub-path
+
+### 2. Set up your digital identity
+
+Run [OpenCred](https://opencred.gitbook.io/docs/bootcamp/local-docker), generate an EC P-256 key (private key in KMS), and publish the DID document on your domain.
+
+- [ ] OpenCred running with `OPENCRED_ISSUER_DID_METHOD=web` and your subdomain
+- [ ] `did.json` published at `https://<subdomain>/.well-known/did.json`
+- [ ] `curl https://<subdomain>/.well-known/did.json` returns the expected DID
+
+### 3. Agree how you will identify consumers and assets
+
+Wrap existing internal numbers into network identifiers — no renumbering; deterministic and reversible (see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets)). DISCOM: `did:web:<subdomain>`; consumer holder: `did:key:<wallet>`; consumer CIS number kept verbatim as `customerNumber`; asset: `did:web:<subdomain>:assets:<class>:<internal-id>`.
+
+- [ ] Mapping rule agreed for consumers, meters, assets, documents
+- [ ] Confirmed no internal renumbering needed
+
+### 4. Decide what stays private and what becomes public
+
+For each identifier type, decide internal-only vs. network-visible.
+
+- [ ] Privacy decision recorded per identifier type
+
+### 5. (Beckn only) Get referenced in the IES DISCOM registry
+
+Not needed for credential issuance (your `did:web` + `issuer.idRef` carry that trust). Required only to join the **inter-DISCOM data exchange network**, where the network operator references you into its curated registry.
+
+- [ ] Referenced in the network registry — only if joining the data exchange network
+
+### 6. (Beckn only) Publish your Beckn subscriber record
+
+For data exchange over Beckn, publish a subscriber record under your verified DeDi namespace so nodes find your callback URL and Ed25519 key — see [Appendix E](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+
+- [ ] DeDi namespace verified (TXT-record domain ownership) and Ed25519 keypair generated
+- [ ] Subscriber record published (subscriber ID, callback URL, role, signing public key)
+- [ ] Lookup resolves on the DeDi fabric; the NFO has referenced your record
+
+### 7. Nominate your team
+
+- [ ] IT SPOC (OpenCred / keys / ONIX) — name, email, phone
+- [ ] Governance / Compliance SPOC (approves public publishing) — name, email, phone
+
+Once these are in place you can issue [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md); for issuance/revocation commands see [Energy Credentials → Issue your first credential](../energy-credentials/README.md#issue-your-first-credential).
 
 ---
 

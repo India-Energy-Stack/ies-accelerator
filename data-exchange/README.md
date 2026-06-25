@@ -1,5 +1,7 @@
 # Data Exchange
 
+**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
+
 This page is the single home for everything IES has to say about exchanging structured datasets over the network. If you're a **TSP, DISCOM, or AMISP** looking to share data as fast as possible — meter telemetry, ARR filings, tariff orders, anything else — start with [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) and you'll have a signed `confirm` → `on_confirm` round-trip running locally in under 10 minutes. The appendices cover the protocol theory, ONIX architecture, and validation mechanics when you need them.
 
 > **About the walkthrough.** The commands below use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
@@ -311,7 +313,49 @@ Any JSON payload can be exchanged; the families above are simply the ones IES sh
 
 ## Checklist
 
-The staged checklist from devkit sandbox to production go-live is a separate sub-page so it stays printable and trackable: **[Data Exchange — Checklist](../checklists/data-exchange-checklist.md)**.
+Devkit sandbox to production go-live, staged. Role: ☐ BAP (consumer) ☐ BPP (provider) ☐ Both.
+
+### Stage 0 — Scope and team
+
+- [ ] Datasets identified (meter telemetry, ARR filings, tariff policies, …) → [What you can exchange](#what-you-can-exchange-schema-families)
+- [ ] Source system mapped per dataset (MDMS / billing / regulatory filing)
+- [ ] IT/data SPOC and an authorised signatory nominated
+
+### Stage 1 — Devkit validation (local sandbox)
+
+*Prove the wiring and your payload handling — no real identity, no real network.*
+
+- [ ] [Clone and start the stack](#id-1.-clone-and-start-the-stack); all 7 containers healthy
+- [ ] [Postman collection imported](#id-2.-import-the-postman-collection-for-your-use-case) for your role + use case
+- [ ] [`confirm` sent](#id-3.-send-confirm) (ACK) and [`on_confirm` landed](#id-4.-watch-on_confirm-land) in `sandbox-bap`/`sandbox-bpp`
+- [ ] (BAP) your app consumes the `dataPayload` ([MeterData](../schemas/MeterData/README.md) / [ArrFiling](../schemas/ArrFiling/README.md) / tariff); (BPP) your provider emits `on_confirm` (or `on_status`)
+
+### Stage 2 — Network identity (DeDi)
+
+- [ ] DeDi namespace claimed and domain-verified → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
+- [ ] Ed25519 signing keypair generated → [Identifiers — Step 2](../identifiers/README.md#step-2-generate-your-beckn-signing-keypair)
+- [ ] Subscriber record published (`subscriber_id`, `subscriber_url`, `type`, `signing_public_key`, `countries`) and lookup resolves
+- [ ] Noted: `subscriber_id`, `record_id` (= ONIX `keyId`), keypair
+
+### Stage 3 — Test-network certification
+
+- [ ] ONIX config swapped to your real identity → [Swap in your real identity](#swap-in-your-real-identity)
+- [ ] `allowedNetworkIDs` = `indiaenergystack.in/test-ies-data-sharing-network`
+- [ ] IES Secretariat emailed your DeDi lookup URL → [Registries — How to apply](../registries/README.md#how-to-apply-for-an-ies-listing); subscriber confirmed under the test network
+- [ ] End-to-end `confirm` → `on_confirm` with another participant; [pagination](#pagination-large-datasets-across-multiple-status-on_status-messages) tested if applicable
+
+### Stage 4 — Production deployment
+
+- [ ] Second ONIX on the production hostname (TLS, separate keypair + DeDi record) → [Two registries, two ONIX deployments](#two-registries-two-onix-deployments)
+- [ ] Prod `allowedNetworkIDs` = `indiaenergystack.in/ies-data-sharing-network`; Secretariat re-applied for the prod reference
+- [ ] First prod exchange completed; test ONIX kept for staging/certification
+
+### Stage 5 — Operational hardening
+
+- [ ] Reverse proxy + TLS in front of ONIX (never expose `:8081`/`:8082`)
+- [ ] Signing key in a secret manager; key-rotation runbook in place
+- [ ] Schema validation enabled → [Appendix C](#appendix-c-schema-validation); monitoring on ONIX health, signature failures, registry lookups
+- [ ] On-call rota for BAP/BPP webhooks; your own app has replaced `sandbox-bap`/`sandbox-bpp` → [Make the sandbox your own](#make-the-sandbox-your-own)
 
 ---
 

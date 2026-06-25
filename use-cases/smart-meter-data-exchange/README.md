@@ -73,7 +73,7 @@ Meter population, geography, granularity (15-min / daily / monthly), counterpart
 
 ### 2. Get a network identity
 
-Both BAP and BPP need a DeDi subscriber record with a published signing key. If you have one already (any other Beckn flow on this network), reuse it. If not, follow [Data Exchange — Checklist → Stage 2 (Network identity)](../../checklists/data-exchange-checklist.md#stage-2-network-identity-dedi).
+Both BAP and BPP need a DeDi subscriber record with a published signing key. If you have one already (any other Beckn flow on this network), reuse it. If not, follow [Data Exchange — Checklist → Stage 2 (Network identity)](../../data-exchange/README.md#stage-2-network-identity-dedi).
 
 You do **not** need to rename anything in your CIS, MDMS, or asset registers. Your existing IDs are reused as the tail of the DID.
 
@@ -87,7 +87,7 @@ cd DEG/devkits/data-exchange/install
 docker compose up -d
 ```
 
-This brings up `sandbox-bap`, `sandbox-bpp`, and `beckn-router` pre-wired with placeholder identities. End-to-end network onboarding is the [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md); don't duplicate the steps here — read that page.
+This brings up `sandbox-bap`, `sandbox-bpp`, and `beckn-router` pre-wired with placeholder identities. End-to-end network onboarding is the [Data Exchange — Checklist](../../data-exchange/README.md#checklist); don't duplicate the steps here — read that page.
 
 ### 4. Publish your dataset catalogue (BPP)
 
@@ -126,7 +126,7 @@ did:web:<dedi-host>:<your-namespace>:substations:<existing-substation-code>
 
 ## Checklist for your meter-data rollout
 
-For the **underlying network onboarding** (DeDi subscriber, ONIX, signing keys, sandbox→test→prod cut-over), follow the canonical [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md). Don't duplicate those items here.
+For the **underlying network onboarding** (DeDi subscriber, ONIX, signing keys, sandbox→test→prod cut-over), follow the canonical [Data Exchange — Checklist](../../data-exchange/README.md#checklist). Don't duplicate those items here.
 
 The items below are **meter-data-specific** additions on top of that checklist:
 
@@ -155,6 +155,6 @@ The items below are **meter-data-specific** additions on top of that checklist:
 - [MeterDataRequestCredential — authorisation VC](../../schemas/MeterDataRequestCredential/README.md) (current: `v0.1`)
 - [IES Meter Data Model](./ies-meter-data-model.md) — OBIS / IS 15959 / CIM → MeterData v0.6 mapping
 - [Data Exchange chapter](../../data-exchange/README.md)
-- [Data Exchange — Checklist](../../checklists/data-exchange-checklist.md)
+- [Data Exchange — Checklist](../../data-exchange/README.md#checklist)
 - [Registries and Directories](../../registries/README.md)
 - [Identifiers and Addressing](../../identifiers/README.md)

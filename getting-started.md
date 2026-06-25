@@ -24,7 +24,7 @@ The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document
 
 [DeDi](glossary.md#dedi)-based public registries that resolve identifiers to records and act as the trust layer for credentials and [Beckn](glossary.md#beckn). Covers the IES reference registries ([DISCOMs](glossary.md#discom), regulators, network), the per-participant registries you need to operate (Beckn subscriber, revocation, public-keys), and the step-by-step process for creating them.
 
-**Who should use this:** Every participant onboarding to IES. Start here with the [Registries checklist](./checklists/registries-checklist.md).
+**Who should use this:** Every participant onboarding to IES. Start here with the [Registries checklist](./registries/README.md#checklist).
 
 ### Energy Credentials
 
@@ -55,7 +55,7 @@ A federated, policy-governed mechanism for discovering and exchanging structured
 ## Choosing Your Path
 
 - **A DISCOM, regulator, or [NP](glossary.md#np) onboarding to the IES network for the first time?**
-  → Go to [Registries → Checklist](./checklists/registries-checklist.md).
+  → Go to [Registries → Checklist](./registries/README.md#checklist).
 
 - **Issuing or verifying credentials about energy consumers or assets?**
   → Go to [Energy Credentials → Onboarding Guide](./energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](./registries/README.md) chapter.
