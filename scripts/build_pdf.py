@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import pathlib
 import re
@@ -45,6 +46,38 @@ GLYPH_FALLBACKS = {
 
 ENTRY_RE = re.compile(r"^(\s*)\*\s+\[([^\]]+)\]\(([^)]+)\)")
 MERMAID_RE = re.compile(r"^```mermaid\s*\n(.*?)\n```\s*$", re.MULTILINE | re.DOTALL)
+# A SUMMARY entry whose title is a version label, e.g. "v1.2", "v0.6", "v0.1".
+VERSION_RE = re.compile(r"^v\d+(\.\d+)*$", re.IGNORECASE)
+
+
+def filter_latest_versions(
+    entries: list[tuple[int, str, str]],
+) -> list[tuple[int, str, str]]:
+    """Keep only the latest version page per schema family.
+
+    SUMMARY.md lists a family's versions newest-first as consecutive siblings at
+    the same depth (e.g. v1.2, v1.1, v1.0). For each such run we keep the first
+    (latest) entry and drop the older ones. Non-version entries are untouched.
+    SUMMARY.md / GitBook itself is not modified.
+    """
+    result: list[tuple[int, str, str]] = []
+    i, n = 0, len(entries)
+    while i < n:
+        depth, title, path = entries[i]
+        if VERSION_RE.match(title.strip()):
+            result.append(entries[i])  # latest (first listed)
+            j = i + 1
+            while (
+                j < n
+                and entries[j][0] == depth
+                and VERSION_RE.match(entries[j][1].strip())
+            ):
+                j += 1  # skip older versions in the same run
+            i = j
+        else:
+            result.append(entries[i])
+            i += 1
+    return result
 
 
 def parse_summary() -> list[tuple[int, str, str]]:
@@ -97,6 +130,14 @@ def preprocess(text: str, mmdc: str | None) -> str:
 
 
 def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument(
+        "--all-versions",
+        action="store_true",
+        help="include every schema version (default: only the latest version per family)",
+    )
+    args = ap.parse_args()
+
     BUILD.mkdir(exist_ok=True)
     MERMAID_DIR.mkdir(exist_ok=True)
 
@@ -105,6 +146,12 @@ def main() -> int:
         print("NOTE: mmdc (mermaid-cli) not on PATH; mermaid blocks will render as code.", file=sys.stderr)
 
     entries = parse_summary()
+    if not args.all_versions:
+        before = len(entries)
+        entries = filter_latest_versions(entries)
+        dropped = before - len(entries)
+        if dropped:
+            print(f"Including latest version only — dropped {dropped} older version page(s). Use --all-versions to include all.")
     out_lines: list[str] = []
     missing: list[str] = []
     for depth, title, path in entries:
