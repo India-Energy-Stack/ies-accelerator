@@ -1,5 +1,7 @@
 # DISCOM Regulatory Filing
 
+**In a hurry?** Jump to the [Checklist](#checklist).
+
 **A DISCOM submits its Aggregate Revenue Requirement (ARR), tariff petition, true-up, or other compliance filing to a State Electricity Regulatory Commission (SERC) as a structured, signed, machine-verifiable object.**
 
 ---
@@ -203,9 +205,60 @@ ARR filings arrive today as PDFs/Excel sheets that regulators manually re-key. D
 
 ---
 
-## References
+## Checklist
 
-- [Checklist](./checklist.md) — plain-English rollout checklist
+For the DISCOM (filing) and the SERC (receiving). Role: ☐ DISCOM ☐ SERC ☐ Both.
+
+**1. Decide which filings to start with** — usually annual ARR first, then true-up, FPPCA, compliance returns.
+
+- [ ] Filing types selected; source system identified for each (financial / regulatory-affairs)
+- [ ] Native vs OpenADR-3 representation agreed with the counterparty
+
+**2. Register both parties on the IES network.**
+
+- [ ] DISCOM in the DISCOMs reference registry; SERC in the Regulators reference registry
+- [ ] Signing keypairs generated and stored in a secrets manager
+
+**3. Agree the cost-category mapping** — map your finance system's categories to the `IES_ARR_Filing` enumeration once.
+
+- [ ] Categories mapped and signed off by regulatory affairs + finance
+- [ ] Tariff-order references (`policyID`) tracked so each filing cites the order it answers
+
+**4. Generate a sample filing as structured data.**
+
+- [ ] One prior-year filing converted to `IES_ARR_Filing` and schema-validated
+- [ ] Line-item parity confirmed against the source PDF
+- [ ] Workbook-attachment policy decided (separate dataset / embedded / omitted)
+
+**5. Stand up the data-exchange adapters** — DISCOM provider-side, SERC consumer-side; prove on the devkit first.
+
+- [ ] Adapters running on the devkit sandbox
+- [ ] Test `confirm` → `on_status` with the sample filing succeeds; both sides verify signatures against the registry
+
+**6. Catalogue the filing and submit.**
+
+- [ ] Catalogue entry published per filing (`ARR` / `TRUE_UP` / `FPPCA` / `COMPLIANCE`)
+- [ ] SERC archives the original signed envelope as the non-repudiation record
+- [ ] Re-submission policy agreed (`updatedAt`, same `filingId`)
+
+**7. (Optional) Open the filing for public consumption.**
+
+- [ ] Public-disclosure catalogue entry published (settlement value `0`), if mandated
+- [ ] Consumer-rep parties / researchers onboarded as BAPs
+
+**8. Production deployment and go-live.**
+
+- [ ] HTTPS live; signing keys in a secrets manager; monitoring / alerting active
+- [ ] One real production submission completed and verified
+- [ ] Operations runbook (key rotation, late-amendment handling)
+
+**9. Team.** [ ] Regulatory / finance SPOC · [ ] IT SPOC · [ ] Authorised Signatory
+
+For the underlying network onboarding, see the [Data Exchange → Checklist](../../data-exchange/README.md#checklist).
+
+---
+
+## References
 
 - [`IES_ARR_Filing` schema (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/arr)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc2-regulatory-data/examples)

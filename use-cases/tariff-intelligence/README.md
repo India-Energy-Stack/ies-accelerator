@@ -1,5 +1,7 @@
 # Tariff Intelligence
 
+**In a hurry?** Jump to the [Checklist](#checklist).
+
 **Tariff orders, time-of-day surcharges, deviation penalties, and data-exchange rules published as machine-readable *policy-as-code* — consumable by billing systems, consumer apps, smart meters, and analytics agents directly.**
 
 ---
@@ -225,9 +227,53 @@ cd DEG/devkits/data-exchange/uc3-tariff-policy/workflows
 
 ---
 
-## References
+## Checklist
 
-- [Checklist](./checklist.md) — plain-English rollout checklist
+For a SERC, DISCOM, or other policy authority. Role: ☐ Publisher (SERC / utility) ☐ Consumer (DISCOM billing / app / meter).
+
+**1. Decide which policies to publish** — usually residential and LT-commercial tariff orders first; the same envelope later carries deviation penalties, DR rules, data-quality SLAs.
+
+- [ ] Policy types selected (`TARIFF`, `DISPATCH_GUIDE`, …); source documents identified
+
+**2. Register on the IES network.**
+
+- [ ] Publisher registered in the appropriate reference registry (Regulators / DISCOMs)
+- [ ] Signing keypair generated and stored in a secrets manager
+
+**3. Mint stable identifiers** — a stable `policyID` (e.g. `MUM-RES-T1`, `KA-LT2-IND-TOD-2026`); related policies grouped under a `programID`.
+
+- [ ] Policy-ID scheme adopted; program IDs defined
+
+**4. Author the policy as structured data** — energy slabs, ToD surcharges, validity window, recurrence.
+
+- [ ] Authored in `IES_Policy` JSON-LD; schema validation passes; parity with the order PDF confirmed
+
+**5. Sign with the publisher's key.**
+
+- [ ] Signing pipeline tested (key access, sign, verify round-trip)
+- [ ] Versioning agreed (new `id` per amendment, same `policyID`, explicit `replaces` link)
+
+**6. Publish via the data exchange.**
+
+- [ ] Catalogue entry published; public-disclosure access policy documented (inline delivery, settlement `0`)
+
+**7. Sample-consume in a billing system** — confirm a bill computes from the JSON-LD without re-keying.
+
+- [ ] Sample consumer ingests the policy and computes a bill
+- [ ] Edge cases tested (open-ended top slab, surcharge-window wrap-around, percent vs absolute adders)
+
+**8. Production deployment and go-live.**
+
+- [ ] HTTPS live; signing keys in a secrets manager; monitoring / alerting active
+- [ ] First real tariff published alongside the SERC order; amendment / republication runbook in place
+
+**9. Team.** [ ] Legal / regulatory SPOC · [ ] IT SPOC · [ ] Authorised Signatory
+
+For the underlying network onboarding, see the [Data Exchange → Checklist](../../data-exchange/README.md#checklist).
+
+---
+
+## References
 
 - [`IES_Policy`, `IES_Program`, `EnergySlab`, `SurchargeTariff` (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [ies-docs tariff specification example](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/data_exchange/examples/tariff_specification_example.jsonld)

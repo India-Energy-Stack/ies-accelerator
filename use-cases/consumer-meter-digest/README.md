@@ -1,5 +1,7 @@
 # Consumer Meter Digest
 
+**In a hurry?** Jump to the [Checklist](#checklist).
+
 **The Consumer Meter Digest is a [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md) issued, on consumer demand, holder-bound to the consumer's wallet, carrying their own meter readings for a specified period.** It is not a new credential type — it is *how* an existing MeterDataCredential is configured when a consumer (rather than another DISCOM or AMISP) is the audience.
 
 The Digest gives a consumer a portable, signed, verifier-friendly bundle of their telemetry — for a loan application, a rooftop-solar quote, a tariff comparison, a marketplace listing, a housing-society compliance check — without those parties having to phone the DISCOM.
@@ -51,14 +53,43 @@ Granularity options today: `RAW_15M` (15-minute interval data), `DAILY`, `MONTHL
 4. Deliver to the consumer's wallet — [DigiLocker delivery](../../energy-credentials/digilocker.md), or directly to a known DID inbox if the wallet exposes one.
 5. Revocation rarely matters in practice (Digests typically expire faster than they would need revocation), but the same DeDi-hash revocation flow is available if you need it.
 
-## Operational checklist
+## Checklist
 
-See [Energy Credentials — Checklist](../../energy-credentials/README.md#checklist). The Digest adds:
+Use-case-specific items on top of base credential issuance.
 
-- [ ] Consumer-pull catalogue entry published on your BPP
-- [ ] MDM read path tuned for the supported granularities and ranges
-- [ ] Wallet → Digest round-trip tested with both DigiLocker and at least one direct-DID wallet
-- [ ] `validUntil` window agreed with the first set of verifiers (loan portals tend to want fresh; subsidy portals tolerate a week)
+**Step 0 — base issuance in place.** Complete [Energy Credentials → Checklist](../../energy-credentials/README.md#checklist) Phases 1–2.
+
+**Step 1 — MDM read path.**
+
+- [ ] Read access tested for the granularities you'll support (`RAW_15M`, `DAILY`, `MONTHLY`, derived summaries)
+- [ ] Max-range policy decided (e.g. 24 months for `MONTHLY`, 90 days for `RAW_15M`)
+- [ ] Latency budget understood — consumer flows need a Digest in seconds
+
+**Step 2 — consumer-pull endpoint.**
+
+- [ ] Beckn `DatasetItem` for the pull endpoint published on your BPP (`accessMethod: INLINE`)
+- [ ] `requiredCredential` restricts callers to a valid [Consumer Energy Passport](../consumer-energy-passport/README.md) (or minimal customer credential)
+- [ ] `granularityOptions` / `maxRange` match Step 1's policy
+
+**Step 3 — issuance shape.**
+
+- [ ] `credentialSubject.id` = wallet DID; `schemaId` = `MeterDataCredential/v0.6`
+- [ ] `validUntil` short — 24h for loan portals, up to 7d for less time-sensitive flows
+- [ ] Schema validation passes against [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md)
+
+**Step 4 — wallet delivery.**
+
+- [ ] DigiLocker pull tested end-to-end → [DigiLocker delivery](../../energy-credentials/digilocker.md)
+- [ ] One direct DID-push path tested for non-DigiLocker wallets
+- [ ] Consumer sees the Digest within the Step 1 latency budget
+
+**Step 5 — verifier interop.**
+
+- [ ] Verification rehearsed with one verifier (bank / marketplace / housing society / EV installer)
+- [ ] If you emit derived `summary` outputs, share the schema + description with verifiers up front
+- [ ] Revocation flow tested (even though Digests usually expire before needing it)
+
+**Team.** [ ] IT SPOC (MDM read path + BPP catalogue) · [ ] Customer-ops SPOC (wallet support) · [ ] Governance / Compliance SPOC (data-disclosure policy)
 
 ## References
 

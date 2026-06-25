@@ -1,5 +1,7 @@
 # Energy Trading
 
+**In a hurry?** Jump to the [Checklist](#checklist).
+
 > **Status — work in progress.**
 
 **Two prosumers on different discoms execute a direct, signed energy trade. Each discom is represented in the protocol by a regulated Ledger Provider. The same wire protocol that carries datasets in [Data Exchange](../../data-exchange/README.md) carries the trade — but the payload is a contract and its fulfillment, not a dataset.**
@@ -216,6 +218,50 @@ Mandating the settlement bundle the same way as the network bundle keeps every p
 
 ---
 
+## Checklist
+
+> **Work in progress** — plan against the stable parts. Items are additions on top of the [Data Exchange → Checklist](../../data-exchange/README.md#checklist) (do that first). Role: ☐ Buyer TP (BAP) ☐ Seller TP (BPP) ☐ Ledger Provider ☐ DISCOM.
+
+**1. Network identity** (shared with Data Exchange) — reuse an existing Beckn identity, or follow [Data Exchange → Stage 2](../../data-exchange/README.md#stage-2-network-identity-dedi).
+
+- [ ] DeDi subscriber record under the right network namespace
+- [ ] Signing key in a secrets manager, never in config
+
+**2. Devkit running end-to-end** — prove the four-actor topology and the Phase-3 cascade before integrating real systems.
+
+- [ ] `devkits/p2p-trading-ies-wave2/install` up and healthy
+- [ ] Role Postman collection: `/select` → `/init` → `/confirm` → `/status` completes
+
+**3. Schemas mapped** to the DEG family.
+
+- [ ] [`P2PTrade`](https://schema.beckn.io/P2PTrade/) + [`DEGContract`](https://schema.beckn.io/DEGContract/) envelope (four roles, policy URL)
+- [ ] [`EnergyTradeOffer`](https://schema.beckn.io/EnergyTradeOffer/) for your catalogue; [`BecknTimeSeries`](https://schema.beckn.io/BecknTimeSeries/) descriptors per `payloadType`
+- [ ] (LP) [`DiscomLedgerProvider`](https://schema.beckn.io/DiscomLedgerProvider/) entry registered
+
+**4. `degledgerrecorder` cascade configured** — configure the plugin (you don't write the cascade); edit only the `participants` block.
+
+- [ ] Plugin enabled (`ledgerUriSource: payload`, `ledgerApi: beckn`)
+- [ ] Rules 1, 2a, 2b verified on the devkit; no loops (every 2a path terminates at a discom)
+
+**5. Policy bundles resolved** — both published on DeDi by the NFO; fetch, verify, evaluate locally.
+
+- [ ] Network and settlement bundle URLs resolve and signatures verify
+- [ ] Local OPA eval rejects rule-violating payloads and computes revenue flows; bundle version pinned per contract
+
+**6. DISCOM ↔ LP meter-data sub-transaction (Phase 5)** — meter quantities flow as `BecknTimeSeries` (not `MeterData` / `DatasetItem`).
+
+- [ ] (DISCOM) meter quantities published to the LP as `BecknTimeSeries`
+- [ ] (LP) meter-quantity payloadTypes wired into the allocation function
+
+**7. Production cut-over** (shared with Data Exchange).
+
+- [ ] HTTPS live; keys in a secrets manager; monitoring / alerting / on-call for your role
+- [ ] One real trade completed and reconciled; runbook (key rotation, bundle upgrades, disputes)
+
+**8. Team.** [ ] IT / data SPOC · [ ] Commercial / settlement SPOC · [ ] Authorised Signatory
+
+---
+
 ## References
 
 - [DEG devkit — `p2p-trading-ies-wave2`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2) — code, examples, Postman collections
@@ -224,4 +270,3 @@ Mandating the settlement bundle the same way as the network bundle keeps every p
 - [`degledgerrecorder` plugin](https://github.com/beckn/DEG/tree/main/plugins/degledgerrecorder) — the cascade engine
 - [Schemas on `schema.beckn.io`](https://schema.beckn.io/) — `P2PTrade`, `DEGContract`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DiscomLedgerProvider`, `BecknTimeSeries`
 - [Sample bill-calculation worksheet](https://docs.google.com/spreadsheets/d/104Qg0tBysjDqN3UKw-_mL5lwMnipwUO6h-1E8jDPw4Y/edit?gid=1170589686#gid=1170589686)
-- [Checklist](./checklist.md) — rollout checklist for TP, LP, and discom teams
