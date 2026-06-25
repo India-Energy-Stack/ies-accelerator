@@ -1,5 +1,7 @@
 # Consumer Energy Passport
 
+**In a hurry?** Jump to the [Checklist](#checklist).
+
 **The Consumer Energy Passport is an [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) issued holder-bound to a consumer's wallet.** It is not a new credential type — it is *how* the existing v1.2 credential is shaped, issued, and delivered when the consumer is the audience.
 
 A DISCOM signs it. The consumer carries it in [DigiLocker](../../glossary.md#digilocker) or a DID wallet. Banks, marketplaces, regulators, subsidy portals, and consented apps verify it offline using the DISCOM's published `did.json`.
@@ -54,13 +56,36 @@ A typical issuance happens once at customer onboarding (and then is re-issued on
 
 The Passport is a regular VC, so any selective-disclosure profile your wallet supports (SD-JWT-VC is the typical choice in 2026) works. The DISCOM is not in the disclosure loop — the wallet chooses which fields to present to each verifier.
 
-## Operational checklist
+## Checklist
 
-See [Energy Credentials — Checklist](../../energy-credentials/README.md#checklist). The Passport adds:
+Use-case-specific items on top of base credential issuance.
 
-- [ ] Identity-proofing-at-issuance procedure documented and approved
-- [ ] Wallet/DigiLocker integration tested end-to-end
-- [ ] Selective-disclosure presentation profile agreed with the first set of verifiers
+**Step 0 — base issuance in place.** Complete [Energy Credentials → Checklist](../../energy-credentials/README.md#checklist) Phases 1–2 (foundations, issue / verify / revoke).
+
+**Step 1 — identity proofing.** The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.idRef` to a government-ID *reference*, both vouched for at issuance — see [Identifiers — Identity-proofing at issuance](../../identifiers/README.md#before-you-bind-anything-identity-proofing-at-issuance).
+
+- [ ] Method chosen (DigiLocker pull / AADHAAR_OFFLINE_KYC / in-person / DISCOM record match)
+- [ ] Privacy review completed; procedure tested with one consumer
+
+**Step 2 — wallet delivery.**
+
+- [ ] DigiLocker Pull URI registered → [DigiLocker delivery](../../energy-credentials/digilocker.md)
+- [ ] Direct DID-push tested for one non-DigiLocker wallet (where relevant)
+- [ ] A freshly issued Passport reaches a wallet end-to-end
+
+**Step 3 — issuance shape.**
+
+- [ ] `credentialSubject.id` = wallet DID; `customerProfile.idRef` = verified government-ID *reference* (not the raw number)
+- [ ] `validUntil` set to a sensible horizon (re-issued on material change)
+- [ ] Schema validation passes against [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)
+
+**Step 4 — verifier interop.**
+
+- [ ] Selective-disclosure profile agreed with the first verifiers (SD-JWT-VC typical)
+- [ ] Verification rehearsed with one verifier (bank / marketplace / subsidy portal)
+- [ ] Revocation tested — revoking invalidates all presentations within minutes
+
+**Team.** [ ] Customer-ops SPOC (identity proofing) · [ ] IT SPOC (wallet delivery) · [ ] Governance / Compliance SPOC (privacy review)
 
 ## References
 
