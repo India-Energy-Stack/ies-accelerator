@@ -7,17 +7,16 @@ it already carries property descriptions and our ``x-*`` extensions). One table
 is produced per object component — the root payload (when it has properties)
 plus each ``$defs`` entry — so the README documents itself for energy experts.
 
-Columns:
-  Field       — the property name.
+Columns (Field / Type / Description):
+  Field       — the property name. Required fields (in the component's ``required``
+                list) are bold with a trailing "*"; the header note explains the "*".
   Type        — derived from the JSON Schema (enum -> "a / b / c", array -> "list of X",
                 $ref -> the model name, boolean -> "yes / no", string+format -> the
                 format, else the JSON type). A QuantitativeValue-style {value, unit}
                 model shows its units, e.g. "QVPower (W / kW / MW)".
-  Standard    — the field's ``x-standard`` annotation (in attributes.yaml -> schema.json),
-                or "—" when unset. This is curated domain metadata, not auto-derived.
-  Description — the field's ``description`` from the schema (whitespace-collapsed),
-                prefixed with the field's status: "**Mandatory** — …" if the field is
-                in the component's ``required`` list, else "**Optional** — …".
+  Description — the field's ``description`` (whitespace-collapsed). When the field has an
+                ``x-standard`` annotation, the cell leads with "**Based on** <standard>."
+                and the description follows.
 
 The table is written between
   <!-- FIELD-TABLE:START ... -->  and  <!-- FIELD-TABLE:END -->
@@ -140,23 +139,23 @@ def component_table(title: str, comp: dict, defs: dict) -> str:
     for name, prop in props.items():
         if name == "@context":
             continue
+        # Required fields: bold name + trailing "*" (the header explains the "*").
+        # Status is no longer a column or a description prefix.
+        field = f"**`{md_escape(name)}`** \\*" if name in required else f"`{md_escape(name)}`"
         standard = prop.get("x-standard") if isinstance(prop, dict) else None
-        rows.append((
-            f"`{md_escape(name)}`",
-            md_escape(type_str(prop, defs)),
-            md_escape(standard) if standard else DASH,
-            "Mandatory" if name in required else "Optional",
-            md_escape(desc_str(prop)),
-        ))
+        desc = md_escape(desc_str(prop))
+        # Standard-derived fields lead with "Based on <standard>."; the field's
+        # own description (if any) follows.
+        cell_parts = []
+        if standard:
+            cell_parts.append(f"**Based on** {md_escape(standard)}.")
+        if desc != DASH:
+            cell_parts.append(desc)
+        rows.append((field, md_escape(type_str(prop, defs)), " ".join(cell_parts) or DASH))
     if not rows:
         return ""
-    # Status is folded into the Description cell (e.g. "**Mandatory** — …") so the
-    # description gets a full-width column instead of being squeezed beside a
-    # short Status column.
-    out = [f"### {title}", "", "| Field | Type | Standard | Description |", "|---|---|---|---|"]
-    for f, t, s, st, d in rows:
-        desc = f"**{st}** — {d}" if d != DASH else f"**{st}**"
-        out.append(f"| {f} | {t} | {s} | {desc} |")
+    out = [f"### {title}", "", "| Field | Type | Description |", "|---|---|---|"]
+    out += [f"| {f} | {t} | {d} |" for f, t, d in rows]
     out.append("")
     return "\n".join(out)
 
@@ -167,11 +166,11 @@ def build_block(schema: dict) -> str:
         START,
         "## Field reference",
         "",
-        "_Auto-generated from `schema.json`. **Field**, **Type** (with units for "
-        "QuantitativeValue models), and **Description** are derived from the schema; the "
-        "description is prefixed with the field's **Mandatory**/**Optional** status. "
-        "**Standard** comes from each field's `x-standard` annotation (`—` when unset). "
-        "One table per object._",
+        "_Auto-generated from `schema.json`. A field name in **bold** with a trailing "
+        "**\\*** is required; all others are optional. **Type** shows units for "
+        "QuantitativeValue models. Where a field is derived from a standard, its "
+        "description begins with **Based on** and the standard reference (from the "
+        "field's `x-standard` annotation). One table per object._",
         "",
     ]
     # Root payload table (only when the root declares properties directly).
