@@ -64,7 +64,7 @@
     },
     "customerDetails": {
       "fullName": "Sunita Rao",
-      "careOf": [{ "name": "Prakash Rao", "relationship": "spouse" }],
+      "careOf": { "name": "Prakash Rao", "relationship": "spouse" },
       "installationAddress": {
         "geo": {"type": "Point", "coordinates": [77.5946, 12.9716]},
         "address": {"streetAddress": "12 Residency Road, Flat 101", "addressLocality": "Bengaluru", "addressRegion": "Karnataka", "postalCode": "560025", "addressCountry": "IN"}

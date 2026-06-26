@@ -95,7 +95,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | Field | Type | Description |
 |----|-------|-----------------|
 | **`fullName`** \* | text | **Based on** CIM (IEC 61968-1 Customer.name). Full name of the customer as per ID proof. |
-| `careOf` | list of object | Care-of (c/o) reference person(s) used to uniquely identify / disambiguate a customer who may share the same fullName with others in a locality (e.g. a village). Each entry pairs a name with an optional, gender-neutral relationship. |
+| `careOf` | object | Care-of (c/o) reference person used to uniquely identify / disambiguate a customer who may share the same fullName with others in a locality (e.g. a village). Pairs a name with an optional, gender-neutral relationship. |
 | **`installationAddress`** \* | Location | **Based on** GeoJSON RFC 7946; schema.org PostalAddress; CIM (IEC 61968-1 ServiceLocation). Physical location of the metered installation. geo (GeoJSON Point, coordinates [longitude, latitude]) is required; address (schema.org PostalAddress fields) is optional. |
 | **`serviceConnectionDate`** \* | date-time | **Based on** CIM (IEC 61968-1 ServiceLocation activation date). Date and time the service connection was activated, with timezone offset (ISO 8601). |
 
