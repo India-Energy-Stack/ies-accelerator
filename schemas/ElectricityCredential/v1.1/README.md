@@ -185,7 +185,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ElectricityCredential v1.1
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | uri | — |
 | **`type`** \* | list of text | — |
 | **`issuer`** \* | object | — |
@@ -198,14 +198,14 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### IdRef
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`issuedBy`** \* | uri | — |
 | **`subjectId`** \* | text | — |
 
 ### CustomerProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`customerNumber`** \* | text | — |
 | `idRef` | IdRef | — |
 | **`energyResources`** \* | list of EnergyResource | — |
@@ -214,21 +214,21 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ConsumptionProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`meterId`** \* | text | — |
 | **`sanctionedLoadKw`** \* | number | — |
 | `contractMaxDemandKw` | number | — |
 | `sanctionedExportLoadKw` | number | Sanctioned/approved grid export limit in kW. |
 | **`tariffCategoryCode`** \* | text | — |
-| `premisesType` | Residential / Commercial / Industrial / Agricultural | — |
-| `connectionType` | Single-phase / Three-phase | — |
-| `paymentMode` | PREPAID / POSTPAID | Indicates if the connection is prepaid or postpaid. |
+| `premisesType` | `Residential` / `Commercial` / `Industrial` / `Agricultural` | — |
+| `connectionType` | `Single-phase` / `Three-phase` | — |
+| `paymentMode` | `PREPAID` / `POSTPAID` | Indicates if the connection is prepaid or postpaid. |
 | `billingCycleDay` | integer | Day of month on which the billing cycle resets. |
 
 ### CustomerDetails
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`fullName`** \* | text | — |
 | **`installationAddress`** \* | Location | — |
 | **`serviceConnectionDate`** \* | date-time | — |
@@ -236,9 +236,9 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### EnergyResource
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `id` | text | — |
-| `type` | METER / DT / BUS / FEEDER / SOLAR / SOLAR_PV / WIND / HYDRO / BIOGAS / CHP / FUEL_CELL / BATTERY / BESS / EV_CHARGER / EV_V2G / SMART_HVAC / SMART_WATER_HEATER / CONTROLLABLE_LOAD / MICROGRID | — |
+| `type` | `METER` / `DT` / `BUS` / `FEEDER` / `SOLAR` / `SOLAR_PV` / `WIND` / `HYDRO` / `BIOGAS` / `CHP` / `FUEL_CELL` / `BATTERY` / `BESS` / `EV_CHARGER` / `EV_V2G` / `SMART_HVAC` / `SMART_WATER_HEATER` / `CONTROLLABLE_LOAD` / `MICROGRID` | — |
 | `attributes` | object | All non-topological attributes. CommonResourceAttributes (make, model, ratedPowerKw, energyCapacityKwh, telemetryProvider) plus type-specific fields (meterType, gps, location, feeder, bus, commissioningDate, storageType, …). |
 | `subResources` | list of text or EnergyResource | — |
 | `parentResources` | list of text | — |
@@ -246,14 +246,14 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### Location
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`geo`** \* | GeoJSONGeometry | — |
 | `address` | Address | — |
 
 ### Address
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `streetAddress` | text | Building name/number and street. |
 | `extendedAddress` | text | Apt, suite, floor, or C/O. |
 | `addressLocality` | text | City or locality. |
@@ -264,8 +264,8 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### GeoJSONGeometry
 
 | Field | Type | Description |
-|---|---|---|
-| **`type`** \* | Point / LineString / Polygon / MultiPoint / MultiLineString / MultiPolygon / GeometryCollection | — |
+|----|-------|-----------------|
+| **`type`** \* | `Point` / `LineString` / `Polygon` / `MultiPoint` / `MultiLineString` / `MultiPolygon` / `GeometryCollection` | — |
 | `coordinates` | list of — | Coordinates per RFC 7946. For a Point: [longitude, latitude]. |
 | `geometries` | list of GeoJSONGeometry | Member geometries when type is GeometryCollection. |
 | `bbox` | list of number | Bounding box [west, south, east, north] in degrees. |

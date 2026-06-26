@@ -38,7 +38,7 @@
         "SCHEDULED_ROSTERING",
         "EMERGENCY_ROSTERING"
       ],
-      "description": "LOCAL enum (not from a standard) — derived from the UPPCL OMS\n\"Down Info\" value set (confirmed from the UPPCL BDSD export):\nPLANNED              - \"Planned Shutdown\" (scheduled maintenance).\nBREAKDOWN            - \"Breakdown Shutdown\" (unplanned / fault outage).\nSCHEDULED_ROSTERING  - \"Scheduled Rostering\" (planned rotational load-shedding on a roster).\nEMERGENCY_ROSTERING  - \"Emergency Rostering\" (load-driven, e.g. overload, rotational shedding).\nAdditive enum: extend if the OMS adds further Down Info values.\nRestoration is a status transition (status=RESTORED), not a class.\n"
+      "description": "Outage class, from the UPPCL OMS \"Down Info\" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class.\n"
     },
     "status": {
       "type": "string",
@@ -59,7 +59,7 @@
         "CANCEL"
       ],
       "default": "ALERT",
-      "description": "Message type. Enum BORROWED from OASIS CAP v1.2 `alert/msgType`\n(Alert/Update/Cancel). UPDATE/CANCEL refer to a prior notice via references.\n",
+      "description": "Message type; UPDATE/CANCEL refer to a prior notice via `references`.",
       "$comment": "Enum borrowed from OASIS CAP v1.2 (alert/msgType).",
       "x-standard": "OASIS CAP v1.2 (alert/msgType)",
       "x-jsonld": {
@@ -84,7 +84,7 @@
         "UNKNOWN"
       ],
       "default": "UNKNOWN",
-      "description": "Severity. Enum BORROWED from OASIS CAP v1.2 `info/severity`\n(Extreme/Severe/Moderate/Minor/Unknown).\n",
+      "description": "Severity of the outage.",
       "$comment": "Enum borrowed from OASIS CAP v1.2 (info/severity).",
       "x-standard": "OASIS CAP v1.2 (info/severity)",
       "x-jsonld": {
@@ -102,7 +102,7 @@
         "SAFETY",
         "OTHER"
       ],
-      "description": "Coarse outage descriptor for display/filtering. LOCAL enum (not from a\nstandard). Distinct from the standardized `cause.category` (IEEE 1782)\nand from `outageClass` (OMS Down Info); this is NOT CAP's\n`info/category`. For analytics, prefer `cause.category`.\n"
+      "description": "Coarse descriptor for display/filtering (local enum; not CAP `info/category`). For analytics, prefer the standardized `cause.category`.\n"
     },
     "cause": {
       "$ref": "#/$defs/OutageCause"
@@ -180,7 +180,7 @@
             "UNKNOWN",
             "OTHER"
           ],
-          "description": "Standardized interruption cause category — the ten categories of\nIEEE 1782-2022 §4.4 (IEEE Guide for Collecting, Categorizing, and\nUtilizing Information Related to Electric Power Distribution\nInterruption Events), used with IEEE 1366 for reliability\nbenchmarking. EQUIPMENT, LIGHTNING, PLANNED, POWER_SUPPLY, PUBLIC,\nVEGETATION, WEATHER (other than lightning), WILDLIFE, UNKNOWN, OTHER.\nIEEE 1782 is a guide (recommended practice). Note: load-shedding /\nrostering has no IEEE 1782 cause category — scheduled rostering maps\nto PLANNED, forced/emergency rostering to OTHER, with the rostering\nnature carried in `outageClass`.\n",
+          "description": "Standardized interruption cause category, for reliability benchmarking. Load-shedding/rostering has no standard category — map scheduled rostering to PLANNED, emergency to OTHER, and carry the nature in `outageClass`.\n",
           "$comment": "Cause categories aligned to IEEE 1782-2022 §4.4 (ten categories), used with IEEE 1366 for SAIDI/SAIFI.",
           "x-standard": "IEEE 1782-2022 §4.4 (with IEEE 1366)"
         },
@@ -220,8 +220,8 @@
             "OTHER_UTILITY_INITIATED",
             "OTHER"
           ],
-          "description": "Standardized cause subcategory from IEEE 1782-2022 §4.5. Must be a\nsubcategory valid for the chosen `category`:\nEQUIPMENT={DEGRADATION,EQUIPMENT_ERROR,ENVIRONMENTAL,OTHER};\nLIGHTNING={DIRECT_STRIKE,INDIRECT_STRIKE};\nPLANNED={NEW_CONSTRUCTION,MAINTENANCE,CUSTOMER_REQUEST,OTHER_UTILITY_REQUEST,OTHER};\nPOWER_SUPPLY={GENERATION,TRANSMISSION,SUBTRANSMISSION,DISTRIBUTION,DISTRIBUTED_GENERATION_STORAGE,OTHER_UTILITY_SUPPLY};\nPUBLIC={DIG_IN,FOREIGN_CONTACT,FIRE_POLICE,VEHICLE,OTHER};\nVEGETATION={WITHIN_CLEARANCE_ZONE,OUTSIDE_CLEARANCE_ZONE,OTHER};\nWEATHER={PRECIPITATION,ICE,WIND,EXTREME_TEMPERATURE,OTHER};\nWILDLIFE={MAMMAL,BIRD,REPTILE_AMPHIBIAN,OTHER};\nUNKNOWN={NO_SPECIFIC_CAUSE_FOUND}; OTHER={UTILITY_ERROR,OTHER_UTILITY_INITIATED,OTHER}.\nLeave unset if the field finding is inconclusive (IEEE 1782 §4.5).\n",
-          "$comment": "Cause subcategories aligned to IEEE 1782-2022 §4.5; valid value depends on category.",
+          "description": "Standardized cause subcategory; must be valid for the chosen `category` (see $comment for the mapping). Leave unset if the field finding is inconclusive.\n",
+          "$comment": "Aligned to IEEE 1782-2022 §4.5; valid subcategory depends on category: EQUIPMENT={DEGRADATION,EQUIPMENT_ERROR,ENVIRONMENTAL,OTHER}; LIGHTNING={DIRECT_STRIKE,INDIRECT_STRIKE}; PLANNED={NEW_CONSTRUCTION,MAINTENANCE,CUSTOMER_REQUEST,OTHER_UTILITY_REQUEST,OTHER}; POWER_SUPPLY={GENERATION,TRANSMISSION,SUBTRANSMISSION,DISTRIBUTION,DISTRIBUTED_GENERATION_STORAGE,OTHER_UTILITY_SUPPLY}; PUBLIC={DIG_IN,FOREIGN_CONTACT,FIRE_POLICE,VEHICLE,OTHER}; VEGETATION={WITHIN_CLEARANCE_ZONE,OUTSIDE_CLEARANCE_ZONE,OTHER}; WEATHER={PRECIPITATION,ICE,WIND,EXTREME_TEMPERATURE,OTHER}; WILDLIFE={MAMMAL,BIRD,REPTILE_AMPHIBIAN,OTHER}; UNKNOWN={NO_SPECIFIC_CAUSE_FOUND}; OTHER={UTILITY_ERROR,OTHER_UTILITY_INITIATED,OTHER}.\n",
           "x-standard": "IEEE 1782-2022 §4.5"
         },
         "faultType": {
@@ -230,7 +230,7 @@
         },
         "code": {
           "type": "string",
-          "description": "Vendor/OMS fault-reason code carried VERBATIM (e.g. the UPPCL numeric\nFAULT_REASON, or a subtype like OVERHEAD_CONDUCTOR_FAULT). These codes\nare vendor-defined and NOT standardized; map them to the standardized\n`category`/`subcategory` for interoperability. For the UPPCL\nFAULT_REASON master (FORM_ID 8312) see fault_reason_crosswalk.json in\nthis folder. Provide `codeNamespace` where the code's authority matters.\n"
+          "description": "Vendor/OMS fault-reason code, carried verbatim (e.g. UPPCL FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters.\n"
         },
         "codeNamespace": {
           "type": "string",
@@ -268,7 +268,7 @@
             "LINE_SEGMENT",
             "SERVICE_POINT"
           ],
-          "description": "Network level of the affected asset. LOCAL enum (not from a standard);\nconcepts align with CIM (IEC 61968/61970) Equipment/UsagePoint.\n"
+          "description": "Network level of the affected asset (local enum; aligns with CIM Equipment/UsagePoint).\n"
         },
         "voltageLevel": {
           "type": "string",
@@ -284,7 +284,7 @@
             "MIXED",
             "OTHER"
           ],
-          "description": "Consumer mix on the asset (PVVNL sheet \"Feeder Type\"). LOCAL enum\n(not from a standard); derived from Indian DISCOM feeder typing.\n"
+          "description": "Consumer mix on the asset (local enum; PVVNL \"Feeder Type\").\n"
         },
         "meterRef": {
           "allOf": [
@@ -484,7 +484,7 @@
             "AMI",
             "MANUAL"
           ],
-          "description": "System that raised this notice (RTDAS = Real-Time Data Acquisition\nSystem). LOCAL enum (not from a standard).\n"
+          "description": "System that raised this notice (local enum; RTDAS = Real-Time Data Acquisition System)."
         },
         "amispCode": {
           "type": "string",
@@ -496,7 +496,7 @@
               "$ref": "#/$defs/Identifier"
             }
           ],
-          "description": "Reference to the automated real-time detection record that raised the\noutage — e.g. the UPPCL RTDAS_DATA_ID. A sentinel like \"0\" / absence\nindicates a manually entered outage (source=MANUAL) rather than\nauto-detected.\n"
+          "description": "Reference to the real-time detection record that raised the outage (e.g. UPPCL RTDAS_DATA_ID). Absence or a \"0\" sentinel indicates a manually entered outage (source=MANUAL).\n"
         },
         "signal": {
           "$ref": "#/$defs/OutageSignal"
@@ -526,7 +526,7 @@
             "DE_ENERGIZED",
             "UNKNOWN"
           ],
-          "description": "Normalized feeder status; raw vendor code preserved in rawCode.\nLOCAL enum (the normalization is ours); the energized / de-energized\nterms align with CIM (IEC 61968-3) UsagePoint energization semantics.\n"
+          "description": "Normalized feeder status (local enum); raw vendor code in `rawCode`. Energized/de-energized align with CIM UsagePoint semantics.\n"
         },
         "diPort": {
           "type": "string",
@@ -600,7 +600,7 @@
             "DID",
             "OTHER"
           ],
-          "description": "Identifier scheme. MIXED provenance:\n- MRID is BORROWED from CIM (IEC 61968 / IEC 61970) master resource id.\n- DID is BORROWED from W3C Decentralized Identifiers (DID Core).\n- the remaining values are LOCAL (vendor/DISCOM master keys, e.g.\n  METER_SERIAL, FEEDER, SUBSTATION, CONSUMER_NUMBER).\n",
+          "description": "Identifier scheme (mixed provenance). MRID and DID are borrowed from their standards; the rest are local vendor/DISCOM master keys.\n",
           "$comment": "MRID borrowed from IEC 61968/61970 (CIM); DID borrowed from W3C DID Core; remaining values local.",
           "x-standard": "MRID: CIM (IEC 61968/61970); DID: W3C DID Core"
         },

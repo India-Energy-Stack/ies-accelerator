@@ -132,13 +132,13 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterDataRequestCredential
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `credentialSubject` | MeterDataRequestCredentialSubject | The subject of the credential: the requesting entity and the specific MeterDataRequest they are authorised to make. |
 
 ### MeterDataRequestCredentialSubject
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `id` | uri | DID of the requesting entity (e.g., the DISCOM). |
 | **`meterDataRequest`** \* | schema.json | The scoped, time-bounded data request. Specifies the meter resources, hierarchical scope, time window, and profile types being requested. The provider validates this against its capability profile before fulfilling delivery. |
 

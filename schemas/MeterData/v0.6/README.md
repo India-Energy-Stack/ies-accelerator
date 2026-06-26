@@ -174,7 +174,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### CustomerProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | `timeZone` | text | IANA time-zone, e.g. Asia/Kolkata. |
@@ -187,7 +187,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### BaseProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -197,7 +197,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### IntervalProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -211,7 +211,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### DailyProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -225,7 +225,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MonthlyProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -238,7 +238,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### BillDetails
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -261,7 +261,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### InstantaneousProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -273,7 +273,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### AlarmProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -285,7 +285,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### EventProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | `customerRefs` | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
@@ -297,37 +297,37 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### Identifier
 
 | Field | Type | Description |
-|---|---|---|
-| **`scheme`** \* | METER_SERIAL / METER_BADGE / MRID / OBIS / SHORT_CODE / CONSUMER_NUMBER / SERVICE_DELIVERY_POINT / DID / ORG / OTHER | — |
+|----|-------|-----------------|
+| **`scheme`** \* | `METER_SERIAL` / `METER_BADGE` / `MRID` / `OBIS` / `SHORT_CODE` / `CONSUMER_NUMBER` / `SERVICE_DELIVERY_POINT` / `DID` / `ORG` / `OTHER` | — |
 | **`value`** \* | text | — |
 | `namespace` | text | — |
 
 ### TimePeriod
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`start`** \* | date-time | — |
 | **`duration`** \* | duration | — |
 
 ### ReadingDefinition
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`readingType`** \* | text | — |
-| **`supportedModes`** \* | list of READING / USAGE | — |
-| **`defaultMode`** \* | READING / USAGE | — |
+| **`supportedModes`** \* | list of `READING` / `USAGE` | — |
+| **`defaultMode`** \* | `READING` / `USAGE` | — |
 | `name` | text | — |
 | `shortLabel` | text | — |
-| `unit` | kWh / kVAh / kvarh / kW / kvar / kVA / V / A / Hz / PF / NONE / INR / USD | — |
-| `phase` | NONE / R / Y / B / ABC | — |
-| `flowDirection` | IMPORT / EXPORT / NONE | — |
-| `accumulationBehaviour` | CUMULATIVE / DELTA / INSTANTANEOUS / SUMMATION / INDICATING | — |
+| `unit` | `kWh` / `kVAh` / `kvarh` / `kW` / `kvar` / `kVA` / `V` / `A` / `Hz` / `PF` / `NONE` / `INR` / `USD` | — |
+| `phase` | `NONE` / `R` / `Y` / `B` / `ABC` | — |
+| `flowDirection` | `IMPORT` / `EXPORT` / `NONE` | — |
+| `accumulationBehaviour` | `CUMULATIVE` / `DELTA` / `INSTANTANEOUS` / `SUMMATION` / `INDICATING` | — |
 | `touZone` | integer | — |
 
 ### PayloadDescriptorSet
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`name`** \* | text | — |
 | **`payloadDescriptors`** \* | list of PayloadDescriptor | — |
 | `compactSequences` | list of CompactSequence | — |
@@ -335,28 +335,28 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### CompactSequence
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`name`** \* | text | — |
 | **`sequenceItems`** \* | list of SequenceItem | — |
 
 ### SequenceItem
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`readingType`** \* | text | — |
-| `attribute` | value / occurredAt / openingValue / closingValue / validationStatus | — |
+| `attribute` | `value` / `occurredAt` / `openingValue` / `closingValue` / `validationStatus` | — |
 
 ### PayloadDescriptor
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`readingType`** \* | text | — |
 | `obis` | text | Optional canonical OBIS code when readingType uses a short code. |
 | `name` | text | — |
-| `unit` | kWh / kVAh / kvarh / kW / kvar / kVA / V / A / Hz / PF / NONE / INR / USD | — |
-| `flowDirection` | IMPORT / EXPORT / NONE | — |
+| `unit` | `kWh` / `kVAh` / `kvarh` / `kW` / `kvar` / `kVA` / `V` / `A` / `Hz` / `PF` / `NONE` / `INR` / `USD` | — |
+| `flowDirection` | `IMPORT` / `EXPORT` / `NONE` | — |
 | `category` | text | — |
-| `reportedMode` | READING / USAGE | — |
+| `reportedMode` | `READING` / `USAGE` | — |
 | `touZone` | integer | — |
 | `multiplier` | number | Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo). Default value is 1. |
 | `accuracy` | number | Accuracy class or precision value, applied after the multiplier. |
@@ -364,14 +364,14 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### IntervalPeriod
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`start`** \* | date-time | — |
 | **`duration`** \* | duration | — |
 
 ### Interval
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | integer | — |
 | `intervalPeriod` | IntervalPeriod | — |
 | `payloads` | list of number / string / boolean | — |
@@ -381,19 +381,19 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### Override
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`descriptorIndex`** \* | integer | — |
 | `occurredAt` | date-time | — |
 | `zone` | integer | — |
-| `validationStatus` | VALID / ESTIMATED / MANUAL / SUSPECT / REJECTED | — |
-| `source` | METER / HES / ESTIMATED / MANUAL / IMPORT / MDM_COMPUTED / CIS_COMPUTED | — |
+| `validationStatus` | `VALID` / `ESTIMATED` / `MANUAL` / `SUSPECT` / `REJECTED` | — |
+| `source` | `METER` / `HES` / `ESTIMATED` / `MANUAL` / `IMPORT` / `MDM_COMPUTED` / `CIS_COMPUTED` | — |
 | `changeMethod` | text | — |
 | `failCode` | text | — |
 
 ### Reading
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`readingType`** \* | text | — |
 | **`value`** \* | number | — |
 | `openingValue` | number | MUST ONLY be provided when the associated payload descriptor specifies reportedMode=USAGE. |
@@ -401,29 +401,29 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | `integrationPeriod` | duration | Demand integration period, e.g. PT30M or PT15M. |
 | `timePeriod` | TimePeriod | — |
 | `occurredAt` | date-time | — |
-| `validationStatus` | VALID / ESTIMATED / MANUAL / SUSPECT / REJECTED | — |
-| `source` | METER / HES / ESTIMATED / MANUAL / IMPORT / MDM_COMPUTED / CIS_COMPUTED | — |
+| `validationStatus` | `VALID` / `ESTIMATED` / `MANUAL` / `SUSPECT` / `REJECTED` | — |
+| `source` | `METER` / `HES` / `ESTIMATED` / `MANUAL` / `IMPORT` / `MDM_COMPUTED` / `CIS_COMPUTED` | — |
 | `changeMethod` | text | — |
 | `failCode` | text | — |
 
 ### TouBucket
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`zone`** \* | integer | — |
 | **`readings`** \* | list of Reading | — |
 
 ### Customer
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | Identifier | — |
 | `name` | text | — |
 | `consumerCategory` | text | Utility tariff category (e.g., LT2A, NDS, HT). |
 | `sanctionedLoadKw` | number | — |
 | `billingCycleDay` | integer | — |
-| `paymentMode` | PREPAID / POSTPAID | Indicates if the connection is prepaid or postpaid. |
-| `connectionType` | Single-phase / Three-phase | Type of connection (Single-phase or Three-phase). |
+| `paymentMode` | `PREPAID` / `POSTPAID` | Indicates if the connection is prepaid or postpaid. |
+| `connectionType` | `Single-phase` / `Three-phase` | Type of connection (Single-phase or Three-phase). |
 | `contractMaxDemandKw` | number | Maximum demand contracted with the utility for this connection, in kW. |
 | `tariffCategoryCode` | text | Billing/tariff category code assigned by the utility. |
 | `sanctionedExportLoadKw` | number | Sanctioned/approved grid export limit in kW. |
@@ -431,7 +431,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ServiceDeliveryPoint
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | Identifier | — |
 | `address` | Address | — |
 | `geo` | GeoJSONGeometry | — |
@@ -439,18 +439,18 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### Meter
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | Identifier | — |
 | `make` | text | Make of the meter. |
 | `model` | text | Model of the meter. |
-| `meterType` | AMR / AMI / Electromechanical / Forward / Reverse / Bidirectional / Prepaid / NetMeter / Other | — |
-| `meterCategory` | A / B / C / D1 / D2 / D3 / D4 | — |
-| `serviceKind` | ELECTRICITY / GAS / WATER / HEAT | — |
+| `meterType` | `AMR` / `AMI` / `Electromechanical` / `Forward` / `Reverse` / `Bidirectional` / `Prepaid` / `NetMeter` / `Other` | — |
+| `meterCategory` | `A` / `B` / `C` / `D1` / `D2` / `D3` / `D4` | — |
+| `serviceKind` | `ELECTRICITY` / `GAS` / `WATER` / `HEAT` | — |
 
 ### Association
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`serviceDeliveryPointRefs`** \* | IdentifierList | — |
 | **`meterRefs`** \* | IdentifierList | — |
 | `parentResources` | list of Identifier | List of parent resources (such as feeders or DTs) for this association, replacing feederId and dtId. |
@@ -462,11 +462,11 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterEvent
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`timestamp`** \* | date-time | — |
 | **`eventId`** \* | integer | — |
 | `eventName` | text | — |
-| `phase` | NONE / R / Y / B / ABC | — |
+| `phase` | `NONE` / `R` / `Y` / `B` / `ABC` | — |
 | `sequence` | integer | — |
 | `magnitude` | number | — |
 | `duration` | duration | — |
@@ -474,17 +474,17 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterAlarm
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`timestamp`** \* | date-time | — |
 | **`alarmId`** \* | integer | — |
 | `alarmName` | text | — |
-| **`status`** \* | ACTIVE / CLEARED | — |
-| `severity` | CRITICAL / WARNING / INFO | — |
+| **`status`** \* | `ACTIVE` / `CLEARED` | — |
+| `severity` | `CRITICAL` / `WARNING` / `INFO` | — |
 
 ### PayloadDescriptorProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profileType`** \* | text | — |
 | **`id`** \* | text | Unique identifier for this specific configuration state. |
 | **`payloadDescriptorSets`** \* | list of PayloadDescriptorSet | — |
@@ -492,7 +492,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### CustomerDetails
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `name` | text | Full name of the customer as per ID proof. |
 
 <!-- FIELD-TABLE:END -->
