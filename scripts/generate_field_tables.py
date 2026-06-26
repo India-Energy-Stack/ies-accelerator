@@ -15,9 +15,9 @@ Columns:
                 model shows its units, e.g. "QVPower (W / kW / MW)".
   Standard    — the field's ``x-standard`` annotation (in attributes.yaml -> schema.json),
                 or "—" when unset. This is curated domain metadata, not auto-derived.
-  Status      — "Mandatory" if the field is in the component's ``required`` list, else
-                "Optional".
-  Description — the field's ``description`` from the schema (whitespace-collapsed).
+  Description — the field's ``description`` from the schema (whitespace-collapsed),
+                prefixed with the field's status: "**Mandatory** — …" if the field is
+                in the component's ``required`` list, else "**Optional** — …".
 
 The table is written between
   <!-- FIELD-TABLE:START ... -->  and  <!-- FIELD-TABLE:END -->
@@ -150,8 +150,13 @@ def component_table(title: str, comp: dict, defs: dict) -> str:
         ))
     if not rows:
         return ""
-    out = [f"### {title}", "", "| Field | Type | Standard | Status | Description |", "|---|---|---|---|---|"]
-    out += [f"| {f} | {t} | {s} | {st} | {d} |" for f, t, s, st, d in rows]
+    # Status is folded into the Description cell (e.g. "**Mandatory** — …") so the
+    # description gets a full-width column instead of being squeezed beside a
+    # short Status column.
+    out = [f"### {title}", "", "| Field | Type | Standard | Description |", "|---|---|---|---|"]
+    for f, t, s, st, d in rows:
+        desc = f"**{st}** — {d}" if d != DASH else f"**{st}**"
+        out.append(f"| {f} | {t} | {s} | {desc} |")
     out.append("")
     return "\n".join(out)
 
@@ -163,9 +168,10 @@ def build_block(schema: dict) -> str:
         "## Field reference",
         "",
         "_Auto-generated from `schema.json`. **Field**, **Type** (with units for "
-        "QuantitativeValue models), **Status**, and **Description** are derived from the "
-        "schema; **Standard** comes from each field's `x-standard` annotation (`—` when "
-        "unset). One table per object._",
+        "QuantitativeValue models), and **Description** are derived from the schema; the "
+        "description is prefixed with the field's **Mandatory**/**Optional** status. "
+        "**Standard** comes from each field's `x-standard` annotation (`—` when unset). "
+        "One table per object._",
         "",
     ]
     # Root payload table (only when the root declares properties directly).
