@@ -92,9 +92,9 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterDataRequest
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`resources`** \* | list of uri | List of resource identifiers (e.g., meter DIDs, service point IDs, or customer IDs) to query. |
-| **`scope`** \* | ResourceOnly / ResourceAndChildren / ChildrenOnly | Defines the hierarchical scope of the query relative to the target resources. |
+| **`scope`** \* | `ResourceOnly` / `ResourceAndChildren` / `ChildrenOnly` | Defines the hierarchical scope of the query relative to the target resources. |
 | **`from`** \* | date-time | ISO 8601 UTC date-time indicating the start time of the requested data window. |
 | **`duration`** \* | duration | ISO 8601 duration string representing the length of the requested data window (e.g., PT15M, P1D, P30D). |
 | `maxRecordsShared` | integer | Maximum number of records that should be shared or returned in a single batch/page. |
@@ -103,9 +103,9 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ProfileRequest
 
 | Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | CustomerProfile / IntervalProfile / DailyProfile / MonthlyProfile / BillDetails / InstantaneousProfile / EventProfile / AlarmProfile | — |
+|----|-------|-----------------|
+| **`profileType`** \* | `CustomerProfile` / `IntervalProfile` / `DailyProfile` / `MonthlyProfile` / `BillDetails` / `InstantaneousProfile` / `EventProfile` / `AlarmProfile` | — |
 | `values` | list of text | List of requested reading/OBIS short codes or value names. |
-| `requestedMode` | READING / USAGE | The specific mode requested for these values. Defaults to the code's default mode if omitted. |
+| `requestedMode` | `READING` / `USAGE` | The specific mode requested for these values. Defaults to the code's default mode if omitted. |
 
 <!-- FIELD-TABLE:END -->

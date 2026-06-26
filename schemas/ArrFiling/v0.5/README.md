@@ -69,21 +69,21 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ArrFiling
 
 | Field | Type | Description |
-|---|---|---|
-| **`objectType`** \* | ARR_FILING | — |
+|----|-------|-----------------|
+| **`objectType`** \* | `ARR_FILING` | — |
 | `id` | text | Unique identifier for this filing. |
 | **`filingId`** \* | text | Regulatory filing reference number. |
 | `filingDate` | date | — |
-| `filingType` | MYT / ANNUAL / TRUE_UP / REVISED | MYT - Multi-Year Tariff control period filing (multiple years, mix of actual/proposed) ANNUAL - single year or historical year-by-year approved data TRUE_UP - reconciliation of actuals vs previously approved amounts REVISED - amended filing with corrections |
+| `filingType` | `MYT` / `ANNUAL` / `TRUE_UP` / `REVISED` | MYT - Multi-Year Tariff control period filing (multiple years, mix of actual/proposed) ANNUAL - single year or historical year-by-year approved data TRUE_UP - reconciliation of actuals vs previously approved amounts REVISED - amended filing with corrections |
 | **`licensee`** \* | text | Full name of the distribution licensee. |
 | `licenseeCode` | text | Short code for the licensee. |
 | `stateProvince` | text | — |
 | **`regulatoryCommission`** \* | text | SERC or Joint ERC that receives the filing. |
 | `controlPeriodStart` | text | Start fiscal year of MYT control period (only for MYT filings). |
 | `controlPeriodEnd` | text | End fiscal year of MYT control period. |
-| **`currency`** \* | INR | — |
-| **`unitScale`** \* | CRORE / LAKH / ABSOLUTE | Scale of all amounts in the filing. |
-| `status` | DRAFT / SUBMITTED / UNDER_REVIEW / APPROVED / REJECTED | — |
+| **`currency`** \* | `INR` | — |
+| **`unitScale`** \* | `CRORE` / `LAKH` / `ABSOLUTE` | Scale of all amounts in the filing. |
+| `status` | `DRAFT` / `SUBMITTED` / `UNDER_REVIEW` / `APPROVED` / `REJECTED` | — |
 | `formReference` | text | Regulatory form identifier. |
 | `notes` | list of text | Footnotes, regulatory order references, and explanatory notes. |
 | **`fiscalYears`** \* | list of ArrFiscalYear | — |
@@ -91,20 +91,20 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ArrFiscalYear
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`fiscalYear`** \* | text | Fiscal year label. |
-| `yearType` | BASE_YEAR / CONTROL_PERIOD / HISTORICAL | BASE_YEAR - reference year in an MYT filing (typically the year before the control period) CONTROL_PERIOD - a year within the MYT control period being filed for HISTORICAL - a past year with finalized data (used in annual/historical filings) |
-| **`amountBasis`** \* | AUDITED / APPROVED / PROPOSED / TRUED_UP / NOT_FILED | AUDITED - actual costs verified by auditors APPROVED - amounts approved by the SERC in a tariff order PROPOSED - amounts requested by the DISCOM, pending SERC approval TRUED_UP - reconciled amounts after comparing actuals to approved NOT_FILED - placeholder year in a control period, no data yet |
+| `yearType` | `BASE_YEAR` / `CONTROL_PERIOD` / `HISTORICAL` | BASE_YEAR - reference year in an MYT filing (typically the year before the control period) CONTROL_PERIOD - a year within the MYT control period being filed for HISTORICAL - a past year with finalized data (used in annual/historical filings) |
+| **`amountBasis`** \* | `AUDITED` / `APPROVED` / `PROPOSED` / `TRUED_UP` / `NOT_FILED` | AUDITED - actual costs verified by auditors APPROVED - amounts approved by the SERC in a tariff order PROPOSED - amounts requested by the DISCOM, pending SERC approval TRUED_UP - reconciled amounts after comparing actuals to approved NOT_FILED - placeholder year in a control period, no data yet |
 | **`lineItems`** \* | list of ArrLineItem | — |
 
 ### ArrLineItem
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`lineItemId`** \* | text | Stable identifier for this line item across years. Use kebab-case, e.g., "power-purchase-cost", "interest-working-cap". |
 | `serialNumber` | integer | Display order as shown in the regulatory form. |
-| **`category`** \* | VARIABLE / FIXED / INCOME / SUB_TOTAL / ARR / ADJUSTMENT | VARIABLE - costs varying with energy volume (power purchase) FIXED - costs independent of volume (O&M, depreciation, interest, return) INCOME - revenue credits that reduce the ARR (negative amounts) SUB_TOTAL - computed aggregation of other line items ARR - the final net/aggregate revenue requirement ADJUSTMENT - true-up corrections, pass-throughs, FPPCA adjustments |
-| `subCategory` | POWER_PURCHASE / NETWORK_COST / O_AND_M / DEPRECIATION / INTEREST / RETURN_ON_EQUITY / PROVISIONAL / OTHER / NON_TARIFF_INCOME / REVENUE_CREDIT / TOTAL / NET_ARR | Functional sub-classification for analysis and comparison across DISCOMs. |
+| **`category`** \* | `VARIABLE` / `FIXED` / `INCOME` / `SUB_TOTAL` / `ARR` / `ADJUSTMENT` | VARIABLE - costs varying with energy volume (power purchase) FIXED - costs independent of volume (O&M, depreciation, interest, return) INCOME - revenue credits that reduce the ARR (negative amounts) SUB_TOTAL - computed aggregation of other line items ARR - the final net/aggregate revenue requirement ADJUSTMENT - true-up corrections, pass-throughs, FPPCA adjustments |
+| `subCategory` | `POWER_PURCHASE` / `NETWORK_COST` / `O_AND_M` / `DEPRECIATION` / `INTEREST` / `RETURN_ON_EQUITY` / `PROVISIONAL` / `OTHER` / `NON_TARIFF_INCOME` / `REVENUE_CREDIT` / `TOTAL` / `NET_ARR` | Functional sub-classification for analysis and comparison across DISCOMs. |
 | **`head`** \* | text | Short heading as used in the regulatory form. Varies by DISCOM — use the original text from the filing. |
 | `particulars` | text | Detailed description or the "Particulars" column value. Useful when head alone is ambiguous (e.g., "Others" head with "Incentive/Disincentive on achievement of norms" as particulars). |
 | **`amount`** \* | number / null | Amount in the filing's currency and unitScale. Null means the line item exists in the form but was not filed / not applicable. Negative values represent credits, deductions, or adjustments that reduce ARR. |

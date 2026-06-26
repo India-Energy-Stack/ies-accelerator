@@ -161,13 +161,13 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterDataCredential
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `credentialSubject` | MeterDataCredentialSubject | The subject of the credential: the consumer or asset entity whose meter data is attested, plus the MeterData payload. |
 
 ### MeterDataCredentialSubject
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `id` | uri | DID of the consumer or asset entity whose meter data is being delivered. |
 | **`meterData`** \* | schema.json | The attested meter data payload. May be a single EnergyData profile or an array of profiles per MeterData v0.6. |
 

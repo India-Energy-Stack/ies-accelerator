@@ -115,14 +115,23 @@ def render_mermaid(source: str, mmdc: str | None) -> str:
             except subprocess.CalledProcessError as exc:
                 print(f"WARN: mmdc failed for {digest}: {exc.stderr}", file=sys.stderr)
                 return match.group(0)
-        return f"![]({out_png})"
+        # Emit raw LaTeX (PDF-only path) so we can bound BOTH width and height
+        # with keepaspectratio: a tall diagram is scaled down to fit the current
+        # page rather than pushed to the next one (which leaves it far from the
+        # text that references it), without distorting its proportions.
+        return (
+            "\n```{=latex}\n"
+            f"\\begin{{center}}\\includegraphics[width=\\linewidth,"
+            f"height=0.6\\textheight,keepaspectratio]{{{out_png}}}\\end{{center}}\n"
+            "```\n"
+        )
 
     return MERMAID_RE.sub(replace, source)
 
 
 # Auto-generated field-reference tables (between these markers) are dense; render
 # them a step smaller in the PDF so the wide Description column stays readable.
-FIELD_TABLE_LATEX_BEGIN = "\n```{=latex}\n\\begingroup\\footnotesize\n```\n"
+FIELD_TABLE_LATEX_BEGIN = "\n```{=latex}\n\\begingroup\\scriptsize\n```\n"
 FIELD_TABLE_LATEX_END = "\n```{=latex}\n\\endgroup\n```\n"
 
 

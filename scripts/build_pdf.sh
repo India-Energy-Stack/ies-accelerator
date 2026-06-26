@@ -53,6 +53,8 @@ pandoc "$COMBINED_MD" \
     -V documentclass=report \
     -V geometry:margin=1in \
     -V monofont="Menlo" \
+    -V graphics=true \
+    -V header-includes='\usepackage{graphicx}' \
     --metadata title="IES Accelerator Implementation Guide" \
     --metadata author="India Energy Stack" \
     --metadata date="$(date +%Y-%m-%d)" \

@@ -60,10 +60,10 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterDataRequest
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | `consumers` | list of uri | List of consumer URIs/DIDs for whom the data is requested (optional). |
 | `resources` | list of uri | List of resource URIs/DIDs (e.g. meter DIDs, service point IDs) to query (optional). |
-| `scope` | ResourceOnly / ResourceAndChildren / ChildrenOnly | — |
+| `scope` | `ResourceOnly` / `ResourceAndChildren` / `ChildrenOnly` | — |
 | **`from`** \* | date-time | ISO 8601 UTC date-time indicating the start time of the requested data window. |
 | **`duration`** \* | duration | ISO 8601 duration string representing the length of the requested data window (e.g., PT15M, P1D, P30D). |
 | `consumerConsent` | list of text | Consent references/receipts proving authorization (optional). |
@@ -74,7 +74,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterDataAuthorisation
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`grantor`** \* | uri | URI/DID of the entity authorizing access. |
 | **`grantee`** \* | uri | URI/DID of the authorized entity. |
 | **`purpose`** \* | text | Reason/purpose for data access. |
@@ -85,24 +85,24 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### MeterDataCapabilities
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`profiles`** \* | list of ProfileCapability | List of profiles and their specific values/modes. |
-| `supportedScopes` | list of ResourceOnly / ResourceAndChildren / ChildrenOnly | Hierarchical scopes supported by the query processor. |
+| `supportedScopes` | list of `ResourceOnly` / `ResourceAndChildren` / `ChildrenOnly` | Hierarchical scopes supported by the query processor. |
 | `maxHistoryDuration` | duration | Maximum length of historical data window supported by the provider. |
 
 ### ProfileCapability
 
 | Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | CustomerProfile / IntervalProfile / DailyProfile / MonthlyProfile / BillDetails / InstantaneousProfile / EventProfile / AlarmProfile | — |
+|----|-------|-----------------|
+| **`profileType`** \* | `CustomerProfile` / `IntervalProfile` / `DailyProfile` / `MonthlyProfile` / `BillDetails` / `InstantaneousProfile` / `EventProfile` / `AlarmProfile` | — |
 | `readings` | list of ValueCapability | Granular capabilities for specific registers and metrics. If omitted, all readings under this profile are supported. |
 
 ### ValueCapability
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`value`** \* | text | The OBIS code (e.g. 1.0.1.8.0.255) or short code (e.g. kWh imp) representing the register. |
-| `mode` | READING / USAGE | The telemetry mode (READING, USAGE) supported or requested for this register. |
+| `mode` | `READING` / `USAGE` | The telemetry mode (READING, USAGE) supported or requested for this register. |
 | `multiplier` | number | Optional decimal multiplier scaling factor (e.g., 0.001 or 1000). |
 | `accuracy` | number | Optional accuracy class or precision value. |
 

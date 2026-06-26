@@ -195,7 +195,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ElectricityCredential Schema
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | uri | Unique identifier for the credential in URN UUID format |
 | **`type`** \* | list of text | — |
 | **`issuer`** \* | object | — |
@@ -208,16 +208,16 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### CustomerProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`customerNumber`** \* | text | Full customer account number assigned by the utility |
 | **`meterNumber`** \* | text | Unique meter serial number |
-| **`meterType`** \* | AMR / AMI / Electromechanical / Forward / Reverse / Bidirectional / Prepaid / NetMeter / Other | Type of electricity meter installed. Values derived from Green Button / ESPI meter kind classifications. |
+| **`meterType`** \* | `AMR` / `AMI` / `Electromechanical` / `Forward` / `Reverse` / `Bidirectional` / `Prepaid` / `NetMeter` / `Other` | Type of electricity meter installed. Values derived from Green Button / ESPI meter kind classifications. |
 | `idRef` | object | Reference to an identity issued by an external authority |
 
 ### CustomerDetails
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`fullName`** \* | text | Full name of the customer as per ID proof |
 | **`installationAddress`** \* | object | The physical location of the installation. Follows the beckn Location schema. |
 | **`serviceConnectionDate`** \* | date-time | Date and time when the electricity connection was activated (with timezone offset) |
@@ -225,12 +225,12 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### ConsumptionProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | uri | DID of the customer/credential subject (links to customer) |
 | **`consumerNumber`** \* | text | Full consumer account number assigned by the utility |
 | **`fullName`** \* | text | Consumer name |
-| **`premisesType`** \* | Residential / Commercial / Industrial / Agricultural | Type of premises for the electricity connection |
-| **`connectionType`** \* | Single-phase / Three-phase | Type of electrical connection |
+| **`premisesType`** \* | `Residential` / `Commercial` / `Industrial` / `Agricultural` | Type of premises for the electricity connection |
+| **`connectionType`** \* | `Single-phase` / `Three-phase` | Type of electrical connection |
 | **`sanctionedLoadKW`** \* | number | Sanctioned/approved electrical load in kilowatts (kW) |
 | **`tariffCategoryCode`** \* | text | Billing/tariff category code assigned by the utility |
 | `meterNumber` | text | Meter serial number (optional, for linking to specific meter) |
@@ -238,13 +238,13 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### GenerationProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | uri | DID of the customer/credential subject (links to customer) |
 | **`consumerNumber`** \* | text | Consumer account number assigned by the utility |
 | `fullName` | text | Consumer name (optional) |
 | `meterNumber` | text | Meter serial number associated with this generation asset (optional) |
 | `assetId` | text | Unique identifier for the generation asset |
-| **`generationType`** \* | Solar / Wind / MicroHydro / Other | Type of distributed energy generation |
+| **`generationType`** \* | `Solar` / `Wind` / `MicroHydro` / `Other` | Type of distributed energy generation |
 | **`capacityKW`** \* | number | Installed generation capacity in kilowatts (kW) |
 | **`commissioningDate`** \* | date | Date when the generation system was activated |
 | `manufacturer` | text | Equipment manufacturer |
@@ -253,7 +253,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 ### StorageProfile
 
 | Field | Type | Description |
-|---|---|---|
+|----|-------|-----------------|
 | **`id`** \* | uri | DID of the customer/credential subject (links to customer) |
 | **`consumerNumber`** \* | text | Consumer account number assigned by the utility |
 | `fullName` | text | Consumer name (optional) |
@@ -262,6 +262,6 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | **`storageCapacityKWh`** \* | number | Battery storage capacity in kilowatt-hours (kWh) |
 | **`powerRatingKW`** \* | number | Battery charge/discharge power rating in kilowatts (kW) |
 | **`commissioningDate`** \* | date | Date when the storage system was activated |
-| `storageType` | LithiumIon / LeadAcid / FlowBattery / Other | Type of battery storage technology |
+| `storageType` | `LithiumIon` / `LeadAcid` / `FlowBattery` / `Other` | Type of battery storage technology |
 
 <!-- FIELD-TABLE:END -->
