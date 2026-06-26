@@ -8,14 +8,16 @@ is produced per object component — the root payload (when it has properties)
 plus each ``$defs`` entry — so the README documents itself for energy experts.
 
 Columns:
-  Field    — the property name.
-  Type     — derived from the JSON Schema (enum -> "a / b / c", array -> "list of X",
-             $ref -> the model name, boolean -> "yes / no", string+format -> the
-             format, else the JSON type).
-  Standard — the field's ``x-standard`` annotation (in attributes.yaml -> schema.json),
-             or "—" when unset. This is curated domain metadata, not auto-derived.
-  Status   — "Mandatory" if the field is in the component's ``required`` list, else
-             "Optional".
+  Field       — the property name.
+  Type        — derived from the JSON Schema (enum -> "a / b / c", array -> "list of X",
+                $ref -> the model name, boolean -> "yes / no", string+format -> the
+                format, else the JSON type). A QuantitativeValue-style {value, unit}
+                model shows its units, e.g. "QVPower (W / kW / MW)".
+  Standard    — the field's ``x-standard`` annotation (in attributes.yaml -> schema.json),
+                or "—" when unset. This is curated domain metadata, not auto-derived.
+  Status      — "Mandatory" if the field is in the component's ``required`` list, else
+                "Optional".
+  Description — the field's ``description`` from the schema (whitespace-collapsed).
 
 The table is written between
   <!-- FIELD-TABLE:START ... -->  and  <!-- FIELD-TABLE:END -->
@@ -63,13 +65,25 @@ def type_str(prop: dict, defs: dict | None = None) -> str:
     if r:
         name = ref_name(r)
         target = defs.get(name)
-        # Inline a named enum's values (e.g. Phase -> "NONE / R / Y / B / ABC");
-        # object refs keep their model name (they get their own table).
-        if isinstance(target, dict) and "enum" in target and "properties" not in target:
-            return " / ".join(str(e) for e in target["enum"])
+        if isinstance(target, dict):
+            # Inline a named enum's values (e.g. Phase -> "NONE / R / Y / B / ABC").
+            if "enum" in target and "properties" not in target:
+                return " / ".join(str(e) for e in target["enum"])
+            # Surface the units of a QuantitativeValue-style model (a {value, unit}
+            # object whose `unit` is an enum) -> "QVPower (W / kW / MW)".
+            unit = (target.get("properties") or {}).get("unit")
+            if isinstance(unit, dict) and isinstance(unit.get("enum"), list):
+                return f"{name} ({' / '.join(str(u) for u in unit['enum'])})"
+        # Other object refs keep their model name (they get their own table).
         return name
     if "enum" in prop:
         return " / ".join(str(e) for e in prop["enum"])
+    for combiner in ("oneOf", "anyOf"):
+        if isinstance(prop.get(combiner), list):
+            alts = [type_str(s, defs) for s in prop[combiner]]
+            seen = [a for i, a in enumerate(alts) if a != DASH and a not in alts[:i]]
+            if seen:
+                return " or ".join(seen)
     t = prop.get("type")
     fmt = prop.get("format")
     if isinstance(t, list):
@@ -112,6 +126,14 @@ def md_escape(text: str) -> str:
     return str(text).replace("|", "\\|")
 
 
+def desc_str(prop: dict) -> str:
+    """Field description, whitespace-collapsed for a single table cell."""
+    if not isinstance(prop, dict):
+        return DASH
+    d = prop.get("description")
+    return " ".join(str(d).split()) if d else DASH
+
+
 def component_table(title: str, comp: dict, defs: dict) -> str:
     props, required = resolve(comp, defs)
     rows = []
@@ -124,11 +146,12 @@ def component_table(title: str, comp: dict, defs: dict) -> str:
             md_escape(type_str(prop, defs)),
             md_escape(standard) if standard else DASH,
             "Mandatory" if name in required else "Optional",
+            md_escape(desc_str(prop)),
         ))
     if not rows:
         return ""
-    out = [f"### {title}", "", "| Field | Type | Standard | Status |", "|---|---|---|---|"]
-    out += [f"| {f} | {t} | {s} | {st} |" for f, t, s, st in rows]
+    out = [f"### {title}", "", "| Field | Type | Standard | Status | Description |", "|---|---|---|---|---|"]
+    out += [f"| {f} | {t} | {s} | {st} | {d} |" for f, t, s, st, d in rows]
     out.append("")
     return "\n".join(out)
 
@@ -139,9 +162,10 @@ def build_block(schema: dict) -> str:
         START,
         "## Field reference",
         "",
-        "_Auto-generated from `schema.json`. **Field**, **Type**, and **Status** are derived "
-        "from the schema; **Standard** comes from each field's `x-standard` annotation "
-        "(`—` when unset). One table per object._",
+        "_Auto-generated from `schema.json`. **Field**, **Type** (with units for "
+        "QuantitativeValue models), **Status**, and **Description** are derived from the "
+        "schema; **Standard** comes from each field's `x-standard` annotation (`—` when "
+        "unset). One table per object._",
         "",
     ]
     # Root payload table (only when the root declares properties directly).
