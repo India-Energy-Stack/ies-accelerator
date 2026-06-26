@@ -51,6 +51,7 @@ pandoc "$COMBINED_MD" \
     --toc \
     --toc-depth=2 \
     --number-sections \
+    -V secnumdepth=2 \
     -V documentclass=report \
     -V geometry:margin=1in \
     -V monofont="Menlo" \

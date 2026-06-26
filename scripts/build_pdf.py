@@ -163,6 +163,34 @@ def strip_leading_h1(body: str) -> str:
     return body
 
 
+def shift_headings(body: str, levels: int) -> str:
+    """Demote a page's body headings by its SUMMARY nesting depth.
+
+    A page nested N levels deep gets a synthesized heading at level N+1. Without
+    shifting, its own `##`/`###` body headings stay at the same level as the
+    parent chapter's sections and accumulate there — e.g. "Consumer Meter Digest"
+    landing at 10.21 instead of nesting under "Use Cases". Demoting the body by
+    `levels` makes its in-page headings nest beneath the page. Fenced code is
+    skipped so `#` comments are untouched; levels cap at 6 (LaTeX's deepest unit).
+    """
+    if levels <= 0:
+        return body
+    out: list[str] = []
+    in_fence = False
+    for line in body.splitlines():
+        stripped = line.lstrip()
+        if stripped.startswith("```") or stripped.startswith("~~~"):
+            in_fence = not in_fence
+            out.append(line)
+            continue
+        m = re.match(r"(#{1,6})(\s)", line)
+        if m and not in_fence:
+            new_level = min(len(m.group(1)) + levels, 6)
+            line = "#" * new_level + line[len(m.group(1)):]
+        out.append(line)
+    return "\n".join(out)
+
+
 def preprocess(text: str, mmdc: str | None) -> str:
     text = re.sub(r"\{%\s*hint\s+style=\"[^\"]*\"\s*%\}", "", text)
     text = re.sub(r"\{%\s*endhint\s*%\}", "", text)
@@ -203,7 +231,7 @@ def main() -> int:
         if not p.exists():
             missing.append(path)
             continue
-        body = strip_leading_h1(preprocess(p.read_text(), mmdc))
+        body = shift_headings(strip_leading_h1(preprocess(p.read_text(), mmdc)), depth)
         heading = "#" * (depth + 1) + " " + title
         # depth 0 maps to \chapter, which already starts a fresh page; an extra
         # \newpage there leaves a blank page (e.g. before "Home" after the TOC).
