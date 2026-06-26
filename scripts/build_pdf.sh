@@ -50,6 +50,8 @@ pandoc "$COMBINED_MD" \
     --from=markdown-task_lists \
     --toc \
     --toc-depth=2 \
+    --number-sections \
+    -V secnumdepth=2 \
     -V documentclass=report \
     -V geometry:margin=1in \
     -V monofont="Menlo" \
@@ -64,4 +66,4 @@ pandoc "$COMBINED_MD" \
         exit 1
     }
 
-echo "Built: $OUT_PDF ($(du -h "$OUT_PDF" | cut -f1), $(grep -c '\\newpage' "$COMBINED_MD") chapters)"
+echo "Built: $OUT_PDF ($(du -h "$OUT_PDF" | cut -f1))"
