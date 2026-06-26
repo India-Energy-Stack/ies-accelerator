@@ -120,11 +120,24 @@ def render_mermaid(source: str, mmdc: str | None) -> str:
     return MERMAID_RE.sub(replace, source)
 
 
+# Auto-generated field-reference tables (between these markers) are dense; render
+# them a step smaller in the PDF so the wide Description column stays readable.
+FIELD_TABLE_LATEX_BEGIN = "\n```{=latex}\n\\begingroup\\footnotesize\n```\n"
+FIELD_TABLE_LATEX_END = "\n```{=latex}\n\\endgroup\n```\n"
+
+
+def shrink_field_tables(text: str) -> str:
+    text = re.sub(r"<!--\s*FIELD-TABLE:START.*?-->", lambda m: FIELD_TABLE_LATEX_BEGIN, text)
+    text = re.sub(r"<!--\s*FIELD-TABLE:END\s*-->", lambda m: FIELD_TABLE_LATEX_END, text)
+    return text
+
+
 def preprocess(text: str, mmdc: str | None) -> str:
     text = re.sub(r"\{%\s*hint\s+style=\"[^\"]*\"\s*%\}", "", text)
     text = re.sub(r"\{%\s*endhint\s*%\}", "", text)
     for ch, sub in GLYPH_FALLBACKS.items():
         text = text.replace(ch, sub)
+    text = shrink_field_tables(text)
     text = render_mermaid(text, mmdc)
     return text
 
