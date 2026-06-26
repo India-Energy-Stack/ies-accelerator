@@ -5,7 +5,10 @@ ifeq ($(shell python3 -c "import yaml, jsonschema" >/dev/null 2>&1 && echo ok ||
   $(error Error: Required Python packages (PyYAML, jsonschema) are missing. Please activate your virtual environment or install them: pip install pyyaml jsonschema)
 endif
 
-.PHONY: all clean build validate index test
+.PHONY: all clean build validate index test external
+
+# Path to the sibling DEG repo (override: make external DEG_REPO=/path/to/DEG)
+DEG_REPO ?= ../../DEG
 
 test:
 	@echo "Running MeterData v0.6 validator tests..."
@@ -49,6 +52,12 @@ validate: $(VALIDATION_STAMPS)
 index:
 	@echo "Generating collapsible index.md..."
 	@python3 scripts/generate_index.py
+
+# Regenerate the External Schemas (DEG) field-reference pages from the sibling
+# DEG repo. Not part of `all` because it needs the DEG checkout present.
+external:
+	@echo "Generating External Schemas (DEG) field references from $(DEG_REPO)..."
+	@python3 scripts/generate_external_field_tables.py --deg-repo $(DEG_REPO)
 
 # Clean up compiled assets and validation stamps
 clean:
