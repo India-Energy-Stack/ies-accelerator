@@ -38,3 +38,12 @@ If you find a discrepancy between a mirrored file and the upstream source, treat
 | [MeterDataRequestCredential](MeterDataRequestCredential/README.md) | [v0.1](MeterDataRequestCredential/v0.1/README.md) | v0.1 | W3C VC wrapping MeterDataRequest for seeker authorisation |
 | [ArrFiling](ArrFiling/README.md) | [v0.5](ArrFiling/v0.5/README.md) | v0.5 | DISCOM regulatory ARR filing — ArrFiling, ArrFiscalYear, ArrLineItem |
 | [OutageNotification](OutageNotification/README.md) | [v0.1](OutageNotification/v0.1/README.md) | v0.1 | **WIP** — planned/unplanned outage notices for web/outage-map publishing + push to consumers |
+
+## External Schemas (DEG)
+
+Some deployable use cases use schemas authored in the **[DEG repo](https://github.com/India-Energy-Stack/DEG)** rather than mirrored here. Their field references are **auto-generated from the DEG sources** (by `scripts/generate_external_field_tables.py`) so the book — GitBook and PDF — carries a complete reference without leaving it:
+
+- **[Energy Trading (P2P, wave2)](external/energy-trading.md)** — `P2PTrade`, `EnergyTradeOffer`, `EnergyCustomer`, `EnergyOrderItem`, `RevenueFlow`, `DEGContract`, `EnergyResource`.
+- **[Demand Flexibility](external/demand-flex.md)** — `DemandFlexNeed`, `DemandFlexBuyOffer`, `DemandFlexPerformance`.
+
+See [External Schemas (DEG)](external/README.md) for provenance and how to refresh.
