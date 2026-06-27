@@ -40,6 +40,4 @@
     * [v0.5](schemas/ArrFiling/v0.5/README.md)
   * [OutageNotification](schemas/OutageNotification/README.md)
     * [v0.1](schemas/OutageNotification/v0.1/README.md)
-  * [External Schemas (DEG)](schemas/external/README.md)
-    * [Energy Trading (P2P)](schemas/external/energy-trading.md)
-    * [Demand Flexibility](schemas/external/demand-flex.md)
+  * [External Schemas](schemas/external/README.md)
