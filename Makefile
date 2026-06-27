@@ -7,8 +7,9 @@ endif
 
 .PHONY: all clean build validate index test external
 
-# Path to the sibling DEG repo (override: make external DEG_REPO=/path/to/DEG)
-DEG_REPO ?= ../../DEG
+# Local checkout that holds the external schema sources
+# (override: make external SCHEMA_REPO=/path/to/DEG)
+SCHEMA_REPO ?= ../../DEG
 
 test:
 	@echo "Running MeterData v0.6 validator tests..."
@@ -53,11 +54,11 @@ index:
 	@echo "Generating collapsible index.md..."
 	@python3 scripts/generate_index.py
 
-# Regenerate the External Schemas (DEG) field-reference pages from the sibling
-# DEG repo. Not part of `all` because it needs the DEG checkout present.
+# Regenerate the External Schemas field-reference page from the schema sources.
+# Not part of `all` because it needs that local checkout present.
 external:
-	@echo "Generating External Schemas (DEG) field references from $(DEG_REPO)..."
-	@python3 scripts/generate_external_field_tables.py --deg-repo $(DEG_REPO)
+	@echo "Generating External Schemas field reference from $(SCHEMA_REPO)..."
+	@python3 scripts/generate_external_field_tables.py --schema-repo $(SCHEMA_REPO)
 
 # Clean up compiled assets and validation stamps
 clean:
