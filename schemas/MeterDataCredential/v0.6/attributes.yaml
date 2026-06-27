@@ -66,7 +66,7 @@ components:
           x-jsonld:
             "@id": "@id"
         meterData:
-          $ref: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json"
+          $ref: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml#/components/schemas/MeterData"
           description: >
             The attested meter data payload. May be a single EnergyData profile
             or an array of profiles per MeterData v0.6.

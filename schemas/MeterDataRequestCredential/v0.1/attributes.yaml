@@ -69,7 +69,7 @@ components:
           x-jsonld:
             "@id": "@id"
         meterDataRequest:
-          $ref: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json"
+          $ref: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/attributes.yaml#/components/schemas/MeterDataRequest"
           description: >
             The scoped, time-bounded data request. Specifies the meter
             resources, hierarchical scope, time window, and profile types
