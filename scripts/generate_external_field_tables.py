@@ -77,8 +77,9 @@ GROUPS = [
             "A peer-to-peer trade is modelled as a `P2PTrade` contract (a beckn "
             "`Contract` subclass) whose energy-specific attributes are carried by "
             "the offer, customer, order-item, settlement and resource schemas "
-            "below. `EnergyResource`, `DEGContract` and `RevenueFlow` are shared "
-            "primitives — Demand Flexibility reuses them."
+            "below. `EnergyResource`, `DEGContract`, `RevenueFlow` and "
+            "`BecknTimeSeries` are shared primitives — Demand Flexibility reuses "
+            "them."
         ),
         "schemas": [
             "P2PTrade",
@@ -88,6 +89,7 @@ GROUPS = [
             "RevenueFlow",
             "DEGContract",
             "EnergyResource",
+            ("BecknTimeSeries", "v1.0"),
         ],
     },
     {
@@ -99,8 +101,9 @@ GROUPS = [
         "intro": (
             "A flexibility programme advertises a `DemandFlexNeed`, contracts via "
             "a `DemandFlexBuyOffer`, and reports measurement & verification with "
-            "`DemandFlexPerformance`. It reuses the shared `EnergyResource`, "
-            "`DEGContract` and `RevenueFlow` schemas listed under Energy Trading."
+            "`DemandFlexPerformance` (per-meter telemetry as a `BecknTimeSeries`). "
+            "It reuses the shared `EnergyResource`, `DEGContract`, `RevenueFlow` "
+            "and `BecknTimeSeries` schemas listed under Energy Trading."
         ),
         "schemas": [
             "DemandFlexNeed",
@@ -306,6 +309,8 @@ def component_section(comp_name: str, comp: dict, schemas: dict, heading_level: 
     parts: list[str] = []
     if heading_level:
         parts += [f"{'#' * heading_level} {comp_name}", ""]
+    if comp.get("x-standard"):
+        parts += [f"_Based on **{md_escape(collapse(comp['x-standard']))}**._", ""]
     if comp.get("deprecated"):
         parts += [f"> **Deprecated.** {collapse(comp.get('x-supersededBy', ''))}".rstrip(), ""]
     if comp.get("description"):
@@ -334,19 +339,27 @@ def component_section(comp_name: str, comp: dict, schemas: dict, heading_level: 
 # --------------------------------------------------------------------------- #
 # Page assembly
 # --------------------------------------------------------------------------- #
-def load_doc(repo: str, schema: str) -> dict:
-    path = os.path.join(repo, "specification", "schema", schema, VERSION, "attributes.yaml")
+def split_entry(entry) -> tuple[str, str]:
+    """A group's schema entry is either a name (uses the default VERSION) or a
+    (name, version) pair for schemas published under a different version."""
+    if isinstance(entry, (list, tuple)):
+        return entry[0], entry[1]
+    return entry, VERSION
+
+
+def load_doc(repo: str, schema: str, version: str) -> dict:
+    path = os.path.join(repo, "specification", "schema", schema, version, "attributes.yaml")
     if not os.path.exists(path):
         raise FileNotFoundError(path)
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
-def schema_section(repo: str, schema: str) -> list[str]:
+def schema_section(repo: str, schema: str, version: str) -> list[str]:
     """One schema's heading + source link + component table(s)."""
-    doc = load_doc(repo, schema)
+    doc = load_doc(repo, schema, version)
     schemas = doc.get("components", {}).get("schemas", {})
-    src = f"[`{schema}/{VERSION}`]({SCHEMA_BASE}/{schema}/{VERSION})"
+    src = f"[`{schema}/{version}`]({SCHEMA_BASE}/{schema}/{version})"
     out = [f"### {schema}", "",
            f"_Defined at {src} — {collapse(doc.get('info', {}).get('title', schema))}._", ""]
     # The named component matching the folder first, then any siblings;
@@ -386,8 +399,8 @@ def build_page(repo: str) -> str:
         if links:
             parts += [f"**{links}**", ""]
         parts += [group["intro"], "", START, ""]
-        for schema in group["schemas"]:
-            parts += schema_section(repo, schema)
+        for entry in group["schemas"]:
+            parts += schema_section(repo, *split_entry(entry))
         parts += [END, ""]
     return "\n".join(parts).rstrip() + "\n"
 
