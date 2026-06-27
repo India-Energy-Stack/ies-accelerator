@@ -1,8 +1,35 @@
 #!/usr/bin/env python3
 import os
+import re
 import sys
 import json
 import yaml
+
+# Cross-file refs in the OpenAPI source (attributes.yaml) point at a sibling
+# schema's attributes.yaml using the OpenAPI fragment convention
+# (#/components/schemas/<Name>). In the generated JSON-Schema (schema.json)
+# those must point at the sibling schema.json using the JSON-Schema convention
+# ($defs), so a JSON-Schema validator can resolve them. The root component of a
+# schema lives at the schema.json root; all other components live under $defs.
+_CROSS_FILE_REF_RE = re.compile(
+    r"^(?P<base>.*/schemas/(?P<schema>[^/]+)/(?P<ver>[^/]+))"
+    r"/attributes\.yaml#/components/schemas/(?P<name>[^/]+)$"
+)
+
+def map_cross_file_ref(ref):
+    """
+    Map an OpenAPI cross-file $ref to its JSON-Schema (schema.json) equivalent:
+      .../schemas/<S>/<v>/attributes.yaml#/components/schemas/<S>    -> .../schemas/<S>/<v>/schema.json
+      .../schemas/<S>/<v>/attributes.yaml#/components/schemas/<Name> -> .../schemas/<S>/<v>/schema.json#/$defs/<Name>
+    Any ref that does not match this shape is returned unchanged.
+    """
+    m = _CROSS_FILE_REF_RE.match(ref)
+    if not m:
+        return ref
+    base, schema, name = m.group("base"), m.group("schema"), m.group("name")
+    if name == schema:  # the root component is the schema.json root
+        return f"{base}/schema.json"
+    return f"{base}/schema.json#/$defs/{name}"
 
 def convert_refs(obj):
     """
@@ -17,7 +44,7 @@ def convert_refs(obj):
                 if v.startswith("#/components/schemas/"):
                     new_dict[k] = v.replace("#/components/schemas/", "#/$defs/")
                 else:
-                    new_dict[k] = v
+                    new_dict[k] = map_cross_file_ref(v)
             else:
                 new_dict[k] = convert_refs(v)
         return new_dict
