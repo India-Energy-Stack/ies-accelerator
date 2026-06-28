@@ -124,14 +124,27 @@ curl -s http://localhost:3100/v1/health | jq
 
 ### 4. Assemble your `did.json` from the container
 
-OpenCred publishes the JWK form of your public key on its keys endpoint. Fetch it, drop it into the standard DID document template, and publish.
+You need the **public JWK** of your signing key for the DID document. The keys endpoint reports key metadata:
 
 ```bash
 curl -s http://localhost:3100/v1/keys \
   -H "Authorization: Bearer $OPENCRED_API_KEY" | jq '.keys[0]'
 ```
 
-Use the JWK from that response in this template:
+Current OpenCred builds return key *metadata* here (`id`, `algorithm`, `fingerprint`) — not the `x`/`y` coordinates. Derive the JWK straight from your key; it is the public half of the exact key OpenCred signs with:
+
+```bash
+python3 - <<'PY'
+import subprocess, base64, json
+der = subprocess.run(["openssl", "pkey", "-in", "keys/issuer-key.pem", "-pubout", "-outform", "DER"],
+                     capture_output=True, check=True).stdout
+pt = der[-65:]                       # uncompressed EC point: 0x04 || X(32) || Y(32)
+b64u = lambda b: base64.urlsafe_b64encode(b).rstrip(b"=").decode()
+print(json.dumps({"kty": "EC", "crv": "P-256", "x": b64u(pt[1:33]), "y": b64u(pt[33:65])}))
+PY
+```
+
+Drop that JWK into the standard DID document template:
 
 ```json
 {
@@ -268,7 +281,7 @@ For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.pro
 
 ### 4. Revoke
 
-OpenCred publishes revocation as a hash entry into your DeDi revocation registry. The credential format does not change; the verifier reads `credentialStatus` and looks up the hash.
+OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue (as the [MeterDataCredential](#meterdatacredential-v06--telemetry-signing) and [MeterDataRequestCredential](#meterdatarequestcredential-v01--proof-of-right-to-ask) examples do); the default issue above omits it.
 
 ```bash
 # Compute the revocation hash
@@ -329,7 +342,26 @@ The Consumer Energy Passport use case ([use-cases/consumer-energy-passport/](../
 
 ### MeterDataCredential v0.6 — telemetry signing
 
-A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM. Same `POST /v1/credentials/issue` flow as above, with `schemaId` set to `MeterDataCredential/v0.6` and the `credentialSubject` shaped per its schema.
+A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM, and delivered over Beckn at [`on_status`](../data-exchange/README.md#what-you-can-exchange-schema-families). Wraps [MeterData v0.6](../schemas/MeterData/v0.6/README.md); schema [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md).
+
+Same `POST /v1/credentials/issue` flow as the walkthrough above — the `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](../schemas/MeterData/v0.6/README.md)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (see [Revoke](#4-revoke)); its value is your DeDi revocation registry, addressed by namespace DID **or** verified domain:
+
+```bash
+curl -s http://localhost:3100/v1/credentials/issue \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"schemaId\":     \"ies/meter-data-credential/v0.6\",
+    \"issuerDid\":    \"$ISSUER_DID\",
+    \"proofFormat\":  \"vc-jwt\",
+    \"validFrom\":    \"2026-06-28T00:00:00+05:30\",
+    \"validUntil\":   \"2026-07-05T00:00:00+05:30\",
+    \"revocationRegistryUrl\": \"https://api.dedi.global/dedi/query/<your-namespace>/vc-revocation-registry\",
+    \"credentialSubject\": {
+      \"meterData\": { \"@type\": \"DailyProfile\", \"profileType\": \"DAILY\", \"…\": \"a MeterData v0.6 profile or array\" }
+    }
+  }" | tee credential.json | jq .credential
+```
 
 Two common shapes:
 
@@ -339,7 +371,45 @@ Two common shapes:
 
 ### MeterDataRequestCredential v0.1 — proof of right-to-ask
 
-A signed VC carried at Beckn `confirm` time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md).
+A signed VC carried at Beckn [`confirm`](../data-exchange/README.md#3-send-confirm) time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md).
+
+This schema is **not** in OpenCred's built-in registry, so issue it with an **`inlineSchema`** rather than a `schemaId`: pass the JSON Schema in the request and OpenCred validates `credentialSubject` against it, writes the schema `$id`, and signs. Here we reuse the published MeterDataRequest `$defs` so the inline schema stays canonical:
+
+```bash
+# pull the MeterDataRequest v0.6 $defs and wrap them as the credentialSubject schema
+REQ_DEFS=$(curl -s https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json | jq '.["$defs"]')
+
+jq -n --argjson defs "$REQ_DEFS" --arg iss "$ISSUER_DID" '{
+  inlineSchema: {
+    "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json",
+    type: "object", required: ["meterDataRequest"],
+    properties: {
+      id: { type: "string", format: "uri" },
+      meterDataRequest: { "$ref": "#/$defs/MeterDataRequestObject" }
+    },
+    "$defs": $defs
+  },
+  issuerDid: $iss,
+  proofFormat: "vc-jwt",
+  validFrom: "2026-06-28T00:00:00+05:30",
+  validUntil: "2026-12-28T00:00:00+05:30",
+  revocationRegistryUrl: "https://api.dedi.global/dedi/query/<your-namespace>/vc-revocation-registry",
+  credentialSubject: {
+    meterDataRequest: {
+      "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
+      "@type": "MeterDataRequest",
+      scope: "ResourceOnly",
+      from: "2026-06-04T00:00:00Z",
+      duration: "P6M",
+      maxRecordsShared: 10000,
+      capabilitiesRequested: { profiles: [ { profileType: "CustomerProfile" }, { profileType: "IntervalProfile" } ] }
+    }
+  }
+}' | curl -s http://localhost:3100/v1/credentials/issue \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" -H "Content-Type: application/json" -d @- | jq .credential
+```
+
+`scope` must be one of the `ScopeType` enum (`ResourceOnly`, `ResourceAndChildren`, `ChildrenOnly`). The seeker embeds the resulting credential in the `confirm` message's receiver participant; the provider's adapter verifies it before fulfilling. A full did:web walkthrough (issue → publish `did.json` → verify → revoke) plus ready-to-send `confirm` payloads live in the [DEG data-exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc1-meter-data).
 
 ### Summary
 
