@@ -550,6 +550,17 @@ Existing credentials signed by the old key keep verifying as long as the old key
 
 Validate the body of every `POST /v1/credentials/issue` against the schema **before** sending it. OpenCred validates server-side too, but a client-side check catches integration bugs earlier and avoids logging PII into OpenCred's error trail. Use the JSON Schema at `schemas/ElectricityCredential/v1.2/schema.json` (or the matching version).
 
+**Three files, three jobs — don't mix them up.** Each schema version publishes three artefacts, and `schemaId` is *none* of them:
+
+| Reference | What it is | Where it's used |
+|---|---|---|
+| `…/<Schema>/<ver>/schema.json` | the **JSON Schema** (structural validation) | the issued credential's `credentialSchema.id` (`type: JsonSchema`) |
+| `…/<Schema>/<ver>/context.jsonld` | the **JSON-LD `@context`** (what each term *means*) | the `@context` of the credential / embedded payload |
+| `…/<Schema>/<ver>/attributes.yaml` | the **OpenAPI source** the other two are generated from | authoring only |
+| `ies/meter-data-credential/v0.6` | OpenCred's **registry handle** | the `schemaId` field in the issue request |
+
+So the three never collide: **`@context` → `context.jsonld`** (meaning), **`credentialSchema` → `schema.json`** (validation), **`schemaId` → OpenCred's registry name** (which OpenCred resolves to the bundled `schema.json`). When you issue with an `inlineSchema` instead of a `schemaId`, that inline schema's `$id` should be the **`schema.json`** URL (it *is* a JSON Schema), while the payload's `@context` still points at **`context.jsonld`**.
+
 ### Batch issuance
 
 For high-volume flows (annual re-issue, bulk Passport rollout):
