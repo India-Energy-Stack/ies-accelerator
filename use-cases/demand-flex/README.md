@@ -55,8 +55,11 @@ Meters and resources are not Beckn participants — they are `did:web` identifie
 flowchart LR
   subgraph Aggregator["Aggregator (BAP / seller of flex)"]
     AGG["greenflex-agg"]
+    CUST["Customer / prosumer"]
     ER["EnergyResources<br/>EV chargers · batteries · HVAC"]
-    AGG -.controls.- ER
+    AGG -- "automated DR —<br/>direct asset control" --> ER
+    AGG -- "nudge —<br/>share incentive" --> CUST
+    CUST -- "opts in,<br/>controls own assets" --> ER
   end
   subgraph Utility["DISCOM (BPP / buyer of flex)"]
     DISCOM["tpddl-north-delhi"]
@@ -64,11 +67,11 @@ flowchart LR
     DISCOM -.meters.- M
   end
   AGG <-- "Beckn v2<br/>discover · init · confirm · status" --> DISCOM
-  ER -. "vendor-API telemetry<br/>(out-of-band)" .-> AGG
+  ER -. "resource telemetry<br/>(aggregator-owned)" .-> AGG
   M -. "settlement-grade<br/>BASELINE / USAGE" .-> DISCOM
 ```
 
-One BAP, one BPP, one Beckn conversation. The utility is the source of truth for settlement; the aggregator is the source of truth for resource-level reconciliation. The two streams meet on the `on_status` channel but never mix in the money.
+One BAP, one BPP, one Beckn conversation. The aggregator delivers the curtailment one of two ways: **automated demand response** — it controls the enrolled assets directly (e.g. throttling EV chargers over a vendor API) — or **customer-nudged** — it passes the incentive through to the customer, who chooses to opt in and curtails their own assets. The protocol is identical either way; the difference is only in how the kilowatts get shed behind the meter. The utility is the source of truth for settlement; the aggregator is the source of truth for resource-level reconciliation. The two never mix in the money.
 
 ---
 
@@ -118,7 +121,7 @@ sequenceDiagram
   Note over AGG,UTIL: Phase 1 — Commit
   AGG->>UTIL: discover
   UTIL->>AGG: on_discover (the buy-offer)
-  AGG->>UTIL: init (e.g. 150 kW of a 500 kW need; meters, energyResources, reportDescriptors)
+  AGG->>UTIL: init — commit 150 kW of the 500 kW need, with meters + energyResources + reportDescriptors
   UTIL->>AGG: on_init
   AGG->>UTIL: confirm
   UTIL->>AGG: on_confirm (contract ACTIVE)
