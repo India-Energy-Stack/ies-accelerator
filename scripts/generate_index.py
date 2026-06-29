@@ -82,19 +82,19 @@ def main():
             ("SUMMARY.md", "Table of Contents sidebar structure configuration for GitBook deployment.")
         ],
         "identifiers_setup": [
-            ("identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
+            ("what-ies-provides/identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
         ],
         "registries_setup": [
-            ("registries/README.md", "Introduction to the trust registry layer and related building blocks."),
+            ("what-ies-provides/registries/README.md", "Introduction to the trust registry layer and related building blocks."),
         ],
         "credentials_setup": [
-            ("energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.")
+            ("what-ies-provides/energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.")
         ],
         "credentials_ops": [
-            ("energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
+            ("what-ies-provides/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
-            ("data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
+            ("what-ies-provides/data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
         "schemas": [
             ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),
@@ -108,14 +108,17 @@ def main():
             ("schemas/ArrFiling/v0.5/README.md", "Detailed schema fields and validation steps for Annual Revenue Requirement filings v0.5.")
         ],
         "usecases": [
-            ("use-cases/README.md", "Snapshot index of the six primary energy network use cases."),
+            ("use-cases/README.md", "Snapshot index of the IES Use Case Guides — each follows the IES Documentation Template."),
+            ("use-cases/consumer-energy-passport/README.md", "Holder-bound ElectricityCredential v1.2 issued by a DISCOM into a consumer's wallet (DigiLocker)."),
+            ("use-cases/consumer-meter-digest/README.md", "Holder-bound MeterDataCredential v0.6 — consumer's own meter readings on demand, signed by the DISCOM."),
             ("use-cases/smart-meter-data-exchange/README.md", "Implementer guide: AMISP/DISCOM/SERC/third-party telemetry exchange over IES Data Exchange, carrying the MeterData schema; includes the optional MeterDataRequestCredential consent flow."),
             ("use-cases/smart-meter-data-exchange/ies-meter-data-model.md", "Reference: Indian smart-metering terminology (OBIS, IS 15959 profiles and event IDs, CIM master data) mapped to the MeterData schema, with the IS 15959 deep-reference appendix."),
-            ("use-cases/consumer-meter-digest/README.md", "Exchanging monthly meter digests via user consent and pull credentials."),
-            ("use-cases/consumer-energy-passport/README.md", "Consolidating generation, storage, and consumption VCs into a unified consumer passport."),
+            ("use-cases/der-visibility/README.md", "Grid-side issuance of ElectricityCredential v1.2 — per-feeder view of every DER behind a DISCOM's meters."),
             ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
             ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
-            ("use-cases/energy-trading/README.md", "WIP — inter-discom prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.")
+            ("use-cases/outage-visibility/README.md", "Planned and unplanned outage notifications — CAP-aligned push, GIS-ready pull feed."),
+            ("use-cases/p2p-energy-exchange/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi."),
+            ("use-cases/der-flexibility/README.md", "Demand-side flexibility procurement — DemandFlexNeed → BuyOffer → per-meter M&V over Beckn.")
         ],
         "pathways": [
             ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),

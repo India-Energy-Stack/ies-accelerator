@@ -1,10 +1,10 @@
 # Energy Credentials
 
-**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
+The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware) or carried inline in a data exchange. This page is the **reference** for the credential lifecycle, the variants IES uses (`ElectricityCredential`, `MeterDataCredential`, `MeterDataRequestCredential`), and the operational commands to issue / verify / revoke with [OpenCred](../../glossary.md#opencred).
 
-This page is the single home for everything IES has to say about issuing, verifying, and revoking energy credentials. The first three sections take you from a fresh deployment to your first signed credential. The appendices cover trust theory, batch / production patterns, and core concepts.
+For first-time setup — getting OpenCred running, publishing `did.json`, claiming a DeDi namespace — follow **[Setup Register](../../how-you-implement-ies/setup-register.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** first.
 
-> **About the walkthrough.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
+> **About the walkthrough.** The concrete commands below use **[OpenCred](../../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
 ---
 
@@ -18,9 +18,9 @@ Three credentials cover almost everything IES does:
 
 | Credential | What it attests | Who signs | Typical receiver |
 |---|---|---|---|
-| **[ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md)** | A service connection — customer number, sanctioned load, tariff, meter info, energy resources (rooftop solar, BESS, EV chargers) | DISCOM | The consumer's wallet, or a verifier (bank, marketplace, regulator) the consumer shares it with |
-| **[MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md)** | A signed meter-reading payload (raw `MeterData` profiles or derived summaries) for a specified period | AMISP, MDM, or DISCOM | DISCOM (B2B telemetry) or the consumer (their own readings) |
-| **[MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md)** | A signed request for meter data — proves the requester has the right to ask | Seeker (typically a DISCOM) | Provider (typically an AMISP) at Beckn `confirm` time |
+| **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** | A service connection — customer number, sanctioned load, tariff, meter info, energy resources (rooftop solar, BESS, EV chargers) | DISCOM | The consumer's wallet, or a verifier (bank, marketplace, regulator) the consumer shares it with |
+| **[MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md)** | A signed meter-reading payload (raw `MeterData` profiles or derived summaries) for a specified period | AMISP, MDM, or DISCOM | DISCOM (B2B telemetry) or the consumer (their own readings) |
+| **[MeterDataRequestCredential v0.1](../../schemas/MeterDataRequestCredential/v0.1/README.md)** | A signed request for meter data — proves the requester has the right to ask | Seeker (typically a DISCOM) | Provider (typically an AMISP) at Beckn `confirm` time |
 
 ### Lifecycle at a glance
 
@@ -52,8 +52,8 @@ sequenceDiagram
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Checklist](#checklist) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b-operational-notes) |
-| **An AMISP / MDM / aggregator** (you sign telemetry) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) using `MeterDataCredential` | [Smart Meter Data Exchange use case](../use-cases/smart-meter-data-exchange/README.md) |
+| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b-operational-notes) |
+| **An AMISP / MDM / aggregator** (you sign telemetry) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) using `MeterDataCredential` | [Smart Meter Data Exchange use case](../../use-cases/smart-meter-data-exchange/README.md) |
 | **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](#digilocker-delivery) | [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity) for binding patterns |
 | **A verifier** (you receive and check credentials) | [Verify](#id-3.-verify), [Revocation check](#id-4.-revoke) → [Appendix A — Trust model](#appendix-a-trust-model) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the resolution walk |
 
@@ -64,10 +64,10 @@ sequenceDiagram
 Before you can issue, get these in place:
 
 1. **A domain or subdomain you control**, with the ability to host one small static file under it. This becomes the host portion of your `did:web`. See [Identifiers — (a) Org identity](../identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads) for naming + path-segment guidance.
-2. **A DeDi namespace** under your verified domain. See [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries). OpenCred will auto-create the four registries it needs (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) on first boot.
+2. **A DeDi namespace** under your verified domain. See [Registries — Step-by-step](../../how-you-implement-ies/setup-register.md). OpenCred will auto-create the four registries it needs (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) on first boot.
 3. **Docker 24+**, plus `curl`, `jq`, `openssl`, and ~2 GB free disk. The OpenCred container ships ready to issue.
 4. *(Optional, recommended for licensed utilities)* **A regulator's licensing pointer** to quote in `issuer.idRef` — the regulator's `did:web` and the regulator-issued licence identifier for your DISCOM. Omit for pilots / non-regulated issuers.
-5. **A signed payload schema in mind.** Default: [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md). For telemetry, [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md).
+5. **A signed payload schema in mind.** Default: [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md). For telemetry, [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md).
 
 > **No IES-side DISCOM-registry entry is required to issue credentials.** That registry is the inter-DISCOM data exchange network's trust boundary, not a credential prerequisite. See [Registries — IES networks today](../registries/README.md#ies-networks-and-registries-today) for when you'd need it.
 
@@ -75,7 +75,7 @@ Before you can issue, get these in place:
 
 ## Set up OpenCred and publish your `did:web`
 
-The practical setup is one JSON file on a web server you already run, plus the [OpenCred](../glossary.md#opencred) container that signs credentials with the matching private key. Six steps; ~15 minutes end-to-end.
+The practical setup is one JSON file on a web server you already run, plus the [OpenCred](../../glossary.md#opencred) container that signs credentials with the matching private key. Six steps; ~15 minutes end-to-end.
 
 ### 1. Pull the OpenCred image
 
@@ -281,7 +281,7 @@ For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.pro
 
 ### 4. Revoke
 
-OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue (as the [MeterDataCredential](#meterdatacredential-v06--telemetry-signing) and [MeterDataRequestCredential](#meterdatarequestcredential-v01--proof-of-right-to-ask) examples do); the default issue above omits it.
+OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue (as the [MeterDataCredential](#meterdatacredential-v0.6-telemetry-signing) and [MeterDataRequestCredential](#meterdatarequestcredential-v0.1-proof-of-right-to-ask) examples do); the default issue above omits it.
 
 ```bash
 # Compute the revocation hash
@@ -338,13 +338,13 @@ Two common shapes:
 - `customerProfile.idRef` carries a verifiable government-ID reference (Aadhaar offline KYC, DigiLocker pull, etc.) — **the reference**, never the raw number.
 - At presentation time, the verifier issues a challenge, the wallet signs a Verifiable Presentation, and the verifier confirms the presenter holds the matching private key. See [Identifiers — Pattern 1](../identifiers/README.md#pattern-1-wallet-did-cryptographic-recommended-where-a-wallet-exists).
 
-The Consumer Energy Passport use case ([use-cases/consumer-energy-passport/](../use-cases/consumer-energy-passport/README.md)) is about *who*, *when*, and *why* the holder-bound shape is issued; the credential itself is an ElectricityCredential v1.2.
+The Consumer Energy Passport use case ([use-cases/consumer-energy-passport/](../../use-cases/consumer-energy-passport/README.md)) is about *who*, *when*, and *why* the holder-bound shape is issued; the credential itself is an ElectricityCredential v1.2.
 
 ### MeterDataCredential v0.6 — telemetry signing
 
-A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM, and delivered over Beckn at [`on_status`](../data-exchange/README.md#what-you-can-exchange-schema-families). Wraps [MeterData v0.6](../schemas/MeterData/v0.6/README.md); schema [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md).
+A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM, and delivered over Beckn at [`on_status`](../data-exchange/README.md#what-you-can-exchange-schema-families). Wraps [MeterData v0.6](../../schemas/MeterData/v0.6/README.md); schema [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md).
 
-Same `POST /v1/credentials/issue` flow as the walkthrough above — the `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](../schemas/MeterData/v0.6/README.md)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (see [Revoke](#4-revoke)); its value is your DeDi revocation registry, addressed by namespace DID **or** verified domain:
+Same `POST /v1/credentials/issue` flow as the walkthrough above — the `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](../../schemas/MeterData/v0.6/README.md)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (see [Revoke](#id-4.-revoke)); its value is your DeDi revocation registry, addressed by namespace DID **or** verified domain:
 
 ```bash
 curl -s http://localhost:3100/v1/credentials/issue \
@@ -367,11 +367,11 @@ Two common shapes:
 
 **B2B**, typically without `credentialSubject.id`. The AMISP signs; the DISCOM consumes the payload at Beckn `on_status`.
 
-**Holder-bound, consumer-presentable** — the **Consumer Meter Digest** pattern. `credentialSubject.id` = the consumer's wallet DID, `validUntil` is short (hours to days), and the readings or summary cover a period the consumer asked for. The credential is delivered into the consumer's wallet / DigiLocker; verifiers (banks, marketplaces) check it without phoning the DISCOM. Use case page: [use-cases/consumer-meter-digest/](../use-cases/consumer-meter-digest/README.md).
+**Holder-bound, consumer-presentable** — the **Consumer Meter Digest** pattern. `credentialSubject.id` = the consumer's wallet DID, `validUntil` is short (hours to days), and the readings or summary cover a period the consumer asked for. The credential is delivered into the consumer's wallet / DigiLocker; verifiers (banks, marketplaces) check it without phoning the DISCOM. Use case page: [use-cases/consumer-meter-digest/](../../use-cases/consumer-meter-digest/README.md).
 
 ### MeterDataRequestCredential v0.1 — proof of right-to-ask
 
-A signed VC carried at Beckn [`confirm`](../data-exchange/README.md#3-send-confirm) time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md).
+A signed VC carried at Beckn [`confirm`](../data-exchange/README.md#id-3.-send-confirm) time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](../../schemas/MeterDataRequestCredential/v0.1/README.md).
 
 This schema is **not** in OpenCred's built-in registry, so issue it with an **`inlineSchema`** rather than a `schemaId`: pass the JSON Schema in the request and OpenCred validates `credentialSubject` against it, writes the schema `$id`, and signs. Here we reuse the published MeterDataRequest `$defs` so the inline schema stays canonical:
 
@@ -435,57 +435,13 @@ Full guidance: [Identifiers — Appendix F](../identifiers/README.md#appendix-f-
 
 DigiLocker is the dominant consumer wallet in India. Once issued, an ElectricityCredential or MeterDataCredential can be delivered into a consumer's DigiLocker via a Pull URI, and any verifier reading from DigiLocker inherits DigiLocker's Aadhaar-mediated identity binding.
 
-Walkthrough (Pull URI shape, callback flow, signature pinning, common failure modes): [digilocker.md](./digilocker.md).
+Walkthrough (Pull URI shape, callback flow, signature pinning, common failure modes): [digilocker.md](digilocker.md).
 
 ---
 
-## Checklist
+## Setup checklist
 
-Zero to issuing your first signed credential. Each item links to the section that walks it.
-
-### Phase 1 — Foundations
-
-- [ ] Domain selected; apex-vs-subdomain and path layout decided → [Identifiers — What you'll need](../identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads)
-- [ ] Signing key generated; private key in KMS / HSM (software PEM for dev only) → [Signing-key sources](#signing-key-sources)
-- [ ] OpenCred running; `/v1/health` returns `signingKeyLoaded: true` → [Run OpenCred](#id-3.-run-opencred-in-did-web-mode)
-- [ ] `did.json` published; `curl` returns the expected DID → [Publish the file](#id-5.-publish-the-file)
-- [ ] DeDi namespace claimed and **domain-verified** → [Registries — Step-by-step](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
-- [ ] OpenCred's four registries auto-created; `/v1/health` reports `dediConfigured: true` → [Prerequisites](#prerequisites)
-
-### Phase 2 — Issue and revoke
-
-- [ ] Issuer DID confirmed → [Step 1](#id-1.-confirm-the-issuer-did-opencred-reports)
-- [ ] First ElectricityCredential v1.2 issued (bearer) → [Step 2](#id-2.-issue)
-- [ ] Verify returns `valid: true` → [Step 3](#id-3.-verify)
-- [ ] Revocation publishes; status flips → [Step 4](#id-4.-revoke)
-- [ ] Smoke test wired into CI → [Step 5](#id-5.-smoke-test)
-- [ ] Integration service appends `issuer.name` (and `issuer.idRef` if citing a regulator) on egress → [Step 2 notes](#id-2.-issue)
-
-### Phase 3 — Decide variant(s) you'll issue
-
-- [ ] Variant(s) chosen → [Credential variants](#credential-variants): bearer ElectricityCredential v1.2; [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) (+ holder binding + `customerProfile.idRef`); B2B MeterDataCredential v0.6; [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (+ holder binding, short `validUntil`); MeterDataRequestCredential v0.1
-- [ ] For holder-bound variants: binding pattern chosen → [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity)
-- [ ] Identity-proofing-at-issuance documented (challenge-sign for wallet DIDs, OTP for phone, DigiLocker grant otherwise)
-
-### Phase 4 — Production hardening
-
-- [ ] Signing key in HSM / Cloud KMS → [Signing-key sources](#signing-key-sources)
-- [ ] Schema validation before `POST /v1/credentials/issue` → [Schema validation](#schema-validation)
-- [ ] Key-rotation runbook in place → [Key rotation](#key-rotation)
-- [ ] Reverse proxy + TLS in front of OpenCred (never expose `:3100`) → [Reverse proxy + TLS](#reverse-proxy-tls)
-- [ ] Backups of `did.json`, KMS key handle, DeDi credentials
-- [ ] DigiLocker delivery configured if applicable → [DigiLocker delivery](digilocker.md)
-
-### Phase 5 — Data exchange (optional, only if joining Beckn)
-
-- [ ] Beckn subscriber record published → [Identifiers — Appendix E](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric)
-- [ ] IES Secretariat has referenced your subscriber into the network registry → [Registries — How to apply](../registries/README.md#how-to-apply-for-an-ies-listing)
-- [ ] ONIX `allowedNetworkIDs` set for the right environment → [Identifiers — Step 7](../identifiers/README.md#step-7-configure-your-onix-to-accept-the-right-networks-allowednetworkids)
-
-### Team
-
-- [ ] IT SPOC — operates OpenCred, owns key rotation (name, email, phone)
-- [ ] Governance / Compliance SPOC — approves publishing, owns regulator-pointer setup
+The phased rollout from zero to a production-issuing service is in **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Part 3 → Conformance Checklist](../../how-you-implement-ies/conformance.md)**. The variant-specific operational items (holder binding, identity proofing, DigiLocker delivery) are in the per-use-case guide — **[Consumer Energy Passport](../../use-cases/consumer-energy-passport/README.md)**, **[Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md)**.
 
 ---
 
@@ -624,9 +580,9 @@ Issued ─► Held / presented ─► Verified ─► (eventually) Revoked or ex
 
 - [Identifiers and Addressing](../identifiers/README.md) — `did:web` setup, asset IDs, holder binding
 - [Registries and Directories](../registries/README.md) — DeDi namespace, revocation registry, IES networks
-- [Schemas](../schemas/README.md) — canonical schema mirrors for ElectricityCredential, MeterData(Credential), MeterDataRequest(Credential)
-- [DigiLocker delivery](./digilocker.md) — Pull URI, callback, signature pinning
-- [Use cases — Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md)
-- [Use cases — Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md)
-- [Use cases — Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md)
+- [Schemas](../../schemas/README.md) — canonical schema mirrors for ElectricityCredential, MeterData(Credential), MeterDataRequest(Credential)
+- [DigiLocker delivery](digilocker.md) — Pull URI, callback, signature pinning
+- [Use cases — Consumer Energy Passport](../../use-cases/consumer-energy-passport/README.md)
+- [Use cases — Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md)
+- [Use cases — Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md)
 - [OpenCred upstream documentation](https://opencred.gitbook.io/docs)

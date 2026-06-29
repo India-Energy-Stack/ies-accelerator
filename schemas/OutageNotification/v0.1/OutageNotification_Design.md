@@ -429,7 +429,7 @@ For tamper-evidence / cross-network trust (consistent with `MeterDataCredential`
 
 ### 7.4 Feeder-status ingest (detection layer)
 
-Publication is fed by a thin **detection / ingest** layer, kept separate from publication. An **AMI Service Provider (AMISP)** posts a real-time feeder energized/de-energized signal — derived from a substation meter's **digital-input (DI) port** — to the central platform (MDMS/OMS). The OMS correlates consecutive signals per feeder, enriches them (cause, hierarchy, area, geometry, customer count), and emits an `OutageNotification`. The published notice's `provenance` carries `amispCode` + `signal.eventId` + `signal.rawCode`, so every public outage is traceable to its originating meter signal. Full contract: [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml).
+Publication is fed by a thin **detection / ingest** layer, kept separate from publication. An **AMI Service Provider (AMISP)** posts a real-time feeder energized/de-energized signal — derived from a substation meter's **digital-input (DI) port** — to the central platform (MDMS/OMS). The OMS correlates consecutive signals per feeder, enriches them (cause, hierarchy, area, geometry, customer count), and emits an `OutageNotification`. The published notice's `provenance` carries `amispCode` + `signal.eventId` + `signal.rawCode`, so every public outage is traceable to its originating meter signal. Full contract: [`FeederStatusIngest.openapi.yaml`](FeederStatusIngest.openapi.yaml).
 
 **Contract principles:**
 - **Named status enums** (`ENERGIZED`/`DE_ENERGIZED`/`UNKNOWN`); the raw vendor code is preserved in `rawStatus`. Vendor status codes are not standardized — the standard layer is IS 15959 / DLMS-COSEM (OBIS + event codes), which `MeterData` `AlarmProfile.alarmId` aligns to.
@@ -537,7 +537,7 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 
 ### 9.1 UPPCL FAULT_REASON master → `cause.category`/`cause.subcategory` crosswalk
 
-The UPPCL OMS carries a fault-reason pick-list (`FORM_ID 8312`, 31 codes). It is **operational and India-specific — not a published standard**, and contains duplicates (`13 Overload`≈`26 Overloading`; `20 System improvement`≈`29 …/Deposit Works`; transformer split across `3/4/10/11/23`). Each code maps to a standardized **`cause.category` + `cause.subcategory` (IEEE 1782-2022 §4.4/§4.5)**; the vendor code is kept verbatim in `cause.code` (`codeNamespace: uppcl-oms`). Full machine-readable mapping: [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json). Examples:
+The UPPCL OMS carries a fault-reason pick-list (`FORM_ID 8312`, 31 codes). It is **operational and India-specific — not a published standard**, and contains duplicates (`13 Overload`≈`26 Overloading`; `20 System improvement`≈`29 …/Deposit Works`; transformer split across `3/4/10/11/23`). Each code maps to a standardized **`cause.category` + `cause.subcategory` (IEEE 1782-2022 §4.4/§4.5)**; the vendor code is kept verbatim in `cause.code` (`codeNamespace: uppcl-oms`). Full machine-readable mapping: [`fault_reason_crosswalk.json`](fault_reason_crosswalk.json). Examples:
 
 | FAULT_REASON | `cause.code` | `cause.category` | `cause.subcategory` | `outageClass` |
 |---|---|---|---|---|

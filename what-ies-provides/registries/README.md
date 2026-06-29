@@ -1,10 +1,10 @@
 # Registries and Directories
 
-**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
+The discovery and revocation layer. DeDi is the open registry runtime IES uses to anchor namespaces, publish subscriber records for Beckn participants, and check credential revocation — without any IES participant having to call the issuer.
 
-This page is the single home for everything IES has to say about registries. Read the first three sections and you will know **why your organisation should claim a DeDi namespace, how to do it, and which registries you actually need**. The appendices cover deeper DeDi mechanics, a worked verification workflow, and troubleshooting.
+> **First-time setup** — to claim a namespace, publish your trust anchor, and create the registries you need, follow **[Setup Register](../../how-you-implement-ies/setup-register.md)**. This page is the reference for *which* registries IES uses, what each one contains, and how the curated IES allow-lists are organised.
 
-> Upstream documentation for DeDi (the open protocol) lives at [DeDi developer documentation](https://docs.nfh.global/dedi/dedi.global-developers/developer-documentation) and [Setting up a Beckn network](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment). This page focuses on the **IES-specific** wiring on top of DeDi: which registries exist under the `india-energy-stack` namespace today, which ones [OpenCred](https://opencred.gitbook.io/docs) auto-creates for you, and how to get listed in the curated IES allow-lists.
+Upstream protocol documentation lives at [DeDi developer documentation](https://docs.nfh.global/dedi/dedi.global-developers/developer-documentation) and [Setting up a Beckn network](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment).
 
 ---
 
@@ -24,41 +24,9 @@ DeDi itself is open-source ([Linux Foundation Decentralized Trust labs](https://
 
 ---
 
-## Step-by-step: claim your DeDi namespace and create registries
+## Registry tags used in IES
 
-This section is enough for any IES participant to stand up the registries they need. The detailed UI flow and API reference live in the NFH docs ([Quickstart](https://docs.nfh.global/dedi/dedi.global-developers/quickstart), [namespace and registry creation](https://docs.nfh.global/dedi/dedi.global-developers/quickstart/namespace-and-registry-creation)); the commands below mirror them in the IES-specific framing.
-
-### What you'll need
-
-- A domain you control, with **DNS access** (to add a TXT record). The same domain you use for your `did:web` is fine.
-- An email address for an organisational account (use a role mailbox, not a personal one).
-- 15 minutes to several hours — DNS TXT propagation is usually 15 min but can take up to 48 h.
-
-### 1. Sign up at dedi.global
-
-Create an account at [`dedi.global`](https://dedi.global). Use a role mailbox so the account survives staff changes, and turn on MFA.
-
-### 2. Create a namespace
-
-In the console, create a namespace under a short name that maps to your organisation:
-
-- DISCOMs typically use their short code (`tpddl`, `bescom`, `kseb`).
-- Aggregators, AMISPs, trading platforms use their FQDN-style name (`np.example.com`).
-- The IES network operator uses `india-energy-stack` under the domain `indiaenergystack.in`.
-
-A namespace is a **trust container**. Only the controller's DID key can write registries or records under it.
-
-### 3. Verify your domain (DNS TXT record)
-
-In the console, request whitelisting for your domain. DeDi issues a TXT record. Add it to your DNS zone, click **Verify**, and wait for propagation. Once verified, the namespace is anchored to that domain — anyone resolving it can see it is genuinely yours.
-
-If you cannot add a TXT record for some operational reason (delegated DNS, dev environments), contact the IES Secretariat — there are evaluation paths that don't require domain verification up-front.
-
-### 4. Create the registries you need
-
-Inside your verified namespace, create one registry per kind of record you publish. Each registry is typed by either a **built-in schema tag** (DeDi's templates for common shapes) or a **custom JSON Schema** you provide.
-
-The IES-relevant tags:
+The IES-relevant tags. The first two come from DeDi's built-in templates; the others are custom shapes managed by OpenCred.
 
 | Built-in tag | What it's for | Who creates it |
 |---|---|---|
@@ -70,8 +38,6 @@ The IES-relevant tags:
 A practical rule of thumb: **create one registry per environment** (`subscribers-test`, `subscribers-prod`) so a misconfigured test run can't pollute a production lookup.
 
 > **If you run OpenCred, four of these registries are managed for you on first boot** — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`. The OpenCred container auto-creates them if missing and reuses them if they exist. Details: [Appendix A — OpenCred auto-creates four registries](#opencred-auto-creates-four-registries).
-
-To add records once a registry exists, the simplest start is the **[DeDi console](https://dedi.global)** — pick the registry, click *Add record*, fill the fields. For the API equivalent (signed `POST` for writes, plain `GET` for lookups) see **[Appendix A — API at a glance](#api-at-a-glance)**.
 
 ---
 
@@ -100,13 +66,13 @@ To also **exchange data over Beckn**, add the Beckn-participant rows below.
 | `<your-namespace>/subscribers-prod` | You | Same, production |
 | **IES network registry** | NFO writes a reference pointing at your record | Marks you as in-network for a specific IES Beckn network |
 
-The IES network registries — `ies-data-sharing-network`, `ies-p2p-trading-network`, `ies-der-integration-network` (plus their `test-` variants) — are operated by the IES network operator (acting as [NFO](../glossary.md#nfo)). You don't write to them directly; the NFO references your record after a short onboarding review. See [IES networks and registries today](#ies-networks-and-registries-today) below for the names and how to apply.
+The IES network registries — `ies-data-sharing-network`, `ies-p2p-trading-network`, `ies-der-integration-network` (plus their `test-` variants) — are operated by the IES network operator (acting as [NFO](../../glossary.md#nfo)). You don't write to them directly; the NFO references your record after a short onboarding review. See [IES networks and registries today](#ies-networks-and-registries-today) below for the names and how to apply.
 
 The end-to-end "publish your subscriber details + get added to a network" walkthrough is in [Identifiers and Addressing — Appendix E](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ### As an NFO
 
-*([Network Facilitator Organisation](../glossary.md#nfo) — the organisation that curates a Beckn network.)*
+*([Network Facilitator Organisation](../../glossary.md#nfo) — the organisation that curates a Beckn network.)*
 
 | Registry | Who creates | Purpose |
 |---|---|---|
@@ -156,7 +122,7 @@ At time of writing the namespace holds **14 registries**, grouped below:
 | `ies-der-integration-network` | prod | DER (rooftop solar, BESS, EV) integration with DISCOMs |
 | `test-ies-der-integration-network` | test | Same, test |
 
-All carry the `beckn_subscriber_reference` tag and are curated by the [NFO](../glossary.md#nfo) (the IES network operator). To get a participant listed in any of them, see [How to apply](#how-to-apply-for-an-ies-listing) below.
+All carry the `beckn_subscriber_reference` tag and are curated by the [NFO](../../glossary.md#nfo) (the IES network operator). To get a participant listed in any of them, see [How to apply](#how-to-apply-for-an-ies-listing) below.
 
 ### Reference allow-lists (industry coordination)
 
@@ -194,50 +160,9 @@ Before approving, the Secretariat validates: your namespace is domain-verified, 
 
 ---
 
-## Checklist
+## Setup
 
-Standing up your registries trust layer. Each item maps to a section above.
-
-### 1. Claim your DeDi namespace
-
-Create an account on `dedi.global`, choose a namespace (your DISCOM short code), and complete domain verification — see [Step-by-step](#step-by-step-claim-your-dedi-namespace-and-create-registries).
-
-- [ ] Account created on `dedi.global`
-- [ ] Namespace claimed and **domain-verified** (TXT record)
-
-### 2. Publish your trust anchor
-
-Publish the record that names your organisation, its public signing key, and its domain — what verifiers look up before trusting anything you sign.
-
-- [ ] Trust-anchor record published and resolvable via public lookup
-
-### 3. Create the registries your use case needs
-
-Add only the registries you'll actually use (e.g. revocation list, allowed-subscriber list, asset registry). OpenCred auto-creates its four credential registries — see [The registries you'll touch in IES](#the-registries-youll-touch-in-ies-by-role).
-
-- [ ] Required registries created under your namespace
-- [ ] Owner named for each registry
-
-### 4. Set writers per registry
-
-For each registry, list who may add/change records (keep it short — this is a security boundary); everyone else is read-only.
-
-- [ ] Writer role(s) assigned and documented per registry
-- [ ] Write credentials issued only to those roles
-
-### 5. Agree an update cadence
-
-Decide who updates each registry when a key rotates, a credential is revoked, a meter is replaced, or an asset is decommissioned.
-
-- [ ] Update process documented per registry
-- [ ] Namespace-key backup / recovery plan agreed
-
-### 6. Nominate your team
-
-- [ ] IT SPOC (operates the registries) — name, email, phone
-- [ ] Authorised Signatory (approves what's published) — name, email, phone
-
-For end-to-end network onboarding that builds on this layer, see the [Energy Credentials → Checklist](../energy-credentials/README.md#checklist) and [Data Exchange → Checklist](../data-exchange/README.md#checklist).
+The step-by-step to claim a namespace, verify your domain and create the registries you need is in **[Setup Register](../../how-you-implement-ies/setup-register.md)**. Step-by-step Beckn subscriber registration is in **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**.
 
 ---
 
@@ -268,7 +193,7 @@ Three things uniquely address any record: **namespace + registry + record-id**. 
 
 ### OpenCred auto-creates four registries
 
-If you run [OpenCred](../glossary.md#opencred), it manages four of these registries for you on first boot:
+If you run [OpenCred](../../glossary.md#opencred), it manages four of these registries for you on first boot:
 
 | Registry | Tag | OpenCred behaviour |
 |---|---|---|

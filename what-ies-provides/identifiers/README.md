@@ -1,10 +1,8 @@
 # Identifiers and Addressing
 
-**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
+The identity foundation. Every IES participant — DISCOM, regulator, consumer, asset, dataset — gets a verifiable digital identifier (DID). This page is the **reference** for the identifier patterns IES uses; for hands-on setup follow **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
 
-This page is the single home for everything IES has to say about identifiers. Read the first three sections and you will have enough to claim your DISCOM's identity on the network and issue your first credential. The appendices are there when you want more depth, want to issue at scale, or need to identify assets, meters, and datasets too.
-
-> **About the walkthroughs.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
+> **About the walkthroughs.** The concrete commands below use **[OpenCred](../../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
 ---
 
@@ -61,13 +59,13 @@ Two steps get you here:
 
 2. **Generate a key pair and publish `did.json`.** The concrete commands — install OpenCred, generate the signing key, assemble `did.json` from the container, publish to your web host, and verify — live in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Keeping them with the rest of the OpenCred operations means you don't context-switch between chapters during a single setup.
 
-That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
+That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
 Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential carries no holder identifier (bearer style); when the verifier needs presentation-time proof of subject, bind to a wallet DID or `tel:` URI — full guidance in [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity).
 
 ### (b) Beckn network identity — for participating on a Beckn network
 
-To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. Beckn is a **trust-bounded network**: the [Network Facilitator Organisation (NFO)](../glossary.md#nfo) curates who is on the network, and counterparties verify each message against that membership boundary. Two registries enforce this boundary:
+To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. Beckn is a **trust-bounded network**: the [Network Facilitator Organisation (NFO)](../../glossary.md#nfo) curates who is on the network, and counterparties verify each message against that membership boundary. Two registries enforce this boundary:
 
 - **Your own Beckn subscriber registry** under your verified DeDi namespace — declares your callback URL, your role (BAP / BPP), and your Ed25519 signing public key. Other nodes look this up to verify your message signatures and route to you.
 - **The NFO's network reference registry** — a curated allow-list of which subscribers belong to the network. For IES, this is also where a "DISCOM" is recognised as a network participant. The NFO writes a reference entry pointing at your subscriber record; counterparties then know your record is in-network.
@@ -80,7 +78,7 @@ The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#ap
 
 ## Publish your `did:web`
 
-The end-to-end walkthrough — install OpenCred, generate the signing key, assemble `did.json` from the container, publish it on your web host, and verify it resolves from the outside — lives in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Pick up there once you have a domain or subdomain decided per (a) above.
+The end-to-end walkthrough — pick a domain, generate the signing key, assemble `did.json`, publish it, and verify it resolves from outside — is in **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
 
 ---
 
@@ -167,58 +165,9 @@ Notice what is *not* required there: no central registry of consumers, no nation
 
 ---
 
-## Checklist
+## Setup
 
-A DISCOM (or any organisation) joining IES, working top-to-bottom. Each item maps to a section above.
-
-### 1. Decide your organisation's public name on the network
-
-Pick a domain or subdomain you control (e.g. `ies.discom.org`). It anchors your `did:web` and hosts your `did.json`. For a sub-path, reflect it in the DID (`did:web:discom.org:ies`) — see [What you'll need](#a-org-identity-for-credentials-and-data-exchange-payloads).
-
-- [ ] Domain/subdomain selected and available
-- [ ] Decided whether `did.json` lives at `/.well-known/did.json` or a sub-path
-
-### 2. Set up your digital identity
-
-Run [OpenCred](https://opencred.gitbook.io/docs/bootcamp/local-docker), generate an EC P-256 key (private key in KMS), and publish the DID document on your domain.
-
-- [ ] OpenCred running with `OPENCRED_ISSUER_DID_METHOD=web` and your subdomain
-- [ ] `did.json` published at `https://<subdomain>/.well-known/did.json`
-- [ ] `curl https://<subdomain>/.well-known/did.json` returns the expected DID
-
-### 3. Agree how you will identify consumers and assets
-
-Wrap existing internal numbers into network identifiers — no renumbering; deterministic and reversible (see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets)). DISCOM: `did:web:<subdomain>`; consumer holder: `did:key:<wallet>`; consumer CIS number kept verbatim as `customerNumber`; asset: `did:web:<subdomain>:assets:<class>:<internal-id>`.
-
-- [ ] Mapping rule agreed for consumers, meters, assets, documents
-- [ ] Confirmed no internal renumbering needed
-
-### 4. Decide what stays private and what becomes public
-
-For each identifier type, decide internal-only vs. network-visible.
-
-- [ ] Privacy decision recorded per identifier type
-
-### 5. (Beckn only) Get referenced in the IES DISCOM registry
-
-Not needed for credential issuance (your `did:web` + `issuer.idRef` carry that trust). Required only to join the **inter-DISCOM data exchange network**, where the network operator references you into its curated registry.
-
-- [ ] Referenced in the network registry — only if joining the data exchange network
-
-### 6. (Beckn only) Publish your Beckn subscriber record
-
-For data exchange over Beckn, publish a subscriber record under your verified DeDi namespace so nodes find your callback URL and Ed25519 key — see [Appendix E](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
-
-- [ ] DeDi namespace verified (TXT-record domain ownership) and Ed25519 keypair generated
-- [ ] Subscriber record published (subscriber ID, callback URL, role, signing public key)
-- [ ] Lookup resolves on the DeDi fabric; the NFO has referenced your record
-
-### 7. Nominate your team
-
-- [ ] IT SPOC (OpenCred / keys / ONIX) — name, email, phone
-- [ ] Governance / Compliance SPOC (approves public publishing) — name, email, phone
-
-Once these are in place you can issue [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md); for issuance/revocation commands see [Energy Credentials → Issue your first credential](../energy-credentials/README.md#issue-your-first-credential).
+The hands-on setup — pick a domain, generate keys, publish `did.json`, claim your DeDi namespace, decide identifier conventions — is **[Setup Register](../../how-you-implement-ies/setup-register.md)** (organisation identity) and **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)** (Beckn subscriber record).
 
 ---
 
@@ -331,7 +280,7 @@ did:web:<discom-domain>:assets:meter:<meter-slno>
 → did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001
 ```
 
-This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md).
+This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md).
 
 ### Other assets — transformer, feeder, substation, solar, BESS, EV charger
 
@@ -434,7 +383,7 @@ Upstream documentation for this flow lives at the NFH docs: [Onboarding Network 
 
 ### Step 1 — Set up a DeDi account and verify your namespace
 
-Follow [Registries → Step-by-step: claim your DeDi namespace](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
+Follow [Registries → Step-by-step: claim your DeDi namespace](../../how-you-implement-ies/setup-register.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
 
 ### Step 2 — Generate your Beckn signing keypair
 
@@ -642,7 +591,7 @@ In this case you may issue the credential without a `credentialSubject.id` (bear
 
 ### Where does the contact identifier live in the schema?
 
-The `customerDetails` block in [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
+The `customerDetails` block in [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
 
 ### Picking a pattern
 

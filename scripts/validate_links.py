@@ -17,7 +17,8 @@ from typing import Set
 
 
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
-SKIP_DIRS = {".git", "venv", ".venv", "scratch", "node_modules", "build"}
+SKIP_DIRS = {".git", "venv", ".venv", "scratch", "node_modules", "build", "_book"}
+SKIP_FILES = {"_sidebar.md"}  # docsify-specific file; uses URL-absolute (/path) which is its own dialect
 
 
 def slugify(heading: str) -> str:
@@ -88,7 +89,7 @@ def check_markdown_links(root_dir: str) -> int:
         # Prune skip dirs in-place
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for filename in filenames:
-            if filename.endswith(".md"):
+            if filename.endswith(".md") and filename not in SKIP_FILES:
                 markdown_files.append(os.path.join(dirpath, filename))
 
     anchors_cache: dict[str, Set[str]] = {}
