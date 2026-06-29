@@ -5,7 +5,7 @@ name: Build & publish PDF
 # freshly built implementation-guide PDF. GitHub Pages serves gh-pages at the
 # same per-repo URL, so existing paths are unchanged, e.g.:
 #   https://india-energy-stack.github.io/ies-accelerator/schemas/.../context.jsonld
-#   https://india-energy-stack.github.io/ies-accelerator/ies_accelerator.pdf
+#   https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf
 
 on:
   push:
@@ -86,8 +86,9 @@ jobs:
             --exclude='build/' \
             --exclude='public/' \
             ./ public/
-          # Add the freshly built PDF and a root landing page.
-          cp build/ies_accelerator.pdf public/ies_accelerator.pdf
+          # Add the freshly built PDF (published as ies-report.pdf) and a root
+          # landing page.
+          cp build/ies_accelerator.pdf public/ies-report.pdf
           # Serve files literally (no Jekyll); .nojekyll is mirrored from root,
           # but ensure it exists.
           touch public/.nojekyll
@@ -95,8 +96,8 @@ jobs:
           <!doctype html>
           <meta charset="utf-8">
           <title>IES Accelerator Implementation Guide</title>
-          <meta http-equiv="refresh" content="0; url=ies_accelerator.pdf">
-          <p><a href="ies_accelerator.pdf">IES Accelerator Implementation Guide (PDF)</a></p>
+          <meta http-equiv="refresh" content="0; url=ies-report.pdf">
+          <p><a href="ies-report.pdf">IES Accelerator Implementation Guide (PDF)</a></p>
           HTML
 
       - name: Verify publish dir is complete
@@ -109,7 +110,7 @@ jobs:
           while IFS= read -r f; do
             if [ ! -f "public/$f" ]; then echo "MISSING: $f"; missing=1; fi
           done < <(git ls-files schemas/)
-          [ -f public/ies_accelerator.pdf ] || { echo "MISSING: ies_accelerator.pdf"; missing=1; }
+          [ -f public/ies-report.pdf ] || { echo "MISSING: ies-report.pdf"; missing=1; }
           if [ "$missing" -ne 0 ]; then
             echo "::error::publish dir incomplete; aborting before replacing gh-pages"
             exit 1
