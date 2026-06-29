@@ -24,6 +24,7 @@
   * [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)
   * [Tariff Intelligence](use-cases/tariff-intelligence/README.md)
   * [Energy Trading (WIP)](use-cases/energy-trading/README.md)
+  * [Demand Flexibility (WIP)](use-cases/demand-flex/README.md)
 
 * [Schemas](schemas/README.md)
   * [ElectricityCredential](schemas/ElectricityCredential/README.md)

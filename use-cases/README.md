@@ -6,7 +6,7 @@ If the [Identifiers](../identifiers/README.md), [Registries](../registries/READM
 
 ---
 
-## The Six Use Cases
+## The Use Cases
 
 | # | Use Case | What it does | Primary actors | Building blocks |
 |---|---|---|---|---|
@@ -16,6 +16,7 @@ If the [Identifiers](../identifiers/README.md), [Registries](../registries/READM
 | 4 | [DISCOM Regulatory Filing](discom-regulatory-filing/README.md) ([checklist](discom-regulatory-filing/README.md#checklist)) | Aggregate Revenue Requirement (ARR) and compliance filings delivered as structured, signed, machine-verifiable objects from DISCOM to SERC. | DISCOM, SERC | Identifiers · Registries · Data Exchange |
 | 5 | [Tariff Intelligence](tariff-intelligence/README.md) ([checklist](tariff-intelligence/README.md#checklist)) | Tariff orders (slab billing, time-of-day, deviation penalties) and data-exchange rules published as policy-as-code that billing systems, apps, and meters can consume directly. | SERC, DISCOM, App developer | Identifiers · Registries · Energy Credentials · Data Exchange |
 | 6 | [Energy Trading](energy-trading/README.md) ([checklist](energy-trading/README.md#checklist)) — **WIP** | Inter-discom prosumer-to-prosumer energy trade carried as a signed contract over IES Data Exchange. Variant of Data Exchange: same wire, the payload is `DEGContract` + `EnergyTradeDelivery` instead of `DatasetItem`. Network rules and revenue flows enforced by signed Rego bundles hosted on DeDi. | Prosumer, Trading Platform (BAP/BPP), Ledger Provider, DISCOM | Identifiers · Registries · Data Exchange · Energy Credentials |
+| 7 | [Demand Flexibility](demand-flex/README.md) ([checklist](demand-flex/README.md#checklist)) — **WIP** | A DISCOM publishes a peak-curtailment need; an aggregator commits a fleet of behind-the-meter assets and delivers it. The whole publish→commit→measure→settle conversation is one Beckn v2 transaction carrying a `DEGContract` inline, with settlement computed by a signed Rego bundle over the utility's own grid-meter measurements. | DISCOM (BPP / buyer of flex), Aggregator (BAP / seller of flex) | Identifiers · Registries · Data Exchange |
 
 > **DER Visibility** — tracking rooftop solar, batteries and EV chargers per feeder using IES identifiers — is a seventh flagship use case and is documented separately (out of scope for this section for now).
 
@@ -53,5 +54,8 @@ Each use case page follows the same structure so you can navigate quickly:
 | Energy-trading schemas (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DiscomLedgerProvider`, `BecknTimeSeries`) | Stable in DEG `p2p-trading-ies-wave2` devkit |
 | Energy-trading Rego bundle — network rules | Stable; carried by `policyUrl` on the contract |
 | Energy-trading Rego bundle — settlement / revenue flows | **Draft — wheeling and penalty placeholders pending** |
+| Demand-flexibility schemas (`DemandFlexNeed`, `DemandFlexBuyOffer`, `DemandFlexPerformance`, `EnergyResource`, `BecknTimeSeries`, `BecknReportDescriptors`) | `uc1` stable in DEG `demand-flex` devkit; treat versions as current-draft |
+| Demand-flexibility Rego bundle — network (telemetry shape) | Stable; enforced in ONIX `opapolicychecker` |
+| Demand-flexibility Rego bundle — settlement (`demand_flex_revenue.rego`) | `uc1` stable; `uc2` pay-as-clear **draft** |
 
 The open items (`ArrFiling`, the wheeling / penalty rules in the energy-trading settlement bundle, and the auto-`revenueflows` middleware in the wave-2 ONIX config) do not block implementation — the example payloads in the devkit are stable enough to integrate against, and the rego bundles can be updated independently of code via DeDi.
