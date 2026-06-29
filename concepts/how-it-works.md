@@ -104,10 +104,10 @@ IES uses standards already in use, from BIS, CEA, IEC and IEEE — it writes non
 ```
                                 ┌──────────────────────┐
    Your existing systems        │   ONIX adapter       │       Other IES
-   (CIS · MDM · HES · ERP ·     │   (Part 1, ready)    │  ◄──► participants
+   (CIS · MDM · HES · ERP ·     │   (ONIX, ready)    │  ◄──► participants
     DERMS · billing · web)  ◄──►│   ─────────────      │       (other DISCOMs,
                                 │   Your mapping       │        AMISPs, regulators,
-   No changes needed.           │   (Part 2, set up    │        banks, aggregators…)
+   No changes needed.           │   (mapping, set up    │        banks, aggregators…)
                                 │    once by your      │
                                 │    vendor)           │
                                 └──────────────────────┘
@@ -123,12 +123,12 @@ Same for every organisation:
 2. Install the adapter once.
 3. Pass the basic conformance check.
 
-After this, every new partner connects without fresh integration work. Full step-by-step in **[Part 3 — Implementing IES](../how-you-implement-ies/README.md)**.
+After this, every new partner connects without fresh integration work. Full step-by-step in **[How you implement IES](../how-you-implement-ies/README.md)**.
 
 ---
 
 ## Where to go next
 
 - **Want a deep dive on a particular step?** → **[Register](../what-ies-provides/identifiers/README.md)** · **[Discover](../what-ies-provides/data-exchange/README.md)** · **[Exchange](../schemas/README.md)**
-- **Want to implement?** → **[Part 3 — Implementing IES](../how-you-implement-ies/README.md)**
-- **Want to see a use case end-to-end?** → **[Part 4 — Use Case Guides](../use-cases/README.md)**
+- **Want to implement?** → **[How you implement IES](../how-you-implement-ies/README.md)**
+- **Want to see a use case end-to-end?** → **[Use Case Implementation Guides](../use-cases/README.md)**

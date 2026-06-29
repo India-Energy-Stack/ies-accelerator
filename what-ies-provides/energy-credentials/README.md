@@ -2,7 +2,7 @@
 
 The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware) or carried inline in a data exchange. This page is the **reference** for the credential lifecycle, the variants IES uses (`ElectricityCredential`, `MeterDataCredential`, `MeterDataRequestCredential`), and the operational commands to issue / verify / revoke with [OpenCred](../../glossary.md#opencred).
 
-For first-time setup — getting OpenCred running, publishing `did.json`, claiming a DeDi namespace — follow **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** first.
+For first-time setup — getting OpenCred running, publishing `did.json`, claiming a DeDi namespace — follow **[Setup Register](../../how-you-implement-ies/setup-register.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** first.
 
 > **About the walkthrough.** The concrete commands below use **[OpenCred](../../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 

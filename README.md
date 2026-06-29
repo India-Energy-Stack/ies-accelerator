@@ -12,7 +12,7 @@ IES is **live**. Four pilot DISCOMs — [PVVNL, APEPDCL, DGVCL and Tata Power](c
 
 ## How IES works — three steps
 
-Every IES interaction follows the same three steps. They are the **spine of this entire GitBook** — Part 1 explains each step, Part 2 shows you how to set each one up, and Part 3 shows the use cases each step combines to deliver.
+Every IES interaction follows the same three steps. They are the **spine of this entire GitBook**.
 
 | Step | What it does | Example standard |
 |---|---|---|
@@ -26,21 +26,21 @@ IES picks the right open standard for each step and publishes a specification on
 
 ## How this guide is organised
 
-Three top-level parts, each organised by the **Register / Discover / Exchange** spine.
+Three top-level sections, each organised by the **Register / Discover / Exchange** spine.
 
-### Part 1 — What IES Provides
+### [What IES Provides](what-ies-provides/README.md)
 
 The specifications. What is published.
 
 | Section | What's in it |
 |---|---|
-| [What IES Is](concepts/what-ies-is.md) | The problem, the UPI analogy, what IES is and is not, the four pilots, FAQ. The intro page. |
+| [What IES Is](concepts/what-ies-is.md) | The intro. Problem, UPI analogy, what IES is and is not, the four pilots, FAQ. |
 | [Register](what-ies-provides/register.md) | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi). Detail under: [Identifiers](what-ies-provides/identifiers/README.md), [Registries](what-ies-provides/registries/README.md). |
 | [Discover](what-ies-provides/discover.md) | Beckn-protocol interaction. Detail under: [Data Exchange](what-ies-provides/data-exchange/README.md). |
 | [Exchange](what-ies-provides/exchange.md) | Schemas, taxonomy and verifiable credentials. Detail under: [Energy Credentials](what-ies-provides/energy-credentials/README.md), [Schemas](schemas/README.md). |
 | [Taxonomy](what-ies-provides/taxonomy.md) | Master schema map, standards precedence, versioning, how to propose a new schema. |
 
-### Part 2 — [How you implement IES](how-you-implement-ies/README.md)
+### [How you implement IES](how-you-implement-ies/README.md)
 
 The action guides. What you do.
 
@@ -51,7 +51,7 @@ The action guides. What you do.
 | 3 | [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md) | 1–4 weeks |
 | 4 | [Conformance Checklist](how-you-implement-ies/conformance.md) | 1 day |
 
-### Part 3 — [Use Case Implementation Guides](use-cases/README.md)
+### [Use Case Implementation Guides](use-cases/README.md)
 
 What you can ship, organised per the **[IES Documentation Template](use-cases/README.md#how-each-guide-is-organised)** so once you've read one, you know where to look in any other.
 
@@ -66,9 +66,9 @@ What you can ship, organised per the **[IES Documentation Template](use-cases/RE
 ## Where to start
 
 - **New to IES?** Read **[What IES Is](concepts/what-ies-is.md)** — five minutes.
-- **Decision-maker / reviewer?** Skim **[Part 1](#part-1-what-ies-provides)** in order: What IES Is → Register → Discover → Exchange.
-- **DISCOM / regulator / vendor onboarding?** Go straight to **[Part 2 — How you implement IES](how-you-implement-ies/README.md)** — the same four steps the pilot DISCOMs followed in 30 days.
-- **Picking a first use case?** Browse the table in **[Part 3](use-cases/README.md)** — pilot cases at the top.
+- **Decision-maker / reviewer?** Skim **[What IES Provides](what-ies-provides/README.md)** in order: What IES Is → Register → Discover → Exchange.
+- **DISCOM / regulator / vendor onboarding?** Go straight to **[How you implement IES](how-you-implement-ies/README.md)** — the same four steps the pilot DISCOMs followed in 30 days.
+- **Picking a first use case?** Browse the table in **[Use Case Implementation Guides](use-cases/README.md)** — pilot cases at the top.
 - **Need a term defined?** Always-visible [Glossary](glossary.md).
 
 ---

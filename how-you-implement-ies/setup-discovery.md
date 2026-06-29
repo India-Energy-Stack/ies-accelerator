@@ -1,6 +1,6 @@
 # Setup Discovery
 
-> **Step 2 of the three IES steps — set up.** Stand up the [Beckn](../glossary.md#beckn) adapter — the ready-made Part 1 of the IES adapter (the "ONIX" reference software) — and register on the IES network. About 1–2 days.
+> **Step 2 of the three IES steps — set up.** Stand up the [Beckn](../glossary.md#beckn) adapter — the ready-made "ONIX" reference software — and register on the IES network. About 1–2 days.
 
 This is the **action guide** for the **[Discover](../what-ies-provides/discover.md)** step. The full Discovery / Beckn specification is in **[Data Exchange](../what-ies-provides/data-exchange/README.md)**.
 

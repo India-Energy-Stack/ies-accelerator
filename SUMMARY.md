@@ -4,9 +4,9 @@
 * [Getting Started](getting-started.md)
 * [Glossary](glossary.md)
 
-## Part 1 — What IES Provides
+## What IES Provides
 
-* [What IES Provides — overview](what-ies-provides/README.md)
+* [Overview](what-ies-provides/README.md)
 * [What IES Is](concepts/what-ies-is.md)
   * [How It Works: Register · Discover · Exchange](concepts/how-it-works.md)
   * [What IES Is Not](concepts/what-ies-is-not.md)
@@ -32,27 +32,27 @@
     * [External Schemas (DEG)](schemas/external/README.md)
 * [Taxonomy](what-ies-provides/taxonomy.md)
 
-## Part 2 — How you implement IES
+## How you implement IES
 
-* [Implementation overview](how-you-implement-ies/README.md)
+* [Overview](how-you-implement-ies/README.md)
 * [Setup Register](how-you-implement-ies/setup-register.md)
 * [Setup Discovery](how-you-implement-ies/setup-discovery.md)
 * [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md)
 * [Conformance Checklist](how-you-implement-ies/conformance.md)
 
-## Part 3 — Use Case Implementation Guides
+## Use Case Implementation Guides
 
-* [Use Case Guides](use-cases/README.md)
-  * [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md)
-  * [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md)
-  * [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
-    * [IES Meter Data Model](use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
-  * [DER Visibility](use-cases/der-visibility/README.md)
-  * [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)
-  * [Tariff Intelligence](use-cases/tariff-intelligence/README.md)
-  * [Outage Visibility](use-cases/outage-visibility/README.md)
-  * [P2P Energy Exchange](use-cases/p2p-energy-exchange/README.md)
-  * [DER Flexibility](use-cases/der-flexibility/README.md)
+* [Overview](use-cases/README.md)
+* [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md)
+* [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md)
+* [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
+  * [IES Meter Data Model](use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
+* [DER Visibility](use-cases/der-visibility/README.md)
+* [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)
+* [Tariff Intelligence](use-cases/tariff-intelligence/README.md)
+* [Outage Visibility](use-cases/outage-visibility/README.md)
+* [P2P Energy Exchange](use-cases/p2p-energy-exchange/README.md)
+* [DER Flexibility](use-cases/der-flexibility/README.md)
 
 ## Reference
 

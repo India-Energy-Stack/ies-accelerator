@@ -58,7 +58,7 @@ All State Governments, Union Territory Administrations and entities in the power
 2. Install the adapter once.
 3. Pass the basic conformance check.
 
-After this, every new partner connects without fresh integration work. The implementation path is in **[Part 3 — Implementing IES](../how-you-implement-ies/README.md)**.
+After this, every new partner connects without fresh integration work. The implementation path is in **[How you implement IES](../how-you-implement-ies/README.md)**.
 
 ---
 

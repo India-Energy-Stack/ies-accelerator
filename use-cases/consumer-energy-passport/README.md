@@ -138,7 +138,7 @@ The consumer gains a **portable, tamper-evident proof** of their connection and 
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[How you implement IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — identity and proofing
 

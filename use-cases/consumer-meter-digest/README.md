@@ -137,7 +137,7 @@ The consumer can prove their **actual consumption history**, signed by the DISCO
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[How you implement IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — base in place
 

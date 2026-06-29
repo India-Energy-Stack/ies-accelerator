@@ -1,6 +1,6 @@
 # Identifiers and Addressing
 
-The identity foundation. Every IES participant — DISCOM, regulator, consumer, asset, dataset — gets a verifiable digital identifier (DID). This page is the **reference** for the identifier patterns IES uses; for hands-on setup follow **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**.
+The identity foundation. Every IES participant — DISCOM, regulator, consumer, asset, dataset — gets a verifiable digital identifier (DID). This page is the **reference** for the identifier patterns IES uses; for hands-on setup follow **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
 
 > **About the walkthroughs.** The concrete commands below use **[OpenCred](../../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
@@ -78,7 +78,7 @@ The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#ap
 
 ## Publish your `did:web`
 
-The end-to-end walkthrough — pick a domain, generate the signing key, assemble `did.json`, publish it, and verify it resolves from outside — is in **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**.
+The end-to-end walkthrough — pick a domain, generate the signing key, assemble `did.json`, publish it, and verify it resolves from outside — is in **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
 
 ---
 
@@ -167,7 +167,7 @@ Notice what is *not* required there: no central registry of consumers, no nation
 
 ## Setup
 
-The hands-on setup — pick a domain, generate keys, publish `did.json`, claim your DeDi namespace, decide identifier conventions — is **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)** (organisation identity) and **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)** (Beckn subscriber record).
+The hands-on setup — pick a domain, generate keys, publish `did.json`, claim your DeDi namespace, decide identifier conventions — is **[Setup Register](../../how-you-implement-ies/setup-register.md)** (organisation identity) and **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)** (Beckn subscriber record).
 
 ---
 

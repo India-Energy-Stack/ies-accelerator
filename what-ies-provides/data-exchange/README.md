@@ -2,7 +2,7 @@
 
 The data layer. Beckn protocol v2 carries the discovery, contracting and audit; small datasets ride inline and large ones hand off to an established channel (signed URL, MQTT, Kafka, SFTP, OpenADR). This page is the **reference** — Beckn lifecycle, ONIX architecture, pagination, network membership, payload shapes.
 
-For first-time setup — running ONIX, claiming a Beckn subscriber record, building the BPP handler — follow **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)**. A 10-minute local quick-start is in [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) below.
+For first-time setup — running ONIX, claiming a Beckn subscriber record, building the BPP handler — follow **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)**. A 10-minute local quick-start is in [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) below.
 
 > **About the walkthrough.** The commands below use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
 
@@ -313,7 +313,7 @@ Any JSON payload can be exchanged; the families above are simply the ones IES sh
 
 ## Setup checklist
 
-The staged rollout from sandbox to production go-live is in **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)**, **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Part 3 → Conformance Checklist](../../how-you-implement-ies/conformance.md)**.
+The staged rollout from sandbox to production go-live is in **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**, **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Part 3 → Conformance Checklist](../../how-you-implement-ies/conformance.md)**.
 
 ---
 

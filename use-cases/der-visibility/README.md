@@ -119,7 +119,7 @@ A **single schema** — **[ElectricityCredential v1.2](../../schemas/Electricity
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[How you implement IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — identity reused
 

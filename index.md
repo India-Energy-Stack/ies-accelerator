@@ -16,9 +16,9 @@ These documents provide a general introduction, terminology definitions, and lay
     <li><a href="README.md#india-energy-stack-accelerator">India Energy Stack — Accelerator</a>    <ul>
       <li><a href="README.md#how-ies-works-three-steps">How IES works — three steps</a></li>
       <li><a href="README.md#how-this-guide-is-organised">How this guide is organised</a>      <ul>
-        <li><a href="README.md#part-1-what-ies-provides">Part 1 — What IES Provides</a></li>
-        <li><a href="README.md#part-2-how-you-implement-ieshow-you-implement-iesreadmemd">Part 2 — [How you implement IES](how-you-implement-ies/README.md)</a></li>
-        <li><a href="README.md#part-3-use-case-implementation-guidesuse-casesreadmemd">Part 3 — [Use Case Implementation Guides](use-cases/README.md)</a>
+        <li><a href="README.md#what-ies-provideswhat-ies-providesreadmemd">[What IES Provides](what-ies-provides/README.md)</a></li>
+        <li><a href="README.md#how-you-implement-ieshow-you-implement-iesreadmemd">[How you implement IES](how-you-implement-ies/README.md)</a></li>
+        <li><a href="README.md#use-case-implementation-guidesuse-casesreadmemd">[Use Case Implementation Guides](use-cases/README.md)</a>
       </li>
       </ul>
       <li><a href="README.md#where-to-start">Where to start</a></li>
@@ -132,9 +132,9 @@ These documents provide a general introduction, terminology definitions, and lay
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="SUMMARY.md#table-of-contents">Table of contents</a>    <ul>
-      <li><a href="SUMMARY.md#part-1-what-ies-provides">Part 1 — What IES Provides</a></li>
-      <li><a href="SUMMARY.md#part-2-how-you-implement-ies">Part 2 — How you implement IES</a></li>
-      <li><a href="SUMMARY.md#part-3-use-case-implementation-guides">Part 3 — Use Case Implementation Guides</a></li>
+      <li><a href="SUMMARY.md#what-ies-provides">What IES Provides</a></li>
+      <li><a href="SUMMARY.md#how-you-implement-ies">How you implement IES</a></li>
+      <li><a href="SUMMARY.md#use-case-implementation-guides">Use Case Implementation Guides</a></li>
       <li><a href="SUMMARY.md#reference">Reference</a>
     </li>
     </ul>

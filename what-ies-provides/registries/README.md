@@ -2,7 +2,7 @@
 
 The discovery and revocation layer. DeDi is the open registry runtime IES uses to anchor namespaces, publish subscriber records for Beckn participants, and check credential revocation — without any IES participant having to call the issuer.
 
-> **First-time setup** — to claim a namespace, publish your trust anchor, and create the registries you need, follow **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**. This page is the reference for *which* registries IES uses, what each one contains, and how the curated IES allow-lists are organised.
+> **First-time setup** — to claim a namespace, publish your trust anchor, and create the registries you need, follow **[Setup Register](../../how-you-implement-ies/setup-register.md)**. This page is the reference for *which* registries IES uses, what each one contains, and how the curated IES allow-lists are organised.
 
 Upstream protocol documentation lives at [DeDi developer documentation](https://docs.nfh.global/dedi/dedi.global-developers/developer-documentation) and [Setting up a Beckn network](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment).
 
@@ -162,7 +162,7 @@ Before approving, the Secretariat validates: your namespace is domain-verified, 
 
 ## Setup
 
-The step-by-step to claim a namespace, verify your domain and create the registries you need is in **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**. Step-by-step Beckn subscriber registration is in **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)**.
+The step-by-step to claim a namespace, verify your domain and create the registries you need is in **[Setup Register](../../how-you-implement-ies/setup-register.md)**. Step-by-step Beckn subscriber registration is in **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**.
 
 ---
 
