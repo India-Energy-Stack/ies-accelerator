@@ -24,25 +24,38 @@ flowchart TB
   ies --- infra
 ```
 
-This **Accelerator** is the developer hub for building on it. Five core sections:
+This **Accelerator** is the developer hub for building on it.
 
-| Section | What it does |
+## How this guide is organised
+
+| Part | What's in it |
 |---|---|
-| [IES Identifiers and Addressing](./identifiers/README.md) | [DIDs](glossary.md#did) and addressing grammar for DISCOMs, regulators, consumers, assets, meters, credentials, and datasets |
-| [IES Registries and Directories](./registries/README.md) | [DeDi](glossary.md#dedi)-based public registries — namespaces, the IES reference registries, [Beckn](glossary.md#beckn) subscriber registries, revocation, public-keys |
-| [IES Energy Credentials](./energy-credentials/README.md) | Issue, hold, and verify cryptographically signed digital credentials for energy assets and consumers |
-| [IES Data Exchange](./data-exchange/README.md) | Discover and contract dataset exchanges over Beckn — telemetry, regulatory filings, tariff policies. Payload rides **inline** for small / simple datasets, or Beckn delivers an **access method** (signed URL / SFTP / Kafka / MQTT / OpenADR endpoint) when an established channel already moves the bytes |
-| [IES Pathways](./pathways/README.md) | Structured, step-by-step onboarding roadmaps for utilities, regulators, and other sector participants to adopt capabilities |
-| [IES Schemas](./schemas/README.md) | Mirror of canonical schema specifications, JSON-LD contexts, and vocabularies (Credentials, Telemetry, Regulatory filings, and requests) |
+| **[Part 1 — Understanding IES](./concepts/README.md)** | The why, what and how in plain words — start here if you are new |
+| **[Part 2 — What IES Provides](#part-2-what-ies-provides)** | The four building blocks — Identifiers, Registries, Energy Credentials, Data Exchange |
+| **[Part 3 — Implementing IES](./implementation/README.md)** | A step-by-step path from zero to a working IES adapter |
+| **[Part 4 — Use Case Guides](./use-cases/README.md)** | Per-use-case integration guides, each following the IES Documentation Template |
+| **[Part 5 — Pathways](./pathways/README.md)** | Role-based onboarding roadmaps (utility today; regulator next) |
+| **[Reference — Schemas](./schemas/README.md)** | Canonical schema specifications, JSON-LD contexts, vocabularies |
+
+## Part 2 — What IES Provides
+
+The four building blocks. Each page is the **reference** — read [Part 3](./implementation/README.md) when you are ready to set them up.
+
+| Building block | What it does |
+|---|---|
+| [Identifiers and Addressing](./identifiers/README.md) | [DIDs](glossary.md#did) and addressing grammar for DISCOMs, regulators, consumers, assets, meters, credentials and datasets |
+| [Registries and Directories](./registries/README.md) | [DeDi](glossary.md#dedi)-based public registries — namespaces, the IES reference registries, [Beckn](glossary.md#beckn) subscriber registries, revocation, public-keys |
+| [Energy Credentials](./energy-credentials/README.md) | Issue, hold and verify cryptographically signed digital credentials for energy assets and consumers |
+| [Data Exchange](./data-exchange/README.md) | Discover and contract dataset exchanges over Beckn — telemetry, regulatory filings, tariff policies. Payload rides **inline** for small / simple datasets, or Beckn delivers an **access method** (signed URL / SFTP / Kafka / MQTT / OpenADR endpoint) when an established channel already moves the bytes |
 
 ---
 
 ## Where to Start
 
-- **New to IES?** Read [Getting Started](./getting-started.md) for a five-minute orientation.
-- **Onboarding as a DISCOM, regulator, or [NP](glossary.md#np)?** Go to the [Registries checklist](./registries/README.md#checklist).
-- **Integrating Energy Credentials?** Go to the [Energy Credentials onboarding guide](./energy-credentials/README.md).
-- **Building a data exchange application?** Go to the [Data Exchange quick start](./data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes).
+- **New to IES?** Read **[Part 1 — Understanding IES](./concepts/README.md)** — six short pages.
+- **Want a five-minute orientation?** [Getting Started](./getting-started.md).
+- **Onboarding as a DISCOM, regulator, or [NP](glossary.md#np)?** Go to **[Part 3 — Implementing IES](./implementation/README.md)** — the four-step path the pilot DISCOMs followed.
+- **Picking a first use case?** Browse the table in **[Part 4 — Use Case Guides](./use-cases/README.md)** — pilot cases at the top.
 - **Need a term defined?** Check the always-visible [Glossary](./glossary.md).
 
 ---
@@ -50,6 +63,8 @@ This **Accelerator** is the developer hub for building on it. Five core sections
 ## Why IES?
 
 The Indian power sector runs on data that is siloed, bespoke, and hard to trust — regulatory filings arrive as PDFs, telemetry lives inside proprietary [MDMS](glossary.md#mdms) systems, subsidy eligibility is verified manually, and credentials of ownership or identity have no standard form. IES provides a **shared digital infrastructure layer** — open standards, verifiable data, and interoperable protocols — so that every actor in the ecosystem can transact on common ground.
+
+For the longer answer, read **[Part 1 — Understanding IES](./concepts/README.md)**.
 
 ---
 

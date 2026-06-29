@@ -57,7 +57,7 @@ A [`did:web`](../identifiers/README.md#did-web-the-one-your-discom-will-use) ide
 * [Identifiers & Addressing Overview](../identifiers/README.md)
 * [Resolution & Routing Specification](../identifiers/README.md#did-web-the-one-your-discom-will-use) (Detailed resolution rules for `did:web` endpoints)
 * [Step-by-step: publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web) (Document parameters)
-* [Identifiers Checklist](../identifiers/README.md#checklist)
+* [Identifiers Checklist](../implementation/README.md)
 </details>
 
 <details>
@@ -105,12 +105,12 @@ Establish your administrative namespaces on the public [Decentralized Directory 
 ### Execution Guidance
 1. Register a secure role-mailbox on the DeDi Portal.
 2. Establish a namespace matching your utility short-code (`<utility>`).
-3. Expose the verification token in your DNS TXT records. Refer to [Registries — Step 3 (verify your domain)](../registries/README.md#id-3.-verify-your-domain-dns-txt-record) for formatting.
+3. Expose the verification token in your DNS TXT records. Refer to [Registries — Step 3 (verify your domain)](../implementation/setup-identity.md) for formatting.
 
 ### References & Anchors
 * [Why DeDi (and the three questions it answers)](../registries/README.md#why-dedi-and-the-three-questions-it-answers)
-* [Registries — Step-by-step (claim namespace + create registries)](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
-* [Registries Checklist](../registries/README.md#checklist)
+* [Registries — Step-by-step (claim namespace + create registries)](../implementation/setup-identity.md)
+* [Registries Checklist](../implementation/README.md)
 </details>
 
 <details>
@@ -151,7 +151,7 @@ The Secretariat will verify your credentials and register your endpoints inside 
 
 ### References & Anchors
 * [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
-* [Registries Checklist](../registries/README.md#checklist)
+* [Registries Checklist](../implementation/README.md)
 </details>
 
 ---
@@ -182,7 +182,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 * [Batch Issuance at Scale (Queue & Workers)](../energy-credentials/README.md#batch-issuance)
 * [Multi-Replica Deployment Guidance](../energy-credentials/README.md#batch-issuance)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
-* [Consumer Energy Passport Checklist](../use-cases/consumer-energy-passport/README.md#checklist)
+* [Consumer Energy Passport Checklist](../use-cases/consumer-energy-passport/README.md)
 * [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
 </details>
 
@@ -223,7 +223,7 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 * [Data Exchange Concepts](../data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
 * [Data Exchange Quick Start](../data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes)
 * [ONIX Registry Setup](../data-exchange/README.md#swap-in-your-real-identity)
-* [Data Exchange Checklist](../data-exchange/README.md#checklist)
+* [Data Exchange Checklist](../implementation/README.md)
 </details>
 
 <details>
@@ -283,7 +283,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > Run a parallel pilot! Trade smart meter telemetry with a friendly test consumer or partner BAP to confirm that signing, encryption, and logging flows operate perfectly before live production exchange.
 
 ### References & Anchors
-* [Data Exchange Checklist](../data-exchange/README.md#checklist)
+* [Data Exchange Checklist](../implementation/README.md)
 </details>
 
 ---
@@ -330,7 +330,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 ### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
   * [How It Works](../use-cases/consumer-meter-digest/README.md)
-* [Consumer Meter Digest Checklist](../use-cases/consumer-meter-digest/README.md#checklist)
+* [Consumer Meter Digest Checklist](../use-cases/consumer-meter-digest/README.md)
 </details>
 
 <details>

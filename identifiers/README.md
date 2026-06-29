@@ -1,8 +1,6 @@
 # Identifiers and Addressing
 
-**In a hurry?** Jump straight to the [Checklist](#checklist) — every step with checkboxes.
-
-This page is the single home for everything IES has to say about identifiers. Read the first three sections and you will have enough to claim your DISCOM's identity on the network and issue your first credential. The appendices are there when you want more depth, want to issue at scale, or need to identify assets, meters, and datasets too.
+The identity foundation. Every IES participant — DISCOM, regulator, consumer, asset, dataset — gets a verifiable digital identifier (DID). This page is the **reference** for the identifier patterns IES uses; for hands-on setup follow **[Part 3 → Set up Identity](../implementation/setup-identity.md)**.
 
 > **About the walkthroughs.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
@@ -80,7 +78,7 @@ The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#ap
 
 ## Publish your `did:web`
 
-The end-to-end walkthrough — install OpenCred, generate the signing key, assemble `did.json` from the container, publish it on your web host, and verify it resolves from the outside — lives in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Pick up there once you have a domain or subdomain decided per (a) above.
+The end-to-end walkthrough — pick a domain, generate the signing key, assemble `did.json`, publish it, and verify it resolves from outside — is in **[Part 3 → Set up Identity](../implementation/setup-identity.md)**.
 
 ---
 
@@ -167,58 +165,9 @@ Notice what is *not* required there: no central registry of consumers, no nation
 
 ---
 
-## Checklist
+## Setup
 
-A DISCOM (or any organisation) joining IES, working top-to-bottom. Each item maps to a section above.
-
-### 1. Decide your organisation's public name on the network
-
-Pick a domain or subdomain you control (e.g. `ies.discom.org`). It anchors your `did:web` and hosts your `did.json`. For a sub-path, reflect it in the DID (`did:web:discom.org:ies`) — see [What you'll need](#a-org-identity-for-credentials-and-data-exchange-payloads).
-
-- [ ] Domain/subdomain selected and available
-- [ ] Decided whether `did.json` lives at `/.well-known/did.json` or a sub-path
-
-### 2. Set up your digital identity
-
-Run [OpenCred](https://opencred.gitbook.io/docs/bootcamp/local-docker), generate an EC P-256 key (private key in KMS), and publish the DID document on your domain.
-
-- [ ] OpenCred running with `OPENCRED_ISSUER_DID_METHOD=web` and your subdomain
-- [ ] `did.json` published at `https://<subdomain>/.well-known/did.json`
-- [ ] `curl https://<subdomain>/.well-known/did.json` returns the expected DID
-
-### 3. Agree how you will identify consumers and assets
-
-Wrap existing internal numbers into network identifiers — no renumbering; deterministic and reversible (see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets)). DISCOM: `did:web:<subdomain>`; consumer holder: `did:key:<wallet>`; consumer CIS number kept verbatim as `customerNumber`; asset: `did:web:<subdomain>:assets:<class>:<internal-id>`.
-
-- [ ] Mapping rule agreed for consumers, meters, assets, documents
-- [ ] Confirmed no internal renumbering needed
-
-### 4. Decide what stays private and what becomes public
-
-For each identifier type, decide internal-only vs. network-visible.
-
-- [ ] Privacy decision recorded per identifier type
-
-### 5. (Beckn only) Get referenced in the IES DISCOM registry
-
-Not needed for credential issuance (your `did:web` + `issuer.idRef` carry that trust). Required only to join the **inter-DISCOM data exchange network**, where the network operator references you into its curated registry.
-
-- [ ] Referenced in the network registry — only if joining the data exchange network
-
-### 6. (Beckn only) Publish your Beckn subscriber record
-
-For data exchange over Beckn, publish a subscriber record under your verified DeDi namespace so nodes find your callback URL and Ed25519 key — see [Appendix E](#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
-
-- [ ] DeDi namespace verified (TXT-record domain ownership) and Ed25519 keypair generated
-- [ ] Subscriber record published (subscriber ID, callback URL, role, signing public key)
-- [ ] Lookup resolves on the DeDi fabric; the NFO has referenced your record
-
-### 7. Nominate your team
-
-- [ ] IT SPOC (OpenCred / keys / ONIX) — name, email, phone
-- [ ] Governance / Compliance SPOC (approves public publishing) — name, email, phone
-
-Once these are in place you can issue [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md); for issuance/revocation commands see [Energy Credentials → Issue your first credential](../energy-credentials/README.md#issue-your-first-credential).
+The hands-on setup — pick a domain, generate keys, publish `did.json`, claim your DeDi namespace, decide identifier conventions — is **[Part 3 → Set up Identity](../implementation/setup-identity.md)** (organisation identity) and **[Part 3 → Set up Discovery](../implementation/setup-discovery.md)** (Beckn subscriber record).
 
 ---
 
@@ -434,7 +383,7 @@ Upstream documentation for this flow lives at the NFH docs: [Onboarding Network 
 
 ### Step 1 — Set up a DeDi account and verify your namespace
 
-Follow [Registries → Step-by-step: claim your DeDi namespace](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
+Follow [Registries → Step-by-step: claim your DeDi namespace](../implementation/setup-identity.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
 
 ### Step 2 — Generate your Beckn signing keypair
 

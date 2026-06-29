@@ -49,7 +49,7 @@ The IES operator operates the canonical DeDi namespace `india-energy-stack` (and
 2. Implement key access logs and administrative role assignments to prevent unauthorized writes to the membership registries.
 
 ### References & Anchors
-* [Registries — Step-by-step (claim namespace + create registries)](../registries/README.md#step-by-step-claim-your-dedi-namespace-and-create-registries)
+* [Registries — Step-by-step (claim namespace + create registries)](../implementation/setup-identity.md)
 </details>
 
 ---
@@ -71,7 +71,7 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 * **Digital Signature Certificate (DSC)**: (Optional) `x5c` certificate chain if they anchor in CSCA.
 
 ### References & Anchors
-* [Registries — Checklist](../registries/README.md#checklist)
+* [Registries — Checklist](../implementation/README.md)
 * [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
 </details>
 
