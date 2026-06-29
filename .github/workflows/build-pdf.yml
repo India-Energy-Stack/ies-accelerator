@@ -7,6 +7,12 @@ name: Build & publish PDF
 on:
   push:
     branches: [main]
+    # Only rebuild when content or the build tooling changes.
+    paths:
+      - "**/*.md"
+      - "scripts/build_pdf.py"
+      - "scripts/build_pdf.sh"
+      - ".github/workflows/build-pdf.yml"
   workflow_dispatch: {}
 
 # Avoid overlapping publishes if two merges land close together.
@@ -14,8 +20,8 @@ concurrency:
   group: build-pdf
   cancel-in-progress: true
 
-permissions:
-  contents: write # peaceiris/actions-gh-pages pushes to the gh-pages branch
+# No write permission needed for GITHUB_TOKEN: the org disables write for it,
+# so we publish using an SSH deploy key (secrets.ACTIONS_DEPLOY_KEY) instead.
 
 env:
   TECTONIC_VERSION: "0.15.0"
@@ -77,7 +83,7 @@ jobs:
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./public
           publish_branch: gh-pages
           force_orphan: true
