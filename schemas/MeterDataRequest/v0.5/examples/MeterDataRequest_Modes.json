@@ -1,0 +1,25 @@
+{
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/context.jsonld",
+  "@type": "MeterDataRequest",
+  "resources": [
+    "did:dedi:ies:meter:IN-MH-MTR-89721"
+  ],
+  "scope": "ResourceOnly",
+  "from": "2026-05-18T00:00:00Z",
+  "duration": "P1D",
+  "maxRecordsShared": 100,
+  "includeDetails": [
+    {
+      "profileType": "IntervalProfile",
+      "values": ["kWh imp block", "kVAh imp block"],
+      "supportedModes": ["USAGE"],
+      "requestedMode": "USAGE"
+    },
+    {
+      "profileType": "DailyProfile",
+      "values": ["kWh imp"],
+      "supportedModes": ["READING"],
+      "requestedMode": "READING"
+    }
+  ]
+}

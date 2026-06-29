@@ -1,0 +1,36 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "schema": "https://schema.org/"
+    },
+    "@graph": [
+        {
+            "@id": "ies:MeterDataRequestCredential",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Request Credential",
+            "rdfs:comment": "W3C Verifiable Credential wrapping a MeterDataRequest. Subclass of EnergyCredential. Issued by the data requester (e.g., DISCOM) to prove authorisation to request smart meter telemetry from a provider."
+        },
+        {
+            "@id": "ies:MeterDataRequestCredentialSubject",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Request Credential Subject",
+            "rdfs:comment": "The subject of the credential: the requesting entity and the specific MeterDataRequest they are authorised to make."
+        },
+        {
+            "@id": "ies:id",
+            "@type": "rdf:Property",
+            "rdfs:label": "id",
+            "rdfs:comment": "DID of the requesting entity (e.g., the DISCOM)."
+        },
+        {
+            "@id": "ies:meterDataRequest",
+            "@type": "rdf:Property",
+            "rdfs:label": "meter Data Request",
+            "rdfs:comment": "The scoped, time-bounded data request. Specifies the meter resources, hierarchical scope, time window, and profile types being requested. The provider validates this against its capability profile before fulfilling delivery."
+        }
+    ]
+}

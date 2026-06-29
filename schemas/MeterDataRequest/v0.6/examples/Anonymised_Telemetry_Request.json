@@ -1,0 +1,24 @@
+{
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
+  "@type": "MeterDataRequest",
+  "resources": [
+    "did:dedi:bescom:meters:BESCOM-SM-2025-654321",
+    "did:dedi:bescom:meters:BESCOM-SM-2025-999999"
+  ],
+  "scope": "ResourceOnly",
+  "from": "2026-05-18T10:00:00Z",
+  "duration": "PT2H",
+  "authorisation": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/examples/Authorisation_Example.json",
+  "capabilitiesRequested": {
+    "profiles": [
+      {
+        "profileType": "IntervalProfile",
+        "readings": [
+          { "value": "kWh imp", "mode": "USAGE" },
+          { "value": "kWh exp", "mode": "USAGE" }
+        ]
+      }
+    ]
+  },
+  "maxRecordsShared": 100
+}

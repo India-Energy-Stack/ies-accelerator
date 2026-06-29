@@ -1,0 +1,191 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-INSTANTANEOUS",
+    "payloadDescriptorSets": [
+      {
+        "name": "InstantaneousSet",
+        "payloadDescriptors": [
+          {
+            "name": "Voltage R-phase",
+            "readingType": "V_R",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.32.7.0.255"
+          },
+          {
+            "name": "Voltage Y-phase",
+            "readingType": "V_Y",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.52.7.0.255"
+          },
+          {
+            "name": "Voltage B-phase",
+            "readingType": "V_B",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.72.7.0.255"
+          },
+          {
+            "name": "Current R-phase",
+            "readingType": "I_R",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.31.7.0.255"
+          },
+          {
+            "name": "Current Y-phase",
+            "readingType": "I_Y",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.51.7.0.255"
+          },
+          {
+            "name": "Current B-phase",
+            "readingType": "I_B",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.71.7.0.255"
+          },
+          {
+            "name": "Power factor R-phase",
+            "readingType": "PF_R",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.33.7.0.255"
+          },
+          {
+            "name": "Power factor Y-phase",
+            "readingType": "PF_Y",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.53.7.0.255"
+          },
+          {
+            "name": "Power factor B-phase",
+            "readingType": "PF_B",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.73.7.0.255"
+          },
+          {
+            "name": "Power factor 3-phase",
+            "readingType": "PF_3P",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.13.7.0.255"
+          },
+          {
+            "name": "Frequency",
+            "readingType": "Freq",
+            "unit": "Hz",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.14.7.0.255"
+          },
+          {
+            "name": "Active power import",
+            "readingType": "P_Import",
+            "unit": "kW",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.1.7.0.255"
+          },
+          {
+            "name": "Reactive power lag",
+            "readingType": "Q_Lag",
+            "unit": "kvar",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.3.7.0.255"
+          },
+          {
+            "name": "Apparent power",
+            "readingType": "S_Total",
+            "unit": "kVA",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.9.7.0.255"
+          },
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyCumulative",
+            "obis": "1.0.1.8.0.255"
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "READING",
+            "category": "energyCumulative",
+            "obis": "1.0.2.8.0.255"
+          },
+          {
+            "name": "Maximum demand (kW) - current billing period",
+            "readingType": "MD kW",
+            "unit": "kW",
+            "flowDirection": "NONE",
+            "reportedMode": "USAGE",
+            "category": "demand",
+            "obis": "1.0.1.6.0.255"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "InstantaneousProfile",
+    "profileType": "INSTANTANEOUS",
+    "meterRefs": [
+      { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "InstantaneousSet",
+    "readings": [
+      { "readingType": "V_R", "value": 231.2 },
+      { "readingType": "V_Y", "value": 230.8 },
+      { "readingType": "V_B", "value": 232.1 },
+      { "readingType": "I_R", "value": 12.4 },
+      { "readingType": "I_Y", "value": 11.9 },
+      { "readingType": "I_B", "value": 12.8 },
+      { "readingType": "PF_R", "value": 0.93 },
+      { "readingType": "PF_Y", "value": 0.95 },
+      { "readingType": "PF_B", "value": 0.94 },
+      { "readingType": "PF_3P", "value": 0.94 },
+      { "readingType": "Freq", "value": 50.02 },
+      { "readingType": "P_Import", "value": 8.32 },
+      { "readingType": "Q_Lag", "value": 2.1 },
+      { "readingType": "S_Total", "value": 8.58 },
+      { "readingType": "kWh imp", "value": 18723.4 },
+      { "readingType": "kWh exp", "value": 0.0 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42 }
+    ],
+    "timestamp": "2026-05-11T14:32:00+05:30"
+  }
+]

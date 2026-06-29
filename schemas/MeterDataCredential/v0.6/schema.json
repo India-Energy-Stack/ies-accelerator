@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json",
+  "title": "MeterDataCredential",
+  "description": "W3C Verifiable Credential wrapping a MeterData v0.6 payload. Subclass of EnergyCredential. Issued by a data provider (e.g., AMISP, MDM, DISCOM) to attest the authenticity and provenance of delivered smart meter telemetry.\n",
+  "type": "object",
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "$ref": "https://schema.beckn.io/EnergyCredential/v2.0"
+    }
+  ],
+  "properties": {
+    "credentialSubject": {
+      "$ref": "#/$defs/MeterDataCredentialSubject",
+      "description": "The subject of the credential: the consumer or asset entity whose meter data is attested, plus the MeterData payload.\n",
+      "x-jsonld": {
+        "@id": "deg:credentialSubject"
+      }
+    }
+  },
+  "$defs": {
+    "MeterDataCredentialSubject": {
+      "type": "object",
+      "description": "The subject of the credential: the consumer or asset entity whose meter data is attested.\n",
+      "required": [
+        "meterData"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the consumer or asset entity whose meter data is being delivered.",
+          "x-jsonld": {
+            "@id": "@id"
+          }
+        },
+        "meterData": {
+          "$ref": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json",
+          "description": "The attested meter data payload. May be a single EnergyData profile or an array of profiles per MeterData v0.6.\n",
+          "x-jsonld": {
+            "@id": "ies:meterData"
+          }
+        }
+      }
+    }
+  }
+}

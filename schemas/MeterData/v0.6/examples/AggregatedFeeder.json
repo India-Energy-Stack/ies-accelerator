@@ -1,0 +1,232 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-AGGREGATEDFEEDER",
+    "payloadDescriptorSets": [
+      {
+        "name": "IntervalLoadSurveySet",
+        "payloadDescriptors": [
+          { "readingType": "kWh imp block", "reportedMode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 },
+          { "readingType": "kWh exp block", "reportedMode": "USAGE", "multiplier": 1.0, "accuracy": 0.5 }
+        ],
+        "compactSequences": [
+          {
+            "name": "IntervalEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp block" },
+              { "readingType": "kWh exp block" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "customerRefs": [
+      { "value": "did:dedi:india-energy-stack:ies-discoms-reference-registry:UTILITY-01", "scheme": "DID" }
+    ],
+    "meterRefs": [
+      { "value": "did:dedi:bescom:assets:feeder:FDR-11KV-NDL-072", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "IntervalLoadSurveySet",
+    "intervalPeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 600, 0 ]
+      },
+      {
+        "id": 1,
+        "payloads": [ 580, 0 ]
+      },
+      {
+        "id": 2,
+        "payloads": [ 560, 0 ]
+      },
+      {
+        "id": 3,
+        "payloads": [ 550, 0 ]
+      },
+      {
+        "id": 4,
+        "payloads": [ 540, 0 ]
+      },
+      {
+        "id": 5,
+        "payloads": [ 530, 0 ]
+      },
+      {
+        "id": 6,
+        "payloads": [ 520, 0 ]
+      },
+      {
+        "id": 7,
+        "payloads": [ 510, 0 ]
+      },
+      {
+        "id": 8,
+        "payloads": [ 500, 0 ]
+      },
+      {
+        "id": 9,
+        "payloads": [ 510, 0 ]
+      },
+      {
+        "id": 10,
+        "payloads": [ 550, 0 ]
+      },
+      {
+        "id": 11,
+        "payloads": [ 600, 0 ]
+      },
+      {
+        "id": 12,
+        "payloads": [ 650, 0 ]
+      },
+      {
+        "id": 13,
+        "payloads": [ 700, 20 ]
+      },
+      {
+        "id": 14,
+        "payloads": [ 750, 50 ]
+      },
+      {
+        "id": 15,
+        "payloads": [ 800, 100 ]
+      },
+      {
+        "id": 16,
+        "payloads": [ 850, 200 ]
+      },
+      {
+        "id": 17,
+        "payloads": [ 900, 350 ]
+      },
+      {
+        "id": 18,
+        "payloads": [ 950, 500 ]
+      },
+      {
+        "id": 19,
+        "payloads": [ 980, 650 ]
+      },
+      {
+        "id": 20,
+        "payloads": [ 1000, 750 ]
+      },
+      {
+        "id": 21,
+        "payloads": [ 990, 800 ]
+      },
+      {
+        "id": 22,
+        "payloads": [ 980, 820 ]
+      },
+      {
+        "id": 23,
+        "payloads": [ 960, 840 ]
+      },
+      {
+        "id": 24,
+        "payloads": [ 950, 850 ]
+      },
+      {
+        "id": 25,
+        "payloads": [ 940, 840 ]
+      },
+      {
+        "id": 26,
+        "payloads": [ 930, 800 ]
+      },
+      {
+        "id": 27,
+        "payloads": [ 920, 700 ]
+      },
+      {
+        "id": 28,
+        "payloads": [ 930, 550 ]
+      },
+      {
+        "id": 29,
+        "payloads": [ 950, 400 ]
+      },
+      {
+        "id": 30,
+        "payloads": [ 980, 250 ]
+      },
+      {
+        "id": 31,
+        "payloads": [ 1000, 100 ]
+      },
+      {
+        "id": 32,
+        "payloads": [ 1020, 30 ]
+      },
+      {
+        "id": 33,
+        "payloads": [ 1050, 0 ]
+      },
+      {
+        "id": 34,
+        "payloads": [ 1080, 0 ]
+      },
+      {
+        "id": 35,
+        "payloads": [ 1100, 0 ]
+      },
+      {
+        "id": 36,
+        "payloads": [ 1150, 0 ]
+      },
+      {
+        "id": 37,
+        "payloads": [ 1200, 0 ]
+      },
+      {
+        "id": 38,
+        "payloads": [ 1250, 0 ]
+      },
+      {
+        "id": 39,
+        "payloads": [ 1200, 0 ]
+      },
+      {
+        "id": 40,
+        "payloads": [ 1100, 0 ]
+      },
+      {
+        "id": 41,
+        "payloads": [ 1000, 0 ]
+      },
+      {
+        "id": 42,
+        "payloads": [ 900, 0 ]
+      },
+      {
+        "id": 43,
+        "payloads": [ 800, 0 ]
+      },
+      {
+        "id": 44,
+        "payloads": [ 750, 0 ]
+      },
+      {
+        "id": 45,
+        "payloads": [ 700, 0 ]
+      },
+      {
+        "id": 46,
+        "payloads": [ 650, 0 ]
+      },
+      {
+        "id": 47,
+        "payloads": [ 620, 0 ]
+      }
+    ],
+    "compactSequenceRef": "IntervalEnergySeq"
+  }
+]

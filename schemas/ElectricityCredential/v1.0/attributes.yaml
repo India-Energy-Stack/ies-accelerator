@@ -1,0 +1,167 @@
+openapi: 3.1.1
+info:
+  title: ElectricityCredential
+  version: 1.0.0
+  description: >
+    Unified W3C Verifiable Credential (VC Data Model 2.0) issued per meter by
+    electricity distribution utilities. Combines customer identity with optional
+    consumption, generation, and storage profiles in a single credentialSubject.
+
+    The profile sections are modular and reuse the credentialSubject definitions
+    of the sibling credentials published from this schema directory:
+    - https://schema.beckn.io/EnergyCustomerProfile (customerProfile)
+    - https://schema.beckn.io/ConsumptionProfileCredential (consumptionProfiles items)
+    - https://schema.beckn.io/GenerationProfileCredential (generationProfiles items)
+    - https://schema.beckn.io/StorageProfileCredential (storageProfiles items)
+    customerDetails (fullName, installationAddress, serviceConnectionDate) remains
+    inline because it uses the rich beckn Location shape for installationAddress,
+    which is broader than the address shape used by UtilityCustomerCredential.
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+servers:
+  - url: https://schema.beckn.io
+    description: Canonical schema registry
+paths: {}
+components:
+  schemas:
+    ElectricityCredential:
+      $id: https://schema.beckn.io/ElectricityCredential/v1.0
+      title: ElectricityCredential
+      description: >
+        Unified W3C Verifiable Credential issued per meter by electricity
+        distribution utilities. Combines customer identity, consumption,
+        generation, and storage profiles in a single credentialSubject by
+        composing the credentialSubject schemas of sibling profile credentials.
+      x-tags:
+        - energy
+        - credential
+        - verifiable-credential
+        - electricity
+        - customer
+        - deg
+      type: object
+      additionalProperties: true
+      allOf:
+        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+      x-jsonld:
+        "@context": ./context.jsonld
+        "@type": ElectricityCredential
+      properties:
+        credentialSubject:
+          description: >
+            The credential subject containing customer identity and optional
+            consumptionProfiles, generationProfiles, and storageProfiles arrays.
+            Each profile entry conforms to the credentialSubject of the
+            corresponding sibling credential.
+          x-jsonld:
+            "@id": deg:credentialSubject
+          type: object
+          required:
+            - customerProfile
+          properties:
+            id:
+              type: string
+              format: uri
+              description: Optional DID of the customer/credential subject.
+              x-jsonld:
+                "@id": "@id"
+            customerProfile:
+              $ref: "https://schema.beckn.io/EnergyCustomerProfile/v1.0"
+              description: >
+                Shared customer identity (customer/consumer number, meter
+                number, meter type, optional idRef). Reuses EnergyCustomerProfile.
+              x-jsonld:
+                "@id": deg:customerProfile
+            customerDetails:
+              description: >
+                Customer personal and address information. Kept inline because
+                installationAddress here follows the rich beckn Location shape,
+                broader than the address shape in UtilityCustomerCredential.
+              x-jsonld:
+                "@id": deg:customerDetails
+              type: object
+              required:
+                - fullName
+                - installationAddress
+                - serviceConnectionDate
+              properties:
+                fullName:
+                  type: string
+                  description: Full name of the customer as per ID proof.
+                installationAddress:
+                  type: object
+                  description: Physical location of the installation. Follows the beckn Location schema.
+                  required:
+                    - address
+                    - area_code
+                    - country
+                  properties:
+                    address:
+                      type: string
+                    city:
+                      type: object
+                      properties:
+                        name: { type: string }
+                        code: { type: string }
+                    district:
+                      type: string
+                    state:
+                      type: object
+                      properties:
+                        name: { type: string }
+                        code: { type: string }
+                    country:
+                      type: object
+                      required: [code]
+                      properties:
+                        name: { type: string }
+                        code:
+                          type: string
+                          pattern: "^[A-Z]{2}$"
+                          description: ISO 3166-1 alpha-2 country code.
+                    area_code:
+                      type: string
+                    gps:
+                      type: string
+                      description: "GPS coordinates as 'lat,lng' string."
+                    openLocationCode:
+                      type: string
+                      description: Open Location Code (OLC) for the installation.
+                serviceConnectionDate:
+                  type: string
+                  format: date-time
+                  description: Date and time the electricity connection was activated (with timezone offset).
+            consumptionProfiles:
+              description: >
+                Connection and consumption characteristics for load management
+                and tariff purposes. Each entry conforms to the credentialSubject
+                of ConsumptionProfileCredential, allowing a customer with
+                multiple meters or tariff categories to embed them inline.
+              x-jsonld:
+                "@id": deg:consumptionProfiles
+              type: array
+              minItems: 1
+              items:
+                $ref: "https://schema.beckn.io/ConsumptionProfileCredential/v2.0#/components/schemas/ConsumptionProfileCredential/properties/credentialSubject"
+            generationProfiles:
+              description: >
+                DER generation assets. Each entry conforms to the credentialSubject
+                of GenerationProfileCredential, allowing a customer with multiple
+                generation units (e.g., rooftop solar + wind turbine) to embed
+                them inline.
+              x-jsonld:
+                "@id": deg:generationProfiles
+              type: array
+              minItems: 1
+              items:
+                $ref: "https://schema.beckn.io/GenerationProfileCredential/v2.0#/components/schemas/GenerationProfileCredential/properties/credentialSubject"
+            storageProfiles:
+              description: >
+                Energy storage assets. Each entry conforms to the credentialSubject
+                of StorageProfileCredential, allowing a customer with multiple
+                batteries to embed them inline.
+              x-jsonld:
+                "@id": deg:storageProfiles
+              type: array
+              minItems: 1
+              items:
+                $ref: "https://schema.beckn.io/StorageProfileCredential/v2.0#/components/schemas/StorageProfileCredential/properties/credentialSubject"

@@ -1,0 +1,68 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "deg": "https://schema.beckn.io/deg#",
+        "ElectricityCredential": {
+            "@id": "deg:ElectricityCredential",
+            "@context": {
+                "@version": 1.1
+            }
+        },
+        "customerProfile": {
+            "@id": "deg:customerProfile",
+            "@type": "@id",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "customerNumber": { "@id": "deg:customerNumber", "@type": "xsd:string" },
+                "idRef": {
+                    "@id": "deg:idRef",
+                    "@type": "@id",
+                    "@context": {
+                        "issuedBy":  { "@id": "deg:issuedBy",  "@type": "@id"        },
+                        "subjectId": { "@id": "deg:subjectId", "@type": "xsd:string" }
+                    }
+                },
+                "energyResources": {
+                    "@id": "deg:energyResources",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@import": "https://schema.beckn.io/EnergyResource/v2.1/context.jsonld",
+                        "attributes": {
+                            "@id": "deg:attributes",
+                            "@type": "@id"
+                        }
+                    }
+                },
+                "consumptionProfiles": {
+                    "@id": "deg:consumptionProfiles",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@import": "https://schema.beckn.io/MeterServiceProfile/v1.1/context.jsonld",
+                        "@protected": true
+                    }
+                }
+            }
+        },
+        "customerDetails": {
+            "@id": "deg:customerDetails",
+            "@type": "@id",
+            "@context": {
+                "@import": "https://schema.beckn.io/CustomerDetails/v1.0/context.jsonld",
+                "@protected": true
+            }
+        },
+        "credentialStatus": {
+            "@id": "deg:credentialStatus",
+            "@type": "@id",
+            "@context": {
+                "statusPurpose":        { "@id": "deg:statusPurpose",        "@type": "xsd:string" },
+                "statusListCredential": { "@id": "deg:statusListCredential", "@type": "@id"        }
+            }
+        }
+    }
+}

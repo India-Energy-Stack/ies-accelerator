@@ -1,0 +1,774 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "schema": "https://schema.org/"
+    },
+    "@graph": [
+        {
+            "@id": "ies:MeterData",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data",
+            "rdfs:comment": "Root payload can be a single profile or an array of profiles."
+        },
+        {
+            "@id": "ies:EnergyData",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Energy Data",
+            "rdfs:comment": "A single compact data-only profile record. Must be one of the eight standard types."
+        },
+        {
+            "@id": "ies:CustomerProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Customer Profile",
+            "rdfs:comment": "Slow-changing customer + service-point + meter-list summary."
+        },
+        {
+            "@id": "ies:BaseProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Base Profile",
+            "rdfs:comment": "Root base profile carrying common identifiers across all shapes."
+        },
+        {
+            "@id": "ies:IntervalProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Interval Profile",
+            "rdfs:comment": "Block Load Survey — PT15M / PT30M cadence intervalBlocks for one meter."
+        },
+        {
+            "@id": "ies:DailyProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Daily Profile",
+            "rdfs:comment": "Daily Load Profile — P1D intervalBlocks. Same per-meter shape as IntervalProfile."
+        },
+        {
+            "@id": "ies:MonthlyProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Monthly Profile",
+            "rdfs:comment": "Monthly profile readings from the meter at billing reset time (billing history)."
+        },
+        {
+            "@id": "ies:BillDetails",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Bill Details",
+            "rdfs:comment": "Utility billing computed details, such as billing amount, bill number, due dates, and prepaid balance."
+        },
+        {
+            "@id": "ies:InstantaneousProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Instantaneous Profile",
+            "rdfs:comment": "Snapshot of a meter's electrical quantities at one captured moment."
+        },
+        {
+            "@id": "ies:AlarmProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Alarm Profile",
+            "rdfs:comment": "Real-time active indicators/alerts representing immediate state conditions from the meter."
+        },
+        {
+            "@id": "ies:EventProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Event Profile",
+            "rdfs:comment": "IS 15959 event log for one meter over a coverage period."
+        },
+        {
+            "@id": "ies:Identifier",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Identifier",
+            "rdfs:comment": "Canonical {scheme, value} reference. Used for customer/meter/SDP/OBIS references."
+        },
+        {
+            "@id": "ies:TimePeriod",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Time Period",
+            "rdfs:comment": "Period defined by a start time and a duration."
+        },
+        {
+            "@id": "ies:ReadingDefinition",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Reading Definition",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:PayloadDescriptorSet",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Payload Descriptor Set",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:CompactSequence",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Compact Sequence",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:SequenceItem",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Sequence Item",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:PayloadDescriptor",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Payload Descriptor",
+            "rdfs:comment": "One quantity declared once per block; rows' values[] align positionally with descriptors[]."
+        },
+        {
+            "@id": "ies:IntervalPeriod",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Interval Period",
+            "rdfs:comment": "Period defined by a start time and a duration."
+        },
+        {
+            "@id": "ies:Interval",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Interval",
+            "rdfs:comment": "One time-series interval row. payloads[k] is the value for compactSequence[k]."
+        },
+        {
+            "@id": "ies:Override",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Override",
+            "rdfs:comment": "Sparse — inject timestamps, zones, or validation states into specific interval cells."
+        },
+        {
+            "@id": "ies:Reading",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Reading",
+            "rdfs:comment": "Detailed, self-contained inline reading with full metadata support."
+        },
+        {
+            "@id": "ies:TouBucket",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Tou Bucket",
+            "rdfs:comment": "Time of Use bucket separating readings by zone."
+        },
+        {
+            "@id": "ies:Customer",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Customer",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:ServiceDeliveryPoint",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Service Delivery Point",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:Meter",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:Association",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Association",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:MeterEvent",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Event",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:MeterAlarm",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Alarm",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:PayloadDescriptorProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Payload Descriptor Profile",
+            "rdfs:comment": "Configuration profile representing a collection of Payload Descriptor Sets exchanged out-of-band or embedded in an array."
+        },
+        {
+            "@id": "ies:CustomerDetails",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Customer Details",
+            "rdfs:comment": "PII sub-object. Omit entirely for anonymised or pseudonymous exchange."
+        },
+        {
+            "@id": "ies:profileType",
+            "@type": "rdf:Property",
+            "rdfs:label": "profile Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:customerRefs",
+            "@type": "rdf:Property",
+            "rdfs:label": "customer Refs",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:timeZone",
+            "@type": "rdf:Property",
+            "rdfs:label": "time Zone",
+            "rdfs:comment": "IANA time-zone, e.g. Asia/Kolkata."
+        },
+        {
+            "@id": "ies:customerDetails",
+            "@type": "rdf:Property",
+            "rdfs:label": "customer Details",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:customer",
+            "@type": "rdf:Property",
+            "rdfs:label": "customer",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:serviceDeliveryPoints",
+            "@type": "rdf:Property",
+            "rdfs:label": "service Delivery Points",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:meters",
+            "@type": "rdf:Property",
+            "rdfs:label": "meters",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:associations",
+            "@type": "rdf:Property",
+            "rdfs:label": "associations",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:meterRefs",
+            "@type": "rdf:Property",
+            "rdfs:label": "meter Refs",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:serviceDeliveryPointRefs",
+            "@type": "rdf:Property",
+            "rdfs:label": "service Delivery Point Refs",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:payloadDescriptorSetRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "payload Descriptor Set Ref",
+            "rdfs:comment": "Reference ID matching a previously exchanged PayloadDescriptorProfile's payloadDescriptorSet."
+        },
+        {
+            "@id": "ies:compactSequenceRef",
+            "@type": "rdf:Property",
+            "rdfs:label": "compact Sequence Ref",
+            "rdfs:comment": "Name of the compact sequence to use from the payloadDescriptorSets."
+        },
+        {
+            "@id": "ies:intervalPeriod",
+            "@type": "rdf:Property",
+            "rdfs:label": "interval Period",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:intervals",
+            "@type": "rdf:Property",
+            "rdfs:label": "intervals",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:readings",
+            "@type": "rdf:Property",
+            "rdfs:label": "readings",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:timePeriod",
+            "@type": "rdf:Property",
+            "rdfs:label": "time Period",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:touBuckets",
+            "@type": "rdf:Property",
+            "rdfs:label": "tou Buckets",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:billNumber",
+            "@type": "rdf:Property",
+            "rdfs:label": "bill Number",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:billDate",
+            "@type": "rdf:Property",
+            "rdfs:label": "bill Date",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:dueDate",
+            "@type": "rdf:Property",
+            "rdfs:label": "due Date",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:currency",
+            "@type": "rdf:Property",
+            "rdfs:label": "currency",
+            "rdfs:comment": "ISO 4217 (INR, USD, ...)."
+        },
+        {
+            "@id": "ies:amountDue",
+            "@type": "rdf:Property",
+            "rdfs:label": "amount Due",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:energyCharges",
+            "@type": "rdf:Property",
+            "rdfs:label": "energy Charges",
+            "rdfs:comment": "Charges for active/reactive energy consumption."
+        },
+        {
+            "@id": "ies:fixedCharges",
+            "@type": "rdf:Property",
+            "rdfs:label": "fixed Charges",
+            "rdfs:comment": "Fixed charges/demand charges."
+        },
+        {
+            "@id": "ies:otherCharges",
+            "@type": "rdf:Property",
+            "rdfs:label": "other Charges",
+            "rdfs:comment": "Other taxes, duties, surcharges, or adjustments."
+        },
+        {
+            "@id": "ies:prepaidBalance",
+            "@type": "rdf:Property",
+            "rdfs:label": "prepaid Balance",
+            "rdfs:comment": "Prepaid remaining balance/credit amount on the account/meter, if applicable."
+        },
+        {
+            "@id": "ies:paymentStatus",
+            "@type": "rdf:Property",
+            "rdfs:label": "payment Status",
+            "rdfs:comment": "Status of the payment, e.g. PAID, UNPAID, PARTIAL."
+        },
+        {
+            "@id": "ies:timestamp",
+            "@type": "rdf:Property",
+            "rdfs:label": "timestamp",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:alarms",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarms",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:events",
+            "@type": "rdf:Property",
+            "rdfs:label": "events",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:scheme",
+            "@type": "rdf:Property",
+            "rdfs:label": "scheme",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:value",
+            "@type": "rdf:Property",
+            "rdfs:label": "value",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:namespace",
+            "@type": "rdf:Property",
+            "rdfs:label": "namespace",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:start",
+            "@type": "rdf:Property",
+            "rdfs:label": "start",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:duration",
+            "@type": "rdf:Property",
+            "rdfs:label": "duration",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:readingType",
+            "@type": "rdf:Property",
+            "rdfs:label": "reading Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:supportedModes",
+            "@type": "rdf:Property",
+            "rdfs:label": "supported Modes",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:defaultMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "default Mode",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "schema:name",
+            "@type": "rdf:Property",
+            "rdfs:label": "name",
+            "rdfs:comment": "Full name of the customer as per ID proof."
+        },
+        {
+            "@id": "ies:shortLabel",
+            "@type": "rdf:Property",
+            "rdfs:label": "short Label",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:unit",
+            "@type": "rdf:Property",
+            "rdfs:label": "unit",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:phase",
+            "@type": "rdf:Property",
+            "rdfs:label": "phase",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:flowDirection",
+            "@type": "rdf:Property",
+            "rdfs:label": "flow Direction",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:accumulationBehaviour",
+            "@type": "rdf:Property",
+            "rdfs:label": "accumulation Behaviour",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:touZone",
+            "@type": "rdf:Property",
+            "rdfs:label": "tou Zone",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:payloadDescriptors",
+            "@type": "rdf:Property",
+            "rdfs:label": "payload Descriptors",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:compactSequences",
+            "@type": "rdf:Property",
+            "rdfs:label": "compact Sequences",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:sequenceItems",
+            "@type": "rdf:Property",
+            "rdfs:label": "sequence Items",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:attribute",
+            "@type": "rdf:Property",
+            "rdfs:label": "attribute",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:obis",
+            "@type": "rdf:Property",
+            "rdfs:label": "obis",
+            "rdfs:comment": "Optional canonical OBIS code when readingType uses a short code."
+        },
+        {
+            "@id": "ies:category",
+            "@type": "rdf:Property",
+            "rdfs:label": "category",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:reportedMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "reported Mode",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:multiplier",
+            "@type": "rdf:Property",
+            "rdfs:label": "multiplier",
+            "rdfs:comment": "Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo). Default value is 1."
+        },
+        {
+            "@id": "ies:accuracy",
+            "@type": "rdf:Property",
+            "rdfs:label": "accuracy",
+            "rdfs:comment": "Accuracy class or precision value, applied after the multiplier."
+        },
+        {
+            "@id": "ies:id",
+            "@type": "rdf:Property",
+            "rdfs:label": "id",
+            "rdfs:comment": "Unique identifier for this specific configuration state."
+        },
+        {
+            "@id": "ies:payloads",
+            "@type": "rdf:Property",
+            "rdfs:label": "payloads",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:overrides",
+            "@type": "rdf:Property",
+            "rdfs:label": "overrides",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:descriptorIndex",
+            "@type": "rdf:Property",
+            "rdfs:label": "descriptor Index",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:occurredAt",
+            "@type": "rdf:Property",
+            "rdfs:label": "occurred At",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:zone",
+            "@type": "rdf:Property",
+            "rdfs:label": "zone",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:validationStatus",
+            "@type": "rdf:Property",
+            "rdfs:label": "validation Status",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:source",
+            "@type": "rdf:Property",
+            "rdfs:label": "source",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:changeMethod",
+            "@type": "rdf:Property",
+            "rdfs:label": "change Method",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:failCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "fail Code",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:openingValue",
+            "@type": "rdf:Property",
+            "rdfs:label": "opening Value",
+            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=USAGE."
+        },
+        {
+            "@id": "ies:closingValue",
+            "@type": "rdf:Property",
+            "rdfs:label": "closing Value",
+            "rdfs:comment": "MUST ONLY be provided when the associated payload descriptor specifies reportedMode=USAGE."
+        },
+        {
+            "@id": "ies:integrationPeriod",
+            "@type": "rdf:Property",
+            "rdfs:label": "integration Period",
+            "rdfs:comment": "Demand integration period, e.g. PT30M or PT15M."
+        },
+        {
+            "@id": "ies:consumerCategory",
+            "@type": "rdf:Property",
+            "rdfs:label": "consumer Category",
+            "rdfs:comment": "Utility tariff category (e.g., LT2A, NDS, HT)."
+        },
+        {
+            "@id": "ies:sanctionedLoadKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "sanctioned Load Kw",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:billingCycleDay",
+            "@type": "rdf:Property",
+            "rdfs:label": "billing Cycle Day",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:paymentMode",
+            "@type": "rdf:Property",
+            "rdfs:label": "payment Mode",
+            "rdfs:comment": "Indicates if the connection is prepaid or postpaid."
+        },
+        {
+            "@id": "ies:connectionType",
+            "@type": "rdf:Property",
+            "rdfs:label": "connection Type",
+            "rdfs:comment": "Type of connection (Single-phase or Three-phase)."
+        },
+        {
+            "@id": "ies:contractMaxDemandKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "contract Max Demand Kw",
+            "rdfs:comment": "Maximum demand contracted with the utility for this connection, in kW."
+        },
+        {
+            "@id": "ies:tariffCategoryCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "tariff Category Code",
+            "rdfs:comment": "Billing/tariff category code assigned by the utility."
+        },
+        {
+            "@id": "ies:sanctionedExportLoadKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "sanctioned Export Load Kw",
+            "rdfs:comment": "Sanctioned/approved grid export limit in kW."
+        },
+        {
+            "@id": "ies:address",
+            "@type": "rdf:Property",
+            "rdfs:label": "address",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:geo",
+            "@type": "rdf:Property",
+            "rdfs:label": "geo",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:make",
+            "@type": "rdf:Property",
+            "rdfs:label": "make",
+            "rdfs:comment": "Make of the meter."
+        },
+        {
+            "@id": "ies:model",
+            "@type": "rdf:Property",
+            "rdfs:label": "model",
+            "rdfs:comment": "Model of the meter."
+        },
+        {
+            "@id": "ies:meterType",
+            "@type": "rdf:Property",
+            "rdfs:label": "meter Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:meterCategory",
+            "@type": "rdf:Property",
+            "rdfs:label": "meter Category",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:serviceKind",
+            "@type": "rdf:Property",
+            "rdfs:label": "service Kind",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:parentResources",
+            "@type": "rdf:Property",
+            "rdfs:label": "parent Resources",
+            "rdfs:comment": "List of parent resources (such as feeders or DTs) for this association, replacing feederId and dtId."
+        },
+        {
+            "@id": "ies:telemetryProvider",
+            "@type": "rdf:Property",
+            "rdfs:label": "telemetry Provider",
+            "rdfs:comment": "Telemetry provider for this meter-service association."
+        },
+        {
+            "@id": "ies:commissioningDate",
+            "@type": "rdf:Property",
+            "rdfs:label": "commissioning Date",
+            "rdfs:comment": "Commissioning date of the meter association."
+        },
+        {
+            "@id": "ies:generationCapacityKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "generation Capacity Kw",
+            "rdfs:comment": "Rated power generation capacity (e.g. solar PV inverter capacity) in kW."
+        },
+        {
+            "@id": "ies:storageCapacityKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "storage Capacity Kw",
+            "rdfs:comment": "Rated energy storage capacity in kWh."
+        },
+        {
+            "@id": "ies:eventId",
+            "@type": "rdf:Property",
+            "rdfs:label": "event Id",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:eventName",
+            "@type": "rdf:Property",
+            "rdfs:label": "event Name",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:sequence",
+            "@type": "rdf:Property",
+            "rdfs:label": "sequence",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:magnitude",
+            "@type": "rdf:Property",
+            "rdfs:label": "magnitude",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:alarmId",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarm Id",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:alarmName",
+            "@type": "rdf:Property",
+            "rdfs:label": "alarm Name",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:status",
+            "@type": "rdf:Property",
+            "rdfs:label": "status",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:severity",
+            "@type": "rdf:Property",
+            "rdfs:label": "severity",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:payloadDescriptorSets",
+            "@type": "rdf:Property",
+            "rdfs:label": "payload Descriptor Sets",
+            "rdfs:comment": ""
+        }
+    ]
+}

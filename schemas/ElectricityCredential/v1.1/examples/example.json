@@ -1,0 +1,142 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org/",
+    "https://schema.beckn.io/Location/2.0/context.jsonld",
+    "https://schema.beckn.io/ElectricityCredential/v1.1/context.jsonld",
+    "https://schema.beckn.io/EnergyResource/v2.0/context.jsonld"
+  ],
+  "id": "urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456",
+  "type": [
+    "VerifiableCredential",
+    "ElectricityCredential"
+  ],
+  "issuer": {
+    "id": "did:web:example-energy-utility.com",
+    "name": "Example Energy Utility",
+    "idRef": {
+      "issuedBy": "did:web:exreg.gov",
+      "subjectId": "exreg.gov:AABPC00001"
+    }
+  },
+  "validFrom": "2025-01-13T10:30:00-05:00",
+  "validUntil": "2026-01-13T10:30:00-05:00",
+  "credentialStatus": {
+    "id": "https://dedi.global/dedi/lookup/example-utility.com/vc-revocation-registry/e5f6a7b8-9012-34ab-cdef-567890123456",
+    "type": "dediregistry",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/query/example-utility.com/vc-revocation-registry"
+  },
+  "credentialSubject": {
+    "id": "did:dedi:example-utility:consumers:UTIL-2025-001234567",
+    "customerProfile": {
+      "customerNumber": "UTIL-2025-001234567",
+      "idRef": {
+        "issuedBy": "did:web:ssa.gov",
+        "subjectId": "ssa.gov:XXX-XX-1234"
+      },
+      "energyResources": [
+        {
+          "id": "did:dedi:example-utility:assets:meter:MET2025789456123",
+          "type": "METER",
+          "attributes": {
+            "meterType": "AMI",
+            "gps": "37.7749,-122.4194"
+          },
+          "parentResources": [
+            "did:dedi:example-utility:assets:transformer:DT-FEEDER-A1-001"
+          ]
+        },
+        {
+          "id": "did:dedi:example-utility:assets:solar-plant:DER-SOLAR-001",
+          "type": "SOLAR",
+          "attributes": {
+            "ratedPowerKw": 3,
+            "make": "SunPower Corporation",
+            "model": "SPR-X22-360",
+            "commissioningDate": "2025-01-12T00:00:00-05:00"
+          },
+          "parentResources": [
+            "did:dedi:example-utility:assets:meter:MET2025789456123"
+          ]
+        },
+        {
+          "id": "did:dedi:example-utility:assets:wind-farm:DER-WIND-001",
+          "type": "WIND",
+          "attributes": {
+            "ratedPowerKw": 1.5,
+            "make": "Windmill Co.",
+            "model": "WM-MICRO-150",
+            "commissioningDate": "2025-03-01T00:00:00-05:00"
+          },
+          "parentResources": [
+            "did:dedi:example-utility:assets:meter:MET2025789456123"
+          ]
+        },
+        {
+          "id": "did:dedi:example-utility:assets:bess:BESS-001",
+          "type": "BATTERY",
+          "attributes": {
+            "ratedPowerKw": 5,
+            "energyCapacityKwh": 10,
+            "storageType": "LithiumIon",
+            "commissioningDate": "2025-01-12T00:00:00-05:00"
+          },
+          "parentResources": [
+            "did:dedi:example-utility:assets:meter:MET2025789456123"
+          ]
+        },
+        {
+          "id": "did:dedi:example-utility:assets:bess:BESS-002",
+          "type": "BATTERY",
+          "attributes": {
+            "ratedPowerKw": 2.5,
+            "energyCapacityKwh": 5,
+            "storageType": "LithiumIon",
+            "commissioningDate": "2025-06-01T00:00:00-05:00"
+          },
+          "parentResources": [
+            "did:dedi:example-utility:assets:meter:MET2025789456123"
+          ]
+        }
+      ],
+      "consumptionProfiles": [
+        {
+          "meterId": "did:dedi:example-utility:assets:meter:MET2025789456123",
+          "sanctionedLoadKw": 5,
+          "contractMaxDemandKw": 4,
+          "tariffCategoryCode": "RES-01",
+          "premisesType": "Residential",
+          "connectionType": "Single-phase"
+        }
+      ]
+    },
+    "customerDetails": {
+      "fullName": "Jane Doe",
+      "installationAddress": {
+        "geo": {
+          "type": "Point",
+          "coordinates": [
+            -122.4194,
+            37.7749
+          ]
+        },
+        "address": {
+          "streetAddress": "123 Energy Street, Unit 4",
+          "addressLocality": "Metro City",
+          "addressRegion": "Example State",
+          "addressCountry": "US",
+          "postalCode": "12345"
+        }
+      },
+      "serviceConnectionDate": "2025-01-10T00:00:00-05:00"
+    }
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-01-13T10:30:00-05:00",
+    "verificationMethod": "https://example-utility.com/issuers/energy-dept#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
+  }
+}

@@ -1,0 +1,50 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies#",
+        "MeterDataCredential": {
+            "@id": "ies:MeterDataCredential",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "credentialSubject": {
+                    "@id": "deg:credentialSubject",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "@id",
+                            "@type": "@id"
+                        },
+                        "meterData": {
+                            "@id": "ies:meterData",
+                            "@type": "@id"
+                        }
+                    }
+                }
+            }
+        },
+        "MeterDataCredentialSubject": {
+            "@id": "ies:MeterDataCredentialSubject",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "@id",
+                    "@type": "@id"
+                },
+                "meterData": {
+                    "@id": "ies:meterData",
+                    "@type": "@id"
+                }
+            }
+        }
+    }
+}

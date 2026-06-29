@@ -1,0 +1,13 @@
+{
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/context.jsonld",
+  "@type": "MeterDataRequest",
+  "resources": ["did:dedi:ies:customer:IN-MH-CUST-80"],
+  "scope": "ResourceAndChildren",
+  "from": "2020-01-01T00:00:00Z",
+  "duration": "P10Y",
+  "includeDetails": [
+    { "profileType": "CustomerProfile" },
+    { "profileType": "MonthlyProfile" },
+    { "profileType": "BillDetails" }
+  ]
+}

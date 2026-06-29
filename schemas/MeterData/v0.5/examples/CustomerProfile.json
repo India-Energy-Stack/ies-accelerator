@@ -1,0 +1,72 @@
+{
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
+  "@type": "CustomerProfile",
+  "profileType": "CUSTOMER",
+  "timeZone": "Asia/Kolkata",
+  "customer": {
+    "id": {
+      "scheme": "CONSUMER_NUMBER",
+      "value": "RR-1234"
+    },
+    "name": "Acme Industries Pvt Ltd",
+    "consumerCategory": "NDS",
+    "sanctionedLoadKw": 15.0,
+    "billingCycleDay": 1
+  },
+  "serviceDeliveryPoints": [
+    {
+      "id": {
+        "scheme": "SERVICE_DELIVERY_POINT",
+        "value": "SDP-BLR-A-12345"
+      },
+      "addressLine": "12 MG Road",
+      "city": "Bengaluru",
+      "postalCode": "560001",
+      "latitude": 12.9759,
+      "longitude": 77.6064
+    }
+  ],
+  "meters": [
+    {
+      "id": {
+        "scheme": "METER_SERIAL",
+        "value": "BESCOM-SM-2025-654321"
+      },
+      "manufacturer": "Genus",
+      "modelNumber": "SM-3PH-4W-WC",
+      "meterCategory": "D2",
+      "serviceKind": "ELECTRICITY"
+    }
+  ],
+  "associations": [
+    {
+      "installedAt": "2026-05-04T10:00:00+05:30",
+      "serviceDeliveryPointRefs": [
+        {
+          "scheme": "SERVICE_DELIVERY_POINT",
+          "value": "SDP-BLR-A-12345"
+        }
+      ],
+      "meterRefs": [
+        {
+          "scheme": "METER_SERIAL",
+          "value": "BESCOM-SM-2025-654321"
+        }
+      ],
+      "feederId": {
+        "scheme": "OTHER",
+        "value": "FDR-11KV-BLR-04"
+      },
+      "dtId": {
+        "scheme": "OTHER",
+        "value": "DT-BLR-A-400kVA-12"
+      }
+    }
+  ],
+  "customerRefs": [
+    {
+      "scheme": "CONSUMER_NUMBER",
+      "value": "RR-1234"
+    }
+  ]
+}
