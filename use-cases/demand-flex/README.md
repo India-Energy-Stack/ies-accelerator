@@ -6,7 +6,7 @@
 
 **A distribution utility (DISCOM) needs to shave a peak. Instead of building more wires, it publishes a *flexibility need* — "give me 500 kW of curtailment between 2 and 4 pm" — and an aggregator commits a fleet of behind-the-meter assets (EV chargers, batteries, smart HVAC) to deliver it. After the event the utility measures what actually happened on its own grid meters, and a signed policy computes who gets paid. That whole conversation — publish, discover, commit, measure, settle — is one Beckn v2 transaction.**
 
-Demand Flexibility is a **full Beckn transaction use case**, not a dataset push. It uses the complete lifecycle (`search`/`discover` → `select` → `init` → `confirm` → `status`), the ONIX adapter, DeDi registry-resolution, signing, and policy-as-code — the same stack as the rest of DEG. What is specific to this use case is a small **schema family** (a need, a buy-offer, a performance report) and **two signed Rego bundles** (one that validates telemetry shape on the wire, one that computes settlement). If you have any other DEG/IES Beckn flow working, you already have the transport; this page is the payload, the actors, and the settlement logic on top.
+Demand Flexibility is a **full Beckn transaction use case**, not a dataset push. It uses the complete lifecycle (`discover` → `init` → `confirm` → `status`), the ONIX adapter, DeDi registry-resolution, signing, and policy-as-code — the same stack as the rest of DEG. What is specific to this use case is a small **schema family** (a need, a buy-offer, a performance report) and **two signed Rego bundles** (one that validates telemetry shape on the wire, one that computes settlement). If you have any other DEG/IES Beckn flow working, you already have the transport; this page is the payload, the actors, and the settlement logic on top.
 
 The reference implementation is the [`demand-flex` devkit](https://github.com/beckn/DEG/tree/main/devkits/demand-flex) in the DEG repo.
 
@@ -17,7 +17,7 @@ The reference implementation is the [`demand-flex` devkit](https://github.com/be
 The single most common point of confusion: **the Beckn role and the commercial role are crossed.**
 
 - The **utility (DISCOM)** is the **BPP / provider** — it publishes the catalogue. But commercially it is the **buyer of flexibility** (it pays for curtailment).
-- The **aggregator** is the **BAP / consumer** — it discovers and selects the offer. But commercially it is the **seller of flexibility** (it gets paid).
+- The **aggregator** is the **BAP / consumer** — it discovers the offer. But commercially it is the **seller of flexibility** (it gets paid).
 
 So the utility publishes a **`DemandFlexBuyOffer`** ("I will buy curtailment at ₹3.5/kWh"), and the aggregator "consumes" that offer by committing capacity. Keep `BAP/BPP` (wire direction) and `buyer/seller` (money direction) separate in your head and the rest follows.
 
@@ -32,7 +32,7 @@ So the utility publishes a **`DemandFlexBuyOffer`** ("I will buy curtailment at 
 Two principles hold the use case together:
 
 - **Settlement is utility-only.** Revenue is computed *only* against the DISCOM's own grid-meter measurements (`BASELINE` and `USAGE` per interval). The aggregator's resource telemetry never feeds the money.
-- **Resource telemetry is reconciliation-only.** The aggregator *may* contribute per-asset proof-of-performance (EV state-of-charge, GPS, power draw) gathered out-of-band from vendor APIs. The utility republishes it on the same channel as a *separate* performance record so anomalous meter readings can be cross-checked after the fact — but the settlement Rego is hard-wired to ignore it.
+- **Resource telemetry is reconciliation-only.** The aggregator owns the EnergyResource data (fed from OEM / vendor APIs — Tata EVP Telematics, MG iMotion) and *may* push it to the utility via `status` as a *separate* performance record — per-asset proof-of-performance like EV state-of-charge and GPS. It lets anomalous meter readings be cross-checked after the fact, but the settlement Rego is hard-wired to ignore it. Note the ownership split: meter telemetry flows utility→aggregator (`on_status`); resource telemetry flows aggregator→utility (`status`).
 
 ---
 
@@ -63,7 +63,7 @@ flowchart LR
     M["Grid meters<br/>did:web:…:meters:NNN"]
     DISCOM -.meters.- M
   end
-  AGG <-- "Beckn v2<br/>discover · select · init · confirm · status" --> DISCOM
+  AGG <-- "Beckn v2<br/>discover · init · confirm · status" --> DISCOM
   ER -. "vendor-API telemetry<br/>(out-of-band)" .-> AGG
   M -. "settlement-grade<br/>BASELINE / USAGE" .-> DISCOM
 ```
@@ -104,7 +104,7 @@ Optional, for scale: [`BecknPageInfo`](https://schema.beckn.io/BecknPageInfo/) (
 
 ## The lifecycle
 
-The utility (BPP) publishes a catalogue of flexibility needs; the aggregator (BAP) transacts against it. The novel part is what happens *after* `confirm`: the contract is alive but unfulfilled, and the utility drives a sequence of `on_status` callbacks as measurement data arrives.
+The utility (BPP) publishes a catalogue of flexibility needs; the aggregator (BAP) discovers it and commits directly via `init` → `confirm`. The novel part is what happens *after* `confirm`: the contract is alive but unfulfilled, and measurement data arrives as a sequence of performance records — the utility pushing meter reports (`on_status`), the aggregator pushing its resource report (`status`).
 
 ```mermaid
 sequenceDiagram
@@ -116,11 +116,9 @@ sequenceDiagram
   UTIL->>UTIL: publish catalogue (DemandFlexNeed + DemandFlexBuyOffer)
 
   Note over AGG,UTIL: Phase 1 — Commit
-  AGG->>UTIL: discover / search
-  UTIL->>AGG: on_search (the buy-offer)
-  AGG->>UTIL: select (e.g. 150 kW of a 500 kW need)
-  UTIL->>AGG: on_select
-  AGG->>UTIL: init (meters, energyResources, reportDescriptors)
+  AGG->>UTIL: discover
+  UTIL->>AGG: on_discover (the buy-offer)
+  AGG->>UTIL: init (e.g. 150 kW of a 500 kW need; meters, energyResources, reportDescriptors)
   UTIL->>AGG: on_init
   AGG->>UTIL: confirm
   UTIL->>AGG: on_confirm (contract ACTIVE)
@@ -128,23 +126,25 @@ sequenceDiagram
   Note over AGG,UTIL: Phase 2 — Deliver (off-protocol)
   AGG->>AGG: assets curtail during the event window
 
-  Note over AGG,UTIL: Phase 3 — Measure & settle (on_status pushes)
+  Note over AGG,UTIL: Phase 3 — Measure & settle
+  Note right of UTIL: utility owns the meter data
   UTIL->>AGG: on_status — BASELINES (pre-event counterfactual)
   UTIL->>AGG: on_status — ACTUALS (BASELINE + USAGE, post-event)
-  UTIL->>AGG: on_status — RESOURCE_TELEMETRY (optional, reconciliation-only)
+  Note left of AGG: aggregator owns the EnergyResource data
+  AGG->>UTIL: status — RESOURCE_TELEMETRY (optional, reconciliation-only)
   UTIL->>AGG: on_status — SETTLED (consideration populated)
 ```
 
 ### The `on_status` report sequence
 
-A single event produces **several** `on_status` callbacks, each a distinct `performance[]` record distinguished by its `methodology` and status code. Read them as a timeline:
+A single event produces **several** performance records, each distinguished by its `methodology` and status code. Three are utility-owned meter reports the BPP pushes to the BAP (`on_status`); one is the aggregator-owned resource report the BAP pushes to the BPP (`status`). Read them as a timeline:
 
-| Order | Report | `methodology` | Payloads | What it means |
-|---|---|---|---|---|
-| 1 | **Baselines** | `5of10` | `BASELINE` per meter/interval | The counterfactual — what these meters *would* have consumed absent the event. Utility-computed, pre-event. |
-| 2 | **Actuals** | `5of10` | `BASELINE` + `USAGE` | What actually happened on the grid meters after the window closed. The settlement input. |
-| 3 | **Resource telemetry** | `RESOURCE_TELEMETRY` | `USAGE`/`POWER`/`SOC_END` per interval, `GPS_LAT`/`GPS_LON` once | Per-asset proof-of-performance from the aggregator's vendor APIs. **Excluded from settlement.** Optional. |
-| 4 | **Settled** | `5of10` | same as actuals | Final. `consideration` carries the computed `SettlementTerm`. |
+| Order | Report | Direction | `methodology` | Payloads | What it means |
+|---|---|---|---|---|---|
+| 1 | **Baselines** | utility → aggregator (`on_status`) | `5of10` | `BASELINE` per meter/interval | The counterfactual — what these meters *would* have consumed absent the event. Utility-computed, pre-event. |
+| 2 | **Actuals** | utility → aggregator (`on_status`) | `5of10` | `BASELINE` + `USAGE` | What actually happened on the grid meters after the window closed. The settlement input. |
+| 3 | **Resource telemetry** | aggregator → utility (`status`) | `RESOURCE_TELEMETRY` | `USAGE`/`SOC_END` per interval, `GPS_LAT`/`GPS_LON` once | Per-asset proof-of-performance the aggregator owns (from OEM/vendor APIs). **Excluded from settlement.** Optional. |
+| 4 | **Settled** | utility → aggregator (`on_status`) | `5of10` | same as actuals | Final. `consideration` carries the computed `SettlementTerm`. |
 
 Delivered flexibility per interval is `max(0, BASELINE − USAGE)`; summed across meters and intervals and multiplied by `incentivePerKwh` it gives the payable amount.
 
@@ -156,7 +156,7 @@ Delivered flexibility per interval is `max(0, BASELINE − USAGE)`; summed acros
 
 You do not need the whole thing at once. Each rung adds exactly one concept; the devkit ships fixtures for every step.
 
-**Rung 1 — fixed-incentive, grid meters only.** Run `uc1` with the three example meters. Walk `discover → select → init → confirm`, then receive `baselines → actuals → settled`. You now understand the contract envelope, `DemandFlexNeed`/`BuyOffer`, and the `BASELINE − USAGE` settlement math. Nothing about resources yet.
+**Rung 1 — fixed-incentive, grid meters only.** Run `uc1` with the three example meters. Walk `discover → init → confirm`, then receive `baselines → actuals → settled`. You now understand the contract envelope, `DemandFlexNeed`/`BuyOffer`, and the `BASELINE − USAGE` settlement math. Nothing about resources yet.
 
 **Rung 2 — add EnergyResources.** Put `energyResources[]` and `reportDescriptors[]` in your `confirm`, and consume the extra `RESOURCE_TELEMETRY` `on_status`. Confirm for yourself that settlement is byte-for-byte identical — the telemetry is decorative to the money. This is where `PER_INTERVAL` vs `PER_EVENT` cardinality (below) starts to matter.
 
@@ -196,7 +196,7 @@ Two distinct bundles, evaluable offline by any participant — see [Tariff Intel
 | Check | What it enforces |
 |---|---|
 | **Type-coverage** | Every `payloadType` used in `intervals[].payloads[].type` is declared in the meter's `payloadDescriptors`. (Catches `BASELIN` typos.) |
-| **`PER_INTERVAL` cardinality** | Types like `BASELINE`/`USAGE`/`POWER`/`SOC_END` appear in **every** interval of any meter that declares them. |
+| **`PER_INTERVAL` cardinality** | Types like `BASELINE`/`USAGE`/`SOC_END` appear in **every** interval of any meter that declares them. |
 | **`PER_EVENT` cardinality** | Types like `GPS_LAT`/`GPS_LON` appear in **exactly one** interval. |
 
 It self-skips cleanly when there are no `reportDescriptors` on the wire (e.g. a baseline-only push), so plain traffic passes transparently.
@@ -228,14 +228,14 @@ This brings up `onix-bap` + `sandbox-bap`, `onix-bpp` + `sandbox-bpp`, two Redis
 
 ### 2. Drive the flow
 
-**Postman** — import the role you are integrating from [`uc1-bdr-w-baselining/postman/`](https://github.com/beckn/DEG/tree/main/devkits/demand-flex/uc1-bdr-w-baselining/postman): `…BUYER-DEG…` is the utility, `…SELLER-DEG…` is the aggregator. Fire `discover → select → init → confirm → status`.
+**Postman** — import the role you are integrating from [`uc1-bdr-w-baselining/postman/`](https://github.com/beckn/DEG/tree/main/devkits/demand-flex/uc1-bdr-w-baselining/postman): `…BUYER-DEG…` is the utility, `…SELLER-DEG…` is the aggregator. Fire `discover → init → confirm → status`.
 
 **Arazzo** — the end-to-end workflow is scripted:
 
 ```bash
 export PUBLIC_URL=http://beckn-router:9000   # strictly-local mode
 cd DEG/devkits/demand-flex/uc1-bdr-w-baselining/workflows
-./run-arazzo.sh        # select → init → confirm → baselines → actuals → telemetry → settled
+./run-arazzo.sh        # discover → init → confirm → baselines → actuals → telemetry → settled
 ```
 
 ### 3. Swap in your real identity
@@ -282,7 +282,7 @@ Register your utility or aggregator as a DeDi subscriber on the target network, 
 **2. Devkit running end-to-end** — prove the lifecycle before integrating real systems.
 
 - [ ] `devkits/demand-flex/install` up and healthy
-- [ ] Role Postman collection: `discover → select → init → confirm → status` completes
+- [ ] Role Postman collection: `discover → init → confirm → status` completes
 - [ ] All four `on_status` reports (baselines, actuals, telemetry, settled) received and parsed
 
 **3. Schemas mapped** to the DEG family.
