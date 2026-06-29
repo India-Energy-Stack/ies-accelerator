@@ -54,7 +54,7 @@ pandoc "$COMBINED_MD" \
     -V secnumdepth=2 \
     -V documentclass=report \
     -V geometry:margin=1in \
-    -V monofont="Menlo" \
+    -V monofont="${MONOFONT:-Menlo}" \
     -V graphics=true \
     -V header-includes='\usepackage{graphicx}' \
     --metadata title="IES Accelerator Implementation Guide" \

@@ -27,8 +27,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pandoc
-        run: sudo apt-get update && sudo apt-get install -y pandoc
+      - name: Install pandoc and fonts
+        # fonts-dejavu provides "DejaVu Sans Mono" for the PDF's monofont
+        # (the script defaults to macOS-only "Menlo", overridden below).
+        run: sudo apt-get update && sudo apt-get install -y pandoc fonts-dejavu
 
       - name: Cache tectonic binary
         id: cache-tectonic
@@ -56,6 +58,8 @@ jobs:
           # Use the runner's preinstalled Chrome so puppeteer doesn't download
           # Chromium. build_pdf.sh writes a puppeteer.json from this var.
           PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
+          # Menlo (the script default) is macOS-only; use a font present on the runner.
+          MONOFONT: "DejaVu Sans Mono"
         run: bash scripts/build_pdf.sh
 
       - name: Stage site
