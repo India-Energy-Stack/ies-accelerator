@@ -34,8 +34,8 @@ The IES operator operates the canonical DeDi namespace `india-energy-stack` (and
 4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): Registry lists defining the official participant directories for production and pre-production Beckn networks.
 
 ### References & Anchors
-* [Registries — IES networks and registries today](../registries/README.md#ies-networks-and-registries-today)
-* [DeDi primer (Appendix A)](../registries/README.md#appendix-a-dedi-primer-just-enough-to-navigate)
+* [Registries — IES networks and registries today](../what-ies-provides/registries/README.md#ies-networks-and-registries-today)
+* [DeDi primer (Appendix A)](../what-ies-provides/registries/README.md#appendix-a-dedi-primer-just-enough-to-navigate)
 </details>
 
 <details>
@@ -49,7 +49,7 @@ The IES operator operates the canonical DeDi namespace `india-energy-stack` (and
 2. Implement key access logs and administrative role assignments to prevent unauthorized writes to the membership registries.
 
 ### References & Anchors
-* [Registries — Step-by-step (claim namespace + create registries)](../implementation/setup-identity.md)
+* [Registries — Step-by-step (claim namespace + create registries)](../how-you-implement-ies/setup-register.md)
 </details>
 
 ---
@@ -71,8 +71,8 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 * **Digital Signature Certificate (DSC)**: (Optional) `x5c` certificate chain if they anchor in CSCA.
 
 ### References & Anchors
-* [Registries — Checklist](../implementation/README.md)
-* [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
+* [Registries — Checklist](../how-you-implement-ies/README.md)
+* [How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
 </details>
 
 <details>
@@ -90,8 +90,8 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`public-keys`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
 
 ### References & Anchors
-* [Identifiers and Addressing — Publish your did:web (step-by-step)](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)
-* [Registries — Verifying a credential end-to-end (Appendix B)](../registries/README.md#appendix-b-verifying-a-credential-end-to-end)
+* [Identifiers and Addressing — Publish your did:web (step-by-step)](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)
+* [Registries — Verifying a credential end-to-end (Appendix B)](../what-ies-provides/registries/README.md#appendix-b-verifying-a-credential-end-to-end)
 </details>
 
 ---
@@ -114,7 +114,7 @@ Once verified, the Secretariat must append the participant's metadata to the can
    ```
 
 ### References & Anchors
-* [Identifiers and Addressing — Register with the IES network](../registries/README.md#how-to-apply-for-an-ies-listing)
+* [Identifiers and Addressing — Register with the IES network](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
 </details>
 
 <details>
@@ -127,8 +127,8 @@ To authorize data exchange, you must link the participant's subscriber registry 
 3. Confirm that the reference is active. This allows other network participants' ONIX adapters to automatically resolve the new participant's keys and endpoints.
 
 ### References & Anchors
-* [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
-* [ONIX Registry Setup Guide](../data-exchange/README.md#swap-in-your-real-identity)
+* [How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
+* [ONIX Registry Setup Guide](../what-ies-provides/data-exchange/README.md#swap-in-your-real-identity)
 </details>
 
 ---
@@ -148,7 +148,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. **Handle Suspension**: In case of policy violations or service termination, mark the participant's reference status to `suspended` or `inactive` inside the authoritative reference registries.
 
 ### References & Anchors
-* [Registries — As a DISCOM / issuer running OpenCred (revocation registry auto-created)](../registries/README.md#as-a-discom-issuer-running-opencred)
+* [Registries — As a DISCOM / issuer running OpenCred (revocation registry auto-created)](../what-ies-provides/registries/README.md#as-a-discom-issuer-running-opencred)
 </details>
 
 <details>
@@ -159,7 +159,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. Establish guidelines for node timeout configurations (e.g. maximum 5-second Beckn timeouts) to prevent cascading database latency.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
+* [Data Exchange Security & Auth](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
 </details>
 
 ---
@@ -178,7 +178,7 @@ In this phase, you manage the publication, versioning, and migration of canonica
 3. Maintain the mappings and documentation so that verifiers can resolve schemas in an anchored, tamper-proof manner.
 
 ### References & Anchors
-* [Registries — Built-in schema tags](../registries/README.md#built-in-schema-tags-used-in-ies)
+* [Registries — Built-in schema tags](../what-ies-provides/registries/README.md#built-in-schema-tags-used-in-ies)
 </details>
 
 <details>

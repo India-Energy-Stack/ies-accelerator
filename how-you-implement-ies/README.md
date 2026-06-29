@@ -6,7 +6,7 @@ The work follows the **[Register → Discover → Exchange](../concepts/how-it-w
 
 | Step | Page | Time | What you get |
 |---|---|---|---|
-| **1. Setup Register** | [Setup Register](setup-identity.md) | 1–2 days | A verifiable `did:web` for your organisation and a published DeDi namespace |
+| **1. Setup Register** | [Setup Register](setup-register.md) | 1–2 days | A verifiable `did:web` for your organisation and a published DeDi namespace |
 | **2. Setup Discovery** | [Setup Discovery](setup-discovery.md) | 1–2 days | A running Beckn adapter (ONIX) registered as a subscriber on the IES network |
 | **3. Build your Internal-facing Adapter** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | A small mapping layer between your internal systems and the IES schemas |
 | **4. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A signed-off, IES-ready interface, end-to-end |

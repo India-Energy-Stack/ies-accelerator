@@ -2,7 +2,7 @@
 
 **The reference for how Indian smart-meter terminology — OBIS codes, IS 15959 profile buffers, IS 15959 event IDs, CIM master data — maps onto the [`MeterData`](../../schemas/MeterData/README.md) schema (this page is pinned to the current `v0.6` shape) carried by IES Data Exchange.**
 
-If you are implementing [Smart Meter Data Exchange](./README.md), this is the page you keep open while wiring your HES / MDMS to v0.6 payloads.
+If you are implementing [Smart Meter Data Exchange](README.md), this is the page you keep open while wiring your HES / MDMS to v0.6 payloads.
 
 > `MeterData/v0.6` is the current canonical schema. Earlier drafts of IES used the working name `IES_Report` — treat those references as superseded by `MeterData/v0.6`.
 
@@ -94,7 +94,7 @@ For each profile, the OBIS register is carried in `payloadDescriptors[].obis` an
 
 ## 4. IS 15959 Event IDs → `EVENT` / `ALARM`
 
-Events carry `eventId` (numeric, IS 15959) and a human-readable `eventName` directly. Examples are in [`schemas/MeterData/v0.6/examples/EventProfile.json`](../../schemas/MeterData/v0.6/).
+Events carry `eventId` (numeric, IS 15959) and a human-readable `eventName` directly. Examples are in [`schemas/MeterData/v0.6/examples/EventProfile.json`](../../schemas/MeterData/v0.6).
 
 | Event ID (occur) | Event ID (restore) | Description | Category | Profile |
 |---|---|---|---|---|
@@ -157,7 +157,7 @@ When an OBIS reading arrives, the receiving MDM matches it via `meterRefs[]` →
 
 ## 7. Worked example — 30-minute Load Survey
 
-The full schema-validating example is at [`schemas/MeterData/v0.6/examples/IntervalProfile.json`](../../schemas/MeterData/v0.6/). The shape:
+The full schema-validating example is at [`schemas/MeterData/v0.6/examples/IntervalProfile.json`](../../schemas/MeterData/v0.6). The shape:
 
 1. One `PayloadDescriptorProfile` declares `IntervalLoadSurveySet` with `kWh imp block` (OBIS `1.0.1.29.0.255`) and `kWh exp block` (OBIS `1.0.2.29.0.255`).
 2. One `IntervalProfile` references the descriptor set, carries `intervalPeriod` (`start`, `duration: PT30M`), and packs each interval into a tight `payloads: [imp, exp]` array.
@@ -171,8 +171,8 @@ This is the minimal pattern. Daily / Monthly / Instantaneous / Event / Alarm fol
 
 - [`MeterData`](../../schemas/MeterData/README.md) — schema, examples, user guide, reference guide (mappings on this page are pinned to `v0.6`)
 - [`IES codes.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/IES%20codes.json) — canonical OBIS catalogue (machine-readable). Source on [GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/IES%20codes.json).
-- [Smart Meter Data Exchange](./README.md) — the use case that carries this payload
-- [Data Exchange](../../data-exchange/README.md) — the wire that carries it
+- [Smart Meter Data Exchange](README.md) — the use case that carries this payload
+- [Data Exchange](../../what-ies-provides/data-exchange/README.md) — the wire that carries it
 - [`MeterDataRequest`](../../schemas/MeterDataRequest/README.md) — the matching request schema (current: `v0.6`)
 - [`MeterDataRequestCredential`](../../schemas/MeterDataRequestCredential/README.md) — optional authorisation VC (current: `v0.1`)
 - [`ElectricityCredential`](../../schemas/ElectricityCredential/README.md) — sits alongside `MeterData` for the slow-changing customer / asset / service-connection data (current: `v1.2`)

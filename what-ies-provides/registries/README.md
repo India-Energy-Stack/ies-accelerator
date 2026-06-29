@@ -2,7 +2,7 @@
 
 The discovery and revocation layer. DeDi is the open registry runtime IES uses to anchor namespaces, publish subscriber records for Beckn participants, and check credential revocation — without any IES participant having to call the issuer.
 
-> **First-time setup** — to claim a namespace, publish your trust anchor, and create the registries you need, follow **[Part 3 → Set up Identity](../implementation/setup-identity.md)**. This page is the reference for *which* registries IES uses, what each one contains, and how the curated IES allow-lists are organised.
+> **First-time setup** — to claim a namespace, publish your trust anchor, and create the registries you need, follow **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**. This page is the reference for *which* registries IES uses, what each one contains, and how the curated IES allow-lists are organised.
 
 Upstream protocol documentation lives at [DeDi developer documentation](https://docs.nfh.global/dedi/dedi.global-developers/developer-documentation) and [Setting up a Beckn network](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment).
 
@@ -66,13 +66,13 @@ To also **exchange data over Beckn**, add the Beckn-participant rows below.
 | `<your-namespace>/subscribers-prod` | You | Same, production |
 | **IES network registry** | NFO writes a reference pointing at your record | Marks you as in-network for a specific IES Beckn network |
 
-The IES network registries — `ies-data-sharing-network`, `ies-p2p-trading-network`, `ies-der-integration-network` (plus their `test-` variants) — are operated by the IES network operator (acting as [NFO](../glossary.md#nfo)). You don't write to them directly; the NFO references your record after a short onboarding review. See [IES networks and registries today](#ies-networks-and-registries-today) below for the names and how to apply.
+The IES network registries — `ies-data-sharing-network`, `ies-p2p-trading-network`, `ies-der-integration-network` (plus their `test-` variants) — are operated by the IES network operator (acting as [NFO](../../glossary.md#nfo)). You don't write to them directly; the NFO references your record after a short onboarding review. See [IES networks and registries today](#ies-networks-and-registries-today) below for the names and how to apply.
 
 The end-to-end "publish your subscriber details + get added to a network" walkthrough is in [Identifiers and Addressing — Appendix E](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 
 ### As an NFO
 
-*([Network Facilitator Organisation](../glossary.md#nfo) — the organisation that curates a Beckn network.)*
+*([Network Facilitator Organisation](../../glossary.md#nfo) — the organisation that curates a Beckn network.)*
 
 | Registry | Who creates | Purpose |
 |---|---|---|
@@ -122,7 +122,7 @@ At time of writing the namespace holds **14 registries**, grouped below:
 | `ies-der-integration-network` | prod | DER (rooftop solar, BESS, EV) integration with DISCOMs |
 | `test-ies-der-integration-network` | test | Same, test |
 
-All carry the `beckn_subscriber_reference` tag and are curated by the [NFO](../glossary.md#nfo) (the IES network operator). To get a participant listed in any of them, see [How to apply](#how-to-apply-for-an-ies-listing) below.
+All carry the `beckn_subscriber_reference` tag and are curated by the [NFO](../../glossary.md#nfo) (the IES network operator). To get a participant listed in any of them, see [How to apply](#how-to-apply-for-an-ies-listing) below.
 
 ### Reference allow-lists (industry coordination)
 
@@ -162,7 +162,7 @@ Before approving, the Secretariat validates: your namespace is domain-verified, 
 
 ## Setup
 
-The step-by-step to claim a namespace, verify your domain and create the registries you need is in **[Part 3 → Set up Identity](../implementation/setup-identity.md)**. Step-by-step Beckn subscriber registration is in **[Part 3 → Set up Discovery](../implementation/setup-discovery.md)**.
+The step-by-step to claim a namespace, verify your domain and create the registries you need is in **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**. Step-by-step Beckn subscriber registration is in **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)**.
 
 ---
 
@@ -193,7 +193,7 @@ Three things uniquely address any record: **namespace + registry + record-id**. 
 
 ### OpenCred auto-creates four registries
 
-If you run [OpenCred](../glossary.md#opencred), it manages four of these registries for you on first boot:
+If you run [OpenCred](../../glossary.md#opencred), it manages four of these registries for you on first boot:
 
 | Registry | Tag | OpenCred behaviour |
 |---|---|---|

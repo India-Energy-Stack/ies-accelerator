@@ -2,9 +2,9 @@
 
 The data layer. Beckn protocol v2 carries the discovery, contracting and audit; small datasets ride inline and large ones hand off to an established channel (signed URL, MQTT, Kafka, SFTP, OpenADR). This page is the **reference** — Beckn lifecycle, ONIX architecture, pagination, network membership, payload shapes.
 
-For first-time setup — running ONIX, claiming a Beckn subscriber record, building the BPP handler — follow **[Part 3 → Set up Discovery](../implementation/setup-discovery.md)** and **[Part 3 → Build Your Adapter](../implementation/build-adapter.md)**. A 10-minute local quick-start is in [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) below.
+For first-time setup — running ONIX, claiming a Beckn subscriber record, building the BPP handler — follow **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)**. A 10-minute local quick-start is in [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) below.
 
-> **About the walkthrough.** The commands below use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
+> **About the walkthrough.** The commands below use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
 
 ---
 
@@ -29,7 +29,7 @@ The walkthrough uses the **BAP** path by default. The minimal flow — `confirm`
 ## Prerequisites
 
 - **Docker 24+**, **Docker Compose**, **Git**, **Python 3**, and **Postman** *(or `curl`)*. ~2 GB free disk.
-- *(For real-network exchange, not the local sandbox)* A **published DeDi subscriber identity** under a verified namespace — see [Registries — Step-by-step](../implementation/setup-identity.md) and [Identifiers — Joining a Beckn network](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+- *(For real-network exchange, not the local sandbox)* A **published DeDi subscriber identity** under a verified namespace — see [Registries — Step-by-step](../../how-you-implement-ies/setup-register.md) and [Identifiers — Joining a Beckn network](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 - *(For real-network exchange)* **IES NFO has referenced you into a network registry** — see [Registries — How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing).
 
 **Domains to whitelist** — if your organisation restricts outbound traffic, allow these before starting:
@@ -257,7 +257,7 @@ Beyond the minimal `confirm` → `on_confirm`, fire these only when your use cas
 | `status` / `on_status` | BAP / BPP | Payload prepared asynchronously *after* `on_confirm`; also the carrier for paged delivery (see [Pagination](#pagination-large-datasets-across-multiple-status-on_status-messages)) |
 | `update` / `on_update` | BAP / BPP | Post-fulfilment changes — credential rotation, contract amendments |
 
-Each [use-case page](../use-cases/README.md) lists which actions it actually exercises.
+Each [use-case page](../../use-cases/README.md) lists which actions it actually exercises.
 
 ---
 
@@ -301,11 +301,11 @@ The wire envelope accepts arbitrary JSON inside `dataPayload`; **validation is o
 
 | Family | What it carries | Use case |
 |---|---|---|
-| [MeterData](../schemas/MeterData/README.md) | Smart meter telemetry — `IntervalProfile` (15-minute reads), `DailyProfile`, `BillingProfile`, etc. | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) |
-| [MeterDataCredential](../schemas/MeterDataCredential/README.md) | W3C Verifiable Credential wrapping `MeterData` for provenance attestation | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (credentialed delivery) |
-| [ArrFiling](../schemas/ArrFiling/README.md) | Aggregate Revenue Requirement line items by fiscal year | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) |
-| `IES_Policy` (+ `IES_Program`) | Machine-readable tariff rate structures (energy slabs, ToD surcharges) | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) |
-| [MeterDataRequest](../schemas/MeterDataRequest/README.md) / [MeterDataRequestCredential](../schemas/MeterDataRequestCredential/README.md) | Query / authorisation shape and its credentialed wrapper | Meter-data request flows |
+| [MeterData](../../schemas/MeterData/README.md) | Smart meter telemetry — `IntervalProfile` (15-minute reads), `DailyProfile`, `BillingProfile`, etc. | [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md) |
+| [MeterDataCredential](../../schemas/MeterDataCredential/README.md) | W3C Verifiable Credential wrapping `MeterData` for provenance attestation | [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md) (credentialed delivery) |
+| [ArrFiling](../../schemas/ArrFiling/README.md) | Aggregate Revenue Requirement line items by fiscal year | [DISCOM Regulatory Filing](../../use-cases/discom-regulatory-filing/README.md) |
+| `IES_Policy` (+ `IES_Program`) | Machine-readable tariff rate structures (energy slabs, ToD surcharges) | [Tariff Intelligence](../../use-cases/tariff-intelligence/README.md) |
+| [MeterDataRequest](../../schemas/MeterDataRequest/README.md) / [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/README.md) | Query / authorisation shape and its credentialed wrapper | Meter-data request flows |
 
 Any JSON payload can be exchanged; the families above are simply the ones IES ships pre-built and validated.
 
@@ -313,7 +313,7 @@ Any JSON payload can be exchanged; the families above are simply the ones IES sh
 
 ## Setup checklist
 
-The staged rollout from sandbox to production go-live is in **[Part 3 → Set up Discovery](../implementation/setup-discovery.md)**, **[Part 3 → Build Your Adapter](../implementation/build-adapter.md)** and **[Part 3 → Conformance Checklist](../implementation/conformance.md)**.
+The staged rollout from sandbox to production go-live is in **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)**, **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Part 3 → Conformance Checklist](../../how-you-implement-ies/conformance.md)**.
 
 ---
 
@@ -323,7 +323,7 @@ The sections below are theory and reference. Skip if you're mid-deployment.
 
 ## Appendix A — Beckn protocol lifecycle
 
-IES Data Exchange uses the [Beckn Protocol v2.0](../glossary.md#beckn) interaction model:
+IES Data Exchange uses the [Beckn Protocol v2.0](../../glossary.md#beckn) interaction model:
 
 | Phase | BAP calls | BPP responds | When you need it |
 |---|---|---|---|
@@ -371,7 +371,7 @@ Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](htt
 
 ### `DatasetItem` and `accessMethod`
 
-The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from [DDM](../glossary.md#ddm), Beckn's Decentralized Data Marketplace schema family) is the per-dataset record shape that rides inside `message.contract.commitments[].resources[]`, qualified by `resourceAttributes`:
+The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from [DDM](../../glossary.md#ddm), Beckn's Decentralized Data Marketplace schema family) is the per-dataset record shape that rides inside `message.contract.commitments[].resources[]`, qualified by `resourceAttributes`:
 
 ```json
 "resources": [{
@@ -443,7 +443,7 @@ What happens after a `receiver` verifies a message is defined in the [routing co
 When a message arrives, ONIX:
 
 1. Reads the sender from the message context (`bapId` on a forward request, `bppId` on a callback).
-2. Looks the sender up in the **[DeDi](../glossary.md#dedi) registry**: `GET https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`. The response carries the sender's callback URL, signing public key, and network memberships.
+2. Looks the sender up in the **[DeDi](../../glossary.md#dedi) registry**: `GET https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`. The response carries the sender's callback URL, signing public key, and network memberships.
 3. Cross-checks those memberships against the local `allowedNetworkIDs` config. A sender outside the boundary of trust is rejected.
 4. Verifies the signature.
 
@@ -472,7 +472,7 @@ ONIX only fetches `@context` URLs from **allow-listed hosts** (default: `raw.git
 3. Host both at a URL ONIX is allowed to reach — they must sit at the same path (`<base>/context.jsonld` and `<base>/attributes.yaml`).
 4. In your payload, set `@context` to the context URL and `@type` to the matching schema name.
 
-No code change in ONIX — the dispatch is purely URL-driven. The families under [schemas/](../schemas/README.md) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
+No code change in ONIX — the dispatch is purely URL-driven. The families under [schemas/](../../schemas/README.md) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
 
 ---
 
@@ -533,4 +533,4 @@ sequenceDiagram
 - [Identifiers and Addressing](../identifiers/README.md) — `did:web`, subscriber records, holder binding
 - [Registries and Directories](../registries/README.md) — DeDi namespace, network registries, IES Secretariat application
 - [Energy Credentials](../energy-credentials/README.md) — credentialed payloads (MeterDataCredential, ArrFilingCredential, …)
-- [Use cases](../use-cases/README.md) — end-to-end flows that exercise this protocol
+- [Use cases](../../use-cases/README.md) — end-to-end flows that exercise this protocol

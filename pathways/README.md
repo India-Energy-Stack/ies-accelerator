@@ -18,8 +18,8 @@ Currently, the following pathways are available:
 
 | Pathway | Who is it for? | Capabilities Integrated | Description |
 |---|---|---|---|
-| **[Utility Pathway](./utility.md)** | Electricity Distribution Utilities | Identifiers · Registries · Energy Credentials · Data Exchange · DER Visibility | Comprehensive roadmap to issue Energy Passports, execute Smart Meter Data Exchange, issue verifiable bills, and achieve DER visibility. |
-| **[Secretariat Pathway](./secretariat.md)** | IES Secretariat & Operators | Identifiers · Registries · Network Governance · Schemas & Protocols | Detailed roadmap for registry setup, verifying and whitelisting participants, governing the Beckn network, and managing canonical schemas. |
+| **[Utility Pathway](utility.md)** | Electricity Distribution Utilities | Identifiers · Registries · Energy Credentials · Data Exchange · DER Visibility | Comprehensive roadmap to issue Energy Passports, execute Smart Meter Data Exchange, issue verifiable bills, and achieve DER visibility. |
+| **[Secretariat Pathway](secretariat.md)** | IES Secretariat & Operators | Identifiers · Registries · Network Governance · Schemas & Protocols | Detailed roadmap for registry setup, verifying and whitelisting participants, governing the Beckn network, and managing canonical schemas. |
 
 
 ---

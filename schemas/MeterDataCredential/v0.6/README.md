@@ -2,7 +2,7 @@
 
 # MeterDataCredential v0.6
 
-A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterData v0.6`](../../MeterData/v0.6/) payload to attest the authenticity and provenance of delivered smart meter telemetry.
+A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterData v0.6`](../../MeterData/v0.6) payload to attest the authenticity and provenance of delivered smart meter telemetry.
 
 ---
 
@@ -108,7 +108,7 @@ Arrays typically start with a `DESCRIPTOR` profile followed by one or more data 
 
 ## Relationship to MeterDataRequestCredential
 
-`MeterDataCredential` is the **response** counterpart to [`MeterDataRequestCredential`](../../MeterDataRequestCredential/v0.1/):
+`MeterDataCredential` is the **response** counterpart to [`MeterDataRequestCredential`](../../MeterDataRequestCredential/v0.1):
 
 | | `MeterDataRequestCredential` | `MeterDataCredential` |
 |---|---|---|
@@ -138,9 +138,9 @@ The provider delivers the telemetry as a `MeterDataCredential` in `dataPayload`.
 
 | File | Description |
 |---|---|
-| [`example-customer-profile.json`](./examples/example-customer-profile.json) | BESCOM AMISP attests CustomerProfile for consumer `RR-1234` |
-| [`example-interval-profile.json`](./examples/example-interval-profile.json) | BESCOM AMISP attests PT15M interval data (with PayloadDescriptor) |
-| [`example-monthly-profile.json`](./examples/example-monthly-profile.json) | BESCOM AMISP attests January 2026 monthly readings with ToU buckets |
+| [`example-customer-profile.json`](examples/example-customer-profile.json) | BESCOM AMISP attests CustomerProfile for consumer `RR-1234` |
+| [`example-interval-profile.json`](examples/example-interval-profile.json) | BESCOM AMISP attests PT15M interval data (with PayloadDescriptor) |
+| [`example-monthly-profile.json`](examples/example-monthly-profile.json) | BESCOM AMISP attests January 2026 monthly readings with ToU buckets |
 
 ---
 

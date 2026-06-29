@@ -57,12 +57,12 @@ Every page follows the **IES Documentation Template** — eleven sections plus t
 
 ## Picking a first use case
 
-If you are a DISCOM implementing IES for the first time, the [Build your Internal-facing Adapter guide](../implementation/build-adapter.md#pick-your-first-use-case) has a decision table — which use case to ship first based on what internal data is easiest for you to expose.
+If you are a DISCOM implementing IES for the first time, the [Build your Internal-facing Adapter guide](../how-you-implement-ies/build-adapter.md#pick-your-first-use-case) has a decision table — which use case to ship first based on what internal data is easiest for you to expose.
 
 ---
 
 ## See also
 
-- **[Register](../register.md)** · **[Discover](../discover.md)** · **[Exchange](../exchange.md)** — the three IES steps each use case combines.
-- **[How you implement IES](../implementation/README.md)** — the one-time setup that supports every use case.
-- **[Taxonomy](../taxonomy.md)** — schema map showing which schemas each use case combines.
+- **[Register](../what-ies-provides/register.md)** · **[Discover](../what-ies-provides/discover.md)** · **[Exchange](../what-ies-provides/exchange.md)** — the three IES steps each use case combines.
+- **[How you implement IES](../how-you-implement-ies/README.md)** — the one-time setup that supports every use case.
+- **[Taxonomy](../what-ies-provides/taxonomy.md)** — schema map showing which schemas each use case combines.

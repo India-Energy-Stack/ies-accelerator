@@ -1,9 +1,9 @@
 # Outage Notification System — Implementation Guide
 
 **Status:** Draft for discussion · **Audience:** DISCOM IT / system integrators building a production outage-notification service.
-**Goal:** a modern **pull + push** notification system that publishes planned and unplanned outages as the [`OutageNotification`](./README.md) format, so a utility can serve websites, apps, outage maps, alerting networks, and subscribed consumers from one source of truth — making operations more efficient and transparent.
+**Goal:** a modern **pull + push** notification system that publishes planned and unplanned outages as the [`OutageNotification`](README.md) format, so a utility can serve websites, apps, outage maps, alerting networks, and subscribed consumers from one source of truth — making operations more efficient and transparent.
 
-This is a *how to build it* guide. For the data model and rationale see [OutageNotification_Design.md](./OutageNotification_Design.md); for the upstream detection contract see [FeederStatusIngest.openapi.yaml](./FeederStatusIngest.openapi.yaml).
+This is a *how to build it* guide. For the data model and rationale see [OutageNotification_Design.md](OutageNotification_Design.md); for the upstream detection contract see [FeederStatusIngest.openapi.yaml](FeederStatusIngest.openapi.yaml).
 
 ---
 
@@ -39,7 +39,7 @@ This guide assumes the service **receives or produces validated `OutageNotificat
 | **Scheduled / Emergency Rostering** | OMS / load-dispatch | Roster or load-driven shedding |
 | **Restoration** | MDMS/OMS, fed by the ENERGIZED signal | Feeder re-energized |
 
-The **enrichment step** turns a bare feeder signal into a publishable notice: it resolves `feederCode`/`substationCode` against master data to fill `network.*`, `affectedAssets[]`, `affectedArea` (geometry), `impact.customersAffected`, `cause` (via the [fault-reason crosswalk](./fault_reason_crosswalk.json)), and `timing`. If your OMS can already emit `OutageNotification` directly, you can skip the ingest/enrichment build and start at Step 5.
+The **enrichment step** turns a bare feeder signal into a publishable notice: it resolves `feederCode`/`substationCode` against master data to fill `network.*`, `affectedAssets[]`, `affectedArea` (geometry), `impact.customersAffected`, `cause` (via the [fault-reason crosswalk](fault_reason_crosswalk.json)), and `timing`. If your OMS can already emit `OutageNotification` directly, you can skip the ingest/enrichment build and start at Step 5.
 
 ---
 
@@ -53,20 +53,20 @@ The **enrichment step** turns a bare feeder signal into a publishable notice: it
 
 **Platform:** a datastore (PostgreSQL + PostGIS), an event broker (Kafka / NATS / Redis Streams / cloud pub-sub), an API gateway + CDN, push providers, and a map frontend.
 
-**Conventions:** RFC 3339 timestamps **with offset**; NTP-synced clocks; the [`OutageNotification` schema](./schema.json) + [fault-reason crosswalk](./fault_reason_crosswalk.json); bearer-token auth for ingest and subscriptions.
+**Conventions:** RFC 3339 timestamps **with offset**; NTP-synced clocks; the [`OutageNotification` schema](schema.json) + [fault-reason crosswalk](fault_reason_crosswalk.json); bearer-token auth for ingest and subscriptions.
 
 ---
 
 ## 4. Step-by-step
 
 ### Step 1 — Adopt the schema and validate at the edge
-Treat [`schema.json`](./schema.json) as the contract. Validate every inbound/outbound payload with a JSON-Schema validator ([json-schema.org](https://json-schema.org/), [implementations list](https://json-schema.org/implementations)). Publish your REST surface as [OpenAPI 3.1](https://www.openapis.org/).
+Treat [`schema.json`](schema.json) as the contract. Validate every inbound/outbound payload with a JSON-Schema validator ([json-schema.org](https://json-schema.org/), [implementations list](https://json-schema.org/implementations)). Publish your REST surface as [OpenAPI 3.1](https://www.openapis.org/).
 
 ### Step 2 — Build the ingest layer (detection)
-Implement [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml): bearer auth, **client-supplied `eventId` for idempotency**, **batch array** input, normalized `feederStatus` + raw vendor code. Write accepted events to an event broker — [Apache Kafka](https://kafka.apache.org/), [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream), [Redis Streams](https://redis.io/docs/latest/develop/data-types/streams/), [Google Pub/Sub](https://cloud.google.com/pubsub/docs), or [AWS SNS](https://docs.aws.amazon.com/sns/)+[SQS](https://docs.aws.amazon.com/sqs/). Follow the [IETF Idempotency-Key](https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/) pattern.
+Implement [`FeederStatusIngest.openapi.yaml`](FeederStatusIngest.openapi.yaml): bearer auth, **client-supplied `eventId` for idempotency**, **batch array** input, normalized `feederStatus` + raw vendor code. Write accepted events to an event broker — [Apache Kafka](https://kafka.apache.org/), [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream), [Redis Streams](https://redis.io/docs/latest/develop/data-types/streams/), [Google Pub/Sub](https://cloud.google.com/pubsub/docs), or [AWS SNS](https://docs.aws.amazon.com/sns/)+[SQS](https://docs.aws.amazon.com/sqs/). Follow the [IETF Idempotency-Key](https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/) pattern.
 
 ### Step 3 — Correlate and enrich → produce `OutageNotification`
-A stream processor groups consecutive `DE_ENERGIZED`/`ENERGIZED` events per feeder, joins master data + GIS, applies the [fault-reason crosswalk](./fault_reason_crosswalk.json), and writes a validated `OutageNotification` to the store. Use **[PostgreSQL](https://www.postgresql.org/) + [PostGIS](https://postgis.net/)** so geometry and `customersAffected` (point-in-polygon over the service area) are computed in-database.
+A stream processor groups consecutive `DE_ENERGIZED`/`ENERGIZED` events per feeder, joins master data + GIS, applies the [fault-reason crosswalk](fault_reason_crosswalk.json), and writes a validated `OutageNotification` to the store. Use **[PostgreSQL](https://www.postgresql.org/) + [PostGIS](https://postgis.net/)** so geometry and `customersAffected` (point-in-polygon over the service area) are computed in-database.
 
 ### Step 4 — Manage lifecycle
 Model the state machine: `SCHEDULED → ACTIVE → (PARTIALLY_RESTORED) → RESTORED`, plus `CANCELLED`. Each change emits a new message with `msgType` `ALERT` / `UPDATE` / `CANCEL` (CAP semantics), reusing the stable outage `id` and setting `actualRestoration` on restore. Publish an internal "outage changed" event for the distribution layer to consume.

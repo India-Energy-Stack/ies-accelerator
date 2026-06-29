@@ -2,7 +2,7 @@
 
 > **Step 2 of the three IES steps — set up.** Stand up the [Beckn](../glossary.md#beckn) adapter — the ready-made Part 1 of the IES adapter (the "ONIX" reference software) — and register on the IES network. About 1–2 days.
 
-This is the **action guide** for the **[Discover](../discover.md)** step. The full Discovery / Beckn specification is in **[Data Exchange](../data-exchange/README.md)**.
+This is the **action guide** for the **[Discover](../what-ies-provides/discover.md)** step. The full Discovery / Beckn specification is in **[Data Exchange](../what-ies-provides/data-exchange/README.md)**.
 
 ---
 
@@ -39,7 +39,7 @@ The containers come pre-wired with placeholder identities so you can test the en
 
 Replace the placeholder identities with your own once Step 1 is done and you have a `did:web` plus a DeDi namespace.
 
-The detailed config flow is in **[Data Exchange — Quick start](../data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes)**.
+The detailed config flow is in **[Data Exchange — Quick start](../what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes)**.
 
 ---
 
@@ -67,7 +67,7 @@ The record declares:
 - Your role on the network (`BAP` — buyer; `BPP` — provider; both is also valid)
 - Your Ed25519 signing public key
 
-Other nodes look this record up to verify your message signatures and route to you. The detailed flow is in **[Identifiers — Appendix E: Joining a Beckn network](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric)**.
+Other nodes look this record up to verify your message signatures and route to you. The detailed flow is in **[Identifiers — Appendix E: Joining a Beckn network](../what-ies-provides/identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric)**.
 
 > **One registry per environment.** Create `subscribers-test` and `subscribers-prod` as separate registries so a misconfigured test run cannot pollute a production lookup.
 
@@ -98,7 +98,7 @@ Run a `search` from your BAP to a sandbox BPP (or a peer DISCOM's BPP). Verify:
 
 If all four pass, Step 2 is done.
 
-The full Beckn lifecycle (`search` → `select` → `init` → `confirm` → `status`) is documented in **[Data Exchange — Beckn protocol lifecycle](../data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)**.
+The full Beckn lifecycle (`search` → `select` → `init` → `confirm` → `status`) is documented in **[Data Exchange — Beckn protocol lifecycle](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)**.
 
 ---
 

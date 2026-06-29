@@ -1,6 +1,6 @@
 # P2P Energy Exchange
 
-Two prosumers on different DISCOMs execute a direct, signed energy trade. Each DISCOM is represented in the protocol by a regulated **Ledger Provider**. The same wire that carries dataset exchanges in [IES Data Exchange](../../data-exchange/README.md) carries the trade — but the payload is a contract and its fulfilment, not a dataset.
+Two prosumers on different DISCOMs execute a direct, signed energy trade. Each DISCOM is represented in the protocol by a regulated **Ledger Provider**. The same wire that carries dataset exchanges in [IES Data Exchange](../../what-ies-provides/data-exchange/README.md) carries the trade — but the payload is a contract and its fulfilment, not a dataset.
 
 | | |
 |---|---|
@@ -165,18 +165,18 @@ A consolidated field reference is in **[External Schemas — Energy Trading](../
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../implementation/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — four-actor network identity
 
-- [ ] [Identity setup](../../implementation/setup-identity.md) complete for your role (TP, LP, or DISCOM)
+- [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete for your role (TP, LP, or DISCOM)
 - [ ] DeDi subscriber record under the correct network namespace
 - [ ] Signing key in a secrets manager
 - [ ] (LP) `DiscomLedgerProvider` entry registered with the LP↔DISCOM `utilityId` binding
 
 ### Discover — wave-2 topology
 
-- [ ] [Discovery setup](../../implementation/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
 - [ ] Wave-2 devkit running end-to-end (proves four-actor topology + cascade before integrating real systems)
   - `git clone https://github.com/beckn/DEG.git && cd DEG/devkits/p2p-trading-ies-wave2/install && docker compose up -d`
 - [ ] Role Postman collection: `/select` → `/init` → `/confirm` → `/status` completes
@@ -184,7 +184,7 @@ Built on the four implementation steps in **[Part 3 — Implementing IES](../../
 
 ### Exchange — adapter, cascade, policy
 
-- [ ] [Adapter built](../../implementation/build-adapter.md) mapping your application logic to your role (see role matrix below)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) mapping your application logic to your role (see role matrix below)
 - [ ] `degledgerrecorder` ONIX plugin enabled (`ledgerUriSource: payload`, `ledgerApi: beckn`); cascade rules 1 / 2a / 2b verified on devkit, no loops
 - [ ] Network policy bundle URL resolves and signature verifies; local OPA eval rejects rule-violating payloads
 - [ ] Settlement policy bundle URL resolves and signature verifies; local OPA eval computes revenue flows

@@ -82,19 +82,19 @@ def main():
             ("SUMMARY.md", "Table of Contents sidebar structure configuration for GitBook deployment.")
         ],
         "identifiers_setup": [
-            ("identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
+            ("what-ies-provides/identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
         ],
         "registries_setup": [
-            ("registries/README.md", "Introduction to the trust registry layer and related building blocks."),
+            ("what-ies-provides/registries/README.md", "Introduction to the trust registry layer and related building blocks."),
         ],
         "credentials_setup": [
-            ("energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.")
+            ("what-ies-provides/energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.")
         ],
         "credentials_ops": [
-            ("energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
+            ("what-ies-provides/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
-            ("data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
+            ("what-ies-provides/data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
         "schemas": [
             ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),

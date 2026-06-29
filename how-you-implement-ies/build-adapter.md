@@ -2,7 +2,7 @@
 
 > **Step 3 of the three IES steps — set up.** Write the **Part-2 mapping** between your internal systems and the IES schemas. This is the only IES work where you write code — the rest is configuration. About 1–3 weeks for the first use case; subsequent use cases add only a few days each.
 
-This is the **action guide** for the **[Exchange](../exchange.md)** step. Per-use-case adapter shapes are in **[Use Case Implementation Guides](../use-cases/README.md)**.
+This is the **action guide** for the **[Exchange](../what-ies-provides/exchange.md)** step. Per-use-case adapter shapes are in **[Use Case Implementation Guides](../use-cases/README.md)**.
 
 ---
 
@@ -115,7 +115,7 @@ The Beckn wiring (subscriber id, callback URL, route registration) is in ONIX co
 
 ### Task 5 — Test against the sandbox
 
-Use the [Data Exchange devkit](../data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes) to send your handler real Beckn messages from a sandbox counterparty. Iterate until:
+Use the [Data Exchange devkit](../what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes) to send your handler real Beckn messages from a sandbox counterparty. Iterate until:
 
 - All required schema fields are populated correctly
 - Signatures verify on the receiving side

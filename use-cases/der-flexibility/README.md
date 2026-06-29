@@ -163,23 +163,23 @@ A consolidated field reference is in **[External Schemas — Demand Flexibility]
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../implementation/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — parties on the network
 
-- [ ] [Identity setup](../../implementation/setup-identity.md) complete for your role (DISCOM / aggregator)
+- [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete for your role (DISCOM / aggregator)
 - [ ] DeDi subscriber record under the correct namespace
 - [ ] (DISCOM) programme identifier convention adopted (e.g. `<DISCOM>-FLEX-<TAG>-<FY>`)
 
 ### Discover — flex catalogue
 
-- [ ] [Discovery setup](../../implementation/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
 - [ ] (DISCOM) BPP catalogue entry published per programme — `DemandFlexNeed` with location polygon and event window
 - [ ] (Aggregator) BAP discovery tested against the catalogue
 
 ### Exchange — offer, contract, M&V
 
-- [ ] [Adapter built](../../implementation/build-adapter.md) for the `DemandFlexNeed` / `DemandFlexBuyOffer` / `DemandFlexPerformance` family
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the `DemandFlexNeed` / `DemandFlexBuyOffer` / `DemandFlexPerformance` family
 - [ ] (Aggregator) cohort assembly tested — inline for small cohorts, `participatingMetersRef` + `participatingMetersDigest` for large
 - [ ] Baseline `methodology` agreed and configured (e.g. `5of10`)
 - [ ] Devkit walk-through completed

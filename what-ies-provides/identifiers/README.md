@@ -1,8 +1,8 @@
 # Identifiers and Addressing
 
-The identity foundation. Every IES participant — DISCOM, regulator, consumer, asset, dataset — gets a verifiable digital identifier (DID). This page is the **reference** for the identifier patterns IES uses; for hands-on setup follow **[Part 3 → Set up Identity](../implementation/setup-identity.md)**.
+The identity foundation. Every IES participant — DISCOM, regulator, consumer, asset, dataset — gets a verifiable digital identifier (DID). This page is the **reference** for the identifier patterns IES uses; for hands-on setup follow **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**.
 
-> **About the walkthroughs.** The concrete commands below use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
+> **About the walkthroughs.** The concrete commands below use **[OpenCred](../../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
 ---
 
@@ -59,13 +59,13 @@ Two steps get you here:
 
 2. **Generate a key pair and publish `did.json`.** The concrete commands — install OpenCred, generate the signing key, assemble `did.json` from the container, publish to your web host, and verify — live in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Keeping them with the rest of the OpenCred operations means you don't context-switch between chapters during a single setup.
 
-That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
+That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
 Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential carries no holder identifier (bearer style); when the verifier needs presentation-time proof of subject, bind to a wallet DID or `tel:` URI — full guidance in [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity).
 
 ### (b) Beckn network identity — for participating on a Beckn network
 
-To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. Beckn is a **trust-bounded network**: the [Network Facilitator Organisation (NFO)](../glossary.md#nfo) curates who is on the network, and counterparties verify each message against that membership boundary. Two registries enforce this boundary:
+To send and receive Beckn messages (search, select, init, confirm, on_status…), your `did:web` is not enough on its own. Beckn is a **trust-bounded network**: the [Network Facilitator Organisation (NFO)](../../glossary.md#nfo) curates who is on the network, and counterparties verify each message against that membership boundary. Two registries enforce this boundary:
 
 - **Your own Beckn subscriber registry** under your verified DeDi namespace — declares your callback URL, your role (BAP / BPP), and your Ed25519 signing public key. Other nodes look this up to verify your message signatures and route to you.
 - **The NFO's network reference registry** — a curated allow-list of which subscribers belong to the network. For IES, this is also where a "DISCOM" is recognised as a network participant. The NFO writes a reference entry pointing at your subscriber record; counterparties then know your record is in-network.
@@ -78,7 +78,7 @@ The end-to-end practical flow is in [Appendix E — Joining a Beckn network](#ap
 
 ## Publish your `did:web`
 
-The end-to-end walkthrough — pick a domain, generate the signing key, assemble `did.json`, publish it, and verify it resolves from outside — is in **[Part 3 → Set up Identity](../implementation/setup-identity.md)**.
+The end-to-end walkthrough — pick a domain, generate the signing key, assemble `did.json`, publish it, and verify it resolves from outside — is in **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)**.
 
 ---
 
@@ -167,7 +167,7 @@ Notice what is *not* required there: no central registry of consumers, no nation
 
 ## Setup
 
-The hands-on setup — pick a domain, generate keys, publish `did.json`, claim your DeDi namespace, decide identifier conventions — is **[Part 3 → Set up Identity](../implementation/setup-identity.md)** (organisation identity) and **[Part 3 → Set up Discovery](../implementation/setup-discovery.md)** (Beckn subscriber record).
+The hands-on setup — pick a domain, generate keys, publish `did.json`, claim your DeDi namespace, decide identifier conventions — is **[Part 3 → Set up Identity](../../how-you-implement-ies/setup-register.md)** (organisation identity) and **[Part 3 → Set up Discovery](../../how-you-implement-ies/setup-discovery.md)** (Beckn subscriber record).
 
 ---
 
@@ -280,7 +280,7 @@ did:web:<discom-domain>:assets:meter:<meter-slno>
 → did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001
 ```
 
-This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md).
+This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md).
 
 ### Other assets — transformer, feeder, substation, solar, BESS, EV charger
 
@@ -383,7 +383,7 @@ Upstream documentation for this flow lives at the NFH docs: [Onboarding Network 
 
 ### Step 1 — Set up a DeDi account and verify your namespace
 
-Follow [Registries → Step-by-step: claim your DeDi namespace](../implementation/setup-identity.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
+Follow [Registries → Step-by-step: claim your DeDi namespace](../../how-you-implement-ies/setup-register.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
 
 ### Step 2 — Generate your Beckn signing keypair
 
@@ -591,7 +591,7 @@ In this case you may issue the credential without a `credentialSubject.id` (bear
 
 ### Where does the contact identifier live in the schema?
 
-The `customerDetails` block in [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
+The `customerDetails` block in [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
 
 ### Picking a pattern
 

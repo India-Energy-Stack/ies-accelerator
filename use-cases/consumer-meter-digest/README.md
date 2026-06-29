@@ -137,30 +137,30 @@ The consumer can prove their **actual consumption history**, signed by the DISCO
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../implementation/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — base in place
 
-- [ ] [Identity setup](../../implementation/setup-identity.md) complete
+- [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete
 - [ ] [Consumer Energy Passport](../consumer-energy-passport/README.md) issued to the same consumer (or a minimal customer credential) — used to prove entitlement to request the Digest
 
 ### Discover — consumer-pull endpoint
 
-- [ ] [Discovery setup](../../implementation/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
 - [ ] Beckn `DatasetItem` for the pull endpoint published on your BPP (`accessMethod: INLINE`)
 - [ ] `requiredCredential` restricts callers to a valid [Consumer Energy Passport](../consumer-energy-passport/README.md) (or minimal customer credential)
 - [ ] `granularityOptions` / `maxRange` agreed with internal compliance
 
 ### Exchange — MDM read path and issuance
 
-- [ ] [Adapter built](../../implementation/build-adapter.md) for [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md) / [MeterData v0.6](../../schemas/MeterData/v0.6/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md) / [MeterData v0.6](../../schemas/MeterData/v0.6/README.md)
 - [ ] Read access tested for the granularities you'll support (`RAW_15M`, `DAILY`, `MONTHLY`, derived summaries)
 - [ ] Max-range policy decided (e.g. 24 months for `MONTHLY`, 90 days for `RAW_15M`)
 - [ ] Latency budget understood — consumer flows need a Digest in seconds
 - [ ] `credentialSubject.id` = wallet DID; `schemaId` = `MeterDataCredential/v0.6`
 - [ ] `validUntil` short — 24h for loan portals, up to 7d for less time-sensitive flows
 - [ ] Schema validation passes against [MeterDataCredential v0.6 schema.json](../../schemas/MeterDataCredential/v0.6/schema.json)
-- [ ] DigiLocker pull tested end-to-end → [DigiLocker delivery](../../energy-credentials/digilocker.md)
+- [ ] DigiLocker pull tested end-to-end → [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md)
 - [ ] One direct DID-push path tested for non-DigiLocker wallets
 - [ ] Verification rehearsed with one verifier (bank / marketplace / housing society / EV installer)
 - [ ] If you emit derived `summary` outputs, share the schema + description with verifiers up front

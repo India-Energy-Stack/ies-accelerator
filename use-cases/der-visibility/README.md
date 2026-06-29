@@ -119,22 +119,22 @@ A **single schema** — **[ElectricityCredential v1.2](../../schemas/Electricity
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../implementation/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — identity reused
 
-- [ ] [Identity setup](../../implementation/setup-identity.md) complete (same `did:web` as the Energy Passport)
+- [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete (same `did:web` as the Energy Passport)
 - [ ] Feeder / substation identifier convention confirmed (existing IDs wrapped in `did:web`)
 
 ### Discover — grid-side catalogue
 
-- [ ] [Discovery setup](../../implementation/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
 - [ ] BPP catalogue entries published per locus (feeder / substation / licensee-wide) — `accessMethod: INLINE`
 - [ ] Grid-operator and aggregator consumers tested as BAPs
 
 ### Exchange — issuance shape
 
-- [ ] [Adapter built](../../implementation/build-adapter.md) for the grid-side issuance shape of [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the grid-side issuance shape of [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)
 - [ ] `customerProfile` / `customerDetails` blanked at issuance time
 - [ ] `energyResources[]` populated from CIS / DERMS / inspection register
 - [ ] Topology links (`parentResources`, `subResources`) populated where the DT mapping is known

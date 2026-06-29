@@ -58,13 +58,13 @@ A federated, policy-governed mechanism for discovering and exchanging structured
   → Go to [Registries → Checklist]../implementation/README.md).
 
 - **Issuing or verifying credentials about energy consumers or assets?**
-  → Go to [Energy Credentials → Onboarding Guide](./energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](./registries/README.md) chapter.
+  → Go to [Energy Credentials → Onboarding Guide](what-ies-provides/energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](what-ies-provides/registries/README.md) chapter.
 
 - **Exchanging structured energy datasets (telemetry, filings, tariffs)?**
-  → Go to [Data Exchange → Quick Start](./data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes). You will also need a Beckn subscriber registry from the [Registries](./registries/README.md) chapter.
+  → Go to [Data Exchange → Quick Start](what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes). You will also need a Beckn subscriber registry from the [Registries](what-ies-provides/registries/README.md) chapter.
 
 - **Building a new application that needs both?**
-  → Start with [Registries](./registries/README.md) (foundation) → then [Energy Credentials](./energy-credentials/README.md) (simpler integration surface) → then [Data Exchange](./data-exchange/README.md).
+  → Start with [Registries](what-ies-provides/registries/README.md) (foundation) → then [Energy Credentials](what-ies-provides/energy-credentials/README.md) (simpler integration surface) → then [Data Exchange](what-ies-provides/data-exchange/README.md).
 
 ---
 

@@ -24,7 +24,7 @@ For an IES participant, Discover means running a Beckn adapter — the **Beckn O
 2. **Beckn subscriber record** — a small entry in your DeDi namespace declaring your callback URL, role (`BAP` / `BPP`), and Ed25519 message-signing public key. Other Beckn nodes look this up to verify your signatures.
 3. **Network reference** — the IES network operator (acting as Network Facilitator Organisation, NFO) writes a *reference* into the network registry pointing at your subscriber record. This is the membership boundary.
 
-For the step-by-step setup, follow **[How you implement IES → Setup Discovery](implementation/setup-discovery.md)**.
+For the step-by-step setup, follow **[How you implement IES → Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
 
 ---
 
@@ -50,4 +50,4 @@ A bespoke REST API per integration is exactly the n×m problem IES is solving. B
 | Step 2 — Discover *(this page)* | — |
 | Step 3 — [Exchange](exchange.md) | Schemas, credentials, taxonomy |
 
-To set up Beckn ONIX hands-on: **[Setup Discovery](implementation/setup-discovery.md)**.
+To set up Beckn ONIX hands-on: **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.

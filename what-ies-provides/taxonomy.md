@@ -21,9 +21,9 @@ W3C VC payloads — signed, durable records the holder keeps independently of IE
 
 | Schema | Domain | Used in | Current |
 |---|---|---|---|
-| [ElectricityCredential](schemas/ElectricityCredential/README.md) | Static facts of a consumer connection — sanctioned load, tariff, assets behind the meter | [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md) · [DER Visibility](use-cases/der-visibility/README.md) | **v1.2** |
-| [MeterDataCredential](schemas/MeterDataCredential/README.md) | Signed envelope around a MeterData payload — consumer's own readings | [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md) | **v0.6** |
-| [MeterDataRequestCredential](schemas/MeterDataRequestCredential/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md) (optional) | **v0.1** |
+| [ElectricityCredential](../schemas/ElectricityCredential/README.md) | Static facts of a consumer connection — sanctioned load, tariff, assets behind the meter | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) | **v1.2** |
+| [MeterDataCredential](../schemas/MeterDataCredential/README.md) | Signed envelope around a MeterData payload — consumer's own readings | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | **v0.6** |
+| [MeterDataRequestCredential](../schemas/MeterDataRequestCredential/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional) | **v0.1** |
 
 ### Data Exchange payloads
 
@@ -31,20 +31,20 @@ Non-credential payloads that ride on the Beckn wire.
 
 | Schema | Domain | Used in | Current |
 |---|---|---|---|
-| [MeterData](schemas/MeterData/README.md) | Smart-meter telemetry (8 compact profiles: CUSTOMER, INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM) | [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md) (payload) | **v0.6** |
-| [MeterDataRequest](schemas/MeterDataRequest/README.md) | Query / capabilities shape for meter-data requests | [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md) | **v0.6** |
-| [ArrFiling](schemas/ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md) | **v0.5** |
-| [OutageNotification](schemas/OutageNotification/README.md) | Planned + unplanned outage notification — pull (catalogue) and push (CAP) | [Outage Visibility](use-cases/outage-visibility/README.md) | **v0.1** |
-| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Tariff Intelligence](use-cases/tariff-intelligence/README.md) | in progress |
+| [MeterData](../schemas/MeterData/README.md) | Smart-meter telemetry (8 compact profiles: CUSTOMER, INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM) | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (payload) | **v0.6** |
+| [MeterDataRequest](../schemas/MeterDataRequest/README.md) | Query / capabilities shape for meter-data requests | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | **v0.6** |
+| [ArrFiling](../schemas/ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | **v0.5** |
+| [OutageNotification](../schemas/OutageNotification/README.md) | Planned + unplanned outage notification — pull (catalogue) and push (CAP) | [Outage Visibility](../use-cases/outage-visibility/README.md) | **v0.1** |
+| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | in progress |
 
 ### External — DEG schemas IES uses
 
-Canonical at [schema.beckn.io](https://schema.beckn.io); the field reference is mirrored in **[External Schemas](schemas/external/README.md)**.
+Canonical at [schema.beckn.io](https://schema.beckn.io); the field reference is mirrored in **[External Schemas](../schemas/external/README.md)**.
 
 | Schema family | Domain | Used in |
 |---|---|---|
-| `P2PTrade` / `DEGContract` / `EnergyTradeOffer` / `EnergyTradeDelivery` / `DiscomLedgerProvider` / `BecknTimeSeries` | Peer-to-peer energy trade | [P2P Energy Exchange](use-cases/p2p-energy-exchange/README.md) |
-| `DemandFlexNeed` / `DemandFlexBuyOffer` / `DemandFlexPerformance` + shared `EnergyResource` / `DEGContract` / `RevenueFlow` / `BecknTimeSeries` | Demand-side flexibility procurement and M&V | [DER Flexibility](use-cases/der-flexibility/README.md) |
+| `P2PTrade` / `DEGContract` / `EnergyTradeOffer` / `EnergyTradeDelivery` / `DiscomLedgerProvider` / `BecknTimeSeries` | Peer-to-peer energy trade | [P2P Energy Exchange](../use-cases/p2p-energy-exchange/README.md) |
+| `DemandFlexNeed` / `DemandFlexBuyOffer` / `DemandFlexPerformance` + shared `EnergyResource` / `DEGContract` / `RevenueFlow` / `BecknTimeSeries` | Demand-side flexibility procurement and M&V | [DER Flexibility](../use-cases/der-flexibility/README.md) |
 
 ---
 
@@ -72,7 +72,7 @@ Every schema lives at `schemas/<Family>/v<version>/` with its own:
 - `context.jsonld` — JSON-LD context for semantic resolution.
 - `vocab.jsonld` — RDF vocabulary with CIM alignments.
 - `examples/` — worked payloads.
-- `README.md` — auto-generated field reference (sections 8–11 + annexures) following the **[IES Documentation Template](use-cases/README.md#how-each-guide-is-organised)**.
+- `README.md` — auto-generated field reference (sections 8–11 + annexures) following the **[IES Documentation Template](../use-cases/README.md#how-each-guide-is-organised)**.
 
 A change is **non-breaking** (additive, optional fields, new enum values) if it keeps backward compatibility — the same minor version may absorb it. A change is **breaking** (field rename, removal, type change, semantics change) if it doesn't — a new version is published with a fresh `README.md`. Old versions stay reachable; clients pin a version explicitly.
 
@@ -83,7 +83,7 @@ A change is **non-breaking** (additive, optional fields, new enum values) if it 
 When your use case has a domain object IES doesn't cover yet, the path is:
 
 1. **Check the map above** — confirm no existing schema (with optional extension) already covers it.
-2. **Draft the schema** in `attributes.yaml` shape following the **[IES Documentation Template](use-cases/README.md#how-each-guide-is-organised)**.
+2. **Draft the schema** in `attributes.yaml` shape following the **[IES Documentation Template](../use-cases/README.md#how-each-guide-is-organised)**.
 3. **Open a PR** against this repository. Include: scope statement, basis of standards (with the IS → CEA → IEC → IEEE precedence), example payloads.
 4. **Review by the IES Cell** — the governance body under the Central Electricity Authority. Reviews check standards alignment, field overlap with existing schemas, and use-case fit.
 5. **Acceptance** publishes a versioned `v0.1` and adds the schema to the map above.
@@ -107,4 +107,4 @@ The schemas are stewarded by the **IES Cell**, the governance body being constit
 
 The Taxonomy is the master view of **Exchange**. To see how the three IES steps fit together: **[Register](register.md)** → **[Discover](discover.md)** → **[Exchange](exchange.md)**.
 
-To pick a use case to ship first: **[Use Case Implementation Guides](use-cases/README.md)**.
+To pick a use case to ship first: **[Use Case Implementation Guides](../use-cases/README.md)**.

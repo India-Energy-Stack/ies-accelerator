@@ -1,6 +1,6 @@
 # Smart Meter Data Exchange
 
-A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../../data-exchange/README.md), carrying the [MeterData](../../schemas/MeterData/v0.6/README.md) payload.
+A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/data-exchange/README.md), carrying the [MeterData](../../schemas/MeterData/v0.6/README.md) payload.
 
 | | |
 |---|---|
@@ -163,23 +163,23 @@ Every exchange leaves a signed receipt: who received what, under whose authorisa
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../implementation/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — network identity
 
-- [ ] [Identity setup](../../implementation/setup-identity.md) complete (DeDi namespace + signing key on both sides — BAP and BPP)
+- [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete (DeDi namespace + signing key on both sides — BAP and BPP)
 - [ ] Meter / DT / feeder identifier convention agreed (existing IDs wrapped, not replaced)
 
 ### Discover — catalogue and contract
 
-- [ ] [Discovery setup](../../implementation/setup-discovery.md) complete (ONIX running on both sides; subscriber records published)
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete (ONIX running on both sides; subscriber records published)
 - [ ] BPP publishes a Beckn catalogue entry for the `MeterData/v0.6` dataset offered — `programID`, geographic scope, refresh cadence, `accessMethod` (`INLINE` for ≤MB chunks; `SIGNED_URL` / `KAFKA` / `SFTP` for bulk and streaming), required credentials
 - [ ] Pre-agreed bilateral subscriptions (where used) skip `discover` and go straight to `confirm`
 - [ ] Test exchange completed against sandbox: `confirm` → `on_confirm` → `on_status`
 
 ### Exchange — adapter and data flow
 
-- [ ] [Adapter built](../../implementation/build-adapter.md) for [MeterData v0.6](../../schemas/MeterData/v0.6/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [MeterData v0.6](../../schemas/MeterData/v0.6/README.md)
 - [ ] Meter population, geography, granularity, counterparty for Phase 1 agreed
 - [ ] Source system mapped (HES / MDM endpoint, owner team, SLA)
 - [ ] Indian-OBIS → MeterData v0.6 mapping verified for every reading and event you ship (see [IES Meter Data Model](ies-meter-data-model.md))

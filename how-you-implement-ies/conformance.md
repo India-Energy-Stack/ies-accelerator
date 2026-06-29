@@ -4,7 +4,7 @@ The fourth and final IES step: verify your adapter is correct end-to-end and sub
 
 The minimum to participate in IES is **the same for every organisation**:
 
-1. Create a digital identity and list your organisation in the shared directory. ([Step 1](setup-identity.md))
+1. Create a digital identity and list your organisation in the shared directory. ([Step 1](setup-register.md))
 2. Install the adapter once. ([Step 2](setup-discovery.md))
 3. Pass the basic conformance check. (this page)
 

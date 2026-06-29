@@ -2,7 +2,7 @@
 
 > **Step 1 of the three IES steps — set up.** Get your organisation a verifiable digital identity, and list it in a shared directory. *Done once.* About 1–2 days of elapsed time (most of it waiting for DNS to propagate).
 
-This is the **action guide** for the **[Register](../register.md)** step. The deep specification is in **[Identifiers and Addressing](../identifiers/README.md)**. The registry mechanics are in **[Registries and Directories](../registries/README.md)**.
+This is the **action guide** for the **[Register](../what-ies-provides/register.md)** step. The deep specification is in **[Identifiers and Addressing](../what-ies-provides/identifiers/README.md)**. The registry mechanics are in **[Registries and Directories](../what-ies-provides/registries/README.md)**.
 
 ---
 
@@ -26,7 +26,7 @@ Either works. Most DISCOMs use a dedicated subdomain so the credential-issuing i
 
 The host you pick becomes the host portion of your `did:web`. Your DID document will live at `https://<your-host>/.well-known/did.json`.
 
-> **About path segments.** `did:web` lets you encode a sub-path with colons in the DID. If you don't want to host at `.well-known/`, host the document at any path and reflect it in the DID via colon hierarchy. Full table in **[Identifiers — DID web variants](../identifiers/README.md#publish-your-did-web)**.
+> **About path segments.** `did:web` lets you encode a sub-path with colons in the DID. If you don't want to host at `.well-known/`, host the document at any path and reflect it in the DID via colon hierarchy. Full table in **[Identifiers — DID web variants](../what-ies-provides/identifiers/README.md#publish-your-did-web)**.
 
 ---
 
@@ -47,7 +47,7 @@ docker run -d \
 
 OpenCred prints the `did.json` it generated, which you then publish.
 
-The end-to-end walkthrough — install OpenCred, generate the signing key, assemble `did.json`, publish, verify — lives in **[Energy Credentials — Set up OpenCred](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Any W3C-compliant signing pipeline (custom code, AWS KMS + jose, Azure Key Vault) is a drop-in replacement.
+The end-to-end walkthrough — install OpenCred, generate the signing key, assemble `did.json`, publish, verify — lives in **[Energy Credentials — Set up OpenCred](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Any W3C-compliant signing pipeline (custom code, AWS KMS + jose, Azure Key Vault) is a drop-in replacement.
 
 ---
 
@@ -78,7 +78,7 @@ DeDi is the public registry mechanism IES uses for namespaces, credential revoca
 2. **Create a namespace** — use a short name that maps to your organisation (`apepdcl`, `bescom`, `np.example.com`).
 3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours).
 
-The full UI flow with screenshots is in the **[DeDi Quickstart](https://docs.nfh.global/dedi/dedi.global-developers/quickstart)**. The IES-specific framing is in **[Registries — Step-by-step: claim your DeDi namespace](../implementation/setup-identity.md)**.
+The full UI flow with screenshots is in the **[DeDi Quickstart](https://docs.nfh.global/dedi/dedi.global-developers/quickstart)**. The IES-specific framing is in **[Registries — Step-by-step: claim your DeDi namespace](setup-register.md)**.
 
 > **If you ran OpenCred in 1.2**, four registries (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) are auto-created in your namespace on first boot. You do not need to create them by hand.
 
@@ -96,7 +96,7 @@ Once your DID resolves and your DeDi namespace is verified, you have the identif
 | A meter / inverter / DER / transformer | `did:web` under your domain | `did:web:ies.apepdcl.in:assets:meter:NM-44091234` |
 | The consumer's existing CIS account number | Plain string, kept verbatim | `1102004567` → stays as `customerProfile.customerNumber` |
 
-> Detailed grammar and worked examples: **[Identifiers and Addressing — Appendix C](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets)**.
+> Detailed grammar and worked examples: **[Identifiers and Addressing — Appendix C](../what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets)**.
 
 ---
 

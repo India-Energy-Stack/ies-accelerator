@@ -38,7 +38,7 @@ Before commencing the integration pathway, we recommend aligning the following i
 In this phase, you will establish your institutional cryptographic identity and define clear naming grammars for your grid resources and consumers.
 
 <details>
-<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../identifiers/README.md#did-web-the-one-your-discom-will-use))</b></summary>
+<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../what-ies-provides/identifiers/README.md#did-web-the-one-your-discom-will-use))</b></summary>
 
 ### 💡 Phase Advice
 > Set up a quick call with your DNS administrator as your very first step. Securing a dedicated subdomain takes only a few minutes but forms the foundation of your secure cryptographic brand.
@@ -47,27 +47,27 @@ In this phase, you will establish your institutional cryptographic identity and 
 * Confirm that your web admin has write-access to your target domain (e.g., `ies.tpddl.co.in`) to host the verification path.
 
 ### Execution Guidance
-A [`did:web`](../identifiers/README.md#did-web-the-one-your-discom-will-use) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
+A [`did:web`](../what-ies-provides/identifiers/README.md#did-web-the-one-your-discom-will-use) identifier leverages your existing DNS and SSL infrastructure to publish your public keys.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g., `ies.tpddl.co.in`.
 2. **Expose the DID Document (First Step)**: Host your verification keys in a standard `did.json` file served over HTTPS under the path:
    `https://ies.tpddl.co.in/.well-known/did.json`
-   Construct the `did.json` document according to the W3C DID Core specification, ensuring your public verification key is correctly mapped and referenced. Refer to [Step-by-step: publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web) for the structural checklist.
+   Construct the `did.json` document according to the W3C DID Core specification, ensuring your public verification key is correctly mapped and referenced. Refer to [Step-by-step: publish your did:web](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web) for the structural checklist.
 
 ### References & Anchors
-* [Identifiers & Addressing Overview](../identifiers/README.md)
-* [Resolution & Routing Specification](../identifiers/README.md#did-web-the-one-your-discom-will-use) (Detailed resolution rules for `did:web` endpoints)
-* [Step-by-step: publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web) (Document parameters)
-* [Identifiers Checklist](../implementation/README.md)
+* [Identifiers & Addressing Overview](../what-ies-provides/identifiers/README.md)
+* [Resolution & Routing Specification](../what-ies-provides/identifiers/README.md#did-web-the-one-your-discom-will-use) (Detailed resolution rules for `did:web` endpoints)
+* [Step-by-step: publish your did:web](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web) (Document parameters)
+* [Identifiers Checklist](../how-you-implement-ies/README.md)
 </details>
 
 <details>
-<summary><b>Step 1.2: Define Your Naming Grammars ([Identifiers and Addressing](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets))</b></summary>
+<summary><b>Step 1.2: Define Your Naming Grammars ([Identifiers and Addressing](../what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets))</b></summary>
 
 ### 💡 Phase Advice
 > Aligning your IES identifiers with your existing SAP, GIS, or CIS master codes avoids double-mapping. Wrap your existing internal serials rather than replacing them!
 
 ### Execution Guidance
-Map your internal customer numbers, SAP codes, and meter serial numbers to the standard [`did:web` path-based naming grammars](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). Before constructing your identifiers, internalise the rule that **an identifier is just a name** — it carries no inherent business meaning, and every identifier must resolve to a DID Document. See [Identifiers and Addressing → Appendix D](../identifiers/README.md#appendix-d-identifier-vs.-record).
+Map your internal customer numbers, SAP codes, and meter serial numbers to the standard [`did:web` path-based naming grammars](../what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). Before constructing your identifiers, internalise the rule that **an identifier is just a name** — it carries no inherent business meaning, and every identifier must resolve to a DID Document. See [Identifiers and Addressing → Appendix D](../what-ies-provides/identifiers/README.md#appendix-d-identifier-vs.-record).
 
 The reference patterns (all `did:web` under your DISCOM's own domain):
 1. **Consumers (holder DID)**: `did:key:<wallet-generated>` — generated by the wallet, not the DISCOM. The consumer's existing CIS number stays as the literal `customerNumber` string inside the credential.
@@ -79,19 +79,19 @@ The reference patterns (all `did:web` under your DISCOM's own domain):
    *(e.g., `did:web:ies.tpddl.in:connections:CON-90234`)*
 
 > [!NOTE]
-> All identifiers here use standard W3C `did:web`. There is no separate `did:dedi` method; when DeDi is used as the discovery layer for keys or DID documents, the method on the wire is still `did:web`. See [Identifiers and Addressing → Appendix A](../identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses).
+> All identifiers here use standard W3C `did:web`. There is no separate `did:dedi` method; when DeDi is used as the discovery layer for keys or DID documents, the method on the wire is still `did:web`. See [Identifiers and Addressing → Appendix A](../what-ies-provides/identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses).
 
 ### References & Anchors
-* [Identifiers and Addressing — How DIDs work, and the three methods IES uses](../identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses)
-* [Identifier vs. record](../identifiers/README.md#appendix-d-identifier-vs.-record)
-* [Identifying assets, meters, connections, datasets](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets)
+* [Identifiers and Addressing — How DIDs work, and the three methods IES uses](../what-ies-provides/identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses)
+* [Identifier vs. record](../what-ies-provides/identifiers/README.md#appendix-d-identifier-vs.-record)
+* [Identifying assets, meters, connections, datasets](../what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets)
 </details>
 
 ---
 
 ## Phase 2: Getting Started (Registry Setup)
 
-Establish your administrative namespaces on the public [Decentralized Directory (DeDi)](../registries/README.md#why-dedi-and-the-three-questions-it-answers) and register your active endpoints with the network.
+Establish your administrative namespaces on the public [Decentralized Directory (DeDi)](../what-ies-provides/registries/README.md#why-dedi-and-the-three-questions-it-answers) and register your active endpoints with the network.
 
 <details>
 <summary><b>Step 2.1: Setup DeDi Namespace</b></summary>
@@ -105,12 +105,12 @@ Establish your administrative namespaces on the public [Decentralized Directory 
 ### Execution Guidance
 1. Register a secure role-mailbox on the DeDi Portal.
 2. Establish a namespace matching your utility short-code (`<utility>`).
-3. Expose the verification token in your DNS TXT records. Refer to [Registries — Step 3 (verify your domain)](../implementation/setup-identity.md) for formatting.
+3. Expose the verification token in your DNS TXT records. Refer to [Registries — Step 3 (verify your domain)](../how-you-implement-ies/setup-register.md) for formatting.
 
 ### References & Anchors
-* [Why DeDi (and the three questions it answers)](../registries/README.md#why-dedi-and-the-three-questions-it-answers)
-* [Registries — Step-by-step (claim namespace + create registries)](../implementation/setup-identity.md)
-* [Registries Checklist](../implementation/README.md)
+* [Why DeDi (and the three questions it answers)](../what-ies-provides/registries/README.md#why-dedi-and-the-three-questions-it-answers)
+* [Registries — Step-by-step (claim namespace + create registries)](../how-you-implement-ies/setup-register.md)
+* [Registries Checklist](../how-you-implement-ies/README.md)
 </details>
 
 <details>
@@ -120,17 +120,17 @@ Establish your administrative namespaces on the public [Decentralized Directory 
 > Maintain strict separation of duties! Use separate registries for your keys, revocation list, and Beckn profiles to keep access privileges isolated.
 
 ### Execution Guidance
-Create and initialize the following registries under your namespace (OpenCred auto-creates several of these on first boot — see [Idempotency note for OpenCred users](../registries/README.md#opencred-auto-creates-four-registries)):
+Create and initialize the following registries under your namespace (OpenCred auto-creates several of these on first boot — see [Idempotency note for OpenCred users](../what-ies-provides/registries/README.md#opencred-auto-creates-four-registries)):
 * `opencred-key-registry` (tag `public_key`): Versioned signing keys. **Auto-created by OpenCred.**
 * `vc-revocation-registry` (tag `revocation`): Real-time verifiable credential revocation. **Auto-created by OpenCred.**
-* `subscribers-test` & `subscribers-prod` (tag `beckn_subscriber`): Beckn participant identity records. **You create these manually** — see [As a Beckn Network Participant](../registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform).
+* `subscribers-test` & `subscribers-prod` (tag `beckn_subscriber`): Beckn participant identity records. **You create these manually** — see [As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform).
 * **Optional fallback: publish DID doc to DeDi.** Set `OPENCRED_DEDI_HOST_DID_DOC=true` (or call `/v1/keys/publish`) so the DID document is reachable via DeDi when your HTTPS endpoint is temporarily unreachable.
 
 ### References & Anchors
-* [The registries you'll touch in IES (by role)](../registries/README.md#the-registries-youll-touch-in-ies-by-role)
-* [As a DISCOM / issuer running OpenCred](../registries/README.md#as-a-discom-issuer-running-opencred)
-* [As a Beckn Network Participant](../registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)
-* [OpenCred Key & DID Publishing Configuration](../energy-credentials/README.md#issue-your-first-credential)
+* [The registries you'll touch in IES (by role)](../what-ies-provides/registries/README.md#the-registries-youll-touch-in-ies-by-role)
+* [As a DISCOM / issuer running OpenCred](../what-ies-provides/registries/README.md#as-a-discom-issuer-running-opencred)
+* [As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)
+* [OpenCred Key & DID Publishing Configuration](../what-ies-provides/energy-credentials/README.md#issue-your-first-credential)
 </details>
 
 <details>
@@ -150,8 +150,8 @@ Email your registration package (utility short-code, legal name, service area li
 The Secretariat will verify your credentials and register your endpoints inside the authoritative `ies-discoms-reference-registry` path.
 
 ### References & Anchors
-* [How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing)
-* [Registries Checklist](../implementation/README.md)
+* [How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
+* [Registries Checklist](../how-you-implement-ies/README.md)
 </details>
 
 ---
@@ -171,45 +171,45 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 2. **Configure Authentication**: Setup OTP or Aadhaar reference authentication gateways on your client portal.
 3. **Deploy OpenCred**: Deploy the containerized OpenCred service using your secured P-256 signing keys.
 4. **CRM Status Logging & Issuance**: Store active credential UUIDs in your database to coordinate revocations. Format and trigger credential issuance via OpenCred's `/v1/credentials/issue` API using the `ElectricityCredential` JSON shape.
-5. **Verify Revocation Handling**: Ensure the verifier's revocation check logic is active. Be mindful of the silent-skip behavior if DeDi namespaces are misconfigured (refer to the [OpenCred Silent-Skip Warning](../energy-credentials/README.md#troubleshooting)).
-6. **Validate the Issued Credential**: Call the OpenCred verification endpoint (`/v1/credentials/verify`) using the issued VC to test the full verification cycle. This confirms that the verifier can successfully resolve the issuer's DID and validate the cryptographic signature. Note that if DeDi is disabled or the namespaces are not fully synchronized, the validation engine might exhibit specific resolve behaviors (refer to the [OpenCred Resolve Verification Check](../energy-credentials/README.md#id-5.-smoke-test)).
+5. **Verify Revocation Handling**: Ensure the verifier's revocation check logic is active. Be mindful of the silent-skip behavior if DeDi namespaces are misconfigured (refer to the [OpenCred Silent-Skip Warning](../what-ies-provides/energy-credentials/README.md#troubleshooting)).
+6. **Validate the Issued Credential**: Call the OpenCred verification endpoint (`/v1/credentials/verify`) using the issued VC to test the full verification cycle. This confirms that the verifier can successfully resolve the issuer's DID and validate the cryptographic signature. Note that if DeDi is disabled or the namespaces are not fully synchronized, the validation engine might exhibit specific resolve behaviors (refer to the [OpenCred Resolve Verification Check](../what-ies-provides/energy-credentials/README.md#id-5.-smoke-test)).
 
 ### References & Anchors
-* [Energy Credentials Overview](../energy-credentials/README.md)
-* [Energy Credentials Deployment Guide](../energy-credentials/README.md)
-* [OpenCred Resolve Verification Check & Env Options](../energy-credentials/README.md#id-5.-smoke-test)
-* [OpenCred Silent-Skip Revocation Warning](../energy-credentials/README.md#troubleshooting)
-* [Batch Issuance at Scale (Queue & Workers)](../energy-credentials/README.md#batch-issuance)
-* [Multi-Replica Deployment Guidance](../energy-credentials/README.md#batch-issuance)
+* [Energy Credentials Overview](../what-ies-provides/energy-credentials/README.md)
+* [Energy Credentials Deployment Guide](../what-ies-provides/energy-credentials/README.md)
+* [OpenCred Resolve Verification Check & Env Options](../what-ies-provides/energy-credentials/README.md#id-5.-smoke-test)
+* [OpenCred Silent-Skip Revocation Warning](../what-ies-provides/energy-credentials/README.md#troubleshooting)
+* [Batch Issuance at Scale (Queue & Workers)](../what-ies-provides/energy-credentials/README.md#batch-issuance)
+* [Multi-Replica Deployment Guidance](../what-ies-provides/energy-credentials/README.md#batch-issuance)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
 * [Consumer Energy Passport Checklist](../use-cases/consumer-energy-passport/README.md)
 * [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
 </details>
 
 <details>
-<summary><b>Step 3.2: Register with [DigiLocker](../energy-credentials/digilocker.md)</b></summary>
+<summary><b>Step 3.2: Register with [DigiLocker](../what-ies-provides/energy-credentials/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
-> [API Setu](../energy-credentials/digilocker.md) compliance checks can take time. Start your legal and institutional registrations on API Setu early in Phase 3 so that production gateways are cleared by the time your code is ready.
+> [API Setu](../what-ies-provides/energy-credentials/digilocker.md) compliance checks can take time. Start your legal and institutional registrations on API Setu early in Phase 3 so that production gateways are cleared by the time your code is ready.
 
 ### 📋 Prework Required
-* Secure authorization letters and corporate certificates from your legal department for [API Setu](../energy-credentials/digilocker.md) access.
+* Secure authorization letters and corporate certificates from your legal department for [API Setu](../what-ies-provides/energy-credentials/digilocker.md) access.
 
 ### References & Anchors
-* [DigiLocker Integration Guide](../energy-credentials/digilocker.md)
-* [Issuing Credentials Checklist](../energy-credentials/README.md#issue-your-first-credential)
+* [DigiLocker Integration Guide](../what-ies-provides/energy-credentials/digilocker.md)
+* [Issuing Credentials Checklist](../what-ies-provides/energy-credentials/README.md#issue-your-first-credential)
 </details>
 
 ---
 
 ## Phase 4: Smart Meter Data Exchange (Beckn Data Pipes)
 
-*(See [Data Exchange — Core Concepts](../data-exchange/README.md#appendix-a-beckn-protocol-lifecycle) for the underlying Beckn primitives.)*
+*(See [Data Exchange — Core Concepts](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle) for the underlying Beckn primitives.)*
 
 Enable federated, policy-governed data sharing of smart meter telemetry and master data with authorized third parties.
 
 <details>
-<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes))</b></summary>
+<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes))</b></summary>
 
 ### 💡 Phase Advice
 > Deploying the ONIX adapter as a Docker service takes less than 10 minutes. Run the test sandbox local container first to easily verify your configurations before going to production.
@@ -217,13 +217,13 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 ### Execution Guidance
 1. Deploy the standard Docker-based Beckn ONIX container.
 2. Generate your Ed25519 node keypair.
-3. Register your BPP credentials in DeDi [`subscribers-test`](../registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform).
+3. Register your BPP credentials in DeDi [`subscribers-test`](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform).
 
 ### References & Anchors
-* [Data Exchange Concepts](../data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
-* [Data Exchange Quick Start](../data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes)
-* [ONIX Registry Setup](../data-exchange/README.md#swap-in-your-real-identity)
-* [Data Exchange Checklist](../implementation/README.md)
+* [Data Exchange Concepts](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
+* [Data Exchange Quick Start](../what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes)
+* [ONIX Registry Setup](../what-ies-provides/data-exchange/README.md#swap-in-your-real-identity)
+* [Data Exchange Checklist](../how-you-implement-ies/README.md)
 </details>
 
 <details>
@@ -271,7 +271,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > **Clarity Gap**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
+* [Data Exchange Security & Auth](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
 * [MeterDataRequestCredential Schema](../schemas/MeterDataRequestCredential/v0.1/README.md)
 * [MeterDataRequestCredential Example](../schemas/MeterDataRequestCredential/v0.1/examples/example.json)
 </details>
@@ -283,7 +283,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > Run a parallel pilot! Trade smart meter telemetry with a friendly test consumer or partner BAP to confirm that signing, encryption, and logging flows operate perfectly before live production exchange.
 
 ### References & Anchors
-* [Data Exchange Checklist](../implementation/README.md)
+* [Data Exchange Checklist](../how-you-implement-ies/README.md)
 </details>
 
 ---
@@ -334,13 +334,13 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 </details>
 
 <details>
-<summary><b>Step 5.2: Link Bills to [DigiLocker](../energy-credentials/digilocker.md)</b></summary>
+<summary><b>Step 5.2: Link Bills to [DigiLocker](../what-ies-provides/energy-credentials/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
 > Re-use your DigiLocker gateway! Since you cleared API Setu audits in Step 3.2, adding the verifiable bill credential is a simple path extension on your existing issuer record.
 
 ### References & Anchors
-* [DigiLocker Issuer Setup](../energy-credentials/digilocker.md)
+* [DigiLocker Issuer Setup](../what-ies-provides/energy-credentials/digilocker.md)
 </details>
 
 ---
@@ -373,7 +373,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 > Publish hierarchical relationships. By linking substations, feeders, distribution transformers, smart meters, and DER assets, grid operators can programmatically map downstream loading. Leveraging **Data Exchange** networks enables you to share these grid datasets securely.
 
 ### References & Anchors
-* [Grid Identifiers & Hierarchy Guide](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets)
+* [Grid Identifiers & Hierarchy Guide](../what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets)
 </details>
 
 <details>

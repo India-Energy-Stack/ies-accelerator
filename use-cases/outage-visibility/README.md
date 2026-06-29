@@ -157,23 +157,23 @@ Optionally, the **[`FeederStatusIngest` OpenAPI spec](../../schemas/OutageNotifi
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../implementation/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — DISCOM identity and feeder map
 
-- [ ] [Identity setup](../../implementation/setup-identity.md) complete
+- [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete
 - [ ] Feeder / DT / substation identifier convention confirmed
 - [ ] Network-context hierarchy (Zone > Circle > Division > Subdivision > Substation) registered
 
 ### Discover — outage feed catalogue
 
-- [ ] [Discovery setup](../../implementation/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
 - [ ] BPP catalogue entry published for the active-outage feed — `accessMethod: INLINE`
 - [ ] (Optional) Push channel registered with the OEM consumer app / SMS gateway
 
 ### Exchange — OMS adapter and detection layer
 
-- [ ] [Adapter built](../../implementation/build-adapter.md) for [OutageNotification v0.1](../../schemas/OutageNotification/v0.1/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [OutageNotification v0.1](../../schemas/OutageNotification/v0.1/README.md)
 - [ ] OMS class codes mapped to `outageClass` / `category` / `cause.category` / `cause.subcategory`
 - [ ] (Optional) `FeederStatusIngest` ingest live; AMI alarm → OMS auto-detect proven
 - [ ] One planned shutdown notified end-to-end (`NEW` → `UPDATE` → `RESTORED`)

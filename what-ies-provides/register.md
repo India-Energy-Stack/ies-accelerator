@@ -7,7 +7,7 @@ Register is the foundation. Before any two systems can exchange data, both must 
 | Piece | What it is | Standard |
 |---|---|---|
 | **Identifier** | A cryptographic name for an organisation, a regulator, a meter, a consumer, an asset, a credential or a dataset. | [W3C Decentralised Identifiers (DIDs)](https://www.w3.org/TR/did-core/) |
-| **Directory** | A public, append-only registry that lists those identifiers — together with the keys, callback URLs, and revocation status that go with them. | [DeDi](glossary.md#dedi) (Decentralised Directory Protocol) |
+| **Directory** | A public, append-only registry that lists those identifiers — together with the keys, callback URLs, and revocation status that go with them. | [DeDi](../glossary.md#dedi) (Decentralised Directory Protocol) |
 
 Anyone can resolve an IES identifier in milliseconds, with no callback to the publisher, and check that a signature matches the registered key.
 
@@ -21,7 +21,7 @@ For an organisation joining IES, **Register** is one step but produces two artef
 
 2. **Your DeDi namespace** — a public registry container under your verified domain. Inside it sit the records that other IES participants look up — your Beckn subscriber record (for the Discover step), your revocation list (for credentials), your asset registry where applicable. See [Registries and Directories](registries/README.md).
 
-For the step-by-step setup, follow **[How you implement IES → Setup Register](implementation/setup-identity.md)**.
+For the step-by-step setup, follow **[How you implement IES → Setup Register](../how-you-implement-ies/setup-register.md)**.
 
 ---
 
@@ -48,4 +48,4 @@ The same model covers the consumer (`did:key` in a wallet), the asset (a `did:we
 | Step 2 — [Discover](discover.md) | Beckn-protocol interaction |
 | Step 3 — [Exchange](exchange.md) | Schemas, credentials, taxonomy |
 
-To set up your organisation's identity hands-on: **[Setup Register](implementation/setup-identity.md)**.
+To set up your organisation's identity hands-on: **[Setup Register](../how-you-implement-ies/setup-register.md)**.

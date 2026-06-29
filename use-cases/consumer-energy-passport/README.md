@@ -138,26 +138,26 @@ The consumer gains a **portable, tamper-evident proof** of their connection and 
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[Part 3 — Implementing IES](../../implementation/README.md)**. Use-case-specific items only below.
+Built on the four implementation steps in **[Part 3 — Implementing IES](../../how-you-implement-ies/README.md)**. Use-case-specific items only below.
 
 ### Register — identity and proofing
 
 The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.idRef` to a government-ID *reference*, both vouched for at issuance.
 
-- [ ] [Identity setup](../../implementation/setup-identity.md) complete (DISCOM `did:web` resolves; DeDi namespace verified)
+- [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete (DISCOM `did:web` resolves; DeDi namespace verified)
 - [ ] Identity-proofing method chosen and documented (DigiLocker pull / Aadhaar Offline KYC / in-person / DISCOM record match)
 - [ ] Privacy review completed; procedure tested with one consumer
 
 ### Discover — wallet delivery
 
-- [ ] [Discovery setup](../../implementation/setup-discovery.md) complete (ONIX running; subscriber record published)
-- [ ] DigiLocker Pull URI registered → [DigiLocker delivery](../../energy-credentials/digilocker.md)
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete (ONIX running; subscriber record published)
+- [ ] DigiLocker Pull URI registered → [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md)
 - [ ] Direct DID-push tested for one non-DigiLocker wallet (where relevant)
 - [ ] A freshly issued Passport reaches a wallet end-to-end
 
 ### Exchange — issuance shape
 
-- [ ] [Adapter built](../../implementation/build-adapter.md) for the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) schema
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) schema
 - [ ] `credentialSubject.id` = wallet DID
 - [ ] `customerProfile.idRef` = verified government-ID *reference* (not the raw number)
 - [ ] `validUntil` set to a sensible horizon (re-issued on material change)
@@ -182,7 +182,7 @@ The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.
 - **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.2/examples) (single meter + PV; sub-metering; parallel metering)
 - **Validation** — `python3 scripts/validate_schema.py schemas/ElectricityCredential/v1.2/schema.json <your-output.json>`
 - **Reference issuer (OpenCred)** — `ghcr.io/nfh-trust-labs/opencred/opencred-server`
-- **Issuance walkthrough** — [Energy Credentials — Issue your first credential](../../energy-credentials/README.md#issue-your-first-credential)
+- **Issuance walkthrough** — [Energy Credentials — Issue your first credential](../../what-ies-provides/energy-credentials/README.md#issue-your-first-credential)
 
 ---
 

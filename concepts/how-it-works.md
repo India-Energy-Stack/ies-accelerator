@@ -39,8 +39,8 @@ Internal numbering (CIS consumer numbers, SAP codes, meter SLNOs) is preserved a
 
 The discovery and revocation layer is **[DeDi](../glossary.md#dedi)** — a public registry mechanism for namespaces, network membership, public keys and credential revocation.
 
-**Full specification:** **[Register — Identifiers and Addressing](../identifiers/README.md)** and **[Registries and Directories](../registries/README.md)**.
-**Implementation steps:** **[Set up Identity](../implementation/setup-identity.md)**.
+**Full specification:** **[Register — Identifiers and Addressing](../what-ies-provides/identifiers/README.md)** and **[Registries and Directories](../what-ies-provides/registries/README.md)**.
+**Implementation steps:** **[Set up Identity](../how-you-implement-ies/setup-register.md)**.
 
 ---
 
@@ -70,8 +70,8 @@ e.g. a bank, a SERC, a DISCOM       e.g. a DISCOM, an AMISP, an aggregator
 
 Every message is signed and verifiable. The reference adapter implementing the Beckn protocol is **[ONIX](../glossary.md#onix)** — open software the participant configures, not builds.
 
-**Full specification:** **[Discover — Beckn Protocol](../data-exchange/README.md)**.
-**Implementation steps:** **[Set up Discovery (Beckn ONIX)](../implementation/setup-discovery.md)**.
+**Full specification:** **[Discover — Beckn Protocol](../what-ies-provides/data-exchange/README.md)**.
+**Implementation steps:** **[Set up Discovery (Beckn ONIX)](../how-you-implement-ies/setup-discovery.md)**.
 
 ---
 
@@ -92,8 +92,8 @@ IES selects the right open standard for each domain and publishes a specificatio
 
 Where the use case needs a durable record, the exchange also produces a **[Verifiable Credential](../glossary.md#verifiable-credential-vc)** — for example a [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](../glossary.md#digilocker) and can share it with any bank, regulator or scheme administrator without returning to the issuer.
 
-**Full specifications:** **[Schemas](../schemas/README.md)** and **[Energy Credentials](../energy-credentials/README.md)**.
-**Implementation steps:** **[Build Your Adapter](../implementation/build-adapter.md)**.
+**Full specifications:** **[Schemas](../schemas/README.md)** and **[Energy Credentials](../what-ies-provides/energy-credentials/README.md)**.
+**Implementation steps:** **[Build Your Adapter](../how-you-implement-ies/build-adapter.md)**.
 
 ---
 
@@ -123,12 +123,12 @@ Same for every organisation:
 2. Install the adapter once.
 3. Pass the basic conformance check.
 
-After this, every new partner connects without fresh integration work. Full step-by-step in **[Part 3 — Implementing IES](../implementation/README.md)**.
+After this, every new partner connects without fresh integration work. Full step-by-step in **[Part 3 — Implementing IES](../how-you-implement-ies/README.md)**.
 
 ---
 
 ## Where to go next
 
-- **Want a deep dive on a particular step?** → **[Register](../identifiers/README.md)** · **[Discover](../data-exchange/README.md)** · **[Exchange](../schemas/README.md)**
-- **Want to implement?** → **[Part 3 — Implementing IES](../implementation/README.md)**
+- **Want a deep dive on a particular step?** → **[Register](../what-ies-provides/identifiers/README.md)** · **[Discover](../what-ies-provides/data-exchange/README.md)** · **[Exchange](../schemas/README.md)**
+- **Want to implement?** → **[Part 3 — Implementing IES](../how-you-implement-ies/README.md)**
 - **Want to see a use case end-to-end?** → **[Part 4 — Use Case Guides](../use-cases/README.md)**

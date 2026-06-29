@@ -34,7 +34,7 @@ With consumer consent, verified records can support services like green lending 
 
 > **IES is not a revenue scheme and does not monetise personal data.** It lowers cost and makes the data a DISCOM already holds more useful.
 
-See the implementation path for a DISCOM in **[Part 3 — Implementing IES](../implementation/README.md)**.
+See the implementation path for a DISCOM in **[Part 3 — Implementing IES](../how-you-implement-ies/README.md)**.
 
 ---
 

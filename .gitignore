@@ -12,3 +12,4 @@ __pycache__/
 # PDF build artifacts (scripts/build_pdf.sh)
 build/
 
+_book/
