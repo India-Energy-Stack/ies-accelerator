@@ -1,8 +1,8 @@
-# Step 1 — Set up Identity (Register)
+# Setup Register
 
-The first IES step: get your organisation a verifiable digital identity, and list it in a shared directory. Done once. About 1–2 days of elapsed time (most of it waiting for DNS to propagate).
+> **Step 1 of the three IES steps — set up.** Get your organisation a verifiable digital identity, and list it in a shared directory. *Done once.* About 1–2 days of elapsed time (most of it waiting for DNS to propagate).
 
-This page is the **action guide**. The deep specification is in **[Identifiers and Addressing](../identifiers/README.md)**. The registry mechanics are in **[Registries and Directories](../registries/README.md)**.
+This is the **action guide** for the **[Register](../register.md)** step. The deep specification is in **[Identifiers and Addressing](../identifiers/README.md)**. The registry mechanics are in **[Registries and Directories](../registries/README.md)**.
 
 ---
 
@@ -109,4 +109,4 @@ Once your DID resolves and your DeDi namespace is verified, you have the identif
 - [ ] DeDi namespace claimed at `dedi.global` and verified via DNS TXT
 - [ ] Internal numbering documented for the asset / connection / meter classes you'll reference
 
-When all six are ticked, you have completed Step 1 of [Register → Discover → Exchange](../concepts/how-it-works.md). Move on to **[Step 2 — Set up Discovery](setup-discovery.md)**.
+When all six are ticked, you have completed the **Register** step. Move on to **[Setup Discovery](setup-discovery.md)**.

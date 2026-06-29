@@ -22,4 +22,4 @@ This part is the **narrative**. The technical specifications and implementation 
 - **It is built on what already exists.** IES uses standards already in use (BIS, CEA, IEC, IEEE) and writes none of its own. The systems you run today keep running — a small "adapter" sits at the edge and ensures conformance.
 - **It is live.** The sandbox is running and four pilot DISCOMs ([PVVNL, APEPDCL, DGVCL, Tata Power](pilots.md)) have built their IES adapter and demonstrated a first set of use cases.
 
-> Next: read **[What IES Is](what-ies-is.md)** for the one-page version, or skip to **[Part 2 — What IES Provides](../README.md#part-2-what-ies-provides)** if you already know the concept and want the technical specifications.
+> Next: read **[What IES Is](what-ies-is.md)** for the one-page version, or skip to **[Part 2 — What IES Provides](../README.md#part-1-what-ies-provides)** if you already know the concept and want the technical specifications.

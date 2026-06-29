@@ -24,13 +24,13 @@ The sector already has rules and standards for what data to report and how it is
 
 ## What it does, in three steps
 
-Every IES exchange follows the same three steps. See **[How It Works](how-it-works.md)** for the full picture.
+Every IES exchange follows the same three steps. They are the spine of this entire GitBook — each step has its own page in **[What IES Provides](../README.md#part-1-what-ies-provides)** and a matching set-up page in **[How you implement IES](../implementation/README.md)**.
 
 | Step | What happens | Example standard |
 |---|---|---|
-| **1. Register** | Every participant gets a verifiable digital identity and is listed in a shared directory. Done once. | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
-| **2. Discover** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement needed. | [Beckn protocol](https://becknprotocol.io) |
-| **3. Exchange** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, the exchange also produces a verifiable credential. | DLMS/COSEM for meter data, IEEE 2030.5 for solar/storage, OpenADR for demand response |
+| **1. [Register](../register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. Done once. | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
+| **2. [Discover](../discover.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement needed. | [Beckn protocol](https://becknprotocol.io) |
+| **3. [Exchange](../exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, the exchange also produces a verifiable credential. | DLMS/COSEM for meter data, IEEE 2030.5 for solar/storage, OpenADR for demand response |
 
 **IES selects the right open standard for each step and publishes a specification that builds on it. IES does not write new standards.** Build to the IES specifications once, and a system can connect to any other IES-ready system without fresh integration work.
 
@@ -43,7 +43,7 @@ Every IES exchange follows the same three steps. See **[How It Works](how-it-wor
 - **Part 1 — ready-made, the same for everyone.** Handles finding other systems and exchanging messages with them. This is the Beckn ONIX reference software, which the participant does not build. See **[Glossary → ONIX](../glossary.md#onix)**.
 - **Part 2 — specific to each organisation.** A small mapping that translates between its own data formats and the IES specs. Set up once. Databases, field names and internal software stay exactly as they are.
 
-After this, every new IES-ready partner connects with no further integration work. The how-to is in **[Part 3 — Implementing IES](../implementation/README.md)**.
+After this, every new IES-ready partner connects with no further integration work. The how-to is in **[How you implement IES](../implementation/README.md)**.
 
 ---
 
@@ -85,6 +85,6 @@ IES is **live**. The specifications have been published on this GitBook, the san
 
 ## Where to go next
 
-- **Want the technical specifications?** → **[Part 2 — What IES Provides](../README.md#part-2-what-ies-provides)**
-- **Want to implement IES in your organisation?** → **[Part 3 — Implementing IES](../implementation/README.md)**
-- **Want to see a worked end-to-end use case?** → **[Part 4 — Use Case Guides](../use-cases/README.md)**
+- **Want the technical specifications?** → **[What IES Provides](../README.md#part-1-what-ies-provides)** — Register, Discover, Exchange, Taxonomy
+- **Want to implement IES in your organisation?** → **[How you implement IES](../implementation/README.md)** — Setup Register, Setup Discovery, Build Adapter
+- **Want to see a worked end-to-end use case?** → **[Use Case Implementation Guides](../use-cases/README.md)**

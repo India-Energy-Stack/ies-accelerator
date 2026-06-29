@@ -1,8 +1,8 @@
-# Use Case Guides
+# Use Case Implementation Guides
 
 Each guide takes a real outcome and shows how to ship it on IES — what schemas it uses, what your adapter needs to do, who is involved, and what good looks like at the end.
 
-Every guide follows the same shape (the **IES Documentation Template**), so once you have read one, you know where to look in any other.
+Every guide follows the same **IES Documentation Template** (eleven numbered sections + use-case extras), and every guide's **Setup** section is organised by the same **[Register → Discover → Exchange](../README.md#how-ies-works-three-steps)** spine that runs through the whole GitBook. Once you have read one guide, you know where to look in any other.
 
 ---
 
@@ -57,4 +57,12 @@ Every page follows the **IES Documentation Template** — eleven sections plus t
 
 ## Picking a first use case
 
-If you are a DISCOM implementing IES for the first time, the [Build Your Adapter guide](../implementation/build-adapter.md#pick-your-first-use-case) has a decision table — which use case to ship first based on what internal data is easiest for you to expose.
+If you are a DISCOM implementing IES for the first time, the [Build your Internal-facing Adapter guide](../implementation/build-adapter.md#pick-your-first-use-case) has a decision table — which use case to ship first based on what internal data is easiest for you to expose.
+
+---
+
+## See also
+
+- **[Register](../register.md)** · **[Discover](../discover.md)** · **[Exchange](../exchange.md)** — the three IES steps each use case combines.
+- **[How you implement IES](../implementation/README.md)** — the one-time setup that supports every use case.
+- **[Taxonomy](../taxonomy.md)** — schema map showing which schemas each use case combines.

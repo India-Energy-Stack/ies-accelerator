@@ -14,11 +14,16 @@ These documents provide a general introduction, terminology definitions, and lay
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="README.md#india-energy-stack-accelerator">India Energy Stack — Accelerator</a>    <ul>
-      <li><a href="README.md#how-this-guide-is-organised">How this guide is organised</a></li>
-      <li><a href="README.md#part-2-what-ies-provides">Part 2 — What IES Provides</a></li>
-      <li><a href="README.md#where-to-start">Where to Start</a></li>
+      <li><a href="README.md#how-ies-works-three-steps">How IES works — three steps</a></li>
+      <li><a href="README.md#how-this-guide-is-organised">How this guide is organised</a>      <ul>
+        <li><a href="README.md#part-1-what-ies-provides">Part 1 — What IES Provides</a></li>
+        <li><a href="README.md#part-2-how-you-implement-iesimplementationreadmemd">Part 2 — [How you implement IES](implementation/README.md)</a></li>
+        <li><a href="README.md#part-3-use-case-implementation-guidesuse-casesreadmemd">Part 3 — [Use Case Implementation Guides](use-cases/README.md)</a>
+      </li>
+      </ul>
+      <li><a href="README.md#where-to-start">Where to start</a></li>
       <li><a href="README.md#why-ies">Why IES?</a></li>
-      <li><a href="README.md#key-standards-and-protocols">Key Standards and Protocols</a></li>
+      <li><a href="README.md#key-standards-and-protocols">Key standards and protocols</a></li>
       <li><a href="README.md#related-repositories">Related Repositories</a>
     </li>
     </ul>
@@ -127,12 +132,10 @@ These documents provide a general introduction, terminology definitions, and lay
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="SUMMARY.md#table-of-contents">Table of contents</a>    <ul>
-      <li><a href="SUMMARY.md#part-1-understanding-ies">Part 1 — Understanding IES</a></li>
-      <li><a href="SUMMARY.md#part-2-what-ies-provides">Part 2 — What IES Provides</a></li>
-      <li><a href="SUMMARY.md#part-3-implementing-ies">Part 3 — Implementing IES</a></li>
-      <li><a href="SUMMARY.md#part-4-use-case-guides">Part 4 — Use Case Guides</a></li>
-      <li><a href="SUMMARY.md#part-5-pathways">Part 5 — Pathways</a></li>
-      <li><a href="SUMMARY.md#reference-schemas">Reference — Schemas</a>
+      <li><a href="SUMMARY.md#part-1-what-ies-provides">Part 1 — What IES Provides</a></li>
+      <li><a href="SUMMARY.md#part-2-how-you-implement-ies">Part 2 — How you implement IES</a></li>
+      <li><a href="SUMMARY.md#part-3-use-case-implementation-guides">Part 3 — Use Case Implementation Guides</a></li>
+      <li><a href="SUMMARY.md#reference">Reference</a>
     </li>
     </ul>
   </li>
@@ -787,12 +790,13 @@ Practical deployment and mapping implementations for specific grid business proc
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/README.md#use-case-guides">Use Case Guides</a>    <ul>
+    <li><a href="use-cases/README.md#use-case-implementation-guides">Use Case Implementation Guides</a>    <ul>
       <li><a href="use-cases/README.md#live-in-pilot">Live in pilot</a></li>
       <li><a href="use-cases/README.md#live-or-staged">Live or staged</a></li>
       <li><a href="use-cases/README.md#in-progress">In progress</a></li>
       <li><a href="use-cases/README.md#how-each-guide-is-organised">How each guide is organised</a></li>
-      <li><a href="use-cases/README.md#picking-a-first-use-case">Picking a first use case</a>
+      <li><a href="use-cases/README.md#picking-a-first-use-case">Picking a first use case</a></li>
+      <li><a href="use-cases/README.md#see-also">See also</a>
     </li>
     </ul>
   </li>

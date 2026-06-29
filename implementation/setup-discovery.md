@@ -1,8 +1,8 @@
-# Step 2 — Set up Discovery (Beckn ONIX)
+# Setup Discovery
 
-The second IES step: stand up the [Beckn](../glossary.md#beckn) adapter — the ready-made Part 1 of the IES adapter (the "ONIX" reference software) — and register on the IES network. About 1–2 days.
+> **Step 2 of the three IES steps — set up.** Stand up the [Beckn](../glossary.md#beckn) adapter — the ready-made Part 1 of the IES adapter (the "ONIX" reference software) — and register on the IES network. About 1–2 days.
 
-This page is the **action guide**. The full Discovery / Beckn specification is in **[Data Exchange](../data-exchange/README.md)**.
+This is the **action guide** for the **[Discover](../discover.md)** step. The full Discovery / Beckn specification is in **[Data Exchange](../data-exchange/README.md)**.
 
 ---
 
@@ -13,7 +13,7 @@ This page is the **action guide**. The full Discovery / Beckn specification is i
 - A Beckn subscriber record published in your DeDi namespace.
 - A reference entry written by the IES network operator (REC / IES Secretariat) pointing at your subscriber record — your formal admission to the network.
 
-This is everything Beckn-side discovery requires. After this you can issue and respond to discovery requests on the IES network. You still need [Step 3 — Build Your Adapter](build-adapter.md) before you can return real data from your internal systems.
+This is everything Beckn-side discovery requires. After this you can issue and respond to discovery requests on the IES network. You still need to **[Build your Internal-facing Adapter](build-adapter.md)** before you can return real data from your internal systems.
 
 ---
 
@@ -110,4 +110,4 @@ The full Beckn lifecycle (`search` → `select` → `init` → `confirm` → `st
 - [ ] IES Secretariat emailed; reference entry written into the IES network registry
 - [ ] End-to-end `search` round-trip succeeds against the sandbox
 
-When all five are ticked, you have completed Step 2 of [Register → Discover → Exchange](../concepts/how-it-works.md). Move on to **[Step 3 — Build Your Adapter](build-adapter.md)**.
+When all five are ticked, you have completed the **Discover** step. Move on to **[Build your Internal-facing Adapter](build-adapter.md)**.

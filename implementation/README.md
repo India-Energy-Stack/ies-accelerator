@@ -1,14 +1,14 @@
-# Implementing IES
+# How you implement IES
 
 A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../concepts/pilots.md) followed in the 30-day Challenge.
 
-The work fits the **[Register → Discover → Exchange](../concepts/how-it-works.md)** model. There are three setup steps and one conformance check.
+The work follows the **[Register → Discover → Exchange](../concepts/how-it-works.md)** spine — the same three steps that organise every IES interaction. There are three setup steps and one conformance check.
 
 | Step | Page | Time | What you get |
 |---|---|---|---|
-| **1. Set up Identity** | [Set up Identity (Register)](setup-identity.md) | 1–2 days | A verifiable `did:web` for your organisation and a published DeDi namespace |
-| **2. Set up Discovery** | [Set up Discovery (Beckn ONIX)](setup-discovery.md) | 1–2 days | A running Beckn adapter (ONIX) registered as a subscriber on the IES network |
-| **3. Build Your Adapter** | [Build Your Adapter](build-adapter.md) | 1–4 weeks | A small mapping layer between your internal systems and the IES schemas |
+| **1. Setup Register** | [Setup Register](setup-identity.md) | 1–2 days | A verifiable `did:web` for your organisation and a published DeDi namespace |
+| **2. Setup Discovery** | [Setup Discovery](setup-discovery.md) | 1–2 days | A running Beckn adapter (ONIX) registered as a subscriber on the IES network |
+| **3. Build your Internal-facing Adapter** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | A small mapping layer between your internal systems and the IES schemas |
 | **4. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A signed-off, IES-ready interface, end-to-end |
 
 ---
@@ -49,8 +49,8 @@ For the full department-by-department mapping see the **[utility pathway prework
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  Step 1 — Set up Identity (Register)                                        │
-│  ───────────────────────────────────                                        │
+│  Step 1 — Setup Register                                                    │
+│  ───────────────────────                                                    │
 │  • Pick a domain (e.g. ies.apepdcl.in)                                      │
 │  • Generate a signing keypair (KMS / HSM)                                   │
 │  • Publish did.json at /.well-known/did.json                                │
@@ -60,8 +60,8 @@ For the full department-by-department mapping see the **[utility pathway prework
                                        │
                                        ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  Step 2 — Set up Discovery (Beckn ONIX)                                     │
-│  ──────────────────────────────────────                                     │
+│  Step 2 — Setup Discovery                                                   │
+│  ────────────────────────                                                   │
 │  • Deploy ONIX container (docker-compose)                                   │
 │  • Generate Ed25519 keypair for Beckn message signing                       │
 │  • Publish a Beckn subscriber record in your DeDi namespace                 │
@@ -71,8 +71,8 @@ For the full department-by-department mapping see the **[utility pathway prework
                                        │
                                        ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  Step 3 — Build Your Adapter (the Part-2 mapping)                           │
-│  ─────────────────────────────────────────────────                          │
+│  Step 3 — Build your Internal-facing Adapter (the Part-2 mapping)           │
+│  ────────────────────────────────────────────────────────────────           │
 │  • Map your data → IES schema fields (CIS↔customerProfile, MDM↔MeterData…)  │
 │  • Plug the mapping into ONIX as a BPP handler                              │
 │  • Test against the sandbox / a counterparty                                │
@@ -95,7 +95,7 @@ For the full department-by-department mapping see the **[utility pathway prework
 
 You only do steps 1–4 once. Adding new use cases on top — Consumer Energy Passport, Smart Meter Data Exchange, DER Visibility, Outage Visibility — only adds a small bit to the Part-2 mapping. The identity, the adapter, the network membership, the trust foundation are all reused.
 
-Go to **[Part 4 — Use Case Guides](../use-cases/README.md)** and pick the one you want to ship first.
+Go to **[Use Case Implementation Guides](../use-cases/README.md)** and pick the one you want to ship first.
 
 ---
 
