@@ -2,6 +2,10 @@
 
 **India Energy Stack (IES)** is an open digital infrastructure layer for India's power sector — protocols and shared registries that let [DISCOMs](glossary.md#discom), [AMISPs](glossary.md#amisp), regulators, and consumers exchange data and trust each other's claims, without anyone owning the network.
 
+{% hint style="info" %}
+📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). It is a printable version of this GitBook, regenerated automatically whenever the docs change.
+{% endhint %}
+
 ```mermaid
 flowchart TB
   actors["Generators · Prosumers · DISCOMs · Regulators · Aggregators · Consumers"]
