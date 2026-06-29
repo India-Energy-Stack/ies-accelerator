@@ -1,15 +1,22 @@
 name: Build & publish PDF
 
-# Build the implementation-guide PDF on every merge to main and publish it to
-# GitHub Pages (gh-pages branch). Single overwritten PDF at a stable URL:
+# Publish the whole site to the gh-pages branch on every merge to main: a
+# mirror of the repo tree (so all schema/context URLs keep resolving) plus the
+# freshly built implementation-guide PDF. GitHub Pages serves gh-pages at the
+# same per-repo URL, so existing paths are unchanged, e.g.:
+#   https://india-energy-stack.github.io/ies-accelerator/schemas/.../context.jsonld
 #   https://india-energy-stack.github.io/ies-accelerator/ies_accelerator.pdf
 
 on:
   push:
     branches: [main]
-    # Only rebuild when content or the build tooling changes.
+    # Republish when served content (docs, schema artifacts) or tooling changes.
     paths:
       - "**/*.md"
+      - "**/*.json"
+      - "**/*.jsonld"
+      - "**/*.yaml"
+      - "**/*.yml"
       - "scripts/build_pdf.py"
       - "scripts/build_pdf.sh"
       - ".github/workflows/build-pdf.yml"
@@ -71,7 +78,19 @@ jobs:
       - name: Stage site
         run: |
           mkdir -p public
+          # Mirror everything main currently serves so all existing URLs (schema
+          # JSON/JSON-LD/YAML contexts, docs, etc.) keep resolving from gh-pages.
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='build/' \
+            --exclude='public/' \
+            ./ public/
+          # Add the freshly built PDF and a root landing page.
           cp build/ies_accelerator.pdf public/ies_accelerator.pdf
+          # Serve files literally (no Jekyll); .nojekyll is mirrored from root,
+          # but ensure it exists.
+          touch public/.nojekyll
           cat > public/index.html <<'HTML'
           <!doctype html>
           <meta charset="utf-8">
@@ -79,6 +98,23 @@ jobs:
           <meta http-equiv="refresh" content="0; url=ies_accelerator.pdf">
           <p><a href="ies_accelerator.pdf">IES Accelerator Implementation Guide (PDF)</a></p>
           HTML
+
+      - name: Verify publish dir is complete
+        # Guard against a complete-but-wrong tree: every tracked schema artifact
+        # and the PDF must be present before we replace gh-pages. If anything is
+        # missing the job fails here and the publish step is skipped, leaving the
+        # live site untouched.
+        run: |
+          missing=0
+          while IFS= read -r f; do
+            if [ ! -f "public/$f" ]; then echo "MISSING: $f"; missing=1; fi
+          done < <(git ls-files schemas/)
+          [ -f public/ies_accelerator.pdf ] || { echo "MISSING: ies_accelerator.pdf"; missing=1; }
+          if [ "$missing" -ne 0 ]; then
+            echo "::error::publish dir incomplete; aborting before replacing gh-pages"
+            exit 1
+          fi
+          echo "publish dir complete ($(git ls-files schemas/ | wc -l) schema files + PDF)"
 
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
