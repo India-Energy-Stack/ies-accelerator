@@ -6,7 +6,7 @@
 
 **A distribution utility (DISCOM) needs to shave a peak. Instead of building more wires, it publishes a *flexibility need* — "give me 500 kW of curtailment between 2 and 4 pm" — and an aggregator commits a fleet of behind-the-meter assets (EV chargers, batteries, smart HVAC) to deliver it. After the event the utility measures what actually happened on its own grid meters, and a signed policy computes who gets paid. That whole conversation — publish, discover, commit, measure, settle — is one Beckn v2 transaction.**
 
-Demand Flexibility is a **full Beckn transaction use case**, not a dataset push. It uses the complete lifecycle (`discover` → `init` → `confirm` → `status`), the ONIX adapter, DeDi registry-resolution, signing, and policy-as-code — the same stack as the rest of DEG. What is specific to this use case is a small **schema family** (a need, a buy-offer, a performance report) and **two signed Rego bundles** (one that validates telemetry shape on the wire, one that computes settlement). If you have any other DEG/IES Beckn flow working, you already have the transport; this page is the payload, the actors, and the settlement logic on top.
+Demand Flexibility is a **full Beckn transaction use case**, not a dataset push. It uses the complete lifecycle (`discover` → `init` → `confirm` → optional `update` → `status`), the ONIX adapter, DeDi registry-resolution, signing, and policy-as-code — the same stack as the rest of DEG. What is specific to this use case is a small **schema family** (a need, a buy-offer, a performance report) and **two signed Rego bundles** (one that validates telemetry shape on the wire, one that computes settlement). If you have any other DEG/IES Beckn flow working, you already have the transport; this page is the payload, the actors, and the settlement logic on top.
 
 The reference implementation is the [`demand-flex` devkit](https://github.com/beckn/DEG/tree/main/devkits/demand-flex) in the DEG repo.
 
@@ -123,6 +123,13 @@ sequenceDiagram
   AGG->>UTIL: confirm
   UTIL->>AGG: on_confirm (contract ACTIVE)
 
+  Note over AGG,UTIL: Phase 1b — Consent / opt-in (optional)
+  opt finalise participating customers
+    AGG->>AGG: collect customer consent (opt in / out)
+    AGG->>UTIL: update (final opted-in meters, adjusted commitment)
+    UTIL->>AGG: on_update
+  end
+
   Note over AGG,UTIL: Phase 2 — Deliver (off-protocol)
   AGG->>AGG: assets curtail during the event window
 
@@ -134,6 +141,10 @@ sequenceDiagram
   AGG->>UTIL: status — RESOURCE_TELEMETRY (optional, reconciliation-only)
   UTIL->>AGG: on_status — SETTLED (consideration populated)
 ```
+
+### Consent and opt-in (optional)
+
+`confirm` commits the contract, but the *final* set of participating customers is often not settled until the aggregator has asked them. Between `confirm` and the event, the aggregator can run a consent round — letting customers behind each meter opt in or out — and then reflect the outcome with a Beckn **`update`**. The update carries the finalised `participatingMeters[]` and an adjusted `plannedDemandChange`; the utility acknowledges with `on_update`. In the devkit's [`update-request-opt-in.json`](https://github.com/beckn/DEG/blob/main/devkits/demand-flex/uc1-bdr-w-baselining/examples/update-request-opt-in.json) the aggregator opts meter `003` in and revises the commitment to 120 kW. The default stance — whether silence means in or out — is governed by `optOutDefault` on the buy-offer. This step is optional: skip it and the contract proceeds with the meters named at `confirm`.
 
 ### The `on_status` report sequence
 
