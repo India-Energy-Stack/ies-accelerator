@@ -4,9 +4,9 @@ Version 0.6 introduces a monumental architectural evolution to the `MeterData` s
 
 ---
 
-## v0.6 — Incremental updates (Apparent Energy review intake, preparing for v0.7)
+## v0.6 — Incremental updates (preparing for v0.7)
 
-These additive, backward-compatible changes incorporate feedback accepted from the Apparent Energy v0.6 review. None of them break existing payloads; existing `scheme: "DID"` references continue to validate.
+These additive, backward-compatible changes incorporate review feedback accepted from the v0.6 schema review cycle. None of them break existing payloads; existing `scheme: "DID"` references continue to validate.
 
 - **Typed DID identifier schemes.** Added `METER_DID`, `CONSUMER_DID`, `SDP_DID`, `ASSET_DID`, and `ORG_DID` to `IdentifierScheme`. These are preferred over the generic `DID` scheme when the entity type is known, so the scheme on the wire conveys what kind of entity the identifier refers to (meter, customer, service-delivery point, asset, organisation). The generic `DID` scheme is retained for backward compatibility and for cases where the entity type is unknown or deliberately abstract.
 - **Identifier description clarified** to recommend the typed schemes.
