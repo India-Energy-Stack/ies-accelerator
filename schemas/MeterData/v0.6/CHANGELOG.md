@@ -4,6 +4,19 @@ Version 0.6 introduces a monumental architectural evolution to the `MeterData` s
 
 ---
 
+## v0.6 — Incremental updates (Apparent Energy review intake, preparing for v0.7)
+
+These additive, backward-compatible changes incorporate feedback accepted from the Apparent Energy v0.6 review. None of them break existing payloads; existing `scheme: "DID"` references continue to validate.
+
+- **Typed DID identifier schemes.** Added `METER_DID`, `CONSUMER_DID`, `SDP_DID`, `ASSET_DID`, and `ORG_DID` to `IdentifierScheme`. These are preferred over the generic `DID` scheme when the entity type is known, so the scheme on the wire conveys what kind of entity the identifier refers to (meter, customer, service-delivery point, asset, organisation). The generic `DID` scheme is retained for backward compatibility and for cases where the entity type is unknown or deliberately abstract.
+- **Identifier description clarified** to recommend the typed schemes.
+- **Examples index added** at [`examples/README.md`](./examples/README.md) categorising the existing example files into single-profile, composed, and operational-scenario buckets without moving files (preserves compatibility with scripts that reference flat `examples/` paths).
+- **Compact vs Elaborated guidance** added at [`examples/COMPACT_VS_ELABORATED.md`](./examples/COMPACT_VS_ELABORATED.md), including a rule-of-thumb and a trade-off table to help implementers choose the right form for their use case.
+
+These changes will be carried into v0.7 along with breaking improvements (mandatory descriptor presence across all profiles; deprecation of generic `DID` scheme in favour of typed schemes).
+
+---
+
 ## What's New in v0.6 (vs 0.5)
 
 ### 1. Removal of `MeterDataset` & Array-based Data Descriptors
