@@ -63,7 +63,8 @@
     }
   },
   "proof": {
-    "type": "Ed25519Signature2020",
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-rdfc-2022",
     "created": "2025-03-01T00:00:00+05:30",
     "verificationMethod": "did:web:tpddl.delhi.gov.in#key-1",
     "proofPurpose": "assertionMethod",

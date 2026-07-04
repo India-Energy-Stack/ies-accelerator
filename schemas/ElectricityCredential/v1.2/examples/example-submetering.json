@@ -73,7 +73,8 @@
     }
   },
   "proof": {
-    "type": "Ed25519Signature2020",
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-rdfc-2022",
     "created": "2025-01-13T10:30:00+05:30",
     "verificationMethod": "did:web:bescom.karnataka.gov.in#key-1",
     "proofPurpose": "assertionMethod",

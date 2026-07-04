@@ -38,14 +38,19 @@ kinds table above it was corrected in place).
 |`operatingMode`|`IEC 61970-302 PowerElectronicsConnection.inverterMode`|`IEEE 1547-2018 (GFM/GFL mode) — no native CIM attribute; IES extension candidate`|no `inverterMode` attribute exists, and grid-forming/following is not a native CIM concept|
 |Prose descriptions (Storage, Inverter, kinds table, `vocab.jsonld` comments)|`IEC 61970-302`|`IEC 61970-301`|same sub-part correction in descriptive text|
 
-## Deliberately NOT applied — needs a governance decision
+## Governance decisions — resolved 2026-07-04
 
-These are left unchanged; each needs a policy/authority choice, not a lookup (review §7 items 4, 8, 9, 10; open items O-4/O-5):
+Six items originally left as governance-gated (review §7 items 4, 8, 9, 10; open items O-2/O-4/O-5) were walked through and decided; all six are now applied to `schema.json` (+ the three `examples/*.json` for the proof-suite item). Decisions and rationale below.
 
-- **Meter Indian basis** (`type`, `meterCapability`, `energyDirection`, `functions`): add IS 16444 / IS 15959 and the CEA Metering Regulations 2006 as authority. Requires governance sign-off.
-- **ESPI/NAESB demotion** (`energyDirection`, `paymentMode`): North-American references to drop or footnote — policy choice.
-- **SERC authority** (`sanctionedLoad`, `tariffCategoryCode`): which state instrument to name.
-- **`paymentMode`**: `AmiBillingReadyKind` ≠ prepaid/postpaid; the prepayment-meter basis is OPEN.
-- **EV-charger IS 17017**, **VC proof-suite migration** (`Ed25519Signature2020 → eddsa-rdfc-2022`): governance/crypto policy.
+| # | Field(s) | Decision | Now cites | Rationale |
+|---|---|---|---|---|
+|1|`type` (METER), `meterCapability`, `functions`|**IS-first, full rewrite**|`IS 16444 (Parts 1 & 2) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM (…) [data model]`|Matches the document's own stated precedence rule (§2 of the review) rather than a co-citation that leaves CIM first|
+|2|`energyDirection`|**IS-first + ESPI kept as informative footnote**|`IS 15959 (DLMS/COSEM) [primary]; CIM (FlowDirectionKind) [data model]; ESPI NAESB REQ.21 [informative — not normative]`|ESPI has no jurisdictional or semantic claim on this field (it's a US data-sharing authorization standard, not a metering data model) — demoted rather than dropped, since the enum values were originally modeled on Green Button and the footnote preserves that provenance for integrators|
+|3|`paymentMode`|**Researched and resolved** (was an open factual gap, not a policy choice — O-2)|`IS 15884:2024 (AC Direct Connected Static Prepayment Meters, Class 1 & 2) [prepayment hardware]; IS 16444 (Parts 1 & 2) [shared platform]; CEA (Installation and Operation of Meters) (Amendment) Regulations 2022, Reg. 4 [mandate]; CIM (AmiBillingReadyKind) [data model]; ESPI [informative]`|Verified directly against the BIS catalogue + CEA regulation text (2026-07-04): **IS 16046 is unrelated** (portable battery safety, IEC 62133 adoption — confirmed NOT to be cited); **IS 15884 is real and current** (revised 2024), and CEA's 2022 amendment, Reg. 4, is the actual mandate requiring prepayment mode|
+|4|`sanctionedLoad`, `tariffCategoryCode`|**Generic SERC placeholder**|`SERC Supply Code / SERC tariff order (state-specific) [authority]; CIM (…) [data model]`|Authority is genuinely state-specific (each SERC issues its own Supply Code/tariff order) — no single national instrument exists to name, so the field states the authority type without picking one state. (`sanctionedLoad`'s CIM part also corrected 61968-9 → 61968-11 while in the field, per the review's §8 recommendation.)|
+|5|`connectorType`, `controlProtocol`, `v2xProtocol`|**Add IS 17017 as primary, IEC/ISO as parent**|`IS 17017 (relevant Part) [primary]; IEC 62196/61851 or ISO 15118/OCPP [parent/exchange protocol]`|These fields previously had no `x-standard` at all (only prose naming the international standards) — IS 17017 is India's harmonized EV-charging series|
+|6|VC `proof.type` (3 example files)|**Migrated now**|`DataIntegrityProof` + `cryptosuite: eddsa-rdfc-2022`|`Ed25519Signature2020` is deprecated under VC 2.0. `proof.type` in `schema.json` has no enum constraint, so this only touched the three example payloads, not the schema shape|
+
+All three examples re-validated 100% compliant against the corrected schema after every change (`scripts/validate_schema.py`).
 
 Full context: the standalone review (`IES_Standards_Conformance_Review_FINAL`), §7 correction set and §8 per-citation tables.

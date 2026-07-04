@@ -147,7 +147,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | Field | Type | Description |
 |----|-------|-----------------|
 | **`id`** \* | text | Stable identifier for this resource. For METER resources the meter serial number is conventional. |
-| **`type`** \* | text | Asset-class discriminator. Must be "METER". CIM cim:Meter (IEC 61968-9). |
+| **`type`** \* | text | Asset-class discriminator. Must be "METER". IS 16444 (Parts 1 & 2, AC static smart meters) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM cim:Meter (IEC 61968-9) [data model]. |
 | `subResources` | list of text or EnergyResource | Topology — child resources. Each item is EITHER a bare id string OR an inline EnergyResource object. |
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceMeterAttributes | — |
@@ -200,9 +200,9 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
 | `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
 | `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
-| `meterCapability` | `Electromechanical` / `CMRI` / `AMR` / `AMI` | **Based on** CIM (IEC 61968-9 AmiBillingReadyKind). Communication/automation generation. Electromechanical: induction-disc. CMRI: manual optical-port (India legacy). AMR: one-way automated read. AMI: two-way smart meter. |
-| `energyDirection` | `Forward` / `Reverse` / `Bidirectional` / `Net` | **Based on** CIM (FlowDirectionKind); ESPI NAESB REQ.21. Energy flow direction metered at this point. |
-| `functions` | list of `ToU` / `NetMetering` / `MaxDemand` / `LoadControl` / `TamperDetection` / `PowerQuality` / `EventLogging` | **Based on** CIM (IEC 61968-9 EndDeviceFunction). Active meter capabilities. |
+| `meterCapability` | `Electromechanical` / `CMRI` / `AMR` / `AMI` | **Based on** IS 16444 (Parts 1 & 2, AC static smart meters) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM (IEC 61968-9 AmiBillingReadyKind) [data model]. Communication/automation generation. Electromechanical: induction-disc. CMRI: manual optical-port (India legacy). AMR: one-way automated read. AMI: two-way smart meter. |
+| `energyDirection` | `Forward` / `Reverse` / `Bidirectional` / `Net` | **Based on** IS 15959 (DLMS/COSEM data exchange) [primary]; CIM (FlowDirectionKind) [data model]; ESPI NAESB REQ.21 [informative — not normative]. Energy flow direction metered at this point. |
+| `functions` | list of `ToU` / `NetMetering` / `MaxDemand` / `LoadControl` / `TamperDetection` / `PowerQuality` / `EventLogging` | **Based on** IS 16444 (Parts 1 & 2) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM (IEC 61968-9 EndDeviceFunction) [data model]. Active meter capabilities. |
 | `feeder` | text | Feeder identifier this meter is supplied from. |
 | `bus` | text | Busbar identifier at the meter's connection point. |
 | `communicationTechnology` | `PLC` / `RF_Mesh` / `GPRS` / `NB-IoT` / `LoRa` / `ZigBee` / `Other` | Last-mile physical-layer communication technology. |
@@ -299,9 +299,9 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
 | `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
 | `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
-| `connectorType` | `Type1` / `Type2` / `CCS1` / `CCS2` / `CHAdeMO` / `GB_T` / `NACS` / `Other` | Physical connector standard. Type1: IEC 62196-2 Type 1 (J1772). Type2: IEC 62196-2 Type 2 (Mennekes). CCS1/CCS2: Combined Charging System DC fast charge. CHAdeMO: CHAdeMO DC fast charge. GB_T: GB/T 20234. NACS: SAE J3400. |
-| `controlProtocol` | `OCPP_1.6` / `OCPP_2.0.1` / `OCPP_2.1` / `ISO_15118_2` / `ISO_15118_20` / `Other` | EVSE control and smart-charging protocol. |
-| `v2xProtocol` | `CHAdeMO_V2G` / `CCS_BPT` / `ISO_15118_20_AC_BPT` / `ISO_15118_20_DC_BPT` / `Other` | Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources. |
+| `connectorType` | `Type1` / `Type2` / `CCS1` / `CCS2` / `CHAdeMO` / `GB_T` / `NACS` / `Other` | **Based on** IS 17017 (relevant Part, conductive EV charging) [primary]; IEC 62196 / IEC 61851 [parent]. Physical connector standard. Type1: IEC 62196-2 Type 1 (J1772). Type2: IEC 62196-2 Type 2 (Mennekes). CCS1/CCS2: Combined Charging System DC fast charge. CHAdeMO: CHAdeMO DC fast charge. GB_T: GB/T 20234. NACS: SAE J3400. |
+| `controlProtocol` | `OCPP_1.6` / `OCPP_2.0.1` / `OCPP_2.1` / `ISO_15118_2` / `ISO_15118_20` / `Other` | **Based on** IS 17017 (relevant Part) [primary]; ISO 15118 / OCPP [parent/exchange protocol]. EVSE control and smart-charging protocol. |
+| `v2xProtocol` | `CHAdeMO_V2G` / `CCS_BPT` / `ISO_15118_20_AC_BPT` / `ISO_15118_20_DC_BPT` / `Other` | **Based on** IS 17017 (relevant Part, where it covers bidirectional/V2G) [primary]; ISO 15118-20 / OCPP 2.1 BPT [parent/exchange protocol]. Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources. |
 
 ### EnergyResourceInverter
 
@@ -421,14 +421,14 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | Field | Type | Description |
 |----|-------|-----------------|
 | **`meterId`** \* | text | Matches the id of a METER entry in customerProfile.energyResources[]. |
-| **`sanctionedLoad`** \* | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 UsagePoint). Sanctioned/approved import load. |
+| **`sanctionedLoad`** \* | QVPower (`W` / `kW` / `MW`) | **Based on** SERC Supply Code (state-specific) [authority — sanctioned/approved load]; CIM (IEC 61968-11 UsagePoint) [data model]. Sanctioned/approved import load. |
 | `sanctionedExportLoad` | QVPower (`W` / `kW` / `MW`) | Sanctioned/approved grid export limit. |
 | `billingCycleDay` | integer | Day of month on which the billing cycle resets. |
 | `contractMaxDemand` | QVPower (`W` / `kW` / `MW`) | Maximum demand contracted with the utility for this connection. |
-| **`tariffCategoryCode`** \* | text | **Based on** CIM (IEC 61968-9 UsagePoint.serviceCategory). Billing/tariff category code assigned by the utility. |
+| **`tariffCategoryCode`** \* | text | **Based on** SERC tariff order (state-specific) [authority]; CIM (IEC 61968-9 UsagePoint.serviceCategory) [data model]. Billing/tariff category code assigned by the utility. |
 | `premisesType` | `Residential` / `Commercial` / `Industrial` / `Agricultural` | Type of premises at the metering point. |
 | `connectionType` | `Single-phase` / `Three-phase` | **Based on** CIM (IEC 61970-301 PhaseCode; via IEC 61968-9 UsagePoint.phaseCode). Electrical connection type. |
-| `paymentMode` | `POSTPAID` / `PREPAID` | **Based on** CIM (IEC 61968-9 AmiBillingReadyKind, ESPI). Billing/payment modality. POSTPAID: consume now, pay later. PREPAID: pay-before-use. |
+| `paymentMode` | `POSTPAID` / `PREPAID` | **Based on** IS 15884:2024 (AC Direct Connected Static Prepayment Meters, Class 1 & 2) [prepayment hardware]; IS 16444 (Parts 1 & 2) [shared smart-meter platform]; CEA (Installation and Operation of Meters) (Amendment) Regulations 2022, Reg. 4 [payment-mode mandate]; CIM (IEC 61968-9 AmiBillingReadyKind) [data model]; ESPI NAESB REQ.21 [informative — not normative]. Billing/payment modality. POSTPAID: consume now, pay later. PREPAID: pay-before-use. |
 | `serviceStatus` | `active` / `suspended` / `closed` | **Based on** CIM (IEC 61968-9 UsagePoint.status). Lifecycle state of the service connection (the UsagePoint), not of the meter device itself. 'active' = currently energised and billable; 'suspended' = temporarily disconnected (non-payment, inspection, fault) with the contract still on record; 'closed' = permanently terminated. Distinct from the meter device's operational state. |
 
 <!-- FIELD-TABLE:END -->

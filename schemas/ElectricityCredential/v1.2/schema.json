@@ -396,7 +396,7 @@
                         "type": {
                             "type": "string",
                             "const": "METER",
-                            "description": "Asset-class discriminator. Must be \"METER\". CIM cim:Meter (IEC 61968-9)."
+                            "description": "Asset-class discriminator. Must be \"METER\". IS 16444 (Parts 1 & 2, AC static smart meters) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM cim:Meter (IEC 61968-9) [data model]."
                         },
                         "attributes": {
                             "$ref": "#/$defs/EnergyResourceMeterAttributes"
@@ -594,7 +594,7 @@
                                 "AMI"
                             ],
                             "description": "Communication/automation generation. Electromechanical: induction-disc. CMRI: manual optical-port (India legacy). AMR: one-way automated read. AMI: two-way smart meter.\n",
-                            "x-standard": "CIM (IEC 61968-9 AmiBillingReadyKind)"
+                            "x-standard": "IS 16444 (Parts 1 & 2, AC static smart meters) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM (IEC 61968-9 AmiBillingReadyKind) [data model]"
                         },
                         "energyDirection": {
                             "type": "string",
@@ -606,13 +606,13 @@
                             ],
                             "default": "Forward",
                             "description": "Energy flow direction metered at this point.",
-                            "x-standard": "CIM (FlowDirectionKind); ESPI NAESB REQ.21"
+                            "x-standard": "IS 15959 (DLMS/COSEM data exchange) [primary]; CIM (FlowDirectionKind) [data model]; ESPI NAESB REQ.21 [informative — not normative]"
                         },
                         "functions": {
                             "type": "array",
                             "uniqueItems": true,
                             "description": "Active meter capabilities.",
-                            "x-standard": "CIM (IEC 61968-9 EndDeviceFunction)",
+                            "x-standard": "IS 16444 (Parts 1 & 2) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM (IEC 61968-9 EndDeviceFunction) [data model]",
                             "items": {
                                 "type": "string",
                                 "enum": [
@@ -870,7 +870,8 @@
                                 "NACS",
                                 "Other"
                             ],
-                            "description": "Physical connector standard. Type1: IEC 62196-2 Type 1 (J1772). Type2: IEC 62196-2 Type 2 (Mennekes). CCS1/CCS2: Combined Charging System DC fast charge. CHAdeMO: CHAdeMO DC fast charge. GB_T: GB/T 20234. NACS: SAE J3400.\n"
+                            "description": "Physical connector standard. Type1: IEC 62196-2 Type 1 (J1772). Type2: IEC 62196-2 Type 2 (Mennekes). CCS1/CCS2: Combined Charging System DC fast charge. CHAdeMO: CHAdeMO DC fast charge. GB_T: GB/T 20234. NACS: SAE J3400.\n",
+                            "x-standard": "IS 17017 (relevant Part, conductive EV charging) [primary]; IEC 62196 / IEC 61851 [parent]"
                         },
                         "controlProtocol": {
                             "type": "string",
@@ -882,7 +883,8 @@
                                 "ISO_15118_20",
                                 "Other"
                             ],
-                            "description": "EVSE control and smart-charging protocol."
+                            "description": "EVSE control and smart-charging protocol.",
+                            "x-standard": "IS 17017 (relevant Part) [primary]; ISO 15118 / OCPP [parent/exchange protocol]"
                         },
                         "v2xProtocol": {
                             "type": "string",
@@ -893,7 +895,8 @@
                                 "ISO_15118_20_DC_BPT",
                                 "Other"
                             ],
-                            "description": "Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources."
+                            "description": "Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources.",
+                            "x-standard": "IS 17017 (relevant Part, where it covers bidirectional/V2G) [primary]; ISO 15118-20 / OCPP 2.1 BPT [parent/exchange protocol]"
                         }
                     }
                 }
@@ -1201,7 +1204,7 @@
                 "sanctionedLoad": {
                     "$ref": "#/$defs/QVPower",
                     "description": "Sanctioned/approved import load.",
-                    "x-standard": "CIM (IEC 61968-9 UsagePoint)"
+                    "x-standard": "SERC Supply Code (state-specific) [authority — sanctioned/approved load]; CIM (IEC 61968-11 UsagePoint) [data model]"
                 },
                 "sanctionedExportLoad": {
                     "$ref": "#/$defs/QVPower",
@@ -1221,7 +1224,7 @@
                     "type": "string",
                     "minLength": 1,
                     "description": "Billing/tariff category code assigned by the utility.",
-                    "x-standard": "CIM (IEC 61968-9 UsagePoint.serviceCategory)"
+                    "x-standard": "SERC tariff order (state-specific) [authority]; CIM (IEC 61968-9 UsagePoint.serviceCategory) [data model]"
                 },
                 "premisesType": {
                     "type": "string",
@@ -1249,7 +1252,7 @@
                         "PREPAID"
                     ],
                     "description": "Billing/payment modality. POSTPAID: consume now, pay later. PREPAID: pay-before-use.\n",
-                    "x-standard": "CIM (IEC 61968-9 AmiBillingReadyKind, ESPI)"
+                    "x-standard": "IS 15884:2024 (AC Direct Connected Static Prepayment Meters, Class 1 & 2) [prepayment hardware]; IS 16444 (Parts 1 & 2) [shared smart-meter platform]; CEA (Installation and Operation of Meters) (Amendment) Regulations 2022, Reg. 4 [payment-mode mandate]; CIM (IEC 61968-9 AmiBillingReadyKind) [data model]; ESPI NAESB REQ.21 [informative — not normative]"
                 },
                 "serviceStatus": {
                     "type": "string",
