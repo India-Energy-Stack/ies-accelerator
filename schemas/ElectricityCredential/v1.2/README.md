@@ -34,10 +34,10 @@ credentialSubject
 | Kind | `type` values | CIM class (IEC 61970/61968) |
 |------|---------------|-----------------------------|
 | `EnergyResourceMeter` | `METER` | `cim:Meter` / `cim:EndDevice` (IEC 61968-9) |
-| `EnergyResourceGenerator` | `SOLAR_PV`, `WIND`, `HYDRO`, `BIOGAS`, `CHP`, `FUEL_CELL` | `cim:GeneratingUnit` subtypes (IEC 61970-302) |
-| `EnergyResourceStorage` | `BESS` | `cim:BatteryUnit` (IEC 61970-302) |
+| `EnergyResourceGenerator` | `SOLAR_PV`, `WIND`, `HYDRO`, `BIOGAS`, `CHP`, `FUEL_CELL` | `cim:GeneratingUnit` subtypes (IEC 61970-301) |
+| `EnergyResourceStorage` | `BESS` | `cim:BatteryUnit` (IEC 61970-301) |
 | `EnergyResourceEVCharger` | `EV_CHARGER`, `EV_V2G` | `cim:ElectricVehicleChargingStation` (CIM17+) |
-| `EnergyResourceInverter` | `INVERTER` | `cim:PowerElectronicsConnection` (IEC 61970-302) |
+| `EnergyResourceInverter` | `INVERTER` | `cim:PowerElectronicsConnection` (IEC 61970-301) |
 | `EnergyResourceLoad` | `SMART_HVAC`, `SMART_WATER_HEATER`, `CONTROLLABLE_LOAD` | `cim:EnergyConsumer` / `cim:ConformLoad` (IEC 61970-301) |
 | `EnergyResourceNetwork` | `DT`, `BUS`, `FEEDER`, `MICROGRID` | `cim:PowerTransformer`, `cim:BusbarSection`, `cim:Feeder`, `cim:Substation` (IEC 61970-301) |
 
@@ -94,10 +94,10 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 
 | Field | Type | Description |
 |----|-------|-----------------|
-| **`fullName`** \* | text | **Based on** CIM (IEC 61968-1 Customer.name). Full name of the customer as per ID proof. |
+| **`fullName`** \* | text | **Based on** CIM (IEC 61968-11 Customer.name). Full name of the customer as per ID proof. |
 | `careOf` | object | Care-of (c/o) reference person used to uniquely identify / disambiguate a customer who may share the same fullName with others in a locality (e.g. a village). Pairs a name with an optional, gender-neutral relationship. |
-| **`installationAddress`** \* | Location | **Based on** GeoJSON RFC 7946; schema.org PostalAddress; CIM (IEC 61968-1 ServiceLocation). Physical location of the metered installation. geo (GeoJSON Point, coordinates [longitude, latitude]) is required; address (schema.org PostalAddress fields) is optional. |
-| **`serviceConnectionDate`** \* | date-time | **Based on** CIM (IEC 61968-1 ServiceLocation activation date). Date and time the service connection was activated, with timezone offset (ISO 8601). |
+| **`installationAddress`** \* | Location | **Based on** GeoJSON RFC 7946; schema.org PostalAddress; CIM (IEC 61968-11 ServiceLocation). Physical location of the metered installation. geo (GeoJSON Point, coordinates [longitude, latitude]) is required; address (schema.org PostalAddress fields) is optional. |
+| **`serviceConnectionDate`** \* | date-time | **Based on** CIM (IEC 61968-11 ServiceLocation activation date). Date and time the service connection was activated, with timezone offset (ISO 8601). |
 
 ### Location
 
@@ -168,15 +168,15 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
 
 ### QVPower
 
@@ -191,15 +191,15 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
 | `meterCapability` | `Electromechanical` / `CMRI` / `AMR` / `AMI` | **Based on** CIM (IEC 61968-9 AmiBillingReadyKind). Communication/automation generation. Electromechanical: induction-disc. CMRI: manual optical-port (India legacy). AMR: one-way automated read. AMI: two-way smart meter. |
 | `energyDirection` | `Forward` / `Reverse` / `Bidirectional` / `Net` | **Based on** CIM (FlowDirectionKind); ESPI NAESB REQ.21. Energy flow direction metered at this point. |
 | `functions` | list of `ToU` / `NetMetering` / `MaxDemand` / `LoadControl` / `TamperDetection` / `PowerQuality` / `EventLogging` | **Based on** CIM (IEC 61968-9 EndDeviceFunction). Active meter capabilities. |
@@ -224,25 +224,25 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
-| `nominalPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.nominalP). Nominal (nameplate) power output. Use when distinct from maxExport (peak). |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `nominalPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301:2020 GeneratingUnit.nominalP). Nominal (nameplate) power output. Use when distinct from maxExport (peak). |
 | `efficiency` | number | Conversion efficiency as a percentage (0–100). Most relevant for FUEL_CELL and CHP resources. |
-| `dcArrayCapacity` | QVPower (`W` / `kW` / `MW`) | **Based on** IS 16221 (PV module qualification); IEC 61727 (PV grid interface). DC-side nameplate capacity of a photovoltaic array at Standard Test Conditions (industry term: "kWp"). For PV systems this is typically larger than the AC-side maxExport because of inverter clipping and DC-to-AC ratios. Relevant for SOLAR_PV resources. The unit is the standard QUDT power alias kW — the STC/peak semantic is documented here, not encoded in the unit string. |
+| `dcArrayCapacity` | QVPower (`W` / `kW` / `MW`) | **Based on** IS 14286 (Part 1/Sec 1):2023 (PV module design qualification; = IEC 61215-1-1:2021); IEC 61727 (PV grid interface). DC-side nameplate capacity of a photovoltaic array at Standard Test Conditions (industry term: "kWp"). For PV systems this is typically larger than the AC-side maxExport because of inverter clipping and DC-to-AC ratios. Relevant for SOLAR_PV resources. The unit is the standard QUDT power alias kW — the STC/peak semantic is documented here, not encoded in the unit string. |
 
 ### EnergyResourceStorage
 
 | Field | Type | Description |
 |----|-------|-----------------|
 | **`id`** \* | text | Stable identifier for this resource. For METER resources the meter serial number is conventional. |
-| **`type`** \* | `BESS` / `BATTERY` | Asset-class discriminator. BATTERY is deprecated — use BESS. CIM: BatteryUnit (IEC 61970-302). |
+| **`type`** \* | `BESS` / `BATTERY` | Asset-class discriminator. BATTERY is deprecated — use BESS. CIM: BatteryUnit (IEC 61970-301). |
 | `subResources` | list of text or EnergyResource | Topology — child resources. Each item is EITHER a bare id string OR an inline EnergyResource object. |
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceStorageAttributes | — |
@@ -253,16 +253,16 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
-| `storageCapacity` | QVEnergy (`kWh` / `MWh`) | **Based on** CIM (IEC 61970-302 BatteryUnit.ratedE). Rated stored-energy capacity. Replaces storageCapacityKwh from v1.0. |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `storageCapacity` | QVEnergy (`kWh` / `MWh`) | **Based on** CIM (IEC 61970-301 BatteryUnit.ratedE). Rated stored-energy capacity. Replaces storageCapacityKwh from v1.0. |
 | `storageType` | `LithiumIon` / `LeadAcid` / `FlowBattery` / `NaS` / `NiCd` / `Flywheel` / `Other` | Battery storage technology type. |
 | `stateOfHealthPct` | number | Battery state-of-health as a percentage (0–100). |
 | `roundTripEfficiencyPct` | number | **Based on** IEC 62933-2-1 (performance test method). AC-to-AC round-trip efficiency as a percentage (0–100): the fraction of energy returned to the grid relative to energy drawn during a full charge/discharge cycle. Distinct from stateOfHealthPct (cumulative life indicator) and from inverter conversion efficiency. |
@@ -290,15 +290,15 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
 | `connectorType` | `Type1` / `Type2` / `CCS1` / `CCS2` / `CHAdeMO` / `GB_T` / `NACS` / `Other` | Physical connector standard. Type1: IEC 62196-2 Type 1 (J1772). Type2: IEC 62196-2 Type 2 (Mennekes). CCS1/CCS2: Combined Charging System DC fast charge. CHAdeMO: CHAdeMO DC fast charge. GB_T: GB/T 20234. NACS: SAE J3400. |
 | `controlProtocol` | `OCPP_1.6` / `OCPP_2.0.1` / `OCPP_2.1` / `ISO_15118_2` / `ISO_15118_20` / `Other` | EVSE control and smart-charging protocol. |
 | `v2xProtocol` | `CHAdeMO_V2G` / `CCS_BPT` / `ISO_15118_20_AC_BPT` / `ISO_15118_20_DC_BPT` / `Other` | Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources. |
@@ -308,7 +308,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | Field | Type | Description |
 |----|-------|-----------------|
 | **`id`** \* | text | Stable identifier for this resource. For METER resources the meter serial number is conventional. |
-| **`type`** \* | text | Asset-class discriminator. Must be "INVERTER". CIM: PowerElectronicsConnection (IEC 61970-302). |
+| **`type`** \* | text | Asset-class discriminator. Must be "INVERTER". CIM: PowerElectronicsConnection (IEC 61970-301). |
 | `subResources` | list of text or EnergyResource | Topology — child resources. Each item is EITHER a bare id string OR an inline EnergyResource object. |
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceInverterAttributes | — |
@@ -319,21 +319,21 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
-| `ratedApparentPower` | QVApparentPower (`kVA` / `MVA`) | **Based on** SunSpec DER Model 702 (maxVA); CIM (IEC 61970-302 PowerElectronicsConnection.ratedS). Rated apparent power. Replaces ratedApparentPowerKva from v1.0. |
-| `maxReactivePower` | QVReactivePower (`kVAR` / `MVAR`) | **Based on** SunSpec DER Model 702 (maxVar); CIM (IEC 61970-302 PowerElectronicsConnection.maxQ). Maximum reactive power injection (leading / over-excited). Replaces maxReactivePowerKvar from v1.0. |
-| `minReactivePower` | QVReactivePower (`kVAR` / `MVAR`) | **Based on** SunSpec DER Model 702 (maxVarNeg); CIM (IEC 61970-302 PowerElectronicsConnection.minQ). Maximum reactive power absorption (lagging / under-excited). Value is typically negative. Replaces minReactivePowerKvar from v1.0. |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `ratedApparentPower` | QVApparentPower (`kVA` / `MVA`) | **Based on** SunSpec DER Model 702 (maxVA); CIM (IEC 61970-301 PowerElectronicsConnection.ratedS). Rated apparent power. Replaces ratedApparentPowerKva from v1.0. |
+| `maxReactivePower` | QVReactivePower (`kVAR` / `MVAR`) | **Based on** SunSpec DER Model 702 (maxVar); CIM (IEC 61970-301 PowerElectronicsConnection.maxQ). Maximum reactive power injection (leading / over-excited). Replaces maxReactivePowerKvar from v1.0. |
+| `minReactivePower` | QVReactivePower (`kVAR` / `MVAR`) | **Based on** SunSpec DER Model 702 (maxVarNeg); CIM (IEC 61970-301 PowerElectronicsConnection.minQ). Maximum reactive power absorption (lagging / under-excited). Value is typically negative. Replaces minReactivePowerKvar from v1.0. |
 | `rideThroughCategory` | `CategoryI` / `CategoryII` / `CategoryIII` | **Based on** IEEE 1547-2018 (ride-through category). Abnormal operating performance category. CategoryI: basic. CategoryII: enhanced for distribution-connected DER. CategoryIII: advanced for large/transmission-connected DER. |
-| `operatingMode` | `GridFollowing` / `GridForming` / `Standby` | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.inverterMode). Inverter grid-interaction mode. GridFollowing: PLL-based sync. GridForming: own V/f reference (microgrid islanding, black-start). Standby: energised but not injecting. |
-| `voltVarEnabled` | yes / no | **Based on** IEEE 2030.5 (opModVoltVar); SunSpec DER Model 705. Volt-VAr curve active. |
+| `operatingMode` | `GridFollowing` / `GridForming` / `Standby` | **Based on** IEEE 1547-2018 (grid-forming/grid-following operating mode). No native CIM attribute for GFM/GFL/Standby in IEC 61970-301/CGMES as released; IES extension candidate (nearest CIM: inv*Mode booleans, which do not encode GFM/GFL/Standby). Inverter grid-interaction mode. GridFollowing: PLL-based sync. GridForming: own V/f reference (microgrid islanding, black-start). Standby: energised but not injecting. |
+| `voltVarEnabled` | yes / no | **Based on** IEEE 2030.5-2023 (opModVoltVar); SunSpec DER Model 705. Volt-VAr curve active. |
 | `freqDroopEnabled` | yes / no | **Based on** IEEE 1547-2018; SunSpec DER Model 711. Frequency-Watt droop active. |
 | `enterServiceRampTimeSec` | number | **Based on** SunSpec DER Model 703 (ESRmpTms). Seconds to ramp from 0 to rated power after reconnection. |
 
@@ -367,15 +367,15 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
 | `controlProtocol` | `OpenADR_2.0b` / `OCPP_2.0.1` / `SunSpec_Modbus` / `EEBus` / `Modbus` / `Other` | Demand-response / control protocol supported by this load device. |
 | `loadCategory` | `Heating` / `Cooling` / `WaterHeating` / `Lighting` / `EV` / `Industrial` / `Other` | **Based on** CIM (IEC 61970-301 ConformLoad classification). Functional category of this load. |
 
@@ -395,15 +395,15 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `make` | text | Manufacturer (free text). |
 | `model` | text | Model (free text). |
-| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
-| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
-| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
+| `ratedPower` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP). Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. |
+| `maxExport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection). Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower. |
+| `maxImport` | QVPower (`W` / `kW` / `MW`) | **Based on** CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = \|minP\| where minP < 0). Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate. |
 | `telemetryProvider` | text | Vendor API / data source identifier for telemetry. |
 | `commissioningDate` | date-time | ISO 8601 date-time the asset was commissioned. |
 | `location` | Location | Physical location of this asset. |
 | `serialNumber` | text | **Based on** CIM (IEC 61968-9 EndDeviceInfo.serialNumber). Manufacturer-assigned device serial number from the equipment nameplate. Distinct from id (which is the network-issued DID). |
-| `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
-| `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
+| `inspection` | object | **Based on** CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
+| `aggregator` | object | **Based on** IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
 | `nominalVoltage` | QVVoltage (`V` / `kV`) | **Based on** CIM (IEC 61970-301 BaseVoltage.nominalVoltage). Nominal operating voltage. Replaces nominalVoltageKv from v1.0. |
 | `zone` | text | Operating zone or region identifier used by the utility. |
 | `substationId` | text | Parent substation identifier per utility records. |
@@ -427,7 +427,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | `contractMaxDemand` | QVPower (`W` / `kW` / `MW`) | Maximum demand contracted with the utility for this connection. |
 | **`tariffCategoryCode`** \* | text | **Based on** CIM (IEC 61968-9 UsagePoint.serviceCategory). Billing/tariff category code assigned by the utility. |
 | `premisesType` | `Residential` / `Commercial` / `Industrial` / `Agricultural` | Type of premises at the metering point. |
-| `connectionType` | `Single-phase` / `Three-phase` | **Based on** CIM (IEC 61968-9 UsagePoint.phaseCode). Electrical connection type. |
+| `connectionType` | `Single-phase` / `Three-phase` | **Based on** CIM (IEC 61970-301 PhaseCode; via IEC 61968-9 UsagePoint.phaseCode). Electrical connection type. |
 | `paymentMode` | `POSTPAID` / `PREPAID` | **Based on** CIM (IEC 61968-9 AmiBillingReadyKind, ESPI). Billing/payment modality. POSTPAID: consume now, pay later. PREPAID: pay-before-use. |
 | `serviceStatus` | `active` / `suspended` / `closed` | **Based on** CIM (IEC 61968-9 UsagePoint.status). Lifecycle state of the service connection (the UsagePoint), not of the meter device itself. 'active' = currently energised and billable; 'suspended' = temporarily disconnected (non-payment, inspection, fault) with the contract still on record; 'closed' = permanently terminated. Distinct from the meter device's operational state. |
 
