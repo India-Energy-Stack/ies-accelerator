@@ -45,8 +45,7 @@ The artefacts — example payloads, schemas, configuration — are public in thi
 ## What is being added next
 
 - **P2P Energy Exchange** — schema work in progress; see [external schemas](../schemas/external/README.md).
-- **DER Flexibility** — schema work in progress.
-- **Outage Visibility** — [OutageNotification v0.1](../schemas/OutageNotification/v0.1/README.md) is published; pilot integrations being staged.
+- **OutageNotification** — [v0.1](../schemas/OutageNotification/v0.1/README.md) is published; no IES use-case guide yet.
 
 ---
 

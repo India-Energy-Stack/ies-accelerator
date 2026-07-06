@@ -23,14 +23,14 @@ These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/p
 |---|---|---|---|
 | **[DISCOM Regulatory Filing](discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md) |
 | **[Tariff Intelligence](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
-| **[Outage Visibility](outage-visibility/README.md)** | DISCOM | Consumers, third-party apps | [OutageNotification v0.1](../schemas/OutageNotification/v0.1/README.md) |
 
 ## In progress
 
 | Use case | Schema | Status |
 |---|---|---|
 | **[P2P Energy Exchange](p2p-energy-exchange/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
-| **[DER Flexibility](der-flexibility/README.md)** | [External — Demand Flexibility](../schemas/external/README.md) | Schema published; pilot integrations being staged |
+
+> **OutageNotification** — the schema is published ([v0.1](../schemas/OutageNotification/v0.1/README.md)), but there is no IES use-case guide for outage visibility yet. See the [Schemas Overview](../what-ies-provides/schemas-overview/outage-notification.md) for the plain-language walkthrough of what the schema covers.
 
 ---
 

@@ -139,7 +139,7 @@ Every exchange leaves a signed receipt: who received what, under whose authorisa
 
 1. **Chunking convention** for bulk historical pulls (daily / monthly / quarterly) is being agreed across deployments.
 2. **Quality flags** — the v0.6 `validationStatus` enum is stable; the recommended profile of allowed values per cadence is being tightened.
-3. **Aggregator-controlled DERs** — the consent + control flow for a TSP that wants to *act* on a DER (not just observe) is being specified separately under the DER Flexibility use case.
+3. **Aggregator-controlled DERs** — the consent + control flow for a TSP that wants to *act* on a DER (not just observe), rather than only read its telemetry, is being specified separately; no IES use-case guide exists yet.
 
 ---
 

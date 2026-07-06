@@ -33,14 +33,14 @@ The same set of schemas combines in different ways to deliver each use case. Eac
 |---|---|
 | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md) over Beckn |
 | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | `IES_Policy` family (in progress; mirrored under [external schemas](../schemas/external/README.md)) |
-| [Outage Visibility](../use-cases/outage-visibility/README.md) | [OutageNotification v0.1](../schemas/OutageNotification/v0.1/README.md) (sources from OMS data; CAP-aligned push + GIS-ready pull) |
 
 ### In progress
 
 | Use case | Schemas combined |
 |---|---|
 | [P2P Energy Exchange](../use-cases/p2p-energy-exchange/README.md) | DEG `P2PTrade` family — [P2PTrade, DEGContract, EnergyTradeOffer/Delivery, DiscomLedgerProvider, BecknTimeSeries](../schemas/external/README.md#energy-trading-p2p) |
-| [DER Flexibility](../use-cases/der-flexibility/README.md) | DEG demand-flex family — [DemandFlexNeed, DemandFlexBuyOffer, DemandFlexPerformance + shared EnergyResource / DEGContract / BecknTimeSeries](../schemas/external/README.md#demand-flexibility) |
+
+> **OutageNotification** (schema published, [v0.1](../schemas/OutageNotification/v0.1/README.md)) and the **DEG demand-flex family** (`DemandFlexNeed`, `DemandFlexBuyOffer`, `DemandFlexPerformance` — see [external schemas](../schemas/external/README.md#demand-flexibility)) are published schemas without an IES use-case guide yet.
 
 ---
 
@@ -77,6 +77,7 @@ For OpenCred-based issuance, verification and revocation operations, see **[Ener
 
 - **[Energy Credentials](energy-credentials/README.md)** — issuance / verification / revocation operations using OpenCred; credential variants; trust model; DigiLocker delivery.
 - **[Data Exchange — payload shapes](data-exchange/README.md#what-you-can-exchange-schema-families)** — what schemas ride on the Beckn wire, inline vs handoff.
+- **[Schemas Overview](schemas-overview/README.md)** — the plain-language walkthrough of each schema, before the field-by-field reference.
 - **[Schemas](../schemas/README.md)** — every schema family, every version, every example payload.
 - **[External Schemas](../schemas/external/README.md)** — DEG-published schemas (P2PTrade, DemandFlex*) referenced by IES use cases.
 

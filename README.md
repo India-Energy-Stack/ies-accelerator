@@ -58,8 +58,8 @@ What you can ship, organised per the **[IES Documentation Template](use-cases/RE
 | Stage | Use cases |
 |---|---|
 | **Live in pilot** | [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md) · [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md) · [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md) · [DER Visibility](use-cases/der-visibility/README.md) |
-| **Live or staged** | [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md) · [Tariff Intelligence](use-cases/tariff-intelligence/README.md) · [Outage Visibility](use-cases/outage-visibility/README.md) |
-| **In progress** | [P2P Energy Exchange](use-cases/p2p-energy-exchange/README.md) · [DER Flexibility](use-cases/der-flexibility/README.md) |
+| **Live or staged** | [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md) · [Tariff Intelligence](use-cases/tariff-intelligence/README.md) |
+| **In progress** | [P2P Energy Exchange](use-cases/p2p-energy-exchange/README.md) |
 
 ---
 

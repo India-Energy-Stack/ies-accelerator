@@ -93,7 +93,7 @@ For the full department-by-department mapping see the **[utility pathway prework
 
 ## After you're set up
 
-You only do steps 1–4 once. Adding new use cases on top — Consumer Energy Passport, Smart Meter Data Exchange, DER Visibility, Outage Visibility — only adds a small bit to the Part-2 mapping. The identity, the adapter, the network membership, the trust foundation are all reused.
+You only do steps 1–4 once. Adding new use cases on top — Consumer Energy Passport, Smart Meter Data Exchange, DER Visibility — only adds a small bit to the Part-2 mapping. The identity, the adapter, the network membership, the trust foundation are all reused.
 
 Go to **[Use Case Implementation Guides](../use-cases/README.md)** and pick the one you want to ship first.
 

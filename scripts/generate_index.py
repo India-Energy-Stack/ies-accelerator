@@ -96,6 +96,16 @@ def main():
         "exchange_setup": [
             ("what-ies-provides/data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
+        "schemas_overview": [
+            ("what-ies-provides/schemas-overview/README.md", "Index of the plain-language Schemas Overview pages — the IES Documentation Template applied to each schema itself."),
+            ("what-ies-provides/schemas-overview/electricity-credential.md", "Plain-language walkthrough of ElectricityCredential v1.2 — scope, identifiers, standards basis, and how it fits together."),
+            ("what-ies-provides/schemas-overview/meter-data.md", "Plain-language walkthrough of MeterData v0.6 — the eight compact telemetry profiles and their standards basis."),
+            ("what-ies-provides/schemas-overview/meter-data-credential.md", "Plain-language walkthrough of MeterDataCredential v0.6 — the provenance-attestation wrapper around a MeterData payload."),
+            ("what-ies-provides/schemas-overview/meter-data-request.md", "Plain-language walkthrough of MeterDataRequest v0.6 — capabilities, authorisation, and the request payload."),
+            ("what-ies-provides/schemas-overview/meter-data-request-credential.md", "Plain-language walkthrough of MeterDataRequestCredential v0.1 — the requester-authorisation wrapper."),
+            ("what-ies-provides/schemas-overview/arr-filing.md", "Plain-language walkthrough of ArrFiling v0.5 — the ARR filing structure and standards basis."),
+            ("what-ies-provides/schemas-overview/outage-notification.md", "Plain-language walkthrough of OutageNotification v0.1 — status: work in progress.")
+        ],
         "schemas": [
             ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),
             ("schemas/ElectricityCredential/README.md", "Metadata, context inheritance, and fields for the ElectricityCredential VC schema."),
@@ -116,14 +126,15 @@ def main():
             ("use-cases/der-visibility/README.md", "Grid-side issuance of ElectricityCredential v1.2 — per-feeder view of every DER behind a DISCOM's meters."),
             ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
             ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
-            ("use-cases/outage-visibility/README.md", "Planned and unplanned outage notifications — CAP-aligned push, GIS-ready pull feed."),
-            ("use-cases/p2p-energy-exchange/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi."),
-            ("use-cases/der-flexibility/README.md", "Demand-side flexibility procurement — DemandFlexNeed → BuyOffer → per-meter M&V over Beckn.")
+            ("use-cases/p2p-energy-exchange/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.")
         ],
         "pathways": [
             ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),
             ("pathways/utility.md", "The chronological onboarding roadmap for a new utility (DISCOM) joining the network."),
-            ("pathways/secretariat.md", "The operational roadmap for the Secretariat to approve registries, monitor networks, and maintain schemas.")
+            ("pathways/secretariat.md", "The operational roadmap for the Secretariat to approve registries, monitor networks, and maintain schemas."),
+            ("pathways/authority.md", "The roadmap for a Ministry / CEA / SERC-CERC / Forum of Regulators reader — filings, tariff policy-as-code, and IES Cell governance."),
+            ("pathways/tsp.md", "The roadmap for a Technology Service Provider (AMISP, OEM, integrator) building or configuring the IES adapter."),
+            ("pathways/researcher.md", "The roadmap for a researcher or analyst studying IES using its published specs, examples and pilot outcomes.")
         ]
     }
     
@@ -200,6 +211,17 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 ---
 
 ## 🗃️ 5. Schemas
+
+### 📘 Schemas Overview (plain language)
+
+The IES Documentation Template applied to each schema itself — scope, identifiers, standards basis, before the auto-generated field reference.
+
+"""
+    for rel_path, summary in sections["schemas_overview"]:
+        content += generate_file_entry(root_dir, rel_path, summary)
+
+    content += """
+### 🔧 Field Reference (auto-generated)
 
 Detailed documentation for the JSON and JSON-LD schema formats used in the accelerator.
 

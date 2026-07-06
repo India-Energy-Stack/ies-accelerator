@@ -468,6 +468,215 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 ## 🗃️ 5. Schemas
 
+### 📘 Schemas Overview (plain language)
+
+The IES Documentation Template applied to each schema itself — scope, identifiers, standards basis, before the auto-generated field reference.
+
+* **[README.md](what-ies-provides/schemas-overview/README.md)**
+  - *Summary*: Index of the plain-language Schemas Overview pages — the IES Documentation Template applied to each schema itself.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/README.md#schemas-overview">Schemas Overview</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/README.md#how-each-page-is-organised">How each page is organised</a></li>
+      <li><a href="what-ies-provides/schemas-overview/README.md#where-this-fits">Where this fits</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[electricity-credential.md](what-ies-provides/schemas-overview/electricity-credential.md)**
+  - *Summary*: Plain-language walkthrough of ElectricityCredential v1.2 — scope, identifiers, standards basis, and how it fits together.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#electricitycredential-v12">ElectricityCredential v1.2</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#8-schedule-i----field-reference-summary">8. Schedule I -- Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-a----standards-referenced">Annexure A -- Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-b----example-payloads">Annexure B -- Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-c----json-schema">Annexure C -- JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data.md](what-ies-provides/schemas-overview/meter-data.md)**
+  - *Summary*: Plain-language walkthrough of MeterData v0.6 — the eight compact telemetry profiles and their standards basis.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data.md#meterdata-v06">MeterData v0.6</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data-credential.md](what-ies-provides/schemas-overview/meter-data-credential.md)**
+  - *Summary*: Plain-language walkthrough of MeterDataCredential v0.6 — the provenance-attestation wrapper around a MeterData payload.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#meterdatacredential-v06">MeterDataCredential v0.6</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#8-schedule-i----field-reference-summary">8. Schedule I -- Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-a----standards-referenced">Annexure A -- Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-b----example-payloads">Annexure B -- Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-c----json-schema">Annexure C -- JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data-request.md](what-ies-provides/schemas-overview/meter-data-request.md)**
+  - *Summary*: Plain-language walkthrough of MeterDataRequest v0.6 — capabilities, authorisation, and the request payload.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#meterdatarequest-v06">MeterDataRequest v0.6</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data-request-credential.md](what-ies-provides/schemas-overview/meter-data-request-credential.md)**
+  - *Summary*: Plain-language walkthrough of MeterDataRequestCredential v0.1 — the requester-authorisation wrapper.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#meterdatarequestcredential-v01">MeterDataRequestCredential v0.1</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#8-schedule-i----field-reference-summary">8. Schedule I -- Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-a----standards-referenced">Annexure A -- Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-b----example-payloads">Annexure B -- Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-c----json-schema">Annexure C -- JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[arr-filing.md](what-ies-provides/schemas-overview/arr-filing.md)**
+  - *Summary*: Plain-language walkthrough of ArrFiling v0.5 — the ARR filing structure and standards basis.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/arr-filing.md#arrfiling-v05">ArrFiling v0.5</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/arr-filing.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/arr-filing.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/arr-filing.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[outage-notification.md](what-ies-provides/schemas-overview/outage-notification.md)**
+  - *Summary*: Plain-language walkthrough of OutageNotification v0.1 — status: work in progress.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/outage-notification.md#outage-notification-v01">Outage Notification v0.1</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/outage-notification.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/outage-notification.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/outage-notification.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+
+### 🔧 Field Reference (auto-generated)
+
 Detailed documentation for the JSON and JSON-LD schema formats used in the accelerator.
 
 * **[README.md](schemas/README.md)**
@@ -1044,41 +1253,6 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[README.md](use-cases/outage-visibility/README.md)**
-  - *Summary*: Planned and unplanned outage notifications — CAP-aligned push, GIS-ready pull feed.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="use-cases/outage-visibility/README.md#outage-visibility">Outage Visibility</a>    <ul>
-      <li><a href="use-cases/outage-visibility/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#7-the-records">7. The Records</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#8-schedule-i-static-fields">8. Schedule I — Static Fields</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#value-unlock">Value Unlock</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/outage-visibility/README.md#register-discom-identity-and-feeder-map">Register — DISCOM identity and feeder map</a></li>
-        <li><a href="use-cases/outage-visibility/README.md#discover-outage-feed-catalogue">Discover — outage feed catalogue</a></li>
-        <li><a href="use-cases/outage-visibility/README.md#exchange-oms-adapter-and-detection-layer">Exchange — OMS adapter and detection layer</a></li>
-        <li><a href="use-cases/outage-visibility/README.md#team">Team</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/outage-visibility/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases/outage-visibility/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 * **[README.md](use-cases/p2p-energy-exchange/README.md)**
   - *Summary*: Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.
   <details>
@@ -1109,41 +1283,6 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/p2p-energy-exchange/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
       <li><a href="use-cases/p2p-energy-exchange/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
       <li><a href="use-cases/p2p-energy-exchange/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[README.md](use-cases/der-flexibility/README.md)**
-  - *Summary*: Demand-side flexibility procurement — DemandFlexNeed → BuyOffer → per-meter M&V over Beckn.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="use-cases/der-flexibility/README.md#der-flexibility">DER Flexibility</a>    <ul>
-      <li><a href="use-cases/der-flexibility/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#7-the-records">7. The Records</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#8-schedule-i-static-fields">8. Schedule I — Static Fields</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#value-unlock">Value Unlock</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/der-flexibility/README.md#register-parties-on-the-network">Register — parties on the network</a></li>
-        <li><a href="use-cases/der-flexibility/README.md#discover-flex-catalogue">Discover — flex catalogue</a></li>
-        <li><a href="use-cases/der-flexibility/README.md#exchange-offer-contract-mv">Exchange — offer, contract, M&V</a></li>
-        <li><a href="use-cases/der-flexibility/README.md#team">Team</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/der-flexibility/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases/der-flexibility/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
     </li>
     </ul>
   </li>
@@ -1304,6 +1443,156 @@ Step-by-step project-management pathways for onboarding and network operations.
         <li><a href="pathways/secretariat.md#caution">⚠️ Caution</a></li>
         <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
         <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[authority.md](pathways/authority.md)**
+  - *Summary*: The roadmap for a Ministry / CEA / SERC-CERC / Forum of Regulators reader — filings, tariff policy-as-code, and IES Cell governance.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="pathways/authority.md#authority-regulator-pathway-step-by-step-ies-integration-roadmap">Authority / Regulator Pathway: Step-by-Step IES Integration Roadmap</a>    <ul>
+      <li><a href="pathways/authority.md#roadmap-overview">Roadmap Overview</a></li>
+      <li><a href="pathways/authority.md#prework-pre-alignment-matrix">Prework & Pre-Alignment Matrix</a></li>
+      <li><a href="pathways/authority.md#phase-1-register-as-a-network-participant-identity-addressing">Phase 1: Register as a Network Participant (Identity & Addressing)</a>      <ul>
+        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/authority.md#prework-required">📋 Prework Required</a></li>
+        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/authority.md#phase-2-receive-regulatory-filings-machine-readably">Phase 2: Receive Regulatory Filings Machine-Readably</a>      <ul>
+        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/authority.md#prework-required">📋 Prework Required</a></li>
+        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/authority.md#phase-3-publish-tariff-orders-as-policy-as-code">Phase 3: Publish Tariff Orders as Policy-as-Code</a>      <ul>
+        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/authority.md#caution">⚠️ Caution</a></li>
+        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/authority.md#phase-4-exercise-ies-cell-governance-duties">Phase 4: Exercise IES Cell Governance Duties</a>      <ul>
+        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[tsp.md](pathways/tsp.md)**
+  - *Summary*: The roadmap for a Technology Service Provider (AMISP, OEM, integrator) building or configuring the IES adapter.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="pathways/tsp.md#technology-service-provider-pathway-step-by-step-ies-integration-roadmap">Technology Service Provider Pathway: Step-by-Step IES Integration Roadmap</a>    <ul>
+      <li><a href="pathways/tsp.md#roadmap-overview">Roadmap Overview</a></li>
+      <li><a href="pathways/tsp.md#prework-pre-alignment-matrix">Prework & Pre-Alignment Matrix</a></li>
+      <li><a href="pathways/tsp.md#phase-1-understand-what-you-are-building">Phase 1: Understand What You Are Building</a>      <ul>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#prework-required">📋 Prework Required</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/tsp.md#phase-2-map-your-product-data-model-to-the-relevant-ies-schema">Phase 2: Map Your Product Data Model to the Relevant IES Schema</a>      <ul>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/tsp.md#phase-3-register-your-own-entity-if-you-serve-multiple-discoms">Phase 3: Register Your Own Entity if You Serve Multiple DISCOMs</a>      <ul>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#caution">⚠️ Caution</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/tsp.md#phase-4-conformance-testing-across-deployments">Phase 4: Conformance Testing Across Deployments</a>      <ul>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[researcher.md](pathways/researcher.md)**
+  - *Summary*: The roadmap for a researcher or analyst studying IES using its published specs, examples and pilot outcomes.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="pathways/researcher.md#researcher-analyst-pathway-step-by-step-ies-study-roadmap">Researcher / Analyst Pathway: Step-by-Step IES Study Roadmap</a>    <ul>
+      <li><a href="pathways/researcher.md#roadmap-overview">Roadmap Overview</a></li>
+      <li><a href="pathways/researcher.md#phase-1-orient">Phase 1: Orient</a>      <ul>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#prework-required">📋 Prework Required</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/researcher.md#phase-2-explore-the-specifications-examples">Phase 2: Explore the Specifications & Examples</a>      <ul>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/researcher.md#phase-3-reproduce-analyse">Phase 3: Reproduce & Analyse</a>      <ul>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#caution">⚠️ Caution</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
+      </li>
+      </ul>
+      <li><a href="pathways/researcher.md#phase-4-contribute-back">Phase 4: Contribute Back</a>      <ul>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
+        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
+        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
+        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
       </li>
       </ul>
     </li>

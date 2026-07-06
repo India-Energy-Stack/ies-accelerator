@@ -84,8 +84,8 @@ Demand-side flexibility, peer-to-peer energy exchange (consumers buying and sell
 The relevant use cases:
 
 - **[P2P Energy Exchange](../use-cases/p2p-energy-exchange/README.md)** — direct trade between consumers under a market operator's rules.
-- **[DER Flexibility](../use-cases/der-flexibility/README.md)** — aggregators dispatching pooled resources for demand response.
 - **Open Access** — verified consumer credentials and meter digests make eligibility checks instant.
+- **Demand-side flexibility** — aggregators dispatching pooled resources for demand response. The `DemandFlex*` schema family is published (see [Schemas — External](../schemas/external/README.md#demand-flexibility)); no IES use-case guide exists yet.
 
 ---
 
