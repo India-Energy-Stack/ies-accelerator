@@ -498,13 +498,13 @@ The IES Documentation Template applied to each schema itself — scope, identifi
       <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#7-the-records">7. The Record(s)</a></li>
-      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#8-schedule-i----field-reference-summary">8. Schedule I -- Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
       <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#9-schedule-ii">9. Schedule II</a></li>
       <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
-        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-a----standards-referenced">Annexure A -- Standards Referenced</a></li>
-        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-b----example-payloads">Annexure B -- Example Payloads</a></li>
-        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-c----json-schema">Annexure C -- JSON Schema</a>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
       </li>
       </ul>
     </li>
@@ -552,13 +552,13 @@ The IES Documentation Template applied to each schema itself — scope, identifi
       <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#7-the-records">7. The Record(s)</a></li>
-      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#8-schedule-i----field-reference-summary">8. Schedule I -- Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#9-schedule-ii">9. Schedule II</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
-        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-a----standards-referenced">Annexure A -- Standards Referenced</a></li>
-        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-b----example-payloads">Annexure B -- Example Payloads</a></li>
-        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-c----json-schema">Annexure C -- JSON Schema</a>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
       </li>
       </ul>
     </li>
@@ -606,13 +606,13 @@ The IES Documentation Template applied to each schema itself — scope, identifi
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#7-the-records">7. The Record(s)</a></li>
-      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#8-schedule-i----field-reference-summary">8. Schedule I -- Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#9-schedule-ii">9. Schedule II</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
-        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-a----standards-referenced">Annexure A -- Standards Referenced</a></li>
-        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-b----example-payloads">Annexure B -- Example Payloads</a></li>
-        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-c----json-schema">Annexure C -- JSON Schema</a>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
       </li>
       </ul>
     </li>
