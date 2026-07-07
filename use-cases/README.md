@@ -1,57 +1,68 @@
-# Use Cases
+# Use Case Implementation Guides
 
-This section documents the **flagship end-to-end use cases** that the India Energy Stack (IES) building blocks come together to deliver. Each guide is self-contained: it names the actors, identifies which building blocks are used, and walks an implementer through the steps to stand the use case up — from identifier issuance to a working data or credential exchange.
+Each guide takes a real outcome and shows how to ship it on IES — what schemas it uses, what your adapter needs to do, who is involved, and what good looks like at the end.
 
-If the [Identifiers](../identifiers/README.md), [Registries](../registries/README.md), [Energy Credentials](../energy-credentials/README.md), and [Data Exchange](../data-exchange/README.md) chapters describe **the building blocks**, this section describes **what you can build with them**.
-
----
-
-## The Six Use Cases
-
-| # | Use Case | What it does | Primary actors | Building blocks |
-|---|---|---|---|---|
-| 1 | [Smart Meter Data Exchange](smart-meter-data-exchange/README.md) ([data model](smart-meter-data-exchange/ies-meter-data-model.md)) | Standard, audit-trailed exchange of `MeterData` telemetry between AMISP, DISCOM, regulator, and consented third parties over IES Data Exchange. | AMISP, DISCOM, SERC | Identifiers · Registries · Data Exchange · Energy Credentials (optional consent) |
-| 2 | [Consumer Meter Digest](consumer-meter-digest/README.md) ([checklist](consumer-meter-digest/README.md#checklist)) | Consumer pulls their own granular meter readings on demand as a signed credential and shares them with a third party of their choice. | Consumer, DISCOM, Third-party app | Identifiers · Registries · Energy Credentials · Data Exchange |
-| 3 | [Consumer Energy Passport](consumer-energy-passport/README.md) ([checklist](consumer-energy-passport/README.md#checklist)) | Wallet-held credential binding consumer identity to their connection, meter, sanctioned load, and DER/storage assets — issued by the DISCOM, verifiable everywhere. | Consumer, DISCOM, Verifier (bank, marketplace, society) | Identifiers · Registries · Energy Credentials |
-| 4 | [DISCOM Regulatory Filing](discom-regulatory-filing/README.md) ([checklist](discom-regulatory-filing/README.md#checklist)) | Aggregate Revenue Requirement (ARR) and compliance filings delivered as structured, signed, machine-verifiable objects from DISCOM to SERC. | DISCOM, SERC | Identifiers · Registries · Data Exchange |
-| 5 | [Tariff Intelligence](tariff-intelligence/README.md) ([checklist](tariff-intelligence/README.md#checklist)) | Tariff orders (slab billing, time-of-day, deviation penalties) and data-exchange rules published as policy-as-code that billing systems, apps, and meters can consume directly. | SERC, DISCOM, App developer | Identifiers · Registries · Energy Credentials · Data Exchange |
-| 6 | [Energy Trading](energy-trading/README.md) ([checklist](energy-trading/README.md#checklist)) — **WIP** | Inter-discom prosumer-to-prosumer energy trade carried as a signed contract over IES Data Exchange. Variant of Data Exchange: same wire, the payload is `DEGContract` + `EnergyTradeDelivery` instead of `DatasetItem`. Network rules and revenue flows enforced by signed Rego bundles hosted on DeDi. | Prosumer, Trading Platform (BAP/BPP), Ledger Provider, DISCOM | Identifiers · Registries · Data Exchange · Energy Credentials |
-
-> **DER Visibility** — tracking rooftop solar, batteries and EV chargers per feeder using IES identifiers — is a seventh flagship use case and is documented separately (out of scope for this section for now).
+Every guide follows the same **IES Documentation Template** (eleven numbered sections + use-case extras), and every guide's **Setup** section is organised by the same **[Register → Discover → Exchange](../README.md#how-ies-works-three-steps)** spine that runs through the whole GitBook. Once you have read one guide, you know where to look in any other.
 
 ---
 
-## How to Read These Guides
+## Live in pilot
 
-Each use case page follows the same structure so you can navigate quickly:
+These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/pilots.md) in the 30-day Challenge (21 May – 21 June 2026).
 
-1. **Scenario** — the real-world problem this solves
-2. **Actors and roles** — who is the BAP / BPP / Issuer / Holder / Verifier
-3. **Building blocks used** — which IES chapters you'll touch and why
-4. **Schemas and payloads** — the data objects flowing through the use case
-5. **Setup steps** — ordered checklist from cold start to working exchange
-6. **Operate** — how to run, observe, and verify the use case end-to-end
-7. **Open items** — what is still being finalised upstream
-8. **References** — canonical schemas, devkit examples, ies-docs links
+| Use case | Issuer / Provider | Audience | Schema |
+|---|---|---|---|
+| **[Consumer Energy Passport](consumer-energy-passport/README.md)** | DISCOM | Consumer (held in DigiLocker) | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) (holder-bound) |
+| **[Consumer Meter Digest](consumer-meter-digest/README.md)** | DISCOM | Consumer (held in DigiLocker) | [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md) (holder-bound) |
+| **[Smart Meter Data Exchange](smart-meter-data-exchange/README.md)** | AMISP / DISCOM | DISCOM / SERC / consented third party | [MeterData v0.6](../schemas/MeterData/v0.6/README.md) |
+| **[DER Visibility](der-visibility/README.md)** | DISCOM | Grid operator, aggregator | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) energyResources |
+
+## Live or staged
+
+| Use case | Issuer / Provider | Audience | Schema |
+|---|---|---|---|
+| **[DISCOM Regulatory Filing](discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md) |
+| **[Tariff Intelligence](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
+
+## In progress
+
+| Use case | Schema | Status |
+|---|---|---|
+| **[P2P Energy Exchange](p2p-energy-exchange/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
+
+> **OutageNotification** — the schema is published ([v0.1](../schemas/OutageNotification/v0.1/README.md)), but there is no IES use-case guide for outage visibility yet. See the [OutageNotification schema overview](../what-ies-provides/schemas-overview/outage-notification.md) for the plain-language walkthrough of what the schema covers.
 
 ---
 
-## Maturity Snapshot (as of 2026-06)
+## How each guide is organised
 
-| Component | Status |
-|---|---|
-| Identifier patterns and DeDi registries | Stable |
-| Energy credential schemas — `ElectricityCredential v1.2` | Stable |
-| Energy credential variant — Consumer Energy Passport (issuance pattern over `ElectricityCredential/v1.2`) | See [Consumer Energy Passport use case](./consumer-energy-passport/README.md) |
-| Energy credential variant — Consumer Meter Digest (issuance pattern over `MeterDataCredential/v0.6`) | See [Consumer Meter Digest use case](./consumer-meter-digest/README.md) |
-| Data exchange protocol (Beckn + DDM envelope) | Stable; shipped in devkit |
-| `MeterData v0.6` (meter telemetry) schema | Current canonical — supersedes the earlier `IES_Report` working name |
-| `MeterDataRequest v0.6` + `MeterDataRequestCredential v0.1` | Current |
-| `ArrFiling` schema | **Draft — being finalised** |
-| Tariff policy schema | Stable |
-| Tariff publication via data exchange | Shipped in devkit |
-| Energy-trading schemas (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DiscomLedgerProvider`, `BecknTimeSeries`) | Stable in DEG `p2p-trading-ies-wave2` devkit |
-| Energy-trading Rego bundle — network rules | Stable; carried by `policyUrl` on the contract |
-| Energy-trading Rego bundle — settlement / revenue flows | **Draft — wheeling and penalty placeholders pending** |
+Every page follows the **IES Documentation Template** — eleven sections plus the use-case-specific extras:
 
-The open items (`ArrFiling`, the wheeling / penalty rules in the energy-trading settlement bundle, and the auto-`revenueflows` middleware in the wave-2 ONIX config) do not block implementation — the example payloads in the devkit are stable enough to integrate against, and the rego bundles can be updated independently of code via DeDi.
+1. **Scope and Purpose** — the problem, in plain words
+2. **What It Records / Covers** — what is captured
+3. **How Each Item is Identified** — DIDs, identifier patterns
+4. **Definitions** — terms and acronyms
+5. **Basis of Standards** — the standards this use case follows (BIS → CEA → IEC → IEEE precedence)
+6. **Where Indian Standards Do Not Yet Exist** — gaps and the international standards used
+7. **The Record(s)** — the artefacts produced
+8. **Schedule I — Static Fields** — field reference (links to the schema for the full table)
+9. **Schedule II — Report Templates** — where applicable
+10. **How It Fits Together** — diagram or short narrative
+11. **Points for Confirmation** — open decisions
+- **Schemas Used in This Use Case** (use-case-specific extra)
+- **Value Unlock** (use-case-specific extra)
+- **Setup steps (Register → Discover → Exchange)** + **Checklist** + **Dev kits**
+
+---
+
+## Picking a first use case
+
+If you are a DISCOM implementing IES for the first time, the [Build your Internal-facing Adapter guide](../how-you-implement-ies/build-adapter.md#pick-your-first-use-case) has a decision table — which use case to ship first based on what internal data is easiest for you to expose.
+
+---
+
+## See also
+
+- **[Register](../what-ies-provides/register.md)** · **[Discover](../what-ies-provides/discover.md)** · **[Exchange](../what-ies-provides/exchange.md)** — the three IES steps each use case combines.
+- **[How you implement IES](../how-you-implement-ies/README.md)** — the one-time setup that supports every use case.
+- **[Taxonomy](../what-ies-provides/taxonomy.md)** — schema map showing which schemas each use case combines.

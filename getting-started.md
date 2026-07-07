@@ -12,7 +12,7 @@ This page gives you a five-minute orientation to IES before you dive into either
 
 IES is an **open protocol and governance layer** for India's energy sector. It does not operate data — it defines the standards and interaction patterns that let diverse organisations share data and trust each other's claims.
 
-IES has four developer-facing sections. The bottom two are the **foundations** every participant needs in place; the top two are the **capabilities** built on top of them.
+Everything in IES follows the same three steps — **[Register](what-ies-provides/register.md) → [Discover](what-ies-provides/discover.md) → [Exchange](what-ies-provides/exchange.md)**. Four detail chapters under [What IES Provides](what-ies-provides/README.md) carry the developer-facing specifics: **Identifiers** and **Registries** (the foundations, under Register) and **Energy Credentials** and **Data Exchange** (the capabilities, under Exchange, with the Beckn lifecycle under Discover).
 
 ### Identifiers and Addressing
 
@@ -24,7 +24,7 @@ The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document
 
 [DeDi](glossary.md#dedi)-based public registries that resolve identifiers to records and act as the trust layer for credentials and [Beckn](glossary.md#beckn). Covers the IES reference registries ([DISCOMs](glossary.md#discom), regulators, network), the per-participant registries you need to operate (Beckn subscriber, revocation, public-keys), and the step-by-step process for creating them.
 
-**Who should use this:** Every participant onboarding to IES. Start here with the [Registries checklist](./registries/README.md#checklist).
+**Who should use this:** Every participant onboarding to IES. Start here with [Setup Register](how-you-implement-ies/setup-register.md).
 
 ### Energy Credentials
 
@@ -55,16 +55,16 @@ A federated, policy-governed mechanism for discovering and exchanging structured
 ## Choosing Your Path
 
 - **A DISCOM, regulator, or [NP](glossary.md#np) onboarding to the IES network for the first time?**
-  → Go to [Registries → Checklist](./registries/README.md#checklist).
+  → Go to [Setup Register](how-you-implement-ies/setup-register.md), the first step of [How you implement IES](how-you-implement-ies/README.md).
 
 - **Issuing or verifying credentials about energy consumers or assets?**
-  → Go to [Energy Credentials → Onboarding Guide](./energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](./registries/README.md) chapter.
+  → Go to [Energy Credentials](what-ies-provides/energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](what-ies-provides/registries/README.md) chapter.
 
 - **Exchanging structured energy datasets (telemetry, filings, tariffs)?**
-  → Go to [Data Exchange → Quick Start](./data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes). You will also need a Beckn subscriber registry from the [Registries](./registries/README.md) chapter.
+  → Go to [Data Exchange → Quick Start](what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes). You will also need a Beckn subscriber registry from the [Registries](what-ies-provides/registries/README.md) chapter.
 
 - **Building a new application that needs both?**
-  → Start with [Registries](./registries/README.md) (foundation) → then [Energy Credentials](./energy-credentials/README.md) (simpler integration surface) → then [Data Exchange](./data-exchange/README.md).
+  → Start with [Registries](what-ies-provides/registries/README.md) (foundation) → then [Energy Credentials](what-ies-provides/energy-credentials/README.md) (simpler integration surface) → then [Data Exchange](what-ies-provides/data-exchange/README.md).
 
 ---
 

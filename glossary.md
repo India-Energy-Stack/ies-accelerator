@@ -12,7 +12,7 @@ This page is always visible in the left nav. If you hit a term you don't recogni
 
 ### DID
 
-**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.tpddl.in`). Defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Identifiers chapter](identifiers/README.md).
+**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.tpddl.in`). Defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Identifiers chapter](what-ies-provides/identifiers/README.md).
 
 ### DID methods used in IES
 
@@ -31,7 +31,7 @@ IES uses three standard W3C DID methods. There is no separate `did:dedi` method 
 - **DeDi the protocol** — an open specification developed under the [Linux Foundation Decentralized Trust labs](https://github.com/LF-Decentralized-Trust-labs/decentralized-directory-protocol). Defines record shapes, namespace ownership, lookup/query semantics, revocation, and trust-anchor records. **IES picks DeDi-the-protocol** as the registry primitive.
 - **DeDi runtimes** — any service that implements the DeDi protocol. [`dedi.global`](https://dedi.global) is one such hosted runtime; a DISCOM (or a network operator) can self-host a DeDi-compatible runtime — for a private internal mirror, for a regulated jurisdiction, or for redundancy. IES does not mandate a specific runtime; the same record shapes work across any conformant implementation.
 
-A DeDi record has a `subscriber_id` and `record_id` and is looked up via a public HTTPS URL (e.g. `https://<runtime-host>/dedi/lookup/...`). IES uses DeDi for namespaces, network membership, public keys, revocation, and Beckn subscriber records. See [Registries chapter](registries/README.md).
+A DeDi record has a `subscriber_id` and `record_id` and is looked up via a public HTTPS URL (e.g. `https://<runtime-host>/dedi/lookup/...`). IES uses DeDi for namespaces, network membership, public keys, revocation, and Beckn subscriber records. See [Registries chapter](what-ies-provides/registries/README.md).
 
 <a id="verifiable-credential-vc"></a>
 
@@ -49,7 +49,7 @@ The open-source credential service IES DISCOMs deploy to sign, verify, and revok
 
 - Image: `ghcr.io/nfh-trust-labs/opencred/opencred-server` ([releases](https://github.com/nfh-trust-labs/opencred/releases) · [docs](https://opencred.gitbook.io/docs))
 - Bootcamp / first deploy: [opencred.gitbook.io/docs/bootcamp/local-docker](https://opencred.gitbook.io/docs/bootcamp/local-docker)
-- See the [Energy Credentials chapter](energy-credentials/README.md) for the IES-specific issuance walkthrough.
+- See the [Energy Credentials chapter](what-ies-provides/energy-credentials/README.md) for the IES-specific issuance walkthrough.
 
 ### DigiLocker
 
@@ -65,7 +65,7 @@ The [Government of India API exchange](https://apisetu.gov.in) where DISCOMs reg
 
 ### Beckn
 
-The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** in the same flow when the dataset is small and a single signed message is the simplest workflow. For bulky datasets, telemetry streams, or anything already moved over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Data Exchange chapter](data-exchange/README.md).
+The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** in the same flow when the dataset is small and a single signed message is the simplest workflow. For bulky datasets, telemetry streams, or anything already moved over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Data Exchange chapter](what-ies-provides/data-exchange/README.md).
 
 ### BAP
 
@@ -89,7 +89,7 @@ The reference Beckn adapter used in IES. Handles message signing, signature veri
 
 ### DDM
 
-**Decentralized Data Marketplace** — the Beckn-protocol-based open network for buyers and providers to discover, offer, contract, and exchange datasets without a central middleman. The schema family describing the exchanged datasets is published at [beckn/DDM](https://github.com/beckn/DDM); IES extends it with the `IES_*` schemas.
+**Decentralized Data Marketplace** — the Beckn-protocol-based open network for buyers and providers to discover, offer, contract, and exchange datasets without a central middleman. The schema family describing the exchanged datasets is published at [beckn/DDM](https://github.com/beckn/DDM); IES extends it with its own schema families (MeterData, ArrFiling, OutageNotification, …).
 
 ### ERA
 
@@ -109,7 +109,7 @@ The reference Beckn adapter used in IES. Handles message signing, signature veri
 
 ### SERC
 
-**State Electricity Regulatory Commission** — the state-level regulator that approves tariffs, reviews DISCOM filings, and issues regulatory orders. SERCs are the typical consumer of `IES_ARR_Filing` and publisher of `IES_Policy`/`IES_Program` (tariff) datasets.
+**State Electricity Regulatory Commission** — the state-level regulator that approves tariffs, reviews DISCOM filings, and issues regulatory orders. SERCs are the typical consumer of [`ArrFiling`](schemas/ArrFiling/v0.5/README.md) filings and publisher of `IES_Policy`/`IES_Program` (tariff) datasets.
 
 ### ARR
 
@@ -209,7 +209,7 @@ A utility software interoperability standard widely used in North America, named
 
 ### XBRL
 
-**eXtensible Business Reporting Language** — the international standard for tagged, comparable structured financial and regulatory filings. The target structured format for `IES_ARR_Filing`. iXBRL embeds XBRL tags in human-readable XHTML.
+**eXtensible Business Reporting Language** — the international standard for tagged, comparable structured financial and regulatory filings. The target structured format for [`ArrFiling`](schemas/ArrFiling/v0.5/README.md). iXBRL embeds XBRL tags in human-readable XHTML.
 
 ### Akoma Ntoso
 

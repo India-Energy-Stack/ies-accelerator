@@ -19,7 +19,7 @@ It composes proven standards by layer:
 - **GeoJSON (RFC 7946)** — GIS geometry, WGS84, for outage maps.
 - **IEEE 1366 / RDSS** — restoration time + customer counts for SAIDI/SAIFI.
 
-Design rationale, the full standards survey, mapping tables (OMS/PVVNL/CAP/CIM), the GIS/outage-map readiness section, and the feeder-status ingest (detection) layer are in the design note alongside this schema: [OutageNotification_Design.md](./OutageNotification_Design.md) (and the ingest stub [FeederStatusIngest.openapi.yaml](./FeederStatusIngest.openapi.yaml)).
+Design rationale, the full standards survey, mapping tables (OMS/PVVNL/CAP/CIM), the GIS/outage-map readiness section, and the feeder-status ingest (detection) layer are in the design note alongside this schema: [OutageNotification_Design.md](OutageNotification_Design.md) (and the ingest stub [FeederStatusIngest.openapi.yaml](FeederStatusIngest.openapi.yaml)).
 
 ---
 
@@ -62,16 +62,16 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 
 | File | Description |
 |------|-------------|
-| [`attributes.yaml`](./attributes.yaml) | Canonical OpenAPI 3.1.0 source of truth describing all models, attributes, and types. |
-| [`schema.json`](./schema.json) | Compiled Draft 2020-12 JSON Schema for payload validation. |
-| [`context.jsonld`](./context.jsonld) | Compiled JSON-LD context mapping attributes to `ies:` terms. |
-| [`vocab.jsonld`](./vocab.jsonld) | Compiled JSON-LD vocabulary (classes and properties). |
-| [`examples/`](./examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance; restoration UPDATE). |
-| [`OutageNotification_Design.md`](./OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
-| [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
-| [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category`/`cause.subcategory` (IEEE 1782 §4.4/§4.5) crosswalk. |
-| [`OutageNotification_Implementation.md`](./OutageNotification_Implementation.md) | Step-by-step guide to build a production pull/push outage-notification system. |
-| [`tools/`](./tools) | PVVNL planned-shutdown CSV + transformer script (CSV → OutageNotification JSON). |
+| [`attributes.yaml`](attributes.yaml) | Canonical OpenAPI 3.1.0 source of truth describing all models, attributes, and types. |
+| [`schema.json`](schema.json) | Compiled Draft 2020-12 JSON Schema for payload validation. |
+| [`context.jsonld`](context.jsonld) | Compiled JSON-LD context mapping attributes to `ies:` terms. |
+| [`vocab.jsonld`](vocab.jsonld) | Compiled JSON-LD vocabulary (classes and properties). |
+| [`examples/`](examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance; restoration UPDATE). |
+| [`OutageNotification_Design.md`](OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
+| [`FeederStatusIngest.openapi.yaml`](FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
+| [`fault_reason_crosswalk.json`](fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category`/`cause.subcategory` (IEEE 1782 §4.4/§4.5) crosswalk. |
+| [`OutageNotification_Implementation.md`](OutageNotification_Implementation.md) | Step-by-step guide to build a production pull/push outage-notification system. |
+| [`tools/`](tools) | PVVNL planned-shutdown CSV + transformer script (CSV → OutageNotification JSON). |
 
 ---
 

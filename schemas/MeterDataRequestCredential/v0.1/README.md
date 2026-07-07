@@ -2,7 +2,7 @@
 
 # MeterDataRequestCredential v0.1
 
-A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.6/) to prove a data requester's authorisation for accessing smart meter telemetry.
+A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.6/README.md) to prove a data requester's authorisation for accessing smart meter telemetry.
 
 ---
 
@@ -111,7 +111,7 @@ The response `dataPayload` contains **IES MeterData v0.6** profile objects (e.g.
 
 ## Example
 
-See [`examples/example.json`](./examples/example.json) for a complete W3C VC 2.0 instance where BESCOM (DISCOM) requests Q1 2026 interval + daily + monthly data for all meters under feeder `IN-KA-BLR-ZONE-A`.
+See [`examples/example.json`](examples/example.json) for a complete W3C VC 2.0 instance where BESCOM (DISCOM) requests Q1 2026 interval + daily + monthly data for all meters under feeder `IN-KA-BLR-ZONE-A`.
 
 ---
 

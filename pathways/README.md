@@ -6,7 +6,7 @@
 
 ## Why Pathways?
 
-The India Energy Stack introduces a rich collection of standards (DIDs, DeDi Registries, W3C Verifiable Credentials, Beckn Protocols). Adopting these capabilities involves coordinates across multiple internal IT, commercial, and operational divisions.
+The India Energy Stack introduces a rich collection of standards (DIDs, DeDi Registries, W3C Verifiable Credentials, Beckn Protocols). Adopting these capabilities involves coordination across multiple internal IT, commercial, and operational divisions.
 
 Rather than diving into raw technical standards, a **Pathway** organizes these tasks into a logical sequence, aligning high-level business goals with engineering requirements.
 
@@ -18,9 +18,11 @@ Currently, the following pathways are available:
 
 | Pathway | Who is it for? | Capabilities Integrated | Description |
 |---|---|---|---|
-| **[Utility Pathway](./utility.md)** | Electricity Distribution Utilities | Identifiers · Registries · Energy Credentials · Data Exchange · DER Visibility | Comprehensive roadmap to issue Energy Passports, execute Smart Meter Data Exchange, issue verifiable bills, and achieve DER visibility. |
-| **[Secretariat Pathway](./secretariat.md)** | IES Secretariat & Operators | Identifiers · Registries · Network Governance · Schemas & Protocols | Detailed roadmap for registry setup, verifying and whitelisting participants, governing the Beckn network, and managing canonical schemas. |
-
+| **[Utility Pathway](utility.md)** | Electricity Distribution Utilities | Identifiers · Registries · Energy Credentials · Data Exchange · DER Visibility | Comprehensive roadmap to issue Energy Passports, execute Smart Meter Data Exchange, issue verifiable bills, and achieve DER visibility. |
+| **[Secretariat Pathway](secretariat.md)** | IES Secretariat & Operators | Identifiers · Registries · Network Governance · Schemas & Protocols | Detailed roadmap for registry setup, verifying and whitelisting participants, governing the Beckn network, and managing canonical schemas. |
+| **[Authority / Regulator Pathway](authority.md)** | Ministry of Power, CEA, CERC/SERC, Forum of Regulators, State Governments / UTs | Identifiers · Registries · Regulatory Filings · Tariff Intelligence · Schema Governance | Roadmap to register a regulator identity, receive DISCOM ARR filings machine-readably, publish tariff orders as policy-as-code, and exercise IES Cell governance duties. |
+| **[Technology Service Provider Pathway](tsp.md)** | AMISPs, meter/EV-charger/inverter OEMs, system integrators, analytics vendors | Register/Discover/Exchange Spine · Adapter Mapping · MeterData & ElectricityCredential Schemas · Multi-DISCOM Identity | Vendor-side roadmap to build the DISCOM-specific adapter mapping, map product data into MeterData or ElectricityCredential schemas, register a distinct identity when serving multiple DISCOMs, and conformance-test once per product line. |
+| **[Researcher / Analyst Pathway](researcher.md)** | Academics, think-tanks, policy researchers, journalists, students | Schemas & Taxonomy · Worked Examples · Pilot Outcomes | Read-only roadmap to orient on the Register/Discover/Exchange spine, explore published schemas and examples, reproduce validation and pilot outcomes, and contribute back a schema proposal. |
 
 ---
 
