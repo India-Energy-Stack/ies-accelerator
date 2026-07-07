@@ -1,13 +1,13 @@
 # Smart Meter Data Exchange
 
-A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/data-exchange/README.md), carrying the [MeterData](../../schemas/MeterData/v0.6/README.md) payload.
+A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/data-exchange/README.md), carrying the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) payload.
 
 | | |
 |---|---|
 | **Document** | IES/SMDX-PROFILE/0.6 |
 | **Status** | Live in pilot |
 | **Applicability** | All AMISPs, DISCOMs and SERCs |
-| **This version** | Smart Meter Data Exchange built on [MeterData v0.6](../../schemas/MeterData/v0.6/README.md), [MeterDataRequest v0.6](../../schemas/MeterDataRequest/v0.6/README.md) and (optional) [MeterDataRequestCredential v0.1](../../schemas/MeterDataRequestCredential/v0.1/README.md) over Beckn. |
+| **This version** | Smart Meter Data Exchange built on [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6), [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) and (optional) [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) over Beckn. |
 
 > For consumer-pull of *their own* meter data (one-meter, on-demand, wallet-shareable), see **[Consumer Meter Digest](../consumer-meter-digest/README.md)**. This guide is the bulk, scheduled, machine-to-machine flow.
 
@@ -93,15 +93,15 @@ The Smart Meter Data Exchange does not produce a Verifiable Credential by defaul
 
 Together these form a **verifiable audit trail** sufficient for DPDP accountability and dispute resolution.
 
-If the use case needs a durable, holder-bound record (a consumer sharing their own data with a bank, a regulator receiving a long-lived attestation), use the wrapping **[MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md)** — see [Consumer Meter Digest](../consumer-meter-digest/README.md).
+If the use case needs a durable, holder-bound record (a consumer sharing their own data with a bank, a regulator receiving a long-lived attestation), use the wrapping **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)** — see [Consumer Meter Digest](../consumer-meter-digest/README.md).
 
 ## 8. Schedule I — Static Fields of the Data Exchange
 
 The full, authoritative field tables are in the schemas:
 
-- **[MeterData v0.6 — Field reference](../../schemas/MeterData/v0.6/README.md)** — the payload shape (eight compact profiles)
-- **[MeterDataRequest v0.6 — Field reference](../../schemas/MeterDataRequest/v0.6/README.md)** — the query / capabilities shape
-- **[MeterDataRequestCredential v0.1 — Credential structure](../../schemas/MeterDataRequestCredential/v0.1/README.md)** — the optional VC carrying authorisation
+- **[MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** — the payload shape (eight compact profiles)
+- **[MeterDataRequest v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6)** — the query / capabilities shape
+- **[MeterDataRequestCredential v0.1 — Credential structure](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** — the optional VC carrying authorisation
 
 For the Indian-terminology mapping (OBIS codes, IS 15959 event IDs, CIM master-data fields) see the companion page **[IES Meter Data Model](ies-meter-data-model.md)**.
 
@@ -147,9 +147,9 @@ Every exchange leaves a signed receipt: who received what, under whose authorisa
 
 | Schema | Role |
 |---|---|
-| **[MeterData v0.6](../../schemas/MeterData/v0.6/README.md)** | The payload shape on the wire — eight compact profiles covering every smart-meter cadence |
-| **[MeterDataRequest v0.6](../../schemas/MeterDataRequest/v0.6/README.md)** | The query / capabilities shape — what the seeker is asking for |
-| **[MeterDataRequestCredential v0.1](../../schemas/MeterDataRequestCredential/v0.1/README.md)** *(optional)* | A W3C VC the seeker attaches at `confirm` time; provider verifies offline |
+| **[MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** | The payload shape on the wire — eight compact profiles covering every smart-meter cadence |
+| **[MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6)** | The query / capabilities shape — what the seeker is asking for |
+| **[MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** *(optional)* | A W3C VC the seeker attaches at `confirm` time; provider verifies offline |
 
 ## Value Unlock
 
@@ -179,7 +179,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Exchange — adapter and data flow
 
-- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [MeterData v0.6](../../schemas/MeterData/v0.6/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 - [ ] Meter population, geography, granularity, counterparty for Phase 1 agreed
 - [ ] Source system mapped (HES / MDM endpoint, owner team, SLA)
 - [ ] Indian-OBIS → MeterData v0.6 mapping verified for every reading and event you ship (see [IES Meter Data Model](ies-meter-data-model.md))

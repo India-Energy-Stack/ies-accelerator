@@ -15,7 +15,7 @@ Represents the data sharing capabilities supported by a meter data provider (e.g
 
 * **Main Schema**: `schema.json#/$defs/MeterDataCapabilities`
 * **JSON-LD Type**: `ies:MeterDataCapabilities`
-* **Link to Example**: [`Capabilities_Example.json`](examples/Capabilities_Example.json)
+* **Link to Example**: [`Capabilities_Example.json`](./examples/Capabilities_Example.json)
 
 ---
 
@@ -30,7 +30,7 @@ Represents the cryptographic or digital grant/token allowing an entity (such as 
 
 * **Main Schema**: `schema.json#/$defs/MeterDataAuthorisation`
 * **JSON-LD Type**: `ies:MeterDataAuthorisation`
-* **Link to Example**: [`Authorisation_Example.json`](examples/Authorisation_Example.json)
+* **Link to Example**: [`Authorisation_Example.json`](./examples/Authorisation_Example.json)
 
 ---
 
@@ -47,7 +47,7 @@ Represents the actual data query payload sent by the authorized entity to pull t
 
 * **Main Schema**: `schema.json` (root schema)
 * **JSON-LD Type**: `ies:MeterDataRequest`
-* **Link to Example**: [`Request_Example.json`](examples/Request_Example.json)
+* **Link to Example**: [`Request_Example.json`](./examples/Request_Example.json)
 
 
 ---

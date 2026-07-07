@@ -181,7 +181,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 * [Energy Credentials — Troubleshooting (revocation caching)](../what-ies-provides/energy-credentials/README.md#troubleshooting)
 * [Batch Issuance at Scale (Queue & Workers)](../what-ies-provides/energy-credentials/README.md#batch-issuance)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
-* [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/v1.2/README.md)
+* [Consumer Energy Passport Schema (ElectricityCredential) Reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 </details>
 
 <details>
@@ -234,13 +234,13 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 > **Batch Telemetry Latency**: MDM database queries can be slow and can violate Beckn's transaction timeouts (usually 5 seconds). Ensure your telemetry API is highly optimized.
 
 ### Execution Guidance
-Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfile](../schemas/MeterData/v0.6/README.md)**, **[DailyProfile](../schemas/MeterData/v0.6/README.md)**, **[InstantaneousProfile](../schemas/MeterData/v0.6/README.md)**, and **[EventProfile](../schemas/MeterData/v0.6/README.md)** formats.
+Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfile](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)**, **[DailyProfile](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)**, **[InstantaneousProfile](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)**, and **[EventProfile](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** formats.
 
 ### References & Anchors
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
   * [How It Fits Together](../use-cases/smart-meter-data-exchange/README.md#id-10.-how-it-fits-together)
 * [IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
-* [MeterData Schema Specification](../schemas/MeterData/v0.6/README.md)
+* [MeterData Schema Specification](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 </details>
 
 <details>
@@ -257,10 +257,10 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 <summary><b>Step 4.4: Establish Data Exchange Authorisation</b></summary>
 
 ### 💡 Phase Advice
-> Leverage the **[MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md)** schema to formalise incoming B2B third-party data authorisations. The scope of the actual request for sharing can be a subset of the broader data authorised.
+> Leverage the **[MeterDataRequestCredential](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** schema to formalise incoming B2B third-party data authorisations. The scope of the actual request for sharing can be a subset of the broader data authorised.
 
 ### Execution Guidance
-While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **[MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md)** (see [credential example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)) OR a **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
+While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **[MeterDataRequestCredential](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** (see [credential example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)) OR a **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
 
 ### ⚠️ Caution
 > **Scoped Access Violations**: Never expose granular consumer interval data without verifying that the presented credential permits that specific access window and profile.
@@ -270,7 +270,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 
 ### References & Anchors
 * [Data Exchange — Beckn protocol lifecycle](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
-* [MeterDataRequestCredential Schema](../schemas/MeterDataRequestCredential/v0.1/README.md)
+* [MeterDataRequestCredential Schema](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)
 * [MeterDataRequestCredential Example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)
 </details>
 
@@ -296,7 +296,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 <summary><b>Step 5.1: Create the Consumer Meter Digest Verifiable Credential</b></summary>
 
 ### 💡 Phase Advice
-> We suggest utilizing a credential that directly includes the **[MeterData](../schemas/MeterData/v0.6/README.md)** schema. When compiling the Digest for a billing cycle, the `CustomerProfile` and `BillingProfile` **must** be included. Additionally, an `IntervalProfile` containing intervals that span the entire billing period is strongly recommended to provide complete consumption transparency.
+> We suggest utilizing a credential that directly includes the **[MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** schema. When compiling the Digest for a billing cycle, the `CustomerProfile` and `BillingProfile` **must** be included. Additionally, an `IntervalProfile` containing intervals that span the entire billing period is strongly recommended to provide complete consumption transparency.
 
 ### Execution Guidance
 1. **Request the Data**: Programmatically query your Data Exchange nodes with a `MeterDataRequest` spanning the billing duration and specifically targeting the required profiles.
@@ -321,7 +321,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
    }
    ```
 
-2. **Structure the Credential**: Package the resulting [`MeterData`](../schemas/MeterData/v0.6/README.md) payload inside the data subject of your verifiable credential envelope.
+2. **Structure the Credential**: Package the resulting [`MeterData`](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) payload inside the data subject of your verifiable credential envelope.
 3. **Sign and Issue**: Sign and issue the verifiable credential utilizing your OpenCred service.
 
 
@@ -401,19 +401,19 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 Publish your Annual Revenue Requirement data in a standardized, machine-readable format to enable programmatic tariff analysis and regulatory transparency.
 
 <details>
-<summary><b>Step 7.1: Map Existing Data to [ARR Schema](../schemas/ArrFiling/v0.5/README.md)</b></summary>
+<summary><b>Step 7.1: Map Existing Data to [ARR Schema](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)</b></summary>
 
 ### 💡 Phase Advice
-> Rather than building new reporting pipelines from scratch, we suggest using your existing regulatory data sets and mapping them directly to the provided [ARR schema](../schemas/ArrFiling/v0.5/README.md).
+> Rather than building new reporting pipelines from scratch, we suggest using your existing regulatory data sets and mapping them directly to the provided [ARR schema](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5).
 
 ### Execution Guidance
 1. Extract historical, current, and forecasted monetary data from your existing tariff orders and regulatory filings.
 2. Focus strictly on providing **only machine-readable data related to monetary data**. Avoid embedding unstructured text or PDF blobs.
-3. Map this extracted monetary data directly to the canonical [`ArrFiling`](../schemas/ArrFiling/v0.5/README.md) schema structure.
+3. Map this extracted monetary data directly to the canonical [`ArrFiling`](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) schema structure.
 4. **Note your experiences**: Treat this as an iterative mapping exercise. Document your experiences, friction points, or any missing schema fields encountered during the data mapping process to help inform future specification refinements.
 
 ### References & Anchors
-* [ARR Filing Schema Reference](../schemas/ArrFiling/v0.5/README.md)
+* [ARR Filing Schema Reference](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ARR Filing Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
 </details>
 

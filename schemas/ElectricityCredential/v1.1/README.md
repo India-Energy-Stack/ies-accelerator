@@ -133,7 +133,7 @@ Grid topology (feeder, bus, DT) is expressed via `parentResources[]` — referen
   "@context": ["https://www.w3.org/ns/credentials/v2", "https://schema.beckn.io/ElectricityCredential/v1.1/context.jsonld"],
   "id": "urn:uuid:…",
   "type": ["VerifiableCredential", "ElectricityCredential"],
-  "issuer": {"id": "did:web:ies.discom.example", "name": "Example Distribution Company"},
+  "issuer": {"id": "did:web:discom.example", "name": "DISCOM"},
   "validFrom": "2025-01-13T10:30:00+05:30",
   "credentialSubject": {
     "customerProfile": {

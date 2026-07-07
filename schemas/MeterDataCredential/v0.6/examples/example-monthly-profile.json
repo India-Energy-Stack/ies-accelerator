@@ -7,17 +7,17 @@
   "id": "urn:uuid:c1d2e3f4-0003-0000-0000-aabbccddeeff",
   "type": ["VerifiableCredential", "MeterDataCredential"],
   "issuer": {
-    "id": "did:web:amisp.ies.example",
-    "name": "Example AMISP – Smart Metering Data Platform",
+    "id": "did:web:amisp-discom.example",
+    "name": "DISCOM AMISP – Smart Metering Data Platform",
     "licenseNumber": "SERC-AMISP-2025-007"
   },
   "validFrom": "2026-04-01T00:00:00Z",
   "validUntil": "2027-04-01T00:00:00Z",
   "credentialStatus": {
-    "id": "https://dedi.global/dedi/query/did:web:amisp.ies.example/vc-revocation-registry",
+    "id": "https://dedi.global/dedi/query/did:web:amisp-discom.example/vc-revocation-registry",
     "type": "dediregistry",
     "statusPurpose": "revocation",
-    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:amisp.ies.example/vc-revocation-registry"
+    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:amisp-discom.example/vc-revocation-registry"
   },
   "credentialSubject": {
     "id": "did:dedi:discom:consumers:RR-1234",
@@ -43,7 +43,7 @@
   "proof": {
     "type": "Ed25519Signature2020",
     "created": "2026-04-01T00:00:00Z",
-    "verificationMethod": "did:web:amisp.ies.example#key-1",
+    "verificationMethod": "did:web:amisp-discom.example#key-1",
     "proofPurpose": "assertionMethod",
     "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
   }

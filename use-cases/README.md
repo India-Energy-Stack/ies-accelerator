@@ -12,16 +12,16 @@ These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/p
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
-| **[Consumer Energy Passport](consumer-energy-passport/README.md)** | DISCOM | Consumer (held in DigiLocker) | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) (holder-bound) |
-| **[Consumer Meter Digest](consumer-meter-digest/README.md)** | DISCOM | Consumer (held in DigiLocker) | [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md) (holder-bound) |
-| **[Smart Meter Data Exchange](smart-meter-data-exchange/README.md)** | AMISP / DISCOM | DISCOM / SERC / consented third party | [MeterData v0.6](../schemas/MeterData/v0.6/README.md) |
-| **[DER Visibility](der-visibility/README.md)** | DISCOM | Grid operator, aggregator | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) energyResources |
+| **[Consumer Energy Passport](consumer-energy-passport/README.md)** | DISCOM | Consumer (held in DigiLocker) | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (holder-bound) |
+| **[Consumer Meter Digest](consumer-meter-digest/README.md)** | DISCOM | Consumer (held in DigiLocker) | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) (holder-bound) |
+| **[Smart Meter Data Exchange](smart-meter-data-exchange/README.md)** | AMISP / DISCOM | DISCOM / SERC / consented third party | [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) |
+| **[DER Visibility](der-visibility/README.md)** | DISCOM | Grid operator, aggregator | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) energyResources |
 
 ## Live or staged
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
-| **[DISCOM Regulatory Filing](discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md) |
+| **[DISCOM Regulatory Filing](discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) |
 | **[Tariff Intelligence](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
 
 ## In progress
@@ -30,7 +30,7 @@ These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/p
 |---|---|---|
 | **[P2P Energy Trading](p2p-energy-trading/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
 
-> **OutageNotification** — the schema is published ([v0.1](../schemas/OutageNotification/v0.1/README.md)), but there is no IES use-case guide for outage visibility yet. See the [OutageNotification schema overview](../what-ies-provides/schemas-overview/outage-notification.md) for the plain-language walkthrough of what the schema covers.
+> **OutageNotification** — the schema is published ([v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)), but there is no IES use-case guide for outage visibility yet. See the [OutageNotification schema overview](../what-ies-provides/schemas-overview/outage-notification.md) for the plain-language walkthrough of what the schema covers.
 
 ---
 

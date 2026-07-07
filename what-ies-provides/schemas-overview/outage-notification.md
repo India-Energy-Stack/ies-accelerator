@@ -131,7 +131,7 @@ OutageNotification v0.1 is built from the following logical blocks:
 - **OutagePublicInfo** — the localized headline, description and instruction shown to consumers.
 - **OutageProvenance** — the detecting system, the AMISP code, the raw detection signal (`OutageSignal`), and references into the originating smart-meter signal and MeterData alarms (`OutageAlarmRef`).
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [OutageNotification v0.1 — Field reference](../../schemas/OutageNotification/v0.1/README.md#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [OutageNotification v0.1 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1#field-reference).
 
 ## 9. Schedule II
 

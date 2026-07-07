@@ -93,7 +93,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 * [DISCOM Regulatory Filing — What It Records / Covers](../use-cases/discom-regulatory-filing/README.md#id-2.-what-it-records-covers)
 * [DISCOM Regulatory Filing — How Each Item is Identified](../use-cases/discom-regulatory-filing/README.md#id-3.-how-each-item-is-identified)
 * [ArrFiling Schema Overview](../what-ies-provides/schemas-overview/arr-filing.md)
-* [ArrFiling Schema Reference (v0.5)](../schemas/ArrFiling/v0.5/README.md)
+* [ArrFiling Schema Reference (v0.5)](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ArrFiling Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
 * [Taxonomy — Schema map (ArrFiling entry)](../what-ies-provides/taxonomy.md#data-exchange-payloads)
 </details>

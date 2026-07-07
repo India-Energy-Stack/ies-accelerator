@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Transform a DISCOM-style planned-shutdown CSV into OutageNotification JSON.
 
-Mirrors the columns of a typical DISCOM "Detail of Planned Shutdown" sheet
-and emits an array of OutageNotification objects (IES OutageNotification v0.1).
+Mirrors the columns of a DISCOM "Detail of Planned Shutdown" sheet
+(a public PDF publication pattern used by Indian DISCOMs) and emits an array
+of OutageNotification objects (IES OutageNotification v0.1).
 
 Grouping: rows sharing a `group_id` become ONE notice (one substation +
 window + reason), with each feeder as an entry in `affectedAssets[]`. The
@@ -111,7 +112,7 @@ def build_notice(group_id, rows):
     notice["category"] = "MAINTENANCE"
     notice["cause"] = {"category": "PLANNED", "subcategory": cause_subcategory(reason), "text": reason}
     notice["forceMajeure"] = False
-    notice["issuedBy"] = {"name": "the DISCOM", "contact": "1912"}
+    notice["issuedBy"] = {"name": "DISCOM", "contact": "1912"}
     notice["issuedAt"] = to_datetime(r0["date"], "00:00")
     if network:
         notice["network"] = network

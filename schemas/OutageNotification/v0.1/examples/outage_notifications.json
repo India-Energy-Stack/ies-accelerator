@@ -10,7 +10,7 @@
     "category": "MAINTENANCE",
     "cause": { "category": "PLANNED", "subcategory": "MAINTENANCE", "code": "SCHEDULED_OUTAGE", "codeNamespace": "discom-oms", "text": "Pole erection on long span & VCB replacement under Business Plan" },
     "forceMajeure": false,
-    "issuedBy": { "name": "the DISCOM", "contact": "1912" },
+    "issuedBy": { "name": "DISCOM", "contact": "1912" },
     "issuedAt": "2026-06-21T18:00:00+05:30",
     "network": { "zone": "Muzaffarnagar", "circle": "EDC-2 Muzaffarnagar", "division": "EDD-Budhana", "substation": { "scheme": "SUBSTATION", "value": "BHATMAI" } },
     "affectedAssets": [
@@ -68,7 +68,7 @@
     "category": "FAULT",
     "cause": { "category": "EQUIPMENT", "subcategory": "OTHER", "faultType": "11KV", "code": "6", "codeNamespace": "discom-oms", "text": "11KV Line Fault — supply restored" },
     "forceMajeure": false,
-    "issuedBy": { "name": "the DISCOM", "contact": "1912" },
+    "issuedBy": { "name": "DISCOM", "contact": "1912" },
     "detectedAt": "2026-06-22T15:41:55+05:30",
     "lastUpdatedAt": "2026-06-22T18:25:00+05:30",
     "network": { "substation": { "scheme": "SUBSTATION", "value": "Gharaaha" }, "district": "SULTANPUR" },

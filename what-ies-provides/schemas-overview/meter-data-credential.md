@@ -101,7 +101,7 @@ MeterDataCredential is built from two logical blocks:
 - the **credential envelope** — inherited from EnergyCredential v2.0: `issuer` (id, name, licence number), `validFrom`/`validUntil`, `credentialStatus`, and `proof`; none of these are redefined in this schema's own `attributes.yaml` — they arrive entirely via the `allOf` reference;
 - **`credentialSubject`** — defined by this schema: the subject `id` (DID of the consumer or asset entity, optional) and `meterData` (required), the attested MeterData v0.6 payload (a single profile object or an array of profile objects, per the `oneOf` in MeterData's own root schema).
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterDataCredential v0.6 — Field reference](../../schemas/MeterDataCredential/v0.6/README.md#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterDataCredential v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6#field-reference).
 
 ## 9. Schedule II
 

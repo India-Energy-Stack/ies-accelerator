@@ -13,10 +13,10 @@
     "ElectricityCredential"
   ],
   "issuer": {
-    "id": "did:web:ies.discom.example",
+    "id": "did:web:discom.example",
     "name": "Example Distribution Company",
     "idRef": {
-      "issuedBy": "did:web:ies.serc.example",
+      "issuedBy": "did:web:serc.example",
       "subjectId": "serc.example:AABPC12345"
     }
   },
@@ -117,7 +117,7 @@
   "proof": {
     "type": "Ed25519Signature2020",
     "created": "2025-01-13T10:30:00+05:30",
-    "verificationMethod": "did:web:ies.discom.example#key-1",
+    "verificationMethod": "did:web:discom.example#key-1",
     "proofPurpose": "assertionMethod",
     "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
   }

@@ -90,7 +90,7 @@ ArrFiling is built from three logical blocks:
 - **ArrFiscalYear** — one fiscal year's classification (base year, control-period year, or historical) and amount basis (audited, approved, proposed, trued-up, or not filed), plus its list of line items.
 - **ArrLineItem** — one cost, revenue, subtotal or adjustment row: its category and sub-category, its form heading and description, its amount, and how it rolls up into other line items.
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [ArrFiling v0.5 — Field reference](../../schemas/ArrFiling/v0.5/README.md#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [ArrFiling v0.5 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5#field-reference).
 
 ## 9. Schedule II
 

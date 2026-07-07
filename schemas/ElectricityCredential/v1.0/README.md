@@ -35,10 +35,10 @@ The credential is issued by energy providers. The issuer object contains:
 Example:
 ```json
 "issuer": {
-  "id": "did:web:ies.discom.example",
+  "id": "did:web:discom.example",
   "name": "Example Distribution Company",
   "idRef": {
-    "issuedBy": "did:web:ies.serc.example",
+    "issuedBy": "did:web:serc.example",
     "subjectId": "serc.example:AABPC12345"
   }
 }

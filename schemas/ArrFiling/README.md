@@ -28,4 +28,4 @@ Schema for Aggregate Revenue Requirement (ARR) filings made by electricity distr
 
 ## Usage
 
-Used in the [DISCOM Regulatory Filing](../../use-cases/discom-regulatory-filing/README.md) flow. DISCOMs publish ARR filings as structured Beckn catalog items; SERCs and downstream systems consume them via standard discovery and retrieval flows.
+Used in the [Regulatory Data Exchange](../../what-ies-provides/data-exchange/README.md) flow. DISCOMs publish ARR filings as structured Beckn catalog items; SERCs and downstream systems consume them via standard discovery and retrieval flows.

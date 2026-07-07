@@ -1,13 +1,13 @@
 # Consumer Meter Digest
 
-A **[MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md)** issued on consumer demand, holder-bound to the consumer's wallet, carrying their own meter readings for a specified period (W3C Verifiable Credential).
+A **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)** issued on consumer demand, holder-bound to the consumer's wallet, carrying their own meter readings for a specified period (W3C Verifiable Credential).
 
 | | |
 |---|---|
 | **Document** | IES/CMD-PROFILE/0.6 |
 | **Status** | Live in pilot |
 | **Applicability** | All distribution licensees |
-| **This version** | Consumer Meter Digest *variant* of [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md), holder-bound. It wraps [MeterData v0.6](../../schemas/MeterData/v0.6/README.md) profiles. |
+| **This version** | Consumer Meter Digest *variant* of [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6), holder-bound. It wraps [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) profiles. |
 
 ---
 
@@ -74,11 +74,11 @@ Revocation rarely matters in practice (Digests typically expire faster than they
 
 The full, authoritative field tables are in the schema:
 
-→ **[MeterDataCredential v0.6 — Credential structure](../../schemas/MeterDataCredential/v0.6/README.md)**
+→ **[MeterDataCredential v0.6 — Credential structure](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)**
 
 The credential envelope (`@context`, `id`, `type`, `issuer`, `credentialSubject`, `proof`) is identical to any W3C VC. The payload (`meterReference`, `period`, `readings`, `summary`, `dataQuality`) follows the MeterData v0.6 compact-profile schema:
 
-→ **[MeterData v0.6 — Field reference](../../schemas/MeterData/v0.6/README.md)**
+→ **[MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)**
 
 ## 9. Schedule II
 
@@ -127,7 +127,7 @@ The Digest is **point-in-time**. The consumer re-requests when they need fresh d
 
 ## Schemas Used in This Use Case
 
-The Digest is the holder-bound issuance of a single schema — **[MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md)** — which itself wraps a payload conforming to **[MeterData v0.6](../../schemas/MeterData/v0.6/README.md)**. The consumer's entitlement to request the Digest is typically proven by their **[Consumer Energy Passport](../consumer-energy-passport/README.md)** (or a minimal customer credential).
+The Digest is the holder-bound issuance of a single schema — **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)** — which itself wraps a payload conforming to **[MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)**. The consumer's entitlement to request the Digest is typically proven by their **[Consumer Energy Passport](../consumer-energy-passport/README.md)** (or a minimal customer credential).
 
 ## Value Unlock
 
@@ -153,7 +153,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Exchange — MDM read path and issuance
 
-- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md) / [MeterData v0.6](../../schemas/MeterData/v0.6/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) / [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 - [ ] Read access tested for the granularities you'll support (`RAW_15M`, `DAILY`, `MONTHLY`, derived summaries)
 - [ ] Max-range policy decided (e.g. 24 months for `MONTHLY`, 90 days for `RAW_15M`)
 - [ ] Latency budget understood — consumer flows need a Digest in seconds
@@ -212,4 +212,4 @@ Example payloads for each profile shape are in the schema repository:
 - **[`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld)**
 - **[`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/vocab.jsonld)**
 
-The MeterData payload schema (referenced from the credential): **[MeterData v0.6](../../schemas/MeterData/v0.6/README.md)**.
+The MeterData payload schema (referenced from the credential): **[MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)**.

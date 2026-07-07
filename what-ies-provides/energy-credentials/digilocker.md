@@ -677,7 +677,7 @@ Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential o
 ## Reference
 
 - [Consumer Meter Digest — use-case guide](../../use-cases/consumer-meter-digest/README.md)
-- [Electricity Credential — schema reference](../../schemas/ElectricityCredential/v1.2/README.md)
+- [Electricity Credential — schema reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 - [OpenCred Documentation](https://opencred.gitbook.io/docs) — credential service API reference
 - [API Setu DigiLocker Partner Portal](https://partners.digitallocker.gov.in)
 - [DigiLocker Technical Specification v1.0.5](https://partners.digitallocker.gov.in/assets/img/Digital%20Locker%20Technical%20Specification%20v1%200%205.pdf)

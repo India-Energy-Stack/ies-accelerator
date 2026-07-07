@@ -67,7 +67,7 @@
                         "issuedBy": {
                             "type": "string",
                             "format": "uri",
-                            "description": "DID of the authority that issued the identity (e.g., did:web:ies.serc.example)"
+                            "description": "DID of the authority that issued the identity (e.g., did:web:serc.example)"
                         },
                         "subjectId": {
                             "type": "string",
@@ -248,7 +248,7 @@
                         "issuedBy": {
                             "type": "string",
                             "format": "uri",
-                            "description": "DID of the authority that issued the identity (e.g., did:web:ies.serc.example)"
+                            "description": "DID of the authority that issued the identity (e.g., did:web:serc.example)"
                         },
                         "subjectId": {
                             "type": "string",

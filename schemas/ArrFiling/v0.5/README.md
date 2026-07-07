@@ -18,11 +18,11 @@ The `ArrFiling` schema unifies diverse state-level regulatory filing formats by 
 
 | File | Description |
 |------|-------------|
-| [`attributes.yaml`](attributes.yaml) | Canonical OpenAPI 3.1.0 schema source of truth, describing all attributes, models, and types. |
-| [`schema.json`](schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
-| [`context.jsonld`](context.jsonld) | Compiled JSON-LD context mapping ARR attributes to semantic terms under the `ies:` prefix. |
-| [`vocab.jsonld`](vocab.jsonld) | Compiled JSON-LD vocabulary ontology graph defining classes and properties. |
-| [`examples/`](examples) | JSON-LD absolute-linked regulatory example files. |
+| [`attributes.yaml`](./attributes.yaml) | Canonical OpenAPI 3.1.0 schema source of truth, describing all attributes, models, and types. |
+| [`schema.json`](./schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
+| [`context.jsonld`](./context.jsonld) | Compiled JSON-LD context mapping ARR attributes to semantic terms under the `ies:` prefix. |
+| [`vocab.jsonld`](./vocab.jsonld) | Compiled JSON-LD vocabulary ontology graph defining classes and properties. |
+| [`examples/`](./examples) | JSON-LD absolute-linked regulatory example files. |
 
 ---
 

@@ -119,7 +119,7 @@ MeterData v0.6 is built from these logical blocks:
 - **Reading / Override / TimePeriod / IntervalPeriod / Interval** — the shared reading and time-window primitives used across profiles.
 - **Identifier / IdentifierList** — the generic `{scheme, value, namespace}` object and its non-empty-array wrapper, used throughout (Section 3).
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterData v0.6 — README](../../schemas/MeterData/v0.6/README.md#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterData v0.6 — README](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6#field-reference).
 
 ## 9. Schedule II
 
