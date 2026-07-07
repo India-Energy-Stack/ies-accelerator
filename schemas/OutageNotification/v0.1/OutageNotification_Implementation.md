@@ -1,7 +1,7 @@
 # Outage Notification System — Implementation Guide
 
 **Status:** Draft for discussion · **Audience:** DISCOM IT / system integrators building a production outage-notification service.
-**Goal:** a modern **pull + push** notification system that publishes planned and unplanned outages as the [`OutageNotification`](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1) format, so a utility can serve websites, apps, outage maps, alerting networks, and subscribed consumers from one source of truth — making operations more efficient and transparent.
+**Goal:** a modern **pull + push** notification system that publishes planned and unplanned outages as the [`OutageNotification`](README.md) format, so a utility can serve websites, apps, outage maps, alerting networks, and subscribed consumers from one source of truth — making operations more efficient and transparent.
 
 This is a *how to build it* guide. For the data model and rationale see [OutageNotification_Design.md](OutageNotification_Design.md); for the upstream detection contract see [FeederStatusIngest.openapi.yaml](FeederStatusIngest.openapi.yaml).
 

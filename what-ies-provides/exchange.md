@@ -22,16 +22,16 @@ The same set of schemas combines in different ways to deliver each use case. Eac
 
 | Use case | Schemas combined |
 |---|---|
-| [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (holder-bound) |
-| [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) wrapping [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6); often paired with the consumer's [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) |
-| [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) + [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) + optionally [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) |
-| [DER Visibility](../use-cases/der-visibility/README.md) | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (grid-side issuance: `energyResources[]` only, no PII) |
+| [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) (holder-bound) |
+| [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md) wrapping [MeterData v0.6](../schemas/MeterData/v0.6/README.md); often paired with the consumer's [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) |
+| [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | [MeterData v0.6](../schemas/MeterData/v0.6/README.md) + [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) + optionally [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) |
+| [DER Visibility](../use-cases/der-visibility/README.md) | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) (grid-side issuance: `energyResources[]` only, no PII) |
 
 ### Live or staged
 
 | Use case | Schemas combined |
 |---|---|
-| [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) over Beckn |
+| [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md) over Beckn |
 | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | `IES_Policy` family (upstream; in progress) |
 
 ### In progress
@@ -40,7 +40,7 @@ The same set of schemas combines in different ways to deliver each use case. Eac
 |---|---|
 | [P2P Energy Trading](../use-cases/p2p-energy-trading/README.md) | DEG `P2PTrade` family — [P2PTrade, DEGContract, EnergyTradeOffer, EnergyCustomer, RevenueFlow, BecknTimeSeries](../schemas/external/README.md#energy-trading-p2p) |
 
-> **OutageNotification** (schema published, [v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)) and the **DEG demand-flex family** (`DemandFlexNeed`, `DemandFlexBuyOffer`, `DemandFlexPerformance` — see [external schemas](../schemas/external/README.md#demand-flexibility)) are published schemas without an IES use-case guide yet.
+> **OutageNotification** (schema published, [v0.1](../schemas/OutageNotification/v0.1/README.md)) and the **DEG demand-flex family** (`DemandFlexNeed`, `DemandFlexBuyOffer`, `DemandFlexPerformance` — see [external schemas](../schemas/external/README.md#demand-flexibility)) are published schemas without an IES use-case guide yet.
 
 ---
 
@@ -65,9 +65,9 @@ A subset of Exchange payloads are issued as W3C Verifiable Credentials — durab
 
 | Credential | What it carries |
 |---|---|
-| [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) | Static facts of a consumer's connection — sanctioned load, tariff, assets behind the meter |
-| [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) | A signed envelope around a MeterData payload — consumer's own readings for a window |
-| [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) | A signed proof-of-right-to-ask that a seeker presents to a meter-data provider |
+| [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) | Static facts of a consumer's connection — sanctioned load, tariff, assets behind the meter |
+| [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md) | A signed envelope around a MeterData payload — consumer's own readings for a window |
+| [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) | A signed proof-of-right-to-ask that a seeker presents to a meter-data provider |
 
 For OpenCred-based issuance, verification and revocation operations, see **[Energy Credentials](energy-credentials/README.md)**.
 

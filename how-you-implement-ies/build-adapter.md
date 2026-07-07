@@ -53,11 +53,11 @@ The pilot DISCOMs each picked one use case to ship first, then layered the rest 
 
 | First use case | Internal system you'll touch | Schema | Why first |
 |---|---|---|---|
-| **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md)** | CIS / billing master | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) | Smallest schema; consumer-facing value is immediate |
-| **[Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md)** | HES / MDM | [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) | Solves a tangible AMISP-DISCOM pain; mostly DataOps work |
-| **[Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md)** | MDM (read path) | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) | Builds on the Passport adapter; small extra surface |
-| **[DER Visibility](../use-cases/der-visibility/README.md)** | DER / inverter registration database | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) energyResources | If rooftop / EV registrations are your priority |
-| **[DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md)** | Regulatory affairs / finance | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) | If you have an ARR due |
+| **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md)** | CIS / billing master | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) | Smallest schema; consumer-facing value is immediate |
+| **[Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md)** | HES / MDM | [MeterData v0.6](../schemas/MeterData/v0.6/README.md) | Solves a tangible AMISP-DISCOM pain; mostly DataOps work |
+| **[Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md)** | MDM (read path) | [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md) | Builds on the Passport adapter; small extra surface |
+| **[DER Visibility](../use-cases/der-visibility/README.md)** | DER / inverter registration database | [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) energyResources | If rooftop / EV registrations are your priority |
+| **[DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md)** | Regulatory affairs / finance | [ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md) | If you have an ARR due |
 
 ---
 
@@ -83,7 +83,7 @@ This table **is** the mapping. The code that follows is mechanical.
 
 Most fields are pass-through. A few need:
 
-- **Unit packaging** — your `5` becomes `{ "value": 5, "unit": "kW" }` per [QuantitativeValue](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference).
+- **Unit packaging** — your `5` becomes `{ "value": 5, "unit": "kW" }` per [QuantitativeValue](../schemas/ElectricityCredential/v1.2/README.md#field-reference).
 - **Tariff code translation** — your internal `LT1A` becomes a stable IES code; keep the lookup in one place.
 - **Date formatting** — ISO 8601 with timezone offset (`2026-01-10T00:00:00+05:30`).
 - **DID composition** — `did:web:<your-domain>:assets:meter:<existing-serial>` (your serial is preserved verbatim).

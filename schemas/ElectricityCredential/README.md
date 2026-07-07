@@ -16,9 +16,9 @@ Unified W3C Verifiable Credential (VC Data Model 2.0) issued per meter by electr
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) | **Current** | Composable EnergyResource kinds (7 typed discriminants); directional power fields; EV charger kind |
-| [v1.1](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.1) | Previous | Unified `energyResources[]` (EnergyResource/v2.0), multi-meter topology support |
-| [v1.0](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.0) | Deprecated | Separate `consumptionProfiles[]`, `generationProfiles[]`, `storageProfiles[]` arrays |
+| [v1.2](v1.2/README.md) | **Current** | Composable EnergyResource kinds (7 typed discriminants); directional power fields; EV charger kind |
+| [v1.1](v1.1/README.md) | Previous | Unified `energyResources[]` (EnergyResource/v2.0), multi-meter topology support |
+| [v1.0](v1.0/README.md) | Deprecated | Separate `consumptionProfiles[]`, `generationProfiles[]`, `storageProfiles[]` arrays |
 
 ---
 
@@ -71,7 +71,7 @@ beckn:Credential
 | `storageProfiles[].storageType` | `energyResources[DER].attributes.storageType` |
 | `fullName` duplicated per profile entry | `customerDetails.fullName` (once only) |
 
-See [v1.1/README.md](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.1) for the full migration table.
+See [v1.1/README.md](v1.1/README.md) for the full migration table.
 
 ---
 
