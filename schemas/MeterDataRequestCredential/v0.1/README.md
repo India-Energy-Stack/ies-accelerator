@@ -2,7 +2,7 @@
 
 # MeterDataRequestCredential v0.1
 
-A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.6) to prove a data requester's authorisation for accessing smart meter telemetry.
+A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.6/README.md) to prove a data requester's authorisation for accessing smart meter telemetry.
 
 ---
 

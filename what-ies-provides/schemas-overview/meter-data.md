@@ -7,7 +7,7 @@
 | Document | IES/MD/0.6 |
 | Status | Stable field set for the nine record shapes and the Data Descriptor Engine (the internal `info.version` inside `attributes.yaml` still reads `0.5.0`, a labeling lag the source has not yet corrected). The overlap with `ElectricityCredential` (Section 11 below) is explicitly marked in the schema's own README as pending reconciliation in a future major version |
 | Applicability | Issued by AMISPs, HES/MDM systems and DISCOMs; consumed by DISCOMs, regulators (SERC/CERC), TSPs and consented third parties over IES Data Exchange |
-| This version | Covers the nine compact profile shapes and the shared Data Descriptor Engine, defined in [schema.json](../../schemas/MeterData/v0.6/schema.json) |
+| This version | Covers the nine compact profile shapes and the shared Data Descriptor Engine, defined in [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json) |
 
 ## 1. Scope and Purpose
 
@@ -156,8 +156,8 @@ MeterData also has a documented, not-yet-reconciled overlap with the **Electrici
 
 ### Annexure B — Example Payloads
 
-Example payloads for each profile type, including edge cases (mid-cycle meter swaps, multiple monthly resets, anonymised topology lookups, OBIS vs. short-code representations, and multi-meter bulk datasets), are available in [`schemas/MeterData/v0.6/examples/`](../../schemas/MeterData/v0.6/examples).
+Example payloads for each profile type, including edge cases (mid-cycle meter swaps, multiple monthly resets, anonymised topology lookups, OBIS vs. short-code representations, and multi-meter bulk datasets), are available in [`schemas/MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples).
 
 ### Annexure C — JSON Schema
 
-The authoritative machine-readable definitions are [`schemas/MeterData/v0.6/schema.json`](../../schemas/MeterData/v0.6/schema.json) and [`schemas/MeterData/v0.6/attributes.yaml`](../../schemas/MeterData/v0.6/attributes.yaml).
+The authoritative machine-readable definitions are [`schemas/MeterData/v0.6/schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json) and [`schemas/MeterData/v0.6/attributes.yaml`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml).

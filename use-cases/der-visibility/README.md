@@ -67,7 +67,7 @@ Identical to **[Consumer Energy Passport §8](../consumer-energy-passport/README
 
 → **[ElectricityCredential v1.2 — Field reference](../../schemas/ElectricityCredential/v1.2/README.md#field-reference)**
 
-DER Visibility populates `energyResources[]` (typed entries: GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) and `topology` (parent / sub-resource links). `customerProfile` and `customerDetails` are omitted.
+DER Visibility populates `energyResources[]` (typed entries: GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) and the parent / sub-resource links (`parentResources` / `subResources`). `customerProfile` and `customerDetails` are omitted.
 
 ## 9. Schedule II
 
@@ -138,7 +138,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 - [ ] `customerProfile` / `customerDetails` blanked at issuance time
 - [ ] `energyResources[]` populated from CIS / DERMS / inspection register
 - [ ] Topology links (`parentResources`, `subResources`) populated where the DT mapping is known
-- [ ] Schema validation passes against [ElectricityCredential v1.2 schema.json](../../schemas/ElectricityCredential/v1.2/schema.json)
+- [ ] Schema validation passes against [ElectricityCredential v1.2 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json)
 - [ ] Refresh cadence agreed and scheduled
 - [ ] Revocation tested
 
@@ -152,8 +152,8 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ## Dev kits and code
 
-- **Schema source** — [`schemas/ElectricityCredential/v1.2/attributes.yaml`](../../schemas/ElectricityCredential/v1.2/attributes.yaml)
-- **JSON Schema** — [`schema.json`](../../schemas/ElectricityCredential/v1.2/schema.json)
+- **Schema source** — [`schemas/ElectricityCredential/v1.2/attributes.yaml`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/attributes.yaml)
+- **JSON Schema** — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json)
 - **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.2/examples) (start from `example.json`; blank `customerProfile` / `customerDetails` for the DER Visibility issuance shape)
 - **Validation** — `python3 scripts/validate_schema.py schemas/ElectricityCredential/v1.2/schema.json <your-output.json>`
 

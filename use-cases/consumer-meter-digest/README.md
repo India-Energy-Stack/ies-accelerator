@@ -74,7 +74,7 @@ Revocation rarely matters in practice (Digests typically expire faster than they
 
 The full, authoritative field tables are in the schema:
 
-→ **[MeterDataCredential v0.6 — Field reference](../../schemas/MeterDataCredential/v0.6/README.md)**
+→ **[MeterDataCredential v0.6 — Credential structure](../../schemas/MeterDataCredential/v0.6/README.md)**
 
 The credential envelope (`@context`, `id`, `type`, `issuer`, `credentialSubject`, `proof`) is identical to any W3C VC. The payload (`meterReference`, `period`, `readings`, `summary`, `dataQuality`) follows the MeterData v0.6 compact-profile schema:
 
@@ -159,7 +159,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 - [ ] Latency budget understood — consumer flows need a Digest in seconds
 - [ ] `credentialSubject.id` = wallet DID; `schemaId` = `MeterDataCredential/v0.6`
 - [ ] `validUntil` short — 24h for loan portals, up to 7d for less time-sensitive flows
-- [ ] Schema validation passes against [MeterDataCredential v0.6 schema.json](../../schemas/MeterDataCredential/v0.6/schema.json)
+- [ ] Schema validation passes against [MeterDataCredential v0.6 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json)
 - [ ] DigiLocker pull tested end-to-end → [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md)
 - [ ] One direct DID-push path tested for non-DigiLocker wallets
 - [ ] Verification rehearsed with one verifier (bank / marketplace / housing society / EV installer)
@@ -176,9 +176,9 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ## Dev kits and code
 
-- **Schema source** — [`schemas/MeterDataCredential/v0.6/attributes.yaml`](../../schemas/MeterDataCredential/v0.6/attributes.yaml)
-- **JSON Schema** — [`schema.json`](../../schemas/MeterDataCredential/v0.6/schema.json) (credential wrapper) + [`MeterData/v0.6/schema.json`](../../schemas/MeterData/v0.6/schema.json) (payload)
-- **JSON-LD context** — [`context.jsonld`](../../schemas/MeterDataCredential/v0.6/context.jsonld)
+- **Schema source** — [`schemas/MeterDataCredential/v0.6/attributes.yaml`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/attributes.yaml)
+- **JSON Schema** — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json) (credential wrapper) + [`MeterData/v0.6/schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json) (payload)
+- **JSON-LD context** — [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld)
 - **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataCredential/v0.6/examples) (customer profile; interval profile; monthly profile)
 - **Validation** — `python3 scripts/validate_schema.py schemas/MeterDataCredential/v0.6/schema.json <your-output.json>`
 - **MDM read-path guidance** — [MeterData v0.6 — User Guide](../../schemas/MeterData/v0.6/UserGuide.md)

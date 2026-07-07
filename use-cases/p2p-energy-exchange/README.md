@@ -91,7 +91,7 @@ The full, authoritative field tables are in the schemas:
 
 → **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)**
 
-Six tables: `P2PTrade`, `EnergyTradeOffer`, `EnergyCustomer`, `EnergyOrderItem`, `RevenueFlow`, `DEGContract` (+ the shared `BecknTimeSeries` and `DiscomLedgerProvider`).
+Six tables: `P2PTrade`, `EnergyTradeOffer`, `EnergyCustomer`, `EnergyOrderItem`, `RevenueFlow`, `DEGContract` (+ the shared `BecknTimeSeries` and `EnergyResource`; `DiscomLedgerProvider` is defined only at schema.beckn.io).
 
 For the underlying meter-data sub-transaction shape, see **[MeterData v0.6 — Field reference](../../schemas/MeterData/v0.6/README.md)** (referenced indirectly — the trade-side meter quantities ride as `BecknTimeSeries` payloadTypes, not as a `MeterData` profile).
 
@@ -249,4 +249,4 @@ Canonical references at **[schema.beckn.io](https://schema.beckn.io)**:
 - **[DiscomLedgerProvider/v2.0](https://schema.beckn.io/DiscomLedgerProvider/v2.0)**
 - **[BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)**
 
-A consolidated field reference for all of the above is in **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)**.
+A consolidated field reference for the trade schemas (except `DiscomLedgerProvider` and `EnergyTradeDelivery`, defined only at schema.beckn.io) is in **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)**.

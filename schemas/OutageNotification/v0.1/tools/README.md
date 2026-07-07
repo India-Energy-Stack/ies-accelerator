@@ -12,7 +12,7 @@ A worked example of turning a DISCOM's tabular planned-shutdown publication into
 ```bash
 python3 transform_pvvnl_csv.py pvvnl_planned_shutdown.csv -o ../examples/pvvnl_planned_shutdown.json
 # validate (from repo root):
-python3 ../../../scripts/validate_schema.py ../schema.json ../examples
+python3 scripts/validate_schema.py schemas/OutageNotification/v0.1/schema.json schemas/OutageNotification/v0.1/examples
 ```
 
 ## Mapping notes

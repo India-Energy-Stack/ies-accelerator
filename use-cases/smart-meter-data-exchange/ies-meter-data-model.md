@@ -94,7 +94,7 @@ For each profile, the OBIS register is carried in `payloadDescriptors[].obis` an
 
 ## 4. IS 15959 Event IDs → `EVENT` / `ALARM`
 
-Events carry `eventId` (numeric, IS 15959) and a human-readable `eventName` directly. Examples are in [`schemas/MeterData/v0.6/examples/EventProfile.json`](../../schemas/MeterData/v0.6).
+Events carry `eventId` (numeric, IS 15959) and a human-readable `eventName` directly. Examples are in [`schemas/MeterData/v0.6/examples/EventProfile.json`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/examples/EventProfile.json).
 
 | Event ID (occur) | Event ID (restore) | Description | Category | Profile |
 |---|---|---|---|---|
@@ -157,7 +157,7 @@ When an OBIS reading arrives, the receiving MDM matches it via `meterRefs[]` →
 
 ## 7. Worked example — 30-minute Load Survey
 
-The full schema-validating example is at [`schemas/MeterData/v0.6/examples/IntervalProfile.json`](../../schemas/MeterData/v0.6). The shape:
+The full schema-validating example is at [`schemas/MeterData/v0.6/examples/IntervalProfile.json`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/examples/IntervalProfile.json). The shape:
 
 1. One `PayloadDescriptorProfile` declares `IntervalLoadSurveySet` with `kWh imp block` (OBIS `1.0.1.29.0.255`) and `kWh exp block` (OBIS `1.0.2.29.0.255`).
 2. One `IntervalProfile` references the descriptor set, carries `intervalPeriod` (`start`, `duration: PT30M`), and packs each interval into a tight `payloads: [imp, exp]` array.

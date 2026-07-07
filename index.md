@@ -652,7 +652,7 @@ The IES Documentation Template applied to each schema itself — scope, identifi
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/schemas-overview/outage-notification.md#outage-notification-v01">Outage Notification v0.1</a>    <ul>
+    <li><a href="what-ies-provides/schemas-overview/outage-notification.md#outagenotification-v01">OutageNotification v0.1</a>    <ul>
       <li><a href="what-ies-provides/schemas-overview/outage-notification.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
       <li><a href="what-ies-provides/schemas-overview/outage-notification.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
       <li><a href="what-ies-provides/schemas-overview/outage-notification.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>

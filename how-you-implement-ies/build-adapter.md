@@ -151,4 +151,4 @@ For the first use case:
 
 When all six are ticked, you have completed Step 3 for your first use case. Move on to **[Step 4 — Conformance Checklist](conformance.md)**, then publish.
 
-For the second and subsequent use cases, only Tasks 1, 2, 3 and 4 (handler registration) repeat. Tasks 5 (sandbox), 6 (conformance) and all the identity / network setup are reused.
+For the second and subsequent use cases, only Tasks 1–4 repeat. The sandbox test (Task 5) reruns quickly, and conformance (Step 4) and all the identity / network setup are reused.

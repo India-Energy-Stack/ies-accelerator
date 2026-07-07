@@ -161,7 +161,7 @@ The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.
 - [ ] `credentialSubject.id` = wallet DID
 - [ ] `customerProfile.idRef` = verified government-ID *reference* (not the raw number)
 - [ ] `validUntil` set to a sensible horizon (re-issued on material change)
-- [ ] Schema validation passes against [ElectricityCredential v1.2 schema.json](../../schemas/ElectricityCredential/v1.2/schema.json)
+- [ ] Schema validation passes against [ElectricityCredential v1.2 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json)
 - [ ] Selective-disclosure profile agreed with the first verifiers (SD-JWT-VC typical)
 - [ ] Verification rehearsed with one verifier (bank / marketplace / subsidy portal)
 - [ ] Revocation tested — revoking invalidates all presentations within minutes
@@ -176,9 +176,9 @@ The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.
 
 ## Dev kits and code
 
-- **Schema source** — [`schemas/ElectricityCredential/v1.2/attributes.yaml`](../../schemas/ElectricityCredential/v1.2/attributes.yaml) (compile with `make build`)
-- **JSON Schema** — [`schema.json`](../../schemas/ElectricityCredential/v1.2/schema.json)
-- **JSON-LD context** — [`context.jsonld`](../../schemas/ElectricityCredential/v1.2/context.jsonld)
+- **Schema source** — [`schemas/ElectricityCredential/v1.2/attributes.yaml`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/attributes.yaml) (compile with `make build`)
+- **JSON Schema** — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json)
+- **JSON-LD context** — [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/context.jsonld)
 - **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.2/examples) (single meter + PV; sub-metering; parallel metering)
 - **Validation** — `python3 scripts/validate_schema.py schemas/ElectricityCredential/v1.2/schema.json <your-output.json>`
 - **Reference issuer (OpenCred)** — `ghcr.io/nfh-trust-labs/opencred/opencred-server`

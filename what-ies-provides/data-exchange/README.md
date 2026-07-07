@@ -2,7 +2,7 @@
 
 The data layer. Beckn protocol v2 carries the discovery, contracting and audit; small datasets ride inline and large ones hand off to an established channel (signed URL, MQTT, Kafka, SFTP, OpenADR). This page is the **reference** — Beckn lifecycle, ONIX architecture, pagination, network membership, payload shapes.
 
-For first-time setup — running ONIX, claiming a Beckn subscriber record, building the BPP handler — follow **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)**. A 10-minute local quick-start is in [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) below.
+For first-time setup — running ONIX, claiming a Beckn subscriber record, building the BPP handler — follow **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)** and **[Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md)**. A 10-minute local quick-start is in [Quick start](#quick-start-run-a-local-exchange-in-10-minutes) below.
 
 > **About the walkthrough.** The commands below use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
 
@@ -29,7 +29,7 @@ The walkthrough uses the **BAP** path by default. The minimal flow — `confirm`
 ## Prerequisites
 
 - **Docker 24+**, **Docker Compose**, **Git**, **Python 3**, and **Postman** *(or `curl`)*. ~2 GB free disk.
-- *(For real-network exchange, not the local sandbox)* A **published DeDi subscriber identity** under a verified namespace — see [Registries — Step-by-step](../../how-you-implement-ies/setup-register.md) and [Identifiers — Joining a Beckn network](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
+- *(For real-network exchange, not the local sandbox)* A **published DeDi subscriber identity** under a verified namespace — see [Setup Register](../../how-you-implement-ies/setup-register.md) and [Identifiers — Joining a Beckn network](../identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric).
 - *(For real-network exchange)* **IES NFO has referenced you into a network registry** — see [Registries — How to apply for an IES listing](../registries/README.md#how-to-apply-for-an-ies-listing).
 
 **Domains to whitelist** — if your organisation restricts outbound traffic, allow these before starting:
@@ -166,7 +166,7 @@ After the config swap, re-import the same Postman collection — only the identi
 
 ## The IES networks
 
-IES operates two parallel Beckn networks anchored at the `indiaenergystack.in` namespace:
+IES operates two parallel environments (test and production) of the IES data-sharing network, anchored at the `indiaenergystack.in` namespace:
 
 | Network | `networkId` | Purpose |
 |---|---|---|
@@ -313,7 +313,7 @@ Any JSON payload can be exchanged; the families above are simply the ones IES sh
 
 ## Setup checklist
 
-The staged rollout from sandbox to production go-live is in **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**, **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Part 3 → Conformance Checklist](../../how-you-implement-ies/conformance.md)**.
+The staged rollout from sandbox to production go-live is in **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**, **[Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Conformance Checklist](../../how-you-implement-ies/conformance.md)**.
 
 ---
 
@@ -532,5 +532,5 @@ sequenceDiagram
 - [Beckn Protocol v2.0.0 spec](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0)
 - [Identifiers and Addressing](../identifiers/README.md) — `did:web`, subscriber records, holder binding
 - [Registries and Directories](../registries/README.md) — DeDi namespace, network registries, IES Secretariat application
-- [Energy Credentials](../energy-credentials/README.md) — credentialed payloads (MeterDataCredential, ArrFilingCredential, …)
+- [Energy Credentials](../energy-credentials/README.md) — credentialed payloads (ElectricityCredential, MeterDataCredential, MeterDataRequestCredential)
 - [Use cases](../../use-cases/README.md) — end-to-end flows that exercise this protocol

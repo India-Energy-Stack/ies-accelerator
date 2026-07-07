@@ -57,7 +57,7 @@ A [`did:web`](../what-ies-provides/identifiers/README.md#did-web-the-one-your-di
 * [Identifiers & Addressing Overview](../what-ies-provides/identifiers/README.md)
 * [Resolution & Routing Specification](../what-ies-provides/identifiers/README.md#did-web-the-one-your-discom-will-use) (Detailed resolution rules for `did:web` endpoints)
 * [Step-by-step: publish your did:web](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web) (Document parameters)
-* [Identifiers Checklist](../how-you-implement-ies/README.md)
+* [Setup Register — Checklist](../how-you-implement-ies/setup-register.md#checklist)
 </details>
 
 <details>
@@ -105,12 +105,12 @@ Establish your administrative namespaces on the public [Decentralized Directory 
 ### Execution Guidance
 1. Register a secure role-mailbox on the DeDi Portal.
 2. Establish a namespace matching your utility short-code (`<utility>`).
-3. Expose the verification token in your DNS TXT records. Refer to [Registries — Step 3 (verify your domain)](../how-you-implement-ies/setup-register.md) for formatting.
+3. Expose the verification token in your DNS TXT records. Refer to [Setup Register — §1.4, claim a DeDi namespace and verify your domain](../how-you-implement-ies/setup-register.md) for formatting.
 
 ### References & Anchors
 * [Why DeDi (and the three questions it answers)](../what-ies-provides/registries/README.md#why-dedi-and-the-three-questions-it-answers)
-* [Registries — Step-by-step (claim namespace + create registries)](../how-you-implement-ies/setup-register.md)
-* [Registries Checklist](../how-you-implement-ies/README.md)
+* [Setup Register — claim namespace + create registries](../how-you-implement-ies/setup-register.md)
+* [Setup Register — Checklist](../how-you-implement-ies/setup-register.md#checklist)
 </details>
 
 <details>
@@ -130,7 +130,7 @@ Create and initialize the following registries under your namespace (OpenCred au
 * [The registries you'll touch in IES (by role)](../what-ies-provides/registries/README.md#the-registries-youll-touch-in-ies-by-role)
 * [As a DISCOM / issuer running OpenCred](../what-ies-provides/registries/README.md#as-a-discom-issuer-running-opencred)
 * [As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)
-* [OpenCred Key & DID Publishing Configuration](../what-ies-provides/energy-credentials/README.md#issue-your-first-credential)
+* [OpenCred Key & DID Publishing Configuration](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)
 </details>
 
 <details>
@@ -151,7 +151,7 @@ The Secretariat will verify your credentials and register your endpoints inside 
 
 ### References & Anchors
 * [How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
-* [Registries Checklist](../how-you-implement-ies/README.md)
+* [Setup Register — Checklist](../how-you-implement-ies/setup-register.md#checklist)
 </details>
 
 ---
@@ -171,18 +171,16 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 2. **Configure Authentication**: Setup OTP or Aadhaar reference authentication gateways on your client portal.
 3. **Deploy OpenCred**: Deploy the containerized OpenCred service using your secured P-256 signing keys.
 4. **CRM Status Logging & Issuance**: Store active credential UUIDs in your database to coordinate revocations. Format and trigger credential issuance via OpenCred's `/v1/credentials/issue` API using the `ElectricityCredential` JSON shape.
-5. **Verify Revocation Handling**: Ensure the verifier's revocation check logic is active. Be mindful of the silent-skip behavior if DeDi namespaces are misconfigured (refer to the [OpenCred Silent-Skip Warning](../what-ies-provides/energy-credentials/README.md#troubleshooting)).
+5. **Verify Revocation Handling**: Ensure the verifier's revocation check logic is active. Be mindful that a revoke can succeed while verifiers still see `not_revoked` if DeDi namespaces are misconfigured (see [Energy Credentials — Troubleshooting](../what-ies-provides/energy-credentials/README.md#troubleshooting)).
 6. **Validate the Issued Credential**: Call the OpenCred verification endpoint (`/v1/credentials/verify`) using the issued VC to test the full verification cycle. This confirms that the verifier can successfully resolve the issuer's DID and validate the cryptographic signature. Note that if DeDi is disabled or the namespaces are not fully synchronized, the validation engine might exhibit specific resolve behaviors (refer to the [OpenCred Resolve Verification Check](../what-ies-provides/energy-credentials/README.md#id-5.-smoke-test)).
 
 ### References & Anchors
 * [Energy Credentials Overview](../what-ies-provides/energy-credentials/README.md)
 * [Energy Credentials Deployment Guide](../what-ies-provides/energy-credentials/README.md)
 * [OpenCred Resolve Verification Check & Env Options](../what-ies-provides/energy-credentials/README.md#id-5.-smoke-test)
-* [OpenCred Silent-Skip Revocation Warning](../what-ies-provides/energy-credentials/README.md#troubleshooting)
+* [Energy Credentials — Troubleshooting (revocation caching)](../what-ies-provides/energy-credentials/README.md#troubleshooting)
 * [Batch Issuance at Scale (Queue & Workers)](../what-ies-provides/energy-credentials/README.md#batch-issuance)
-* [Multi-Replica Deployment Guidance](../what-ies-provides/energy-credentials/README.md#batch-issuance)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
-* [Consumer Energy Passport Checklist](../use-cases/consumer-energy-passport/README.md)
 * [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
 </details>
 
@@ -223,7 +221,7 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 * [Data Exchange Concepts](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
 * [Data Exchange Quick Start](../what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes)
 * [ONIX Registry Setup](../what-ies-provides/data-exchange/README.md#swap-in-your-real-identity)
-* [Data Exchange Checklist](../how-you-implement-ies/README.md)
+* [Setup Discovery — Checklist](../how-you-implement-ies/setup-discovery.md#checklist)
 </details>
 
 <details>
@@ -240,7 +238,7 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 
 ### References & Anchors
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
-  * [How It Works](../use-cases/smart-meter-data-exchange/README.md)
+  * [How It Fits Together](../use-cases/smart-meter-data-exchange/README.md#id-10.-how-it-fits-together)
 * [IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
 * [MeterData Schema Specification](../schemas/MeterData/README.md)
 </details>
@@ -249,10 +247,10 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 <summary><b>Step 4.3: Integrate Customer Master Data</b></summary>
 
 ### 💡 Phase Advice
-> Billing and customer profile files map directly to the **[CustomerProfile](../schemas/MeterData/v0.6/attributes.yaml)** schema. Ensure your CRM export script correctly aligns the tariff category, connection status, and sanctioned load.
+> Billing and customer profile files map directly to the **[CustomerProfile](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml)** schema. Ensure your CRM export script correctly aligns the tariff category, connection status, and sanctioned load.
 
 ### References & Anchors
-* [MeterData Attributes & Customer Schema](../schemas/MeterData/v0.6/attributes.yaml)
+* [MeterData Attributes & Customer Schema](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml)
 </details>
 
 <details>
@@ -262,7 +260,7 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 > Leverage the **[MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md)** schema to formalise incoming B2B third-party data authorisations. The scope of the actual request for sharing can be a subset of the broader data authorised.
 
 ### Execution Guidance
-While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **[MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md)** (see [credential example](../schemas/MeterDataRequestCredential/v0.1/examples/example.json)) OR a **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
+While the technical authorisation logic is ultimately left to the utility, we suggest executing scoped access control by requiring the BAP to present a **[MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md)** (see [credential example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)) OR a **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**. Your BPP ONIX adapter should verify these presented credentials at runtime before dispensing any interval profiles.
 
 ### ⚠️ Caution
 > **Scoped Access Violations**: Never expose granular consumer interval data without verifying that the presented credential permits that specific access window and profile.
@@ -271,9 +269,9 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > **Clarity Gap**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
+* [Data Exchange — Beckn protocol lifecycle](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
 * [MeterDataRequestCredential Schema](../schemas/MeterDataRequestCredential/v0.1/README.md)
-* [MeterDataRequestCredential Example](../schemas/MeterDataRequestCredential/v0.1/examples/example.json)
+* [MeterDataRequestCredential Example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)
 </details>
 
 <details>
@@ -283,7 +281,7 @@ While the technical authorisation logic is ultimately left to the utility, we su
 > Run a parallel pilot! Trade smart meter telemetry with a friendly test consumer or partner BAP to confirm that signing, encryption, and logging flows operate perfectly before live production exchange.
 
 ### References & Anchors
-* [Data Exchange Checklist](../how-you-implement-ies/README.md)
+* [Setup Discovery — Checklist](../how-you-implement-ies/setup-discovery.md#checklist)
 </details>
 
 ---
@@ -329,8 +327,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 
 ### References & Anchors
 * [Electricity Bills and Digest Use Case](../use-cases/consumer-meter-digest/README.md)
-  * [How It Works](../use-cases/consumer-meter-digest/README.md)
-* [Consumer Meter Digest Checklist](../use-cases/consumer-meter-digest/README.md)
+  * [How It Fits Together](../use-cases/consumer-meter-digest/README.md#id-10.-how-it-fits-together)
 </details>
 
 <details>
@@ -353,7 +350,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 <summary><b>Step 6.1: Establish DER Sources</b></summary>
 
 ### 💡 Phase Advice
-> Onboard consumer generation assets dynamically. Capture DER parameters (solar inverter rating, battery capacities) and map them to standard DIDs (e.g. `did:dedi:<utility>:assets:inverter:<inverter-serial-no>`).
+> Onboard consumer generation assets dynamically. Capture DER parameters (solar inverter rating, battery capacities) and map them to standard DIDs (e.g. `did:web:<your-domain>:assets:inverter:<inverter-serial-no>`).
 </details>
 
 <details>
@@ -387,7 +384,7 @@ Acquire real-time visibility into solar generation, battery storage, and feeder 
 ### ⚠️ Caution
 > **Imputation for Zero Readings**: Ensure your aggregator engine handles missing or zero readings securely (e.g., forward-fill or mean-imputation) to prevent aggregated peaks from showing artificial drops.
 
-> Since the **MeterData** schema is used for telemetry exchange, we strongly suggest utilizing the `AccumulationBehaviour` property for annotating aggregation datasets. Ensure that aggregated datasets explicitly annotate `SUMMATION` as the `accumulationBehaviour`. Refer to this [Aggregated Feeder Example](../schemas/MeterData/v0.6/examples/AggregatedFeeder.json) showing a feeder-related aggregated `IntervalProfile` for a day.
+> Since the **MeterData** schema is used for telemetry exchange, we strongly suggest utilizing the `AccumulationBehaviour` property for annotating aggregation datasets. Ensure that aggregated datasets explicitly annotate `SUMMATION` as the `accumulationBehaviour`. Refer to this [Aggregated Feeder Example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/examples/AggregatedFeeder.json) showing a feeder-related aggregated `IntervalProfile` for a day.
 </details>
 
 <details>
@@ -417,7 +414,7 @@ Publish your Annual Revenue Requirement data in a standardized, machine-readable
 
 ### References & Anchors
 * [ARR Filing Schema Reference](../schemas/ArrFiling/v0.5/README.md)
-* [ARR Filing Machine-Readable Example](../schemas/ArrFiling/v0.5/examples/arr_filings.json)
+* [ARR Filing Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
 </details>
 
 

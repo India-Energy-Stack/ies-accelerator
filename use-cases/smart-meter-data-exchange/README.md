@@ -101,7 +101,7 @@ The full, authoritative field tables are in the schemas:
 
 - **[MeterData v0.6 — Field reference](../../schemas/MeterData/v0.6/README.md)** — the payload shape (eight compact profiles)
 - **[MeterDataRequest v0.6 — Field reference](../../schemas/MeterDataRequest/v0.6/README.md)** — the query / capabilities shape
-- **[MeterDataRequestCredential v0.1 — Field reference](../../schemas/MeterDataRequestCredential/v0.1/README.md)** — the optional VC carrying authorisation
+- **[MeterDataRequestCredential v0.1 — Credential structure](../../schemas/MeterDataRequestCredential/v0.1/README.md)** — the optional VC carrying authorisation
 
 For the Indian-terminology mapping (OBIS codes, IS 15959 event IDs, CIM master-data fields) see the companion page **[IES Meter Data Model](ies-meter-data-model.md)**.
 
@@ -197,12 +197,12 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ## Dev kits and code
 
-- **Schema source** — [`schemas/MeterData/v0.6/attributes.yaml`](../../schemas/MeterData/v0.6/attributes.yaml)
-- **JSON Schema** — [`schema.json`](../../schemas/MeterData/v0.6/schema.json)
+- **Schema source** — [`schemas/MeterData/v0.6/attributes.yaml`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml)
+- **JSON Schema** — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json)
 - **OBIS code registry** — [`IES codes.json`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/IES%20codes.json)
 - **User Guide** — [`UserGuide.md`](../../schemas/MeterData/v0.6/UserGuide.md)
 - **Reference Guide** — [`ReferenceGuide.md`](../../schemas/MeterData/v0.6/ReferenceGuide.md)
-- **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples) (24 examples covering all eight profile shapes)
+- **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples) (26 examples covering all eight profile shapes)
 - **Validation** — `make test` (from repo root) runs the validator against every example
 - **Data Exchange devkit** — `git clone https://github.com/beckn/DEG.git && cd DEG/devkits/data-exchange/install && docker compose up -d`
 - **Indian-terminology mapping** — [IES Meter Data Model](ies-meter-data-model.md)
@@ -225,7 +225,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ## Annexure B — Example Payloads
 
-24 example payloads ship with the schema, covering every profile shape and several derived report templates:
+26 example payloads ship with the schema, covering every profile shape and several derived report templates:
 
 → **[`schemas/MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples)**
 

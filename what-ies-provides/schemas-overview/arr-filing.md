@@ -7,7 +7,7 @@
 | Document | IES/ARR/0.5 |
 | Status | Draft for technical review. The line-item `category`/`subCategory` enumeration is an IES superset still converging across State Electricity Regulatory Commissions (SERCs); it is expected to gain additions, not stabilise as final, in this version. |
 | Applicability | Issued (filed) by a distribution licensee (DISCOM); consumed by the State Electricity Regulatory Commission (SERC) or Joint Electricity Regulatory Commission that receives the filing. |
-| This version | Covers the ARR filing payload only — filing metadata, per-fiscal-year basis, and line items — defined in [ArrFiling v0.5 schema.json](../../schemas/ArrFiling/v0.5/schema.json). |
+| This version | Covers the ARR filing payload only — filing metadata, per-fiscal-year basis, and line items — defined in [ArrFiling v0.5 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json). |
 
 ## 1. Scope and Purpose
 
@@ -119,8 +119,8 @@ Both sampled examples publish their JSON-LD wiring the same way — an `@context
 
 ### Annexure B — Example Payloads
 
-Example ArrFiling payloads are at [schemas/ArrFiling/v0.5/examples/](../../schemas/ArrFiling/v0.5/examples). The bundled file contains two contrasting filings: an MYT control-period filing (six fiscal years spanning audited, approved, proposed and not-yet-filed years, with a rich multi-level subtotal roll-up and adjustment lines) and a long-run historical annual filing (thirteen consecutive fiscal years from the same DISCOM, showing how line-item granularity and naming shift release over release even without any change to the schema itself).
+Example ArrFiling payloads are at [schemas/ArrFiling/v0.5/examples/](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ArrFiling/v0.5/examples). The bundled file contains two contrasting filings: an MYT control-period filing (six fiscal years spanning audited, approved, proposed and not-yet-filed years, with a rich multi-level subtotal roll-up and adjustment lines) and a long-run historical annual filing (thirteen consecutive fiscal years from the same DISCOM, showing how line-item granularity and naming shift release over release even without any change to the schema itself).
 
 ### Annexure C — JSON Schema
 
-The authoritative schema definitions are [schemas/ArrFiling/v0.5/schema.json](../../schemas/ArrFiling/v0.5/schema.json) and [schemas/ArrFiling/v0.5/attributes.yaml](../../schemas/ArrFiling/v0.5/attributes.yaml).
+The authoritative schema definitions are [schemas/ArrFiling/v0.5/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json) and [schemas/ArrFiling/v0.5/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/attributes.yaml).

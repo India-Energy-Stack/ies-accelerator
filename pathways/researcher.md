@@ -95,7 +95,7 @@ You do not need to run an adapter to read a schema. Every schema family in IES s
 * [Taxonomy — Versioning](../what-ies-provides/taxonomy.md#versioning)
 * [Taxonomy — Schema map](../what-ies-provides/taxonomy.md#schema-map)
 * [Schemas Overview](../what-ies-provides/schemas-overview/README.md)
-* [MeterData example payloads](../schemas/MeterData/v0.6/examples/)
+* [MeterData example payloads](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples)
 </details>
 
 ---

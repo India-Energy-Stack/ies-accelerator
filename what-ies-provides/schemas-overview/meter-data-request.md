@@ -7,7 +7,7 @@
 | Document | IES/MDR/0.6 |
 | Status | Draft for technical review — v0.6 is a from-scratch redesign of v0.5 (see version history below), not yet marked stable |
 | Applicability | DISCOMs and AMISPs (as providers/grantors); AMISPs, TSPs and other authorised third parties (as requesters/grantees) |
-| This version | Covers the three composable request-layer models — MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest — defined in [`schema.json`](../../schemas/MeterDataRequest/v0.6/schema.json) |
+| This version | Covers the three composable request-layer models — MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest — defined in [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) |
 
 ## 1. Scope and Purpose
 
@@ -139,8 +139,8 @@ The schema's own semantic validator (`validation/validator.py`, sharing core log
 
 ### Annexure B — Example Payloads
 
-Example payloads for all three composable models are at [schemas/MeterDataRequest/v0.6/examples/](../../schemas/MeterDataRequest/v0.6/examples/), including a general capabilities example, a billing-focused capabilities example, an MDM (meter data management) capabilities example with alarm/event profiles, an authorisation example, a full request example, and an anonymised (no-consumer) telemetry request example.
+Example payloads for all three composable models are at [schemas/MeterDataRequest/v0.6/examples/](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.6/examples), including a general capabilities example, a billing-focused capabilities example, an MDM (meter data management) capabilities example with alarm/event profiles, an authorisation example, a full request example, and an anonymised (no-consumer) telemetry request example.
 
 ### Annexure C — JSON Schema
 
-The JSON Schema and attribute source are at [schemas/MeterDataRequest/v0.6/schema.json](../../schemas/MeterDataRequest/v0.6/schema.json) and [schemas/MeterDataRequest/v0.6/attributes.yaml](../../schemas/MeterDataRequest/v0.6/attributes.yaml).
+The JSON Schema and attribute source are at [schemas/MeterDataRequest/v0.6/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) and [schemas/MeterDataRequest/v0.6/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/attributes.yaml).

@@ -62,7 +62,7 @@ Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a documen
 
 ### Step 2 — Stand Up OpenCred and Your Issuer DID
 
-Follow [Deployment](README.md) end-to-end. By the time you reach this page you should have:
+Follow [Energy Credentials → Set up OpenCred and publish your did:web](README.md#set-up-opencred-and-publish-your-did-web) end-to-end. By the time you reach this page you should have:
 
 - OpenCred running with `signingKeyLoaded: true`
 - An issuer DID — `did:web:ies.tpddl.in` (recommended) or `did:key:…` (from an imported DSC)
@@ -676,7 +676,7 @@ Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential o
 
 ## Reference
 
-- [Consumer Meter Digest — credential schema](../../use-cases/consumer-meter-digest/README.md)
+- [Consumer Meter Digest — use-case guide](../../use-cases/consumer-meter-digest/README.md)
 - [Electricity Credential — schema reference](../../schemas/ElectricityCredential/v1.2/README.md)
 - [OpenCred Documentation](https://opencred.gitbook.io/docs) — credential service API reference
 - [API Setu DigiLocker Partner Portal](https://partners.digitallocker.gov.in)

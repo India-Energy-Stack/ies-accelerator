@@ -102,4 +102,4 @@ For the longer answer, read **[What IES Is](concepts/what-ies-is.md)**.
 
 - [ies-docs](https://github.com/India-Energy-Stack/ies-docs) — IES architecture primitives and implementation guides
 - [Digital Energy Grid (DEG)](https://github.com/Beckn-One/DEG) — upstream open protocol specification
-- [DDM](https://github.com/beckn/DDM) — Dataset Descriptor Model (`DatasetItem` schema)
+- [DDM](https://github.com/beckn/DDM) — Decentralized Data Marketplace (`DatasetItem` schema family)

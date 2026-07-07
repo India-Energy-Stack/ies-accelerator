@@ -89,7 +89,7 @@ The reference Beckn adapter used in IES. Handles message signing, signature veri
 
 ### DDM
 
-**Decentralized Data Marketplace** — the Beckn-protocol-based open network for buyers and providers to discover, offer, contract, and exchange datasets without a central middleman. The schema family describing the exchanged datasets is published at [beckn/DDM](https://github.com/beckn/DDM); IES extends it with the `IES_*` schemas.
+**Decentralized Data Marketplace** — the Beckn-protocol-based open network for buyers and providers to discover, offer, contract, and exchange datasets without a central middleman. The schema family describing the exchanged datasets is published at [beckn/DDM](https://github.com/beckn/DDM); IES extends it with its own schema families (MeterData, ArrFiling, OutageNotification, …).
 
 ### ERA
 
@@ -109,7 +109,7 @@ The reference Beckn adapter used in IES. Handles message signing, signature veri
 
 ### SERC
 
-**State Electricity Regulatory Commission** — the state-level regulator that approves tariffs, reviews DISCOM filings, and issues regulatory orders. SERCs are the typical consumer of `IES_ARR_Filing` and publisher of `IES_Policy`/`IES_Program` (tariff) datasets.
+**State Electricity Regulatory Commission** — the state-level regulator that approves tariffs, reviews DISCOM filings, and issues regulatory orders. SERCs are the typical consumer of [`ArrFiling`](schemas/ArrFiling/v0.5/README.md) filings and publisher of `IES_Policy`/`IES_Program` (tariff) datasets.
 
 ### ARR
 
@@ -209,7 +209,7 @@ A utility software interoperability standard widely used in North America, named
 
 ### XBRL
 
-**eXtensible Business Reporting Language** — the international standard for tagged, comparable structured financial and regulatory filings. The target structured format for `IES_ARR_Filing`. iXBRL embeds XBRL tags in human-readable XHTML.
+**eXtensible Business Reporting Language** — the international standard for tagged, comparable structured financial and regulatory filings. The target structured format for [`ArrFiling`](schemas/ArrFiling/v0.5/README.md). iXBRL embeds XBRL tags in human-readable XHTML.
 
 ### Akoma Ntoso
 

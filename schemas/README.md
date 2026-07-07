@@ -6,7 +6,7 @@ This directory holds the canonical schema files referenced from the IES Accelera
 
 ## Why this directory exists
 
-The IES Accelerator docs (`/energy-credentials/...`, `/data-exchange/...`) need stable, repo-relative links to the schema files they describe. Pointing at external sources directly creates two problems:
+The IES Accelerator docs (`/what-ies-provides/energy-credentials/...`, `/what-ies-provides/data-exchange/...`) need stable, repo-relative links to the schema files they describe. Pointing at external sources directly creates two problems:
 
 1. External URLs change shape or move (e.g. branch renames, repo reorganisation upstream).
 2. JSON-LD `@context` URLs inside example credentials need to **resolve at runtime** for verifiers to validate; relying on external hosts couples our deployments to their uptime.

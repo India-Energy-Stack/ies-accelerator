@@ -1,4 +1,4 @@
-# Outage Notification v0.1
+# OutageNotification v0.1
 
 *A machine-readable payload a distribution licensee publishes to describe one planned or unplanned electricity outage, usable both as a public outage-map feed and as a push alert to affected consumers.*
 
@@ -7,7 +7,7 @@
 | Document | IES/ON/0.1 |
 | Status | Draft for technical review — the schema's own README and `attributes.yaml` `info.description` both mark it **"WORK IN PROGRESS — subject to change."** It is an early draft published for discussion; field names, enums and the SD/BD/RS interpretation are not final and may change without notice. Do not depend on it for production integrations yet. |
 | Applicability | Issued by a distribution licensee (DISCOM), or a system acting on its behalf (an OMS, MDMS, SCADA, or a real-time data-acquisition system such as UPPCL's RTDAS); consumed by outage-map/website feeds, subscribed consumers, mass-alerting networks, and downstream reliability reporting |
-| This version | v0.1 covers the outage notice itself — class, cause, affected assets and area, timing, impact, response, public-facing text, and provenance back to the detecting smart-meter signal — defined in the companion JSON Schema file [`schema.json`](../../schemas/OutageNotification/v0.1/schema.json). It is grounded directly in a live system of record (the UPPCL Outage Management System at `1912.uppcl.org`) and a published public artifact (the PVVNL "Detail of Planned Shutdown" PDF), not designed in the abstract. |
+| This version | v0.1 covers the outage notice itself — class, cause, affected assets and area, timing, impact, response, public-facing text, and provenance back to the detecting smart-meter signal — defined in the companion JSON Schema file [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/schema.json). It is grounded directly in a live system of record (the UPPCL Outage Management System at `1912.uppcl.org`) and a published public artifact (the PVVNL "Detail of Planned Shutdown" PDF), not designed in the abstract. |
 
 ## 1. Scope and Purpose
 
@@ -172,8 +172,8 @@ There is currently no IES use-case guide built on this schema — it exists toda
 
 ### Annexure B — Example Payloads
 
-Example OutageNotification payloads are available in [schemas/OutageNotification/v0.1/examples/](../../schemas/OutageNotification/v0.1/examples/) — including a multi-feeder planned-shutdown notice, a three-message unplanned-breakdown lifecycle (ALERT → RESTORED UPDATE) with full detection provenance, and the PVVNL published planned-shutdown set transformed into schema form.
+Example OutageNotification payloads are available in [schemas/OutageNotification/v0.1/examples/](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/OutageNotification/v0.1/examples) — including a multi-feeder planned-shutdown notice, a three-message unplanned-breakdown lifecycle (ALERT → RESTORED UPDATE) with full detection provenance, and the PVVNL published planned-shutdown set transformed into schema form.
 
 ### Annexure C — JSON Schema
 
-The full machine-readable definitions are at [schemas/OutageNotification/v0.1/schema.json](../../schemas/OutageNotification/v0.1/schema.json) and [schemas/OutageNotification/v0.1/attributes.yaml](../../schemas/OutageNotification/v0.1/attributes.yaml).
+The full machine-readable definitions are at [schemas/OutageNotification/v0.1/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/schema.json) and [schemas/OutageNotification/v0.1/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/attributes.yaml).

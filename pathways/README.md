@@ -6,7 +6,7 @@
 
 ## Why Pathways?
 
-The India Energy Stack introduces a rich collection of standards (DIDs, DeDi Registries, W3C Verifiable Credentials, Beckn Protocols). Adopting these capabilities involves coordinates across multiple internal IT, commercial, and operational divisions.
+The India Energy Stack introduces a rich collection of standards (DIDs, DeDi Registries, W3C Verifiable Credentials, Beckn Protocols). Adopting these capabilities involves coordination across multiple internal IT, commercial, and operational divisions.
 
 Rather than diving into raw technical standards, a **Pathway** organizes these tasks into a logical sequence, aligning high-level business goals with engineering requirements.
 

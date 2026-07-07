@@ -176,9 +176,9 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ## Dev kits and code
 
-- **Schema source** — [`schemas/ArrFiling/v0.5/attributes.yaml`](../../schemas/ArrFiling/v0.5/attributes.yaml)
-- **JSON Schema** — [`schema.json`](../../schemas/ArrFiling/v0.5/schema.json)
-- **JSON-LD context** — [`context.jsonld`](../../schemas/ArrFiling/v0.5/context.jsonld)
+- **Schema source** — [`schemas/ArrFiling/v0.5/attributes.yaml`](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/attributes.yaml)
+- **JSON Schema** — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json)
+- **JSON-LD context** — [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/context.jsonld)
 - **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ArrFiling/v0.5/examples)
 - **Validation** — `python3 scripts/validate_schema.py schemas/ArrFiling/v0.5/schema.json <your-filing.json>`
 - **Data Exchange devkit** — `git clone https://github.com/beckn/DEG.git && cd DEG/devkits/data-exchange/install && docker compose up -d`

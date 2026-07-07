@@ -7,7 +7,7 @@
 | Document | IES/MDRC/0.1 |
 | Status | Draft for technical review -- the schema's own changelog records v0.1, dated 2026-05-26, as "Initial draft"; stable status has not yet been confirmed |
 | Applicability | Issued by a data requester (e.g. a DISCOM, or a third-party aggregator such as a Technical Service Provider) that attaches it in `commitmentAttributes.ies:meterDataRequest` at Beckn `confirm`; consumed by the metering data provider (e.g. an AMISP or MDM system) that receives it |
-| This version | Defines the credential envelope and its one substantive field, `credentialSubject`, whose `meterDataRequest` property wraps a `MeterDataRequest` object from the separate **MeterDataRequest v0.6** schema family, as specified in [attributes.yaml](../../schemas/MeterDataRequestCredential/v0.1/attributes.yaml) |
+| This version | Defines the credential envelope and its one substantive field, `credentialSubject`, whose `meterDataRequest` property wraps a `MeterDataRequest` object from the separate **MeterDataRequest v0.6** schema family, as specified in [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) |
 
 ## 1. Scope and Purpose
 
@@ -123,8 +123,8 @@ MeterDataRequestCredential is the optional authorisation attachment on the reque
 
 ### Annexure B — Example Payloads
 
-A complete example instance is at [schemas/MeterDataRequestCredential/v0.1/examples](../../schemas/MeterDataRequestCredential/v0.1/examples) (BESCOM requesting Q1 2026 customer, interval, daily and monthly profiles for all meters under feeder `IN-KA-BLR-ZONE-A`). The wrapped `MeterDataRequest` object's own worked examples -- covering a plain request, an inline authorisation grant, and provider capability declarations -- are at [schemas/MeterDataRequest/v0.6/examples](../../schemas/MeterDataRequest/v0.6/examples).
+A complete example instance is at [schemas/MeterDataRequestCredential/v0.1/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.1/examples) (BESCOM requesting Q1 2026 customer, interval, daily and monthly profiles for all meters under feeder `IN-KA-BLR-ZONE-A`). The wrapped `MeterDataRequest` object's own worked examples -- covering a plain request, an inline authorisation grant, and provider capability declarations -- are at [schemas/MeterDataRequest/v0.6/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.6/examples).
 
 ### Annexure C — JSON Schema
 
-The machine-readable definitions are at [schema.json](../../schemas/MeterDataRequestCredential/v0.1/schema.json) and [attributes.yaml](../../schemas/MeterDataRequestCredential/v0.1/attributes.yaml). The wrapped object's own definitions are at [MeterDataRequest v0.6 schema.json](../../schemas/MeterDataRequest/v0.6/schema.json) and [attributes.yaml](../../schemas/MeterDataRequest/v0.6/attributes.yaml).
+The machine-readable definitions are at [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml). The wrapped object's own definitions are at [MeterDataRequest v0.6 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/attributes.yaml).

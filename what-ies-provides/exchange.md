@@ -32,13 +32,13 @@ The same set of schemas combines in different ways to deliver each use case. Eac
 | Use case | Schemas combined |
 |---|---|
 | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md) over Beckn |
-| [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | `IES_Policy` family (in progress; mirrored under [external schemas](../schemas/external/README.md)) |
+| [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | `IES_Policy` family (upstream; in progress) |
 
 ### In progress
 
 | Use case | Schemas combined |
 |---|---|
-| [P2P Energy Exchange](../use-cases/p2p-energy-exchange/README.md) | DEG `P2PTrade` family — [P2PTrade, DEGContract, EnergyTradeOffer/Delivery, DiscomLedgerProvider, BecknTimeSeries](../schemas/external/README.md#energy-trading-p2p) |
+| [P2P Energy Exchange](../use-cases/p2p-energy-exchange/README.md) | DEG `P2PTrade` family — [P2PTrade, DEGContract, EnergyTradeOffer, EnergyCustomer, RevenueFlow, BecknTimeSeries](../schemas/external/README.md#energy-trading-p2p) |
 
 > **OutageNotification** (schema published, [v0.1](../schemas/OutageNotification/v0.1/README.md)) and the **DEG demand-flex family** (`DemandFlexNeed`, `DemandFlexBuyOffer`, `DemandFlexPerformance` — see [external schemas](../schemas/external/README.md#demand-flexibility)) are published schemas without an IES use-case guide yet.
 

@@ -7,7 +7,7 @@
 | Document | IES/EC/1.2 |
 | Status | Stable (mirrored verbatim from upstream `beckn/DEG`; v1.2 is the current version, v1.1 and v1.0 are previous/deprecated) |
 | Applicability | Issued by distribution licensees (DISCOMs); consumed by consumers (holder-bound variant), grid operators and aggregators (bearer variant), banks, subsidy portals and DER marketplaces (as verifiers) |
-| This version | v1.2 replaces every power/energy/voltage scalar field with a `QuantitativeValue {value, unit}` pair and introduces the composable `energyResources[]` hierarchy of seven discriminated kinds, documented in [schema.json](../../schemas/ElectricityCredential/v1.2/schema.json) |
+| This version | v1.2 replaces every power/energy/voltage scalar field with a `QuantitativeValue {value, unit}` pair and introduces the composable `energyResources[]` hierarchy of seven discriminated kinds, documented in [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json) |
 
 ---
 
@@ -171,8 +171,8 @@ In all cases, the credential carries only static, structural facts; live interva
 
 ### Annexure B — Example Payloads
 
-Example payloads for this schema are at [schemas/ElectricityCredential/v1.2/examples/](../../schemas/ElectricityCredential/v1.2/examples) — a single-meter household with mixed generation and storage (`example.json`), a multi-tenant building with main-meter/sub-meter topology and tenant-level rooftop solar (`example-submetering.json`), and a parallel import/export metering arrangement for a solar feed-in tariff (`example-parallel-metering.json`).
+Example payloads for this schema are at [schemas/ElectricityCredential/v1.2/examples/](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.2/examples) — a single-meter household with mixed generation and storage (`example.json`), a multi-tenant building with main-meter/sub-meter topology and tenant-level rooftop solar (`example-submetering.json`), and a parallel import/export metering arrangement for a solar feed-in tariff (`example-parallel-metering.json`).
 
 ### Annexure C — JSON Schema
 
-The machine-readable schema definitions are at [schema.json](../../schemas/ElectricityCredential/v1.2/schema.json) and [attributes.yaml](../../schemas/ElectricityCredential/v1.2/attributes.yaml).
+The machine-readable schema definitions are at [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/attributes.yaml).

@@ -7,7 +7,7 @@
 | Document | IES/MDC/0.6 |
 | Status | Draft for technical review — initial version (dated 2026-06-06 per the schema changelog), aligned with MeterData v0.6 |
 | Applicability | Issued by data providers (AMISPs, MDM systems, or a DISCOM acting in that role); consumed by DISCOMs, consumers' wallets, and any downstream verifier of delivered telemetry |
-| This version | Wraps a `MeterData v0.6` payload (single profile or array of profiles) inside a W3C Verifiable Credential envelope, defined in [`schema.json`](../../schemas/MeterDataCredential/v0.6/schema.json) |
+| This version | Wraps a `MeterData v0.6` payload (single profile or array of profiles) inside a W3C Verifiable Credential envelope, defined in [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json) |
 
 ---
 
@@ -145,8 +145,8 @@ In the **Consumer Meter Digest** use case, this same schema is re-issued holder-
 
 ### Annexure B — Example Payloads
 
-Example credential instances (a customer-profile attestation, an interval-profile attestation with a `PayloadDescriptorProfile`, and a monthly-profile attestation with ToU buckets — all issued by the same worked-example issuer, "BESCOM AMISP") are in [schemas/MeterDataCredential/v0.6/examples](../../schemas/MeterDataCredential/v0.6/examples).
+Example credential instances (a customer-profile attestation, an interval-profile attestation with a `PayloadDescriptorProfile`, and a monthly-profile attestation with ToU buckets — all issued by the same worked-example issuer, "BESCOM AMISP") are in [schemas/MeterDataCredential/v0.6/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataCredential/v0.6/examples).
 
 ### Annexure C — JSON Schema
 
-The authoritative machine-readable definitions are [schema.json](../../schemas/MeterDataCredential/v0.6/schema.json) and [attributes.yaml](../../schemas/MeterDataCredential/v0.6/attributes.yaml).
+The authoritative machine-readable definitions are [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/attributes.yaml).

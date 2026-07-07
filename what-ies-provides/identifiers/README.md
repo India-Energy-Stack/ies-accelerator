@@ -383,7 +383,7 @@ Upstream documentation for this flow lives at the NFH docs: [Onboarding Network 
 
 ### Step 1 — Set up a DeDi account and verify your namespace
 
-Follow [Registries → Step-by-step: claim your DeDi namespace](../../how-you-implement-ies/setup-register.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
+Follow [Setup Register → 1.4 Claim a DeDi namespace and verify your domain](../../how-you-implement-ies/setup-register.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
 
 ### Step 2 — Generate your Beckn signing keypair
 

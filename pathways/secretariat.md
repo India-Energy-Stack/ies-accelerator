@@ -87,10 +87,10 @@ Upon receiving a registration package via the designated email channels ([IES.Se
    ```bash
    curl -s https://<utility-domain>/.well-known/did.json
    ```
-3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`public-keys`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
+3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`opencred-key-registry`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
 
 ### References & Anchors
-* [Identifiers and Addressing — Publish your did:web (step-by-step)](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)
+* [Energy Credentials — Set up OpenCred and publish your did:web](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)
 * [Registries — Verifying a credential end-to-end (Appendix B)](../what-ies-provides/registries/README.md#appendix-b-verifying-a-credential-end-to-end)
 </details>
 
@@ -114,7 +114,7 @@ Once verified, the Secretariat must append the participant's metadata to the can
    ```
 
 ### References & Anchors
-* [Identifiers and Addressing — Register with the IES network](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
+* [Registries — How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
 </details>
 
 <details>
@@ -159,7 +159,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. Establish guidelines for node timeout configurations (e.g. maximum 5-second Beckn timeouts) to prevent cascading database latency.
 
 ### References & Anchors
-* [Data Exchange Security & Auth](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
+* [Data Exchange — Beckn protocol lifecycle](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
 </details>
 
 ---

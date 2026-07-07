@@ -2,7 +2,7 @@
 
 # MeterDataCredential v0.6
 
-A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterData v0.6`](../../MeterData/v0.6) payload to attest the authenticity and provenance of delivered smart meter telemetry.
+A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterData v0.6`](../../MeterData/v0.6/README.md) payload to attest the authenticity and provenance of delivered smart meter telemetry.
 
 ---
 
@@ -108,7 +108,7 @@ Arrays typically start with a `DESCRIPTOR` profile followed by one or more data 
 
 ## Relationship to MeterDataRequestCredential
 
-`MeterDataCredential` is the **response** counterpart to [`MeterDataRequestCredential`](../../MeterDataRequestCredential/v0.1):
+`MeterDataCredential` is the **response** counterpart to [`MeterDataRequestCredential`](../../MeterDataRequestCredential/v0.1/README.md):
 
 | | `MeterDataRequestCredential` | `MeterDataCredential` |
 |---|---|---|

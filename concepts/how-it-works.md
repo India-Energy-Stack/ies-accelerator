@@ -40,7 +40,7 @@ Internal numbering (CIS consumer numbers, SAP codes, meter SLNOs) is preserved a
 The discovery and revocation layer is **[DeDi](../glossary.md#dedi)** — a public registry mechanism for namespaces, network membership, public keys and credential revocation.
 
 **Full specification:** **[Register — Identifiers and Addressing](../what-ies-provides/identifiers/README.md)** and **[Registries and Directories](../what-ies-provides/registries/README.md)**.
-**Implementation steps:** **[Set up Identity](../how-you-implement-ies/setup-register.md)**.
+**Implementation steps:** **[Setup Register](../how-you-implement-ies/setup-register.md)**.
 
 ---
 
@@ -86,7 +86,7 @@ IES selects the right open standard for each domain and publishes a specificatio
 | Meter telemetry | DLMS/COSEM (IS 15959) | **[MeterData v0.6](../schemas/MeterData/v0.6/README.md)** — eight compact profile shapes |
 | Consumer credentials | W3C VC Data Model 2.0; CIM (IEC 61968/61970) | **[ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md)** |
 | Solar and storage attributes | IEEE 2030.5, IEC 61850-7-420 | **[ElectricityCredential](../schemas/ElectricityCredential/v1.2/README.md)** energyResources |
-| Demand response | OpenADR 3.1.0 | (in progress — DER flexibility) |
+| Demand response | OpenADR 3.1.0 | **[DemandFlex* family](../schemas/external/README.md#demand-flexibility)** (published; no IES use-case guide yet) |
 | Regulatory filings | XBRL | **[ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md)** |
 | Outage notices | OpenADR-aligned + DEG primitives | **[OutageNotification v0.1](../schemas/OutageNotification/v0.1/README.md)** |
 

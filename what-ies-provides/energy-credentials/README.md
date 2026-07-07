@@ -2,7 +2,7 @@
 
 The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware) or carried inline in a data exchange. This page is the **reference** for the credential lifecycle, the variants IES uses (`ElectricityCredential`, `MeterDataCredential`, `MeterDataRequestCredential`), and the operational commands to issue / verify / revoke with [OpenCred](../../glossary.md#opencred).
 
-For first-time setup — getting OpenCred running, publishing `did.json`, claiming a DeDi namespace — follow **[Setup Register](../../how-you-implement-ies/setup-register.md)** and **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** first.
+For first-time setup — getting OpenCred running, publishing `did.json`, claiming a DeDi namespace — follow **[Setup Register](../../how-you-implement-ies/setup-register.md)** and **[Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md)** first.
 
 > **About the walkthrough.** The concrete commands below use **[OpenCred](../../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
@@ -52,7 +52,7 @@ sequenceDiagram
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b-operational-notes) |
+| **A DISCOM / issuer** (you sign and emit credentials) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) → [Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md) | [Credential variants](#credential-variants), [Appendix B — Operational notes](#appendix-b-operational-notes) |
 | **An AMISP / MDM / aggregator** (you sign telemetry) | [Prerequisites](#prerequisites) → [Issue your first credential](#issue-your-first-credential) using `MeterDataCredential` | [Smart Meter Data Exchange use case](../../use-cases/smart-meter-data-exchange/README.md) |
 | **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](#digilocker-delivery) | [Identifiers — Appendix F](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity) for binding patterns |
 | **A verifier** (you receive and check credentials) | [Verify](#id-3.-verify), [Revocation check](#id-4.-revoke) → [Appendix A — Trust model](#appendix-a-trust-model) | [Registries — Verifying a credential](../registries/README.md#appendix-b-verifying-a-credential-end-to-end) for the resolution walk |
@@ -64,7 +64,7 @@ sequenceDiagram
 Before you can issue, get these in place:
 
 1. **A domain or subdomain you control**, with the ability to host one small static file under it. This becomes the host portion of your `did:web`. See [Identifiers — (a) Org identity](../identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads) for naming + path-segment guidance.
-2. **A DeDi namespace** under your verified domain. See [Registries — Step-by-step](../../how-you-implement-ies/setup-register.md). OpenCred will auto-create the four registries it needs (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) on first boot.
+2. **A DeDi namespace** under your verified domain. See [Setup Register](../../how-you-implement-ies/setup-register.md). OpenCred will auto-create the four registries it needs (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) on first boot.
 3. **Docker 24+**, plus `curl`, `jq`, `openssl`, and ~2 GB free disk. The OpenCred container ships ready to issue.
 4. *(Optional, recommended for licensed utilities)* **A regulator's licensing pointer** to quote in `issuer.idRef` — the regulator's `did:web` and the regulator-issued licence identifier for your DISCOM. Omit for pilots / non-regulated issuers.
 5. **A signed payload schema in mind.** Default: [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md). For telemetry, [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md).
@@ -441,7 +441,7 @@ Walkthrough (Pull URI shape, callback flow, signature pinning, common failure mo
 
 ## Setup checklist
 
-The phased rollout from zero to a production-issuing service is in **[Part 3 → Build Your Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Part 3 → Conformance Checklist](../../how-you-implement-ies/conformance.md)**. The variant-specific operational items (holder binding, identity proofing, DigiLocker delivery) are in the per-use-case guide — **[Consumer Energy Passport](../../use-cases/consumer-energy-passport/README.md)**, **[Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md)**.
+The phased rollout from zero to a production-issuing service is in **[Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md)** and **[Conformance Checklist](../../how-you-implement-ies/conformance.md)**. The variant-specific operational items (holder binding, identity proofing, DigiLocker delivery) are in the per-use-case guide — **[Consumer Energy Passport](../../use-cases/consumer-energy-passport/README.md)**, **[Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md)**.
 
 ---
 
