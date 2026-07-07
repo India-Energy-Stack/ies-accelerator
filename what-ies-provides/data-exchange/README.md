@@ -301,11 +301,11 @@ The wire envelope accepts arbitrary JSON inside `dataPayload`; **validation is o
 
 | Family | What it carries | Use case |
 |---|---|---|
-| [MeterData](../../schemas/MeterData/README.md) | Smart meter telemetry — `IntervalProfile` (15-minute reads), `DailyProfile`, `BillingProfile`, etc. | [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md) |
-| [MeterDataCredential](../../schemas/MeterDataCredential/README.md) | W3C Verifiable Credential wrapping `MeterData` for provenance attestation | [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md) (credentialed delivery) |
-| [ArrFiling](../../schemas/ArrFiling/README.md) | Aggregate Revenue Requirement line items by fiscal year | [DISCOM Regulatory Filing](../../use-cases/discom-regulatory-filing/README.md) |
+| [MeterData](../../schemas/MeterData/v0.6/README.md) | Smart meter telemetry — `IntervalProfile` (15-minute reads), `DailyProfile`, `BillingProfile`, etc. | [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md) |
+| [MeterDataCredential](../../schemas/MeterDataCredential/v0.6/README.md) | W3C Verifiable Credential wrapping `MeterData` for provenance attestation | [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md) (credentialed delivery) |
+| [ArrFiling](../../schemas/ArrFiling/v0.5/README.md) | Aggregate Revenue Requirement line items by fiscal year | [DISCOM Regulatory Filing](../../use-cases/discom-regulatory-filing/README.md) |
 | `IES_Policy` (+ `IES_Program`) | Machine-readable tariff rate structures (energy slabs, ToD surcharges) | [Tariff Intelligence](../../use-cases/tariff-intelligence/README.md) |
-| [MeterDataRequest](../../schemas/MeterDataRequest/README.md) / [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/README.md) | Query / authorisation shape and its credentialed wrapper | Meter-data request flows |
+| [MeterDataRequest](../../schemas/MeterDataRequest/v0.6/README.md) / [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/v0.1/README.md) | Query / authorisation shape and its credentialed wrapper | Meter-data request flows |
 
 Any JSON payload can be exchanged; the families above are simply the ones IES ships pre-built and validated.
 

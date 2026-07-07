@@ -1,6 +1,6 @@
 # IES Meter Data Model
 
-**The reference for how Indian smart-meter terminology — OBIS codes, IS 15959 profile buffers, IS 15959 event IDs, CIM master data — maps onto the [`MeterData`](../../schemas/MeterData/README.md) schema (this page is pinned to the current `v0.6` shape) carried by IES Data Exchange.**
+**The reference for how Indian smart-meter terminology — OBIS codes, IS 15959 profile buffers, IS 15959 event IDs, CIM master data — maps onto the [`MeterData`](../../schemas/MeterData/v0.6/README.md) schema (this page is pinned to the current `v0.6` shape) carried by IES Data Exchange.**
 
 If you are implementing [Smart Meter Data Exchange](README.md), this is the page you keep open while wiring your HES / MDMS to v0.6 payloads.
 
@@ -169,13 +169,13 @@ This is the minimal pattern. Daily / Monthly / Instantaneous / Event / Alarm fol
 
 ## 8. References
 
-- [`MeterData`](../../schemas/MeterData/README.md) — schema, examples, user guide, reference guide (mappings on this page are pinned to `v0.6`)
+- [`MeterData`](../../schemas/MeterData/v0.6/README.md) — schema, examples, user guide, reference guide (mappings on this page are pinned to `v0.6`)
 - [`IES codes.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/IES%20codes.json) — canonical OBIS catalogue (machine-readable). Source on [GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/IES%20codes.json).
 - [Smart Meter Data Exchange](README.md) — the use case that carries this payload
 - [Data Exchange](../../what-ies-provides/data-exchange/README.md) — the wire that carries it
-- [`MeterDataRequest`](../../schemas/MeterDataRequest/README.md) — the matching request schema (current: `v0.6`)
-- [`MeterDataRequestCredential`](../../schemas/MeterDataRequestCredential/README.md) — optional authorisation VC (current: `v0.1`)
-- [`ElectricityCredential`](../../schemas/ElectricityCredential/README.md) — sits alongside `MeterData` for the slow-changing customer / asset / service-connection data (current: `v1.2`)
+- [`MeterDataRequest`](../../schemas/MeterDataRequest/v0.6/README.md) — the matching request schema (current: `v0.6`)
+- [`MeterDataRequestCredential`](../../schemas/MeterDataRequestCredential/v0.1/README.md) — optional authorisation VC (current: `v0.1`)
+- [`ElectricityCredential`](../../schemas/ElectricityCredential/v1.2/README.md) — sits alongside `MeterData` for the slow-changing customer / asset / service-connection data (current: `v1.2`)
 
 ---
 

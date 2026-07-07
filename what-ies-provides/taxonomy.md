@@ -21,9 +21,9 @@ W3C VC payloads — signed, durable records the holder keeps independently of IE
 
 | Schema | Domain | Used in | Overview | Current |
 |---|---|---|---|---|
-| [ElectricityCredential](../schemas/ElectricityCredential/README.md) | Static facts of a consumer connection — sanctioned load, tariff, assets behind the meter | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) | [Overview](schemas-overview/electricity-credential.md) | **v1.2** |
-| [MeterDataCredential](../schemas/MeterDataCredential/README.md) | Signed envelope around a MeterData payload — consumer's own readings | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | [Overview](schemas-overview/meter-data-credential.md) | **v0.6** |
-| [MeterDataRequestCredential](../schemas/MeterDataRequestCredential/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional) | [Overview](schemas-overview/meter-data-request-credential.md) | **v0.1** |
+| [ElectricityCredential](../schemas/ElectricityCredential/v1.2/README.md) | Static facts of a consumer connection — sanctioned load, tariff, assets behind the meter | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) | [Overview](schemas-overview/electricity-credential.md) | **v1.2** |
+| [MeterDataCredential](../schemas/MeterDataCredential/v0.6/README.md) | Signed envelope around a MeterData payload — consumer's own readings | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | [Overview](schemas-overview/meter-data-credential.md) | **v0.6** |
+| [MeterDataRequestCredential](../schemas/MeterDataRequestCredential/v0.1/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional) | [Overview](schemas-overview/meter-data-request-credential.md) | **v0.1** |
 
 ### Data Exchange payloads
 
@@ -31,10 +31,10 @@ Non-credential payloads that ride on the Beckn wire.
 
 | Schema | Domain | Used in | Overview | Current |
 |---|---|---|---|---|
-| [MeterData](../schemas/MeterData/README.md) | Smart-meter telemetry (8 compact profiles: CUSTOMER, INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM) | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (payload) | [Overview](schemas-overview/meter-data.md) | **v0.6** |
-| [MeterDataRequest](../schemas/MeterDataRequest/README.md) | Query / capabilities shape for meter-data requests | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | [Overview](schemas-overview/meter-data-request.md) | **v0.6** |
-| [ArrFiling](../schemas/ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [Overview](schemas-overview/arr-filing.md) | **v0.5** |
-| [OutageNotification](../schemas/OutageNotification/README.md) | Planned + unplanned outage notification — pull (catalogue) and push (CAP) | — no IES use-case guide yet | [Overview](schemas-overview/outage-notification.md) | **v0.1** |
+| [MeterData](../schemas/MeterData/v0.6/README.md) | Smart-meter telemetry (8 compact profiles: CUSTOMER, INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM) | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (payload) | [Overview](schemas-overview/meter-data.md) | **v0.6** |
+| [MeterDataRequest](../schemas/MeterDataRequest/v0.6/README.md) | Query / capabilities shape for meter-data requests | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | [Overview](schemas-overview/meter-data-request.md) | **v0.6** |
+| [ArrFiling](../schemas/ArrFiling/v0.5/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [Overview](schemas-overview/arr-filing.md) | **v0.5** |
+| [OutageNotification](../schemas/OutageNotification/v0.1/README.md) | Planned + unplanned outage notification — pull (catalogue) and push (CAP) | — no IES use-case guide yet | [Overview](schemas-overview/outage-notification.md) | **v0.1** |
 | `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | — | in progress |
 
 ### External — DEG schemas IES uses
