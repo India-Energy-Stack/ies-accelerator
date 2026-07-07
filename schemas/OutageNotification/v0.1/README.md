@@ -19,7 +19,7 @@ It composes proven standards by layer:
 - **GeoJSON (RFC 7946)** — GIS geometry, WGS84, for outage maps.
 - **IEEE 1366 / RDSS** — restoration time + customer counts for SAIDI/SAIFI.
 
-Design rationale, the full standards survey, mapping tables (OMS/PVVNL/CAP/CIM), the GIS/outage-map readiness section, and the feeder-status ingest (detection) layer are in the design note alongside this schema: [OutageNotification_Design.md](./OutageNotification_Design.md) (and the ingest stub [FeederStatusIngest.openapi.yaml](./FeederStatusIngest.openapi.yaml)).
+Design rationale, the full standards survey, mapping tables (OMS/DISCOM/CAP/CIM), the GIS/outage-map readiness section, and the feeder-status ingest (detection) layer are in the design note alongside this schema: [OutageNotification_Design.md](./OutageNotification_Design.md) (and the ingest stub [FeederStatusIngest.openapi.yaml](./FeederStatusIngest.openapi.yaml)).
 
 ---
 
@@ -34,7 +34,7 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | `cause.category` / `cause.subcategory` | **Aligned** — IEEE 1782-2022 §4.4 (ten cause categories) and §4.5 (subcategories), used with IEEE 1366 |
 | `Identifier.scheme` | **Mixed** — `MRID` from CIM (IEC 61968/61970), `DID` from W3C DID Core; remaining values local |
 | `feederStatus` | **Local** normalization; energized/de-energized align with CIM UsagePoint semantics |
-| `outageClass` | **Local** — UPPCL OMS "Down Info" value set |
+| `outageClass` | **Local** — DISCOM OMS "Down Info" value set |
 | `status`, `category`, `assetLevel`, `consumerCategory`, `source` | **Local** — not from a published standard |
 
 > Note: `category` (outage category) is **not** CAP's `info/category` — it is a local value set with a deliberately different membership.
@@ -69,9 +69,9 @@ Each enum declares its origin in its `description` (and a machine-readable `$com
 | [`examples/`](./examples) | JSON-LD example payloads (planned multi-feeder shutdown; unplanned breakdown with provenance; restoration UPDATE). |
 | [`OutageNotification_Design.md`](./OutageNotification_Design.md) | Design note — standards survey, mapping tables, GIS readiness, enum provenance. |
 | [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml) | Real-time feeder-status ingest API (detection layer). |
-| [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | UPPCL FAULT_REASON master (FORM_ID 8312) → `cause.category`/`cause.subcategory` (IEEE 1782 §4.4/§4.5) crosswalk. |
+| [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json) | DISCOM FAULT_REASON master (FORM_ID 8312) → `cause.category`/`cause.subcategory` (IEEE 1782 §4.4/§4.5) crosswalk. |
 | [`OutageNotification_Implementation.md`](./OutageNotification_Implementation.md) | Step-by-step guide to build a production pull/push outage-notification system. |
-| [`tools/`](./tools) | PVVNL planned-shutdown CSV + transformer script (CSV → OutageNotification JSON). |
+| [`tools/`](./tools) | DISCOM planned-shutdown CSV + transformer script (CSV → OutageNotification JSON). |
 
 ---
 
@@ -101,7 +101,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | **`objectType`** \* | `OUTAGE_NOTIFICATION` | — |
 | **`id`** \* | Identifier | Stable notice identity; reused across UPDATE/CANCEL messages. |
-| **`outageClass`** \* | `PLANNED` / `BREAKDOWN` / `SCHEDULED_ROSTERING` / `EMERGENCY_ROSTERING` | Outage class, from the UPPCL OMS "Down Info" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class. |
+| **`outageClass`** \* | `PLANNED` / `BREAKDOWN` / `SCHEDULED_ROSTERING` / `EMERGENCY_ROSTERING` | Outage class, from the DISCOM OMS "Down Info" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class. |
 | **`status`** \* | `SCHEDULED` / `ACTIVE` / `PARTIALLY_RESTORED` / `RESTORED` / `CANCELLED` | Outage lifecycle state. LOCAL enum (not from a published standard); loosely aligned with the CIM Outage lifecycle. |
 | `msgType` | `ALERT` / `UPDATE` / `CANCEL` | **Based on** OASIS CAP v1.2 (alert/msgType). Message type; UPDATE/CANCEL refer to a prior notice via `references`. |
 | `references` | list of Identifier | **Based on** OASIS CAP v1.2 (alert/references). Prior notice ids this message updates or cancels (CAP `references`). |
@@ -121,7 +121,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | `response` | OutageResponse | — |
 | `publicInfo` | OutagePublicInfo | — |
 | `provenance` | OutageProvenance | — |
-| `extensions` | object | Namespaced DISCOM-specific fields, e.g. { "uppcl": { "breakdownId": "6357257", "downType": "FEEDER" } }. |
+| `extensions` | object | Namespaced DISCOM-specific fields, e.g. { "discom": { "breakdownId": "6357257", "downType": "FEEDER" } }. |
 
 ### OutageCause
 
@@ -130,7 +130,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | `category` | `EQUIPMENT` / `LIGHTNING` / `PLANNED` / `POWER_SUPPLY` / `PUBLIC` / `VEGETATION` / `WEATHER` / `WILDLIFE` / `UNKNOWN` / `OTHER` | **Based on** IEEE 1782-2022 §4.4 (with IEEE 1366). Standardized interruption cause category, for reliability benchmarking. Load-shedding/rostering has no standard category — map scheduled rostering to PLANNED, emergency to OTHER, and carry the nature in `outageClass`. |
 | `subcategory` | `DEGRADATION` / `EQUIPMENT_ERROR` / `ENVIRONMENTAL` / `DIRECT_STRIKE` / `INDIRECT_STRIKE` / `NEW_CONSTRUCTION` / `MAINTENANCE` / `CUSTOMER_REQUEST` / `OTHER_UTILITY_REQUEST` / `GENERATION` / `TRANSMISSION` / `SUBTRANSMISSION` / `DISTRIBUTION` / `DISTRIBUTED_GENERATION_STORAGE` / `OTHER_UTILITY_SUPPLY` / `DIG_IN` / `FOREIGN_CONTACT` / `FIRE_POLICE` / `VEHICLE` / `WITHIN_CLEARANCE_ZONE` / `OUTSIDE_CLEARANCE_ZONE` / `PRECIPITATION` / `ICE` / `WIND` / `EXTREME_TEMPERATURE` / `MAMMAL` / `BIRD` / `REPTILE_AMPHIBIAN` / `NO_SPECIFIC_CAUSE_FOUND` / `UTILITY_ERROR` / `OTHER_UTILITY_INITIATED` / `OTHER` | **Based on** IEEE 1782-2022 §4.5. Standardized cause subcategory; must be valid for the chosen `category` (see $comment for the mapping). Leave unset if the field finding is inconclusive. |
 | `faultType` | text | Vendor asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT. |
-| `code` | text | Vendor/OMS fault-reason code, carried verbatim (e.g. UPPCL FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters. |
+| `code` | text | Vendor/OMS fault-reason code, carried verbatim (e.g. a DISCOM FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters. |
 | `codeNamespace` | text | Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM). |
 | `text` | text | Free-text reason; may be localized (e.g. Hindi). |
 
@@ -141,7 +141,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 | **`id`** \* | Identifier | Asset id/name; ideally a stable GIS feature id or MRID for map join. |
 | **`assetLevel`** \* | `SUBSTATION` / `FEEDER` / `DT` / `LINE_SEGMENT` / `SERVICE_POINT` | Network level of the affected asset (local enum; aligns with CIM Equipment/UsagePoint). |
 | `voltageLevel` | text | e.g. 33kV, 11kV, LT, DT. |
-| `consumerCategory` | `URBAN` / `RURAL` / `AGRICULTURE` / `INDUSTRIAL` / `MIXED` / `OTHER` | Consumer mix on the asset (local enum; PVVNL "Feeder Type"). |
+| `consumerCategory` | `URBAN` / `RURAL` / `AGRICULTURE` / `INDUSTRIAL` / `MIXED` / `OTHER` | Consumer mix on the asset (local enum; DISCOM "Feeder Type"). |
 | `meterRef` | Identifier | Feeder/substation smart-meter number — join key to MDMS/MeterData. |
 | `parentRef` | Identifier | Parent asset (e.g. a feeder's substation, a DT's feeder). |
 | `geo` | GeoJSONGeometry | **Based on** GeoJSON (RFC 7946), WGS84. Optional inline geometry (WGS84): Point (substation/DT), LineString (feeder route), Polygon (service area). |
@@ -206,7 +206,7 @@ _Auto-generated from `schema.json`. A field name in **bold** with a trailing **\
 |----|-------|-----------------|
 | `source` | `MDMS` / `OMS` / `SCADA` / `RTDAS` / `AMI` / `MANUAL` | System that raised this notice (local enum; RTDAS = Real-Time Data Acquisition System). |
 | `amispCode` | text | AMI Service Provider that supplied the detection signal (feeder-status ingest API). |
-| `detectionRef` | Identifier | Reference to the real-time detection record that raised the outage (e.g. UPPCL RTDAS_DATA_ID). Absence or a "0" sentinel indicates a manually entered outage (source=MANUAL). |
+| `detectionRef` | Identifier | Reference to the real-time detection record that raised the outage (e.g. a DISCOM RTDAS_DATA_ID). Absence or a "0" sentinel indicates a manually entered outage (source=MANUAL). |
 | `signal` | OutageSignal | — |
 | `alarmRefs` | list of OutageAlarmRef | References into MeterData AlarmProfile records. |
 

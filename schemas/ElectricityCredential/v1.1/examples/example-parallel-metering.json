@@ -13,33 +13,33 @@
     "ElectricityCredential"
   ],
   "issuer": {
-    "id": "did:web:tpddl.delhi.gov.in",
-    "name": "TPDDL - Tata Power Delhi Distribution Ltd",
+    "id": "did:web:discom.example",
+    "name": "Example Distribution Company",
     "idRef": {
-      "issuedBy": "did:web:derc.delhi.gov.in",
-      "subjectId": "derc.delhi.gov.in:TPDDL-REG-0042"
+      "issuedBy": "did:web:serc.example",
+      "subjectId": "serc.example:DISCOM-REG-0042"
     }
   },
   "validFrom": "2025-03-01T00:00:00+05:30",
   "validUntil": "2026-03-01T00:00:00+05:30",
   "credentialSubject": {
-    "id": "did:dedi:tpddl:consumers:TPDDL-2025-00987654",
+    "id": "did:dedi:discom:consumers:DISCOM-2025-00987654",
     "customerProfile": {
-      "customerNumber": "TPDDL-2025-00987654",
+      "customerNumber": "DISCOM-2025-00987654",
       "energyResources": [
         {
-          "id": "did:dedi:tpddl:assets:meter:MET-IMPORT-001",
+          "id": "did:dedi:discom:assets:meter:MET-IMPORT-001",
           "type": "METER",
           "attributes": {
             "meterType": "AMI",
             "gps": "28.6139,77.2090"
           },
           "parentResources": [
-            "did:dedi:tpddl:assets:feeder:DEL-SB-F08"
+            "did:dedi:discom:assets:feeder:DEL-SB-F08"
           ]
         },
         {
-          "id": "did:dedi:tpddl:assets:meter:MET-EXPORT-001",
+          "id": "did:dedi:discom:assets:meter:MET-EXPORT-001",
           "type": "METER",
           "attributes": {
             "meterType": "Reverse",
@@ -47,7 +47,7 @@
           }
         },
         {
-          "id": "did:dedi:tpddl:assets:solar-plant:ROOFTOP-SOLAR-001",
+          "id": "did:dedi:discom:assets:solar-plant:ROOFTOP-SOLAR-001",
           "type": "SOLAR",
           "attributes": {
             "ratedPowerKw": 5,
@@ -56,13 +56,13 @@
             "commissioningDate": "2025-02-10T00:00:00+05:30"
           },
           "parentResources": [
-            "did:dedi:tpddl:assets:meter:MET-EXPORT-001"
+            "did:dedi:discom:assets:meter:MET-EXPORT-001"
           ]
         }
       ],
       "consumptionProfiles": [
         {
-          "meterId": "did:dedi:tpddl:assets:meter:MET-IMPORT-001",
+          "meterId": "did:dedi:discom:assets:meter:MET-IMPORT-001",
           "sanctionedLoadKw": 10,
           "contractMaxDemandKw": 8,
           "tariffCategoryCode": "DS-I",
@@ -70,7 +70,7 @@
           "connectionType": "Single-phase"
         },
         {
-          "meterId": "did:dedi:tpddl:assets:meter:MET-EXPORT-001",
+          "meterId": "did:dedi:discom:assets:meter:MET-EXPORT-001",
           "sanctionedLoadKw": 5,
           "tariffCategoryCode": "FIT-SOLAR-01"
         }
@@ -100,7 +100,7 @@
   "proof": {
     "type": "Ed25519Signature2020",
     "created": "2025-03-01T00:00:00+05:30",
-    "verificationMethod": "did:web:tpddl.delhi.gov.in#key-1",
+    "verificationMethod": "did:web:discom.example#key-1",
     "proofPurpose": "assertionMethod",
     "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
   }

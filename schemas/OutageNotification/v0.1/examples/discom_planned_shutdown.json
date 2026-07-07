@@ -5,8 +5,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-A",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-A",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -19,7 +19,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -75,7 +75,7 @@
       "description": "DT metering and tailless work under Business Plan 2024-2025"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "A",
         "downType": "FEEDER"
       }
@@ -87,8 +87,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-B",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-B",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -101,7 +101,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -157,7 +157,7 @@
       "description": "DT metering and tailless work under Business Plan 2024-2025"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "B",
         "downType": "FEEDER"
       }
@@ -169,8 +169,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-C",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-C",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -183,7 +183,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -265,7 +265,7 @@
       "description": "LT line maintenance work and pole welding under Business Plan"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "C",
         "downType": "FEEDER"
       }
@@ -277,8 +277,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-D1",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-D1",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -291,7 +291,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -334,7 +334,7 @@
       "description": "Tree branch cutting work"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "D1",
         "downType": "FEEDER"
       }
@@ -346,8 +346,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-D2",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-D2",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -360,7 +360,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -403,7 +403,7 @@
       "description": "Tree branch cutting work"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "D2",
         "downType": "FEEDER"
       }
@@ -415,8 +415,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-E",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-E",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -429,7 +429,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -485,7 +485,7 @@
       "description": "For the shifting work of 33 KV line underground under CM Grid Yojna"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "E",
         "downType": "FEEDER"
       }
@@ -497,8 +497,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-F",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-F",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -511,7 +511,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -554,7 +554,7 @@
       "description": "नई 33 के.वी. अंतवाडा लाइन का निर्माण कार्य करने हेतु"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "F",
         "downType": "FEEDER"
       }
@@ -566,8 +566,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-G",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-G",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -580,7 +580,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -649,7 +649,7 @@
       "description": "बिजनेस प्लान के अंतर्गत बुढ़ाना टाउन में पोल लगाने व वी.सी.बी. बदलने का कार्य"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "G",
         "downType": "FEEDER"
       }
@@ -661,8 +661,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-H",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-H",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -675,7 +675,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -731,7 +731,7 @@
       "description": "बिजनेस प्लान के अंतर्गत बुढ़ाना टाउन में पोल लगाने व वी.सी.बी. बदलने का कार्य"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "H",
         "downType": "FEEDER"
       }
@@ -743,8 +743,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-I",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-I",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -757,7 +757,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -826,7 +826,7 @@
       "description": "बिजनेस प्लान 2025-26 के अन्तर्गत नया ट्रांसफार्मर लगाने का कार्य"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "I",
         "downType": "FEEDER"
       }
@@ -838,8 +838,8 @@
     "objectType": "OUTAGE_NOTIFICATION",
     "id": {
       "scheme": "OTHER",
-      "value": "PVVNL-PSD-J",
-      "namespace": "1912.uppcl.org"
+      "value": "DISCOM-PSD-J",
+      "namespace": "outages.discom.example"
     },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
@@ -852,7 +852,7 @@
     },
     "forceMajeure": false,
     "issuedBy": {
-      "name": "PVVNL",
+      "name": "DISCOM",
       "contact": "1912"
     },
     "issuedAt": "2026-06-22T00:00:00+05:30",
@@ -895,7 +895,7 @@
       "description": "LT line maintenance work under Business Plan"
     },
     "extensions": {
-      "uppcl": {
+      "discom": {
         "groupId": "J",
         "downType": "FEEDER"
       }

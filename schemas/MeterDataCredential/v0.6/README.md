@@ -71,7 +71,7 @@ MeterDataCredential (W3C VC 2.0)
 ├── issuer
 │   ├── id          — DID of the data provider (AMISP, MDM, DISCOM)
 │   ├── name        — Human-readable name
-│   └── licenseNumber — Regulatory licence (e.g., KERC-AMISP-2025-007)
+│   └── licenseNumber — Regulatory licence (e.g., SERC-AMISP-2025-007)
 ├── validFrom       — Issuance datetime
 ├── validUntil      — Expiry (typically 1 year)
 ├── credentialStatus — DeDi revocation registry reference
@@ -138,9 +138,9 @@ The provider delivers the telemetry as a `MeterDataCredential` in `dataPayload`.
 
 | File | Description |
 |---|---|
-| [`example-customer-profile.json`](./examples/example-customer-profile.json) | BESCOM AMISP attests CustomerProfile for consumer `RR-1234` |
-| [`example-interval-profile.json`](./examples/example-interval-profile.json) | BESCOM AMISP attests PT15M interval data (with PayloadDescriptor) |
-| [`example-monthly-profile.json`](./examples/example-monthly-profile.json) | BESCOM AMISP attests January 2026 monthly readings with ToU buckets |
+| [`example-customer-profile.json`](./examples/example-customer-profile.json) | DISCOM AMISP attests CustomerProfile for consumer `RR-1234` |
+| [`example-interval-profile.json`](./examples/example-interval-profile.json) | DISCOM AMISP attests PT15M interval data (with PayloadDescriptor) |
+| [`example-monthly-profile.json`](./examples/example-monthly-profile.json) | DISCOM AMISP attests January 2026 monthly readings with ToU buckets |
 
 ---
 

@@ -35,11 +35,11 @@ The credential is issued by energy providers. The issuer object contains:
 Example:
 ```json
 "issuer": {
-  "id": "did:web:bescom.karnataka.gov.in",
-  "name": "BESCOM - Bangalore Electricity Supply Company",
+  "id": "did:web:discom.example",
+  "name": "Example Distribution Company",
   "idRef": {
-    "issuedBy": "did:web:kerc.karnataka.gov.in",
-    "subjectId": "kerc.karnataka.gov.in:AABPC12345"
+    "issuedBy": "did:web:serc.example",
+    "subjectId": "serc.example:AABPC12345"
   }
 }
 ```

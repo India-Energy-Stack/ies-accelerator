@@ -1,7 +1,7 @@
 {
   "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
   "@type": "MeterDataAuthorisation",
-  "grantor": "did:dedi:ies:discom:BESCOM",
+  "grantor": "did:dedi:ies:discom:DISCOM",
   "grantee": "did:dedi:ies:tsp:ACME-TSP",
   "purpose": "ESG Carbon Accounting & Trend Analysis",
   "validFrom": "2026-05-01T00:00:00Z",

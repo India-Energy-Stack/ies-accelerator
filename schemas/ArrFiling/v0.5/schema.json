@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json",
+  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ArrFiling/v0.5/schema.json",
   "title": "ArrFiling",
   "description": "A complete ARR filing by a distribution licensee.\nContains one or more fiscal years, each with its own line items.\nSupports both MYT control-period filings and annual historical data.\n",
   "type": "object",
@@ -30,7 +30,7 @@
     "filingId": {
       "type": "string",
       "description": "Regulatory filing reference number.",
-      "example": "APERC/ARR/APEPDCL/MYT/2024-29"
+      "example": "SERC/ARR/DISCOM/MYT/2024-29"
     },
     "filingDate": {
       "type": "string",
@@ -54,7 +54,7 @@
     "licenseeCode": {
       "type": "string",
       "description": "Short code for the licensee.",
-      "example": "APEPDCL"
+      "example": "Example Distribution Company"
     },
     "stateProvince": {
       "type": "string",
@@ -63,7 +63,7 @@
     "regulatoryCommission": {
       "type": "string",
       "description": "SERC or Joint ERC that receives the filing.",
-      "example": "APERC"
+      "example": "SERC"
     },
     "controlPeriodStart": {
       "type": "string",

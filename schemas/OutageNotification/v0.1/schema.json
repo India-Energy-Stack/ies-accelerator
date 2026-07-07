@@ -38,7 +38,7 @@
         "SCHEDULED_ROSTERING",
         "EMERGENCY_ROSTERING"
       ],
-      "description": "Outage class, from the UPPCL OMS \"Down Info\" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class.\n"
+      "description": "Outage class, from the DISCOM OMS \"Down Info\" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class.\n"
     },
     "status": {
       "type": "string",
@@ -157,7 +157,7 @@
     },
     "extensions": {
       "type": "object",
-      "description": "Namespaced DISCOM-specific fields, e.g.\n{ \"uppcl\": { \"breakdownId\": \"6357257\", \"downType\": \"FEEDER\" } }.\n"
+      "description": "Namespaced DISCOM-specific fields, e.g.\n{ \"discom\": { \"breakdownId\": \"6357257\", \"downType\": \"FEEDER\" } }.\n"
     }
   },
   "$defs": {
@@ -230,7 +230,7 @@
         },
         "code": {
           "type": "string",
-          "description": "Vendor/OMS fault-reason code, carried verbatim (e.g. UPPCL FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters.\n"
+          "description": "Vendor/OMS fault-reason code, carried verbatim (e.g. a DISCOM FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters.\n"
         },
         "codeNamespace": {
           "type": "string",
@@ -284,7 +284,7 @@
             "MIXED",
             "OTHER"
           ],
-          "description": "Consumer mix on the asset (local enum; PVVNL \"Feeder Type\").\n"
+          "description": "Consumer mix on the asset (local enum; DISCOM \"Feeder Type\").\n"
         },
         "meterRef": {
           "allOf": [
@@ -315,7 +315,7 @@
     },
     "OutageNetworkContext": {
       "title": "OutageNetworkContext",
-      "description": "DISCOM org hierarchy (UPPCL):\nDiscom > Zone > Circle > Division > Subdivision > Substation.\nAll optional for flat utilities.\n",
+      "description": "DISCOM org hierarchy:\nDiscom > Zone > Circle > Division > Subdivision > Substation.\nAll optional for flat utilities.\n",
       "type": "object",
       "properties": {
         "discom": {
@@ -496,7 +496,7 @@
               "$ref": "#/$defs/Identifier"
             }
           ],
-          "description": "Reference to the real-time detection record that raised the outage (e.g. UPPCL RTDAS_DATA_ID). Absence or a \"0\" sentinel indicates a manually entered outage (source=MANUAL).\n"
+          "description": "Reference to the real-time detection record that raised the outage (e.g. a DISCOM RTDAS_DATA_ID). Absence or a \"0\" sentinel indicates a manually entered outage (source=MANUAL).\n"
         },
         "signal": {
           "$ref": "#/$defs/OutageSignal"
