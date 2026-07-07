@@ -12,7 +12,7 @@ W3C Verifiable Credential (VC Data Model 2.0) that wraps a [MeterData](../MeterD
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) | **Current** | Wraps MeterData v0.6; BitstringStatusListEntry revocation |
+| [v0.6](v0.6/README.md) | **Current** | Wraps MeterData v0.6; BitstringStatusListEntry revocation |
 
 ---
 

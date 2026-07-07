@@ -59,7 +59,7 @@ Two steps get you here:
 
 2. **Generate a key pair and publish `did.json`.** The concrete commands — install OpenCred, generate the signing key, assemble `did.json` from the container, publish to your web host, and verify — live in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Keeping them with the rest of the OpenCred operations means you don't context-switch between chapters during a single setup.
 
-That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (the SERC, etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
+That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (the SERC, etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
 Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential carries no holder identifier (bearer style); when the verifier needs presentation-time proof of subject, bind to a wallet DID or `tel:` URI — full guidance in [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity).
 
@@ -280,7 +280,7 @@ did:web:<discom-domain>:assets:meter:<meter-slno>
 → did:web:ies.discom.example:assets:meter:MET-IMPORT-001
 ```
 
-This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2).
+This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md).
 
 ### Other assets — transformer, feeder, substation, solar, BESS, EV charger
 
@@ -591,7 +591,7 @@ In this case you may issue the credential without a `credentialSubject.id` (bear
 
 ### Where does the contact identifier live in the schema?
 
-The `customerDetails` block in [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
+The `customerDetails` block in [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
 
 ### Picking a pattern
 

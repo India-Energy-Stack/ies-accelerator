@@ -14,7 +14,7 @@ Schema for a distribution licensee (DISCOM) to publish **planned and unplanned e
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1) | **Draft (WIP)** | Initial model: OutageNotification + sub-models; provenance links to MeterData AlarmProfile |
+| [v0.1](v0.1/README.md) | **Draft (WIP)** | Initial model: OutageNotification + sub-models; provenance links to MeterData AlarmProfile |
 
 ---
 

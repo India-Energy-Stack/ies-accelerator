@@ -93,7 +93,7 @@ The full, authoritative field tables are in the schemas:
 
 Six tables: `P2PTrade`, `EnergyTradeOffer`, `EnergyCustomer`, `EnergyOrderItem`, `RevenueFlow`, `DEGContract` (+ the shared `BecknTimeSeries` and `EnergyResource`; `DiscomLedgerProvider` is defined only at schema.beckn.io).
 
-For the underlying meter-data sub-transaction shape, see **[MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** (referenced indirectly — the trade-side meter quantities ride as `BecknTimeSeries` payloadTypes, not as a `MeterData` profile).
+For the underlying meter-data sub-transaction shape, see **[MeterData v0.6 — Field reference](../../schemas/MeterData/v0.6/README.md)** (referenced indirectly — the trade-side meter quantities ride as `BecknTimeSeries` payloadTypes, not as a `MeterData` profile).
 
 ## 9. Schedule II — Report Templates
 
@@ -147,7 +147,7 @@ The cascade — Rules 1 / 2a / 2b — is implemented by the [`degledgerrecorder`
 | **[DEGContract](https://schema.beckn.io/DEGContract/)** | The envelope — roles, the rego policy URL, computed revenue flows |
 | **[DiscomLedgerProvider](https://schema.beckn.io/DiscomLedgerProvider/)** | The LP↔DISCOM binding (`utilityId`, `ledgerUrl`) |
 | **[BecknTimeSeries](https://schema.beckn.io/BecknTimeSeries/)** | Per-interval payload carrier — declares `payloadDescriptors` and `payloads[]` |
-| **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** *(optional)* | Seller's attestation of meter / sanctioned-load / DER details backing the offer |
+| **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** *(optional)* | Seller's attestation of meter / sanctioned-load / DER details backing the offer |
 
 A consolidated field reference is in **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)**.
 

@@ -390,7 +390,7 @@ OutageNotification
 }
 ```
 
-`provenance.alarmRefs[]` point at a `MeterData` `AlarmProfile` (`profileType: "ALARM"`, `MeterAlarm.alarmId/status/severity`) already carried by [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) — no alarm fields are redefined here.
+`provenance.alarmRefs[]` point at a `MeterData` `AlarmProfile` (`profileType: "ALARM"`, `MeterAlarm.alarmId/status/severity`) already carried by [MeterData v0.6](../../MeterData/v0.6/README.md) — no alarm fields are redefined here.
 
 ---
 
@@ -579,7 +579,7 @@ Recommendation to the DISCOM: de-duplicate the master list, and treat the crossw
 - **W3C Decentralized Identifiers (DID) Core** — <https://www.w3.org/TR/did-core/>
 - **India reliability/RDSS context** — MPERC SAIFI/SAIDI order: <https://mperc.in/uploads/editor/Other%20Orders%20by%20MPERC/MPERC_ORDER_Specifying_Reliability_Indices_SAIFI_AND_SAIDI_20_06_2024.pdf> · Review of Indian DISCOM outage reporting: <https://blog.theleapjournal.org/2025/09/a-review-of-outage-reporting-by-indian.html> · UPCL reliability indices: <https://upcl.uk.gov.in/reliability-indices-saifi-saidi-maifi/>
 - **ENTSO-E Transparency Platform** — <https://transparency.entsoe.eu/>
-- **IES MeterData v0.6** (carries smart-meter alarms via `AlarmProfile`) — <https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6>
+- **IES MeterData v0.6** (carries smart-meter alarms via `AlarmProfile`) — [`../../MeterData/v0.6/README.md`](../../MeterData/v0.6/README.md)
 - **DISCOM OMS** (`outages.discom.example`) — system of record reviewed for this design.
 - **DISCOM planned-shutdown example** — a published "Detail of Planned Shutdown" PDF from the pilot DISCOM.
 - **DISCOM draft "REAL TIME FEEDER STATUS" push API** — vendor-contemplated AMISP push contract that informed the feeder-status ingest layer (§7.4).

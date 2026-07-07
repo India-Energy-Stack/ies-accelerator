@@ -1,13 +1,13 @@
 # Consumer Energy Passport
 
-The IES **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)**, issued holder-bound to a consumer's wallet (W3C Verifiable Credential).
+The IES **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)**, issued holder-bound to a consumer's wallet (W3C Verifiable Credential).
 
 | | |
 |---|---|
 | **Document** | IES/CEP-PROFILE/1.2 |
 | **Status** | Live in pilot (four pilot DISCOMs across four States; one DISCOM staged) |
 | **Applicability** | All distribution licensees |
-| **This version** | Consumer Energy Passport *variant* of [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2). Static credential only; live interval data uses **[MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)**, separately. |
+| **This version** | Consumer Energy Passport *variant* of [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md). Static credential only; live interval data uses **[MeterData](../../schemas/MeterData/v0.6/README.md)**, separately. |
 
 ---
 
@@ -29,7 +29,7 @@ For one consumer connection the Passport records:
 - the **distribution transformer** the connection is fed from, where known;
 - each **energy resource** behind the meter — solar, battery, EV charger, inverter or controllable load — with its capacity, inspection status and equipment details.
 
-The Passport records identity, capacity and status. **It does not hold live readings** — those are the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, covered separately and linked by asset identifier (see the [Consumer Meter Digest](../consumer-meter-digest/README.md)).
+The Passport records identity, capacity and status. **It does not hold live readings** — those are the [MeterData](../../schemas/MeterData/v0.6/README.md) record, covered separately and linked by asset identifier (see the [Consumer Meter Digest](../consumer-meter-digest/README.md)).
 
 ## 3. How Each Item is Identified
 
@@ -84,13 +84,13 @@ The Passport defines **one record**: a static Verifiable Credential. It changes 
 
 It is **holder-bound**. The consumer holds it in DigiLocker or a DID wallet and discloses fields selectively; verifiers check it offline against the licensee's published `did.json`.
 
-The live interval data (generation and consumption readings) is a **separate record** — the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) schema, exchanged over Beckn Data Exchange — linked to this credential by the meter and asset identifiers.
+The live interval data (generation and consumption readings) is a **separate record** — the [MeterData](../../schemas/MeterData/v0.6/README.md) schema, exchanged over Beckn Data Exchange — linked to this credential by the meter and asset identifiers.
 
 ## 8. Schedule I — Static Fields of the Credential
 
 The full, authoritative field tables (envelope, `customerProfile`, `customerDetails`, `energyResources[]` for each kind, `consumptionProfiles[]`) are in the schema:
 
-→ **[ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference)**
+→ **[ElectricityCredential v1.2 — Field reference](../../schemas/ElectricityCredential/v1.2/README.md#field-reference)**
 
 Eight tables in all: envelope, `CustomerDetails`, `CustomerProfile`, the typed `EnergyResource*` kinds (METER, GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK), and `ConsumptionProfile`. Each row carries `Field`, `Type`, the standard(s) it is **Based on**, and `Status` (Mandatory / Optional).
 
@@ -98,7 +98,7 @@ Eight tables in all: envelope, `CustomerDetails`, `CustomerProfile`, the typed `
 
 Not applicable as a populated report template. The Passport is a single self-contained credential; it does not pull fields into a downstream reporting template.
 
-The one interdependent schema is the live [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record: it references the meter and asset identifiers registered here (so it depends on this credential), but it is a separate data-exchange schema carried over Beckn, not a Schedule II report populated from this credential.
+The one interdependent schema is the live [MeterData](../../schemas/MeterData/v0.6/README.md) record: it references the meter and asset identifiers registered here (so it depends on this credential), but it is a separate data-exchange schema carried over Beckn, not a Schedule II report populated from this credential.
 
 ## 10. How It Fits Together
 
@@ -128,7 +128,7 @@ The net meter is the billing source of truth. Generation is measured at the net 
 
 ## Schemas Used in This Use Case
 
-A **single schema** — **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** (W3C VC). The Passport is the holder-bound issuance of that one credential and combines no additional schemas. When the consumer later shares live readings, that uses the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) schema over Beckn Data Exchange — a separate exchange, not part of the credential. See [Consumer Meter Digest](../consumer-meter-digest/README.md).
+A **single schema** — **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** (W3C VC). The Passport is the holder-bound issuance of that one credential and combines no additional schemas. When the consumer later shares live readings, that uses the [MeterData](../../schemas/MeterData/v0.6/README.md) schema over Beckn Data Exchange — a separate exchange, not part of the credential. See [Consumer Meter Digest](../consumer-meter-digest/README.md).
 
 ## Value Unlock
 
@@ -157,7 +157,7 @@ The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.
 
 ### Exchange — issuance shape
 
-- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) schema
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) schema
 - [ ] `credentialSubject.id` = wallet DID
 - [ ] `customerProfile.idRef` = verified government-ID *reference* (not the raw number)
 - [ ] `validUntil` set to a sensible horizon (re-issued on material change)

@@ -127,7 +127,7 @@ If your research makes a claim about how a schema behaves, verify it empirically
 3. Treat a failing validation as a data point: it may mean the example is intentionally illustrative rather than fully conformant, or it may surface a genuine question worth raising (see Phase 4).
 
 ### References & Anchors
-* [MeterData v0.6 validator README](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
+* [MeterData v0.6 validator README](../schemas/MeterData/v0.6/README.md)
 * [Taxonomy — Versioning](../what-ies-provides/taxonomy.md#versioning)
 </details>
 
