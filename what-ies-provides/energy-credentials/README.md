@@ -10,7 +10,7 @@ For first-time setup — getting OpenCred running, publishing `did.json`, claimi
 
 ## Why credentials
 
-When a DISCOM hands a consumer a digital electricity attestation, or shares meter readings with a regulator or a marketplace, the receiver needs to answer one question on their own: *"Is this really from TPDDL, intact, and still valid?"* If they have to call you, the system does not scale and is not really verifiable.
+When a DISCOM hands a consumer a digital electricity attestation, or shares meter readings with a regulator or a marketplace, the receiver needs to answer one question on their own: *"Is this really from the DISCOM, intact, and still valid?"* If they have to call you, the system does not scale and is not really verifiable.
 
 A **Verifiable Credential** is a small JSON object you sign with the private key behind your `did:web`. Anyone — a wallet, another DISCOM, a bank, a regulator — can fetch your `did.json` over HTTPS, check the signature, and consult a public revocation list. No callback to you required.
 
@@ -18,9 +18,9 @@ Three credentials cover almost everything IES does:
 
 | Credential | What it attests | Who signs | Typical receiver |
 |---|---|---|---|
-| **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** | A service connection — customer number, sanctioned load, tariff, meter info, energy resources (rooftop solar, BESS, EV chargers) | DISCOM | The consumer's wallet, or a verifier (bank, marketplace, regulator) the consumer shares it with |
-| **[MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md)** | A signed meter-reading payload (raw `MeterData` profiles or derived summaries) for a specified period | AMISP, MDM, or DISCOM | DISCOM (B2B telemetry) or the consumer (their own readings) |
-| **[MeterDataRequestCredential v0.1](../../schemas/MeterDataRequestCredential/v0.1/README.md)** | A signed request for meter data — proves the requester has the right to ask | Seeker (typically a DISCOM) | Provider (typically an AMISP) at Beckn `confirm` time |
+| **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** | A service connection — customer number, sanctioned load, tariff, meter info, energy resources (rooftop solar, BESS, EV chargers) | DISCOM | The consumer's wallet, or a verifier (bank, marketplace, regulator) the consumer shares it with |
+| **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)** | A signed meter-reading payload (raw `MeterData` profiles or derived summaries) for a specified period | AMISP, MDM, or DISCOM | DISCOM (B2B telemetry) or the consumer (their own readings) |
+| **[MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** | A signed request for meter data — proves the requester has the right to ask | Seeker (typically a DISCOM) | Provider (typically an AMISP) at Beckn `confirm` time |
 
 ### Lifecycle at a glance
 
@@ -67,7 +67,7 @@ Before you can issue, get these in place:
 2. **A DeDi namespace** under your verified domain. See [Setup Register](../../how-you-implement-ies/setup-register.md). OpenCred will auto-create the four registries it needs (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) on first boot.
 3. **Docker 24+**, plus `curl`, `jq`, `openssl`, and ~2 GB free disk. The OpenCred container ships ready to issue.
 4. *(Optional, recommended for licensed utilities)* **A regulator's licensing pointer** to quote in `issuer.idRef` — the regulator's `did:web` and the regulator-issued licence identifier for your DISCOM. Omit for pilots / non-regulated issuers.
-5. **A signed payload schema in mind.** Default: [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md). For telemetry, [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md).
+5. **A signed payload schema in mind.** Default: [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2). For telemetry, [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6).
 
 > **No IES-side DISCOM-registry entry is required to issue credentials.** That registry is the inter-DISCOM data exchange network's trust boundary, not a credential prerequisite. See [Registries — IES networks today](../registries/README.md#ies-networks-and-registries-today) for when you'd need it.
 
@@ -111,7 +111,7 @@ docker run -d \
   -e OPENCRED_API_KEY="$OPENCRED_API_KEY" \
   -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
   -e OPENCRED_ISSUER_DID_METHOD=web \
-  -e OPENCRED_ISSUER_DOMAIN=ies.tpddl.in \
+  -e OPENCRED_ISSUER_DOMAIN=ies.discom.example \
   -v "$HOME/opencred/keys/issuer-key.pem:/secrets/issuer-key.pem:ro" \
   --read-only --cap-drop ALL \
   opencred:bootcamp
@@ -152,15 +152,15 @@ Drop that JWK into the standard DID document template:
     "https://www.w3.org/ns/did/v1",
     "https://w3id.org/security/suites/jws-2020/v1"
   ],
-  "id": "did:web:ies.tpddl.in",
+  "id": "did:web:ies.discom.example",
   "verificationMethod": [{
-    "id": "did:web:ies.tpddl.in#key-0",
+    "id": "did:web:ies.discom.example#key-0",
     "type": "JsonWebKey",
-    "controller": "did:web:ies.tpddl.in",
+    "controller": "did:web:ies.discom.example",
     "publicKeyJwk": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." }
   }],
-  "authentication":  ["did:web:ies.tpddl.in#key-0"],
-  "assertionMethod": ["did:web:ies.tpddl.in#key-0"]
+  "authentication":  ["did:web:ies.discom.example#key-0"],
+  "assertionMethod": ["did:web:ies.discom.example#key-0"]
 }
 ```
 
@@ -177,7 +177,7 @@ You can add a `service` array later when your Beckn BPP and OpenCred endpoints a
 Upload it so this URL returns the JSON:
 
 ```
-https://ies.tpddl.in/.well-known/did.json
+https://ies.discom.example/.well-known/did.json
 ```
 
 The `.well-known/` path is a standard convention; verifiers know to look there. A normal TLS cert is enough — the same one that already terminates your subdomain — and there must be no redirect.
@@ -185,11 +185,11 @@ The `.well-known/` path is a standard convention; verifiers know to look there. 
 ### 6. Verify it from the outside
 
 ```bash
-curl -s https://ies.tpddl.in/.well-known/did.json | jq .id
-# "did:web:ies.tpddl.in"
+curl -s https://ies.discom.example/.well-known/did.json | jq .id
+# "did:web:ies.discom.example"
 ```
 
-If that command prints your DID, you're done — any participant on the network can now resolve `did:web:ies.tpddl.in` to your public key and verify any credential you sign. Move on to [Issue your first credential](#issue-your-first-credential).
+If that command prints your DID, you're done — any participant on the network can now resolve `did:web:ies.discom.example` to your public key and verify any credential you sign. Move on to [Issue your first credential](#issue-your-first-credential).
 
 ---
 
@@ -204,7 +204,7 @@ export OPENCRED_API_KEY="…"   # from your secret manager
 export ISSUER_DID="$(curl -s http://localhost:3100/v1/keys \
   -H "Authorization: Bearer $OPENCRED_API_KEY" | jq -r '.keys[0].id | split("#")[0]')"
 echo "$ISSUER_DID"
-# did:web:ies.tpddl.in
+# did:web:ies.discom.example
 ```
 
 If you ran the container in `did:key` mode (for early dev), this prints `did:key:z…` instead — the rest of the flow is identical, only the issuer string changes.
@@ -225,14 +225,14 @@ curl -s http://localhost:3100/v1/credentials/issue \
     \"validUntil\":  \"2031-04-01T00:00:00+05:30\",
     \"credentialSubject\": {
       \"customerProfile\": {
-        \"customerNumber\": \"TPDDL-2025-00987654\",
+        \"customerNumber\": \"DISCOM-2025-00987654\",
         \"energyResources\": [{
-          \"id\":   \"did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001\",
+          \"id\":   \"did:web:ies.discom.example:assets:meter:MET-IMPORT-001\",
           \"type\": \"METER\",
           \"attributes\": {\"meterCapability\": \"AMI\", \"energyDirection\": \"Forward\"}
         }],
         \"consumptionProfiles\": [{
-          \"meterId\":            \"did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001\",
+          \"meterId\":            \"did:web:ies.discom.example:assets:meter:MET-IMPORT-001\",
           \"sanctionedLoad\":     {\"value\": 10, \"unit\": \"kW\"},
           \"tariffCategoryCode\": \"DS-I\",
           \"premisesType\":       \"Residential\",
@@ -262,7 +262,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
 
 Three things worth noting:
 
-- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:ies.tpddl.in:assets:meter:<slno>`). Same pattern for transformers, feeders, substations — see [Identifiers — Asset patterns](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). No per-asset `did.json` hosting required for the pragmatic case.
+- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:ies.discom.example:assets:meter:<slno>`). Same pattern for transformers, feeders, substations — see [Identifiers — Asset patterns](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). No per-asset `did.json` hosting required for the pragmatic case.
 - **`issuer.idRef` is optional.** OpenCred fills `issuer` with the DID string only. Your integration service appends `name` and (if you have a regulator to cite) `idRef` on egress, then re-signs if your flow requires a single signed artefact.
 - **`credentialSubject.id` is absent here.** That's the bearer-style default. Set it to a wallet `did:key` or `tel:+91...` URI for holder-bound issuance — full guidance in [Identifiers — Holder binding](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity).
 
@@ -342,9 +342,9 @@ The Consumer Energy Passport use case ([use-cases/consumer-energy-passport/](../
 
 ### MeterDataCredential v0.6 — telemetry signing
 
-A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM, and delivered over Beckn at [`on_status`](../data-exchange/README.md#what-you-can-exchange-schema-families). Wraps [MeterData v0.6](../../schemas/MeterData/v0.6/README.md); schema [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md).
+A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM, and delivered over Beckn at [`on_status`](../data-exchange/README.md#what-you-can-exchange-schema-families). Wraps [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6); schema [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6).
 
-Same `POST /v1/credentials/issue` flow as the walkthrough above — the `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](../../schemas/MeterData/v0.6/README.md)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (see [Revoke](#id-4.-revoke)); its value is your DeDi revocation registry, addressed by namespace DID **or** verified domain:
+Same `POST /v1/credentials/issue` flow as the walkthrough above — the `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (see [Revoke](#id-4.-revoke)); its value is your DeDi revocation registry, addressed by namespace DID **or** verified domain:
 
 ```bash
 curl -s http://localhost:3100/v1/credentials/issue \
@@ -371,7 +371,7 @@ Two common shapes:
 
 ### MeterDataRequestCredential v0.1 — proof of right-to-ask
 
-A signed VC carried at Beckn [`confirm`](../data-exchange/README.md#id-3.-send-confirm) time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](../../schemas/MeterDataRequestCredential/v0.1/README.md).
+A signed VC carried at Beckn [`confirm`](../data-exchange/README.md#id-3.-send-confirm) time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1).
 
 This schema is **not** in OpenCred's built-in registry, so issue it with an **`inlineSchema`** rather than a `schemaId`: pass the JSON Schema in the request and OpenCred validates `credentialSubject` against it, writes the schema `$id`, and signs. Here we reuse the published MeterDataRequest `$defs` so the inline schema stays canonical:
 

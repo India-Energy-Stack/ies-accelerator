@@ -29,7 +29,7 @@ In this phase, the Secretariat establishes the core authoritative registries tha
 ### Execution Guidance
 The IES operator operates the canonical DeDi namespace `india-energy-stack` (and `indiaenergystack.in` for Beckn network registries). Initialize the following registries under these namespaces:
 1. **`ies-discoms-reference-registry`** (tag: `membership`): The authoritative allow-list of recognized electricity distribution utilities.
-2. **`ies-regulators-reference-registry`** (tag: `membership`): The authoritative allow-list of recognized regulatory authorities (DERCs, KERCs, CERC, etc.).
+2. **`ies-regulators-reference-registry`** (tag: `membership`): The authoritative allow-list of recognized regulatory authorities (SERCs, CERC, etc.).
 3. **`ies-schemas`** (tag: `schema`): The directory of canonical, versioned IES semantic and credential schemas.
 4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): Registry lists defining the official participant directories for production and pre-production Beckn networks.
 
@@ -63,7 +63,7 @@ In this phase, you receive onboarding requests from utilities or regulators and 
 
 ### Execution Guidance
 Upon receiving a registration package via the designated email channels ([IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org) or [ies@recindia.com](mailto:ies@recindia.com)), verify that it includes the following items:
-* **Legal Name & Short Code**: e.g., `Tata Power Delhi Distribution Limited` (`tpddl`).
+* **Legal Name & Short Code**: e.g., `Example Distribution Utility Limited` (`discom`).
 * **Issuer DID**: `did:web:<domain>` (production) or `did:key:<key>` (testbed).
 * **Public Verification Key**: NIST P-256 public key in JWK format.
 * **Service Areas**: List of state/regional codes (e.g. `["DL"]`).

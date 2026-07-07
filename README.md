@@ -2,7 +2,7 @@
 
 **India Energy Stack (IES)** is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking — UPI holds no money of its own; money stays in the customer's bank, and UPI is only the shared rules that let any bank pay any other. **IES is the same idea, for energy data.** The data stays in the systems that already hold it, and IES specs let any two systems exchange and act on it directly.
 
-IES is **live**. Four pilot DISCOMs — [PVVNL, APEPDCL, DGVCL and Tata Power](concepts/pilots.md) — built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
+IES is **live**. [Four pilot DISCOMs](concepts/pilots.md) built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
 
 {% hint style="info" %}
 📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Regenerated automatically whenever the docs change.
@@ -59,7 +59,7 @@ What you can ship, organised per the **[IES Documentation Template](use-cases/RE
 |---|---|
 | **Live in pilot** | [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md) · [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md) · [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md) · [DER Visibility](use-cases/der-visibility/README.md) |
 | **Live or staged** | [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md) · [Tariff Intelligence](use-cases/tariff-intelligence/README.md) |
-| **In progress** | [P2P Energy Exchange](use-cases/p2p-energy-exchange/README.md) |
+| **In progress** | [P2P Energy Trading](use-cases/p2p-energy-trading/README.md) |
 
 ---
 

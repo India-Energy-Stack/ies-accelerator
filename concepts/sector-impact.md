@@ -69,7 +69,7 @@ That foundation makes practical:
 
 Filings reach the regulator **already signed and in a single, consistent format**. Tariff orders become computable. Regulators move from reading PDF documents to monitoring data directly.
 
-- **[ARR filings](../schemas/ArrFiling/v0.5/README.md)** in a structured, comparable form across utilities.
+- **[ARR filings](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** in a structured, comparable form across utilities.
 - **Tariff orders** parsable by software, with stable references for every clause.
 - **Audit trail** of who shared what, with whom, under what authorisation.
 
@@ -83,7 +83,7 @@ Demand-side flexibility, peer-to-peer energy exchange (consumers buying and sell
 
 The relevant use cases:
 
-- **[P2P Energy Exchange](../use-cases/p2p-energy-exchange/README.md)** — direct trade between consumers under a market operator's rules.
+- **[P2P Energy Trading](../use-cases/p2p-energy-trading/README.md)** — direct trade between consumers under a market operator's rules.
 - **Open Access** — verified consumer credentials and meter digests make eligibility checks instant.
 - **Demand-side flexibility** — aggregators dispatching pooled resources for demand response. The `DemandFlex*` schema family is published (see [Schemas — External](../schemas/external/README.md#demand-flexibility)); no IES use-case guide exists yet.
 

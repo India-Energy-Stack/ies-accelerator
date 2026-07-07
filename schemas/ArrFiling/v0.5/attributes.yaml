@@ -7,7 +7,7 @@ info:
     by distribution licensees to State Electricity Regulatory Commissions (SERCs).
 
     Designed to unify different DISCOM filing formats:
-    - Multi-Year Tariff (MYT) wide-format filings (e.g., APEPDCL to APERC)
+    - Multi-Year Tariff (MYT) wide-format filings (e.g., a DISCOM to its SERC)
     - Annual single-year filings with historical SERC-approved data (e.g., Goa GED to JERC)
     - Varying line item granularity (e.g., O&M split vs consolidated, Return on NFA vs RoE)
     - Evolving line items across years (new items appearing, old items consolidated)
@@ -33,7 +33,7 @@ components:
         filingId:
           type: string
           description: Regulatory filing reference number.
-          example: "APERC/ARR/APEPDCL/MYT/2024-29"
+          example: "SERC/ARR/DISCOM/MYT/2024-29"
         filingDate:
           type: string
           format: date
@@ -52,14 +52,14 @@ components:
         licenseeCode:
           type: string
           description: Short code for the licensee.
-          example: "APEPDCL"
+          example: "Example Distribution Company"
         stateProvince:
           type: string
           example: "Andhra Pradesh"
         regulatoryCommission:
           type: string
           description: SERC or Joint ERC that receives the filing.
-          example: "APERC"
+          example: "SERC"
         controlPeriodStart:
           type: string
           description: Start fiscal year of MYT control period (only for MYT filings).

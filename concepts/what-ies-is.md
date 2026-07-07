@@ -79,7 +79,7 @@ It is just as important to know what IES is **not**. Five common confusions are 
 
 ## Where it stands today
 
-IES is **live**. The specifications have been published on this GitBook, the sandbox is working, and four pilot DISCOMs ([PVVNL · APEPDCL · DGVCL · Tata Power](pilots.md)) have built their IES adapter and demonstrated a first set of live use cases. See **[Pilots and Status](pilots.md)** for what was shown.
+IES is **live**. The specifications have been published on this GitBook, the sandbox is working, and [four pilot DISCOMs](pilots.md) have built their IES adapter and demonstrated a first set of live use cases. See **[Pilots and Status](pilots.md)** for what was shown.
 
 ---
 

@@ -3,6 +3,7 @@
 * [Home](README.md)
 * [Getting Started](getting-started.md)
 * [Glossary](glossary.md)
+* [Download PDF](download-pdf.md)
 
 ## What IES Provides
 
@@ -30,13 +31,13 @@
     * [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
     * [OutageNotification](what-ies-provides/schemas-overview/outage-notification.md)
   * [Schemas](schemas/README.md)
-    * [ElectricityCredential v1.2](schemas/ElectricityCredential/v1.2/README.md)
-    * [MeterData v0.6](schemas/MeterData/v0.6/README.md)
-    * [MeterDataCredential v0.6](schemas/MeterDataCredential/v0.6/README.md)
-    * [MeterDataRequest v0.6](schemas/MeterDataRequest/v0.6/README.md)
-    * [MeterDataRequestCredential v0.1](schemas/MeterDataRequestCredential/v0.1/README.md)
-    * [ArrFiling v0.5](schemas/ArrFiling/v0.5/README.md)
-    * [OutageNotification v0.1](schemas/OutageNotification/v0.1/README.md)
+    * [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
+    * [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
+    * [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)
+    * [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6)
+    * [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)
+    * [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
+    * [OutageNotification v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)
     * [External Schemas (DEG)](schemas/external/README.md)
 * [Taxonomy](what-ies-provides/taxonomy.md)
 
@@ -58,7 +59,7 @@
 * [DER Visibility](use-cases/der-visibility/README.md)
 * [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)
 * [Tariff Intelligence](use-cases/tariff-intelligence/README.md)
-* [P2P Energy Exchange](use-cases/p2p-energy-exchange/README.md)
+* [P2P Energy Trading](use-cases/p2p-energy-trading/README.md)
 
 ## Reference
 

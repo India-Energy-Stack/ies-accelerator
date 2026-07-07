@@ -71,7 +71,7 @@
   "meterRefs": [
     {
       "scheme": "METER_SERIAL",
-      "value": "BESCOM-SM-2025-654321"
+      "value": "DISCOM-SM-2025-654321"
     }
   ],
   "serviceDeliveryPointRefs": [

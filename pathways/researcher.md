@@ -127,7 +127,7 @@ If your research makes a claim about how a schema behaves, verify it empirically
 3. Treat a failing validation as a data point: it may mean the example is intentionally illustrative rather than fully conformant, or it may surface a genuine question worth raising (see Phase 4).
 
 ### References & Anchors
-* [MeterData v0.6 validator README](../schemas/MeterData/v0.6/validation/README.md)
+* [MeterData v0.6 validator README](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 * [Taxonomy — Versioning](../what-ies-provides/taxonomy.md#versioning)
 </details>
 
@@ -135,10 +135,10 @@ If your research makes a claim about how a schema behaves, verify it empirically
 <summary><b>Step 3.2: Study the Documented Pilot Outcomes</b></summary>
 
 ### 💡 Phase Advice
-> Don't rely on secondary summaries of what the pilots demonstrated. [Pilots and Status](../concepts/pilots.md) is the primary, citable source: a concrete outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), naming the four pilot DISCOMs, their locations, and which use case each demonstrated.
+> Don't rely on secondary summaries of what the pilots demonstrated. [Pilots and Status](../concepts/pilots.md) is the primary, citable source: a concrete outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), covering the four pilot DISCOMs and which use case each demonstrated.
 
 ### Execution Guidance
-1. Read [Pilots and Status](../concepts/pilots.md) for the outcomes table covering **PVVNL** (Meerut, Uttar Pradesh), **APEPDCL** (Visakhapatnam, Andhra Pradesh), **DGVCL** (Surat, Gujarat), and **Tata Power** (Mumbai, Maharashtra).
+1. Read [Pilots and Status](../concepts/pilots.md) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.
 2. Cross-reference the "Use cases demonstrated" table against the four capabilities shown live: **DER Visibility**, **Consumer Energy Passport**, **Consumer Meter Digest**, and **Smart Meter Data Exchange** — each row also states the "Before IES" baseline, useful if your analysis is a before/after comparison.
 3. Note the "What 'live in pilot' means" section, which defines exactly what evidentiary bar each demonstration had to clear (adapter running, `did:web` identity resolvable, subscriber record in the network registry, issued credential or completed exchange, independently verified by a counterparty) — useful if you need to characterise the rigour of the pilot claims in your own writing.
 

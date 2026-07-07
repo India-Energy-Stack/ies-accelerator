@@ -32,10 +32,10 @@ The attribute bag shared by every energy-resource kind (`EnergyResourceCommonAtt
 
 ```json
 {
-  "id": "did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101",
+  "id": "did:web:ies.discom.example:assets:meter:MET-UNIT-101",
   "type": "METER",
   "attributes": {"meterCapability": "AMR", "energyDirection": "Forward", ...},
-  "parentResources": ["did:web:bescom.karnataka.gov.in:assets:meter:MET-BLDG-001"]
+  "parentResources": ["did:web:ies.discom.example:assets:meter:MET-BLDG-001"]
 }
 ```
 
@@ -43,14 +43,14 @@ It records identity, capacity, ratings, status and installation facts. It does n
 
 ## 3. How Each Item is Identified
 
-The credential itself carries an `id` that is a `urn:uuid`. The issuer is identified by `issuer.id`, a `did:web` anchored to the DISCOM's own domain — the examples use both a generic form (`did:web:example-utility.com`) and real Indian DISCOM domains (`did:web:bescom.karnataka.gov.in`, `did:web:tpddl.delhi.gov.in`), each paired in `issuer.idRef` with a reference to the state regulator that licensed it (for example `{"issuedBy": "did:web:kerc.karnataka.gov.in", "subjectId": "kerc.karnataka.gov.in:AABPC12345"}` for BESCOM under KERC, or the DERC-issued registration for TPDDL in Delhi).
+The credential itself carries an `id` that is a `urn:uuid`. The issuer is identified by `issuer.id`, a `did:web` anchored to the DISCOM's own domain — the examples use both a generic form (`did:web:example-utility.com`) and DISCOM-style domains (`did:web:ies.discom.example`), each paired in `issuer.idRef` with a reference to the state regulator that licensed it (for example `{"issuedBy": "did:web:serc.example", "subjectId": "serc.example:AABPC12345"}` for the DISCOM under the SERC).
 
 Two issuance variants use `credentialSubject.id` differently:
 
 - in the **bearer** variant, `credentialSubject.id` is absent — whoever holds the signed JSON is treated as the subject, so no consumer identifier appears at all;
 - in the **holder-bound** variant, `credentialSubject.id` is the consumer's own DID (the shipped examples use a `did:example:` placeholder for the wallet-generated identifier), and `customerProfile.idRef` carries a reference to a separate identity authority (one example references `did:web:ssa.gov` as the issuing authority for a government ID, illustrating the pattern rather than prescribing a specific Indian identity source).
 
-Each entry in `energyResources[]` carries its own `id` — either a `did:web` path under the issuer's domain (for example `did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101`, or `did:web:example-utility.com:assets:solar-plant:DER-SOLAR-001` for a generator) or, where that is more conventional, the meter's own serial number. The schema documents this explicitly as convention rather than a hard rule: "for METER resources the meter serial number is conventional," leaving DISCOMs latitude in how they mint identifiers. Either way, the DISCOM's existing numbering — CIS/CA account numbers, meter serial numbers — is always preserved as an alias inside or alongside the identifier; it is never replaced. `serialNumber` (the manufacturer nameplate value) and `id` (the network-issued identifier) are kept as two distinct fields precisely so one substitution does not erase the other.
+Each entry in `energyResources[]` carries its own `id` — either a `did:web` path under the issuer's domain (for example `did:web:ies.discom.example:assets:meter:MET-UNIT-101`, or `did:web:example-utility.com:assets:solar-plant:DER-SOLAR-001` for a generator) or, where that is more conventional, the meter's own serial number. The schema documents this explicitly as convention rather than a hard rule: "for METER resources the meter serial number is conventional," leaving DISCOMs latitude in how they mint identifiers. Either way, the DISCOM's existing numbering — CIS/CA account numbers, meter serial numbers — is always preserved as an alias inside or alongside the identifier; it is never replaced. `serialNumber` (the manufacturer nameplate value) and `id` (the network-issued identifier) are kept as two distinct fields precisely so one substitution does not erase the other.
 
 Topology between resources is carried by two link arrays rather than by nesting: `parentResources[]` (ids of resources upstream, e.g. the meter or feeder a DER sits behind) and `subResources[]` (child resources, which may be given either as bare id strings or as fully inline `EnergyResource` objects). The shipped submetering example shows this in practice: a building's main meter (`MET-BLDG-001`) is the `parentResources` target for two tenant sub-meters (`MET-UNIT-101`, `MET-UNIT-102`), and a rooftop solar DER in turn names one tenant's sub-meter as its own parent — a three-level chain expressed entirely through parent references, with no nested object structure required.
 
@@ -60,7 +60,7 @@ Topology between resources is carried by two link arrays rather than by nesting:
 - **did:web** — a DID method anchored to a domain the participant controls; the DID document (`did.json`) is fetched over HTTPS from that domain.
 - **Verifiable Credential (VC)** — a tamper-evident, cryptographically signed digital document (W3C VC Data Model 2.0) that a verifier checks offline using the issuer's published key, with no callback to the issuer.
 - **DeDi** — the decentralised registry infrastructure (dedi.global) referenced by the shipped examples' `credentialStatus` block as a revocation registry (`type: dediregistry`), queried by the credential's own UUID.
-- **DISCOM** — a distribution licensee (electricity distribution company) serving retail consumers; the example payloads name real ones (BESCOM in Karnataka, TPDDL in Delhi).
+- **DISCOM** — a distribution licensee (electricity distribution company) serving retail consumers; the example payloads name illustrative DISCOMs rather than real ones.
 - **QuantitativeValue** — a `{value, unit}` pair used for every power, energy, apparent-power, reactive-power and voltage field in this schema (`QVPower`, `QVEnergy`, `QVApparentPower`, `QVReactivePower`, `QVVoltage` in the field reference), each mapped to QUDT IRIs via the JSON-LD context (e.g. `kW` → `qudt:KiloW`, `kWh` → `qudt:KiloW-HR`).
 - **CIM (Common Information Model)** — the IEC data model (IEC 61968 for distribution/metering, IEC 61970 for transmission/generation/DER) that every `energyResources[]` kind is explicitly aligned to at the class level, down to individual attributes (for example `GeneratingUnit.maxOperatingP`, `BatteryUnit.ratedE`, `PowerElectronicsConnection.maxQ`).
 - **Bearer credential** — the issuance variant with no `credentialSubject.id`; whoever holds the signed document is treated as its subject.
@@ -123,7 +123,7 @@ The schema is built from these logical blocks:
 - **ConsumptionProfile** — `meterId`, `sanctionedLoad`, optional `sanctionedExportLoad`, `billingCycleDay`, `contractMaxDemand`, `tariffCategoryCode`, `premisesType`, `connectionType`, `paymentMode`, `serviceStatus` — one entry per meter.
 - **QuantitativeValue types** — `QVPower` (`W`/`kW`/`MW`), `QVEnergy` (`kWh`/`MWh`), `QVApparentPower` (`kVA`/`MVA`), `QVReactivePower` (`kVAR`/`MVAR`), `QVVoltage` (`V`/`kV`) — the `{value, unit}` pairs used throughout the other blocks.
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json, with each standards-derived field's description prefixed "Based on") is at [ElectricityCredential v1.2 — Field reference](../../schemas/ElectricityCredential/v1.2/README.md#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json, with each standards-derived field's description prefixed "Based on") is at [ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference).
 
 ## 9. Schedule II
 
@@ -139,7 +139,7 @@ In all cases, the credential carries only static, structural facts; live interva
 
 ## 11. Points for Confirmation
 
-1. The choice between a `did:web` path identifier and a bare meter serial number for `energyResources[].id` is documented in the schema's own field reference as convention ("for METER resources the meter serial number is conventional") rather than a fixed rule — implementers should confirm which their DISCOM will use consistently before onboarding assets. In practice, all three shipped examples use the `did:web` path form exclusively (e.g. `did:web:bescom.karnataka.gov.in:assets:meter:MET-UNIT-101`), with the bare serial number appearing only as the trailing path segment (as in `did:web:example-utility.com:assets:meter:MET2025789456123`) or duplicated in the separate `serialNumber` field — none of the examples uses an unqualified serial number as the `id` on its own, so the bare-serial-as-`id` option remains a documented allowance rather than a demonstrated pattern.
+1. The choice between a `did:web` path identifier and a bare meter serial number for `energyResources[].id` is documented in the schema's own field reference as convention ("for METER resources the meter serial number is conventional") rather than a fixed rule — implementers should confirm which their DISCOM will use consistently before onboarding assets. In practice, all three shipped examples use the `did:web` path form exclusively (e.g. `did:web:ies.discom.example:assets:meter:MET-UNIT-101`), with the bare serial number appearing only as the trailing path segment (as in `did:web:example-utility.com:assets:meter:MET2025789456123`) or duplicated in the separate `serialNumber` field — none of the examples uses an unqualified serial number as the `id` on its own, so the bare-serial-as-`id` option remains a documented allowance rather than a demonstrated pattern.
 2. The deprecated type aliases `SOLAR` (→ `SOLAR_PV`) and `BATTERY` (→ `BESS`) remain valid for backward compatibility; consumers of this schema should confirm their own tooling accepts both the deprecated and current values during the transition period.
 3. `ratedPower` is kept on every resource kind for backward compatibility, with `maxExport` (and, for load-drawing resources, `maxImport`) preferred; implementers should confirm which field their downstream systems read until `ratedPower` is fully retired.
 4. `dcArrayCapacity` on solar generators and `maxExport` are both expressed in the same `QVPower` unit family (`kW`/`MW`), but carry different physical meanings (DC nameplate at STC versus AC-side grid injection limit) — the schema notes this distinction only in prose, not in the unit string itself; implementers should confirm downstream systems do not conflate the two when only one is populated.

@@ -34,7 +34,7 @@ graph TD
 
 ## 2. Capability Advertisement with `MeterDataCapabilities`
 
-To establish a contract of what telemetry data can be shared or requested, systems use the [`MeterDataCapabilities`](../../MeterDataRequest/v0.6/README.md) schema.
+To establish a contract of what telemetry data can be shared or requested, systems use the [`MeterDataCapabilities`](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) schema.
 
 * **Capability Advertising**: A Data Provider (BPP, such as an MDM or HES) advertises the profile types, cadences, specific OBIS registers, scaling multipliers, and telemetry modes it supports by publishing query allowance templates.
   * For example, the BPP can publish a capability profile for billing determinants ([`Billing_Capabilities_Example.json`](../../MeterDataRequest/v0.6/examples/Billing_Capabilities_Example.json)) or operational load survey limits ([`MDM_Capabilities_Example.json`](../../MeterDataRequest/v0.6/examples/MDM_Capabilities_Example.json)).

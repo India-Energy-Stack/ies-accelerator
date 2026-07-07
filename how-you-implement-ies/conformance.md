@@ -65,7 +65,7 @@ Run the conformance suite that ships with the devkit:
 
 ```bash
 cd DEG/devkits/data-exchange/conformance
-./run.sh --subscriber did:web:ies.apepdcl.in --usecase consumer-energy-passport
+./run.sh --subscriber did:web:ies.discom.example --usecase consumer-energy-passport
 ```
 
 The script exercises every path on the checklist above against a sandbox peer and emits a signed report.

@@ -112,7 +112,7 @@ An AMISP integrating with IES typically maps its own head-end system (HES) / met
 ### References & Anchors
 * [Schemas Overview — MeterData v0.6](../what-ies-provides/schemas-overview/meter-data.md)
 * [MeterData Schema Reference](../schemas/MeterData/README.md)
-* [MeterData v0.6 Reference](../schemas/MeterData/v0.6/README.md)
+* [MeterData v0.6 Reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 * [Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)
 </details>
 
@@ -140,7 +140,7 @@ A DER / EV-charger / inverter OEM typically populates the relevant kind inside `
 ### References & Anchors
 * [Schemas Overview — ElectricityCredential v1.2](../what-ies-provides/schemas-overview/electricity-credential.md)
 * [ElectricityCredential Schema Reference](../schemas/ElectricityCredential/README.md)
-* [ElectricityCredential v1.2 Reference](../schemas/ElectricityCredential/v1.2/README.md)
+* [ElectricityCredential v1.2 Reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 * [Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)
 </details>
 

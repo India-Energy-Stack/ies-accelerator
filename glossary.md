@@ -12,15 +12,15 @@ This page is always visible in the left nav. If you hit a term you don't recogni
 
 ### DID
 
-**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.tpddl.in`). Defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Identifiers chapter](what-ies-provides/identifiers/README.md).
+**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.discom.example`). Defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Identifiers chapter](what-ies-provides/identifiers/README.md).
 
 ### DID methods used in IES
 
 IES uses three standard W3C DID methods. There is no separate `did:dedi` method — DeDi-anchored identifiers are `did:web` DIDs whose document is hosted by a [DeDi runtime](#dedi) instead of (or alongside) the issuer's own domain.
 
 - **`did:web`** — the DID resolves to a DID document fetched over HTTPS. Two forms in IES:
-  - **Self-hosted by the institution.** `did:web:ies.tpddl.in` → `https://ies.tpddl.in/.well-known/did.json`. Used for DISCOMs, regulators, and other entities with a public web presence.
-  - **Hosted by a DeDi runtime.** `did:web:<dedi-host>:<namespace>:<class>:<id>` → `https://<dedi-host>/<namespace>/<class>/<id>/did.json`. Used to give consumers, meters, assets, connections, and credential subjects a network-resolvable DID without requiring each one to operate a web server. The method is still `did:web`; DeDi just hosts the document. Example: `did:web:dedi.global:tpddl:consumers:TPDDL-2025-001234567`.
+  - **Self-hosted by the institution.** `did:web:ies.discom.example` → `https://ies.discom.example/.well-known/did.json`. Used for DISCOMs, regulators, and other entities with a public web presence.
+  - **Hosted by a DeDi runtime.** `did:web:<dedi-host>:<namespace>:<class>:<id>` → `https://<dedi-host>/<namespace>/<class>/<id>/did.json`. Used to give consumers, meters, assets, connections, and credential subjects a network-resolvable DID without requiring each one to operate a web server. The method is still `did:web`; DeDi just hosts the document. Example: `did:web:dedi.global:discom:consumers:DISCOM-2025-001234567`.
 - **`did:key`** — the public key is encoded directly into the DID string. No domain or certificate required. Verifies fully offline; cannot rotate keys. Used for consumer wallets and first-deploy software keys.
 - **`did:jwk`** — same idea as `did:key`, using JSON Web Key encoding. Wallet-friendly.
 
@@ -101,7 +101,7 @@ The reference Beckn adapter used in IES. Handles message signing, signature veri
 
 ### DISCOM
 
-**Distribution Company** — the regulated entity that distributes electricity to consumers in a state or licence area (e.g. TPDDL, BSES, MSEDCL). In IES v1, DISCOMs are the sole issuer of electricity credentials about consumers, meters, and assets.
+**Distribution Company** — the regulated entity that distributes electricity to consumers in a state or licence area. In IES v1, DISCOMs are the sole issuer of electricity credentials about consumers, meters, and assets.
 
 ### AMISP
 
@@ -109,7 +109,7 @@ The reference Beckn adapter used in IES. Handles message signing, signature veri
 
 ### SERC
 
-**State Electricity Regulatory Commission** — the state-level regulator that approves tariffs, reviews DISCOM filings, and issues regulatory orders. SERCs are the typical consumer of [`ArrFiling`](schemas/ArrFiling/v0.5/README.md) filings and publisher of `IES_Policy`/`IES_Program` (tariff) datasets.
+**State Electricity Regulatory Commission** — the state-level regulator that approves tariffs, reviews DISCOM filings, and issues regulatory orders. SERCs are the typical consumer of [`ArrFiling`](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) filings and publisher of `IES_Policy`/`IES_Program` (tariff) datasets.
 
 ### ARR
 
@@ -209,7 +209,7 @@ A utility software interoperability standard widely used in North America, named
 
 ### XBRL
 
-**eXtensible Business Reporting Language** — the international standard for tagged, comparable structured financial and regulatory filings. The target structured format for [`ArrFiling`](schemas/ArrFiling/v0.5/README.md). iXBRL embeds XBRL tags in human-readable XHTML.
+**eXtensible Business Reporting Language** — the international standard for tagged, comparable structured financial and regulatory filings. The target structured format for [`ArrFiling`](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5). iXBRL embeds XBRL tags in human-readable XHTML.
 
 ### Akoma Ntoso
 

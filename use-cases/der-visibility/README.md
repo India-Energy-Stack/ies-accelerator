@@ -1,13 +1,13 @@
 # DER Visibility
 
-A DISCOM publishes a **per-feeder view of every distributed energy resource** (rooftop solar, battery, EV charger) behind its meters — using the same **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** that the consumer's [Energy Passport](../consumer-energy-passport/README.md) is built on, but aggregated and re-published for grid-side consumers.
+A DISCOM publishes a **per-feeder view of every distributed energy resource** (rooftop solar, battery, EV charger) behind its meters — using the same **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** that the consumer's [Energy Passport](../consumer-energy-passport/README.md) is built on, but aggregated and re-published for grid-side consumers.
 
 | | |
 |---|---|
 | **Document** | IES/DERV-PROFILE/1.2 |
 | **Status** | Live in pilot |
 | **Applicability** | All distribution licensees |
-| **This version** | DER Visibility — a *grid-side issuance* of [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md). Same schema as the Energy Passport; different audience (grid operator / aggregator) and a different `credentialSubject` (the feeder, the substation, the licensee — not the consumer). |
+| **This version** | DER Visibility — a *grid-side issuance* of [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2). Same schema as the Energy Passport; different audience (grid operator / aggregator) and a different `credentialSubject` (the feeder, the substation, the licensee — not the consumer). |
 
 ---
 
@@ -39,9 +39,9 @@ The `credentialSubject.id` differs by issuance scope:
 
 | Scope | `credentialSubject.id` example |
 |---|---|
-| Per feeder | `did:web:ies.apepdcl.in:assets:feeder:F02` |
-| Per substation | `did:web:ies.apepdcl.in:assets:substation:SS-11KV-VIZ-12` |
-| Licensee-wide | `did:web:ies.apepdcl.in` |
+| Per feeder | `did:web:ies.discom.example:assets:feeder:F02` |
+| Per substation | `did:web:ies.discom.example:assets:substation:SS-11KV-12` |
+| Licensee-wide | `did:web:ies.discom.example` |
 
 ## 4. Definitions
 
@@ -65,7 +65,7 @@ Re-issuance is on a regular cadence (typical: weekly for an active growth area, 
 
 Identical to **[Consumer Energy Passport §8](../consumer-energy-passport/README.md#id-8.-schedule-i-static-fields-of-the-credential)**:
 
-→ **[ElectricityCredential v1.2 — Field reference](../../schemas/ElectricityCredential/v1.2/README.md#field-reference)**
+→ **[ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference)**
 
 DER Visibility populates `energyResources[]` (typed entries: GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) and the parent / sub-resource links (`parentResources` / `subResources`). `customerProfile` and `customerDetails` are omitted.
 
@@ -103,7 +103,7 @@ The credential is built from the same source-of-truth as the consumer Passport (
 
 ## Schemas Used in This Use Case
 
-A **single schema** — **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)**. DER Visibility is a grid-side issuance pattern over the same schema; no separate schema is needed.
+A **single schema** — **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)**. DER Visibility is a grid-side issuance pattern over the same schema; no separate schema is needed.
 
 ## Value Unlock
 
@@ -134,7 +134,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Exchange — issuance shape
 
-- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the grid-side issuance shape of [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the grid-side issuance shape of [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 - [ ] `customerProfile` / `customerDetails` blanked at issuance time
 - [ ] `energyResources[]` populated from CIS / DERMS / inspection register
 - [ ] Topology links (`parentResources`, `subResources`) populated where the DT mapping is known

@@ -1,5 +1,5 @@
 {
-  "grantor": "did:ies:utility:bescom",
+  "grantor": "did:ies:utility:discom",
   "grantee": "did:ies:tsp:acme",
   "purpose": "grid load balancing",
   "validFrom": "2026-05-18T10:00:00+05:30",

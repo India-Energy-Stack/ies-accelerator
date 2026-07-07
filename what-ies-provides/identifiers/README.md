@@ -8,7 +8,7 @@ The identity foundation. Every IES participant — DISCOM, regulator, consumer, 
 
 ## Why this matters
 
-When your DISCOM hands a consumer a digital electricity credential, or shares meter data with a regulator, the recipient needs to answer one question on their own: *"Is this really from TPDDL?"* If they have to call you, email your IT team, or trust a screenshot, the system does not scale and it is not really verifiable.
+When your DISCOM hands a consumer a digital electricity credential, or shares meter data with a regulator, the recipient needs to answer one question on their own: *"Is this really from the DISCOM?"* If they have to call you, email your IT team, or trust a screenshot, the system does not scale and it is not really verifiable.
 
 The way digital-public-infrastructure stacks solve this is with **Decentralized Identifiers (DIDs)**. You publish a small JSON file on a web address you control. That file lists the public key you sign things with. Anyone — a wallet, another DISCOM, a regulator — can fetch that file over plain HTTPS and check signatures on their own. No central authority, no API key, no special middleware.
 
@@ -37,29 +37,29 @@ This is your DISCOM's `did:web`. It is the issuer string on every ElectricityCre
 
 | Who | Identifier method | What it looks like |
 |---|---|---|
-| **Your DISCOM (the issuer)** | `did:web` on a domain you own | `did:web:ies.tpddl.in` |
-| **A regulator** | Same — `did:web` on their own domain | `did:web:ies.derc.gov.in` |
+| **Your DISCOM (the issuer)** | `did:web` on a domain you own | `did:web:ies.discom.example` |
+| **A regulator** | Same — `did:web` on their own domain | `did:web:ies.serc.example` |
 | **A consumer holding a credential** *(optional)* | A holder identifier — `did:key` (wallet) or `tel:+91...` ([RFC 3966](https://datatracker.ietf.org/doc/html/rfc3966)) — set when you want presentation-time proof of subject. See [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity). | `did:key:z6Mkj...` or `tel:+919876543210` |
-| **Your meter / transformer / feeder** | `did:web` under your domain | `did:web:ies.tpddl.in:assets:meter:MET-001` |
+| **Your meter / transformer / feeder** | `did:web` under your domain | `did:web:ies.discom.example:assets:meter:MET-001` |
 
 Two steps get you here:
 
-1. **Pick a domain or subdomain you control.** Either works. Most DISCOMs use a dedicated subdomain (e.g. `ies.tpddl.in`) so the credential-issuing identity is cleanly separated from the marketing site, but a bare apex domain (`tpddl.in`) is equally valid. The host you pick becomes the host portion of your `did:web`, and you will publish one small JSON file under it — `did.json` — that declares your public key.
+1. **Pick a domain or subdomain you control.** Either works. Most DISCOMs use a dedicated subdomain (e.g. `ies.discom.example`) so the credential-issuing identity is cleanly separated from the marketing site, but a bare apex domain (`discom.example`) is equally valid. The host you pick becomes the host portion of your `did:web`, and you will publish one small JSON file under it — `did.json` — that declares your public key.
 
     > **About path segments.** `did:web` lets you encode a sub-path with colons. If you don't want to host at `.well-known/`, host the document at any path and reflect it in the DID via the colon hierarchy:
     >
     > | DID string | DID document URL |
     > |---|---|
-    > | `did:web:ies.tpddl.in` | `https://ies.tpddl.in/.well-known/did.json` |
-    > | `did:web:tpddl.in:ies` | `https://tpddl.in/ies/did.json` |
-    > | `did:web:tpddl.in:ies:issuer` | `https://tpddl.in/ies/issuer/did.json` |
-    > | `did:web:tpddl.in%3A8443` | `https://tpddl.in:8443/.well-known/did.json` (port encoded as `%3A`) |
+    > | `did:web:ies.discom.example` | `https://ies.discom.example/.well-known/did.json` |
+    > | `did:web:discom.example:ies` | `https://discom.example/ies/did.json` |
+    > | `did:web:discom.example:ies:issuer` | `https://discom.example/ies/issuer/did.json` |
+    > | `did:web:discom.example%3A8443` | `https://discom.example:8443/.well-known/did.json` (port encoded as `%3A`) |
     >
     > Same identifier system covers your DISCOM's own identity *and* every asset ID you reference inside payloads (meters, transformers, datasets) — see [Appendix C](#appendix-c-identifying-assets-meters-connections-datasets).
 
 2. **Generate a key pair and publish `did.json`.** The concrete commands — install OpenCred, generate the signing key, assemble `did.json` from the container, publish to your web host, and verify — live in **[Energy Credentials → Set up OpenCred and publish your did:web](../energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Keeping them with the rest of the OpenCred operations means you don't context-switch between chapters during a single setup.
 
-That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (DERC / KERC / etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](../../schemas/ElectricityCredential/v1.2/README.md) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
+That is everything credential issuance requires. **You do not need to be listed in any IES-side DISCOM registry to issue credentials.** Verifiers fetch your `did.json` for the key and check the signature; that is the only mandatory leg of the trust chain. If you also have a regulator (the SERC, etc.) who can vouch for your licence, set `issuer.idRef` to point at them — verifiers will resolve the regulator and treat the credential as licence-anchored. `issuer.idRef` is optional in both the [v1.2 schema](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) and the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#issuer); only `issuer.id` and `issuer.name` are required. The IES DISCOMs reference registry is a separate, **Beckn-side** concern — see (b) below.
 
 Internal consumer numbers, meter SLNOs, and asset codes do **not** need to change — they ride inside the credentials you sign with this DID. The simplest first credential carries no holder identifier (bearer style); when the verifier needs presentation-time proof of subject, bind to a wallet DID or `tel:` URI — full guidance in [Appendix F](#appendix-f-binding-the-credential-to-a-holder-identity).
 
@@ -88,10 +88,10 @@ You only need two or three identifier shapes to start issuing credentials. They'
 
 | Subject | Identifier | Example |
 |---|---|---|
-| Your DISCOM (issuer) | `did:web:<your-domain>` | `did:web:ies.tpddl.in` |
-| A regulator | `did:web:<their-domain>` | `did:web:ies.derc.gov.in` |
+| Your DISCOM (issuer) | `did:web:<your-domain>` | `did:web:ies.discom.example` |
+| A regulator | `did:web:<their-domain>` | `did:web:ies.serc.example` |
 | A consumer (holder identifier, optional) | `did:key:...` (wallet) **or** `tel:+91XXXXXXXXXX` ([RFC 3966](https://datatracker.ietf.org/doc/html/rfc3966)) | `did:key:z6MkjVQ8r4f3rPuY...` |
-| The consumer's existing CIS account number | Plain string, kept as-is | `TPDDL-2025-00987654` |
+| The consumer's existing CIS account number | Plain string, kept as-is | `DISCOM-2025-00987654` |
 
 A few things worth knowing before you start:
 
@@ -117,12 +117,12 @@ Here is one filled-in ElectricityCredential v1.2 showing every identifier in one
   "type": ["VerifiableCredential", "ElectricityCredential"],
 
   "issuer": {
-    "id":   "did:web:ies.tpddl.in",
-    "name": "Tata Power Delhi Distribution Limited",
+    "id":   "did:web:ies.discom.example",
+    "name": "Example State Distribution Company Limited",
     "idRef": {
       "_comment":  "optional — include only when citing a regulator",
-      "issuedBy":  "did:web:ies.derc.gov.in",
-      "subjectId": "derc.delhi.gov.in:TPDDL-REG-0042"
+      "issuedBy":  "did:web:ies.serc.example",
+      "subjectId": "serc.example:DISCOM-REG-0042"
     }
   },
 
@@ -131,9 +131,9 @@ Here is one filled-in ElectricityCredential v1.2 showing every identifier in one
 
   "credentialSubject": {
     "customerProfile": {
-      "customerNumber": "TPDDL-2025-00987654",
+      "customerNumber": "DISCOM-2025-00987654",
       "energyResources": [{
-        "id":   "did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001",
+        "id":   "did:web:ies.discom.example:assets:meter:MET-IMPORT-001",
         "type": "METER",
         "attributes": {"meterCapability": "AMI", "energyDirection": "Forward"}
       }]
@@ -145,7 +145,7 @@ Here is one filled-in ElectricityCredential v1.2 showing every identifier in one
 
   "proof": {
     "type": "Ed25519Signature2020",
-    "verificationMethod": "did:web:ies.tpddl.in#key-1",
+    "verificationMethod": "did:web:ies.discom.example#key-1",
     "proofPurpose": "assertionMethod",
     "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
   }
@@ -181,7 +181,7 @@ A DID string by itself is just a name. The useful part is the **DID document** i
 
 ```mermaid
 flowchart LR
-  A["DID string<br/><code>did:web:ies.tpddl.in</code>"] -->|resolve| B["DID Document<br/>(JSON)"]
+  A["DID string<br/><code>did:web:ies.discom.example</code>"] -->|resolve| B["DID Document<br/>(JSON)"]
   B --> C["<b>verificationMethod</b><br/>public keys for<br/>signature checks"]
   B --> D["<b>assertionMethod</b><br/>which keys may issue<br/>credentials"]
   B --> E["<b>service</b><br/>OpenCred / Beckn<br/>endpoints"]
@@ -189,7 +189,7 @@ flowchart LR
 
 Two rules cover most confusion in DID systems:
 
-- **An identifier is just a name.** Never parse it to extract meaning ("if the string contains `tpddl`, treat it as a TPDDL credential" is a bug waiting to happen). Resolve it first; read the document; decide from that.
+- **An identifier is just a name.** Never parse it to extract meaning ("if the string contains `discom`, treat it as that DISCOM's credential" is a bug waiting to happen). Resolve it first; read the document; decide from that.
 - **The identifier and the record it resolves to are different things.** The DID is what travels in a credential or a Beckn message. The record is what a verifier fetches to make a trust decision.
 
 ### The three DID methods IES uses
@@ -200,7 +200,7 @@ For the underlying theory — when each method is appropriate, what they buy you
 
 #### `did:web` — the one your DISCOM will use
 
-The DID is a URL in disguise. `did:web:ies.tpddl.in` resolves to `https://ies.tpddl.in/.well-known/did.json`. Path segments after the host become URL path segments:
+The DID is a URL in disguise. `did:web:ies.discom.example` resolves to `https://ies.discom.example/.well-known/did.json`. Path segments after the host become URL path segments:
 
 ```
 did:web:example.com:students
@@ -268,7 +268,7 @@ You will eventually want stable identifiers for the things you operate (meters, 
 
 | Symbol | Meaning |
 |---|---|
-| `<discom-domain>` | The domain hosting your `did.json` — e.g. `ies.tpddl.in` |
+| `<discom-domain>` | The domain hosting your `did.json` — e.g. `ies.discom.example` |
 | `<internal-id>` | Your existing internal ID, used verbatim as the last path segment |
 | URL-safe | Replace any characters outside `[A-Za-z0-9._-]` with `%xx` percent-encoding |
 
@@ -277,20 +277,20 @@ You will eventually want stable identifiers for the things you operate (meters, 
 ```
 did:web:<discom-domain>:assets:meter:<meter-slno>
 
-→ did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001
+→ did:web:ies.discom.example:assets:meter:MET-IMPORT-001
 ```
 
-This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md).
+This is the identifier that goes in `energyResources[].id` for METER entries on an [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2).
 
 ### Other assets — transformer, feeder, substation, solar, BESS, EV charger
 
 ```
 did:web:<discom-domain>:assets:<class>:<internal-id>
 
-→ did:web:ies.tpddl.in:assets:transformer:DT-NDL-11KV-04572
-→ did:web:ies.tpddl.in:assets:feeder:FDR-11KV-NDL-072
-→ did:web:ies.tpddl.in:assets:substation:SS-22OK-NJP-001
-→ did:web:ies.tpddl.in:assets:solar-plant:ROOFTOP-SOLAR-001
+→ did:web:ies.discom.example:assets:transformer:DT-NDL-11KV-04572
+→ did:web:ies.discom.example:assets:feeder:FDR-11KV-NDL-072
+→ did:web:ies.discom.example:assets:substation:SS-22OK-NJP-001
+→ did:web:ies.discom.example:assets:solar-plant:ROOFTOP-SOLAR-001
 ```
 
 `<class>` values used in IES today: `feeder`, `transformer`, `substation`, `solar-plant`, `wind-farm`, `bess`, `ev-charger`, `meter`. Use kebab-case.
@@ -302,7 +302,7 @@ The connection binds a consumer, a meter, and a feeder:
 ```
 did:web:<discom-domain>:connections:<connection-id>
 
-→ did:web:ies.tpddl.in:connections:CONN-TPDDL-2025-001234567
+→ did:web:ies.discom.example:connections:CONN-DISCOM-2025-001234567
 ```
 
 `<connection-id>` is whatever your CIS already uses — often the same string as the consumer number.
@@ -314,8 +314,8 @@ For data-exchange resources (meter telemetry, ARR filings, tariff schedules):
 ```
 did:web:<discom-domain>:datasets:<class>:<id>
 
-→ did:web:ies.tpddl.in:datasets:meter-telemetry:2026-01
-→ did:web:ies.derc.gov.in:datasets:tariff-orders:2025-26-domestic
+→ did:web:ies.discom.example:datasets:meter-telemetry:2026-01
+→ did:web:ies.serc.example:datasets:tariff-orders:2025-26-domestic
 ```
 
 The DID resolves to a `DatasetItem` record (DDM schema) carrying the Beckn BPP endpoint that serves the actual data.
@@ -343,21 +343,21 @@ A DID works the same way:
 
 | Identifier (stable, travels in payloads) | Record (current, can change over time) |
 |---|---|
-| `did:web:ies.tpddl.in` | The `did.json` at `https://ies.tpddl.in/.well-known/did.json` — TPDDL's current public keys and endpoints |
-| `did:web:ies.tpddl.in:assets:meter:MET-IMPORT-001` | The asset record under that path — current make, model, geo, commissioning date |
+| `did:web:ies.discom.example` | The `did.json` at `https://ies.discom.example/.well-known/did.json` — the DISCOM's current public keys and endpoints |
+| `did:web:ies.discom.example:assets:meter:MET-IMPORT-001` | The asset record under that path — current make, model, geo, commissioning date |
 
 Two rules follow:
 
-- **Don't parse the identifier for business logic.** Resolve it and read the record's fields. A path that looks predictable today (`...:consumers:TPDDL-2025-...`) may need percent-encoding or restructuring tomorrow; structured fields in the record won't.
+- **Don't parse the identifier for business logic.** Resolve it and read the record's fields. A path that looks predictable today (`...:consumers:DISCOM-2025-...`) may need percent-encoding or restructuring tomorrow; structured fields in the record won't.
 - **Records can update without re-issuing identifiers.** Key rotation, meter replacement, address correction — change the record, the identifier stays.
 
 ### Five places this matters in IES
 
-1. **DISCOM signing-key rotation.** TPDDL rotates its credential-issuing key. `did:web:ies.tpddl.in` doesn't change; the new key is added to `did.json`. Every ElectricityCredential ever issued by TPDDL keeps verifying because verifiers fetch the current document.
-2. **Meter replacement.** A meter is swapped for a newer model. `did:web:ies.tpddl.in:assets:meter:MET-001` stays the same; the record gets a new `make`, `model`, `commissioningDate`. No credential rewrites.
+1. **DISCOM signing-key rotation.** The DISCOM rotates its credential-issuing key. `did:web:ies.discom.example` doesn't change; the new key is added to `did.json`. Every ElectricityCredential ever issued by the DISCOM keeps verifying because verifiers fetch the current document.
+2. **Meter replacement.** A meter is swapped for a newer model. `did:web:ies.discom.example:assets:meter:MET-001` stays the same; the record gets a new `make`, `model`, `commissioningDate`. No credential rewrites.
 3. **Beckn subscriber key rotation.** A BPP rotates its Ed25519 signing key. The DeDi subscriber record is updated. The `subscriber_id` in every Beckn header keeps working — ONIX re-resolves for each message.
 4. **Audit / historical lookup.** `GET .../<record>?as_on=2025-01-01` returns the record version that was live on that date — same identifier, point-in-time record. Useful for "what was the public key when this credential was signed?".
-5. **Anti-pattern: parsing the DID string.** Code that reads `did:web:ies.tpddl.in:consumers:<n>` to route a request will break the day a special character needs percent-encoding or a DISCOM restructures its asset hierarchy. Always resolve, then read.
+5. **Anti-pattern: parsing the DID string.** Code that reads `did:web:ies.discom.example:consumers:<n>` to route a request will break the day a special character needs percent-encoding or a DISCOM restructures its asset hierarchy. Always resolve, then read.
 
 ### Asset-DID resolution patterns (pragmatic / programmatic / per-asset)
 
@@ -369,7 +369,7 @@ Three patterns are in active use; pick the one that matches your operational con
 |---|---|---|
 | **Pragmatic — no per-asset document** | Only your DISCOM's top-level `did.json`. Asset DIDs are stable identifiers carried inside signed credentials and Beckn payloads; verification is via the issuer's signature, not asset-level resolution. | Most internal asset IDs (meters, feeders) that only appear inside credentials your DISCOM signs. |
 | **Programmatic — one endpoint, many DIDs** | A small service under your domain that synthesises a DID document for any `assets/<class>/<id>` path on demand. | When you want strict `did:web` compliance without operating a static file per asset. |
-| **Per-asset documents** | A separate `did.json` for each asset (e.g. `https://ies.tpddl.in/assets/meter/MET-001/did.json`). | High-value, public-facing assets (substations, large DERs) that other networks may resolve independently. |
+| **Per-asset documents** | A separate `did.json` for each asset (e.g. `https://ies.discom.example/assets/meter/MET-001/did.json`). | High-value, public-facing assets (substations, large DERs) that other networks may resolve independently. |
 
 Start pragmatic; promote individual assets to programmatic or per-asset documents only when an external verifier actually needs to resolve them.
 
@@ -383,7 +383,7 @@ Upstream documentation for this flow lives at the NFH docs: [Onboarding Network 
 
 ### Step 1 — Set up a DeDi account and verify your namespace
 
-Follow [Setup Register → 1.4 Claim a DeDi namespace and verify your domain](../../how-you-implement-ies/setup-register.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `tpddl`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
+Follow [Setup Register → 1.4 Claim a DeDi namespace and verify your domain](../../how-you-implement-ies/setup-register.md) for the account, namespace, and DNS-TXT verification steps. Use your DISCOM short code or FQDN as the namespace name (e.g. `discom`, `np.example.com`). Once verified, the namespace is your root of trust on the Beckn fabric.
 
 ### Step 2 — Generate your Beckn signing keypair
 
@@ -419,8 +419,8 @@ Add a record with the following fields:
 
 | Field | What to fill | Example |
 |---|---|---|
-| `subscriber_id` | Your unique identifier, typically your domain | `ies.tpddl.in` |
-| `subscriber_url` | Your Beckn ONIX receiver endpoint | `https://ies.tpddl.in/bpp/beckn` |
+| `subscriber_id` | Your unique identifier, typically your domain | `ies.discom.example` |
+| `subscriber_url` | Your Beckn ONIX receiver endpoint | `https://ies.discom.example/bpp/beckn` |
 | `type` | Your role on the network | `BAP` or `BPP` |
 | `signing_public_key` | Your Ed25519 public key, Base64-encoded, no header/footer | `eyAeqGFtAuks...` |
 | `encryption_public_key` | (Optional) encryption public key | `lCI84I0Q0U0w...` |
@@ -456,9 +456,9 @@ Once the NFO writes the reference entry, your DISCOM is part of the curated netw
 
 ### How other Beckn nodes consume your identity
 
-When a counterparty BAP or BPP receives a Beckn message claiming to come from `ies.tpddl.in`:
+When a counterparty BAP or BPP receives a Beckn message claiming to come from `ies.discom.example`:
 
-1. It calls `https://fabric.nfh.global/registry/dedi/lookup/ies.tpddl.in/subscribers.beckn.one/<record_id>` (or the equivalent NFO-side lookup) to retrieve your subscriber record.
+1. It calls `https://fabric.nfh.global/registry/dedi/lookup/ies.discom.example/subscribers.beckn.one/<record_id>` (or the equivalent NFO-side lookup) to retrieve your subscriber record.
 2. It uses the `signing_public_key` from that record to verify the Ed25519 signature on the incoming Beckn header.
 3. It uses the `subscriber_url` to route its callback.
 
@@ -498,7 +498,7 @@ Practical rules of thumb:
 
 ### Why the two-identity model
 
-Your `did:web` identity proves *"this credential was issued by TPDDL"* to anyone who fetches your `did.json`. Your subscriber-registry identity proves *"this Beckn message was sent by TPDDL"* to other nodes on the network. The first is content-level trust; the second is transport-level trust. They share an organisational root (your domain) but live on different rails and use different keys, so a compromise of one does not automatically compromise the other.
+Your `did:web` identity proves *"this credential was issued by the DISCOM"* to anyone who fetches your `did.json`. Your subscriber-registry identity proves *"this Beckn message was sent by the DISCOM"* to other nodes on the network. The first is content-level trust; the second is transport-level trust. They share an organisational root (your domain) but live on different rails and use different keys, so a compromise of one does not automatically compromise the other.
 
 ---
 
@@ -531,7 +531,7 @@ Set `credentialSubject.id` to a DID the consumer's wallet controls — typically
 ```json
 "credentialSubject": {
   "id": "did:key:z6MkjVQ8r4f3rPuY7CG2D6Lf8WJxJBs5sjkR8d3v2Bv4nP4Z",
-  "customerProfile": { "customerNumber": "TPDDL-2025-00987654", ... },
+  "customerProfile": { "customerNumber": "DISCOM-2025-00987654", ... },
   "customerDetails": { ... }
 }
 ```
@@ -563,7 +563,7 @@ If the consumer doesn't have a wallet — and many Indian consumers won't, at le
 ```json
 "credentialSubject": {
   "id": "tel:+919876543210",
-  "customerProfile": { "customerNumber": "TPDDL-2025-00987654", ... },
+  "customerProfile": { "customerNumber": "DISCOM-2025-00987654", ... },
   "customerDetails": { ... }
 }
 ```
@@ -591,7 +591,7 @@ In this case you may issue the credential without a `credentialSubject.id` (bear
 
 ### Where does the contact identifier live in the schema?
 
-The `customerDetails` block in [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
+The `customerDetails` block in [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
 
 ### Picking a pattern
 

@@ -1,4 +1,4 @@
 {
-  "BESCOM-SM-2025-654321": { "value": "did:dedi:bescom:consumers:RR-1234", "scheme": "DID" },
-  "BESCOM-SM-2025-999999": { "value": "did:dedi:bescom:consumers:RR-5678", "scheme": "DID" }
+  "DISCOM-SM-2025-654321": { "value": "did:dedi:discom:consumers:RR-1234", "scheme": "DID" },
+  "DISCOM-SM-2025-999999": { "value": "did:dedi:discom:consumers:RR-5678", "scheme": "DID" }
 }

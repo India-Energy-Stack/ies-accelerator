@@ -164,7 +164,7 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "meterRefs": [
-      { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" }
+      { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "InstantaneousSet",
     "readings": [

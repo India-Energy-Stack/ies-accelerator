@@ -25,7 +25,7 @@ The same envelope generalises beyond tariffs — sanctioned-load deviation penal
 
 For one policy the record carries:
 
-- the **policy identity** — `id` (URN), `policyID` (stable handle, e.g. `MUM-RES-T1`), `policyName`, `policyType` (`TARIFF` / `DISPATCH_GUIDE` / …), `programID` linking to an `IES_Program`;
+- the **policy identity** — `id` (URN), `policyID` (stable handle, e.g. `RES-T1`), `policyName`, `policyType` (`TARIFF` / `DISPATCH_GUIDE` / …), `programID` linking to an `IES_Program`;
 - the **validity window** — `samplingInterval` as an ISO 8601 recurrence pattern (e.g. `R/2026-04-10T00:00:00Z/P1M` — re-evaluated monthly from 10 April 2026);
 - for a tariff, **`energySlabs[]`** — progressive consumption tiers, each `{ id, start (kWh, inclusive), end (kWh, exclusive or null for open-ended), price }`;
 - for a tariff, **`surchargeTariffs[]`** — time-of-day adjustments, each `{ id, recurrence, interval (ToD start + duration), value, unit (`PERCENT` or `INR_PER_KWH`) }`;
@@ -37,11 +37,11 @@ The same envelope with a different `policyType` carries deviation penalties, DR 
 
 | Subject | Identifier method | Example |
 |---|---|---|
-| Publisher (SERC / DISCOM) | `did:web` on owned domain | `did:web:ies.merc.gov.in` |
-| Policy (stable handle) | `policyID` — issuer-minted, stable across amendments | `MUM-RES-T1` |
-| Policy (version) | `id` — URN, unique per version | `urn:ies:policy:merc:MUM-RES-T1:2026-04` |
+| Publisher (SERC / DISCOM) | `did:web` on owned domain | `did:web:ies.serc.example` |
+| Policy (stable handle) | `policyID` — issuer-minted, stable across amendments | `RES-T1` |
+| Policy (version) | `id` — URN, unique per version | `urn:ies:policy:serc:RES-T1:2026-04` |
 | Programme this policy belongs to | `programID` | `program-merashehar-001` |
-| Prior version this amends | `replaces` link to a prior `id` | `urn:ies:policy:merc:MUM-RES-T1:2025-04` |
+| Prior version this amends | `replaces` link to a prior `id` | `urn:ies:policy:serc:RES-T1:2025-04` |
 
 A new amendment is a **new `id` with the same `policyID`** and an explicit `replaces` link. Downstream systems reference by `policyID` and pin the version on `id`.
 
