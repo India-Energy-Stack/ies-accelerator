@@ -29,4 +29,4 @@ Schema for querying smart meter telemetry. Specifies which meters, what data, an
 
 ## Usage
 
-Consumer attaches a [MeterDataRequestCredential](../MeterDataRequestCredential/README.md) at `confirm` time to prove authorisation. Provider validates before delivering [MeterData](../MeterData/README.md) wrapped in a [MeterDataCredential](../MeterDataCredential/README.md).
+Consumer attaches a [MeterDataRequestCredential](../MeterDataRequestCredential/v0.1/README.md) at `confirm` time to prove authorisation. Provider validates before delivering [MeterData](../MeterData/v0.6/README.md) wrapped in a [MeterDataCredential](../MeterDataCredential/v0.6/README.md).

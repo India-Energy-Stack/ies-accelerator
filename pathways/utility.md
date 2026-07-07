@@ -181,7 +181,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 * [Energy Credentials — Troubleshooting (revocation caching)](../what-ies-provides/energy-credentials/README.md#troubleshooting)
 * [Batch Issuance at Scale (Queue & Workers)](../what-ies-provides/energy-credentials/README.md#batch-issuance)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
-* [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/README.md)
+* [Consumer Energy Passport Schema (ElectricityCredential) Reference](../schemas/ElectricityCredential/v1.2/README.md)
 </details>
 
 <details>
@@ -240,7 +240,7 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to standard **[IntervalProfi
 * [Smart Meter Data Exchange Use Case](../use-cases/smart-meter-data-exchange/README.md)
   * [How It Fits Together](../use-cases/smart-meter-data-exchange/README.md#id-10.-how-it-fits-together)
 * [IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
-* [MeterData Schema Specification](../schemas/MeterData/README.md)
+* [MeterData Schema Specification](../schemas/MeterData/v0.6/README.md)
 </details>
 
 <details>

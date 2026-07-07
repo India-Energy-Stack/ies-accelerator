@@ -37,4 +37,4 @@ The full design rationale — standards survey, mapping tables (OMS/DISCOM/CAP/C
 
 ## Usage
 
-DISCOMs publish outage notices as a feed (`/outages`, `/outages.geojson`), a CAP feed for alerting, and webhooks to subscribers. Auto-detected outages carry provenance back to the smart-meter signal and the [MeterData](../MeterData/README.md) `AlarmProfile`.
+DISCOMs publish outage notices as a feed (`/outages`, `/outages.geojson`), a CAP feed for alerting, and webhooks to subscribers. Auto-detected outages carry provenance back to the smart-meter signal and the [MeterData](../MeterData/v0.6/README.md) `AlarmProfile`.
