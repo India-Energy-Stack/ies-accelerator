@@ -21,11 +21,11 @@ The `MeterData` schema standardizes telemetry exchanges into **six compact profi
 
 | File | Description |
 |------|-------------|
-| [`attributes.yaml`](attributes.yaml) | Canonical OpenAPI 3.1.1 schema source of truth, describing all attributes, models, and types. |
-| [`schema.json`](schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
-| [`context.jsonld`](context.jsonld) | Compiled JSON-LD context mapping telemetry attributes to semantic terms under `ies:` or `schema:` namespaces. |
-| [`vocab.jsonld`](vocab.jsonld) | Compiled JSON-LD vocabulary (ontology graph) defining all classes and properties. |
-| [`examples/`](examples) | Standard, JSON-LD augmented telemetry payload example files for all profile types. |
+| [`attributes.yaml`](./attributes.yaml) | Canonical OpenAPI 3.1.1 schema source of truth, describing all attributes, models, and types. |
+| [`schema.json`](./schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
+| [`context.jsonld`](./context.jsonld) | Compiled JSON-LD context mapping telemetry attributes to semantic terms under `ies:` or `schema:` namespaces. |
+| [`vocab.jsonld`](./vocab.jsonld) | Compiled JSON-LD vocabulary (ontology graph) defining all classes and properties. |
+| [`examples/`](./examples) | Standard, JSON-LD augmented telemetry payload example files for all profile types. |
 
 ---
 
@@ -65,7 +65,7 @@ All example payloads in the `examples/` directory have been augmented to support
 
 ## OBIS Mapping and Identifiers
 
-The `MeterData` schema relies on flexible identifiers to reference physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in the [OBISMapping.json](OBISMapping.json) file.
+The `MeterData` schema relies on flexible identifiers to reference physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in the [OBISMapping.json](./OBISMapping.json) file.
 
 ### Interpreting OBISMapping.json
 The `OBISMapping` file serves as the canonical dictionary for interpreting IS 15959 standard meter registers. It contains both OBIS codes and detailed event taxonomies.
@@ -90,7 +90,7 @@ When structuring your payload descriptors or values, you have the flexibility to
 * **Using OBIS Codes**: `{"scheme": "OBIS", "value": "1.0.1.8.0.255"}`
 * **Using Short Names**: `{"scheme": "SHORT_CODE", "value": "kWh imp"}`
 
-*See the [MultiMeterBulkDataset.json](examples/MultiMeterBulkDataset.json) for OBIS examples and [AggregatedFeeder.json](examples/AggregatedFeeder.json) for Short Code examples.*
+*See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) for OBIS examples and [AggregatedFeeder.json](./examples/AggregatedFeeder.json) for Short Code examples.*
 
 ---
 
@@ -99,7 +99,7 @@ When structuring your payload descriptors or values, you have the flexibility to
 The schema offers two distinct mechanisms for representing telemetry values, balancing explicit clarity with high-efficiency transmission.
 
 ### 1. Elaborated Representation
-Used primarily in the [`InstantaneousProfile`](examples/InstantaneousProfile.json), each value explicitly declares its reading type, unit, and phase inline. This is highly descriptive but less compact.
+Used primarily in the [`InstantaneousProfile`](./examples/InstantaneousProfile.json), each value explicitly declares its reading type, unit, and phase inline. This is highly descriptive but less compact.
 
 ```json
 "values": [
@@ -113,7 +113,7 @@ Used primarily in the [`InstantaneousProfile`](examples/InstantaneousProfile.jso
 ```
 
 ### 2. Compact `IntervalRow` Representation
-Used heavily in the [`IntervalProfile`](examples/IntervalProfile.json) and [`DailyProfile`](examples/DailyProfile.json). Descriptors are declared once in a `payloadDescriptors` array, and time-series data is transmitted as simple arrays of numbers (`IntervalRow`) that map positionally to the descriptors.
+Used heavily in the [`IntervalProfile`](./examples/IntervalProfile.json) and [`DailyProfile`](./examples/DailyProfile.json). Descriptors are declared once in a `payloadDescriptors` array, and time-series data is transmitted as simple arrays of numbers (`IntervalRow`) that map positionally to the descriptors.
 
 ```json
 "payloadDescriptors": [
@@ -145,10 +145,10 @@ By default, all readings are assumed to be `{VALID, METER}`. If a specific inter
   }
 ]
 ```
-*See the [`MultiMeterBulkDataset.json`](examples/MultiMeterBulkDataset.json) for a full example of sparse quality overrides.*
+*See the [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) for a full example of sparse quality overrides.*
 
 ### Maximum Demand Timestamps
-When transmitting Maximum Demand snapshots (e.g. inside a [`BillingProfile`](examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
+When transmitting Maximum Demand snapshots (e.g. inside a [`BillingProfile`](./examples/BillingProfile.json)), the exact timestamp of the peak is annotated using the `occurredAt` property.
 
 ```json
 {

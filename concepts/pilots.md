@@ -38,7 +38,7 @@ The artefacts — example payloads, schemas, configuration — are public in thi
 ## What is being added next
 
 - **P2P Energy Trading** — schema published; pilot integrations being staged. See [external schemas](../schemas/external/README.md#energy-trading-p2p).
-- **OutageNotification** — [v0.1](../schemas/OutageNotification/v0.1/README.md) is published; no IES use-case guide yet.
+- **OutageNotification** — [v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1) is published; no IES use-case guide yet.
 
 ---
 

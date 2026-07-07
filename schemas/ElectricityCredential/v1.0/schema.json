@@ -67,12 +67,12 @@
                         "issuedBy": {
                             "type": "string",
                             "format": "uri",
-                            "description": "DID of the authority that issued the identity (e.g., did:web:ies.serc.example)"
+                            "description": "DID of the authority that issued the identity (e.g., did:web:kerc.karnataka.gov.in)"
                         },
                         "subjectId": {
                             "type": "string",
                             "pattern": "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$",
-                            "description": "Subject identifier in the format authority-domain:id-value (e.g., serc.example:AABPC12345)"
+                            "description": "Subject identifier in the format authority-domain:id-value (e.g., kerc.karnataka.gov.in:AABPC12345)"
                         }
                     }
                 }
@@ -248,12 +248,12 @@
                         "issuedBy": {
                             "type": "string",
                             "format": "uri",
-                            "description": "DID of the authority that issued the identity (e.g., did:web:ies.serc.example)"
+                            "description": "DID of the authority that issued the identity (e.g., did:web:kerc.karnataka.gov.in)"
                         },
                         "subjectId": {
                             "type": "string",
                             "pattern": "^[A-Za-z0-9._-]+:[A-Za-z0-9X_-]+$",
-                            "description": "Subject identifier in the format authority-domain:id-value (e.g., serc.example:AABPC12345)"
+                            "description": "Subject identifier in the format authority-domain:id-value (e.g., kerc.karnataka.gov.in:AABPC12345)"
                         }
                     }
                 }

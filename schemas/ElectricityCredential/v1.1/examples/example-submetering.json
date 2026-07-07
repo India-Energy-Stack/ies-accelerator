@@ -13,55 +13,55 @@
     "ElectricityCredential"
   ],
   "issuer": {
-    "id": "did:web:ies.discom.example",
-    "name": "Example Distribution Company",
+    "id": "did:web:bescom.karnataka.gov.in",
+    "name": "BESCOM - Bangalore Electricity Supply Company",
     "idRef": {
-      "issuedBy": "did:web:ies.serc.example",
-      "subjectId": "serc.example:AABPC12345"
+      "issuedBy": "did:web:kerc.karnataka.gov.in",
+      "subjectId": "kerc.karnataka.gov.in:AABPC12345"
     }
   },
   "validFrom": "2025-01-13T10:30:00+05:30",
   "validUntil": "2026-01-13T10:30:00+05:30",
   "credentialSubject": {
-    "id": "did:dedi:discom:consumers:DISCOM-2025-BLDG-001",
+    "id": "did:dedi:bescom:consumers:BESCOM-2025-BLDG-001",
     "customerProfile": {
-      "customerNumber": "DISCOM-2025-BLDG-001",
+      "customerNumber": "BESCOM-2025-BLDG-001",
       "energyResources": [
         {
-          "id": "did:dedi:discom:assets:meter:MET-BLDG-001",
+          "id": "did:dedi:bescom:assets:meter:MET-BLDG-001",
           "type": "METER",
           "attributes": {
             "meterType": "AMI",
             "gps": "12.9716,77.5946"
           },
           "parentResources": [
-            "did:dedi:discom:assets:feeder:BAN-NR-F22"
+            "did:dedi:bescom:assets:feeder:BAN-NR-F22"
           ]
         },
         {
-          "id": "did:dedi:discom:assets:meter:MET-UNIT-101",
+          "id": "did:dedi:bescom:assets:meter:MET-UNIT-101",
           "type": "METER",
           "attributes": {
             "meterType": "AMR",
             "gps": "12.9716,77.5946"
           },
           "parentResources": [
-            "did:dedi:discom:assets:meter:MET-BLDG-001"
+            "did:dedi:bescom:assets:meter:MET-BLDG-001"
           ]
         },
         {
-          "id": "did:dedi:discom:assets:meter:MET-UNIT-102",
+          "id": "did:dedi:bescom:assets:meter:MET-UNIT-102",
           "type": "METER",
           "attributes": {
             "meterType": "AMR",
             "gps": "12.9716,77.5946"
           },
           "parentResources": [
-            "did:dedi:discom:assets:meter:MET-BLDG-001"
+            "did:dedi:bescom:assets:meter:MET-BLDG-001"
           ]
         },
         {
-          "id": "did:dedi:discom:assets:solar-plant:ROOFTOP-UNIT-101",
+          "id": "did:dedi:bescom:assets:solar-plant:ROOFTOP-UNIT-101",
           "type": "SOLAR",
           "attributes": {
             "ratedPowerKw": 2,
@@ -70,13 +70,13 @@
             "commissioningDate": "2024-06-15T00:00:00+05:30"
           },
           "parentResources": [
-            "did:dedi:discom:assets:meter:MET-UNIT-101"
+            "did:dedi:bescom:assets:meter:MET-UNIT-101"
           ]
         }
       ],
       "consumptionProfiles": [
         {
-          "meterId": "did:dedi:discom:assets:meter:MET-UNIT-101",
+          "meterId": "did:dedi:bescom:assets:meter:MET-UNIT-101",
           "sanctionedLoadKw": 3,
           "contractMaxDemandKw": 2.5,
           "tariffCategoryCode": "LT-2A",
@@ -84,7 +84,7 @@
           "connectionType": "Single-phase"
         },
         {
-          "meterId": "did:dedi:discom:assets:meter:MET-UNIT-102",
+          "meterId": "did:dedi:bescom:assets:meter:MET-UNIT-102",
           "sanctionedLoadKw": 3,
           "contractMaxDemandKw": 2.5,
           "tariffCategoryCode": "LT-2A",
@@ -117,7 +117,7 @@
   "proof": {
     "type": "Ed25519Signature2020",
     "created": "2025-01-13T10:30:00+05:30",
-    "verificationMethod": "did:web:ies.discom.example#key-1",
+    "verificationMethod": "did:web:bescom.karnataka.gov.in#key-1",
     "proofPurpose": "assertionMethod",
     "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
   }

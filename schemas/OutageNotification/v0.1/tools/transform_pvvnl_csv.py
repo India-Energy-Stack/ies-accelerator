@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Transform a DISCOM-style planned-shutdown CSV into OutageNotification JSON.
+"""Transform a PVVNL-style planned-shutdown CSV into OutageNotification JSON.
 
-Mirrors the columns of a typical DISCOM "Detail of Planned Shutdown" sheet
-and emits an array of OutageNotification objects (IES OutageNotification v0.1).
+Mirrors the columns of the PVVNL "Detail of Planned Shutdown" sheet
+(https://pvvnl.org/uploads/news/1782054913.pdf) and emits an array of
+OutageNotification objects (IES OutageNotification v0.1).
 
 Grouping: rows sharing a `group_id` become ONE notice (one substation +
 window + reason), with each feeder as an entry in `affectedAssets[]`. The
@@ -16,8 +17,8 @@ preserved verbatim in `cause.text`, `affectedArea.text` and
 is present, else "en".
 
 Usage:
-  python3 transform_discom_csv.py discom_planned_shutdown.csv -o out.json
-  python3 transform_discom_csv.py discom_planned_shutdown.csv          # stdout
+  python3 transform_pvvnl_csv.py pvvnl_planned_shutdown.csv -o out.json
+  python3 transform_pvvnl_csv.py pvvnl_planned_shutdown.csv          # stdout
 """
 import argparse
 import csv
@@ -29,7 +30,7 @@ from datetime import datetime
 CONTEXT = "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld"
 TZ = "+05:30"  # Asia/Kolkata
 
-# DISCOM "Feeder Type" -> schema consumerCategory enum; others -> OTHER.
+# PVVNL "Feeder Type" -> schema consumerCategory enum; others -> OTHER.
 CONSUMER_CATEGORY = {
     "URBAN": "URBAN", "RURAL": "RURAL", "AGRICULTURE": "AGRICULTURE",
     "INDUSTRIAL": "INDUSTRIAL", "MIXED": "MIXED",
@@ -104,14 +105,14 @@ def build_notice(group_id, rows):
     notice["@context"] = CONTEXT
     notice["@type"] = "OutageNotification"
     notice["objectType"] = "OUTAGE_NOTIFICATION"
-    notice["id"] = {"scheme": "OTHER", "value": f"DISCOM-PSD-{group_id}", "namespace": "outages.discom.example"}
+    notice["id"] = {"scheme": "OTHER", "value": f"PVVNL-PSD-{group_id}", "namespace": "1912.uppcl.org"}
     notice["outageClass"] = "PLANNED"
     notice["status"] = "SCHEDULED"
     notice["msgType"] = "ALERT"
     notice["category"] = "MAINTENANCE"
     notice["cause"] = {"category": "PLANNED", "subcategory": cause_subcategory(reason), "text": reason}
     notice["forceMajeure"] = False
-    notice["issuedBy"] = {"name": "the DISCOM", "contact": "1912"}
+    notice["issuedBy"] = {"name": "PVVNL", "contact": "1912"}
     notice["issuedAt"] = to_datetime(r0["date"], "00:00")
     if network:
         notice["network"] = network
@@ -131,7 +132,7 @@ def build_notice(group_id, rows):
     if reason:
         public["description"] = reason  # verbatim; Hindi preserved
     notice["publicInfo"] = public
-    notice["extensions"] = {"discom": {"groupId": group_id, "downType": "FEEDER"}}
+    notice["extensions"] = {"uppcl": {"groupId": group_id, "downType": "FEEDER"}}
     return notice
 
 
@@ -145,7 +146,7 @@ def transform(csv_path):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Transform DISCOM planned-shutdown CSV to OutageNotification JSON.")
+    ap = argparse.ArgumentParser(description="Transform PVVNL planned-shutdown CSV to OutageNotification JSON.")
     ap.add_argument("csv_path")
     ap.add_argument("-o", "--output", help="write JSON here (default: stdout)")
     args = ap.parse_args()

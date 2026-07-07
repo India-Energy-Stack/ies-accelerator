@@ -34,4 +34,4 @@ Smart meter telemetry payload schema for the India Energy Stack. Defines compact
 
 ## Usage
 
-Used in Beckn `on_status` flows by data providers (AMISP, MDM, DISCOM) to deliver smart meter telemetry. When delivered with provenance attestation, wrap in [MeterDataCredential](../MeterDataCredential/v0.6/README.md).
+Used in Beckn `on_status` flows by data providers (AMISP, MDM, DISCOM) to deliver smart meter telemetry. When delivered with provenance attestation, wrap in [MeterDataCredential](../MeterDataCredential/README.md).

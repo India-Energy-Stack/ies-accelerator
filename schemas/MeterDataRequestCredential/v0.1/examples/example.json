@@ -7,20 +7,20 @@
   "id": "urn:uuid:f7a8b9c0-d1e2-4f56-a789-012345678901",
   "type": ["VerifiableCredential", "MeterDataRequestCredential"],
   "issuer": {
-    "id": "did:web:ies.discom.example",
-    "name": "Example Distribution Company",
-    "licenseNumber": "SERC-DISCOM-2025-001"
+    "id": "did:web:bescom.karnataka.gov.in",
+    "name": "BESCOM – Bangalore Electricity Supply Company Ltd",
+    "licenseNumber": "KERC-DISCOM-2025-001"
   },
   "validFrom": "2026-04-01T00:00:00Z",
   "validUntil": "2026-04-30T23:59:59Z",
   "credentialStatus": {
-    "id": "https://dedi.global/dedi/query/did:web:ies.discom.example/vc-revocation-registry",
+    "id": "https://dedi.global/dedi/query/did:web:bescom.karnataka.gov.in/vc-revocation-registry",
     "type": "dediregistry",
     "statusPurpose": "revocation",
-    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:ies.discom.example/vc-revocation-registry"
+    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:bescom.karnataka.gov.in/vc-revocation-registry"
   },
   "credentialSubject": {
-    "id": "did:dedi:ies:discom:IN-KA-DISCOM",
+    "id": "did:dedi:ies:discom:IN-KA-BESCOM",
       "meterDataRequest": {
         "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
         "@type": "MeterDataRequest",
@@ -57,7 +57,7 @@
   "proof": {
     "type": "Ed25519Signature2020",
     "created": "2026-04-01T00:00:00Z",
-    "verificationMethod": "did:web:ies.discom.example#key-1",
+    "verificationMethod": "did:web:bescom.karnataka.gov.in#key-1",
     "proofPurpose": "assertionMethod",
     "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
   }

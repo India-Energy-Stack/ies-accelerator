@@ -1,6 +1,6 @@
 # IES Meter Data Model
 
-**The reference for how Indian smart-meter terminology — OBIS codes, IS 15959 profile buffers, IS 15959 event IDs, CIM master data — maps onto the [`MeterData`](../../schemas/MeterData/v0.6/README.md) schema (this page is pinned to the current `v0.6` shape) carried by IES Data Exchange.**
+**The reference for how Indian smart-meter terminology — OBIS codes, IS 15959 profile buffers, IS 15959 event IDs, CIM master data — maps onto the [`MeterData`](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) schema (this page is pinned to the current `v0.6` shape) carried by IES Data Exchange.**
 
 If you are implementing [Smart Meter Data Exchange](README.md), this is the page you keep open while wiring your HES / MDMS to v0.6 payloads.
 
@@ -32,7 +32,7 @@ The eight profile shapes:
 
 OBIS codes are first-class in v0.6 — they sit inside `payloadDescriptors[].obis` as a string verbatim from the meter. The schema does not translate them, so the mapping below is mostly about *which profile a given OBIS belongs in* and *which `readingType` / `unit` / `reportedMode` to advertise*.
 
-The canonical, machine-readable OBIS catalogue ships as [`IES codes.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/IES%20codes.json) (GitHub Pages, served raw) under [`schemas/MeterData/v0.6/`](../../schemas/MeterData/v0.6/README.md) — each entry pins `obis`, `name`, `category`, `profiles[]`, `supportedModes[]`, `meterCategories[]`, and the IS 15959 source. **That file is the source of truth.** The tables on this page are the human-readable summary; if a mapping looks wrong, the JSON wins. Browse the source on [GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/IES%20codes.json).
+The canonical, machine-readable OBIS catalogue ships as [`IES codes.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/IES%20codes.json) (GitHub Pages, served raw) under [`schemas/MeterData/v0.6/`](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) — each entry pins `obis`, `name`, `category`, `profiles[]`, `supportedModes[]`, `meterCategories[]`, and the IS 15959 source. **That file is the source of truth.** The tables on this page are the human-readable summary; if a mapping looks wrong, the JSON wins. Browse the source on [GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/IES%20codes.json).
 
 ---
 
@@ -147,9 +147,9 @@ The CIM (IEC 61968-1 / 61968-9) master data the AMI deployment requires lands in
 | CIM area | Key fields | Source system | Reference in `CUSTOMER` |
 |---|---|---|---|
 | Asset master | Meter Serial, Make, Model, Hardware / Firmware, CT / PT ratios | Inventory / ERP | `meterRefs[]` + `attributes` |
-| Consumer master | CA number, name, address, category (DS / NDS), sanctioned load | CIS / billing | `customerRefs[]` + linked [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) `customerProfile` |
+| Consumer master | CA number, name, address, category (DS / NDS), sanctioned load | CIS / billing | `customerRefs[]` + linked [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) `customerProfile` |
 | Network master | Substation, Feeder, DT, Pole, Phase | GIS | `attributes` (FEEDER_ID, DT_ID, SUBSTATION_ID, POLE_ID, PHASE) |
-| Tariff master | ToU slots, slabs, fixed charges | Billing system | Out of band of MeterData; carried by `MeterServiceProfile` inside [ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md) |
+| Tariff master | ToU slots, slabs, fixed charges | Billing system | Out of band of MeterData; carried by `MeterServiceProfile` inside [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) |
 
 When an OBIS reading arrives, the receiving MDM matches it via `meterRefs[]` → asset → consumer → network → tariff. The `serviceDeliveryPointRefs[]` value is the "service point" object that ties the three together (CIM IEC 61968-9 `UsagePoint`).
 
@@ -169,13 +169,13 @@ This is the minimal pattern. Daily / Monthly / Instantaneous / Event / Alarm fol
 
 ## 8. References
 
-- [`MeterData`](../../schemas/MeterData/v0.6/README.md) — schema, examples, user guide, reference guide (mappings on this page are pinned to `v0.6`)
+- [`MeterData`](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) — schema, examples, user guide, reference guide (mappings on this page are pinned to `v0.6`)
 - [`IES codes.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/IES%20codes.json) — canonical OBIS catalogue (machine-readable). Source on [GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/IES%20codes.json).
 - [Smart Meter Data Exchange](README.md) — the use case that carries this payload
 - [Data Exchange](../../what-ies-provides/data-exchange/README.md) — the wire that carries it
-- [`MeterDataRequest`](../../schemas/MeterDataRequest/v0.6/README.md) — the matching request schema (current: `v0.6`)
-- [`MeterDataRequestCredential`](../../schemas/MeterDataRequestCredential/v0.1/README.md) — optional authorisation VC (current: `v0.1`)
-- [`ElectricityCredential`](../../schemas/ElectricityCredential/v1.2/README.md) — sits alongside `MeterData` for the slow-changing customer / asset / service-connection data (current: `v1.2`)
+- [`MeterDataRequest`](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) — the matching request schema (current: `v0.6`)
+- [`MeterDataRequestCredential`](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) — optional authorisation VC (current: `v0.1`)
+- [`ElectricityCredential`](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) — sits alongside `MeterData` for the slow-changing customer / asset / service-connection data (current: `v1.2`)
 
 ---
 

@@ -44,10 +44,10 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      { "value": "did:dedi:discom:connections:SDP-BLR-A-12345", "scheme": "DID" }
+      { "value": "did:dedi:bescom:connections:SDP-BLR-A-12345", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+      { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet",
     "intervalPeriod": { "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M" },

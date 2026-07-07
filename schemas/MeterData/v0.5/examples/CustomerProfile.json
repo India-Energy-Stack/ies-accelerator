@@ -30,7 +30,7 @@
     {
       "id": {
         "scheme": "METER_SERIAL",
-        "value": "DISCOM-SM-2025-654321"
+        "value": "BESCOM-SM-2025-654321"
       },
       "manufacturer": "Genus",
       "modelNumber": "SM-3PH-4W-WC",
@@ -50,7 +50,7 @@
       "meterRefs": [
         {
           "scheme": "METER_SERIAL",
-          "value": "DISCOM-SM-2025-654321"
+          "value": "BESCOM-SM-2025-654321"
         }
       ],
       "feederId": {

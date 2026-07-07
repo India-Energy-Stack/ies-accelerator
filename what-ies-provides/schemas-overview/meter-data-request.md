@@ -107,7 +107,7 @@ MeterDataRequest v0.6 is built from five logical blocks:
 - **ProfileCapability** — the nested detail inside a capabilities block, naming individual profile types (one of eight enumerated values) and, where needed, the specific registers within them.
 - **ValueCapability** — the innermost detail: a register's OBIS/short code, telemetry mode, and optional multiplier/accuracy.
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterDataRequest v0.6 — Field reference](../../schemas/MeterDataRequest/v0.6/README.md#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterDataRequest v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6#field-reference).
 
 ## 9. Schedule II
 

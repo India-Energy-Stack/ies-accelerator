@@ -2,11 +2,11 @@
   "@type": "CustomerProfile",
   "profileType": "CUSTOMER",
   "customerRefs": [
-    { "value": "did:dedi:discom:consumers:78f9e2b10a56", "scheme": "DID" }
+    { "value": "did:dedi:bescom:consumers:78f9e2b10a56", "scheme": "DID" }
   ],
   "timeZone": "Asia/Kolkata",
   "customer": {
-    "id": { "value": "did:dedi:discom:consumers:78f9e2b10a56", "scheme": "DID" },
+    "id": { "value": "did:dedi:bescom:consumers:78f9e2b10a56", "scheme": "DID" },
     "consumerCategory": "NDS",
     "sanctionedLoadKw": 45.0,
     "billingCycleDay": 1,
@@ -18,7 +18,7 @@
   },
   "serviceDeliveryPoints": [
     {
-      "id": { "value": "did:dedi:discom:connections:SDP-BLR-A-12345", "scheme": "DID" },
+      "id": { "value": "did:dedi:bescom:connections:SDP-BLR-A-12345", "scheme": "DID" },
       "addressLine": "12 MG Road",
       "city": "Bengaluru",
       "postalCode": "560001",
@@ -26,7 +26,7 @@
       "longitude": 77.6064
     },
     {
-      "id": { "value": "did:dedi:discom:connections:SDP-BLR-A-12346", "scheme": "DID" },
+      "id": { "value": "did:dedi:bescom:connections:SDP-BLR-A-12346", "scheme": "DID" },
       "addressLine": "14 MG Road",
       "city": "Bengaluru",
       "postalCode": "560001",
@@ -36,7 +36,7 @@
   ],
   "meters": [
     {
-      "id": { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" },
+      "id": { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" },
       "manufacturer": "Genus",
       "modelNumber": "SM-3PH-4W-WC",
       "make": "Genus",
@@ -46,7 +46,7 @@
       "serviceKind": "ELECTRICITY"
     },
     {
-      "id": { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-999999", "scheme": "DID" },
+      "id": { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-999999", "scheme": "DID" },
       "manufacturer": "HPL",
       "modelNumber": "SM-1PH-2W-WC",
       "make": "HPL",
@@ -59,32 +59,32 @@
   "associations": [
     {
       "serviceDeliveryPointRefs": [
-        { "value": "did:dedi:discom:connections:SDP-BLR-A-12345", "scheme": "DID" }
+        { "value": "did:dedi:bescom:connections:SDP-BLR-A-12345", "scheme": "DID" }
       ],
       "meterRefs": [
-        { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+        { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" }
       ],
       "parentResources": [
-        { "value": "did:dedi:discom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
-        { "value": "did:dedi:discom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
+        { "value": "did:dedi:bescom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
+        { "value": "did:dedi:bescom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
       ],
-      "telemetryProvider": "DISCOM-HES",
+      "telemetryProvider": "BESCOM-HES",
       "commissioningDate": "2026-05-04T10:00:00+05:30",
       "generationCapacityKw": 10.0,
       "storageCapacityKw": 15.0
     },
     {
       "serviceDeliveryPointRefs": [
-        { "value": "did:dedi:discom:connections:SDP-BLR-A-12346", "scheme": "DID" }
+        { "value": "did:dedi:bescom:connections:SDP-BLR-A-12346", "scheme": "DID" }
       ],
       "meterRefs": [
-        { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-999999", "scheme": "DID" }
+        { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-999999", "scheme": "DID" }
       ],
       "parentResources": [
-        { "value": "did:dedi:discom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
-        { "value": "did:dedi:discom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
+        { "value": "did:dedi:bescom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
+        { "value": "did:dedi:bescom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
       ],
-      "telemetryProvider": "DISCOM-HES",
+      "telemetryProvider": "BESCOM-HES",
       "commissioningDate": "2026-05-04T10:30:00+05:30"
     }
   ]

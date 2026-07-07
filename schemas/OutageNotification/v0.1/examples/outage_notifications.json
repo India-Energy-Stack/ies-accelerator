@@ -3,14 +3,14 @@
     "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
     "@type": "OutageNotification",
     "objectType": "OUTAGE_NOTIFICATION",
-    "id": { "scheme": "OTHER", "value": "DISCOM-BD-6357257", "namespace": "outages.discom.example" },
+    "id": { "scheme": "OTHER", "value": "PVVNL-BD-6357257", "namespace": "1912.uppcl.org" },
     "outageClass": "PLANNED",
     "status": "SCHEDULED",
     "msgType": "ALERT",
     "category": "MAINTENANCE",
-    "cause": { "category": "PLANNED", "subcategory": "MAINTENANCE", "code": "SCHEDULED_OUTAGE", "codeNamespace": "discom-oms", "text": "Pole erection on long span & VCB replacement under Business Plan" },
+    "cause": { "category": "PLANNED", "subcategory": "MAINTENANCE", "code": "SCHEDULED_OUTAGE", "codeNamespace": "uppcl-oms", "text": "Pole erection on long span & VCB replacement under Business Plan" },
     "forceMajeure": false,
-    "issuedBy": { "name": "the DISCOM", "contact": "1912" },
+    "issuedBy": { "name": "PVVNL", "contact": "1912" },
     "issuedAt": "2026-06-21T18:00:00+05:30",
     "network": { "zone": "Muzaffarnagar", "circle": "EDC-2 Muzaffarnagar", "division": "EDD-Budhana", "substation": { "scheme": "SUBSTATION", "value": "BHATMAI" } },
     "affectedAssets": [
@@ -26,19 +26,19 @@
     },
     "timing": { "period": { "start": "2026-06-22T06:43:00+05:30", "duration": "PT5H" }, "slaTargetMinutes": 240 },
     "publicInfo": { "language": "en", "headline": "Planned shutdown — BHATMAI substation feeders, 22 Jun 06:43-11:43", "instruction": "Please plan for a ~5-hour interruption." },
-    "extensions": { "discom": { "breakdownId": "6357257", "downType": "FEEDER" } }
+    "extensions": { "uppcl": { "breakdownId": "6357257", "downType": "FEEDER" } }
   },
   {
     "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
     "@type": "OutageNotification",
     "objectType": "OUTAGE_NOTIFICATION",
-    "id": { "scheme": "OTHER", "value": "DISCOM-BD-6562139", "namespace": "outages.discom.example" },
+    "id": { "scheme": "OTHER", "value": "PVVNL-BD-6562139", "namespace": "1912.uppcl.org" },
     "outageClass": "BREAKDOWN",
     "status": "ACTIVE",
     "msgType": "ALERT",
     "severity": "SEVERE",
     "category": "FAULT",
-    "cause": { "category": "EQUIPMENT", "subcategory": "OTHER", "faultType": "11KV", "code": "6", "codeNamespace": "discom-oms", "text": "11KV Line Fault" },
+    "cause": { "category": "EQUIPMENT", "subcategory": "OTHER", "faultType": "11KV", "code": "6", "codeNamespace": "uppcl-oms", "text": "11KV Line Fault" },
     "forceMajeure": false,
     "detectedAt": "2026-06-22T15:41:55+05:30",
     "network": { "substation": { "scheme": "SUBSTATION", "value": "Gharaaha" }, "district": "SULTANPUR" },
@@ -51,7 +51,7 @@
     "provenance": {
       "source": "RTDAS",
       "amispCode": "AMISP1001",
-      "detectionRef": { "scheme": "OTHER", "value": "1233680000000000000", "namespace": "discom-rtdas" },
+      "detectionRef": { "scheme": "OTHER", "value": "1233680000000000000", "namespace": "uppcl-rtdas" },
       "signal": { "eventId": "AMISP1001-Gharaaha-20260622T1541", "feederStatus": "DE_ENERGIZED", "diPort": "DI1", "rawCode": "102" },
       "alarmRefs": [{ "meterRef": { "scheme": "METER_SERIAL", "value": "HP3008071" }, "alarmId": 7, "timestamp": "2026-06-22T15:41:55+05:30" }]
     }
@@ -60,15 +60,15 @@
     "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
     "@type": "OutageNotification",
     "objectType": "OUTAGE_NOTIFICATION",
-    "id": { "scheme": "OTHER", "value": "DISCOM-BD-6562139", "namespace": "outages.discom.example" },
+    "id": { "scheme": "OTHER", "value": "PVVNL-BD-6562139", "namespace": "1912.uppcl.org" },
     "outageClass": "BREAKDOWN",
     "status": "RESTORED",
     "msgType": "UPDATE",
     "severity": "MINOR",
     "category": "FAULT",
-    "cause": { "category": "EQUIPMENT", "subcategory": "OTHER", "faultType": "11KV", "code": "6", "codeNamespace": "discom-oms", "text": "11KV Line Fault — supply restored" },
+    "cause": { "category": "EQUIPMENT", "subcategory": "OTHER", "faultType": "11KV", "code": "6", "codeNamespace": "uppcl-oms", "text": "11KV Line Fault — supply restored" },
     "forceMajeure": false,
-    "issuedBy": { "name": "the DISCOM", "contact": "1912" },
+    "issuedBy": { "name": "PVVNL", "contact": "1912" },
     "detectedAt": "2026-06-22T15:41:55+05:30",
     "lastUpdatedAt": "2026-06-22T18:25:00+05:30",
     "network": { "substation": { "scheme": "SUBSTATION", "value": "Gharaaha" }, "district": "SULTANPUR" },
@@ -82,7 +82,7 @@
     "provenance": {
       "source": "RTDAS",
       "amispCode": "AMISP1001",
-      "detectionRef": { "scheme": "OTHER", "value": "1233680000000000000", "namespace": "discom-rtdas" },
+      "detectionRef": { "scheme": "OTHER", "value": "1233680000000000000", "namespace": "uppcl-rtdas" },
       "signal": { "eventId": "AMISP1001-Gharaaha-20260622T1824", "feederStatus": "ENERGIZED", "diPort": "DI1", "rawCode": "101" }
     }
   }

@@ -67,7 +67,7 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+      { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet",
     "intervalPeriod": { "start": "2026-05-04T00:00:00+05:30", "duration": "P1D" },

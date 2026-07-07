@@ -1,6 +1,6 @@
 # MeterDataCredential
 
-W3C Verifiable Credential (VC Data Model 2.0) that wraps a [MeterData](../MeterData/v0.6/README.md) payload to attest the authenticity and provenance of delivered smart meter telemetry. Issued by data providers (AMISP, MDM, DISCOM).
+W3C Verifiable Credential (VC Data Model 2.0) that wraps a [MeterData](../MeterData/README.md) payload to attest the authenticity and provenance of delivered smart meter telemetry. Issued by data providers (AMISP, MDM, DISCOM).
 
 **Namespace prefix:** `ies:` → `https://india-energy-stack.github.io/ies-accelerator/schemas/ies#`
 

@@ -21,16 +21,16 @@ The `MeterData` schema standardizes telemetry exchanges into **eight compact pro
 
 | File | Description |
 |------|-------------|
-| [`attributes.yaml`](attributes.yaml) | Canonical OpenAPI schema source of truth, describing all attributes, models, and types. |
-| [`schema.json`](schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
-| [`context.jsonld`](context.jsonld) | Compiled JSON-LD context mapping telemetry attributes to semantic terms under `ies:` or `schema:` namespaces. |
-| [`vocab.jsonld`](vocab.jsonld) | Compiled JSON-LD vocabulary (ontology graph) defining all classes and properties. |
-| [`IES codes.json`](IES%20codes.json) | Canonical registry of OBIS and Short Codes mapping physical quantities to units, categories, and categories of meters. |
-| [`examples/`](examples) | Standard, JSON-LD augmented telemetry payload example files for all profile types. |
+| [`attributes.yaml`](./attributes.yaml) | Canonical OpenAPI schema source of truth, describing all attributes, models, and types. |
+| [`schema.json`](./schema.json) | Compiled Draft 2020-12 JSON Schema for standard validation of data payloads. |
+| [`context.jsonld`](./context.jsonld) | Compiled JSON-LD context mapping telemetry attributes to semantic terms under `ies:` or `schema:` namespaces. |
+| [`vocab.jsonld`](./vocab.jsonld) | Compiled JSON-LD vocabulary (ontology graph) defining all classes and properties. |
+| [`IES codes.json`](./IES%20codes.json) | Canonical registry of OBIS and Short Codes mapping physical quantities to units, categories, and categories of meters. |
+| [`examples/`](./examples) | Standard, JSON-LD augmented telemetry payload example files for all profile types. |
 
 ### Documentation Guides
-* [User Guide](UserGuide.md): Detailed guidelines on HES, MDM, and Billing system interactions, advertising system capabilities via request mechanisms, and verification scenarios.
-* [Reference Guide](ReferenceGuide.md): Top-down reference documentation detailing different profile roles, centralised codes, and telemetry vs. non-telemetry handling.
+* [User Guide](./UserGuide.md): Detailed guidelines on HES, MDM, and Billing system interactions, advertising system capabilities via request mechanisms, and verification scenarios.
+* [Reference Guide](./ReferenceGuide.md): Top-down reference documentation detailing different profile roles, centralised codes, and telemetry vs. non-telemetry handling.
 
 ---
 
@@ -61,20 +61,20 @@ Inside the array, individual profiles inherit strictly from `BaseProfile`. `Base
 > ### Rationale for MonthlyProfile not using the compact matrix
 > The compact form is prevented natively by the schema for `MonthlyProfile`. It strictly requires `readings` and `touBuckets`, and does not permit `intervals`. The compact matrix is designed for dense, highly symmetrical time-series data. A `MonthlyProfile` typically captures a single sparse snapshot of total registers, ToU buckets, and Maximum Demand peaks at the end of the month. Encoding sparse, highly variable metadata (e.g., MD timestamps) into a flat numerical array offers negligible compression and becomes extremely brittle when dealing with ad-hoc billing resets or meter swaps mid-cycle.
 > 
-> *See [MonthlyProfile_MultipleResets.json](examples/MonthlyProfile_MultipleResets.json) and [Billing_MeterChange.json](examples/Billing_MeterChange.json) for examples of how the elaborated representation cleanly handles these edge cases.*
+> *See [MonthlyProfile_MultipleResets.json](./examples/MonthlyProfile_MultipleResets.json) and [Billing_MeterChange.json](./examples/Billing_MeterChange.json) for examples of how the elaborated representation cleanly handles these edge cases.*
 
 ---
 
 ## Identifier Flexibility (OBIS vs. Short Codes)
 
-The schema relies on [`IES codes.json`](IES%20codes.json) as the canonical registry for interpreting physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in this file.
+The schema relies on [`IES codes.json`](./IES%20codes.json) as the canonical registry for interpreting physical quantities. The exact mapping of OBIS codes to physical units, phases, and categories is defined in this file.
 
 When transmitting telemetry, you specify a simple **`readingType`** string. This can be:
 * **Using OBIS Codes**: `"1.0.1.8.0.255"`
 * **Using Short Names**: `"kWh imp"`
 * **Using Canonical Links**: Payload descriptors can optionally include an `obis` string parameter to provide a direct physical mapping when a short name is used as the `readingType`.
 
-*See the [MultiMeterBulkDataset.json](examples/MultiMeterBulkDataset.json) (OBIS Codes) and [MultiMeterBulkDatasetShortCodes.json](examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) for bulk examples of both representations.*
+*See the [MultiMeterBulkDataset.json](./examples/MultiMeterBulkDataset.json) (OBIS Codes) and [MultiMeterBulkDatasetShortCodes.json](./examples/MultiMeterBulkDatasetShortCodes.json) (Short Codes) for bulk examples of both representations.*
 
 ---
 
@@ -107,26 +107,26 @@ These examples cover a wide variety of scenarios, organized by the system they t
 
 ### MDM (Meter Data Management) Examples
 MDM datasets are meter-centric and intentionally omit `customerRefs` to decouple the technical metering domain from the commercial billing domain.
-* [`IntervalProfile.json`](examples/IntervalProfile.json): Block load survey.
-* [`DailyProfile.json`](examples/DailyProfile.json): Daily midnight snapshots.
-* [`MDM_MonthlyProfile.json`](examples/MDM_MonthlyProfile.json): End of billing cycle snapshots across multiple meters.
-* [`InstantaneousProfile.json`](examples/InstantaneousProfile.json): Snapshot of voltage, current, power factor, etc.
-* [`EventProfile.json`](examples/EventProfile.json): Meter tampers, diagnostics, power outages.
-* [`AlarmProfile.json`](examples/AlarmProfile.json): Critical thresholds being crossed.
-* [`MultiMeterBulkDataset.json`](examples/MultiMeterBulkDataset.json): Large scale transmission of intervals across many meters.
+* [`IntervalProfile.json`](./examples/IntervalProfile.json): Block load survey.
+* [`DailyProfile.json`](./examples/DailyProfile.json): Daily midnight snapshots.
+* [`MDM_MonthlyProfile.json`](./examples/MDM_MonthlyProfile.json): End of billing cycle snapshots across multiple meters.
+* [`InstantaneousProfile.json`](./examples/InstantaneousProfile.json): Snapshot of voltage, current, power factor, etc.
+* [`EventProfile.json`](./examples/EventProfile.json): Meter tampers, diagnostics, power outages.
+* [`AlarmProfile.json`](./examples/AlarmProfile.json): Critical thresholds being crossed.
+* [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json): Large scale transmission of intervals across many meters.
 
 ### CIS / Billing Examples
 Billing and CIS examples enrich technical meter data with `customerRefs`, Tou buckets, and monetary calculations.
-* [`Billing_MonthlyProfile.json`](examples/Billing_MonthlyProfile.json): Usage-centric monthly consumption linked to consumers.
-* [`CustomerProfile.json`](examples/CustomerProfile.json): Linking meters, service delivery points, and customers.
-* [`BillDetails.json`](examples/BillDetails.json): Computed monetary bill with due dates and calculated consumption.
-* [`CustomerBillingSummary.json`](examples/CustomerBillingSummary.json): Historic billing trends for a consumer dashboard.
-* [`CustomerMapping.json`](examples/CustomerMapping.json): Mapping of meter serial numbers to commercial customer accounts.
+* [`Billing_MonthlyProfile.json`](./examples/Billing_MonthlyProfile.json): Usage-centric monthly consumption linked to consumers.
+* [`CustomerProfile.json`](./examples/CustomerProfile.json): Linking meters, service delivery points, and customers.
+* [`BillDetails.json`](./examples/BillDetails.json): Computed monetary bill with due dates and calculated consumption.
+* [`CustomerBillingSummary.json`](./examples/CustomerBillingSummary.json): Historic billing trends for a consumer dashboard.
+* [`CustomerMapping.json`](./examples/CustomerMapping.json): Mapping of meter serial numbers to commercial customer accounts.
 
 ### Highlighted Examples
-* **Meter Swap Mid-Cycle**: [`Billing_MeterChange.json`](examples/Billing_MeterChange.json) demonstrates how to handle a meter replacement in the middle of a billing period by chaining multiple monthly profiles under different meter serials.
-* **Multiple Monthly Resets**: [`MonthlyProfile_MultipleResets.json`](examples/MonthlyProfile_MultipleResets.json) demonstrates how to represent multiple billing resets triggered in the same calendar month.
-* **Identifier Representation Comparison**: Compare [`MultiMeterBulkDataset.json`](examples/MultiMeterBulkDataset.json) (using raw OBIS codes) with [`MultiMeterBulkDatasetShortCodes.json`](examples/MultiMeterBulkDatasetShortCodes.json) (using Short Names) to see how the payload descriptor engine abstracts identifier models.
+* **Meter Swap Mid-Cycle**: [`Billing_MeterChange.json`](./examples/Billing_MeterChange.json) demonstrates how to handle a meter replacement in the middle of a billing period by chaining multiple monthly profiles under different meter serials.
+* **Multiple Monthly Resets**: [`MonthlyProfile_MultipleResets.json`](./examples/MonthlyProfile_MultipleResets.json) demonstrates how to represent multiple billing resets triggered in the same calendar month.
+* **Identifier Representation Comparison**: Compare [`MultiMeterBulkDataset.json`](./examples/MultiMeterBulkDataset.json) (using raw OBIS codes) with [`MultiMeterBulkDatasetShortCodes.json`](./examples/MultiMeterBulkDatasetShortCodes.json) (using Short Names) to see how the payload descriptor engine abstracts identifier models.
 
 ---
 

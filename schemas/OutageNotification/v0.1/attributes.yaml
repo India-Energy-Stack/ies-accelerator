@@ -11,8 +11,8 @@ info:
     affected or subscribed consumers (push).
 
     Designed to be GIS-ready (GeoJSON geometry, WGS84) and future-proof
-    (additive enums, namespaced extensions). Grounded in a DISCOM Outage
-    Management System data model, a DISCOM planned-shutdown publication, and
+    (additive enums, namespaced extensions). Grounded in the UPPCL Outage
+    Management System data model, the PVVNL planned-shutdown publication, and
     the global standards survey (CIM IEC 61968-3, ODIN, OASIS CAP v1.2,
     MultiSpeak, GeoJSON RFC 7946, IEEE 1366 / RDSS reliability reporting).
 
@@ -42,7 +42,7 @@ components:
           type: string
           enum: [PLANNED, BREAKDOWN, SCHEDULED_ROSTERING, EMERGENCY_ROSTERING]
           description: >
-            Outage class, from a DISCOM OMS "Down Info" set (local, additive
+            Outage class, from the UPPCL OMS "Down Info" set (local, additive
             enum). Rostering = rotational load-shedding (scheduled vs emergency).
             Restoration is a status transition (status=RESTORED), not a class.
         status:
@@ -119,7 +119,7 @@ components:
           type: object
           description: |
             Namespaced DISCOM-specific fields, e.g.
-            { "discom": { "breakdownId": "6357257", "downType": "FEEDER" } }.
+            { "uppcl": { "breakdownId": "6357257", "downType": "FEEDER" } }.
 
     OutageCause:
       title: OutageCause
@@ -164,7 +164,7 @@ components:
         code:
           type: string
           description: >
-            Vendor/OMS fault-reason code, carried verbatim (e.g. a DISCOM's
+            Vendor/OMS fault-reason code, carried verbatim (e.g. UPPCL
             FAULT_REASON) — not standardized; map to `category`/`subcategory` for
             interoperability (see fault_reason_crosswalk.json). Set `codeNamespace`
             where the code's authority matters.
@@ -199,7 +199,7 @@ components:
           type: string
           enum: [URBAN, RURAL, AGRICULTURE, INDUSTRIAL, MIXED, OTHER]
           description: >
-            Consumer mix on the asset (local enum; a DISCOM "Feeder Type").
+            Consumer mix on the asset (local enum; PVVNL "Feeder Type").
         meterRef:
           allOf: [{ $ref: '#/components/schemas/Identifier' }]
           description: Feeder/substation smart-meter number — join key to MDMS/MeterData.
@@ -216,7 +216,7 @@ components:
     OutageNetworkContext:
       title: OutageNetworkContext
       description: |
-        DISCOM org hierarchy:
+        DISCOM org hierarchy (UPPCL):
         Discom > Zone > Circle > Division > Subdivision > Substation.
         All optional for flat utilities.
       type: object
@@ -342,7 +342,7 @@ components:
           allOf: [{ $ref: '#/components/schemas/Identifier' }]
           description: >
             Reference to the real-time detection record that raised the outage
-            (e.g. a DISCOM's RTDAS_DATA_ID). Absence or a "0" sentinel indicates a
+            (e.g. UPPCL RTDAS_DATA_ID). Absence or a "0" sentinel indicates a
             manually entered outage (source=MANUAL).
         signal:
           $ref: '#/components/schemas/OutageSignal'

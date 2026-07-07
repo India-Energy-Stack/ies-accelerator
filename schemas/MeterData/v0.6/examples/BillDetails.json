@@ -14,14 +14,14 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "customerRefs": [
-      { "value": "did:dedi:discom:consumers:RR-1234", "scheme": "DID" }
+      { "value": "did:dedi:bescom:consumers:RR-1234", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+      { "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "BillingSet",
     "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
-    "billNumber": "DISCOM-RR-1234-202604",
+    "billNumber": "BESCOM-RR-1234-202604",
     "billDate": "2026-05-01",
     "dueDate": "2026-05-21",
     "currency": "INR",

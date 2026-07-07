@@ -89,7 +89,7 @@ The schema is built from these logical blocks:
 - **credentialSubject** (`MeterDataRequestCredentialSubject`) -- the DID of the requesting entity (`id`) and its one required, substantive field, `meterDataRequest`;
 - the embedded **MeterDataRequest object** (defined in the separate MeterDataRequest v0.6 family, required fields `from`, `duration`, `capabilitiesRequested`) -- `consumers`, `resources`, `scope`, `from`/`duration`, `consumerConsent`, `authorisation`, `capabilitiesRequested` (itself built from `MeterDataCapabilities` → `ProfileCapability` → `ValueCapability`, down to individual OBIS/short-code registers and telemetry modes), and the optional `maxRecordsShared` cap.
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) for this credential is at [MeterDataRequestCredential v0.1 -- Field reference](../../schemas/MeterDataRequestCredential/v0.1/README.md#field-reference); the fields of the object it wraps are documented at [MeterDataRequest v0.6 -- Field reference](../../schemas/MeterDataRequest/v0.6/README.md#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) for this credential is at [MeterDataRequestCredential v0.1 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1#field-reference); the fields of the object it wraps are documented at [MeterDataRequest v0.6 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6#field-reference).
 
 ## 9. Schedule II
 

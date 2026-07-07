@@ -18,17 +18,17 @@ graph TD
 
 ### A. Head-End System (HES) to MDM
 - **Use Case**: Periodic collection of daily load profiles or raw 15-minute load survey intervals.
-- **Recommended Profile**: [`IntervalProfile`](examples/IntervalProfile.json) or [`DailyProfile`](examples/DailyProfile.json) using **Form B (Compact Matrix)**.
+- **Recommended Profile**: [`IntervalProfile`](./examples/IntervalProfile.json) or [`DailyProfile`](./examples/DailyProfile.json) using **Form B (Compact Matrix)**.
 - **Why**: Head-End systems handle millions of meters. Emitting compact arrays of numbers with a single shared descriptor set minimises network ingress, compression overhead, and database insertion time.
 
 ### B. MDM to Billing System / CIS
 - **Use Case**: Handing off the monthly billing determinants (active/apparent energy, peak demand, Time-of-Use buckets) to generate customer bills.
-- **Recommended Profile**: [`MonthlyProfile`](examples/MonthlyProfile.json) or [`MDM_MonthlyProfile`](examples/MDM_MonthlyProfile.json) using **Form A (Elaborated)**.
+- **Recommended Profile**: [`MonthlyProfile`](./examples/MonthlyProfile.json) or [`MDM_MonthlyProfile`](./examples/MDM_MonthlyProfile.json) using **Form A (Elaborated)**.
 - **Why**: Billing systems process records once a month per customer. Clarity, auditability, and validation state are critical. Utilizing Elaborated representations with explicit modes (`USAGE` mode for energy delta readings) and mathematical proofs (`openingValue` / `closingValue`) prevents billing errors and maintains an auditable trail.
 
 ### C. Billing / CIS to Consumer Applications
 - **Use Case**: Presenting computed billing details, prepaid balances, and historical consumption summaries to customer portals or mobile apps.
-- **Recommended Profile**: [`BillDetails`](examples/BillDetails.json) (often referred to as commercial billing profile details) or [`CustomerBillingSummary`](examples/CustomerBillingSummary.json).
+- **Recommended Profile**: [`BillDetails`](./examples/BillDetails.json) (often referred to as commercial billing profile details) or [`CustomerBillingSummary`](./examples/CustomerBillingSummary.json).
 
 ---
 
@@ -45,25 +45,25 @@ To establish a contract of what telemetry data can be shared or requested, syste
 ## 3. Integration Guidelines and Key Scenarios
 
 ### Scenario A: Periodic Load Surveys (HES / MDM)
-For high-frequency load surveys (e.g. 15-minute intervals), use [`IntervalProfile`](examples/IntervalProfile.json) with block incremental codes:
+For high-frequency load surveys (e.g. 15-minute intervals), use [`IntervalProfile`](./examples/IntervalProfile.json) with block incremental codes:
 - Map the code to `reportedMode: "USAGE"` in the compact sequence.
 - Ensure that the intervals are sequential by validating their `id`.
 - The duration (e.g., `PT30M`) is declared in `intervalPeriod.duration`.
 
 ### Scenario B: Monthly Billing Determinant Handoff (MDM to Billing)
 When mapping a billing handoff:
-1. Include the cumulative energy usage reading with `reportedMode: "USAGE"` in [`MonthlyProfile`](examples/MonthlyProfile.json) and populate the `openingValue` and `closingValue` properties so billing calculators can verify the calculation.
+1. Include the cumulative energy usage reading with `reportedMode: "USAGE"` in [`MonthlyProfile`](./examples/MonthlyProfile.json) and populate the `openingValue` and `closingValue` properties so billing calculators can verify the calculation.
 2. For Maximum Demand registers, use `reportedMode: "USAGE"`, specify the `integrationPeriod` (typically `PT30M`), and provide the peak timestamp in `occurredAt`.
-3. Highlight multiple resets or ad-hoc demand clears occurring within the same month using [`MonthlyProfile_MultipleResets.json`](examples/MonthlyProfile_MultipleResets.json).
+3. Highlight multiple resets or ad-hoc demand clears occurring within the same month using [`MonthlyProfile_MultipleResets.json`](./examples/MonthlyProfile_MultipleResets.json).
 
 ### Scenario C: Meter Swaps & Replacements Mid-Cycle
 When a physical meter is changed during a billing period:
-1. Generate two [`MonthlyProfile`](examples/MonthlyProfile.json) records within the dataset – one containing the final readings of the old meter serial number, and one containing the initial readings of the new meter serial.
+1. Generate two [`MonthlyProfile`](./examples/MonthlyProfile.json) records within the dataset – one containing the final readings of the old meter serial number, and one containing the initial readings of the new meter serial.
 2. Link them together under the consumer account reference in a single payload.
-3. *See the [`Billing_MeterChange.json`](examples/Billing_MeterChange.json) example for structural implementation.*
+3. *See the [`Billing_MeterChange.json`](./examples/Billing_MeterChange.json) example for structural implementation.*
 
 ### Scenario D: Tamper and Diagnostic Logs
-Tamper and diagnostic events (e.g. cover open, magnetic influence) are reported using the [`EventProfile`](examples/EventProfile.json).
+Tamper and diagnostic events (e.g. cover open, magnetic influence) are reported using the [`EventProfile`](./examples/EventProfile.json).
 - Use the standard IS 15959 event codes in `eventId`.
 - Do not transmit empty telemetry blocks in an Event profile; the `events` array should only contain diagnosed instances with precise timestamps.
 
@@ -177,7 +177,7 @@ Before requesting telemetry, the TSP must identify which physical meter IDs are 
    - The utility returns a redacted `CUSTOMER` profile where customer name and PII are omitted, and consumers are referenced only via public DIDs.
    - In the `associations` block, the utility links each meter ID and service point ID to parent resources using `parentResources`.
    - The TSP parses this mapping to extract the downstream meter serials.
-   - *Example payload*: See [`Anonymised_Topology_Example.json`](examples/Anonymised_Topology_Example.json) for a PII-redacted customer profile mapping meters to parent grid resources.
+   - *Example payload*: See [`Anonymised_Topology_Example.json`](./examples/Anonymised_Topology_Example.json) for a PII-redacted customer profile mapping meters to parent grid resources.
 
 2. **Via Standalone Topology Service / Registry**:
    - The TSP queries a dedicated grid topology registry or DeDi registry directly which maintains a mapping of physical electrical assets (feeders, transformers, meters) in the grid, bypassing the commercial/billing database entirely.
@@ -192,7 +192,7 @@ Once the list of physical meter serials has been resolved, the TSP queries the t
 2. **Retrieving Telemetry**:
    - The utility validates the request signatures, checks the TSP's authorization, and retrieves the telemetry profiles.
    - The utility returns a compact `IntervalProfile` containing import/export telemetry for the queried meters, omitting any customer references.
-   - *Example response*: See [`Anonymised_Telemetry_Response.json`](examples/Anonymised_Telemetry_Response.json) for the telemetry-only return payload.
+   - *Example response*: See [`Anonymised_Telemetry_Response.json`](./examples/Anonymised_Telemetry_Response.json) for the telemetry-only return payload.
 3. **Ingestion & Aggregation**:
    - The TSP ingests the compact payload and sums the telemetry values across the meters to perform the load planning audit.
 

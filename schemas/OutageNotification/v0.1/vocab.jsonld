@@ -30,7 +30,7 @@
             "@id": "ies:OutageNetworkContext",
             "@type": "rdfs:Class",
             "rdfs:label": "Outage Network Context",
-            "rdfs:comment": "DISCOM org hierarchy:\nDiscom > Zone > Circle > Division > Subdivision > Substation.\nAll optional for flat utilities."
+            "rdfs:comment": "DISCOM org hierarchy (UPPCL):\nDiscom > Zone > Circle > Division > Subdivision > Substation.\nAll optional for flat utilities."
         },
         {
             "@id": "ies:OutageAffectedArea",
@@ -120,7 +120,7 @@
             "@id": "ies:outageClass",
             "@type": "rdf:Property",
             "rdfs:label": "outage Class",
-            "rdfs:comment": "Outage class, from a DISCOM OMS \"Down Info\" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class."
+            "rdfs:comment": "Outage class, from the UPPCL OMS \"Down Info\" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class."
         },
         {
             "@id": "ies:status",
@@ -228,7 +228,7 @@
             "@id": "ies:extensions",
             "@type": "rdf:Property",
             "rdfs:label": "extensions",
-            "rdfs:comment": "Namespaced DISCOM-specific fields, e.g.\n{ \"discom\": { \"breakdownId\": \"6357257\", \"downType\": \"FEEDER\" } }."
+            "rdfs:comment": "Namespaced DISCOM-specific fields, e.g.\n{ \"uppcl\": { \"breakdownId\": \"6357257\", \"downType\": \"FEEDER\" } }."
         },
         {
             "@id": "ies:subcategory",
@@ -246,7 +246,7 @@
             "@id": "ies:code",
             "@type": "rdf:Property",
             "rdfs:label": "code",
-            "rdfs:comment": "Vendor/OMS fault-reason code, carried verbatim (e.g. a DISCOM's FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters."
+            "rdfs:comment": "Vendor/OMS fault-reason code, carried verbatim (e.g. UPPCL FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters."
         },
         {
             "@id": "ies:codeNamespace",
@@ -276,7 +276,7 @@
             "@id": "ies:consumerCategory",
             "@type": "rdf:Property",
             "rdfs:label": "consumer Category",
-            "rdfs:comment": "Consumer mix on the asset (local enum; a DISCOM \"Feeder Type\")."
+            "rdfs:comment": "Consumer mix on the asset (local enum; PVVNL \"Feeder Type\")."
         },
         {
             "@id": "ies:meterRef",
@@ -444,7 +444,7 @@
             "@id": "ies:detectionRef",
             "@type": "rdf:Property",
             "rdfs:label": "detection Ref",
-            "rdfs:comment": "Reference to the real-time detection record that raised the outage (e.g. a DISCOM's RTDAS_DATA_ID). Absence or a \"0\" sentinel indicates a manually entered outage (source=MANUAL)."
+            "rdfs:comment": "Reference to the real-time detection record that raised the outage (e.g. UPPCL RTDAS_DATA_ID). Absence or a \"0\" sentinel indicates a manually entered outage (source=MANUAL)."
         },
         {
             "@id": "ies:signal",

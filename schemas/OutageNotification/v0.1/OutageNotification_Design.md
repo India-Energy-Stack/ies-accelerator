@@ -4,8 +4,8 @@
 **Scope:** A standards-based, machine-readable schema for a DISCOM to publish **planned and unplanned outage** details — consumable as a website/outage-map feed (pull) and as push notifications to affected/subscribed consumers. Designed to be **GIS-ready** and **future-proof**.
 
 This note is grounded in three authoritative inputs:
-1. The live **DISCOM Outage Management System** (`outages.discom.example`) — screens reviewed: Breakdown-Shutdown entry, Main Dashboard (D11), Workforce Supply-Complaints dashboard (D07), Breakdown Details, Lineman-Allocation modal. This is the **system of record** and drives the field model.
-2. The published **DISCOM "Detail of Planned Shutdown"** PDF (the public artifact today).
+1. The live **UPPCL Outage Management System** (`1912.uppcl.org`) — screens reviewed: Breakdown-Shutdown entry, Main Dashboard (D11), Workforce Supply-Complaints dashboard (D07), Breakdown Details, Lineman-Allocation modal. This is the **system of record** and drives the field model.
+2. The published **PVVNL "Detail of Planned Shutdown"** PDF (the public artifact today).
 3. Global standards (§3) and existing **IES schema conventions** (`MeterData/v0.6`).
 
 ---
@@ -27,19 +27,19 @@ One canonical object that:
 
 ## 2. Source artifacts decoded (authoritative)
 
-### 2.1 DISCOM OMS — the system of record (from screenshots)
+### 2.1 UPPCL OMS — the system of record (from screenshots)
 
 **Org hierarchy (confirmed, deeper than the PDF):**
 `Discom → Zone → Circle → Division → Subdivision → Substation → Feeder / DT`
-(e.g. the DISCOM → Meerut-1 → EUDC-Meerut → EUDD-1 Meerut → EUDSD-8 Meerut → Transport Nagar → 11kV feeder.) **Note the `Subdivision` level** between Division and Substation.
+(e.g. PVVNL → Meerut-1 → EUDC-Meerut → EUDD-1 Meerut → EUDSD-8 Meerut → Transport Nagar → 11kV feeder.) **Note the `Subdivision` level** between Division and Substation.
 
-**Outage classification — "Down Info":** the dashboards group outages as **SD / BD / RS**. Interpreted as **S**cheduled (planned maintenance) / **B**reak**D**own (unplanned fault) / **R**oster **S**hutdown — where *roster* is the DISCOM's term for **scheduled rotational load-shedding** on a published rota (the DISCOM publishes a "Rostering Schedule"). _[confirm exact legend with the DISCOM — RS is **not** "Restoration"; restoration is a `status` transition, not a class.]_
+**Outage classification — "Down Info":** the dashboards group outages as **SD / BD / RS**. Interpreted as **S**cheduled (planned maintenance) / **B**reak**D**own (unplanned fault) / **R**oster **S**hutdown — where *roster* is UPPCL's term for **scheduled rotational load-shedding** on a published rota (UPPCL publishes a "Rostering Schedule"). _[confirm exact legend with UPPCL — RS is **not** "Restoration"; restoration is a `status` transition, not a class.]_
 
 **"Down Type" (asset level of the outage):** `FEEDER` (FDR) · `SUBSTATION` (SS) · `DT` (distribution transformer).
 
 **Two distinct "type" axes — keep them separate:**
 - **Voltage / fault level:** `33KV` · `11KV` · `DT` · `LT` (Dashboard: "33 KV Faults / 11 KV Faults / DT Fault / LT Fault").
-- **Consumer category** (the DISCOM sheet's "Feeder Type"): `URBAN` · `RURAL` · `AGRICULTURE` · `INDUSTRIAL` · `TEHSEEL` · `INDEPENDENT`.
+- **Consumer category** (PVVNL sheet's "Feeder Type"): `URBAN` · `RURAL` · `AGRICULTURE` · `INDUSTRIAL` · `TEHSEEL` · `INDEPENDENT`.
 
 **Cause taxonomy — authoritative `Fault Type → Fault SubType`** (from the Lineman-Allocation dropdown and Faults grid):
 
@@ -61,7 +61,7 @@ One canonical object that:
 - `Status` — `Pending`, `Resource Allocated`, … and lineman/`Resource` allocation.
 - Complaint linkage — `Complaint No.`, `Complaint Type` (e.g. NO SUPPLY), `Priority`, `Priority Remarks` (e.g. DT Failure), `Outage Type` (e.g. Area), `No. of Complaints`, `District`, `Address`, `Landmark`.
 
-### 2.2 DISCOM published sheet → already mapped in §8.1. Net new vs the OMS: nothing — the PDF is a flattened public projection of the OMS.
+### 2.2 PVVNL published sheet → already mapped in §8.1. Net new vs the OMS: nothing — the PDF is a flattened public projection of the OMS.
 
 ---
 
@@ -79,7 +79,7 @@ The **Outage Data Initiative Nationwide** (US DOE Office of Electricity + Oak Ri
 The **Common Alerting Protocol** is the global all-hazard public-warning standard, explicitly inclusive of power outages. Use it for **push-to-subscribers**. Its `alert → info → area → resource` structure gives, for free: stable `identifier`, `sender`, `sent`, `status`, `msgType` (**Alert / Update / Cancel**), `references` (link an update to the original), `urgency / severity / certainty`, `effective / onset / expires`, `headline / description / instruction`, and **`area` with `polygon` / `circle` / `geocode`** (a GIS-native alerting geometry). Map the schema 1:1 to CAP so a CAP feed is generated mechanically.
 
 ### 3.4 MultiSpeak — *internal OMS/AMI/MDMS integration* reference
-**MultiSpeak** (NRECA) outage interfaces — **OD** (outage detection from AMI), **OA** (outage analysis/OMS), **CB/CH** (customer calls), `ODEventNotification` (AMI device-status change) — describe the upstream flow that the DISCOM screens implement: **AMI/MDMS detects feeder outage from meter alarms → OMS confirms → notice published.** Validates the provenance link (alarm → outage).
+**MultiSpeak** (NRECA) outage interfaces — **OD** (outage detection from AMI), **OA** (outage analysis/OMS), **CB/CH** (customer calls), `ODEventNotification` (AMI device-status change) — describe the upstream flow that the UPPCL screens implement: **AMI/MDMS detects feeder outage from meter alarms → OMS confirms → notice published.** Validates the provenance link (alarm → outage).
 
 ### 3.5 GIS / outage-map de-facto practice
 - **UK – UK Power Networks Open Data "Live Faults"**: near-real-time planned + unplanned power cuts streamed from their ADMS, consumable via **API and as a geospatial dataset** — the reference pattern for a public, GIS-ready outage feed. (ENA is the industry body; there is no single ENA-wide API — each DNO publishes.)
@@ -113,7 +113,7 @@ The **Common Alerting Protocol** is the global all-hazard public-warning standar
 
 **Future-proof:**
 - **Additive enums** — closed vocabularies (`outageClass`, `assetLevel`) stay small and stable; open ones (`cause.code`, `category`) are *suggested* lists with an `OTHER` + free-text escape hatch (ODIN principle).
-- **`extensions` bag** — a namespaced object for DISCOM-specific fields (e.g. `discom.breakdownId`, `slaTier`) without schema churn.
+- **`extensions` bag** — a namespaced object for DISCOM-specific fields (e.g. `uppcl.breakdownId`, `slaTier`) without schema churn.
 - **Versioned** per IES (`/OutageNotification/v0.1/…`); breaking changes go to a sibling version dir.
 - **Asset model is generic** (`assetLevel` + `Identifier`) so feeder/DT/substation/transformer/line all fit one shape, and new asset levels are additive.
 
@@ -165,7 +165,7 @@ OutageNotification
       "required": ["id", "outageClass", "status", "affectedAssets", "timing"],
       "properties": {
         "id": { "$ref": "#/$defs/Identifier", "description": "Stable notice identity; reused across UPDATE/CANCEL." },
-        "outageClass": { "type": "string", "enum": ["PLANNED", "BREAKDOWN", "SCHEDULED_ROSTERING", "EMERGENCY_ROSTERING"], "description": "LOCAL enum — OMS 'Down Info' value set (confirmed from the DISCOM's BDSD export)." },
+        "outageClass": { "type": "string", "enum": ["PLANNED", "BREAKDOWN", "SCHEDULED_ROSTERING", "EMERGENCY_ROSTERING"], "description": "LOCAL enum — OMS 'Down Info' value set (confirmed from UPPCL BDSD export)." },
         "status": { "type": "string", "enum": ["SCHEDULED", "ACTIVE", "PARTIALLY_RESTORED", "RESTORED", "CANCELLED"] },
         "msgType": { "type": "string", "enum": ["ALERT", "UPDATE", "CANCEL"], "default": "ALERT", "description": "CAP msgType." },
         "references": { "type": "array", "items": { "$ref": "#/$defs/Identifier" }, "description": "Prior notice ids this message updates/cancels (CAP references)." },
@@ -259,7 +259,7 @@ OutageNotification
             }
           }
         },
-        "extensions": { "type": "object", "description": "Namespaced DISCOM-specific fields, e.g. { \"discom\": { \"breakdownId\": \"6357257\" } }." }
+        "extensions": { "type": "object", "description": "Namespaced DISCOM-specific fields, e.g. { \"uppcl\": { \"breakdownId\": \"6357257\" } }." }
       }
     },
 
@@ -271,7 +271,7 @@ OutageNotification
         "id": { "$ref": "#/$defs/Identifier", "description": "Asset id/name; ideally a stable GIS feature id / MRID for map join." },
         "assetLevel": { "type": "string", "enum": ["SUBSTATION", "FEEDER", "DT", "LINE_SEGMENT", "SERVICE_POINT"] },
         "voltageLevel": { "type": "string", "description": "33kV, 11kV, LT, DT." },
-        "consumerCategory": { "type": "string", "enum": ["URBAN", "RURAL", "AGRICULTURE", "INDUSTRIAL", "MIXED", "OTHER"], "description": "The DISCOM's 'Feeder Type'." },
+        "consumerCategory": { "type": "string", "enum": ["URBAN", "RURAL", "AGRICULTURE", "INDUSTRIAL", "MIXED", "OTHER"], "description": "PVVNL 'Feeder Type'." },
         "meterRef": { "$ref": "#/$defs/Identifier", "description": "Feeder/substation smart-meter number — join key to MDMS/MeterData." },
         "parentRef": { "$ref": "#/$defs/Identifier", "description": "Parent asset (e.g. feeder's substation, DT's feeder)." },
         "geo": { "$ref": "#/$defs/GeoJSONGeometry", "description": "Optional inline geometry: Point (substation/DT), LineString (feeder), Polygon (service area)." }
@@ -280,7 +280,7 @@ OutageNotification
 
     "NetworkContext": {
       "type": "object",
-      "description": "DISCOM org hierarchy: Discom > Zone > Circle > Division > Subdivision > Substation. All optional for flat utilities.",
+      "description": "DISCOM org hierarchy (UPPCL): Discom > Zone > Circle > Division > Subdivision > Substation. All optional for flat utilities.",
       "properties": {
         "discom": { "$ref": "#/$defs/Identifier" },
         "zone": { "type": "string" },
@@ -307,7 +307,7 @@ OutageNotification
       "properties": {
         "id": { "$ref": "#/$defs/Identifier" },
         "name": { "type": "string" },
-        "contact": { "type": "string", "description": "Phone/email/URL (e.g. the DISCOM's consumer helpline number)." }
+        "contact": { "type": "string", "description": "Phone/email/URL (e.g. 1912)." }
       }
     },
 
@@ -337,18 +337,18 @@ OutageNotification
 }
 ```
 
-### 5.3 Example — planned shutdown (one DISCOM Breakdown ID, multiple feeders, GIS-ready)
+### 5.3 Example — planned shutdown (one UPPCL Breakdown ID, multiple feeders, GIS-ready)
 
 ```json
 {
-  "id": { "scheme": "OTHER", "value": "DISCOM-BD-6357257", "namespace": "outages.discom.example" },
+  "id": { "scheme": "OTHER", "value": "PVVNL-BD-6357257", "namespace": "1912.uppcl.org" },
   "outageClass": "PLANNED",
   "status": "SCHEDULED",
   "msgType": "ALERT",
   "category": "MAINTENANCE",
   "cause": { "code": "SCHEDULED_OUTAGE", "text": "Pole erection on long span & VCB replacement under Business Plan" },
   "forceMajeure": false,
-  "issuedBy": { "name": "the DISCOM", "contact": "1912" },
+  "issuedBy": { "name": "PVVNL", "contact": "1912" },
   "issuedAt": "2026-06-21T18:00:00+05:30",
   "network": { "zone": "Muzaffarnagar", "circle": "EDC-2 Muzaffarnagar", "division": "EDD-Budhana", "substation": { "scheme": "SUBSTATION", "value": "BHATMAI" } },
   "affectedAssets": [
@@ -360,7 +360,7 @@ OutageNotification
   "affectedArea": { "text": "Villages under BHATMAI substation", "adminAreas": ["Barehta", "Gosaiganj", "Jaisinghpur", "Kurebhar"], "geo": { "type": "Polygon", "coordinates": [[[77.43,29.39],[77.48,29.39],[77.48,29.44],[77.43,29.44],[77.43,29.39]]] } },
   "timing": { "period": { "start": "2026-06-22T06:43:00+05:30", "duration": "PT5H" }, "slaTargetMinutes": 240 },
   "publicInfo": { "language": "en", "headline": "Planned shutdown — BHATMAI substation feeders, 22 Jun 06:43–11:43", "instruction": "Please plan for a ~5-hour interruption." },
-  "extensions": { "discom": { "breakdownId": "6357257", "downType": "FEEDER" } }
+  "extensions": { "uppcl": { "breakdownId": "6357257", "downType": "FEEDER" } }
 }
 ```
 
@@ -368,7 +368,7 @@ OutageNotification
 
 ```json
 {
-  "id": { "scheme": "OTHER", "value": "DISCOM-BD-6562139", "namespace": "outages.discom.example" },
+  "id": { "scheme": "OTHER", "value": "PVVNL-BD-6562139", "namespace": "1912.uppcl.org" },
   "outageClass": "BREAKDOWN",
   "status": "ACTIVE",
   "severity": "SEVERE",
@@ -390,7 +390,7 @@ OutageNotification
 }
 ```
 
-`provenance.alarmRefs[]` point at a `MeterData` `AlarmProfile` (`profileType: "ALARM"`, `MeterAlarm.alarmId/status/severity`) already carried by [MeterData v0.6](../../MeterData/v0.6/README.md) — no alarm fields are redefined here.
+`provenance.alarmRefs[]` point at a `MeterData` `AlarmProfile` (`profileType: "ALARM"`, `MeterAlarm.alarmId/status/severity`) already carried by [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) — no alarm fields are redefined here.
 
 ---
 
@@ -429,7 +429,7 @@ For tamper-evidence / cross-network trust (consistent with `MeterDataCredential`
 
 ### 7.4 Feeder-status ingest (detection layer)
 
-Publication is fed by a thin **detection / ingest** layer, kept separate from publication. An **AMI Service Provider (AMISP)** posts a real-time feeder energized/de-energized signal — derived from a substation meter's **digital-input (DI) port** — to the central platform (MDMS/OMS). The OMS correlates consecutive signals per feeder, enriches them (cause, hierarchy, area, geometry, customer count), and emits an `OutageNotification`. The published notice's `provenance` carries `amispCode` + `signal.eventId` + `signal.rawCode`, so every public outage is traceable to its originating meter signal. Full contract: [`FeederStatusIngest.openapi.yaml`](FeederStatusIngest.openapi.yaml).
+Publication is fed by a thin **detection / ingest** layer, kept separate from publication. An **AMI Service Provider (AMISP)** posts a real-time feeder energized/de-energized signal — derived from a substation meter's **digital-input (DI) port** — to the central platform (MDMS/OMS). The OMS correlates consecutive signals per feeder, enriches them (cause, hierarchy, area, geometry, customer count), and emits an `OutageNotification`. The published notice's `provenance` carries `amispCode` + `signal.eventId` + `signal.rawCode`, so every public outage is traceable to its originating meter signal. Full contract: [`FeederStatusIngest.openapi.yaml`](./FeederStatusIngest.openapi.yaml).
 
 **Contract principles:**
 - **Named status enums** (`ENERGIZED`/`DE_ENERGIZED`/`UNKNOWN`); the raw vendor code is preserved in `rawStatus`. Vendor status codes are not standardized — the standard layer is IS 15959 / DLMS-COSEM (OBIS + event codes), which `MeterData` `AlarmProfile.alarmId` aligns to.
@@ -467,11 +467,11 @@ Publication is fed by a thin **detection / ingest** layer, kept separate from pu
 
 ## 8. Mapping tables
 
-### 8.1 DISCOM OMS / DISCOM sheet → schema
+### 8.1 UPPCL OMS / PVVNL sheet → schema
 | OMS / PDF field | Schema path |
 |---|---|
 | Down Info (Planned/Breakdown/Scheduled Rostering/Emergency Rostering) | `outageClass` |
-| Down Type (Feeder/Substation/DT) | `affectedAssets[].assetLevel` (+ `extensions.discom.downType`) |
+| Down Type (Feeder/Substation/DT) | `affectedAssets[].assetLevel` (+ `extensions.uppcl.downType`) |
 | Discom/Zone/Circle/Division/Subdivision/Substation/District | `network.*` |
 | Feeder / DT name | `affectedAssets[].id` |
 | Feeder Smart Meter Number | `affectedAssets[].meterRef` (scheme `METER_SERIAL`) |
@@ -487,7 +487,7 @@ Publication is fed by a thin **detection / ingest** layer, kept separate from pu
 | Status (Pending/Resource Allocated) | `response.resourceStatus` |
 | No. of Complaints | `response.complaintCount` |
 | Consumer Affected Area (localities) | `affectedArea.text` / `affectedArea.adminAreas[]` |
-| Breakdown ID (groups feeders) | `extensions.discom.breakdownId` |
+| Breakdown ID (groups feeders) | `extensions.uppcl.breakdownId` |
 
 ### 8.2 Schema → OASIS CAP v1.2
 | Schema | CAP |
@@ -526,7 +526,7 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 | `cause.category` / `cause.subcategory` | **Aligned** — IEEE 1782-2022 §4.4 (ten categories: `EQUIPMENT · LIGHTNING · PLANNED · POWER_SUPPLY · PUBLIC · VEGETATION · WEATHER · WILDLIFE · UNKNOWN · OTHER`) + §4.5 subcategories, used with IEEE 1366 |
 | `Identifier.scheme` | **Mixed** — `MRID` (CIM IEC 61968/61970), `DID` (W3C DID Core); rest local |
 | `feederStatus` | **Local** normalization; energized/de-energized align with CIM UsagePoint |
-| `outageClass` | **Local** — the DISCOM's OMS Down Info: `PLANNED · BREAKDOWN · SCHEDULED_ROSTERING · EMERGENCY_ROSTERING` |
+| `outageClass` | **Local** — UPPCL OMS Down Info: `PLANNED · BREAKDOWN · SCHEDULED_ROSTERING · EMERGENCY_ROSTERING` |
 | `cause.code` | **Local/vendor** — carried verbatim (vendor `FAULT_REASON`; not standardized) |
 | `cause.faultType` | **Local** (open): `33KV · 11KV · DT · LT` |
 | `assetLevel` | **Local** (closed, additive): `SUBSTATION · FEEDER · DT · LINE_SEGMENT · SERVICE_POINT` |
@@ -535,9 +535,9 @@ Every enum declares whether it is **borrowed from a standard** (anchored to the 
 
 > `category` (outage category) is **not** CAP's `info/category` — deliberately a different value set.
 
-### 9.1 DISCOM FAULT_REASON master → `cause.category`/`cause.subcategory` crosswalk
+### 9.1 UPPCL FAULT_REASON master → `cause.category`/`cause.subcategory` crosswalk
 
-The DISCOM's OMS carries a fault-reason pick-list (`FORM_ID 8312`, 31 codes). It is **operational and India-specific — not a published standard**, and contains duplicates (`13 Overload`≈`26 Overloading`; `20 System improvement`≈`29 …/Deposit Works`; transformer split across `3/4/10/11/23`). Each code maps to a standardized **`cause.category` + `cause.subcategory` (IEEE 1782-2022 §4.4/§4.5)**; the vendor code is kept verbatim in `cause.code` (`codeNamespace: discom-oms`). Full machine-readable mapping: [`fault_reason_crosswalk.json`](fault_reason_crosswalk.json). Examples:
+The UPPCL OMS carries a fault-reason pick-list (`FORM_ID 8312`, 31 codes). It is **operational and India-specific — not a published standard**, and contains duplicates (`13 Overload`≈`26 Overloading`; `20 System improvement`≈`29 …/Deposit Works`; transformer split across `3/4/10/11/23`). Each code maps to a standardized **`cause.category` + `cause.subcategory` (IEEE 1782-2022 §4.4/§4.5)**; the vendor code is kept verbatim in `cause.code` (`codeNamespace: uppcl-oms`). Full machine-readable mapping: [`fault_reason_crosswalk.json`](./fault_reason_crosswalk.json). Examples:
 
 | FAULT_REASON | `cause.code` | `cause.category` | `cause.subcategory` | `outageClass` |
 |---|---|---|---|---|
@@ -561,7 +561,7 @@ Recommendation to the DISCOM: de-duplicate the master list, and treat the crossw
 - `cause.code` — adopt this OMS-seeded list as the canonical IES vocabulary, or keep purely free-text for v0.1?
 - GIS source of truth: do feeders/DTs have geometry in a GIS today (for `geo` and `GIS_FEATURE_ID`), or only substation points? Drives §6 rollout.
 - Privacy: granularity of `impact.deEnergized[]` on the public vs authenticated tier.
-- **SD/BD/RS legend** — confirm with the DISCOM that **RS = Roster Shutdown** (rotational load-shedding), as interpreted here, and not another controlled-outage category. Restoration is modelled as `status=RESTORED` (a transition / CAP `Update`), not as a class.
+- **SD/BD/RS legend** — confirm with UPPCL that **RS = Roster Shutdown** (rotational load-shedding), as interpreted here, and not another controlled-outage category. Restoration is modelled as `status=RESTORED` (a transition / CAP `Update`), not as a class.
 - **Vendor status codes** — feeder-status numeric values (e.g. `FEEDER_STATUS:102`, `DI_PORT_STATUS:402`) are **vendor/platform-specific, not a standard enum**. The standardised layer for Indian meters is **IS 15959 Part 1/2 (DLMS/COSEM, IEC 62056)** — OBIS codes + the standard event/alarm code list (which `MeterData` `AlarmProfile.alarmId` aligns to). Obtain the vendor's code legend and map it to the normalized `feederStatus` enum.
 
 ---
@@ -579,7 +579,7 @@ Recommendation to the DISCOM: de-duplicate the master list, and treat the crossw
 - **W3C Decentralized Identifiers (DID) Core** — <https://www.w3.org/TR/did-core/>
 - **India reliability/RDSS context** — MPERC SAIFI/SAIDI order: <https://mperc.in/uploads/editor/Other%20Orders%20by%20MPERC/MPERC_ORDER_Specifying_Reliability_Indices_SAIFI_AND_SAIDI_20_06_2024.pdf> · Review of Indian DISCOM outage reporting: <https://blog.theleapjournal.org/2025/09/a-review-of-outage-reporting-by-indian.html> · UPCL reliability indices: <https://upcl.uk.gov.in/reliability-indices-saifi-saidi-maifi/>
 - **ENTSO-E Transparency Platform** — <https://transparency.entsoe.eu/>
-- **IES MeterData v0.6** (carries smart-meter alarms via `AlarmProfile`) — [`../../MeterData/v0.6/README.md`](../../MeterData/v0.6/README.md)
-- **DISCOM OMS** (`outages.discom.example`) — system of record reviewed for this design.
-- **DISCOM planned-shutdown example** — a published "Detail of Planned Shutdown" PDF from the pilot DISCOM.
+- **IES MeterData v0.6** (carries smart-meter alarms via `AlarmProfile`) — <https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6>
+- **UPPCL OMS** (`1912.uppcl.org`) — system of record reviewed for this design.
+- **PVVNL planned-shutdown example** — <https://pvvnl.org/uploads/news/1782054913.pdf>
 - **DISCOM draft "REAL TIME FEEDER STATUS" push API** — vendor-contemplated AMISP push contract that informed the feeder-status ingest layer (§7.4).

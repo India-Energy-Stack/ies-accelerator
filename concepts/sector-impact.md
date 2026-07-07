@@ -69,7 +69,7 @@ That foundation makes practical:
 
 Filings reach the regulator **already signed and in a single, consistent format**. Tariff orders become computable. Regulators move from reading PDF documents to monitoring data directly.
 
-- **[ARR filings](../schemas/ArrFiling/v0.5/README.md)** in a structured, comparable form across utilities.
+- **[ARR filings](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** in a structured, comparable form across utilities.
 - **Tariff orders** parsable by software, with stable references for every clause.
 - **Audit trail** of who shared what, with whom, under what authorisation.
 

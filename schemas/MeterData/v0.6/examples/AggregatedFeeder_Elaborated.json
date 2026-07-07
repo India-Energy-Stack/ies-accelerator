@@ -29,7 +29,7 @@
       { "value": "did:dedi:india-energy-stack:ies-discoms-reference-registry:UTILITY-01", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:feeder:FDR-11KV-NDL-072", "scheme": "DID" }
+      { "value": "did:dedi:bescom:assets:feeder:FDR-11KV-NDL-072", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet",
     "intervalPeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT30M" },
