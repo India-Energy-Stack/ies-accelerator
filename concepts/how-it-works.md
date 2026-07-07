@@ -31,9 +31,9 @@ Every IES exchange — meter data, regulatory filings, consumer credentials, DER
 
 A DISCOM, AMISP, regulator, aggregator or vendor publishes a small JSON file at a web address it controls. That file lists the public key it signs things with. Anyone — a wallet, another DISCOM, a regulator — can fetch that file over plain HTTPS and check signatures on their own. No central authority, no API key, no special middleware.
 
-- **For organisations** — a `did:web` on a domain you own (e.g. `did:web:ies.apepdcl.in`)
+- **For organisations** — a `did:web` on a domain you own (e.g. `did:web:ies.discom.example`)
 - **For consumers (when needed)** — a `did:key` in their wallet
-- **For assets, meters, transformers, datasets** — a `did:web` under the issuing organisation's domain (`did:web:ies.apepdcl.in:assets:meter:NM-44091234`)
+- **For assets, meters, transformers, datasets** — a `did:web` under the issuing organisation's domain (`did:web:ies.discom.example:assets:meter:NM-44091234`)
 
 Internal numbering (CIS consumer numbers, SAP codes, meter SLNOs) is preserved and reused as the tail of the DID. Nothing in your existing systems renames.
 
@@ -83,12 +83,12 @@ IES selects the right open standard for each domain and publishes a specificatio
 
 | Domain | Underlying standard | IES specification |
 |---|---|---|
-| Meter telemetry | DLMS/COSEM (IS 15959) | **[MeterData v0.6](../schemas/MeterData/v0.6/README.md)** — eight compact profile shapes |
-| Consumer credentials | W3C VC Data Model 2.0; CIM (IEC 61968/61970) | **[ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md)** |
-| Solar and storage attributes | IEEE 2030.5, IEC 61850-7-420 | **[ElectricityCredential](../schemas/ElectricityCredential/v1.2/README.md)** energyResources |
+| Meter telemetry | DLMS/COSEM (IS 15959) | **[MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** — eight compact profile shapes |
+| Consumer credentials | W3C VC Data Model 2.0; CIM (IEC 61968/61970) | **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** |
+| Solar and storage attributes | IEEE 2030.5, IEC 61850-7-420 | **[ElectricityCredential](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** energyResources |
 | Demand response | OpenADR 3.1.0 | **[DemandFlex* family](../schemas/external/README.md#demand-flexibility)** (published; no IES use-case guide yet) |
-| Regulatory filings | XBRL | **[ArrFiling v0.5](../schemas/ArrFiling/v0.5/README.md)** |
-| Outage notices | OpenADR-aligned + DEG primitives | **[OutageNotification v0.1](../schemas/OutageNotification/v0.1/README.md)** |
+| Regulatory filings | XBRL | **[ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** |
+| Outage notices | OpenADR-aligned + DEG primitives | **[OutageNotification v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)** |
 
 Where the use case needs a durable record, the exchange also produces a **[Verifiable Credential](../glossary.md#verifiable-credential-vc)** — for example a [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](../glossary.md#digilocker) and can share it with any bank, regulator or scheme administrator without returning to the issuer.
 

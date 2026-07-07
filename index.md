@@ -126,6 +126,20 @@ These documents provide a general introduction, terminology definitions, and lay
   </li>
   </ul>
   </details>
+* **[download-pdf.md](download-pdf.md)**
+  - *Summary*: Where to download the auto-published, always-current printable PDF of this entire guide, and how to build it locally.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="download-pdf.md#download-pdf">Download PDF</a>    <ul>
+      <li><a href="download-pdf.md#whats-in-it">What's in it</a></li>
+      <li><a href="download-pdf.md#how-its-kept-current">How it's kept current</a></li>
+      <li><a href="download-pdf.md#building-it-yourself">Building it yourself</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
 * **[SUMMARY.md](SUMMARY.md)**
   - *Summary*: Table of Contents sidebar structure configuration for GitBook deployment.
   <details>
@@ -1253,36 +1267,36 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[README.md](use-cases/p2p-energy-exchange/README.md)**
+* **[README.md](use-cases/p2p-energy-trading/README.md)**
   - *Summary*: Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/p2p-energy-exchange/README.md#p2p-energy-exchange">P2P Energy Exchange</a>    <ul>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#7-the-records">7. The Records</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#8-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#value-unlock">Value Unlock</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/p2p-energy-exchange/README.md#register-four-actor-network-identity">Register — four-actor network identity</a></li>
-        <li><a href="use-cases/p2p-energy-exchange/README.md#discover-wave-2-topology">Discover — wave-2 topology</a></li>
-        <li><a href="use-cases/p2p-energy-exchange/README.md#exchange-adapter-cascade-policy">Exchange — adapter, cascade, policy</a></li>
-        <li><a href="use-cases/p2p-energy-exchange/README.md#team">Team</a>
+    <li><a href="use-cases/p2p-energy-trading/README.md#p2p-energy-trading">P2P Energy Trading</a>    <ul>
+      <li><a href="use-cases/p2p-energy-trading/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#4-definitions">4. Definitions</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#7-the-records">7. The Records</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#8-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
+        <li><a href="use-cases/p2p-energy-trading/README.md#register-four-actor-network-identity">Register — four-actor network identity</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#discover-wave-2-topology">Discover — wave-2 topology</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#exchange-adapter-cascade-policy">Exchange — adapter, cascade, policy</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#team">Team</a>
       </li>
       </ul>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases/p2p-energy-exchange/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/p2p-energy-trading/README.md#dev-kits-and-code">Dev kits and code</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
     </li>
     </ul>
   </li>

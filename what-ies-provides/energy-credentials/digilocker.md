@@ -55,7 +55,7 @@ The integration has three phases:
 ### Step 1 — Register on API Setu
 
 Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a document issuer. You receive:
-- `issuer_id` (e.g. `in.gov.tpddl`)
+- `issuer_id` (e.g. `in.gov.discom`)
 - `api_key` — store this securely; used for HMAC verification
 
 > If your DISCOM already issues electricity bills (ELBIL) on DigiLocker, contact NeGD to add the `NYCER` and `MTRDT` document types to your existing account. Do not re-register.
@@ -65,7 +65,7 @@ Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a documen
 Follow [Energy Credentials → Set up OpenCred and publish your did:web](README.md#set-up-opencred-and-publish-your-did-web) end-to-end. By the time you reach this page you should have:
 
 - OpenCred running with `signingKeyLoaded: true`
-- An issuer DID — `did:web:ies.tpddl.in` (recommended) or `did:key:…` (from an imported DSC)
+- An issuer DID — `did:web:ies.discom.example` (recommended) or `did:key:…` (from an imported DSC)
 - (Optional, recommended) DeDi configured for revocation
 
 Save your issuer DID — it goes into every `POST /v1/credentials/issue` call.
@@ -136,11 +136,11 @@ DigiLocker sends a `PullURIRequest` XML v3.0. For NYCER:
 <PullURIRequest ver="3.0"
                 ts="2026-04-01T10:30:00+05:30"
                 txn="TXN-20260401-001"
-                orgId="tpddl">
+                orgId="discom">
   <DocDetails>
     <DocType>NYCER</DocType>
     <DigiLockerId>7a3f9b2c-1e4d-4f8a-b6c2-0d5e8f1a2b3c</DigiLockerId>
-    <UDF1>TPDDL-2025-001234567</UDF1>   <!-- consumer number -->
+    <UDF1>DISCOM-2025-001234567</UDF1>   <!-- consumer number -->
     <UDF2>9876543210</UDF2>             <!-- registered mobile number -->
     <FullName>Priya Sharma</FullName>    <!-- optional, from DigiLocker profile -->
   </DocDetails>
@@ -154,11 +154,11 @@ For MTRDT the period travels as a UDF, so the consumer can pull a chosen window:
 <PullURIRequest ver="3.0"
                 ts="2026-05-15T10:00:00+05:30"
                 txn="TXN-20260515-042"
-                orgId="tpddl">
+                orgId="discom">
   <DocDetails>
     <DocType>MTRDT</DocType>
     <DigiLockerId>7a3f9b2c-1e4d-4f8a-b6c2-0d5e8f1a2b3c</DigiLockerId>
-    <UDF1>TPDDL-2025-001234567</UDF1>   <!-- consumer number -->
+    <UDF1>DISCOM-2025-001234567</UDF1>   <!-- consumer number -->
     <UDF2>last-12-months</UDF2>          <!-- statement period: YYYY-MM, a range, or a keyword -->
     <UDF3>9876543210</UDF3>             <!-- registered mobile number -->
     <FullName>Priya Sharma</FullName>
@@ -209,7 +209,7 @@ If your DISCOM wants a custom PDF design instead (branded letterhead, regional l
 ```python
 def build_pulluri_response(ts, txn, doc_type, uri, issued_to, valid_from, valid_to, pdf_b64, vc_b64):
     return f"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PullURIResponse ver="3.0" ts="{ts}" txn="{txn}" orgId="tpddl">
+<PullURIResponse ver="3.0" ts="{ts}" txn="{txn}" orgId="discom">
   <ResponseStatus Status="1" ts="{ts}" txn="{txn}"/>
   <DocDetails>
     <DocType>{doc_type}</DocType>
@@ -319,7 +319,7 @@ credential_response = requests.post(
     "http://opencred:3100/v1/credentials/issue",
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
     json={
-        "issuerDid":  ISSUER_DID,                # e.g. "did:web:ies.tpddl.in"
+        "issuerDid":  ISSUER_DID,                # e.g. "did:web:ies.discom.example"
         "schemaId":   "electricity/v1.2",
         "additionalTypes": ["ElectricityCredential"],
         "proofFormat": "vc-jwt",
@@ -388,7 +388,7 @@ vc_json["issuer"] = {
     "name": ISSUER_NAME,
     "idRef": {
         "issuedBy":  IES_REGISTRY_DID,         # namespace DID of india-energy-stack on dedi.global
-        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:tpddl
+        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:discom
     },
 }
 
@@ -401,7 +401,7 @@ pdf_bytes = base64.b64decode(
 The URI for NYCER stays keyed on the consumer number — a refresh overwrites the last, which is correct for a slow-changing connection credential:
 
 ```python
-uri = f"in.gov.tpddl-NYCER-{consumer.consumer_number}"
+uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"
 ```
 
 ### What DigiLocker needs to accept for v1.2
@@ -463,14 +463,14 @@ This is the exact JSON-LD that travels in `VcContent`.
   "id": "urn:uuid:9b3c1f0a-2d4e-4ba8-9f1c-1e7a90c8a5d2",
   "type": ["VerifiableCredential", "MeterDataCredential"],
   "issuer": {
-    "id": "did:web:ies.tpddl.in",
-    "name": "Tata Power Delhi Distribution Limited",
-    "licenseNumber": "DERC-DISCOM-2025-007"
+    "id": "did:web:ies.discom.example",
+    "name": "Example State Distribution Company Limited",
+    "licenseNumber": "SERC-DISCOM-2025-007"
   },
   "validFrom": "2026-05-15T10:00:00+05:30",
   "validUntil": "2027-05-15T10:00:00+05:30",
   "credentialStatus": {
-    "id": "https://dedi.global/dedi/lookup/tpddl/vc-revocation-registry/9b3c1f0a",
+    "id": "https://dedi.global/dedi/lookup/discom/vc-revocation-registry/9b3c1f0a",
     "type": "dedi",
     "statusPurpose": "revocation"
   },
@@ -479,7 +479,7 @@ This is the exact JSON-LD that travels in `VcContent`.
     "meterData": {
       "profileType": "MONTHLY",
       "meterId": "MTR-98765432",
-      "servicePointId": "TPDDL-2025-001234567",
+      "servicePointId": "DISCOM-2025-001234567",
       "intervalBlocks": [
         { "start": "2025-05-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 391, "unit": "kWh" }] },
         { "start": "2025-06-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 412, "unit": "kWh" }] },
@@ -519,7 +519,7 @@ For raw analytics data the same wrapper carries an `INTERVAL` profile — `PT15M
       {
         "profileType": "INTERVAL",
         "meterId": "MTR-98765432",
-        "servicePointId": "TPDDL-2025-001234567",
+        "servicePointId": "DISCOM-2025-001234567",
         "payloadDescriptorSetRef": "desc-usage-15m",
         "intervalBlocks": [
           { "start": "2026-05-01T00:00:00+05:30", "duration": "PT15M", "readings": [{ "value": 0.18 }] },
@@ -550,10 +550,10 @@ Today the electricity bill (and the NYCER connection credential) is keyed on the
 
 ```python
 # NYCER — overwrite on refresh (correct for a connection credential)
-uri = f"in.gov.tpddl-NYCER-{consumer.consumer_number}"
+uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"
 
 # MTRDT — period in the key, so every statement coexists
-uri = f"in.gov.tpddl-MTRDT-{consumer.consumer_number}-{period}"   # period e.g. "2026-05" or "2025-05_2026-04"
+uri = f"in.gov.discom-MTRDT-{consumer.consumer_number}-{period}"   # period e.g. "2026-05" or "2025-05_2026-04"
 ```
 
 ### Issuing the Digest (`MeterDataCredential` v0.6)
@@ -605,7 +605,7 @@ vc_json = credential_response["credential"]
 vc_json["issuer"] = {
     "id":   ISSUER_DID,
     "name": ISSUER_NAME,
-    "licenseNumber": DISCOM_LICENSE_NUMBER,      # e.g. "DERC-DISCOM-2025-007"
+    "licenseNumber": DISCOM_LICENSE_NUMBER,      # e.g. "SERC-DISCOM-2025-007"
 }
 
 pdf_bytes = base64.b64decode(
@@ -614,7 +614,7 @@ pdf_bytes = base64.b64decode(
 )
 
 # 4. Period-keyed URI — this is the one structural difference from NYCER
-uri = f"in.gov.tpddl-MTRDT-{consumer.consumer_number}-{window.uri_period}"
+uri = f"in.gov.discom-MTRDT-{consumer.consumer_number}-{window.uri_period}"
 ```
 
 Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issuance → revoking](README.md#id-4.-revoke).
@@ -647,7 +647,7 @@ In every mode the signed JSON moves as-is. What DigiLocker shares with a verifie
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PullURIResponse ver="3.0" ts="{ts}" txn="{txn}" orgId="tpddl">
+<PullURIResponse ver="3.0" ts="{ts}" txn="{txn}" orgId="discom">
   <ResponseStatus Status="0" ts="{ts}" txn="{txn}">Consumer not found</ResponseStatus>
 </PullURIResponse>
 ```
@@ -677,9 +677,7 @@ Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential o
 ## Reference
 
 - [Consumer Meter Digest — use-case guide](../../use-cases/consumer-meter-digest/README.md)
-- [Electricity Credential — schema reference](../../schemas/ElectricityCredential/v1.2/README.md)
+- [Electricity Credential — schema reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 - [OpenCred Documentation](https://opencred.gitbook.io/docs) — credential service API reference
 - [API Setu DigiLocker Partner Portal](https://partners.digitallocker.gov.in)
 - [DigiLocker Technical Specification v1.0.5](https://partners.digitallocker.gov.in/assets/img/Digital%20Locker%20Technical%20Specification%20v1%200%205.pdf)
-</content>
-</invoke>

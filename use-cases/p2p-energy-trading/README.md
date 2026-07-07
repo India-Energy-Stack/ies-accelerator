@@ -1,4 +1,4 @@
-# P2P Energy Exchange
+# P2P Energy Trading
 
 Two prosumers on different DISCOMs execute a direct, signed energy trade. Each DISCOM is represented in the protocol by a regulated **Ledger Provider**. The same wire that carries dataset exchanges in [IES Data Exchange](../../what-ies-provides/data-exchange/README.md) carries the trade — but the payload is a contract and its fulfilment, not a dataset.
 
@@ -15,7 +15,7 @@ Two prosumers on different DISCOMs execute a direct, signed energy trade. Each D
 
 The **stakeholders** are two prosumers (buyer and seller) on potentially different DISCOMs, their respective trading platforms (TPs), and the regulated Ledger Provider (LP) contracted by each DISCOM. Today, peer-to-peer energy trade requires bespoke bilateral integrations, ad-hoc settlement spreadsheets, and a central exchange-style intermediary — none of which exist in the form Indian DISCOMs need.
 
-This document defines **P2P Energy Exchange** — a one-to-many discovery, contracting and settlement pattern carried over the same Beckn wire that carries dataset exchanges. The contract is a `DEGContract` with a `P2PTrade` body. Allocation and reconciliation flow as `BecknTimeSeries` inside the same envelope. Network rules and revenue flows are enforced by **signed Rego bundles** published on DeDi — any participant evaluates locally, no central exchange.
+This document defines **P2P Energy Trading** — a one-to-many discovery, contracting and settlement pattern carried over the same Beckn wire that carries dataset exchanges. The contract is a `DEGContract` with a `P2PTrade` body. Allocation and reconciliation flow as `BecknTimeSeries` inside the same envelope. Network rules and revenue flows are enforced by **signed Rego bundles** published on DeDi — any participant evaluates locally, no central exchange.
 
 A trading platform integrates once. The same pattern works inter-DISCOM (two LPs, one peer leg) and intra-DISCOM (one LP, the two LPs collapse).
 
@@ -39,8 +39,8 @@ Customer PII and meter data stay with the customer's own DISCOM and TP. Price st
 | Buyer / Seller (prosumer) | `did:web` under their TP's domain | `did:web:buyer.example.com` |
 | Trading platform (BAP / BPP) | `did:web` on owned domain | `did:web:example.bpp.com` |
 | Ledger Provider (LP) | `did:web` on owned domain, registered subscriber | `did:web:seller-discom-ledger.example.com` |
-| DISCOM | `did:web` on owned domain | `did:web:ies.tpddl.in` |
-| Meter / DT / feeder referenced in the trade | `did:web` reused from existing IDs (per [SMDX](../smart-meter-data-exchange/README.md#id-3.-how-each-item-is-identified)) | `did:web:ies.tpddl.in:assets:meter:NM-44091234` |
+| DISCOM | `did:web` on owned domain | `did:web:ies.discom.example` |
+| Meter / DT / feeder referenced in the trade | `did:web` reused from existing IDs (per [SMDX](../smart-meter-data-exchange/README.md#id-3.-how-each-item-is-identified)) | `did:web:ies.discom.example:assets:meter:NM-44091234` |
 | Network policy bundle | DeDi-published Rego record URL (`policyUrl`) | `did:dedi:.../p2p-trading-ies-wave2_network.rego#v1.0` |
 | Settlement policy bundle | DeDi-published Rego record URL | `did:dedi:.../p2p_trading_ies_wave2_revenue.rego#v0.3` |
 
@@ -75,7 +75,7 @@ The whole protocol — the four-actor topology, the `BecknTimeSeries` payload vo
 
 ## 7. The Records
 
-The P2P Energy Exchange flow produces three distinct kinds of signed artefact per trade:
+The P2P Energy Trading flow produces three distinct kinds of signed artefact per trade:
 
 1. The **contract** — `DEGContract` carrying a `P2PTrade` body. Recorded by both TPs and both LPs at `/confirm`.
 2. The **per-interval allocation series** — `BecknTimeSeries` carrying buyer-DISCOM allocation, seller-DISCOM allocation, final allocation. Recorded by both LPs and both TPs as Phase 5 cascades.
@@ -93,7 +93,7 @@ The full, authoritative field tables are in the schemas:
 
 Six tables: `P2PTrade`, `EnergyTradeOffer`, `EnergyCustomer`, `EnergyOrderItem`, `RevenueFlow`, `DEGContract` (+ the shared `BecknTimeSeries` and `EnergyResource`; `DiscomLedgerProvider` is defined only at schema.beckn.io).
 
-For the underlying meter-data sub-transaction shape, see **[MeterData v0.6 — Field reference](../../schemas/MeterData/v0.6/README.md)** (referenced indirectly — the trade-side meter quantities ride as `BecknTimeSeries` payloadTypes, not as a `MeterData` profile).
+For the underlying meter-data sub-transaction shape, see **[MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** (referenced indirectly — the trade-side meter quantities ride as `BecknTimeSeries` payloadTypes, not as a `MeterData` profile).
 
 ## 9. Schedule II — Report Templates
 
@@ -147,7 +147,7 @@ The cascade — Rules 1 / 2a / 2b — is implemented by the [`degledgerrecorder`
 | **[DEGContract](https://schema.beckn.io/DEGContract/)** | The envelope — roles, the rego policy URL, computed revenue flows |
 | **[DiscomLedgerProvider](https://schema.beckn.io/DiscomLedgerProvider/)** | The LP↔DISCOM binding (`utilityId`, `ledgerUrl`) |
 | **[BecknTimeSeries](https://schema.beckn.io/BecknTimeSeries/)** | Per-interval payload carrier — declares `payloadDescriptors` and `payloads[]` |
-| **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** *(optional)* | Seller's attestation of meter / sanctioned-load / DER details backing the offer |
+| **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** *(optional)* | Seller's attestation of meter / sanctioned-load / DER details backing the offer |
 
 A consolidated field reference is in **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)**.
 

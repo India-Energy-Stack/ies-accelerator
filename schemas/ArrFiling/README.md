@@ -12,7 +12,7 @@ Schema for Aggregate Revenue Requirement (ARR) filings made by electricity distr
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v0.5](v0.5/README.md) | **Current** | Three relational models: ArrFiling, ArrFiscalYear, ArrLineItem |
+| [v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) | **Current** | Three relational models: ArrFiling, ArrFiscalYear, ArrLineItem |
 
 ---
 

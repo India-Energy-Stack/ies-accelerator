@@ -83,7 +83,7 @@ The inheritance model in `attributes.yaml` has been strictly refactored:
       { "scheme": "CONSUMER_NUMBER", "value": "RR-1234" }
     ],
     "meterRefs": [
-      { "scheme": "METER_SERIAL", "value": "BESCOM-SM-2025-654321" }
+      { "scheme": "METER_SERIAL", "value": "DISCOM-SM-2025-654321" }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet",
     "intervalPeriod": {

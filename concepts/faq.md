@@ -94,7 +94,7 @@ Three things, in plain terms:
 
 ### Is IES live, or still on paper?
 
-**Live.** The sandbox is running, and four pilot DISCOMs ([PVVNL, APEPDCL, DGVCL, Tata Power](pilots.md)) have built in it.
+**Live.** The sandbox is running, and [four pilot DISCOMs](pilots.md) have built in it.
 
 ### What does the consumer receive?
 

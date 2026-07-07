@@ -148,7 +148,7 @@ Send an email with the fields below to the IES Secretariat. They write the refer
 What to send (fields the Secretariat needs to write your reference record):
 
 - Your short identifier (`<discom-short-code>` for DISCOMs, FQDN for NPs).
-- Your verified DeDi namespace (e.g. `tpddl`, `np.example.com`).
+- Your verified DeDi namespace (e.g. `discom`, `np.example.com`).
 - The DeDi lookup URL of either your **whole subscriber registry** (typically `subscribers-prod`) or a **single record** inside it — your choice depends on whether all your subscribers belong to the network or only some.
 - Whether the URL is a `Registry` or a `Record` (one of those two values).
 - Which IES network(s) you want to join (`ies-data-sharing-network` and/or `ies-p2p-trading-network` and/or `ies-der-integration-network`, plus the `test-` variant if you want sandbox first).
@@ -249,8 +249,8 @@ This is the one worked workflow worth carrying inline; everything else hangs off
 
 A wallet hands a verifier a signed ElectricityCredential. The verifier:
 
-1. **Parse** the credential JSON. Read `issuer.id` (e.g. `did:web:ies.tpddl.in`).
-2. **Resolve `issuer.id`** over HTTPS — fetch `https://ies.tpddl.in/.well-known/did.json` and extract the `verificationMethod` public key.
+1. **Parse** the credential JSON. Read `issuer.id` (e.g. `did:web:ies.discom.example`).
+2. **Resolve `issuer.id`** over HTTPS — fetch `https://ies.discom.example/.well-known/did.json` and extract the `verificationMethod` public key.
 3. **Verify the credential's `proof`** signature against that key. If it fails, stop — the credential is forged or corrupted.
 4. **(Optional) Check `issuer.idRef`** if present. Resolve `issuer.idRef.issuedBy` (the regulator's `did:web`) and confirm the regulator vouches for this DISCOM under the cited `subjectId`. This is the licensing leg of the trust chain; skip when `idRef` is absent.
 5. **Check revocation.** GET the URL in `credentialStatus.id` — typically `https://api.dedi.global/dedi/lookup/<discom>/vc-revocation-registry/<credential-id>`. A `404` (or `status: not_revoked`) means valid; a record with `status: revoked` means rejected.

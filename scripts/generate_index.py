@@ -79,6 +79,7 @@ def main():
             ("README.md", "Root-level introduction to the IES accelerator repository structure, standard protocols, and setup environment."),
             ("getting-started.md", "A 5-minute technical orientation covering IES core capabilities, roles, prerequisites, and developer onboarding options."),
             ("glossary.md", "A comprehensive directory defining energy, decentralized identity (DIDs, VCs), and Beckn protocol terms."),
+            ("download-pdf.md", "Where to download the auto-published, always-current printable PDF of this entire guide, and how to build it locally."),
             ("SUMMARY.md", "Table of Contents sidebar structure configuration for GitBook deployment.")
         ],
         "identifiers_setup": [
@@ -126,7 +127,7 @@ def main():
             ("use-cases/der-visibility/README.md", "Grid-side issuance of ElectricityCredential v1.2 — per-feeder view of every DER behind a DISCOM's meters."),
             ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
             ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
-            ("use-cases/p2p-energy-exchange/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.")
+            ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.")
         ],
         "pathways": [
             ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),

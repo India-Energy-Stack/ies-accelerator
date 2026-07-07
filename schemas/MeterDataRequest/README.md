@@ -12,8 +12,8 @@ Schema for querying smart meter telemetry. Specifies which meters, what data, an
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v0.6](v0.6/README.md) | **Current** | Split into three composable models: MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest |
-| [v0.5](v0.5/README.md) | Previous | Single unified request schema |
+| [v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) | **Current** | Split into three composable models: MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest |
+| [v0.5](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.5) | Previous | Single unified request schema |
 
 ---
 

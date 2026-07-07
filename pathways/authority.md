@@ -23,7 +23,7 @@ Before commencing the integration pathway, we recommend aligning the following i
 
 | Department / Role | System / Resource Involved | Purpose in Pathway |
 |---|---|---|
-| **IT / DNS Administrator** | Regulator's domain controller (e.g. `aperc.gov.in`) | Exposing a public `did:web` identity on the regulator's own domain |
+| **IT / DNS Administrator** | Regulator's domain controller (e.g. `serc.example`) | Exposing a public `did:web` identity on the regulator's own domain |
 | **Registry / Tariff Cell** | Existing tariff order and filing archives | Mapping historical ARR filings and tariff orders to the `ArrFiling` and (in-progress) tariff schemas |
 | **Legal / Registrar** | Statutory filing rules, Electricity Act provisions | Confirming that machine-readable filings and policy-as-code publication do not alter existing statutory obligations |
 | **IES Cell Nominee** | Representation on the IES Cell (under CEA) | Reviewing and accepting schema change proposals from across the sector |
@@ -38,21 +38,21 @@ In this phase, the regulator establishes its own institutional cryptographic ide
 <summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../what-ies-provides/identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads))</b></summary>
 
 ### 💡 Phase Advice
-> A regulator sets up its `did:web` exactly like a DISCOM does — there is no separate identity mechanism for authorities. Coordinate with your IT/DNS office early; the worked example used throughout the IES documentation is `did:web:ies.aperc.gov.in`, a regulator identity hosted on the regulator's own domain.
+> A regulator sets up its `did:web` exactly like a DISCOM does — there is no separate identity mechanism for authorities. Coordinate with your IT/DNS office early; the worked example used throughout the IES documentation is `did:web:ies.serc.example`, a regulator identity hosted on the regulator's own domain.
 
 ### 📋 Prework Required
-* Confirm that your IT/DNS office has write-access to a domain or subdomain (e.g. `ies.aperc.gov.in`) to host the verification path.
+* Confirm that your IT/DNS office has write-access to a domain or subdomain (e.g. `ies.serc.example`) to host the verification path.
 
 ### Execution Guidance
 A [`did:web`](../what-ies-provides/identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads) identifier leverages your existing DNS and SSL infrastructure to publish your public keys — the same "Org identity" flow documented for DISCOMs applies to regulators.
-1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g. `ies.aperc.gov.in`.
-2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path `https://ies.aperc.gov.in/.well-known/did.json`, following the same steps a DISCOM follows in [Setup Register](../how-you-implement-ies/setup-register.md).
+1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g. `ies.serc.example`.
+2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path `https://ies.serc.example/.well-known/did.json`, following the same steps a DISCOM follows in [Setup Register](../how-you-implement-ies/setup-register.md).
 3. **This `did:web` becomes your citable identity**: once published, this is the identifier DISCOMs reference (e.g. as `issuer.idRef` in a credential, or as the recipient in an `ArrFiling`) and the identity your own signatures on published tariff policies resolve back to.
 
 ### References & Anchors
 * [Identifiers and Addressing — Org identity for credentials and data-exchange payloads](../what-ies-provides/identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads)
-* [Identifiers and Addressing — ID patterns you'll use day one](../what-ies-provides/identifiers/README.md#id-patterns-youll-use-day-one) (`did:web:ies.derc.gov.in` as the regulator pattern)
-* [Setup Register — step-by-step identity walkthrough](../how-you-implement-ies/setup-register.md) (`did:web:ies.aperc.gov.in` worked example)
+* [Identifiers and Addressing — ID patterns you'll use day one](../what-ies-provides/identifiers/README.md#id-patterns-youll-use-day-one) (`did:web:ies.serc.example` as the regulator pattern)
+* [Setup Register — step-by-step identity walkthrough](../how-you-implement-ies/setup-register.md) (`did:web:ies.serc.example` worked example)
 * [Register overview](../what-ies-provides/register.md)
 </details>
 
@@ -93,7 +93,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 * [DISCOM Regulatory Filing — What It Records / Covers](../use-cases/discom-regulatory-filing/README.md#id-2.-what-it-records-covers)
 * [DISCOM Regulatory Filing — How Each Item is Identified](../use-cases/discom-regulatory-filing/README.md#id-3.-how-each-item-is-identified)
 * [ArrFiling Schema Overview](../what-ies-provides/schemas-overview/arr-filing.md)
-* [ArrFiling Schema Reference (v0.5)](../schemas/ArrFiling/v0.5/README.md)
+* [ArrFiling Schema Reference (v0.5)](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ArrFiling Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
 * [Taxonomy — Schema map (ArrFiling entry)](../what-ies-provides/taxonomy.md#data-exchange-payloads)
 </details>

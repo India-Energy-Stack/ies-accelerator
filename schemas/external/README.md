@@ -8,7 +8,7 @@ These tables are **auto-generated** from the schema sources by `scripts/generate
 
 ## Energy Trading (P2P)
 
-**[Use case](../../use-cases/p2p-energy-exchange/README.md) · [Devkit](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2)**
+**[Use case](../../use-cases/p2p-energy-trading/README.md) · [Devkit](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2)**
 
 A peer-to-peer trade is modelled as a `P2PTrade` contract (a beckn `Contract` subclass) whose energy-specific attributes are carried by the offer, customer, order-item, settlement and resource schemas below. `EnergyResource`, `DEGContract`, `RevenueFlow` and `BecknTimeSeries` are shared primitives — Demand Flexibility reuses them.
 

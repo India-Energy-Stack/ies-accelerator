@@ -1,6 +1,7 @@
 * [Home](/README.md)
 * [Getting Started](/getting-started.md)
 * [Glossary](/glossary.md)
+* [Download PDF](/download-pdf.md)
 
 ## What IES Provides
 
@@ -56,7 +57,7 @@
 * [DER Visibility](/use-cases/der-visibility/README.md)
 * [DISCOM Regulatory Filing](/use-cases/discom-regulatory-filing/README.md)
 * [Tariff Intelligence](/use-cases/tariff-intelligence/README.md)
-* [P2P Energy Exchange](/use-cases/p2p-energy-exchange/README.md)
+* [P2P Energy Trading](/use-cases/p2p-energy-trading/README.md)
 
 ## Reference
 

@@ -1,13 +1,13 @@
 # DISCOM Regulatory Filing
 
-A DISCOM's Aggregate Revenue Requirement (ARR), true-up, FPPCA or compliance filing submitted to its State Electricity Regulatory Commission (SERC) as a structured, signed object — the **[ArrFiling v0.5](../../schemas/ArrFiling/v0.5/README.md)** payload carried over **[IES Data Exchange](../../what-ies-provides/data-exchange/README.md)**.
+A DISCOM's Aggregate Revenue Requirement (ARR), true-up, FPPCA or compliance filing submitted to its State Electricity Regulatory Commission (SERC) as a structured, signed object — the **[ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** payload carried over **[IES Data Exchange](../../what-ies-provides/data-exchange/README.md)**.
 
 | | |
 |---|---|
 | **Document** | IES/DRF-PROFILE/0.5 |
 | **Status** | Live or staged |
 | **Applicability** | All distribution licensees and SERCs |
-| **This version** | DISCOM Regulatory Filing built on [ArrFiling v0.5](../../schemas/ArrFiling/v0.5/README.md) over Beckn. Replaces PDF/Excel submission with a machine-verifiable JSON-LD object signed by the DISCOM's `did:web`. |
+| **This version** | DISCOM Regulatory Filing built on [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) over Beckn. Replaces PDF/Excel submission with a machine-verifiable JSON-LD object signed by the DISCOM's `did:web`. |
 
 ---
 
@@ -35,10 +35,10 @@ Supporting workbooks — when used — ride as separate signed datasets in the s
 
 | Subject | Identifier method | Example |
 |---|---|---|
-| DISCOM (filer) | `did:web` on owned domain | `did:web:ies.bescom.in` |
-| SERC (recipient) | `did:web` on owned domain | `did:web:ies.kerc.gov.in` |
-| Filing | `filingId` — DISCOM-minted, stable across versions | `BESCOM-ARR-2026-27` |
-| Tariff order this filing answers | `policyID` — from [Tariff Intelligence](../tariff-intelligence/README.md) | `KA-TARIFF-ORDER-2025-26` |
+| DISCOM (filer) | `did:web` on owned domain | `did:web:ies.discom.example` |
+| SERC (recipient) | `did:web` on owned domain | `did:web:ies.serc.example` |
+| Filing | `filingId` — DISCOM-minted, stable across versions | `DISCOM-ARR-2026-27` |
+| Tariff order this filing answers | `policyID` — from [Tariff Intelligence](../tariff-intelligence/README.md) | `TARIFF-ORDER-2025-26` |
 | Line item | `lineItemId` — kebab-case, stable across years | `power-purchase-cost` |
 
 The DISCOM and SERC subscriber records on the Beckn fabric resolve through the **[IES DISCOMs](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)** and **[Regulators reference registries](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)** for public-key lookup. Resubmissions reuse the same `filingId`; versioning lives on the Beckn envelope (`updatedAt`), not the ID.
@@ -82,7 +82,7 @@ The filing is **not a holder-bound credential** — it does not need to be carri
 
 The full, authoritative field tables are in the schema:
 
-→ **[ArrFiling v0.5 — Field reference](../../schemas/ArrFiling/v0.5/README.md#field-reference)**
+→ **[ArrFiling v0.5 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5#field-reference)**
 
 Three tables: `ArrFiling` (root — filing identity, parties, currency, status), `ArrFiscalYear` (per-year basis and line items), `ArrLineItem` (the rows themselves). Each row carries `Field`, `Type`, the standard(s) it is **Based on**, and `Status` (Mandatory / Optional).
 
@@ -122,7 +122,7 @@ A SERC ingesting from multiple DISCOMs sees one schema, not n bespoke spreadshee
 
 | Schema | Role |
 |---|---|
-| **[ArrFiling v0.5](../../schemas/ArrFiling/v0.5/README.md)** | The payload — filing identity, fiscal years, line items |
+| **[ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** | The payload — filing identity, fiscal years, line items |
 | **[DatasetItem](../../what-ies-provides/data-exchange/README.md)** (DDM) | The Beckn envelope on the wire (`accessMethod: INLINE` for the filing; `SIGNED_URL` for any large workbook attachments) |
 
 ## Value Unlock
@@ -154,7 +154,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Exchange — adapter and submission
 
-- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [ArrFiling v0.5](../../schemas/ArrFiling/v0.5/README.md)
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 - [ ] DISCOM finance-system categories mapped to the `ArrFiling` `category` / `subCategory` enums (signed off by regulatory affairs + finance)
 - [ ] Tariff-order references (`policyID`) tracked per filing so each cites the order it answers
 - [ ] One prior-year filing converted, schema-validated, and reconciled line-item-by-line-item against the source PDF

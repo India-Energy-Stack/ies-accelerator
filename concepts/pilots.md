@@ -6,14 +6,7 @@ IES is **live**. The specifications have been published on this GitBook, the san
 
 ## The 30-day DISCOM Challenge
 
-**21 May 2026 – 21 June 2026.** The pilot DISCOMs built their IES adapters and demonstrated the four use cases live in the sandbox environment.
-
-| DISCOM | Location | State |
-|---|---|---|
-| **PVVNL** — Paschimanchal Vidyut Vitran Nigam Limited | Meerut | Uttar Pradesh |
-| **APEPDCL** — Eastern Power Distribution Company of Andhra Pradesh Limited | Visakhapatnam | Andhra Pradesh |
-| **DGVCL** — Dakshin Gujarat Vij Company Limited | Surat | Gujarat |
-| **Tata Power** | Mumbai | Maharashtra |
+**21 May 2026 – 21 June 2026.** Four pilot DISCOMs, spread across four States, built their IES adapters and demonstrated the four use cases live in the sandbox environment.
 
 ---
 
@@ -44,8 +37,8 @@ The artefacts — example payloads, schemas, configuration — are public in thi
 
 ## What is being added next
 
-- **P2P Energy Exchange** — schema published; pilot integrations being staged. See [external schemas](../schemas/external/README.md#energy-trading-p2p).
-- **OutageNotification** — [v0.1](../schemas/OutageNotification/v0.1/README.md) is published; no IES use-case guide yet.
+- **P2P Energy Trading** — schema published; pilot integrations being staged. See [external schemas](../schemas/external/README.md#energy-trading-p2p).
+- **OutageNotification** — [v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1) is published; no IES use-case guide yet.
 
 ---
 

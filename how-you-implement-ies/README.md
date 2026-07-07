@@ -51,11 +51,11 @@ For the full department-by-department mapping see the **[utility pathway prework
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  Step 1 — Setup Register                                                    │
 │  ───────────────────────                                                    │
-│  • Pick a domain (e.g. ies.apepdcl.in)                                      │
+│  • Pick a domain (e.g. ies.discom.example)                                  │
 │  • Generate a signing keypair (KMS / HSM)                                   │
 │  • Publish did.json at /.well-known/did.json                                │
 │  • Claim a DeDi namespace; verify it with a DNS TXT record                  │
-│  → Output: did:web:ies.apepdcl.in resolvable from anywhere                  │
+│  → Output: did:web:ies.discom.example resolvable from anywhere              │
 └─────────────────────────────────────────────────────────────────────────────┘
                                        │
                                        ▼

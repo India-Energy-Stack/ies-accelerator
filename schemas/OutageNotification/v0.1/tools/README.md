@@ -1,16 +1,16 @@
-# Tools — PVVNL planned-shutdown → OutageNotification
+# Tools — DISCOM planned-shutdown → OutageNotification
 
 A worked example of turning a DISCOM's tabular planned-shutdown publication into the `OutageNotification` schema.
 
 | File | Description |
 |------|-------------|
-| [`pvvnl_planned_shutdown.csv`](pvvnl_planned_shutdown.csv) | Sample input mirroring the columns of the PVVNL "Detail of Planned Shutdown" sheet ([source PDF](https://pvvnl.org/uploads/news/1782054913.pdf)). One row per feeder; rows sharing `group_id` belong to one shutdown. Includes English and Hindi (Devanagari) reasons/areas. |
-| [`transform_pvvnl_csv.py`](transform_pvvnl_csv.py) | Transformer: CSV → array of `OutageNotification` JSON. |
+| [`discom_planned_shutdown.csv`](discom_planned_shutdown.csv) | Sample input mirroring the columns of a DISCOM's "Detail of Planned Shutdown" sheet. One row per feeder; rows sharing `group_id` belong to one shutdown. Includes English and Hindi (Devanagari) reasons/areas. |
+| [`transform_discom_csv.py`](transform_discom_csv.py) | Transformer: CSV → array of `OutageNotification` JSON. |
 
 ## Run
 
 ```bash
-python3 transform_pvvnl_csv.py pvvnl_planned_shutdown.csv -o ../examples/pvvnl_planned_shutdown.json
+python3 transform_discom_csv.py discom_planned_shutdown.csv -o ../examples/discom_planned_shutdown.json
 # validate (from repo root):
 python3 scripts/validate_schema.py schemas/OutageNotification/v0.1/schema.json schemas/OutageNotification/v0.1/examples
 ```

@@ -7,20 +7,20 @@
   "id": "urn:uuid:c1d2e3f4-0002-0000-0000-aabbccddeeff",
   "type": ["VerifiableCredential", "MeterDataCredential"],
   "issuer": {
-    "id": "did:web:amisp-bescom.in",
-    "name": "BESCOM AMISP – Smart Metering Data Platform",
-    "licenseNumber": "KERC-AMISP-2025-007"
+    "id": "did:web:amisp.ies.example",
+    "name": "Example AMISP – Smart Metering Data Platform",
+    "licenseNumber": "SERC-AMISP-2025-007"
   },
   "validFrom": "2026-04-01T00:00:00Z",
   "validUntil": "2027-04-01T00:00:00Z",
   "credentialStatus": {
-    "id": "https://dedi.global/dedi/query/did:web:amisp-bescom.in/vc-revocation-registry",
+    "id": "https://dedi.global/dedi/query/did:web:amisp.ies.example/vc-revocation-registry",
     "type": "dediregistry",
     "statusPurpose": "revocation",
-    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:amisp-bescom.in/vc-revocation-registry"
+    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:amisp.ies.example/vc-revocation-registry"
   },
   "credentialSubject": {
-    "id": "did:dedi:bescom:consumers:RR-1234",
+    "id": "did:dedi:discom:consumers:RR-1234",
     "meterData": [
       {
         "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
@@ -44,8 +44,8 @@
         "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
         "@type": "IntervalProfile",
         "profileType": "INTERVAL",
-        "meterRefs": [{"scheme": "DID", "value": "did:dedi:bescom:assets:meter:BESCOM-SM-2025-654321"}],
-        "serviceDeliveryPointRefs": [{"scheme": "DID", "value": "did:dedi:bescom:connections:SDP-BLR-A-12345"}],
+        "meterRefs": [{"scheme": "DID", "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321"}],
+        "serviceDeliveryPointRefs": [{"scheme": "DID", "value": "did:dedi:discom:connections:SDP-BLR-A-12345"}],
         "payloadDescriptorSetRef": "DESC-INTERVAL-BLR-2026Q1",
         "compactSequenceRef": "IntervalSeq",
         "intervalPeriod": {"start": "2026-01-01T00:00:00+05:30", "duration": "PT15M"},
@@ -61,7 +61,7 @@
   "proof": {
     "type": "Ed25519Signature2020",
     "created": "2026-04-01T00:00:00Z",
-    "verificationMethod": "did:web:amisp-bescom.in#key-1",
+    "verificationMethod": "did:web:amisp.ies.example#key-1",
     "proofPurpose": "assertionMethod",
     "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
   }
