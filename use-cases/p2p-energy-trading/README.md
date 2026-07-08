@@ -110,22 +110,16 @@ The closest analogues are the **per-DISCOM monthly bill** (which excludes the tr
 
 ```mermaid
 flowchart LR
-  subgraph BS["Buyer side"]
-    direction TB
-    Buyer["Buyer<br/>prosumer"] --- BuyerTP["BuyerTP<br/>BAP — trading platform"]
-    BuyerTP <-- "Beckn<br/>contract • allocations • settled qty" --> BuyerDL["BuyerDiscomLedger<br/>regulated LP"]
-    BuyerDL -. "meter data — Beckn" .- BuyerDiscom["Buyer's<br/>DISCOM"]
-  end
-  subgraph SS["Seller side"]
-    direction TB
-    Seller["Seller<br/>prosumer"] --- SellerTP["SellerTP<br/>BPP — trading platform"]
-    SellerTP <-- "Beckn<br/>contract • allocations • settled qty" --> SellerDL["SellerDiscomLedger<br/>regulated LP"]
-    SellerDL -. "meter data — Beckn" .- SellerDiscom["Seller's<br/>DISCOM"]
-  end
-  BS <-- "Beckn — TP ↔ TP<br/>select / init / confirm / status" --> SS
+  BuyerDiscom["Buyer's<br/>DISCOM"] -. "meter data — Beckn" .- BuyerDL["BuyerDiscomLedger<br/>regulated LP"]
+  Buyer["Buyer<br/>prosumer"] --- BuyerTP["BuyerTP<br/>BAP — trading platform"]
+  BuyerDL <-- "Beckn<br/>contract • allocations • settled qty" --> BuyerTP
+  BuyerTP <-- "Beckn<br/>select / init / confirm / status" --> SellerTP["SellerTP<br/>BPP — trading platform"]
+  SellerTP --- Seller["Seller<br/>prosumer"]
+  SellerTP <-- "Beckn<br/>contract • allocations • settled qty" --> SellerDL["SellerDiscomLedger<br/>regulated LP"]
+  SellerDL -. "meter data — Beckn" .- SellerDiscom["Seller's<br/>DISCOM"]
 ```
 
-Everything buyer-side runs down the left column; everything seller-side runs down the right — the TP ↔ TP link between the two columns connects BuyerTP and SellerTP. Two regulated LPs in the protocol — one per DISCOM. No central exchange. The two LPs never speak to each other directly; the two TPs are the only liaison between them. Discovery (not drawn) goes through the network's Discovery service: the SellerTP lists offers via `publish-catalog`, the BuyerTP queries with `discover`.
+Everything buyer-side sits on the left, everything seller-side mirrors it on the right, and the two TPs meet in the middle over the `select / init / confirm / status` leg. Two regulated LPs in the protocol — one per DISCOM. No central exchange. The two LPs never speak to each other directly; the two TPs are the only liaison between them. Discovery (not drawn) goes through the network's Discovery service: the SellerTP lists offers via `publish-catalog`, the BuyerTP queries with `discover`.
 
 ### The six phases
 
