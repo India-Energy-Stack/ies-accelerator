@@ -136,6 +136,8 @@ sequenceDiagram
   participant SDL as SellerLP
   participant S as Seller
 
+  Note over B,S: Shaded bands = automated by ONIX plugins (degledgerrecorder, settlementflows) — you configure them, you don't code them. Unshaded arrows = your application logic.
+
   Note over BTP,STP: Phase 1 - Discovery
   STP->>DS: publish-catalog (EnergyTradeOffer)
   BTP->>DS: discover (intent filter)
@@ -149,11 +151,15 @@ sequenceDiagram
 
   Note over BDL,SDL: Phase 3 - Confirm
   BTP->>STP: confirm
-  STP->>SDL: on_confirm (blocking ledger write)
-  SDL-->>STP: ACK
+  rect rgba(128,128,128,0.18)
+    STP->>SDL: on_confirm (blocking ledger write)
+    SDL-->>STP: ACK
+  end
   STP->>BTP: on_confirm
-  BTP->>BDL: on_confirm (blocking ledger write)
-  BDL-->>BTP: ACK
+  rect rgba(128,128,128,0.18)
+    BTP->>BDL: on_confirm (blocking ledger write)
+    BDL-->>BTP: ACK
+  end
 
   Note over B,S: Phase 4 - Delivery
   S->>S: inject
@@ -161,17 +167,24 @@ sequenceDiagram
 
   Note over BDL,SDL: Phase 5 - Allocation and reconciliation
   BDL->>BTP: on_status (buyer-side allocation)
-  BTP->>STP: on_status (Rule 2a - forward to peer)
-  STP->>SDL: on_status (Rule 2b - record with sellerLP)
+  rect rgba(128,128,128,0.18)
+    BTP->>STP: on_status (Rule 2a - forward to peer)
+    STP->>SDL: on_status (Rule 2b - record with sellerLP)
+  end
   SDL->>STP: on_status (seller-side allocation, settled qty with FINAL_ALLOC)
-  STP->>BTP: on_status (Rule 2a - forward to peer)
-  BTP->>BDL: on_status (Rule 2b - record with buyerLP)
+  rect rgba(128,128,128,0.18)
+    Note over STP: settlementflows step computes settlement flows
+    STP->>BTP: on_status (Rule 2a - forward to peer)
+    BTP->>BDL: on_status (Rule 2b - record with buyerLP)
+  end
 
   Note over B,S: Phase 6 - Billing and settlement
   B->>S: pay for the trade (off-ledger, via TPs)
   SDL->>S: monthly bill (excl. traded sold, incl. wheeling)
   BDL->>B: monthly bill (excl. traded bought, incl. wheeling)
 ```
+
+The shaded legs ship with ONIX: the `degledgerrecorder` cascades and the `settlementflows` computation run inside the adapter from config alone. What is left for your application: the buyer TP drives `discover` → `select` → `init` → `confirm`; the seller TP publishes its catalog and answers `on_select` / `on_init` / `on_confirm`; each LP computes allocations and emits them as `on_status`; each DISCOM supplies meter data to its LP.
 
 1. **Discovery** — SellerTP lists an `EnergyTradeOffer` catalog (`publish-catalog`); BuyerTP queries the Discovery service with `discover` and a JSONPath intent filter.
 2. **Select and init** — quantity and price refined; optional LP headroom pre-check.
