@@ -82,7 +82,7 @@ The whole protocol — the four-actor topology, the `BecknTimeSeries` payload vo
 
 The P2P Energy Trading flow produces three distinct kinds of signed artefact per trade:
 
-1. The **contract** — `DEGContract` carrying a `P2PTrade` body. Recorded by both TPs and both LPs at `/confirm`.
+1. The **contract** — `DEGContract` carrying a `P2PTrade` body. Recorded by both TPs and both LPs at confirm time (each LP receives it as a blocking `on_confirm` forward from its TP).
 2. The **per-interval allocation series** — `BecknTimeSeries` carrying buyer-DISCOM allocation, seller-DISCOM allocation, final allocation. Recorded by both LPs and both TPs as Phase 5 cascades.
 3. The **settlement-flow record** — computed by the settlement Rego bundle from the final allocation via the `settlementflows` ONIX step; signed by the policy author and stored in `message.contract.consideration[id=auto-settlement-flows].considerationAttributes` (wire key `revenueFlows`, type `RevenueFlow`).
 
@@ -159,9 +159,11 @@ sequenceDiagram
 
   Note over BDL,SDL: Phase 3 - Confirm
   BTP->>STP: confirm
-  STP->>SDL: confirm (Rule 1)
-  BTP->>BDL: confirm
+  STP->>SDL: on_confirm (blocking ledger write)
+  SDL-->>STP: ACK
   STP->>BTP: on_confirm
+  BTP->>BDL: on_confirm (blocking ledger write)
+  BDL-->>BTP: ACK
 
   Note over B,S: Phase 4 - Delivery
   S->>S: inject
@@ -182,7 +184,7 @@ sequenceDiagram
 
 1. **Discovery** — SellerTP lists an `EnergyTradeOffer` catalog (`publish-catalog`); BuyerTP queries the Discovery service with `discover` and a JSONPath intent filter.
 2. **Select and init** — quantity and price refined; optional LP headroom pre-check.
-3. **Confirm** — contract written to both LPs via the `degledgerrecorder` cascade (Rule 1).
+3. **Confirm** — the buyer's `confirm` is answered by the seller's `on_confirm`; as that `on_confirm` travels, each TP's `degledgerrecorder` forwards a rewritten copy to its own LP and **blocks until the LP ACKs** — seller-side before the `on_confirm` leaves for the buyer, buyer-side before the buyer app receives it. The LPs do not emit an `on_confirm` of their own; their sync ACK is the record receipt.
 4. **Delivery** — seller injects, buyer consumes.
 5. **Allocation and reconciliation** — each LP receives meter data from its DISCOM; computes its side's allocation; TPs exchange allocations to compute `FINAL_ALLOC`; settled quantity cascades back to LPs (Rule 2b); the `settlementflows` step computes the settlement flows from the settled quantity.
 6. **Billing and settlement** — buyer pays seller (off-ledger via TPs); DISCOM monthly bills are adjusted accordingly.
@@ -195,7 +197,8 @@ The hard part of a four-actor topology is making sure every contract and every a
 
 | Rule | Trigger | What the plugin does |
 |---|---|---|
-| **Rule 1** — record with your own ledger | `/confirm` or `/status` arrives at a TP's `/bpp/receiver` | Cascade a copy to the TP's **own** DISCOM's LP. The LP endpoint is read from the payload itself — `participants[role=…Discom].participantAttributes.ledgerUrl` (`ledgerUriSource: payload`) — not from static config. For `on_confirm` the ledger write is **blocking**: ONIX forwards the `on_confirm` to the buyer only after the LP has ACKed, so a confirmed trade is by definition a recorded trade. |
+| **Confirm record** — blocking ledger write | The seller TP emits `on_confirm` (at `/bpp/caller`); the buyer TP receives it (at `/bap/receiver`) | Each TP forwards a context-rewritten `on_confirm` to its **own** DISCOM's LP and **blocks until the LP ACKs**: the `on_confirm` leaves the seller only after the seller-side ledger has recorded it, and reaches the buyer app only after the buyer-side ledger has. A confirmed trade is by definition a recorded trade. The LPs answer with a synchronous ACK — they do not emit an `on_confirm` of their own. There is no cascade on the `/confirm` request itself. |
+| **Rule 1** — record status with your own ledger | `/status` arrives at a TP's `/bpp/receiver` | Cascade a copy (async) to the TP's **own** DISCOM's LP. The LP endpoint is read from the payload itself — `participants[role=…Discom].participantAttributes.ledgerUrl` (`ledgerUriSource: payload`) — not from static config. |
 | **Rule 2a** — own DISCOM spoke: forward to the peer | `/on_status` arrives at a TP's `/bap/receiver` **and** `context.bppId` equals the TP's own DISCOM's participantId | The TP's own LP has just computed its allocation. Forward the `on_status` to the **peer TP**, so the peer can record it and trigger its own DISCOM cascade. |
 | **Rule 2b** — peer spoke: record with your own DISCOM | `/on_status` arrives at `/bap/receiver` from anyone **other than** the own DISCOM (i.e. the peer TP) | Push the payload to the TP's **own** LP so it records the full bilateral settlement. Skipped when the payload carries no performance data (a bare status-check ACK is not cascaded). |
 
@@ -214,11 +217,12 @@ If a cascade leg exhausts its retries, the plugin returns a best-effort error `o
 
 ### Ledger interfaces
 
-Each LP exposes the same Beckn endpoints any BPP exposes:
+Each LP runs both a BPP and a BAP face:
 
-- `/bpp/receiver` — accepts `/confirm` (contract entry) and `/status` (meter-data sub-transactions).
-- `/bap/receiver` — accepts `/on_confirm` and `/on_status` callbacks from the TPs.
-- `/bap/caller` — emits `/status` requests (e.g. meter-data pulls) toward the DISCOM actor.
+- `/bap/receiver` — accepts the blocking `on_confirm` forward (contract entry, answered with a synchronous ACK) and `on_status` callbacks (e.g. meter data from the DISCOM).
+- `/bpp/receiver` — accepts the `/status` cascades from the TPs (Rule 1).
+- `/bpp/caller` — emits `on_status` callbacks (allocations, settled quantities) toward the TPs.
+- `/bap/caller` — emits `/status` requests (meter-data pulls) toward the DISCOM actor's `/bpp/receiver`.
 
 Authentication is the standard Beckn signing flow against the network registry. Nothing custom is required of the implementer beyond the ONIX config blocks the devkit ships.
 
