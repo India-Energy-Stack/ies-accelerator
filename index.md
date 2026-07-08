@@ -1282,14 +1282,27 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/p2p-energy-trading/README.md#7-the-records">7. The Records</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#8-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#10-how-it-fits-together">10. How It Fits Together</a>      <ul>
+        <li><a href="use-cases/p2p-energy-trading/README.md#the-six-phases">The six phases</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#auto-routing-of-contracts-and-allocations">Auto-routing of contracts and allocations</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#payload-snapshots">Payload snapshots</a>
+      </li>
+      </ul>
       <li><a href="use-cases/p2p-energy-trading/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#policy-as-code-rego-opa">Policy-as-code (Rego / OPA)</a>      <ul>
+        <li><a href="use-cases/p2p-energy-trading/README.md#network-policy">Network policy</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#settlement-policy">Settlement policy</a>
+      </li>
+      </ul>
       <li><a href="use-cases/p2p-energy-trading/README.md#value-unlock">Value Unlock</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
+        <li><a href="use-cases/p2p-energy-trading/README.md#step-0-see-it-run-before-you-build-local-devkit">Step 0 — See it run before you build (local devkit)</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#register-four-actor-network-identity">Register — four-actor network identity</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#discover-wave-2-topology">Discover — wave-2 topology</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#discover-catalog-and-offers">Discover — catalog and offers</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#exchange-adapter-cascade-policy">Exchange — adapter, cascade, policy</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#go-live-join-the-production-network">Go live — join the production network</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#team">Team</a>
       </li>
       </ul>
