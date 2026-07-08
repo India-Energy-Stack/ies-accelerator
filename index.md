@@ -1284,7 +1284,7 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/p2p-energy-trading/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#10-how-it-fits-together">10. How It Fits Together</a>      <ul>
         <li><a href="use-cases/p2p-energy-trading/README.md#the-six-phases">The six phases</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#auto-routing-of-contracts-and-allocations-rules-1-2a-2b">Auto-routing of contracts and allocations — Rules 1, 2a, 2b</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#auto-routing-of-contracts-and-allocations">Auto-routing of contracts and allocations</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#payload-snapshots">Payload snapshots</a>
       </li>
