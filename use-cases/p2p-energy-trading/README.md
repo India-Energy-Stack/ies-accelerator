@@ -11,6 +11,12 @@ Two prosumers on different DISCOMs execute a direct, signed energy trade. Each D
 
 **In a hurry to prototype?** Jump to [Setup](#setup-register-discover-exchange) — a local four-actor network runs in one `docker compose up`.
 
+| If you are a… | Start here |
+|---|---|
+| **Trading platform** (BAP / BPP) | [The six phases](#the-six-phases) — the unshaded arrows are yours · [Payload snapshots](#payload-snapshots) · [Setup](#setup-register-discover-exchange) (role matrix at the end) |
+| **Ledger Provider** (LP) | [The cascade choreography](#the-cascade-choreography-rules-1-2a-2b) · [Ledger interfaces](#ledger-interfaces) · [Setup](#setup-register-discover-exchange) |
+| **DISCOM** (utility) | [Payload snapshots](#payload-snapshots) — the allocation columns are yours · the DISCOM rows in [Setup → Exchange](#exchange-adapter-cascade-policy) |
+
 ---
 
 ## 1. Scope and Purpose
@@ -228,6 +234,70 @@ Each LP runs both a BPP and a BAP face:
 - `/bap/caller` — emits `/status` requests (meter-data pulls) toward the DISCOM actor's `/bpp/receiver`.
 
 Authentication is the standard Beckn signing flow against the network registry. Nothing custom is required of the implementer beyond the ONIX config blocks the devkit ships.
+
+### Payload snapshots
+
+One `BecknTimeSeries` envelope carries the whole trade; what changes between phases is only **which payloadType columns exist and who inserts them** (`insertedBy`). Three moments from the devkit's [uc1 examples](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2/uc1/examples), trimmed to one interval:
+
+**1 — At confirm (trade negotiation).** The TPs have inserted the negotiation columns (`objectType: EVENT_PAYLOAD_DESCRIPTOR`); no allocation data exists yet:
+
+```json
+"commitmentAttributes": {
+  "@context": "https://schema.beckn.io/BecknTimeSeries/v1.0/context.jsonld",
+  "@type": "TimeSeries",
+  "intervalPeriod": { "start": "2026-04-26T04:30:00Z", "duration": "PT1H" },
+  "payloadDescriptors": [
+    { "objectType": "EVENT_PAYLOAD_DESCRIPTOR", "payloadType": "PRICE_PER_KWH", "currency": "INR", "insertedBy": "sellerPlatform" },
+    { "objectType": "EVENT_PAYLOAD_DESCRIPTOR", "payloadType": "REQUESTED_QTY", "units": "KWH", "insertedBy": "buyerPlatform" }
+  ],
+  "intervals": [
+    { "id": 0, "payloads": [
+      { "type": "PRICE_PER_KWH", "values": [12.5] },
+      { "type": "REQUESTED_QTY", "values": [20.5] } ] }
+  ]
+}
+```
+
+**2 — During reconciliation (DISCOM allocation).** Same envelope, same intervals — the DISCOM sides have appended their allocation columns (`objectType: REPORT_PAYLOAD_DESCRIPTOR`). Note `FINAL_ALLOC ≤ min(BUYER_DISCOM_ALLOC, SELLER_DISCOM_ALLOC)` — the network policy enforces it per interval:
+
+```json
+"payloadDescriptors": [
+  { "objectType": "EVENT_PAYLOAD_DESCRIPTOR",  "payloadType": "PRICE_PER_KWH", "currency": "INR", "insertedBy": "sellerPlatform" },
+  { "objectType": "EVENT_PAYLOAD_DESCRIPTOR",  "payloadType": "REQUESTED_QTY", "units": "KWH", "insertedBy": "buyerPlatform" },
+  { "objectType": "REPORT_PAYLOAD_DESCRIPTOR", "payloadType": "BUYER_DISCOM_ALLOC", "units": "KWH", "insertedBy": "buyerDiscom" },
+  { "objectType": "REPORT_PAYLOAD_DESCRIPTOR", "payloadType": "SELLER_DISCOM_ALLOC", "units": "KWH", "insertedBy": "sellerDiscom" },
+  { "objectType": "REPORT_PAYLOAD_DESCRIPTOR", "payloadType": "FINAL_ALLOC", "units": "KWH", "insertedBy": "sellerDiscom" }
+],
+"intervals": [
+  { "id": 0, "payloads": [
+    { "type": "PRICE_PER_KWH", "values": [12.5] },
+    { "type": "REQUESTED_QTY", "values": [20.5] },
+    { "type": "BUYER_DISCOM_ALLOC", "values": [18.5] },
+    { "type": "SELLER_DISCOM_ALLOC", "values": [19.2] },
+    { "type": "FINAL_ALLOC", "values": [18.5] } ] }
+]
+```
+
+(The full example also carries `BUYER_DISCOM_STATUS` / `SELLER_DISCOM_STATUS` string columns — `COMPLETED` per interval.)
+
+**3 — Settlement flows.** As the settled `on_status` passes the seller TP, the `settlementflows` step evaluates the DeDi-published rego and injects the result into the contract's `consideration` block — no application wrote this:
+
+```json
+"consideration": [
+  { "id": "auto-settlement-flows",
+    "considerationAttributes": {
+      "@context": "https://schema.beckn.io/RevenueFlow/v2.0/context.jsonld",
+      "@type": "RevenueFlow",
+      "revenueFlows": [
+        { "role": "buyerPlatform",  "value": -437.15, "currency": "INR", "description": "Energy purchase cost (18.5 kWh × ₹12.5 + 14.2 kWh × ₹14.5)" },
+        { "role": "sellerPlatform", "value": 437.15,  "currency": "INR", "description": "Energy sale proceeds" },
+        { "role": "buyerDiscom",    "value": 0, "currency": "INR", "description": "Buyer-side wheeling charge (placeholder — currently 0)" },
+        { "role": "sellerDiscom",   "value": 0, "currency": "INR", "description": "Seller-side wheeling + penalty (placeholder — currently 0)" }
+      ] } }
+]
+```
+
+The flows sum to zero across the four roles. When real wheeling/penalty tariff rules land in the rego, the DISCOM rows take non-zero values — no payload or code change needed.
 
 ## 11. Points for Confirmation
 

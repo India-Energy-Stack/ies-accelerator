@@ -1285,7 +1285,8 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/p2p-energy-trading/README.md#10-how-it-fits-together">10. How It Fits Together</a>      <ul>
         <li><a href="use-cases/p2p-energy-trading/README.md#the-six-phases">The six phases</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#the-cascade-choreography-rules-1-2a-2b">The cascade choreography — Rules 1, 2a, 2b</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a>
+        <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
+        <li><a href="use-cases/p2p-energy-trading/README.md#payload-snapshots">Payload snapshots</a>
       </li>
       </ul>
       <li><a href="use-cases/p2p-energy-trading/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
