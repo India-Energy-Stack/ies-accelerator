@@ -146,10 +146,6 @@ sequenceDiagram
   STP->>BTP: on_select
   BTP->>STP: init
   STP->>BTP: on_init
-  opt LP headroom pre-check
-    BTP->>BDL: init
-    STP->>SDL: init
-  end
 
   Note over BDL,SDL: Phase 3 - Confirm
   BTP->>STP: confirm
