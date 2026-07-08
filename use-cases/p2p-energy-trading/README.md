@@ -32,7 +32,7 @@ For one peer-to-peer trade the records carry:
 - per-DISCOM **meter-data sub-transactions** delivered during reconciliation — actual injected / consumed quantities per interval, supplied by the DISCOM to its contracted LP as input to allocation (rides inside the same `message.contract` envelope as `BecknTimeSeries`; **not** a separate `MeterData` exchange);
 - the **settlement flows** — computed by the settlement Rego bundle from the final allocation; signed and recorded inside the contract. (The JSON-LD key on the wire is `revenueFlows`, of type `RevenueFlow` — the mechanism and the ONIX step that computes it are named *settlement flows*.)
 
-Customer PII and meter data stay with the customer's own DISCOM and TP. Price stays between the two TPs only. Each LP sees only its own side's allocation and the settled quantity for its counterparty.
+Customer PII and raw meter data stay with the customer's own DISCOM and TP. Both LPs record the confirmed contract — including the agreed price — and the cascaded allocation and settled-quantity updates.
 
 ## 3. How Each Item is Identified
 
@@ -213,7 +213,6 @@ Chained together they produce one linear path per update, and the choreography i
 **What the rules enable:**
 
 - **No central exchange, full replication** — all four parties converge on the same contract and allocation state through pairwise Beckn legs only.
-- **Privacy by structure** — each LP only ever receives what cascades to it: its own side's allocation and the final settled quantity. Price negotiation stays TP↔TP; meter detail stays DISCOM↔LP. The boundaries in [§2](#id-2.-what-it-records-covers) are enforced by the message flow, not by trust.
 - **Zero choreography code for implementers** — a TP or LP enables the plugin and edits the `participants` block; the routes are read from the payload's participants, so inter-DISCOM, intra-DISCOM and single-platform-prosumer topologies all work from the same config.
 - **A per-leg audit trail** — every cascade leg rewrites `context.bapId` / `bapUri` / `bppId` / `bppUri` for the sub-transaction and is separately signed, so each hop is independently attributable end-to-end.
 
@@ -317,15 +316,6 @@ docker compose up -d
 This starts the buyer side (`onix-buyerapp`, `sandbox-buyerapp`, `onix-ledger-buyerdiscom`, `onix-buyerdiscom`), the seller side (`onix-sellerapp`, `sandbox-sellerapp`, `onix-ledger-sellerdiscom`, `onix-sellerdiscom`), and one `beckn-router` (Caddy) on `:9000` resolving each actor by per-node hostname (e.g. `seller-discom-ledger.example.com`). The sandbox containers stand in for your application; the ONIX containers are the adapters you will keep.
 
 **Drive the flow from Postman.** Four collections sit under [`uc1/postman/`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2/uc1/postman) — one per role (buyer TP, seller TP, buyer DISCOM ledger, seller DISCOM ledger). Import the role you are integrating, leave the defaults in place, and fire `publish-catalog` / `discover` (buyer TP) then `/select` → `/init` → `/confirm` → `/status`. The full Phase 1–5 lifecycle is covered by the role-specific requests.
-
-**Or run the whole lifecycle scripted** with the Arazzo workflows:
-
-```bash
-cd DEG/devkits/p2p-trading-ies-wave2/uc1
-npx @redocly/cli respect workflows/p2p-trading-ies-wave2.arazzo.yaml -v
-```
-
-(Known issue: the `discover` workflow trips a JSONPath-filter parse bug in Redocly itself — that one failure is expected and not a devkit fault; every other workflow should pass.)
 
 ### Register — four-actor network identity
 
