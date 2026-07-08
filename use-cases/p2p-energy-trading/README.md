@@ -17,6 +17,8 @@ Two prosumers on different DISCOMs execute a direct, signed energy trade. Each D
 | **Ledger Provider** (LP) | [Auto-routing of contracts and allocations](#auto-routing-of-contracts-and-allocations) · [Ledger interfaces](#ledger-interfaces) · [Setup](#setup-register-discover-exchange) |
 | **DISCOM** (utility) | [Payload snapshots](#payload-snapshots) — the allocation columns are yours · the DISCOM rows in [Setup → Exchange](#exchange-adapter-cascade-policy) |
 
+> **Current deployment.** The architecture supports one Ledger Provider per DISCOM, but to start with **all trading platforms connect to a single Ledger Provider**, hosted at `ies-p2p-energy-ledger.beckn.io` — the two LPs in the diagrams below collapse into one (the intra-DISCOM topology; same protocol, fewer hops). The network namespaces are `indiaenergystack.in/test-ies-p2p-trading-network` (test) and `indiaenergystack.in/ies-p2p-trading-network` (production) — use them as the `networkId` in your ONIX adapter's configuration, described in [How you implement IES → Setup Discovery (ONIX)](../../how-you-implement-ies/setup-discovery.md).
+
 ---
 
 ## 1. Scope and Purpose
@@ -390,7 +392,7 @@ This starts the buyer side (`onix-buyerapp`, `sandbox-buyerapp`, `onix-ledger-bu
 ### Register — four-actor network identity
 
 - [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete for your role (TP, LP, or DISCOM)
-- [ ] DeDi subscriber record under the correct network namespace
+- [ ] DeDi subscriber record under the correct network namespace — `indiaenergystack.in/test-ies-p2p-trading-network` (test), `indiaenergystack.in/ies-p2p-trading-network` (production)
 - [ ] Signing key in a secrets manager
 - [ ] (LP) `DiscomLedgerProvider` entry registered with the LP↔DISCOM `utilityId` binding
 
