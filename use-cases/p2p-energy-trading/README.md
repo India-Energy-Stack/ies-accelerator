@@ -14,7 +14,7 @@ Two prosumers on different DISCOMs execute a direct, signed energy trade. Each D
 | If you are a… | Start here |
 |---|---|
 | **Trading platform** (BAP / BPP) | [The six phases](#the-six-phases) — the unshaded arrows are yours · [Payload snapshots](#payload-snapshots) · [Setup](#setup-register-discover-exchange) (role matrix at the end) |
-| **Ledger Provider** (LP) | [The cascade choreography](#the-cascade-choreography-rules-1-2a-2b) · [Ledger interfaces](#ledger-interfaces) · [Setup](#setup-register-discover-exchange) |
+| **Ledger Provider** (LP) | [Auto-routing of contracts and allocations](#auto-routing-of-contracts-and-allocations-rules-1-2a-2b) · [Ledger interfaces](#ledger-interfaces) · [Setup](#setup-register-discover-exchange) |
 | **DISCOM** (utility) | [Payload snapshots](#payload-snapshots) — the allocation columns are yours · the DISCOM rows in [Setup → Exchange](#exchange-adapter-cascade-policy) |
 
 ---
@@ -50,7 +50,7 @@ Participants are identified by their plain **network subscriber IDs** — the `p
 | Ledger Provider (LP) | Network subscriber ID | `seller-discom-ledger.example.com` |
 | DISCOM | Network subscriber ID; bound to its LP by `utilityId` in the `DiscomLedgerProvider` block | `buyerdiscom.example.com` (`utilityId: TEST_DISCOM_BUYER`) |
 | Buyer / Seller (prosumer) | Represented by their TP — the contract's `roles[buyer/seller]` carry the TP's subscriber ID; the prosumer is pinned by their meter reference | `roles[buyer].participantId = buyerapp.example.com` |
-| Meter / DT / feeder referenced in the trade | Existing utility asset IDs; optionally wrapped in the `did:web` convention (per [SMDX](../smart-meter-data-exchange/README.md#id-3.-how-each-item-is-identified)) — not required | `NM-44091234` |
+| Meter / DT / feeder referenced in the trade | Existing utility asset ID wrapped as `did:web:<discom-id>:meters:<meter-number>` (per [SMDX](../smart-meter-data-exchange/README.md#id-3.-how-each-item-is-identified)) | `did:web:buyerdiscom.example.com:meters:NM-44091234` |
 | Network policy bundle | DeDi-published Rego record URL (`policyUrl`) | `https://api.dedi.global/dedi/lookup/…/p2p-trading-ies-wave2_network` |
 | Settlement policy bundle | DeDi-published Rego record URL | `https://api.dedi.global/dedi/lookup/indiaenergystack.in/ies-policies/ies-p2p-network-settlement-rego-policy-v1` |
 
@@ -65,7 +65,7 @@ No new identifier scheme. The four-actor topology reuses the same subscriber-reg
 - **Intra-DISCOM** — buyer and seller served by the same DISCOM; the two LPs collapse into one.
 - **Discovery service** — the network service that answers `discover` queries against catalogs that provider nodes have listed via `publish-catalog`.
 - **`BecknTimeSeries`** — the per-interval payload carrier; declares `payloadDescriptors` (each column's `payloadType` and `insertedBy`) and per-interval `payloads[]`.
-- **Cascade** — the choreography by which `confirm` and settled-quantity messages reach both TPs and both LPs in the right order; implemented by the `degledgerrecorder` ONIX plugin (see [The cascade choreography](#the-cascade-choreography-rules-1-2a-2b)).
+- **Cascade** — the auto-routing by which contract and settled-quantity messages reach both TPs and both LPs in the right order; implemented by the `degledgerrecorder` ONIX plugin (see [Auto-routing of contracts and allocations](#auto-routing-of-contracts-and-allocations-rules-1-2a-2b)).
 - **Policy-as-code** — the network and settlement rules as Rego bundles, signed and published on DeDi, evaluated locally with OPA.
 
 ## 5. Basis of Standards
@@ -201,7 +201,7 @@ The shaded legs ship with ONIX: the `degledgerrecorder` cascades and the `settle
 
 The allocation logic on each LP can be as simple as **pro-rata across the customer's trades in the delivery window**. The same Phase-5 message flow supports multiple rounds — a provisional allocation, a final allocation after meter-data finalisation, a deviation true-up — by repeating the `/status` round-trip with a fresh `BecknTimeSeries` payload. Iteration is a payload concern, not a protocol concern.
 
-### The cascade choreography — Rules 1, 2a, 2b
+### Auto-routing of contracts and allocations — Rules 1, 2a, 2b
 
 The hard part of a four-actor topology is making sure every contract and every allocation update reaches both TPs **and** both LPs — without a central exchange, without the LPs talking to each other, and without loops. That choreography is three rules, implemented entirely by the [`degledgerrecorder`](https://github.com/beckn/DEG/tree/main/plugins/degledgerrecorder) ONIX plugin. **You configure it; you do not write it.**
 
