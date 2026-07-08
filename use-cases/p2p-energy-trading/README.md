@@ -161,10 +161,11 @@ sequenceDiagram
 
   Note over BDL,SDL: Phase 5 - Allocation and reconciliation
   BDL->>BTP: on_status (buyer-side allocation)
-  SDL->>STP: on_status (seller-side allocation)
-  STP->>BTP: on_status (exchange allocations, compute FINAL_ALLOC)
-  BTP->>BDL: settled qty (Rule 2b cascade)
-  STP->>SDL: settled qty
+  BTP->>STP: on_status (Rule 2a - forward to peer)
+  STP->>SDL: on_status (Rule 2b - record with sellerLP)
+  SDL->>STP: on_status (seller-side allocation, settled qty with FINAL_ALLOC)
+  STP->>BTP: on_status (Rule 2a - forward to peer)
+  BTP->>BDL: on_status (Rule 2b - record with buyerLP)
 
   Note over B,S: Phase 6 - Billing and settlement
   B->>S: pay for the trade (off-ledger, via TPs)
@@ -176,7 +177,7 @@ sequenceDiagram
 2. **Select and init** — quantity and price refined; optional LP headroom pre-check.
 3. **Confirm** — the buyer's `confirm` is answered by the seller's `on_confirm`; as that `on_confirm` travels, each TP's `degledgerrecorder` forwards a rewritten copy to its own LP and **blocks until the LP ACKs** — seller-side before the `on_confirm` leaves for the buyer, buyer-side before the buyer app receives it. The LPs do not emit an `on_confirm` of their own; their sync ACK is the record receipt.
 4. **Delivery** — seller injects, buyer consumes.
-5. **Allocation and reconciliation** — each LP receives meter data from its DISCOM; computes its side's allocation; TPs exchange allocations to compute `FINAL_ALLOC`; settled quantity cascades back to LPs (Rule 2b); the `settlementflows` step computes the settlement flows from the settled quantity.
+5. **Allocation and reconciliation** — each LP receives meter data from its DISCOM and computes its side's allocation. Every allocation and settled-quantity `on_status` then cascades **symmetrically** through the two TPs to the opposite LP (Rule 2a forward, Rule 2b record): buyer-side updates run `BuyerLP → BuyerTP → SellerTP → SellerLP`, seller-side updates run the mirror chain, so all four parties converge on `FINAL_ALLOC`. The `settlementflows` step computes the settlement flows as the settled `on_status` passes the seller TP.
 6. **Billing and settlement** — buyer pays seller (off-ledger via TPs); DISCOM monthly bills are adjusted accordingly.
 
 The allocation logic on each LP can be as simple as **pro-rata across the customer's trades in the delivery window**. The same Phase-5 message flow supports multiple rounds — a provisional allocation, a final allocation after meter-data finalisation, a deviation true-up — by repeating the `/status` round-trip with a fresh `BecknTimeSeries` payload. Iteration is a payload concern, not a protocol concern.
@@ -192,7 +193,7 @@ The hard part of a four-actor topology is making sure every contract and every a
 | **Rule 2a** — own DISCOM spoke: forward to the peer | `/on_status` arrives at a TP's `/bap/receiver` **and** `context.bppId` equals the TP's own DISCOM's participantId | The TP's own LP has just computed its allocation. Forward the `on_status` to the **peer TP**, so the peer can record it and trigger its own DISCOM cascade. |
 | **Rule 2b** — peer spoke: record with your own DISCOM | `/on_status` arrives at `/bap/receiver` from anyone **other than** the own DISCOM (i.e. the peer TP) | Push the payload to the TP's **own** LP so it records the full bilateral settlement. Skipped when the payload carries no performance data (a bare status-check ACK is not cascaded). |
 
-Chained together they produce one linear path per update — for example, seller-side allocation: `SellerLP → SellerTP (Rule 2a) → BuyerTP (Rule 2b) → BuyerLP` — after which every party holds the same signed record.
+Chained together they produce one linear path per update, and the choreography is **symmetric** — a seller-side update runs `SellerLP → SellerTP (Rule 2a) → BuyerTP (Rule 2b) → BuyerLP`, and a buyer-side update runs the mirror chain `BuyerLP → BuyerTP (Rule 2a) → SellerTP (Rule 2b) → SellerLP` — after which every party holds the same signed record.
 
 **Why it cannot loop.** The chain always alternates *ledger → platform → ledger*; there is no ledger→ledger edge. LPs receive `on_status` at `/bap/receiver`, which routes to an ACK-only webhook and never re-cascades — every Rule 2a forward terminates in a Rule 2b write at an LP sink. Degenerate topologies collapse safely: if buyer and seller share one platform the self-forward is skipped and the cascade goes straight to the peer's DISCOM; if they share one DISCOM the single LP is written once.
 
