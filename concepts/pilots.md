@@ -1,12 +1,12 @@
 # Pilots and Status
 
-IES is **live**. The specifications have been published on this GitBook, the sandbox is working, and four pilot DISCOMs in four States have built their IES adapter and demonstrated a first set of live use cases.
+IES is **live** — specs published, sandbox running, and four pilot DISCOMs across four States have built adapters and demonstrated live use cases.
 
 ---
 
 ## The 30-day DISCOM Challenge
 
-**21 May 2026 – 21 June 2026.** Four pilot DISCOMs, spread across four States, built their IES adapters and demonstrated the four use cases live in the sandbox environment.
+**21 May 2026 – 21 June 2026.** Four pilot DISCOMs across four States built adapters and demonstrated all four use cases in the sandbox.
 
 ---
 
@@ -31,7 +31,7 @@ For each demonstration:
 - An issued credential (Passport, Digest) or a completed exchange (meter data) signed by the DISCOM's key
 - Verified end-to-end by a counterparty (another DISCOM, a wallet, the IES Secretariat)
 
-The artefacts — example payloads, schemas, configuration — are public in this repository.
+Example payloads, schemas and configuration are public in this repository.
 
 ---
 
@@ -44,13 +44,13 @@ The artefacts — example payloads, schemas, configuration — are public in thi
 
 ## The next phase
 
-All State Governments, Union Territory Administrations and entities in the power sector are invited to take part. The minimum to participate is the same for every organisation:
+All State Governments, Union Territory Administrations and power-sector entities are invited, with the same minimum requirement for everyone:
 
 1. Create a digital identity and list your organisation in the shared directory.
 2. Install the adapter once.
 3. Pass the basic conformance check.
 
-After this, every new partner connects without fresh integration work. The implementation path is in **[How you implement IES](../how-you-implement-ies/README.md)**.
+After that, new partners connect without fresh integration work — see **[How you implement IES](../how-you-implement-ies/README.md)**.
 
 ---
 
@@ -71,4 +71,4 @@ After this, every new partner connects without fresh integration work. The imple
 - **IES Secretariat** — `ies.secretariat@fsrglobal.org`
 - **REC (Nodal Agency)** — `ies@recindia.com`
 - **Issues, discussions, contributions** — [github.com/India-Energy-Stack/ies-accelerator](https://github.com/India-Energy-Stack/ies-accelerator)
-- **The full repository** — this GitBook is rendered from the source at the link above.
+- **The full repository** — this GitBook renders from that source.

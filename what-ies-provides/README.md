@@ -1,6 +1,6 @@
 # What IES Provides
 
-The specifications. What is published. Organised by the three IES steps — **Register**, **Discover**, **Exchange** — plus a master **Taxonomy** that ties everything together.
+Specifications for **Register**, **Discover**, **Exchange**, plus a master **Taxonomy**.
 
 | Page | What's in it |
 |---|---|
@@ -14,14 +14,14 @@ The specifications. What is published. Organised by the three IES steps — **Re
 
 ## Why this organisation
 
-The IES Technical Note defines three steps that every interaction follows:
+The IES Technical Note defines three steps:
 
 > *"IES tells any two systems in the power sector how to share data with each other. It works in three steps. (a) **Register** — verifiable digital identity. (b) **Discover** — interaction protocol. (c) **Exchange** — schema, taxonomy and verifiable credentials."*
 
-This section publishes those specifications. **[How you implement IES](../how-you-implement-ies/README.md)** turns each specification into an action: Setup Register, Setup Discovery, Build your Internal-facing Adapter. **[Use Case Implementation Guides](../use-cases/README.md)** combines them into shippable outcomes.
+**[How you implement IES](../how-you-implement-ies/README.md)** turns each into action; **[Use Case Implementation Guides](../use-cases/README.md)** ships them.
 
 ---
 
 ## Schemas
 
-The schema files (JSON Schema, JSON-LD context, RDF vocabulary, example payloads) live at the repository root in **[`schemas/`](../schemas/README.md)** so that their canonical published URLs (`https://india-energy-stack.github.io/ies-accelerator/schemas/...`) stay stable for external consumers. The [Exchange](exchange.md) page and the [Taxonomy](taxonomy.md) page both link down into them.
+Schema files (JSON Schema, JSON-LD context, RDF vocabulary, examples) live at the repo root under **[`schemas/`](../schemas/README.md)**, keeping canonical URLs (`https://india-energy-stack.github.io/ies-accelerator/schemas/...`) stable — linked from [Exchange](exchange.md) and [Taxonomy](taxonomy.md).

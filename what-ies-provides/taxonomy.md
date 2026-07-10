@@ -1,19 +1,19 @@
 # Taxonomy
 
-> **The master vocabulary of IES.** What schemas exist, what each is for, how they map to use cases, how versions evolve, and how a new schema is proposed and accepted.
+> **The master vocabulary of IES:** what schemas exist, what they're for, how they map to use cases, how they evolve, and how new ones get proposed.
 
-The Taxonomy is the answer to two practical questions an implementer asks:
+The Taxonomy answers two implementer questions:
 
 1. *"For my use case, which schemas do I need?"* — covered by the **schema map** below.
 2. *"My system has a domain object IES doesn't yet cover. How do I propose a new schema?"* — covered by the **proposal flow** below.
 
-It is also the answer to a governance question: *"Who owns these schemas, who can change them, and when?"* — answered in **Stewardship**.
+It also answers a governance question — *"Who owns these schemas, who can change them, and when?"* — in **Stewardship**.
 
 ---
 
 ## Schema map
 
-Every IES schema, the domain it covers, the use cases that combine it, and its current version.
+Every schema, its domain, the use cases that combine it, and its current version.
 
 ### Verifiable Credentials
 
@@ -39,7 +39,7 @@ Non-credential payloads that ride on the Beckn wire.
 
 ### External — DEG schemas IES uses
 
-Canonical at [schema.beckn.io](https://schema.beckn.io); the field reference is mirrored in **[External Schemas](../schemas/external/README.md)**.
+Canonical at [schema.beckn.io](https://schema.beckn.io); mirrored in **[External Schemas](../schemas/external/README.md)**.
 
 | Schema family | Domain | Used in |
 |---|---|---|
@@ -50,16 +50,16 @@ Canonical at [schema.beckn.io](https://schema.beckn.io); the field reference is 
 
 ## Standards precedence
 
-Every schema in IES records, per field, the standard that governs it. The IES order of preference is fixed:
+Every schema records, per field, the governing standard. IES precedence order is fixed:
 
 1. **Bureau of Indian Standards (IS)** — e.g. IS 16444 for smart meters, IS 15959 for DLMS/COSEM.
 2. **CEA Regulations** and the **Indian Electricity Grid Code (IEGC)**.
 3. **International Electrotechnical Commission (IEC)** — CIM (IEC 61968 distribution, IEC 61970 transmission/DER), IEC 62056 (DLMS/COSEM).
 4. **Institute of Electrical and Electronics Engineers (IEEE)** — IEEE 1547 (DER interconnection), IEEE 2030.5 (Smart Energy Profile), IEEE 1366 (SAIDI/SAIFI), IEEE 1782 (outage causes).
 
-The precedence is recorded as the machine-readable `x-standards-precedence` map at the root of every JSON Schema: `{ IS:1, CEA:2, IEGC:2, IEC:3, IEEE:4 }`. Per-field standard provenance is in the `x-standard` annotation on every property.
+Recorded as the machine-readable `x-standards-precedence` map at the root of every JSON Schema (`{ IS:1, CEA:2, IEGC:2, IEC:3, IEEE:4 }`), with per-field provenance in the `x-standard` annotation on each property.
 
-Where no Indian standard applies, an international one is used and the gap is recorded — see the **§6 Where Indian Standards Do Not Yet Exist** section in every schema readme and use-case guide.
+Where no Indian standard applies, an international one is used and the gap flagged — see **§6 Where Indian Standards Do Not Yet Exist** in every schema readme and use-case guide.
 
 ---
 
@@ -72,39 +72,39 @@ Every schema lives at `schemas/<Family>/v<version>/` with its own:
 - `context.jsonld` — JSON-LD context for semantic resolution.
 - `vocab.jsonld` — RDF vocabulary with CIM alignments.
 - `examples/` — worked payloads.
-- `README.md` — auto-generated field reference (sections 8–11 + annexures) following the **[IES Documentation Template](../use-cases/README.md#how-each-guide-is-organised)**.
+- `README.md` — auto-generated field reference (sections 8–11 + annexures) following the **[IES Documentation Template](schemas-overview/README.md#how-each-page-is-organised)**.
 
-A change is **non-breaking** (additive, optional fields, new enum values) if it keeps backward compatibility — the same minor version may absorb it. A change is **breaking** (field rename, removal, type change, semantics change) if it doesn't — a new version is published with a fresh `README.md`. Old versions stay reachable; clients pin a version explicitly.
+A **non-breaking** change (additive, optional fields, new enum values) stays within the same minor version. A **breaking** change (rename, removal, type or semantics change) gets a new version and fresh `README.md`. Old versions stay reachable; clients pin a version explicitly.
 
 ---
 
 ## Proposing a new schema (or a change)
 
-When your use case has a domain object IES doesn't cover yet, the path is:
+For a domain object IES doesn't yet cover:
 
-1. **Check the map above** — confirm no existing schema (with optional extension) already covers it.
-2. **Draft the schema** in `attributes.yaml` shape following the **[IES Documentation Template](../use-cases/README.md#how-each-guide-is-organised)**.
-3. **Open a PR** against this repository. Include: scope statement, basis of standards (with the IS → CEA → IEC → IEEE precedence), example payloads.
-4. **Review by the IES Cell** — the governance body under the Central Electricity Authority. Reviews check standards alignment, field overlap with existing schemas, and use-case fit.
-5. **Acceptance** publishes a versioned `v0.1` and adds the schema to the map above.
+1. **Check the map above** — confirm no existing schema (with optional extension) covers it.
+2. **Draft the schema** as `attributes.yaml`, following the **[IES Documentation Template](schemas-overview/README.md#how-each-page-is-organised)**.
+3. **Open a PR**: scope statement, standards basis (IS → CEA → IEC → IEEE precedence), example payloads.
+4. **Review by the IES Cell** (the governance body under the Central Electricity Authority) — checks standards alignment, schema overlap, and use-case fit.
+5. **Acceptance** publishes `v0.1` and adds the schema to the map above.
 
-The detailed governance framework will be notified by the IES Cell separately. For interim questions, contact the [IES Secretariat](registries/README.md#how-to-apply-for-an-ies-listing).
+The full governance framework will be notified separately by the IES Cell; for interim questions, contact the [IES Secretariat](registries/README.md#how-to-apply-for-an-ies-listing).
 
 ---
 
 ## Stewardship
 
-The schemas are stewarded by the **IES Cell**, the governance body being constituted under the Central Electricity Authority with representation from across the sector. The Cell owns the specifications, decides what is added or changed, and publishes each version. Operationally:
+The schemas are stewarded by the **IES Cell** — the governance body being constituted under the Central Electricity Authority with sector-wide representation — which owns the specifications and publishes each version:
 
 - **Schema source of truth** — this repository, under `schemas/`.
 - **Canonical hosting** — `india-energy-stack.github.io/ies-accelerator/schemas/...`.
-- **Versioning policy** — semver-light (`v<major>.<minor>`), with non-breaking changes within a minor version and breaking changes triggering a new minor.
+- **Versioning policy** — semver-light (`v<major>.<minor>`): non-breaking changes stay within a minor version, breaking changes trigger a new one.
 - **Deprecation** — old versions stay queryable; the schema map and the canonical URL flag the active version.
 
 ---
 
 ## Where this fits
 
-The Taxonomy is the master view of **Exchange**. To see how the three IES steps fit together: **[Register](register.md)** → **[Discover](discover.md)** → **[Exchange](exchange.md)**.
+The Taxonomy is the master view of **Exchange**: **[Register](register.md)** → **[Discover](discover.md)** → **[Exchange](exchange.md)**.
 
-To pick a use case to ship first: **[Use Case Implementation Guides](../use-cases/README.md)**.
+To pick a use case: **[Use Case Implementation Guides](../use-cases/README.md)**.

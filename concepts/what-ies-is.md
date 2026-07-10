@@ -1,30 +1,24 @@
 # What IES Is
 
-A one-page explanation of the India Energy Stack, in plain words.
+A one-page explanation of the India Energy Stack.
 
 ---
 
 ## The problem
 
-Power utilities in India have added many digital tools at the consumer end: smart meters, rooftop solar, electric-vehicle charging, demand-side measures. Each produces useful data. **But the data stays locked inside separate systems** — the DISCOM's own software, the metering agency's portal (operated by the [AMISP](../glossary.md#amisp)), each vendor's database — in formats that other systems cannot read. Each time two systems must share data, a fresh connection has to be built by hand. Rules are issued and checked on paper. Consumers cannot use their own consumption records.
-
-India has spent heavily on digital tools, but not on a common way for those tools to work together.
-
-The cost is real, and it is borne across the sector. A single DISCOM often runs several metering systems supplied by different firms and spends years making them work together, because none was built to a common standard. System operators, regulators and technology providers face the same difficulty in their own systems. **The same effort is repeated across the country.**
+Power utilities in India have added many consumer-end digital tools — smart meters, rooftop solar, EV charging, demand-side measures — but the data stays locked in separate, incompatible systems: DISCOM software, the metering agency's portal (run by the [AMISP](../glossary.md#amisp)), each vendor's database. Exchanges need hand-built connections, rules stay paper-based, and consumers can't access their own records — a cost DISCOMs, regulators and technology providers keep paying nationwide for lack of one common standard.
 
 ---
 
 ## The idea, in one paragraph
 
-**The India Energy Stack (IES) is a common set of specifications for sharing data across the power sector.** It works the way UPI works for banking. UPI holds no money of its own. Money stays in the customer's bank, and UPI is only the shared set of rules that lets any bank's app pay any other bank's customer, without a separate arrangement for each pair. IES works the same way, for energy data rather than money. The data stays in the systems that already hold it, and IES specs ensure that any system can exchange data with any other, without a separate arrangement for each pair.
-
-The sector already has rules and standards for what data to report and how it is structured. **IES does not replace any of them.** It makes the same data machine-readable, common across the sector, and verifiable, so any two systems can exchange and act on it directly.
+**The India Energy Stack (IES) is a common set of specifications for sharing data across the power sector** — the way UPI works for banking: UPI holds no money, just the rules letting any bank pay any other with no arrangement per pair. IES does the same for energy data, layered on the sector's existing rules rather than replacing them, making it machine-readable, common and verifiable so any two systems can exchange it directly.
 
 ---
 
 ## What it does, in three steps
 
-Every IES exchange follows the same three steps. They are the spine of this entire GitBook — each step has its own page in **[What IES Provides](../what-ies-provides/README.md)** and a matching set-up page in **[How you implement IES](../how-you-implement-ies/README.md)**.
+Every IES exchange follows these three steps — the spine of this GitBook, detailed in **[What IES Provides](../what-ies-provides/README.md)** with set-up steps in **[How you implement IES](../how-you-implement-ies/README.md)**.
 
 | Step | What happens | Example standard |
 |---|---|---|
@@ -32,18 +26,18 @@ Every IES exchange follows the same three steps. They are the spine of this enti
 | **2. [Discover](../what-ies-provides/discover.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement needed. | [Beckn protocol](https://becknprotocol.io) |
 | **3. [Exchange](../what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, the exchange also produces a verifiable credential. | DLMS/COSEM for meter data, IEEE 2030.5 for solar/storage, OpenADR for demand response |
 
-**IES selects the right open standard for each step and publishes a specification that builds on it. IES does not write new standards.** Build to the IES specifications once, and a system can connect to any other IES-ready system without fresh integration work.
+**IES selects the right open standard for each step and publishes a spec on it, writing none of its own.** Build once, connect to any IES-ready system with no fresh integration work.
 
 ---
 
 ## What you change in your own systems
 
-**Nothing in your existing systems changes.** A small piece of software, called the **adapter**, sits at the edge of each system to ensure conformance with IES specs. The adapter comes in two parts:
+**Nothing changes in your existing systems.** A small **adapter** sits at the edge for IES conformance, in two parts:
 
-- **ONIX (ready-made), the same for everyone.** Handles finding other systems and exchanging messages with them. This is the Beckn ONIX reference software, which the participant does not build. See **[Glossary → ONIX](../glossary.md#onix)**.
-- **Mapping (specific to each organisation).** A small mapping that translates between its own data formats and the IES specs. Set up once. Databases, field names and internal software stay exactly as they are.
+- **ONIX (ready-made), the same for everyone.** Finds and messages other systems — the Beckn ONIX reference software; participants don't build it. See **[Glossary → ONIX](../glossary.md#onix)**.
+- **Mapping (specific to each organisation).** Translates its own data formats to the IES specs, set up once — databases, field names and software stay unchanged.
 
-After this, every new IES-ready partner connects with no further integration work. The how-to is in **[How you implement IES](../how-you-implement-ies/README.md)**.
+New IES-ready partners then connect with no further integration work — the how-to is in **[How you implement IES](../how-you-implement-ies/README.md)**.
 
 ---
 
@@ -56,14 +50,14 @@ After this, every new IES-ready partner connects with no further integration wor
 | Who builds the connector | Each bank, once | Each organisation, once |
 | What gets cheaper for everyone | New apps and services on top of money flows | New apps and services on top of verified energy data |
 
-UPI did not replace banks. IES does not replace DISCOMs, MDMs, CIS systems, regulator portals or vendor databases.
+UPI didn't replace banks; IES doesn't replace DISCOMs, MDMs, CIS systems, regulator portals or vendor databases.
 
 ---
 
 ## What this means for you
 
-- **For a DISCOM** — lower integration cost, no vendor lock-in, verifiable records that flow downstream as a new service surface. See **[What Changes for the Sector → For DISCOMs](sector-impact.md#for-discoms)**.
-- **For a consumer** — a portable, verifiable record of their connection and consumption, held in [DigiLocker](../glossary.md#digilocker), shareable with a bank, subsidy portal or marketplace without going back to the DISCOM.
+- **For a DISCOM** — lower integration cost, no vendor lock-in, verifiable records as a new downstream service surface. See **[What Changes for the Sector → For DISCOMs](sector-impact.md#for-discoms)**.
+- **For a consumer** — a portable, verifiable record of connection and consumption, held in [DigiLocker](../glossary.md#digilocker), shareable with a bank, subsidy portal or marketplace without going back to the DISCOM.
 - **For a regulator** — filings arrive signed and in a single consistent format; tariff orders become computable.
 - **For a vendor / OEM / aggregator / financier** — one published interface to build to, the same across DISCOMs and States.
 
@@ -73,13 +67,13 @@ For a fuller list see **[What Changes for the Sector](sector-impact.md)**.
 
 ## What IES is not
 
-It is just as important to know what IES is **not**. Five common confusions are cleared up in **[What IES Is Not](what-ies-is-not.md)**.
+Equally important is what IES is **not** — five common confusions, cleared up in **[What IES Is Not](what-ies-is-not.md)**.
 
 ---
 
 ## Where it stands today
 
-IES is **live**. The specifications have been published on this GitBook, the sandbox is working, and [four pilot DISCOMs](pilots.md) have built their IES adapter and demonstrated a first set of live use cases. See **[Pilots and Status](pilots.md)** for what was shown.
+IES is **live**: specs published, sandbox working, and [four pilot DISCOMs](pilots.md) have built their adapter and demonstrated live use cases. See **[Pilots and Status](pilots.md)** for what was shown.
 
 ---
 

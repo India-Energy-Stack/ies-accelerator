@@ -1,6 +1,6 @@
 # Step 4 — Conformance Checklist
 
-The fourth and final IES step: verify your adapter is correct end-to-end and submit for IES network membership in production. About 1 day.
+The fourth and final step: verify your adapter end-to-end and submit for production network membership. About 1 day.
 
 The minimum to participate in IES is **the same for every organisation**:
 
@@ -8,13 +8,13 @@ The minimum to participate in IES is **the same for every organisation**:
 2. Install the adapter once. ([Step 2](setup-discovery.md))
 3. Pass the basic conformance check. (this page)
 
-After this, every new partner connects without fresh integration work.
+After this, new partners connect without fresh integration work.
 
 ---
 
 ## What conformance means
 
-A conformant IES participant satisfies all of the following.
+A conformant participant satisfies all of the following.
 
 ### Identity is correctly published
 
@@ -68,9 +68,9 @@ cd DEG/devkits/data-exchange/conformance
 ./run.sh --subscriber did:web:ies.discom.example --usecase consumer-energy-passport
 ```
 
-The script exercises every path on the checklist above against a sandbox peer and emits a signed report.
+It exercises every checklist item above against a sandbox peer and emits a signed report.
 
-For use cases not yet in the conformance suite, do the equivalent manually:
+For use cases not yet in the suite, do the equivalent manually:
 
 1. Generate one record using your adapter.
 2. Validate it with the canonical JSON Schema (`scripts/validate_schema.py`).
@@ -87,12 +87,12 @@ When all the above pass on the sandbox / testnet:
 2. The Secretariat re-runs spot checks on your sandbox endpoints.
 3. The Secretariat writes a production reference entry pointing at your subscriber record.
 
-You are now an IES-conformant production participant. New counterparties can transact with you without any further bilateral arrangement.
+You're now IES-conformant in production — new counterparties can transact with you without further arrangement.
 
 ---
 
 ## After conformance
 
-- **Add new use cases** by repeating only Step 3 (Build your Internal-facing Adapter) for the new schema. Identity, ONIX, network membership and trust foundation are reused.
+- **Add new use cases** by repeating only Step 3 (Build your Internal-facing Adapter) for the new schema — identity, ONIX, network membership and trust foundation are reused.
 - **Stay current with schema versions.** New versions are announced via the [ies-accelerator repository](https://github.com/India-Energy-Stack/ies-accelerator); migration guides ship alongside.
 - **Contribute** — propose a new schema or a change to an existing one by raising a discussion on the repository. The [IES Cell](../concepts/faq.md#who-adds-or-updates-the-specifications-and-standards) governance process handles ratification.

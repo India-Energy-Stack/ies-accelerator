@@ -18,11 +18,11 @@ Five common confusions about IES, cleared up.
 
 ## Things IES does NOT ask for
 
-- **No new data.** IES asks for nothing the sector does not already produce. It only puts existing data into a common, signed format when it is shared.
-- **No new compliance work.** If a DISCOM already files something today, IES makes that filing machine-readable. It does not invent a new filing.
-- **No replacement of completed integrations.** If a metering system has just been integrated, that work is not wasted. IES sets the standard the *next* integration will follow.
-- **No mandatory bulk data transport.** IES specifies the data format and the coordination, not the transport. Bulk data moves over your normal channels — secure web, SFTP, Kafka, signed URL — with IES carrying the agreement, consent and audit trail.
-- **No personal data storage.** Consumer data is shared only with explicit consent, for the stated purpose. IES holds no personal data.
+- **No new data.** Existing data just gets a common, signed format when shared.
+- **No new compliance work.** IES makes an existing DISCOM filing machine-readable, not a new one.
+- **No replacement of completed integrations.** A finished metering integration isn't wasted — IES sets the standard for the *next* one.
+- **No mandatory bulk data transport.** IES specifies format and coordination, not transport — bulk data still moves over your normal channels (secure web, SFTP, Kafka, signed URL), with IES carrying the agreement, consent and audit trail.
+- **No personal data storage.** Consumer data is shared only with explicit consent for the stated purpose — IES itself holds none.
 
 ---
 
@@ -41,6 +41,6 @@ Five common confusions about IES, cleared up.
 
 ## Why this distinction matters
 
-IES is **infrastructure**, not application. It is the layer that everything else builds on — like UPI for banking, or DigiLocker for documents. By staying tightly scoped to identity, discovery and data exchange, IES avoids competing with the sector's existing software, the sector's existing regulators, or the sector's existing operational systems. The work it does is the work nobody owns today.
+IES is **infrastructure**, not application — the layer everything builds on, like UPI or DigiLocker. Staying scoped to identity, discovery and exchange keeps it from competing with existing software, regulators or operations. It does the work nobody owns today.
 
 > Next: read **[What Changes for the Sector](sector-impact.md)** for the practical outcomes, or **[Common Questions](faq.md)** for the questions most often asked.

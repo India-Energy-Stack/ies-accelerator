@@ -1,18 +1,18 @@
 # India Energy Stack — Accelerator
 
-**India Energy Stack (IES)** is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking — UPI holds no money of its own; money stays in the customer's bank, and UPI is only the shared rules that let any bank pay any other. **IES is the same idea, for energy data.** The data stays in the systems that already hold it, and IES specs let any two systems exchange and act on it directly.
+**India Energy Stack (IES)** is a common set of specifications for sharing power-sector data — like UPI for banking, but for energy: no data sits with a middleman, only the shared rules for exchanging it directly between systems.
 
-IES is **live**. [Four pilot DISCOMs](concepts/pilots.md) built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
+IES is **live**: [Four pilot DISCOMs](concepts/pilots.md) demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest, and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
 
 {% hint style="info" %}
-📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Regenerated automatically whenever the docs change.
+📄 **Printable version:** the whole guide as one PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf), regenerated on every change.
 {% endhint %}
 
 ---
 
 ## How IES works — three steps
 
-Every IES interaction follows the same three steps. They are the **spine of this entire GitBook**.
+Every IES interaction follows these three steps — the **spine of this GitBook**.
 
 | Step | What it does | Example standard |
 |---|---|---|
@@ -20,7 +20,7 @@ Every IES interaction follows the same three steps. They are the **spine of this
 | **[2. Discover](what-ies-provides/discover.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://becknprotocol.io) |
 | **[3. Exchange](what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, the exchange also produces a **verifiable credential** the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
 
-IES picks the right open standard for each step and publishes a specification on top. **IES does not write new standards.** Build to the IES specs once, and a system can connect to any other IES-ready system without fresh integration work.
+IES picks the open standard for each step and layers a spec on top; **it writes none of its own.** Build once, and any IES-ready system connects without new integration work.
 
 ---
 
@@ -30,7 +30,7 @@ Three top-level sections, each organised by the **Register / Discover / Exchange
 
 ### [What IES Provides](what-ies-provides/README.md)
 
-The specifications. What is published.
+The specifications — what's published.
 
 | Section | What's in it |
 |---|---|
@@ -42,7 +42,7 @@ The specifications. What is published.
 
 ### [How you implement IES](how-you-implement-ies/README.md)
 
-The action guides. What you do.
+The action guides — what you do.
 
 | Step | Action page | Time |
 |---|---|---|
@@ -53,7 +53,7 @@ The action guides. What you do.
 
 ### [Use Case Implementation Guides](use-cases/README.md)
 
-What you can ship, organised per the **[IES Documentation Template](use-cases/README.md#how-each-guide-is-organised)** so once you've read one, you know where to look in any other.
+What you can ship. Each guide pairs with a **[Use Case Overview](use-cases-overview/README.md)** per the **[IES Documentation Template](use-cases-overview/README.md#how-each-page-is-organised)** — the *why*, then the *how*.
 
 | Stage | Use cases |
 |---|---|
@@ -65,19 +65,17 @@ What you can ship, organised per the **[IES Documentation Template](use-cases/RE
 
 ## Where to start
 
-- **New to IES?** Read **[What IES Is](concepts/what-ies-is.md)** — five minutes.
-- **Decision-maker / reviewer?** Skim **[What IES Provides](what-ies-provides/README.md)** in order: What IES Is → Register → Discover → Exchange.
-- **DISCOM / regulator / vendor onboarding?** Go straight to **[How you implement IES](how-you-implement-ies/README.md)** — the same four steps the pilot DISCOMs followed in 30 days.
-- **Picking a first use case?** Browse the table in **[Use Case Implementation Guides](use-cases/README.md)** — pilot cases at the top.
-- **Need a term defined?** Always-visible [Glossary](glossary.md).
+- **New to IES?** [What IES Is](concepts/what-ies-is.md) — five minutes.
+- **Decision-maker?** [What IES Provides](what-ies-provides/README.md): What IES Is → Register → Discover → Exchange.
+- **Onboarding a DISCOM, regulator, or vendor?** [How you implement IES](how-you-implement-ies/README.md) — the four steps the pilots followed in 30 days.
+- **Picking a first use case?** [Use Case Implementation Guides](use-cases/README.md) — pilot cases at the top.
+- **Need a term defined?** [Glossary](glossary.md) — always in the left nav.
 
 ---
 
 ## Why IES?
 
-The Indian power sector has spent heavily on digital tools but not on a common way for those tools to work together. A single DISCOM often runs several metering systems supplied by different firms and spends years making them work together because none was built to a common standard. The same effort is repeated across the country.
-
-IES is the **shared digital infrastructure** that ends that duplication — open specifications, verifiable data, interoperable protocols. The data stays where it is; the way it is described and requested becomes common.
+The Indian power sector has spent heavily on digital tools, not on making them interoperate — the same vendor-integration effort repeated at every DISCOM. IES is the **shared digital infrastructure** that ends it: open specs, verifiable data, interoperable protocols — data stays put, and only how it's described and requested becomes common.
 
 For the longer answer, read **[What IES Is](concepts/what-ies-is.md)**.
 

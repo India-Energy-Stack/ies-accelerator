@@ -148,6 +148,7 @@ These documents provide a general introduction, terminology definitions, and lay
     <li><a href="SUMMARY.md#table-of-contents">Table of contents</a>    <ul>
       <li><a href="SUMMARY.md#what-ies-provides">What IES Provides</a></li>
       <li><a href="SUMMARY.md#how-you-implement-ies">How you implement IES</a></li>
+      <li><a href="SUMMARY.md#use-case-overviews">Use Case Overviews</a></li>
       <li><a href="SUMMARY.md#use-case-implementation-guides">Use Case Implementation Guides</a></li>
       <li><a href="SUMMARY.md#reference">Reference</a>
     </li>
@@ -1014,12 +1015,9 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/README.md#use-case-implementation-guides">Use Case Implementation Guides</a>    <ul>
-      <li><a href="use-cases/README.md#live-in-pilot">Live in pilot</a></li>
-      <li><a href="use-cases/README.md#live-or-staged">Live or staged</a></li>
-      <li><a href="use-cases/README.md#in-progress">In progress</a></li>
-      <li><a href="use-cases/README.md#how-each-guide-is-organised">How each guide is organised</a></li>
-      <li><a href="use-cases/README.md#picking-a-first-use-case">Picking a first use case</a></li>
-      <li><a href="use-cases/README.md#see-also">See also</a>
+      <li><a href="use-cases/README.md#the-seven-use-cases">The Seven Use Cases</a></li>
+      <li><a href="use-cases/README.md#how-to-read-these-guides">How to Read These Guides</a></li>
+      <li><a href="use-cases/README.md#maturity-snapshot">Maturity Snapshot</a>
     </li>
     </ul>
   </li>
@@ -1031,30 +1029,14 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/consumer-energy-passport/README.md#consumer-energy-passport">Consumer Energy Passport</a>    <ul>
-      <li><a href="use-cases/consumer-energy-passport/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#7-the-record">7. The Record</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#8-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#9-schedule-ii">9. Schedule II</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#value-unlock">Value Unlock</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/consumer-energy-passport/README.md#register-identity-and-proofing">Register — identity and proofing</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#discover-wallet-delivery">Discover — wallet delivery</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#exchange-issuance-shape">Exchange — issuance shape</a></li>
-        <li><a href="use-cases/consumer-energy-passport/README.md#team">Team</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/consumer-energy-passport/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
-      <li><a href="use-cases/consumer-energy-passport/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/consumer-energy-passport/README.md#why-this-use-case-exists">Why this use case exists</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#how-it-differs-from-a-bearer-electricitycredential">How it differs from a bearer ElectricityCredential</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#actors-and-flow">Actors and flow</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#building-blocks">Building blocks</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#selective-disclosure">Selective disclosure</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#checklist">Checklist</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -1066,30 +1048,13 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/consumer-meter-digest/README.md#consumer-meter-digest">Consumer Meter Digest</a>    <ul>
-      <li><a href="use-cases/consumer-meter-digest/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#7-the-record">7. The Record</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#8-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#9-schedule-ii">9. Schedule II</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#value-unlock">Value Unlock</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/consumer-meter-digest/README.md#register-base-in-place">Register — base in place</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#discover-consumer-pull-endpoint">Discover — consumer-pull endpoint</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#exchange-mdm-read-path-and-issuance">Exchange — MDM read path and issuance</a></li>
-        <li><a href="use-cases/consumer-meter-digest/README.md#team">Team</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/consumer-meter-digest/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
-      <li><a href="use-cases/consumer-meter-digest/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/consumer-meter-digest/README.md#why-this-use-case-exists">Why this use case exists</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#how-it-differs-from-a-b2b-meterdatacredential">How it differs from a B2B MeterDataCredential</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#actors-and-flow">Actors and flow</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#building-blocks">Building blocks</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#checklist">Checklist</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -1101,30 +1066,22 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/smart-meter-data-exchange/README.md#smart-meter-data-exchange">Smart Meter Data Exchange</a>    <ul>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#7-the-record">7. The Record</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#8-schedule-i-static-fields-of-the-data-exchange">8. Schedule I — Static Fields of the Data Exchange</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#9-schedule-ii-reportee-templates-optional">9. Schedule II — Reportee templates (optional)</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#building-blocks-used">Building blocks used</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#the-dataset-meterdatav06">The dataset — `MeterData/v0.6`</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#optional-consent-meterdatarequestcredential">Optional consent — `MeterDataRequestCredential`</a></li>
       <li><a href="use-cases/smart-meter-data-exchange/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#register-network-identity">Register — network identity</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#discover-catalogue-and-contract">Discover — catalogue and contract</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#exchange-adapter-and-data-flow">Exchange — adapter and data flow</a></li>
-        <li><a href="use-cases/smart-meter-data-exchange/README.md#team">Team</a>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#1-decide-scope">1. Decide scope</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#2-register-get-a-network-identity">2. Register — get a network identity</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#3-discover-stand-up-the-data-exchange-adapters">3. Discover — stand up the Data Exchange adapters</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#4-exchange-publish-your-dataset-catalogue-bpp">4. Exchange — publish your dataset catalogue (BPP)</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#5-exercise-the-flow">5. Exercise the flow</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#6-connect-your-real-metering-system">6. Connect your real metering system</a></li>
+        <li><a href="use-cases/smart-meter-data-exchange/README.md#7-optional-at-the-end-adopt-the-didweb-convention-for-meters-and-assets">7. (Optional, at the end) Adopt the `did:web` convention for meters and assets</a>
       </li>
       </ul>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases/smart-meter-data-exchange/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#checklist-for-your-meter-data-rollout">Checklist for your meter-data rollout</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#open-items">Open items</a></li>
+      <li><a href="use-cases/smart-meter-data-exchange/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -1168,30 +1125,20 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/der-visibility/README.md#der-visibility">DER Visibility</a>    <ul>
-      <li><a href="use-cases/der-visibility/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/der-visibility/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/der-visibility/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/der-visibility/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/der-visibility/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/der-visibility/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/der-visibility/README.md#7-the-record">7. The Record</a></li>
-      <li><a href="use-cases/der-visibility/README.md#8-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
-      <li><a href="use-cases/der-visibility/README.md#9-schedule-ii">9. Schedule II</a></li>
-      <li><a href="use-cases/der-visibility/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/der-visibility/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/der-visibility/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/der-visibility/README.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases/der-visibility/README.md#scenario">Scenario</a></li>
+      <li><a href="use-cases/der-visibility/README.md#how-it-differs-from-the-consumer-energy-passport">How it differs from the Consumer Energy Passport</a></li>
+      <li><a href="use-cases/der-visibility/README.md#actors-and-roles">Actors and Roles</a></li>
+      <li><a href="use-cases/der-visibility/README.md#building-blocks-used">Building Blocks Used</a></li>
+      <li><a href="use-cases/der-visibility/README.md#the-dataset-electricitycredential-v12-grid-side-issuance">The Dataset — `ElectricityCredential v1.2` (grid-side issuance)</a></li>
       <li><a href="use-cases/der-visibility/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/der-visibility/README.md#register-identity-reused">Register — identity reused</a></li>
-        <li><a href="use-cases/der-visibility/README.md#discover-grid-side-catalogue">Discover — grid-side catalogue</a></li>
-        <li><a href="use-cases/der-visibility/README.md#exchange-issuance-shape">Exchange — issuance shape</a></li>
-        <li><a href="use-cases/der-visibility/README.md#team">Team</a>
+        <li><a href="use-cases/der-visibility/README.md#1-register-identity-reused">1. Register — identity reused</a></li>
+        <li><a href="use-cases/der-visibility/README.md#2-discover-grid-side-catalogue">2. Discover — grid-side catalogue</a></li>
+        <li><a href="use-cases/der-visibility/README.md#3-exchange-issuance-shape">3. Exchange — issuance shape</a>
       </li>
       </ul>
-      <li><a href="use-cases/der-visibility/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/der-visibility/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/der-visibility/README.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
-      <li><a href="use-cases/der-visibility/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/der-visibility/README.md#checklist">Checklist</a></li>
+      <li><a href="use-cases/der-visibility/README.md#open-items">Open Items</a></li>
+      <li><a href="use-cases/der-visibility/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -1203,30 +1150,21 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/discom-regulatory-filing/README.md#discom-regulatory-filing">DISCOM Regulatory Filing</a>    <ul>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#7-the-records">7. The Records</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#8-schedule-i-static-fields-of-the-filing">8. Schedule I — Static Fields of the Filing</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#scenario">Scenario</a></li>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#actors-and-roles">Actors and Roles</a></li>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#building-blocks-used">Building Blocks Used</a></li>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#the-dataset-arrfiling-v05">The Dataset — `ArrFiling v0.5`</a></li>
       <li><a href="use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#register-both-sides">Register — both sides</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#discover-catalogue-the-filing">Discover — catalogue the filing</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#exchange-adapter-and-submission">Exchange — adapter and submission</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#team">Team</a>
+        <li><a href="use-cases/discom-regulatory-filing/README.md#1-register-both-parties">1. Register — both parties</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/README.md#2-discover-stand-up-the-data-exchange-adapters">2. Discover — stand up the data-exchange adapters</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/README.md#3-exchange-catalogue-and-submit">3. Exchange — catalogue and submit</a></li>
+        <li><a href="use-cases/discom-regulatory-filing/README.md#4-optional-open-the-filing-for-public-consumption">4. (Optional) Open the filing for public consumption</a>
       </li>
       </ul>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#why-this-matters">Why This Matters</a></li>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#open-items">Open Items</a></li>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#checklist">Checklist</a></li>
+      <li><a href="use-cases/discom-regulatory-filing/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -1238,30 +1176,19 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/tariff-intelligence/README.md#tariff-intelligence">Tariff Intelligence</a>    <ul>
-      <li><a href="use-cases/tariff-intelligence/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#7-the-record">7. The Record</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#8-schedule-i-static-fields-of-the-policy">8. Schedule I — Static Fields of the Policy</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#10-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases/tariff-intelligence/README.md#scenario">Scenario</a></li>
+      <li><a href="use-cases/tariff-intelligence/README.md#actors-and-roles">Actors and Roles</a></li>
+      <li><a href="use-cases/tariff-intelligence/README.md#building-blocks-used">Building Blocks Used</a></li>
+      <li><a href="use-cases/tariff-intelligence/README.md#the-dataset-ies-policy">The Dataset — `IES_Policy`</a></li>
       <li><a href="use-cases/tariff-intelligence/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/tariff-intelligence/README.md#register-publisher-identity">Register — publisher identity</a></li>
-        <li><a href="use-cases/tariff-intelligence/README.md#discover-public-disclosure-catalogue">Discover — public-disclosure catalogue</a></li>
-        <li><a href="use-cases/tariff-intelligence/README.md#exchange-authoring-signing-evaluating">Exchange — authoring, signing, evaluating</a></li>
-        <li><a href="use-cases/tariff-intelligence/README.md#team">Team</a>
+        <li><a href="use-cases/tariff-intelligence/README.md#1-register-publisher-identity">1. Register — publisher identity</a></li>
+        <li><a href="use-cases/tariff-intelligence/README.md#2-discover-publish-via-the-data-exchange">2. Discover — publish via the data exchange</a></li>
+        <li><a href="use-cases/tariff-intelligence/README.md#3-exchange-author-sign-evaluate">3. Exchange — author, sign, evaluate</a>
       </li>
       </ul>
-      <li><a href="use-cases/tariff-intelligence/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/tariff-intelligence/README.md#checklist">Checklist</a></li>
+      <li><a href="use-cases/tariff-intelligence/README.md#open-items">Open Items</a></li>
+      <li><a href="use-cases/tariff-intelligence/README.md#references">References</a>
     </li>
     </ul>
   </li>

@@ -1,8 +1,6 @@
 # How you implement IES
 
-A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../concepts/pilots.md) followed in the 30-day Challenge.
-
-The work follows the **[Register → Discover → Exchange](../concepts/how-it-works.md)** spine — the same three steps that organise every IES interaction. There are three setup steps and one conformance check.
+A step-by-step path from zero to a working IES adapter, following the **[Register → Discover → Exchange](../concepts/how-it-works.md)** spine — three setup steps plus one conformance check. Proven by the four [pilot DISCOMs](../concepts/pilots.md) in the 30-day Challenge.
 
 | Step | Page | Time | What you get |
 |---|---|---|---|
@@ -17,11 +15,11 @@ The work follows the **[Register → Discover → Exchange](../concepts/how-it-w
 
 ### What you need
 
-- **A domain you control.** Most DISCOMs use a dedicated subdomain like `ies.<discom>.in`. A bare apex domain works too.
-- **DNS access.** To add a TXT record once (DeDi namespace verification).
-- **One Linux host** that can run Docker (for ONIX) and serve HTTPS. Cloud VM is fine. Air-gapped works too.
-- **One engineer.** Total effort is small; you do not need a team.
-- **A vendor or in-house developer** to write the Part-2 adapter mapping (Step 3). The same person can do all of 1–3.
+- **A domain you control** — a dedicated subdomain like `ies.<discom>.in`, or a bare apex domain.
+- **DNS access** for one TXT record (DeDi namespace verification).
+- **One Linux host** running Docker (for ONIX) and serving HTTPS — cloud VM or air-gapped.
+- **One engineer** — no team required.
+- **A vendor or in-house developer** for the Part-2 adapter mapping (Step 3); can be the same person as 1–3.
 
 ### What you do NOT need
 
@@ -29,7 +27,7 @@ The work follows the **[Register → Discover → Exchange](../concepts/how-it-w
 - ❌ A new compliance filing.
 - ❌ A new procurement contract.
 - ❌ A licence fee.
-- ❌ Approval from anyone before starting on the sandbox. Get something working, then talk to the IES Secretariat about going to production.
+- ❌ Approval from anyone before starting on the sandbox — get something working, then talk to the IES Secretariat about going to production.
 
 ### Who needs to be involved
 
@@ -41,7 +39,7 @@ The work follows the **[Register → Discover → Exchange](../concepts/how-it-w
 | **Authorised signatory** | Submit your subscriber record for IES network whitelisting | Email/form, once |
 | **Customer-ops / compliance** | (For consumer credentials only) Identity-proofing procedure and privacy review | One review pass |
 
-For the full department-by-department mapping see the **[utility pathway prework matrix](../pathways/utility.md#prework-pre-alignment-matrix)**.
+Full department-by-department mapping: **[utility pathway prework matrix](../pathways/utility.md#prework-pre-alignment-matrix)**.
 
 ---
 
@@ -93,7 +91,7 @@ For the full department-by-department mapping see the **[utility pathway prework
 
 ## After you're set up
 
-You only do steps 1–4 once. Adding new use cases on top — Consumer Energy Passport, Smart Meter Data Exchange, DER Visibility — only adds a small bit to the Part-2 mapping. The identity, the adapter, the network membership, the trust foundation are all reused.
+Steps 1–4 happen once. New use cases — Consumer Energy Passport, Smart Meter Data Exchange, DER Visibility — only extend the Part-2 mapping; identity, adapter, network membership and trust foundation are all reused.
 
 Go to **[Use Case Implementation Guides](../use-cases/README.md)** and pick the one you want to ship first.
 
@@ -101,7 +99,7 @@ Go to **[Use Case Implementation Guides](../use-cases/README.md)** and pick the 
 
 ## How long does the whole thing take?
 
-The four pilot DISCOMs each went from cold start to four demonstrated use cases in **30 days** (21 May – 21 June 2026). The bulk of that time was the Part-2 mapping (Step 3) and customer-ops procedures for the consumer-facing credentials.
+The four pilot DISCOMs went from cold start to four demonstrated use cases in **30 days** (21 May – 21 June 2026) — mostly Part-2 mapping (Step 3) and customer-ops work for consumer-facing credentials.
 
 | Phase | Calendar time (typical) |
 |---|---|

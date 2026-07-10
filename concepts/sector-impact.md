@@ -1,6 +1,6 @@
 # What Changes for the Sector
 
-The practical outcomes when the India Energy Stack is in use — for DISCOMs, consumers, regulators and markets. None of this is new infrastructure or new compliance; it is what becomes possible once data is verifiable and exchangeable on a common standard.
+What changes for DISCOMs, consumers, regulators and markets once IES is in use — no new infrastructure or compliance, just what a common, verifiable data standard unlocks.
 
 ---
 
@@ -22,17 +22,17 @@ Three plain-terms gains.
 
 ### 1. Lower cost
 
-One published standard replaces repeated custom integration work. Technology procurement and integration spend fall, with no lock-in to a single vendor.
+One published standard replaces custom integration work — lower procurement and integration spend, no vendor lock-in.
 
 ### 2. Better operations
 
-Reliable, verifiable data supports demand forecasting and analytics that can improve power procurement and reduce losses over time.
+Reliable, verifiable data improves demand forecasting, power procurement and loss reduction.
 
 ### 3. Wider use of existing data
 
-With consumer consent, verified records can support services like green lending and rooftop solar financing — and the demand for those records flows back through the DISCOM. New service surface, no new compliance load.
+With consent, verified records enable services like green lending and solar financing, with demand flowing back to the DISCOM — new service surface, no compliance burden.
 
-> **IES is not a revenue scheme and does not monetise personal data.** It lowers cost and makes the data a DISCOM already holds more useful.
+> **IES is not a revenue scheme and does not monetise personal data** — it lowers cost and makes data the DISCOM already holds more useful.
 
 See the implementation path for a DISCOM in **[How you implement IES](../how-you-implement-ies/README.md)**.
 
@@ -40,34 +40,34 @@ See the implementation path for a DISCOM in **[How you implement IES](../how-you
 
 ## For consumers
 
-A consumer's energy history becomes **portable and verifiable**. The DISCOM signs it; the consumer holds it (in [DigiLocker](../glossary.md#digilocker) or a DID wallet); any verifier checks it offline against the DISCOM's published key.
+A consumer's energy history becomes **portable and verifiable** — DISCOM-signed, consumer-held (in [DigiLocker](../glossary.md#digilocker) or a DID wallet), checkable offline against the DISCOM's key.
 
-That single change unlocks:
+That unlocks:
 
-- **Green loans, subsidy claims and service enrolment** without repeated paperwork or calls to the DISCOM. Certificates issued by a DISCOM are directly useful to banks, housing finance companies, scheme administrators and service providers who need verified energy data.
+- **Green loans, subsidy claims and service enrolment** without repeated paperwork or DISCOM calls — DISCOM certificates are directly useful to banks, housing finance companies, scheme administrators and other providers needing verified energy data.
 - **Faster enrolment** for any new service — rooftop solar, EV charging, prepaid plans, ToD tariffs.
-- **Selective disclosure.** The consumer can prove a single fact ("my sanctioned load is above 5 kW") without revealing the rest of their data.
-- **Portability across DISCOMs and States.** A consumer who moves arrives with an energy record that can be trusted at once, no fresh verification.
+- **Selective disclosure.** The consumer can prove one fact (e.g. "sanctioned load above 5 kW") without revealing the rest.
+- **Portability across DISCOMs and States.** A consumer who moves arrives already trusted — no fresh verification.
 
-The credential types in use today are the **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md)** (a holder-bound ElectricityCredential) and the **[Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md)** (a verifiable bundle of the consumer's own consumption history).
+Today's credential types: **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md)** (a holder-bound ElectricityCredential) and **[Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md)** (a verifiable bundle of consumption history).
 
 ---
 
 ## For the grid
 
-Every distributed energy resource — a rooftop solar unit, a small battery, an EV charger — is given a **verified identity** when it is first connected. Operators obtain reliable visibility of these resources. Connections across DISCOMs, AMISPs and aggregators (firms that pool many small resources) happen without a separate arrangement for each pair.
+Every distributed energy resource — rooftop solar, a battery, an EV charger — gets a **verified identity** on connection, giving operators visibility with no separate arrangement across DISCOMs, AMISPs and aggregators (firms pooling small resources).
 
-That foundation makes practical:
+That enables:
 
-- **DER Visibility** for the operator — a live, signed register of what is connected at what capacity. See **[DER Visibility use case](../use-cases/der-visibility/README.md)**.
-- **Aggregation across DISCOMs.** A fleet of behind-the-meter batteries can be dispatched without a bespoke integration with every utility it touches.
-- **Flexibility programmes** that build on the same identity layer rather than reinventing it.
+- **DER Visibility** for the operator — a live, signed register of what's connected, at what capacity. See **[DER Visibility use case](../use-cases/der-visibility/README.md)**.
+- **Aggregation across DISCOMs.** A battery fleet can be dispatched without a bespoke integration per utility.
+- **Flexibility programmes** built on the same identity layer, not reinvented.
 
 ---
 
 ## For regulators
 
-Filings reach the regulator **already signed and in a single, consistent format**. Tariff orders become computable. Regulators move from reading PDF documents to monitoring data directly.
+Filings reach regulators **already signed, in a single, consistent format**, with computable tariff orders — regulators monitor data directly instead of reading PDFs.
 
 - **[ARR filings](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** in a structured, comparable form across utilities.
 - **Tariff orders** parsable by software, with stable references for every clause.
@@ -79,18 +79,18 @@ See the **[DISCOM Regulatory Filing use case](../use-cases/discom-regulatory-fil
 
 ## For markets
 
-Demand-side flexibility, peer-to-peer energy exchange (consumers buying and selling power directly) and open access (a large consumer buying power from a supplier other than the local DISCOM) become workable in practice — without a separate agreement between every pair of participants.
+Demand-side flexibility, peer-to-peer energy exchange (consumers trading power directly) and open access (buying power from a non-local supplier) become workable — no separate agreement needed per pair.
 
-The relevant use cases:
+Relevant use cases:
 
 - **[P2P Energy Trading](../use-cases/p2p-energy-trading/README.md)** — direct trade between consumers under a market operator's rules.
 - **Open Access** — verified consumer credentials and meter digests make eligibility checks instant.
-- **Demand-side flexibility** — aggregators dispatching pooled resources for demand response. The `DemandFlex*` schema family is published (see [Schemas — External](../schemas/external/README.md#demand-flexibility)); no IES use-case guide exists yet.
+- **Demand-side flexibility** — aggregators dispatching pooled resources for demand response. The `DemandFlex*` schema family is published (see [Schemas — External](../schemas/external/README.md#demand-flexibility)); no use-case guide yet.
 
 ---
 
 ## Why these compound
 
-Working alone, every DISCOM solves the same problem by itself. With one common standard, the work is done once and every participant can use it. A consumer who moves in from another State arrives with an energy record that can be trusted at once, with no fresh verification. A bank or scheme anywhere in India can accept a record a DISCOM has issued, so consumers receive faster service. And a service or vendor proven in one State is available to others without being rebuilt.
+With one common standard, the work is done once and reused everywhere: a consumer moving States arrives already trusted, any bank in India accepts a DISCOM-issued record for faster service, and a service proven in one State works elsewhere without rebuilding.
 
 > Next: read **[Pilots and Status](pilots.md)** to see where IES is live today, or **[Common Questions](faq.md)** for the questions most often asked.
