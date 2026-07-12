@@ -1,13 +1,13 @@
 # DER Visibility
 
-A DISCOM publishes a **per-feeder view of every distributed energy resource** (rooftop solar, battery, EV charger) behind its meters — using the same **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** that the consumer's [Energy Passport](../consumer-energy-passport/README.md) is built on, but aggregated and re-published for grid-side consumers.
+A DISCOM publishes a **per-feeder view of every distributed energy resource** (rooftop solar, battery, EV charger) behind its meters — PII-free, built from the same `EnergyResource` and `ConsumptionProfile` building blocks that the consumer's [Energy Passport](../consumer-energy-passport/README.md) ([ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)) composes.
 
 | | |
 |---|---|
 | **Document** | IES/DERV-PROFILE/1.2 |
 | **Status** | Live in pilot |
 | **Applicability** | All distribution licensees |
-| **This version** | DER Visibility — a *grid-side issuance* of [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2). Same schema as the Energy Passport; different audience (grid operator / aggregator) and a different `credentialSubject` (the feeder, the substation, the licensee — not the consumer). |
+| **This version** | DER Visibility — a grid-side, PII-free publication of `energyResources[]` + `consumptionProfiles[]` arrays (the building blocks of [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)), issued per feeder / substation / licensee with the network locus — not a consumer — as subject. |
 
 ---
 
@@ -15,9 +15,9 @@ A DISCOM publishes a **per-feeder view of every distributed energy resource** (r
 
 The **stakeholders** are the DISCOM (issuer), its **grid operator** (forecasting, planning, dispatch), and any **aggregator** that wants to enrol controllable resources for demand response or flexibility. As rooftop solar, batteries and EV charging spread, the licensee often cannot answer the basic question: **what is connected on feeder F-02, at what capacity, where on the network, and is it controllable?**
 
-This document defines **DER Visibility** — the DISCOM publishes the aggregated `energyResources[]` view of one feeder, one substation, or the whole licensee, as a signed `ElectricityCredential`. Grid operators and aggregators ingest it directly. The credential **does not contain consumer PII** — only the asset facts the grid needs.
+This document defines **DER Visibility** — the DISCOM publishes a signed, aggregated view of one feeder, one substation, or the whole licensee. Grid operators and aggregators ingest it directly. The record **does not contain consumer PII** — only the asset facts the grid needs.
 
-It does **not** define a new schema. ElectricityCredential v1.2 is the schema; DER Visibility profiles how that schema is issued when the audience is the grid, not the consumer.
+**A note on the schema.** ElectricityCredential is issued per consumer connection — its subject is one `customerProfile` with one customer number — so it **cannot combine multiple consumers' credentials** into a feeder- or substation-level record. Each consumer keeps their own credential (the Energy Passport). For grid visibility, remove the PII and publish simply an **array of `EnergyResource` entries** (with their topology links) plus the matching **`ConsumptionProfile` entries** (sanctioned load, export limits, keyed by meter) for the locus — the same building blocks ElectricityCredential composes, signed with the feeder / substation / licensee DID as subject. No new field definitions are needed.
 
 ## 2. What It Records / Covers
 
@@ -29,7 +29,7 @@ For one network locus (feeder, substation, licensee-wide) the record carries:
 - the **parent / sub-resource topology** — PV and BESS → Inverter → Meter → DT;
 - optionally, an **aggregator binding** (`telemetryProvider`) where a resource is enrolled with a flexibility aggregator.
 
-**Consumer identity is omitted.** `customerProfile` and `customerDetails` are not populated in the DER Visibility issuance — only the asset facts. The same consumer credential exists separately as the Energy Passport, held by the consumer.
+**Consumer identity is omitted, and consumers are never merged.** One consumer's credential is never combined with another's: the DER Visibility record carries only `energyResources[]` and `consumptionProfiles[]` entries for the locus — no `customerDetails`, no customer numbers. Each consumer's own credential exists separately as the Energy Passport, held by the consumer.
 
 ## 3. How Each Item is Identified
 
@@ -67,7 +67,7 @@ Identical to **[Consumer Energy Passport §8](../consumer-energy-passport/README
 
 → **[ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference)**
 
-DER Visibility populates `energyResources[]` (typed entries: GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) and the parent / sub-resource links (`parentResources` / `subResources`). `customerProfile` and `customerDetails` are omitted.
+DER Visibility publishes `energyResources[]` (typed entries: GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) with the parent / sub-resource links (`parentResources` / `subResources`), plus `consumptionProfiles[]` where sanctioned-load / export-limit context is needed. No `customerDetails`, no customer numbers.
 
 ## 9. Schedule II
 
@@ -97,13 +97,14 @@ The credential is built from the same source-of-truth as the consumer Passport (
 
 1. **Refresh cadence per locus** — weekly vs monthly vs on-material-change — to be tuned per pilot.
 2. **Aggregator binding** — exact field for `telemetryProvider` and the credential proof an aggregator presents to claim a resource.
-3. **Privacy review** — confirmation that the aggregated, PII-free issuance meets DPDP grid-side disclosure norms.
+3. **Privacy review** — confirmation that the aggregated, PII-free issuance meets DPDP grid-side disclosure norms. Note `consumptionProfiles[]` entries are keyed by meter id — pseudonymous rather than anonymous — so their inclusion belongs behind the authenticated tier where required.
+4. **Aggregate record shape** — ElectricityCredential requires a single `customerProfile` with one customer number, so the PII-free aggregate view (`energyResources[]` + `consumptionProfiles[]` arrays with a network-locus subject) needs its own credential-subject shape to be formalised upstream; until then this guide profiles it per locus.
 
 ---
 
 ## Schemas Used in This Use Case
 
-A **single schema** — **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)**. DER Visibility is a grid-side issuance pattern over the same schema; no separate schema is needed.
+The building blocks of **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** — the `EnergyResource` and `ConsumptionProfile` schemas it composes — published as PII-free arrays per locus. No new field definitions are needed; each consumer's full credential remains their own Energy Passport.
 
 ## Value Unlock
 
@@ -134,9 +135,10 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Exchange — issuance shape
 
-- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the grid-side issuance shape of [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
-- [ ] `customerProfile` / `customerDetails` blanked at issuance time
+- [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) for the grid-side issuance shape (PII-free `energyResources[]` + `consumptionProfiles[]` arrays)
+- [ ] PII excluded at issuance time — no `customerDetails`, no customer numbers; one consumer's data never merged with another's credential
 - [ ] `energyResources[]` populated from CIS / DERMS / inspection register
+- [ ] `consumptionProfiles[]` included only where sanctioned-load / export-limit context is needed
 - [ ] Topology links (`parentResources`, `subResources`) populated where the DT mapping is known
 - [ ] Schema validation passes against [ElectricityCredential v1.2 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json)
 - [ ] Refresh cadence agreed and scheduled
@@ -165,7 +167,7 @@ Identical to **[Consumer Energy Passport — Annexure A](../consumer-energy-pass
 
 ## Annexure B — Example Payload
 
-The Passport `example.json` with `customerProfile` / `customerDetails` blanked, and the credential subject set to a feeder DID, is the canonical example.
+The canonical example is a per-feeder payload carrying the `energyResources[]` (and, where needed, `consumptionProfiles[]`) entries drawn from the Passport `example.json`, with all PII removed and the subject set to a feeder DID.
 
 ## Annexure C — JSON Schema
 

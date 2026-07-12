@@ -110,7 +110,7 @@ An AMISP integrating with IES typically maps its own head-end system (HES) / met
 3. **Sign, where required**: where the delivered payload needs a provenance attestation, wrap it in a **MeterDataCredential** rather than delivering the bare payload. This is described in Step 2.2's credential-signing note and in Phase 3.
 
 ### References & Anchors
-* [Schemas Overview — MeterData v0.6](../what-ies-provides/schemas-overview/meter-data.md)
+* [MeterData family page](../schemas/MeterData/README.md)
 * [MeterData Schema Reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 * [MeterData v0.6 Reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 * [Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)
@@ -138,7 +138,7 @@ A DER / EV-charger / inverter OEM typically populates the relevant kind inside `
 4. The credential itself is signed by the DISCOM (or, where you operate the signing infrastructure on their behalf, by whichever identity is the actual issuer — see Phase 3).
 
 ### References & Anchors
-* [Schemas Overview — ElectricityCredential v1.2](../what-ies-provides/schemas-overview/electricity-credential.md)
+* [ElectricityCredential family page](../schemas/ElectricityCredential/README.md)
 * [ElectricityCredential Schema Reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 * [ElectricityCredential v1.2 Reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 * [Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)
@@ -171,7 +171,7 @@ The `MeterDataCredential` schema documentation names **"AMISP, MDM system"** exp
 ### References & Anchors
 * [Register](../what-ies-provides/register.md)
 * [Registries and Directories — As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)
-* [Schemas Overview — MeterDataCredential](../what-ies-provides/schemas-overview/meter-data-credential.md)
+* [MeterDataCredential family page](../schemas/MeterDataCredential/README.md)
 </details>
 
 <details>
