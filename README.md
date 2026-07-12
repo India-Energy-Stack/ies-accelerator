@@ -2,7 +2,7 @@
 
 **India Energy Stack (IES)** is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking — UPI holds no money of its own; money stays in the customer's bank, and UPI is only the shared rules that let any bank pay any other. **IES is the same idea, for energy data.** The data stays in the systems that already hold it, and IES specs let any two systems exchange and act on it directly.
 
-IES is **live**. [Four pilot DISCOMs](concepts/pilots.md) built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
+IES is **live**. [Four pilot DISCOMs](concepts/what-ies-is.md#pilots-and-status) built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
 
 {% hint style="info" %}
 📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Regenerated automatically whenever the docs change.
@@ -18,9 +18,11 @@ Every IES interaction follows the same three steps. They are the **spine of this
 |---|---|---|
 | **[1. Register](what-ies-provides/register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. *Done once.* | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
 | **[2. Discover](what-ies-provides/discover.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://becknprotocol.io) |
-| **[3. Exchange](what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, the exchange also produces a **verifiable credential** the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
+| **[3. Exchange](what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
 
 IES picks the right open standard for each step and publishes a specification on top. **IES does not write new standards.** Build to the IES specs once, and a system can connect to any other IES-ready system without fresh integration work.
+
+Two capabilities build on the shared identity foundation: **data exchange** — B2B exchange of structured datasets, for which IES recommends the Beckn protocol — and **energy credentials** — W3C Verifiable Credentials issued with OpenCred, verified against the issuer's published key, and delivered to consumers over DigiLocker, web portals or any channel the issuer already runs. Credentials do not require a Beckn network.
 
 ---
 
@@ -34,11 +36,11 @@ The specifications. What is published.
 
 | Section | What's in it |
 |---|---|
-| [What IES Is](concepts/what-ies-is.md) | The intro. Problem, UPI analogy, what IES is and is not, the four pilots, FAQ. |
+| [What IES Is](concepts/what-ies-is.md) | The intro, on one page. Problem, UPI analogy, what IES is and is not, sector impact, the four pilots, FAQ. |
 | [Register](what-ies-provides/register.md) | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi). Detail under: [Identifiers](what-ies-provides/identifiers/README.md), [Registries](what-ies-provides/registries/README.md). |
-| [Discover](what-ies-provides/discover.md) | Beckn-protocol interaction. Detail under: [Data Exchange](what-ies-provides/data-exchange/README.md). |
-| [Exchange](what-ies-provides/exchange.md) | Schemas, taxonomy and verifiable credentials. Detail under: [Energy Credentials](what-ies-provides/energy-credentials/README.md), [Schemas](schemas/README.md). |
-| [Taxonomy](what-ies-provides/taxonomy.md) | Master schema map, standards precedence, versioning, how to propose a new schema. |
+| [Discover](what-ies-provides/discover.md) | Beckn-protocol interaction for data exchange. Detail under: [Data Exchange](what-ies-provides/data-exchange/README.md). |
+| [Exchange](what-ies-provides/exchange.md) | Schemas and verifiable credentials. Detail under: [Energy Credentials](what-ies-provides/energy-credentials/README.md), [Taxonomy](schemas/README.md). |
+| [Taxonomy](schemas/README.md) | Master schema map, per-schema overviews and field references, standards precedence, versioning, how to propose a new schema. |
 
 ### [How you implement IES](how-you-implement-ies/README.md)
 

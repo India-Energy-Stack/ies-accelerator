@@ -1,8 +1,8 @@
 # How you implement IES
 
-A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../concepts/pilots.md) followed in the 30-day Challenge.
+A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../concepts/what-ies-is.md#pilots-and-status) followed in the 30-day Challenge.
 
-The work follows the **[Register → Discover → Exchange](../concepts/how-it-works.md)** spine — the same three steps that organise every IES interaction. There are three setup steps and one conformance check.
+The work follows the **[Register → Discover → Exchange](../concepts/what-ies-is.md#how-it-works-three-steps)** spine — the same three steps that organise every IES interaction. There are three setup steps and one conformance check.
 
 | Step | Page | Time | What you get |
 |---|---|---|---|
@@ -10,6 +10,8 @@ The work follows the **[Register → Discover → Exchange](../concepts/how-it-w
 | **2. Setup Discovery** | [Setup Discovery](setup-discovery.md) | 1–2 days | A running Beckn adapter (ONIX) registered as a subscriber on the IES network |
 | **3. Build your Internal-facing Adapter** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | A small mapping layer between your internal systems and the IES schemas |
 | **4. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A signed-off, IES-ready interface, end-to-end |
+
+Step 2 sets up the Beckn network membership used for **B2B data exchange**. If your first use case is credentials only — issuing Consumer Energy Passports or Meter Digests to consumers — you can start with Steps 1 and 3 ([Energy Credentials](../what-ies-provides/energy-credentials/README.md) needs no Beckn network) and add Step 2 when a data-exchange use case calls for it.
 
 ---
 

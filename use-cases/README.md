@@ -8,7 +8,7 @@ Every guide follows the same **IES Documentation Template** (eleven numbered sec
 
 ## Live in pilot
 
-These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/pilots.md) in the 30-day Challenge (21 May – 21 June 2026).
+These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/what-ies-is.md#pilots-and-status) in the 30-day Challenge (21 May – 21 June 2026).
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
@@ -65,4 +65,4 @@ If you are a DISCOM implementing IES for the first time, the [Build your Interna
 
 - **[Register](../what-ies-provides/register.md)** · **[Discover](../what-ies-provides/discover.md)** · **[Exchange](../what-ies-provides/exchange.md)** — the three IES steps each use case combines.
 - **[How you implement IES](../how-you-implement-ies/README.md)** — the one-time setup that supports every use case.
-- **[Taxonomy](../what-ies-provides/taxonomy.md)** — schema map showing which schemas each use case combines.
+- **[Taxonomy](../schemas/README.md)** — schema map showing which schemas each use case combines.

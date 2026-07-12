@@ -1,6 +1,6 @@
 # Energy Credentials
 
-The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware) or carried inline in a data exchange. This page is the **reference** for the credential lifecycle, the variants IES uses (`ElectricityCredential`, `MeterDataCredential`, `MeterDataRequestCredential`), and the operational commands to issue / verify / revoke with [OpenCred](../../glossary.md#opencred).
+The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware), a web portal, or any channel the issuer already runs. Credential flows stand on their own — issuing, holding and verifying a credential requires **no Beckn network**. This page is the **reference** for the credential lifecycle, the variants IES uses (`ElectricityCredential`, `MeterDataCredential`, `MeterDataRequestCredential`), and the operational commands to issue / verify / revoke with [OpenCred](../../glossary.md#opencred).
 
 For first-time setup — getting OpenCred running, publishing `did.json`, claiming a DeDi namespace — follow **[Setup Register](../../how-you-implement-ies/setup-register.md)** and **[Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md)** first.
 
@@ -342,7 +342,7 @@ The Consumer Energy Passport use case ([use-cases/consumer-energy-passport/](../
 
 ### MeterDataCredential v0.6 — telemetry signing
 
-A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM, and delivered over Beckn at [`on_status`](../data-exchange/README.md#what-you-can-exchange-schema-families). Wraps [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6); schema [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6).
+A signed VC wrapping a `MeterData` v0.6 payload (raw `INTERVAL`/`DAILY`/`MONTHLY` profiles or derived summaries) for a specified period. Issued by the AMISP or MDM, typically B2B to a DISCOM. Wraps [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6); schema [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6).
 
 Same `POST /v1/credentials/issue` flow as the walkthrough above — the `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (see [Revoke](#id-4.-revoke)); its value is your DeDi revocation registry, addressed by namespace DID **or** verified domain:
 
@@ -365,7 +365,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
 
 Two common shapes:
 
-**B2B**, typically without `credentialSubject.id`. The AMISP signs; the DISCOM consumes the payload at Beckn `on_status`.
+**B2B**, typically without `credentialSubject.id`. The AMISP signs; the DISCOM consumes the payload.
 
 **Holder-bound, consumer-presentable** — the **Consumer Meter Digest** pattern. `credentialSubject.id` = the consumer's wallet DID, `validUntil` is short (hours to days), and the readings or summary cover a period the consumer asked for. The credential is delivered into the consumer's wallet / DigiLocker; verifiers (banks, marketplaces) check it without phoning the DISCOM. Use case page: [use-cases/consumer-meter-digest/](../../use-cases/consumer-meter-digest/README.md).
 

@@ -1,16 +1,21 @@
 # Exchange
 
-> **Step 3 of the three IES steps.** Schema, taxonomy and verifiable credentials. Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, the exchange also produces a **verifiable credential** the holder keeps and can re-present anywhere.
+> **Step 3 of the three IES steps.** Schema, taxonomy and verifiable credentials. Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps and can re-present anywhere.
 
-Once parties are **Registered** and have **Discovered** each other on Beckn, the actual data moves in this step. Exchange has three parts:
+Exchange has three parts:
 
 | Part | Purpose | IES choice |
 |---|---|---|
-| **Schemas** | The agreed shape of the data on the wire — field names, types, units, optionality. One canonical shape per domain object. | IES-published JSON Schema + JSON-LD context, built on public standards (DLMS/COSEM, IEEE 2030.5, OpenADR, CIM, etc.) |
-| **Verifiable Credentials** | Where the use case needs a durable record — a Passport, a Digest, a Filing — the exchange produces a W3C Verifiable Credential the holder keeps in DigiLocker or an EntityLocker. | W3C VC Data Model 2.0; W3C DID Core |
-| **Taxonomy** | The master vocabulary that ties everything together — what each schema is for, which use cases use which schemas, how schemas evolve and how new ones are proposed. | The [IES Taxonomy](taxonomy.md) |
+| **Schemas** | The agreed shape of the data — field names, types, units, optionality. One canonical shape per domain object. | IES-published JSON Schema + JSON-LD context, built on public standards (DLMS/COSEM, IEEE 2030.5, OpenADR, CIM, etc.) |
+| **Verifiable Credentials** | Where the use case needs a durable record — a Passport, a Digest — a W3C Verifiable Credential is issued that the holder keeps in DigiLocker or an EntityLocker. | W3C VC Data Model 2.0; W3C DID Core |
+| **Taxonomy** | The master vocabulary that ties everything together — what each schema is for, which use cases use which schemas, how schemas evolve and how new ones are proposed. | The [IES Taxonomy](../schemas/README.md) |
 
 **IES does not write new standards.** It picks the right open standard for each domain — DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response — and publishes a faithful schema on top.
+
+Exchange happens over two kinds of rail, and a use case picks whichever fits:
+
+- **B2B data exchange** — structured payloads moving between organisations, after the parties are **Registered** and have **Discovered** each other. IES recommends the [Beckn data-exchange flow](data-exchange/README.md) here for its built-in discovery, consent, contract and audit trail.
+- **Credential flows** — issued with [OpenCred](../glossary.md#opencred) and verified offline against the issuer's published key, credentials stand on their own and **do not require a Beckn network**. Consumer-facing (B2C) delivery happens over DigiLocker, a web portal, or any channel the issuer already runs.
 
 ---
 
@@ -55,13 +60,13 @@ For an IES participant, Exchange means writing the **Part-2 mapping** — the sm
 
 For the step-by-step setup, follow **[How you implement IES → Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
 
-The schema canonical references — JSON Schema, JSON-LD context, RDF vocabulary, example payloads — are in **[Schemas](../schemas/README.md)**.
+The schema canonical references — JSON Schema, JSON-LD context, RDF vocabulary, example payloads — are in the **[Taxonomy](../schemas/README.md)**.
 
 ---
 
 ## Verifiable Credentials
 
-A subset of Exchange payloads are issued as W3C Verifiable Credentials — durable, holder-bound records the consumer or another stakeholder keeps independently of IES and can re-present anywhere. The three credential schemas today:
+A subset of Exchange payloads are issued as W3C Verifiable Credentials — durable, holder-bound records the consumer or another stakeholder keeps independently of IES and can re-present anywhere. A credential is verified against the issuer's published key, so issuing, holding and verifying one involves no Beckn network at all. The three credential schemas today:
 
 | Credential | What it carries |
 |---|---|
@@ -77,8 +82,7 @@ For OpenCred-based issuance, verification and revocation operations, see **[Ener
 
 - **[Energy Credentials](energy-credentials/README.md)** — issuance / verification / revocation operations using OpenCred; credential variants; trust model; DigiLocker delivery.
 - **[Data Exchange — payload shapes](data-exchange/README.md#what-you-can-exchange-schema-families)** — what schemas ride on the Beckn wire, inline vs handoff.
-- **[Schemas Overview](schemas-overview/README.md)** — the plain-language walkthrough of each schema, before the field-by-field reference.
-- **[Schemas](../schemas/README.md)** — every schema family, every version, every example payload.
+- **[Taxonomy](../schemas/README.md)** — the master schema map, plain-language overview of each schema, and every version's field reference and example payloads.
 - **[External Schemas](../schemas/external/README.md)** — DEG-published schemas (P2PTrade, DemandFlex*) referenced by IES use cases.
 
 ---
@@ -93,4 +97,4 @@ For OpenCred-based issuance, verification and revocation operations, see **[Ener
 
 To set up the Part-2 mapping hands-on: **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
 
-For how schemas evolve and how to propose a new one: **[Taxonomy](taxonomy.md)**.
+For how schemas evolve and how to propose a new one: **[Taxonomy](../schemas/README.md)**.
