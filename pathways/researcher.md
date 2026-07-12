@@ -53,7 +53,7 @@ Before reading a single schema file, get a correct mental model of what IES is (
 
 ### References & Anchors
 * [What IES Provides](../what-ies-provides/README.md)
-* [What IES Is — Where it stands today](../concepts/what-ies-is.md#where-it-stands-today)
+* [What IES Is — Pilots and status](../concepts/what-ies-is.md#pilots-and-status)
 </details>
 
 ---
@@ -66,17 +66,17 @@ You do not need to run an adapter to read a schema. Every schema family in IES s
 <summary><b>Step 2.1: Use the Taxonomy and Schemas Overview as Your Index</b></summary>
 
 ### 💡 Phase Advice
-> Don't try to guess which schema covers your research question by browsing folders. Start from [Taxonomy](../what-ies-provides/taxonomy.md) — its **schema map** table lists every schema, the domain it covers, and which use case combines it, all in one place.
+> Don't try to guess which schema covers your research question by browsing folders. Start from [Taxonomy](../schemas/README.md) — its **schema map** table lists every schema, the domain it covers, and which use case combines it, all in one place.
 
 ### Execution Guidance
-1. Open [Taxonomy](../what-ies-provides/taxonomy.md) and read the **Schema map** section — it groups schemas into Verifiable Credentials, Data Exchange payloads, and External (DEG) schemas, with a one-line domain description and current version for each.
-2. Cross-reference against the [Schemas Overview](../what-ies-provides/schemas-overview/README.md) pages, which give a master index for browsing schema families without needing to open every folder individually.
+1. Open [Taxonomy](../schemas/README.md) and read the **Schema map** section — it groups schemas into Verifiable Credentials, Data Exchange payloads, and External (DEG) schemas, with a one-line domain description and current version for each.
+2. Cross-reference against the [Plain-language overviews](../schemas/README.md#plain-language-overviews) pages, which give a master index for browsing schema families without needing to open every folder individually.
 3. Note the **Standards precedence** section of the Taxonomy page: every schema records, per field, which standard governs it (Bureau of Indian Standards first, then CEA Regulations/IEGC, then IEC, then IEEE). This is directly citable if your analysis concerns standards alignment.
 
 ### References & Anchors
-* [Taxonomy — Schema map](../what-ies-provides/taxonomy.md#schema-map)
-* [Taxonomy — Standards precedence](../what-ies-provides/taxonomy.md#standards-precedence)
-* [Schemas Overview](../what-ies-provides/schemas-overview/README.md)
+* [Taxonomy — Schema map](../schemas/README.md#schema-map)
+* [Taxonomy — Standards precedence](../schemas/README.md#standards-precedence)
+* [Plain-language overviews](../schemas/README.md#plain-language-overviews)
 </details>
 
 <details>
@@ -92,9 +92,9 @@ You do not need to run an adapter to read a schema. Every schema family in IES s
 4. If your analysis needs the formal schema rather than the prose reference, open `schema.json` (JSON Schema Draft 2020-12) directly, or `context.jsonld` / `vocab.jsonld` if you are doing semantic-web or linked-data analysis.
 
 ### References & Anchors
-* [Taxonomy — Versioning](../what-ies-provides/taxonomy.md#versioning)
-* [Taxonomy — Schema map](../what-ies-provides/taxonomy.md#schema-map)
-* [Schemas Overview](../what-ies-provides/schemas-overview/README.md)
+* [Taxonomy — Versioning](../schemas/README.md#versioning)
+* [Taxonomy — Schema map](../schemas/README.md#schema-map)
+* [Plain-language overviews](../schemas/README.md#plain-language-overviews)
 * [MeterData example payloads](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples)
 </details>
 
@@ -128,24 +128,24 @@ If your research makes a claim about how a schema behaves, verify it empirically
 
 ### References & Anchors
 * [MeterData v0.6 validator README](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
-* [Taxonomy — Versioning](../what-ies-provides/taxonomy.md#versioning)
+* [Taxonomy — Versioning](../schemas/README.md#versioning)
 </details>
 
 <details>
 <summary><b>Step 3.2: Study the Documented Pilot Outcomes</b></summary>
 
 ### 💡 Phase Advice
-> Don't rely on secondary summaries of what the pilots demonstrated. [Pilots and Status](../concepts/pilots.md) is the primary, citable source: a concrete outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), covering the four pilot DISCOMs and which use case each demonstrated.
+> Don't rely on secondary summaries of what the pilots demonstrated. [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) is the primary, citable source: a concrete outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), covering the four pilot DISCOMs and which use case each demonstrated.
 
 ### Execution Guidance
-1. Read [Pilots and Status](../concepts/pilots.md) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.
+1. Read [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.
 2. Cross-reference the "Use cases demonstrated" table against the four capabilities shown live: **DER Visibility**, **Consumer Energy Passport**, **Consumer Meter Digest**, and **Smart Meter Data Exchange** — each row also states the "Before IES" baseline, useful if your analysis is a before/after comparison.
 3. Note the "What 'live in pilot' means" section, which defines exactly what evidentiary bar each demonstration had to clear (adapter running, `did:web` identity resolvable, subscriber record in the network registry, issued credential or completed exchange, independently verified by a counterparty) — useful if you need to characterise the rigour of the pilot claims in your own writing.
 
 ### References & Anchors
-* [Pilots and Status](../concepts/pilots.md)
-* [Pilots and Status — The 30-day DISCOM Challenge](../concepts/pilots.md#the-30-day-discom-challenge)
-* [Pilots and Status — Use cases demonstrated](../concepts/pilots.md#use-cases-demonstrated)
+* [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status)
+* [Pilots and Status — The 30-day DISCOM Challenge](../concepts/what-ies-is.md#the-30-day-discom-challenge)
+* [Pilots and Status — Use cases demonstrated](../concepts/what-ies-is.md#use-cases-demonstrated)
 </details>
 
 ---
@@ -161,7 +161,7 @@ Research sometimes surfaces something IES itself should know about: a domain obj
 > If your analysis surfaces a genuine gap, don't just note it in a footnote — the Taxonomy page documents an actual proposal flow with a real review body. Following it turns a research observation into a durable specification improvement that other researchers benefit from too.
 
 ### Execution Guidance
-Follow the flow documented in [Taxonomy — Proposing a new schema (or a change)](../what-ies-provides/taxonomy.md#proposing-a-new-schema-or-a-change):
+Follow the flow documented in [Taxonomy — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change):
 1. **Check the schema map first** — confirm no existing schema (with an optional extension) already covers the object you think is missing.
 2. **Draft the schema** in `attributes.yaml` shape, following the IES Documentation Template referenced from the Taxonomy page.
 3. **Open a PR** against this repository, including a scope statement, the basis of standards used (in the IS → CEA → IEC → IEEE precedence order), and example payloads.
@@ -169,8 +169,8 @@ Follow the flow documented in [Taxonomy — Proposing a new schema (or a change)
 5. **Acceptance** publishes a versioned `v0.1` and adds the schema to the Taxonomy's schema map.
 
 ### References & Anchors
-* [Taxonomy — Proposing a new schema (or a change)](../what-ies-provides/taxonomy.md#proposing-a-new-schema-or-a-change)
-* [Taxonomy — Stewardship](../what-ies-provides/taxonomy.md#stewardship)
+* [Taxonomy — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change)
+* [Taxonomy — Stewardship](../schemas/README.md#stewardship)
 </details>
 
 <details>
@@ -180,12 +180,12 @@ Follow the flow documented in [Taxonomy — Proposing a new schema (or a change)
 > Cite a specific schema family and version (e.g. "IES MeterData v0.6"), not just "the India Energy Stack" in general — schemas are versioned precisely so that a citation stays reproducible even as later versions are published, since old versions stay reachable.
 
 ### Execution Guidance
-1. Cite the canonical hosting path noted under [Taxonomy — Stewardship](../what-ies-provides/taxonomy.md#stewardship): the repository (`schemas/` folder) as source of truth, with canonical published URLs of the form `india-energy-stack.github.io/ies-accelerator/schemas/...`.
-2. When citing pilot outcomes, cite [Pilots and Status](../concepts/pilots.md) directly and name the specific DISCOM(s) and use case(s) your analysis draws on, rather than "the IES pilots" generically.
-3. For questions that arise during citation or proposal review, the IES Secretariat is the documented contact point (see [Pilots and Status — Get in touch](../concepts/pilots.md#get-in-touch)).
+1. Cite the canonical hosting path noted under [Taxonomy — Stewardship](../schemas/README.md#stewardship): the repository (`schemas/` folder) as source of truth, with canonical published URLs of the form `india-energy-stack.github.io/ies-accelerator/schemas/...`.
+2. When citing pilot outcomes, cite [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) directly and name the specific DISCOM(s) and use case(s) your analysis draws on, rather than "the IES pilots" generically.
+3. For questions that arise during citation or proposal review, the IES Secretariat is the documented contact point (see [Pilots and Status — Get in touch](../concepts/what-ies-is.md#get-in-touch)).
 
 ### References & Anchors
-* [Taxonomy — Stewardship](../what-ies-provides/taxonomy.md#stewardship)
-* [Pilots and Status — Get in touch](../concepts/pilots.md#get-in-touch)
-* [Taxonomy — Where this fits](../what-ies-provides/taxonomy.md#where-this-fits)
+* [Taxonomy — Stewardship](../schemas/README.md#stewardship)
+* [Pilots and Status — Get in touch](../concepts/what-ies-is.md#get-in-touch)
+* [Taxonomy — Where this fits](../schemas/README.md#where-this-fits)
 </details>

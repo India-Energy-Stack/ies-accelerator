@@ -28,7 +28,7 @@ The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document
 
 ### Energy Credentials
 
-A framework for issuing, holding, and verifying **digital attestations** about energy assets and consumers, built on [W3C Verifiable Credentials](glossary.md#verifiable-credential-vc) and [DigiLocker](glossary.md#digilocker).
+A framework for issuing, holding, and verifying **digital attestations** about energy assets and consumers, built on [W3C Verifiable Credentials](glossary.md#verifiable-credential-vc) and [DigiLocker](glossary.md#digilocker). Credential flows stand on their own — they do not require a [Beckn](glossary.md#beckn) network. Consumer-facing delivery happens over DigiLocker, a web portal, or any channel the issuer already runs; the Beckn network is what IES recommends for **B2B data exchange** (the next capability below).
 
 > **v1 scope.** DISCOMs are the sole **issuer**; consumers (or authorized actors on their behalf) are the **holder**; third parties **verify** or **receive** credentials depending on the use case. Other issuer roles (SERCs, DER OEMs, government bodies) are architecturally supported but out of scope for v1.
 

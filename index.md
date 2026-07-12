@@ -486,19 +486,6 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 The IES Documentation Template applied to each schema itself — scope, identifiers, standards basis, before the auto-generated field reference.
 
-* **[README.md](what-ies-provides/schemas-overview/README.md)**
-  - *Summary*: Index of the plain-language Schemas Overview pages — the IES Documentation Template applied to each schema itself.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="what-ies-provides/schemas-overview/README.md#schemas-overview">Schemas Overview</a>    <ul>
-      <li><a href="what-ies-provides/schemas-overview/README.md#how-each-page-is-organised">How each page is organised</a></li>
-      <li><a href="what-ies-provides/schemas-overview/README.md#where-this-fits">Where this fits</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 * **[electricity-credential.md](what-ies-provides/schemas-overview/electricity-credential.md)**
   - *Summary*: Plain-language walkthrough of ElectricityCredential v1.2 — scope, identifiers, standards basis, and how it fits together.
   <details>
@@ -694,15 +681,27 @@ The IES Documentation Template applied to each schema itself — scope, identifi
 Detailed documentation for the JSON and JSON-LD schema formats used in the accelerator.
 
 * **[README.md](schemas/README.md)**
-  - *Summary*: Catalog of schemas, their purpose, versioning guidelines, and file structure.
+  - *Summary*: Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="schemas/README.md#ies-accelerator-schemas">IES Accelerator — Schemas</a>    <ul>
-      <li><a href="schemas/README.md#why-this-directory-exists">Why this directory exists</a></li>
-      <li><a href="schemas/README.md#provenance-and-updates">Provenance and updates</a></li>
-      <li><a href="schemas/README.md#schema-families">Schema Families</a></li>
-      <li><a href="schemas/README.md#external-schemas">External Schemas</a>
+    <li><a href="schemas/README.md#taxonomy">Taxonomy</a>    <ul>
+      <li><a href="schemas/README.md#schema-map">Schema map</a>      <ul>
+        <li><a href="schemas/README.md#verifiable-credentials">Verifiable Credentials</a></li>
+        <li><a href="schemas/README.md#data-exchange-payloads">Data Exchange payloads</a></li>
+        <li><a href="schemas/README.md#external-deg-schemas-ies-uses">External — DEG schemas IES uses</a>
+      </li>
+      </ul>
+      <li><a href="schemas/README.md#how-the-schemas-fit-together">How the schemas fit together</a></li>
+      <li><a href="schemas/README.md#plain-language-overviews">Plain-language overviews</a></li>
+      <li><a href="schemas/README.md#versioning">Versioning</a>      <ul>
+        <li><a href="schemas/README.md#canonical-hosting-and-mirrors">Canonical hosting and mirrors</a>
+      </li>
+      </ul>
+      <li><a href="schemas/README.md#standards-precedence">Standards precedence</a></li>
+      <li><a href="schemas/README.md#proposing-a-new-schema-or-a-change">Proposing a new schema (or a change)</a></li>
+      <li><a href="schemas/README.md#stewardship">Stewardship</a></li>
+      <li><a href="schemas/README.md#where-this-fits">Where this fits</a>
     </li>
     </ul>
   </li>

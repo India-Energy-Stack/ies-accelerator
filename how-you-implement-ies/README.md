@@ -1,15 +1,17 @@
 # How you implement IES
 
-A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../concepts/pilots.md) followed in the 30-day Challenge.
+A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../concepts/what-ies-is.md#pilots-and-status) followed in the 30-day Challenge.
 
-The work follows the **[Register → Discover → Exchange](../concepts/how-it-works.md)** spine — the same three steps that organise every IES interaction. There are three setup steps and one conformance check.
+The work follows the **[Register → Discover → Exchange](../concepts/what-ies-is.md#how-it-works-three-steps)** spine — the same three steps that organise every IES interaction. There are three setup steps and one conformance check.
 
 | Step | Page | Time | What you get |
 |---|---|---|---|
 | **1. Setup Register** | [Setup Register](setup-register.md) | 1–2 days | A verifiable `did:web` for your organisation and a published DeDi namespace |
 | **2. Setup Discovery** | [Setup Discovery](setup-discovery.md) | 1–2 days | A running Beckn adapter (ONIX) registered as a subscriber on the IES network |
-| **3. Build your Internal-facing Adapter** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | A small mapping layer between your internal systems and the IES schemas |
+| **3. Build your Internal-facing Adapter(s)** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | Small mapping layers between your internal systems and the IES schemas — feeding ONIX and/or OpenCred |
 | **4. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A signed-off, IES-ready interface, end-to-end |
+
+Step 2 sets up the Beckn network membership used for **B2B data exchange**. In Step 3 you build an internal-facing adapter per engine your use cases need: one feeding **ONIX** for use cases that run over a Beckn network (e.g. Smart Meter Data Exchange, Regulatory Filing), and one feeding **[OpenCred](../glossary.md#opencred)** for credential-only use cases (e.g. Consumer Energy Passport, Consumer Meter Digest). If your first use case is credentials only, you can start with Steps 1 and 3 ([Energy Credentials](../what-ies-provides/energy-credentials/README.md) needs no Beckn network) and add Step 2 when a data-exchange use case calls for it.
 
 ---
 
@@ -71,10 +73,11 @@ For the full department-by-department mapping see the **[utility pathway prework
                                        │
                                        ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  Step 3 — Build your Internal-facing Adapter (the Part-2 mapping)           │
-│  ────────────────────────────────────────────────────────────────           │
+│  Step 3 — Build your Internal-facing Adapter(s) (the Part-2 mapping)        │
+│  ────────────────────────────────────────────────────────────────────       │
 │  • Map your data → IES schema fields (CIS↔customerProfile, MDM↔MeterData…)  │
-│  • Plug the mapping into ONIX as a BPP handler                              │
+│  • Plug the mapping into ONIX as a BPP handler (Beckn-network use cases)    │
+│    and/or into OpenCred as an issuance feed (credential-only use cases)     │
 │  • Test against the sandbox / a counterparty                                │
 │  → Output: a working IES interface to your internal systems                 │
 └─────────────────────────────────────────────────────────────────────────────┘

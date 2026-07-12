@@ -95,7 +95,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 * [ArrFiling Schema Overview](../what-ies-provides/schemas-overview/arr-filing.md)
 * [ArrFiling Schema Reference (v0.5)](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ArrFiling Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
-* [Taxonomy — Schema map (ArrFiling entry)](../what-ies-provides/taxonomy.md#data-exchange-payloads)
+* [Taxonomy — Schema map (ArrFiling entry)](../schemas/README.md#data-exchange-payloads)
 </details>
 
 <details>
@@ -147,7 +147,7 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 * [Tariff Intelligence — How Each Item is Identified](../use-cases/tariff-intelligence/README.md#id-3.-how-each-item-is-identified)
 * [Tariff Intelligence — Setup: Register → Discover → Exchange](../use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
 * [Tariff Intelligence — Value Unlock](../use-cases/tariff-intelligence/README.md#value-unlock)
-* [Taxonomy — Schema map (`IES_Policy`, in progress)](../what-ies-provides/taxonomy.md#data-exchange-payloads)
+* [Taxonomy — Schema map (`IES_Policy`, in progress)](../schemas/README.md#data-exchange-payloads)
 </details>
 
 ---
@@ -170,9 +170,9 @@ When a proposal arrives, the review checks:
 4. **Acceptance**: publish a versioned `v0.1` (new schema) or a new minor/major version (change to an existing schema), and add or update the entry in the schema map.
 
 ### References & Anchors
-* [Taxonomy — Proposing a new schema (or a change)](../what-ies-provides/taxonomy.md#proposing-a-new-schema-or-a-change)
-* [Taxonomy — Standards precedence](../what-ies-provides/taxonomy.md#standards-precedence)
-* [Taxonomy — Schema map](../what-ies-provides/taxonomy.md#schema-map)
+* [Taxonomy — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change)
+* [Taxonomy — Standards precedence](../schemas/README.md#standards-precedence)
+* [Taxonomy — Schema map](../schemas/README.md#schema-map)
 </details>
 
 <details>
@@ -189,7 +189,7 @@ As the schema steward, the IES Cell is operationally responsible for:
 4. **Deprecation** — old versions stay queryable; the schema map and canonical URL flag the currently active version.
 
 ### References & Anchors
-* [Taxonomy — Stewardship](../what-ies-provides/taxonomy.md#stewardship)
-* [Taxonomy — Versioning](../what-ies-provides/taxonomy.md#versioning)
-* [Taxonomy — Where this fits](../what-ies-provides/taxonomy.md#where-this-fits)
+* [Taxonomy — Stewardship](../schemas/README.md#stewardship)
+* [Taxonomy — Versioning](../schemas/README.md#versioning)
+* [Taxonomy — Where this fits](../schemas/README.md#where-this-fits)
 </details>

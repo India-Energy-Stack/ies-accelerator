@@ -4,6 +4,8 @@
 
 Once both parties are registered (Step 1), they need a way to **find each other, negotiate terms, and produce a signed audit trail** of what was agreed — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://becknprotocol.io)** for this.
 
+Discover belongs to the **data exchange** capability — B2B exchange of structured datasets between registered organisations. The other IES capability, **[Energy Credentials](energy-credentials/README.md)**, does not need this step: a credential is issued and verified against the issuer's published key, with no Beckn network involved.
+
 | Concern | What Beckn provides |
 |---|---|
 | Discovery | Either party can publish a catalogue of what it offers (datasets, credentials, dispatch programmes) and other parties can query it. |

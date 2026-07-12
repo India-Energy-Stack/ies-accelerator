@@ -98,7 +98,6 @@ def main():
             ("what-ies-provides/data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
         "schemas_overview": [
-            ("what-ies-provides/schemas-overview/README.md", "Index of the plain-language Schemas Overview pages — the IES Documentation Template applied to each schema itself."),
             ("what-ies-provides/schemas-overview/electricity-credential.md", "Plain-language walkthrough of ElectricityCredential v1.2 — scope, identifiers, standards basis, and how it fits together."),
             ("what-ies-provides/schemas-overview/meter-data.md", "Plain-language walkthrough of MeterData v0.6 — the eight compact telemetry profiles and their standards basis."),
             ("what-ies-provides/schemas-overview/meter-data-credential.md", "Plain-language walkthrough of MeterDataCredential v0.6 — the provenance-attestation wrapper around a MeterData payload."),
@@ -108,7 +107,7 @@ def main():
             ("what-ies-provides/schemas-overview/outage-notification.md", "Plain-language walkthrough of OutageNotification v0.1 — status: work in progress.")
         ],
         "schemas": [
-            ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),
+            ("schemas/README.md", "Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
             ("schemas/ElectricityCredential/README.md", "Metadata, context inheritance, and fields for the ElectricityCredential VC schema."),
             ("schemas/ElectricityCredential/v1.0/README.md", "Technical specification and fields for Customer Credential v1.0."),
             ("schemas/MeterData/v0.5/README.md", "Overview and field representations for MeterData v0.5 profiles."),
