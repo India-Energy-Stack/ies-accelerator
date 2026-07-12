@@ -97,15 +97,6 @@ def main():
         "exchange_setup": [
             ("what-ies-provides/data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
-        "schemas_overview": [
-            ("what-ies-provides/schemas-overview/electricity-credential.md", "Plain-language walkthrough of ElectricityCredential v1.2 — scope, identifiers, standards basis, and how it fits together."),
-            ("what-ies-provides/schemas-overview/meter-data.md", "Plain-language walkthrough of MeterData v0.6 — the eight compact telemetry profiles and their standards basis."),
-            ("what-ies-provides/schemas-overview/meter-data-credential.md", "Plain-language walkthrough of MeterDataCredential v0.6 — the provenance-attestation wrapper around a MeterData payload."),
-            ("what-ies-provides/schemas-overview/meter-data-request.md", "Plain-language walkthrough of MeterDataRequest v0.6 — capabilities, authorisation, and the request payload."),
-            ("what-ies-provides/schemas-overview/meter-data-request-credential.md", "Plain-language walkthrough of MeterDataRequestCredential v0.1 — the requester-authorisation wrapper."),
-            ("what-ies-provides/schemas-overview/arr-filing.md", "Plain-language walkthrough of ArrFiling v0.5 — the ARR filing structure and standards basis."),
-            ("what-ies-provides/schemas-overview/outage-notification.md", "Plain-language walkthrough of OutageNotification v0.1 — status: work in progress.")
-        ],
         "schemas": [
             ("schemas/README.md", "Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
             ("schemas/ElectricityCredential/README.md", "ElectricityCredential family page — version history, inheritance, and usage."),
@@ -211,18 +202,7 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 ## 🗃️ 5. Schemas
 
-### 📘 Schemas Overview (plain language)
-
-The IES Documentation Template applied to each schema itself — scope, identifiers, standards basis, before the auto-generated field reference.
-
-"""
-    for rel_path, summary in sections["schemas_overview"]:
-        content += generate_file_entry(root_dir, rel_path, summary)
-
-    content += """
-### 🔧 Field Reference (auto-generated)
-
-Detailed documentation for the JSON and JSON-LD schema formats used in the accelerator.
+Each family page opens with a concise plain-language overview; version pages carry the auto-generated field reference.
 
 """
     for rel_path, summary in sections["schemas"]:

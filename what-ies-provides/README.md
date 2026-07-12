@@ -8,7 +8,7 @@ The specifications. What is published. Organised by the three IES steps — **Re
 | **[Register](register.md)** | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi). Detail under [Identifiers](identifiers/README.md), [Registries](registries/README.md). |
 | **[Discover](discover.md)** | Beckn-protocol interaction for data exchange. Detail under [Data Exchange](data-exchange/README.md). |
 | **[Exchange](exchange.md)** | The Taxonomy and verifiable credentials. Detail under [Energy Credentials](energy-credentials/README.md) and the [Taxonomy](../schemas/README.md). |
-| **[Taxonomy](../schemas/README.md)** | The master vocabulary of IES — every domain object, its plain-language overview, and the schema that describes its shape. Standards precedence, versioning, how to propose a new object. |
+| **[Taxonomy](../schemas/README.md)** | The master vocabulary of IES — every domain object, its plain-language overview, and the schema that describes its shape. Standards precedence, versioning, how to propose a new object. *Its own chapter near the end of this book.* |
 
 ---
 

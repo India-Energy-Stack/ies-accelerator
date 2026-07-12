@@ -5,7 +5,7 @@
 The Taxonomy answers the practical questions an implementer asks:
 
 1. *"For my use case, which schemas do I need?"* — the **schema map** below.
-2. *"What is this schema, in plain words, and what do I validate against?"* — the per-schema **Overview** and **field reference** pages linked from the map.
+2. *"What is this schema, in plain words, and what do I validate against?"* — each family page below opens with a concise overview, ahead of the versioned field reference.
 3. *"My system has a domain object IES doesn't yet cover. How do I propose a new schema?"* — the **proposal flow** below.
 4. *"Who owns these schemas, who can change them, and when?"* — **Stewardship**.
 
@@ -21,23 +21,23 @@ Every IES schema, the domain it covers, the use cases that combine it, and its c
 
 W3C VC payloads — signed, durable records the holder keeps and verifies independently of any network. Issuance, verification and revocation operations are in **[Energy Credentials](../what-ies-provides/energy-credentials/README.md)**.
 
-| Schema | Domain | Used in | Overview | Reference |
-|---|---|---|---|---|
-| [ElectricityCredential](ElectricityCredential/README.md) | Static facts of a consumer connection — sanctioned load, tariff, assets behind the meter | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) | [Overview](../what-ies-provides/schemas-overview/electricity-credential.md) | **[v1.2](ElectricityCredential/v1.2/README.md)** |
-| [MeterDataCredential](MeterDataCredential/README.md) | Signed envelope around a MeterData payload — attests who produced the readings | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | [Overview](../what-ies-provides/schemas-overview/meter-data-credential.md) | **[v0.6](MeterDataCredential/v0.6/README.md)** |
-| [MeterDataRequestCredential](MeterDataRequestCredential/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional) | [Overview](../what-ies-provides/schemas-overview/meter-data-request-credential.md) | **[v0.1](MeterDataRequestCredential/v0.1/README.md)** |
+| Schema | Domain | Used in | Reference |
+|---|---|---|---|
+| [ElectricityCredential](ElectricityCredential/README.md) | Static facts of a consumer connection — sanctioned load, tariff, assets behind the meter | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) | **[v1.2](ElectricityCredential/v1.2/README.md)** |
+| [MeterDataCredential](MeterDataCredential/README.md) | Signed envelope around a MeterData payload — attests who produced the readings | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | **[v0.6](MeterDataCredential/v0.6/README.md)** |
+| [MeterDataRequestCredential](MeterDataRequestCredential/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional) | **[v0.1](MeterDataRequestCredential/v0.1/README.md)** |
 
 ### Data Exchange payloads
 
 Structured, non-credential payload schemas.
 
-| Schema | Domain | Used in | Overview | Reference |
-|---|---|---|---|---|
-| [MeterData](MeterData/README.md) | Smart-meter telemetry (8 compact profiles: CUSTOMER, INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM) | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (payload) | [Overview](../what-ies-provides/schemas-overview/meter-data.md) | **[v0.6](MeterData/v0.6/README.md)** |
-| [MeterDataRequest](MeterDataRequest/README.md) | Query / capabilities / authorisation shapes for meter-data requests | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | [Overview](../what-ies-provides/schemas-overview/meter-data-request.md) | **[v0.6](MeterDataRequest/v0.6/README.md)** |
-| [ArrFiling](ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [Overview](../what-ies-provides/schemas-overview/arr-filing.md) | **[v0.5](ArrFiling/v0.5/README.md)** |
-| [OutageNotification](OutageNotification/README.md) | Planned + unplanned outage notices — pull feed (outage map) and push alert (CAP). **WIP** | — no IES use-case guide yet | [Overview](../what-ies-provides/schemas-overview/outage-notification.md) | **[v0.1](OutageNotification/v0.1/README.md)** |
-| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | — | in progress |
+| Schema | Domain | Used in | Reference |
+|---|---|---|---|
+| [MeterData](MeterData/README.md) | Smart-meter telemetry (8 compact profiles: CUSTOMER, INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM) | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (payload) | **[v0.6](MeterData/v0.6/README.md)** |
+| [MeterDataRequest](MeterDataRequest/README.md) | Query / capabilities / authorisation shapes for meter-data requests | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | **[v0.6](MeterDataRequest/v0.6/README.md)** |
+| [ArrFiling](ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | **[v0.5](ArrFiling/v0.5/README.md)** |
+| [OutageNotification](OutageNotification/README.md) | Planned + unplanned outage notices — pull feed (outage map) and push alert (CAP). **WIP** | — no IES use-case guide yet | **[v0.1](OutageNotification/v0.1/README.md)** |
+| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | in progress |
 
 ### External — DEG schemas IES uses
 
@@ -59,25 +59,7 @@ Each schema is a self-contained record: it validates, signs and verifies the sam
 - **ArrFiling** is delivered DISCOM-to-SERC over Beckn in the [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) use case.
 - **OutageNotification** is published as a web / outage-map pull feed and a CAP-shaped push alert.
 
-Each Overview page's *How It Fits Together* section (§10) carries the per-schema detail.
-
----
-
-## Plain-language overviews
-
-Before the field-by-field technical reference, each schema has a one-page **Overview** — what it is, who issues it, what standards it follows, and where it still has open questions — following the same **[IES Documentation Template](../use-cases/README.md#how-each-guide-is-organised)** used by every use-case guide, applied to the schema itself. Read the Overview if you want the *why* before the *what*.
-
-| Schema | What it is | Status |
-|---|---|---|
-| **[ElectricityCredential v1.2](../what-ies-provides/schemas-overview/electricity-credential.md)** | W3C VC — a consumer connection's static facts and the energy resources behind the meter | Stable |
-| **[MeterData v0.6](../what-ies-provides/schemas-overview/meter-data.md)** | Compact telemetry payload — 8 profile shapes for readings, events and alarms | Stable |
-| **[MeterDataCredential v0.6](../what-ies-provides/schemas-overview/meter-data-credential.md)** | W3C VC wrapping a MeterData payload to attest its provenance | Draft for technical review |
-| **[MeterDataRequest v0.6](../what-ies-provides/schemas-overview/meter-data-request.md)** | Query and authorisation payload for asking a provider for telemetry | Draft for technical review |
-| **[MeterDataRequestCredential v0.1](../what-ies-provides/schemas-overview/meter-data-request-credential.md)** | W3C VC wrapping a MeterDataRequest to prove the requester's authorisation | Draft for technical review |
-| **[ArrFiling v0.5](../what-ies-provides/schemas-overview/arr-filing.md)** | Structured Aggregate Revenue Requirement filing — DISCOM to SERC | Draft for technical review |
-| **[OutageNotification v0.1](../what-ies-provides/schemas-overview/outage-notification.md)** | Planned/unplanned outage record — pull feed + CAP-aligned push | **Work in progress** |
-
----
+Each family page carries the per-schema detail.
 
 ## Versioning
 
@@ -111,7 +93,7 @@ Every schema in IES records, per field, the standard that governs it. The IES or
 
 The precedence is recorded as the machine-readable `x-standards-precedence` map at the root of every JSON Schema: `{ IS:1, CEA:2, IEGC:2, IEC:3, IEEE:4 }`. Per-field standard provenance is in the `x-standard` annotation on every property.
 
-Where no Indian standard applies, an international one is used and the gap is recorded — see the **§6 Where Indian Standards Do Not Yet Exist** section in every schema Overview and use-case guide.
+Where no Indian standard applies, an international one is used and the gap is recorded — see the standards-basis notes on each family page and the **§6 Where Indian Standards Do Not Yet Exist** section in every use-case guide.
 
 ---
 

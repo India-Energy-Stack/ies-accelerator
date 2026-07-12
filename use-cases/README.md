@@ -30,7 +30,7 @@ These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/w
 |---|---|---|
 | **[P2P Energy Trading](p2p-energy-trading/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
 
-> **OutageNotification** — the schema is published ([v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)), but there is no IES use-case guide for outage visibility yet. See the [OutageNotification schema overview](../what-ies-provides/schemas-overview/outage-notification.md) for the plain-language walkthrough of what the schema covers.
+> **OutageNotification** — the schema is published ([v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)), but there is no IES use-case guide for outage visibility yet. See the [OutageNotification family page](../schemas/OutageNotification/README.md) for the plain-language walkthrough of what the schema covers.
 
 ---
 

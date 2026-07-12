@@ -63,20 +63,19 @@ Before reading a single schema file, get a correct mental model of what IES is (
 You do not need to run an adapter to read a schema. Every schema family in IES ships its JSON Schema, JSON-LD context, RDF vocabulary and worked example payloads directly in this repository — no separate SDK or credential is required to open and study them.
 
 <details>
-<summary><b>Step 2.1: Use the Taxonomy and Schemas Overview as Your Index</b></summary>
+<summary><b>Step 2.1: Use the Taxonomy as Your Index</b></summary>
 
 ### 💡 Phase Advice
 > Don't try to guess which schema covers your research question by browsing folders. Start from [Taxonomy](../schemas/README.md) — its **schema map** table lists every schema, the domain it covers, and which use case combines it, all in one place.
 
 ### Execution Guidance
 1. Open [Taxonomy](../schemas/README.md) and read the **Schema map** section — it groups schemas into Verifiable Credentials, Data Exchange payloads, and External (DEG) schemas, with a one-line domain description and current version for each.
-2. Cross-reference against the [Plain-language overviews](../schemas/README.md#plain-language-overviews) pages, which give a master index for browsing schema families without needing to open every folder individually.
+2. Cross-reference against the family pages linked from the map — each opens with a concise plain-language overview, so you can scan schema families without opening every folder individually.
 3. Note the **Standards precedence** section of the Taxonomy page: every schema records, per field, which standard governs it (Bureau of Indian Standards first, then CEA Regulations/IEGC, then IEC, then IEEE). This is directly citable if your analysis concerns standards alignment.
 
 ### References & Anchors
 * [Taxonomy — Schema map](../schemas/README.md#schema-map)
 * [Taxonomy — Standards precedence](../schemas/README.md#standards-precedence)
-* [Plain-language overviews](../schemas/README.md#plain-language-overviews)
 </details>
 
 <details>
@@ -94,7 +93,6 @@ You do not need to run an adapter to read a schema. Every schema family in IES s
 ### References & Anchors
 * [Taxonomy — Versioning](../schemas/README.md#versioning)
 * [Taxonomy — Schema map](../schemas/README.md#schema-map)
-* [Plain-language overviews](../schemas/README.md#plain-language-overviews)
 * [MeterData example payloads](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples)
 </details>
 
