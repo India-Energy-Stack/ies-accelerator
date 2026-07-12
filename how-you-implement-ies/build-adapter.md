@@ -8,12 +8,13 @@ This is the **action guide** for the **[Exchange](../what-ies-provides/exchange.
 
 ## What the adapter is
 
-The IES adapter has two parts. Step 2 gave you Part 1 (ready-made). Step 3 is Part 2.
+The IES adapter has two parts: a ready-made **engine** and your **mapping**. There is one engine per capability — **ONIX** for use cases that run over a Beckn network, **[OpenCred](../glossary.md#opencred)** for credential-only use cases — and you build an internal-facing mapping for each engine your use cases need. Step 2 gave you ONIX; OpenCred setup is in **[Energy Credentials](../what-ies-provides/energy-credentials/README.md)**.
 
 | Part | What it does | You build it? |
 |---|---|---|
-| **Part 1 — ONIX** | Finds other systems, exchanges messages, signs and verifies, routes callbacks | **No** — ready-made, the same for everyone |
-| **Part 2 — your mapping** | Translates between your data format and the IES specs | **Yes** — specific to your organisation, set up once |
+| **Part 1 — ONIX** *(Beckn-network use cases)* | Finds other systems, exchanges messages, signs and verifies, routes callbacks | **No** — ready-made, the same for everyone |
+| **Part 1 — OpenCred** *(credential-only use cases)* | Issues, verifies and revokes W3C Verifiable Credentials with your signing key | **No** — ready-made, the same for everyone |
+| **Part 2 — your mapping(s)** | Translates between your data format and the IES specs, feeding the engine(s) above | **Yes** — specific to your organisation, set up once |
 
 The mapping is small. For a single use case it is typically 200–1,000 lines of code. It is the only piece that knows about your internal field names, your tariff codes, your meter SLNO format, your CIS schema.
 
@@ -21,7 +22,7 @@ The mapping is small. For a single use case it is typically 200–1,000 lines of
 
 ## Where the mapping lives
 
-The mapping plugs into ONIX as one or more **BPP handlers** (provider side) and **BAP callbacks** (buyer side). ONIX delivers a typed Beckn message to your handler; your handler talks to your CIS / MDM / DERMS / ERP and returns a typed Beckn response.
+For Beckn-network use cases, the mapping plugs into ONIX as one or more **BPP handlers** (provider side) and **BAP callbacks** (buyer side). ONIX delivers a typed Beckn message to your handler; your handler talks to your CIS / MDM / DERMS / ERP and returns a typed Beckn response. For credential-only use cases the same pattern applies with **OpenCred** in place of ONIX: your mapping sits between your internal systems and OpenCred's issue API (see [Task 4](#task-4-wire-into-your-engine-onix-and-or-opencred)).
 
 ```
         ┌─────────────────────────────────────────────────────────────┐
@@ -100,9 +101,9 @@ python3 scripts/validate_schema.py \
 
 The repo ships this validator and a `make validate` target. Examples to validate against live in `schemas/<family>/<version>/examples/`.
 
-### Task 4 — Wire into ONIX
+### Task 4 — Wire into your engine (ONIX and/or OpenCred)
 
-ONIX delivers a typed Beckn message to a handler endpoint you register. The handler does Tasks 1–3 in real time:
+**Beckn-network use cases — wire into ONIX.** ONIX delivers a typed Beckn message to a handler endpoint you register. The handler does Tasks 1–3 in real time:
 
 1. Receive the inbound message.
 2. Extract scope (which meter, which date range, which credential).
@@ -112,6 +113,8 @@ ONIX delivers a typed Beckn message to a handler endpoint you register. The hand
 6. Return.
 
 The Beckn wiring (subscriber id, callback URL, route registration) is in ONIX config; the handler endpoint is your code.
+
+**Credential-only use cases — wire into OpenCred.** Your mapping assembles the credential subject from CIS / MDM data (Tasks 1–3) and POSTs it to OpenCred's `/v1/credentials/issue`; OpenCred signs with your key and returns the credential for delivery to the holder. The issue / verify / revoke walkthrough is in **[Energy Credentials](../what-ies-provides/energy-credentials/README.md#issue-your-first-credential)**.
 
 ### Task 5 — Test against the sandbox
 
@@ -146,8 +149,8 @@ For the first use case:
 - [ ] Schema field → internal-system mapping table written
 - [ ] Field transformations implemented (units, codes, dates, DIDs)
 - [ ] Output validates against the schema for at least three real records
-- [ ] BPP handler registered with ONIX; round-trip works against sandbox
-- [ ] One realistic record exchanged end-to-end with a counterparty
+- [ ] Mapping wired into its engine — BPP handler registered with ONIX (Beckn-network use case) or issuance feed calling OpenCred (credential-only use case)
+- [ ] One realistic record exchanged or issued end-to-end with a counterparty / verifier
 
 When all six are ticked, you have completed Step 3 for your first use case. Move on to **[Step 4 — Conformance Checklist](conformance.md)**, then publish.
 
