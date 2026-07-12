@@ -108,9 +108,8 @@ def main():
         ],
         "schemas": [
             ("schemas/README.md", "Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
-            ("schemas/ElectricityCredential/README.md", "Metadata, context inheritance, and fields for the ElectricityCredential VC schema."),
-            ("schemas/ElectricityCredential/v1.0/README.md", "Technical specification and fields for Customer Credential v1.0."),
-            ("schemas/MeterData/v0.5/README.md", "Overview and field representations for MeterData v0.5 profiles."),
+            ("schemas/ElectricityCredential/README.md", "ElectricityCredential family page — version history, inheritance, and usage."),
+            ("schemas/ElectricityCredential/v1.2/README.md", "Auto-generated field reference for ElectricityCredential v1.2 (current)."),
             ("schemas/MeterData/v0.6/CHANGELOG.md", "Changelog detailing Form A and Form B dual-representation upgrades in MeterData v0.6."),
             ("schemas/MeterData/v0.6/README.md", "Detailed technical specification for the updated MeterData v0.6 dual-representation schemas."),
             ("schemas/MeterDataRequest/v0.6/README.md", "Field definitions and compilation guidelines for MeterDataRequest v0.6."),

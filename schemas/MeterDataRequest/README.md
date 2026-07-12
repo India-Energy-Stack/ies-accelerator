@@ -13,7 +13,7 @@ Schema for querying smart meter telemetry. Specifies which meters, what data, an
 | Version | Status | Notes |
 |---------|--------|-------|
 | [v0.6](v0.6/README.md) | **Current** | Split into three composable models: MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest |
-| [v0.5](v0.5/README.md) | Previous | Single unified request schema |
+| [v0.5](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.5) | Previous | Single unified request schema |
 
 ---
 
@@ -29,4 +29,4 @@ Schema for querying smart meter telemetry. Specifies which meters, what data, an
 
 ## Usage
 
-Consumer attaches a [MeterDataRequestCredential](../MeterDataRequestCredential/README.md) at `confirm` time to prove authorisation. Provider validates before delivering [MeterData](../MeterData/README.md) wrapped in a [MeterDataCredential](../MeterDataCredential/README.md).
+Consumer attaches a [MeterDataRequestCredential](../MeterDataRequestCredential/README.md) at `confirm` time to prove authorisation. Provider validates before delivering the [MeterData](../MeterData/README.md) payload.

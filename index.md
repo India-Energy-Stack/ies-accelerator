@@ -708,117 +708,59 @@ Detailed documentation for the JSON and JSON-LD schema formats used in the accel
   </ul>
   </details>
 * **[README.md](schemas/ElectricityCredential/README.md)**
-  - *Summary*: Metadata, context inheritance, and fields for the ElectricityCredential VC schema.
+  - *Summary*: ElectricityCredential family page — version history, inheritance, and usage.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="schemas/ElectricityCredential/README.md#electricitycredential">ElectricityCredential</a>    <ul>
       <li><a href="schemas/ElectricityCredential/README.md#versions">Versions</a></li>
       <li><a href="schemas/ElectricityCredential/README.md#inheritance">Inheritance</a></li>
-      <li><a href="schemas/ElectricityCredential/README.md#credentialsubject-properties-v11">credentialSubject Properties (v1.1)</a></li>
-      <li><a href="schemas/ElectricityCredential/README.md#linked-data-v11">Linked Data (v1.1)</a></li>
-      <li><a href="schemas/ElectricityCredential/README.md#v10-v11-migration-summary">v1.0 → v1.1 Migration Summary</a></li>
       <li><a href="schemas/ElectricityCredential/README.md#usage">Usage</a>
     </li>
     </ul>
   </li>
   </ul>
   </details>
-* **[README.md](schemas/ElectricityCredential/v1.0/README.md)**
-  - *Summary*: Technical specification and fields for Customer Credential v1.0.
+* **[README.md](schemas/ElectricityCredential/v1.2/README.md)**
+  - *Summary*: Auto-generated field reference for ElectricityCredential v1.2 (current).
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="schemas/ElectricityCredential/v1.0/README.md#customer-credential">Customer Credential</a>    <ul>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#overview">Overview</a></li>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#credential-structure">Credential Structure</a></li>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#issuer">Issuer</a></li>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#validity-period">Validity Period</a></li>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#revocation">Revocation</a></li>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#profile-sections">Profile Sections</a>      <ul>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#customerprofile">customerProfile</a>        <ul>
-          <li><a href="schemas/ElectricityCredential/v1.0/README.md#metertype-enum">meterType enum</a>
-        </li>
-        </ul>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#customerdetails">customerDetails</a>        <ul>
-          <li><a href="schemas/ElectricityCredential/v1.0/README.md#installationaddress">installationAddress</a>
-        </li>
-        </ul>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#consumptionprofile">consumptionProfile</a></li>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#generationprofile">generationProfile</a></li>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#storageprofile">storageProfile</a>
-      </li>
-      </ul>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#idref">idRef</a></li>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#files">Files</a></li>
-      <li><a href="schemas/ElectricityCredential/v1.0/README.md#field-reference">Field reference</a>      <ul>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#electricitycredential-schema">ElectricityCredential Schema</a></li>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#customerprofile">CustomerProfile</a></li>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#customerdetails">CustomerDetails</a></li>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#consumptionprofile">ConsumptionProfile</a></li>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#generationprofile">GenerationProfile</a></li>
-        <li><a href="schemas/ElectricityCredential/v1.0/README.md#storageprofile">StorageProfile</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[README.md](schemas/MeterData/v0.5/README.md)**
-  - *Summary*: Overview and field representations for MeterData v0.5 profiles.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="schemas/MeterData/v0.5/README.md#meter-data-compact-profiles-v05">Meter Data Compact Profiles (v0.5)</a>    <ul>
-      <li><a href="schemas/MeterData/v0.5/README.md#overview">Overview</a></li>
-      <li><a href="schemas/MeterData/v0.5/README.md#directory-structure-and-files">Directory Structure and Files</a></li>
-      <li><a href="schemas/MeterData/v0.5/README.md#schema-generation-and-compilation">Schema Generation and Compilation</a>      <ul>
-        <li><a href="schemas/MeterData/v0.5/README.md#to-compile-schemas">To Compile Schemas</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.5/README.md#telemetry-verification-validation">Telemetry Verification & Validation</a>      <ul>
-        <li><a href="schemas/MeterData/v0.5/README.md#to-validate-example-payloads">To Validate Example Payloads</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.5/README.md#json-ld-integration">JSON-LD Integration</a></li>
-      <li><a href="schemas/MeterData/v0.5/README.md#obis-mapping-and-identifiers">OBIS Mapping and Identifiers</a>      <ul>
-        <li><a href="schemas/MeterData/v0.5/README.md#interpreting-obismappingjson">Interpreting OBISMapping.json</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#identifier-flexibility-obis-vs-short-names">Identifier Flexibility (OBIS vs. Short Names)</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.5/README.md#payload-shapes-and-value-representation">Payload Shapes and Value Representation</a>      <ul>
-        <li><a href="schemas/MeterData/v0.5/README.md#1-elaborated-representation">1. Elaborated Representation</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#2-compact-intervalrow-representation">2. Compact `IntervalRow` Representation</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.5/README.md#data-annotations">Data Annotations</a>      <ul>
-        <li><a href="schemas/MeterData/v0.5/README.md#quality-overrides">Quality Overrides</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#maximum-demand-timestamps">Maximum Demand Timestamps</a>
-      </li>
-      </ul>
-      <li><a href="schemas/MeterData/v0.5/README.md#field-reference">Field reference</a>      <ul>
-        <li><a href="schemas/MeterData/v0.5/README.md#customerprofile">CustomerProfile</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#intervalprofile">IntervalProfile</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#dailyprofile">DailyProfile</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#billingprofile">BillingProfile</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#instantaneousprofile">InstantaneousProfile</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#eventprofile">EventProfile</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#identifier">Identifier</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#timeinterval">TimeInterval</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#intervalperiod">IntervalPeriod</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#intervalblock">IntervalBlock</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#payloaddescriptor">PayloadDescriptor</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#intervalrow">IntervalRow</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#qualityoverride">QualityOverride</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#customer">Customer</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#servicedeliverypoint">ServiceDeliveryPoint</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#meter">Meter</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#association">Association</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#totalsentry">TotalsEntry</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#toubucket">TouBucket</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#instantaneousvalue">InstantaneousValue</a></li>
-        <li><a href="schemas/MeterData/v0.5/README.md#meterevent">MeterEvent</a>
+    <li><a href="schemas/ElectricityCredential/v1.2/README.md#electricitycredential-v12">ElectricityCredential v1.2</a>    <ul>
+      <li><a href="schemas/ElectricityCredential/v1.2/README.md#structure">Structure</a></li>
+      <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresource-kinds">EnergyResource kinds</a></li>
+      <li><a href="schemas/ElectricityCredential/v1.2/README.md#v11-v12-migration">v1.1 → v1.2 migration</a></li>
+      <li><a href="schemas/ElectricityCredential/v1.2/README.md#files">Files</a></li>
+      <li><a href="schemas/ElectricityCredential/v1.2/README.md#field-reference">Field reference</a>      <ul>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#electricitycredential-v12">ElectricityCredential v1.2</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#customerdetails">CustomerDetails</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#location">Location</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#geojsongeometry">GeoJSONGeometry</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#address">Address</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#customerprofile">CustomerProfile</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#idref">IdRef</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcemeter">EnergyResourceMeter</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcecommon">EnergyResourceCommon</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcecommonattributes">EnergyResourceCommonAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#qvpower">QVPower</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcemeterattributes">EnergyResourceMeterAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcegenerator">EnergyResourceGenerator</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcegeneratorattributes">EnergyResourceGeneratorAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcestorage">EnergyResourceStorage</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcestorageattributes">EnergyResourceStorageAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#qvenergy">QVEnergy</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourceevcharger">EnergyResourceEVCharger</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourceevchargerattributes">EnergyResourceEVChargerAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourceinverter">EnergyResourceInverter</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourceinverterattributes">EnergyResourceInverterAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#qvapparentpower">QVApparentPower</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#qvreactivepower">QVReactivePower</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourceload">EnergyResourceLoad</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourceloadattributes">EnergyResourceLoadAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcenetwork">EnergyResourceNetwork</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#energyresourcenetworkattributes">EnergyResourceNetworkAttributes</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#qvvoltage">QVVoltage</a></li>
+        <li><a href="schemas/ElectricityCredential/v1.2/README.md#consumptionprofile">ConsumptionProfile</a>
       </li>
       </ul>
     </li>
