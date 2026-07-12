@@ -13,7 +13,7 @@ Smart meter telemetry payload schema for the India Energy Stack. Defines compact
 | Version | Status | Notes |
 |---------|--------|-------|
 | [v0.6](v0.6/README.md) | **Current** | Adds ALARM profile, anonymised topology, reading mode, split billing |
-| [v0.5](v0.5/README.md) | Previous | Six profiles: CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT |
+| [v0.5](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.5) | Previous | Six profiles: CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT |
 
 ---
 
