@@ -39,8 +39,8 @@ The specifications. What is published.
 | [What IES Is](concepts/what-ies-is.md) | The intro, on one page. Problem, UPI analogy, what IES is and is not, sector impact, the four pilots, FAQ. |
 | [Register](what-ies-provides/register.md) | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi). Detail under: [Identifiers](what-ies-provides/identifiers/README.md), [Registries](what-ies-provides/registries/README.md). |
 | [Discover](what-ies-provides/discover.md) | Beckn-protocol interaction for data exchange. Detail under: [Data Exchange](what-ies-provides/data-exchange/README.md). |
-| [Exchange](what-ies-provides/exchange.md) | Schemas and verifiable credentials. Detail under: [Energy Credentials](what-ies-provides/energy-credentials/README.md), [Taxonomy](schemas/README.md). |
-| [Taxonomy](schemas/README.md) | Master schema map, per-schema overviews and field references, standards precedence, versioning, how to propose a new schema. |
+| [Exchange](what-ies-provides/exchange.md) | The Taxonomy and verifiable credentials. Detail under: [Energy Credentials](what-ies-provides/energy-credentials/README.md), [Taxonomy](schemas/README.md). |
+| [Taxonomy](schemas/README.md) | The master vocabulary of IES — every domain object, its plain-language overview, and the schema that describes its shape; standards precedence, versioning, proposal flow. |
 
 ### [How you implement IES](how-you-implement-ies/README.md)
 

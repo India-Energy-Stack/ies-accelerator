@@ -46,6 +46,6 @@ The same model covers the consumer (`did:key` in a wallet), the asset (a `did:we
 |---|---|
 | Step 1 — Register *(this page)* | — |
 | Step 2 — [Discover](discover.md) | Beckn-protocol interaction |
-| Step 3 — [Exchange](exchange.md) | Schemas, credentials, taxonomy |
+| Step 3 — [Exchange](exchange.md) | Taxonomy + verifiable credentials |
 
 To set up your organisation's identity hands-on: **[Setup Register](../how-you-implement-ies/setup-register.md)**.

@@ -1,14 +1,13 @@
 # Exchange
 
-> **Step 3 of the three IES steps.** Schema, taxonomy and verifiable credentials. Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps and can re-present anywhere.
+> **Step 3 of the three IES steps.** The Taxonomy and verifiable credentials. Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps and can re-present anywhere.
 
-Exchange has three parts:
+Exchange has two parts:
 
 | Part | Purpose | IES choice |
 |---|---|---|
-| **Schemas** | The agreed shape of the data — field names, types, units, optionality. One canonical shape per domain object. | IES-published JSON Schema + JSON-LD context, built on public standards (DLMS/COSEM, IEEE 2030.5, OpenADR, CIM, etc.) |
+| **[Taxonomy](../schemas/README.md)** | The master vocabulary of IES — every domain object, what it is for, which use cases combine it, how it evolves and how new ones are proposed. The shape of each object is described by its **schema**: field names, types, units, optionality — one canonical schema per object. | IES-published JSON Schema + JSON-LD context, built on public standards (DLMS/COSEM, IEEE 2030.5, OpenADR, CIM, etc.) |
 | **Verifiable Credentials** | Where the use case needs a durable record — a Passport, a Digest — a W3C Verifiable Credential is issued that the holder keeps in DigiLocker or an EntityLocker. | W3C VC Data Model 2.0; W3C DID Core |
-| **Taxonomy** | The master vocabulary that ties everything together — what each schema is for, which use cases use which schemas, how schemas evolve and how new ones are proposed. | The [IES Taxonomy](../schemas/README.md) |
 
 **IES does not write new standards.** It picks the right open standard for each domain — DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response — and publishes a faithful schema on top.
 

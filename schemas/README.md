@@ -1,6 +1,6 @@
 # Taxonomy
 
-> **The master vocabulary of IES.** Every schema, what it is for, which use cases combine it, how versions evolve, and how a new schema is proposed and accepted. This section is also the canonical home of the schema files themselves — each family below carries its machine-readable reference (`schema.json`, `context.jsonld`, examples) alongside a plain-language overview.
+> **The master vocabulary of IES.** Every domain object, what it is for, which use cases combine it, how versions evolve, and how a new object is proposed and accepted. The shape of each object is described by its **schema** — and this section is the canonical home of those schema files: each family below carries its machine-readable reference (`schema.json`, `context.jsonld`, examples) alongside a plain-language overview.
 
 The Taxonomy answers the practical questions an implementer asks:
 

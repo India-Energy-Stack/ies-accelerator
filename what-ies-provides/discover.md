@@ -50,6 +50,6 @@ A bespoke REST API per integration is exactly the n×m problem IES is solving. B
 |---|---|
 | Step 1 — [Register](register.md) | Identity + directory |
 | Step 2 — Discover *(this page)* | — |
-| Step 3 — [Exchange](exchange.md) | Schemas, credentials, taxonomy |
+| Step 3 — [Exchange](exchange.md) | Taxonomy + verifiable credentials |
 
 To set up Beckn ONIX hands-on: **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
