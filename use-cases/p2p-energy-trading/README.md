@@ -293,17 +293,17 @@ One `BecknTimeSeries` envelope carries the whole trade; what changes between pha
       "revenueFlows": [
         { "role": "buyerPlatform",  "value": -437.15, "currency": "INR", "description": "Energy purchase cost (18.5 kWh × ₹12.5 + 14.2 kWh × ₹14.5)" },
         { "role": "sellerPlatform", "value": 437.15,  "currency": "INR", "description": "Energy sale proceeds" },
-        { "role": "buyerDiscom",    "value": 0, "currency": "INR", "description": "Buyer-side wheeling charge (default rate 0 INR/kWh)" },
-        { "role": "sellerDiscom",   "value": 0, "currency": "INR", "description": "Seller-side wheeling + shortfall penalty (default rates 0 INR/kWh)" }
+        { "role": "buyerDiscom",    "value": 0, "currency": "INR", "description": "Buyer-side wheeling charge (rate per the published policy)" },
+        { "role": "sellerDiscom",   "value": 0, "currency": "INR", "description": "Seller-side wheeling + shortfall penalty (rates per the published policy)" }
       ] } }
 ]
 ```
 
-With the published default rates (wheeling and shortfall penalty at 0 INR/kWh) the DISCOM rows are zero and the flows net to zero across the four roles. The policy itemizes the charge lines either way, and separately discloses a platform-charge cap of 0.42 INR/kWh. A DISCOM sets its own rates by publishing a new policy version — no payload or code change needed.
+The energy legs net to zero between the two platforms; the DISCOM rows itemize whatever wheeling and shortfall-penalty charges the seller-DISCOM's published policy defines, alongside a disclosed platform-charge cap. A DISCOM sets its own rates by publishing a new policy version — no payload or code change needed.
 
 ## 11. Points for Confirmation
 
-1. **Wheeling / penalty tariff values** in the contract policy default to 0 INR/kWh (with a 0.42 INR/kWh platform-charge cap disclosed); each DISCOM sets production values per its tariff order by publishing its own policy version.
+1. **Wheeling / penalty tariff values** — the rates in force are whatever the seller-DISCOM's published contract policy defines; each DISCOM sets production values per its tariff order by publishing its own policy version.
 2. **`contractpolicyenforcer` ONIX step** — ships in the wave-2 seller-TP config (computes revenue flows on `on_status` from the DeDi-resolved contract policy); being aligned across LP implementations.
 3. **TEST → PROD `utilityId` allow-list** — the network bundle's production rules check approved IDs only; the production allow-list is governance-pending.
 4. **CERC sandbox graduation** — production-grade network policy bundle awaits CERC sign-off post-sandbox.
@@ -352,7 +352,7 @@ A network operator can change the rule set without recompiling code — publish 
 A second rego bundle ([`p2p-trading-ies-wave2-contractpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-contractpolicy.rego), published on DeDi as `ies-p2p-network-settlement-rego-policy-v1`) is the policy of the *seller's* DISCOM, linked by the catalog publisher into every trade involving that DISCOM's prosumers. It computes the **revenue flows** on each contract from the final allocation:
 
 - Buyer pays `FINAL_ALLOC × PRICE_PER_KWH` (signed negative); seller receives the same amount.
-- BuyerDiscom and SellerDiscom collect wheeling charges and any delivery-shortfall penalty — rates default to 0 INR/kWh in the published policy — with a disclosed platform-charge cap (0.42 INR/kWh).
+- BuyerDiscom and SellerDiscom collect wheeling charges and any delivery-shortfall penalty, with a disclosed platform-charge cap — all rates defined by the published policy version in force.
 
 On the seller TP, the `contractpolicyenforcer` ONIX pipeline step resolves the DeDi record on `on_status` (accepting only URLs under the configured `allowedPolicyUrlPrefixes`), verifies its checksum, evaluates the rego locally with a ≥1-day cache, and writes the result to `message.contract.consideration[id=auto-settlement-flows].considerationAttributes` as a `RevenueFlow` JSON-LD object (wire key `revenueFlows`). Settlement reconciliation reads from there.
 
