@@ -116,7 +116,7 @@ def main():
             ("use-cases/der-visibility/README.md", "Grid-side issuance of ElectricityCredential v1.2 — per-feeder view of every DER behind a DISCOM's meters."),
             ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
             ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
-            ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.")
+            ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network rules and the seller-DISCOM contract policy enforced as signed Rego, hosted on DeDi.")
         ],
         "pathways": [
             ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),

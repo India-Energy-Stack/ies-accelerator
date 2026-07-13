@@ -1016,7 +1016,7 @@ Practical deployment and mapping implementations for specific grid business proc
   </ul>
   </details>
 * **[README.md](use-cases/p2p-energy-trading/README.md)**
-  - *Summary*: Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.
+  - *Summary*: Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network rules and the seller-DISCOM contract policy enforced as signed Rego, hosted on DeDi.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -1041,7 +1041,7 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/p2p-energy-trading/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#policy-as-code-rego-opa">Policy-as-code (Rego / OPA)</a>      <ul>
         <li><a href="use-cases/p2p-energy-trading/README.md#network-policy">Network policy</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#settlement-policy">Settlement policy</a>
+        <li><a href="use-cases/p2p-energy-trading/README.md#contract-policy-seller-discom-policy">Contract policy (seller-DISCOM policy)</a>
       </li>
       </ul>
       <li><a href="use-cases/p2p-energy-trading/README.md#value-unlock">Value Unlock</a></li>
