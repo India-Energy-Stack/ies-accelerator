@@ -53,7 +53,7 @@ Participants are identified by their plain **network subscriber IDs** — the `p
 | DISCOM | Network subscriber ID; bound to its LP by `utilityId` in the `DiscomLedgerProvider` block | `buyerdiscom.example.com` (`utilityId: TEST_DISCOM_BUYER`) |
 | Buyer / Seller (prosumer) | Represented by their TP — the contract's `roles[buyer/seller]` carry the TP's subscriber ID; the prosumer is pinned by their meter reference | `roles[buyer].participantId = buyerapp.example.com` |
 | Meter / DT / feeder referenced in the trade | Existing utility asset ID wrapped as `did:web:<discom-id>:meters:<meter-number>` (per [SMDX](../smart-meter-data-exchange/README.md#id-3.-how-each-item-is-identified)) | `did:web:buyerdiscom.example.com:meters:NM-44091234` |
-| Network policy | Rego file loaded by the adapter (`opapolicychecker` step) | [`p2p-trading-ies-wave2-networkpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-networkpolicy.rego) |
+| Network policy | Rego file loaded by the adapter (`opapolicychecker` step) from `specification/policies/` | [`p2p-trading-ies-wave2-networkpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-networkpolicy.rego) |
 | Contract policy | DeDi-published Rego record URL (`contractAttributes.policy.url`) | `https://api.dedi.global/dedi/lookup/indiaenergystack.in/ies-policies/ies-p2p-network-settlement-rego-policy-v1` |
 
 No new identifier scheme. The four-actor topology reuses the same subscriber-registry machinery as every other IES use case; public keys resolve from the same DeDi record the subscriber ID names.
@@ -293,17 +293,17 @@ One `BecknTimeSeries` envelope carries the whole trade; what changes between pha
       "revenueFlows": [
         { "role": "buyerPlatform",  "value": -437.15, "currency": "INR", "description": "Energy purchase cost (18.5 kWh × ₹12.5 + 14.2 kWh × ₹14.5)" },
         { "role": "sellerPlatform", "value": 437.15,  "currency": "INR", "description": "Energy sale proceeds" },
-        { "role": "buyerDiscom",    "value": 8.18, "currency": "INR", "description": "Buyer-side wheeling charge (0.25 INR × 32.7 settled kWh)" },
-        { "role": "sellerDiscom",   "value": 9.81, "currency": "INR", "description": "Seller-side wheeling charge (0.30 INR × 32.7 settled kWh)" }
+        { "role": "buyerDiscom",    "value": 0, "currency": "INR", "description": "Buyer-side wheeling charge (default rate 0 INR/kWh)" },
+        { "role": "sellerDiscom",   "value": 0, "currency": "INR", "description": "Seller-side wheeling + shortfall penalty (default rates 0 INR/kWh)" }
       ] } }
 ]
 ```
 
-The energy legs net to zero between the two platforms; the DISCOM rows itemize the charges the seller-DISCOM's contract policy defines — wheeling at 0.25 / 0.30 INR per settled kWh on the buyer / seller side, a delivery-shortfall penalty at 0.50 INR/kWh, and a disclosed platform-charge cap of 0.42 INR/kWh. A DISCOM changes these terms by publishing a new policy version — no payload or code change needed.
+With the published default rates (wheeling and shortfall penalty at 0 INR/kWh) the DISCOM rows are zero and the flows net to zero across the four roles. The policy itemizes the charge lines either way, and separately discloses a platform-charge cap of 0.42 INR/kWh. A DISCOM sets its own rates by publishing a new policy version — no payload or code change needed.
 
 ## 11. Points for Confirmation
 
-1. **Wheeling / penalty tariff values** in the contract policy (0.25 / 0.30 wheeling, 0.50 shortfall penalty, 0.42 platform cap, all INR/kWh) are sandbox figures — production values await each DISCOM's tariff order.
+1. **Wheeling / penalty tariff values** in the contract policy default to 0 INR/kWh (with a 0.42 INR/kWh platform-charge cap disclosed); each DISCOM sets production values per its tariff order by publishing its own policy version.
 2. **`contractpolicyenforcer` ONIX step** — ships in the wave-2 seller-TP config (computes revenue flows on `on_status` from the DeDi-resolved contract policy); being aligned across LP implementations.
 3. **TEST → PROD `utilityId` allow-list** — the network bundle's production rules check approved IDs only; the production allow-list is governance-pending.
 4. **CERC sandbox graduation** — production-grade network policy bundle awaits CERC sign-off post-sandbox.
@@ -352,7 +352,7 @@ A network operator can change the rule set without recompiling code — publish 
 A second rego bundle ([`p2p-trading-ies-wave2-contractpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-contractpolicy.rego), published on DeDi as `ies-p2p-network-settlement-rego-policy-v1`) is the policy of the *seller's* DISCOM, linked by the catalog publisher into every trade involving that DISCOM's prosumers. It computes the **revenue flows** on each contract from the final allocation:
 
 - Buyer pays `FINAL_ALLOC × PRICE_PER_KWH` (signed negative); seller receives the same amount.
-- BuyerDiscom and SellerDiscom collect wheeling charges (0.25 / 0.30 INR per settled kWh) and any delivery-shortfall penalty (0.50 INR/kWh), with a disclosed platform-charge cap (0.42 INR/kWh).
+- BuyerDiscom and SellerDiscom collect wheeling charges and any delivery-shortfall penalty — rates default to 0 INR/kWh in the published policy — with a disclosed platform-charge cap (0.42 INR/kWh).
 
 On the seller TP, the `contractpolicyenforcer` ONIX pipeline step resolves the DeDi record on `on_status` (accepting only URLs under the configured `allowedPolicyUrlPrefixes`), verifies its checksum, evaluates the rego locally with a ≥1-day cache, and writes the result to `message.contract.consideration[id=auto-settlement-flows].considerationAttributes` as a `RevenueFlow` JSON-LD object (wire key `revenueFlows`). Settlement reconciliation reads from there.
 
