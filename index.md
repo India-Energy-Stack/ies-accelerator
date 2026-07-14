@@ -376,6 +376,7 @@ This block handles digital attestations of connections, billing summaries, and c
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
@@ -383,14 +384,14 @@ This block handles digital attestations of connections, billing summaries, and c
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#routing-by-doctype">Routing by DocType</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-nycer-the-electricity-credential-v12">Issuing NYCER — the Electricity Credential v1.2</a>      <ul>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v12">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mtrdt">The Consumer Meter Digest (DocType `MTRDT`)</a>      <ul>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-core-idea-a-statement-not-a-bill">The core idea — a statement, not a bill</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
@@ -399,7 +400,7 @@ This block handles digital attestations of connections, billing summaries, and c
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-ask-to-digilocker-mtrdt">The ask to DigiLocker (MTRDT)</a>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-ask-to-digilocker-mpltr">The ask to DigiLocker (MPLTR)</a>
       </li>
       </ul>
       <li><a href="what-ies-provides/energy-credentials/digilocker.md#error-response-format">Error Response Format</a></li>
