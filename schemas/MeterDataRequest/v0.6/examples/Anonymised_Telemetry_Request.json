@@ -2,8 +2,8 @@
   "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
   "@type": "MeterDataRequest",
   "resources": [
-    "did:dedi:discom:meters:DISCOM-SM-2025-654321",
-    "did:dedi:discom:meters:DISCOM-SM-2025-999999"
+    "did:web:discom.example:meters:DISCOM-SM-2025-654321",
+    "did:web:discom.example:meters:DISCOM-SM-2025-999999"
   ],
   "scope": "ResourceOnly",
   "from": "2026-05-18T10:00:00Z",

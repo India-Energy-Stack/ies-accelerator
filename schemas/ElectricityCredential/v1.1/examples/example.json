@@ -28,7 +28,7 @@
     "statusListCredential": "https://dedi.global/dedi/query/example-utility.com/vc-revocation-registry"
   },
   "credentialSubject": {
-    "id": "did:dedi:example-utility:consumers:UTIL-2025-001234567",
+    "id": "did:web:example-utility.com:consumers:UTIL-2025-001234567",
     "customerProfile": {
       "customerNumber": "UTIL-2025-001234567",
       "idRef": {
@@ -37,18 +37,18 @@
       },
       "energyResources": [
         {
-          "id": "did:dedi:example-utility:assets:meter:MET2025789456123",
+          "id": "did:web:example-utility.com:assets:meter:MET2025789456123",
           "type": "METER",
           "attributes": {
             "meterType": "AMI",
             "gps": "37.7749,-122.4194"
           },
           "parentResources": [
-            "did:dedi:example-utility:assets:transformer:DT-FEEDER-A1-001"
+            "did:web:example-utility.com:assets:transformer:DT-FEEDER-A1-001"
           ]
         },
         {
-          "id": "did:dedi:example-utility:assets:solar-plant:DER-SOLAR-001",
+          "id": "did:web:example-utility.com:assets:solar-plant:DER-SOLAR-001",
           "type": "SOLAR",
           "attributes": {
             "ratedPowerKw": 3,
@@ -57,11 +57,11 @@
             "commissioningDate": "2025-01-12T00:00:00-05:00"
           },
           "parentResources": [
-            "did:dedi:example-utility:assets:meter:MET2025789456123"
+            "did:web:example-utility.com:assets:meter:MET2025789456123"
           ]
         },
         {
-          "id": "did:dedi:example-utility:assets:wind-farm:DER-WIND-001",
+          "id": "did:web:example-utility.com:assets:wind-farm:DER-WIND-001",
           "type": "WIND",
           "attributes": {
             "ratedPowerKw": 1.5,
@@ -70,11 +70,11 @@
             "commissioningDate": "2025-03-01T00:00:00-05:00"
           },
           "parentResources": [
-            "did:dedi:example-utility:assets:meter:MET2025789456123"
+            "did:web:example-utility.com:assets:meter:MET2025789456123"
           ]
         },
         {
-          "id": "did:dedi:example-utility:assets:bess:BESS-001",
+          "id": "did:web:example-utility.com:assets:bess:BESS-001",
           "type": "BATTERY",
           "attributes": {
             "ratedPowerKw": 5,
@@ -83,11 +83,11 @@
             "commissioningDate": "2025-01-12T00:00:00-05:00"
           },
           "parentResources": [
-            "did:dedi:example-utility:assets:meter:MET2025789456123"
+            "did:web:example-utility.com:assets:meter:MET2025789456123"
           ]
         },
         {
-          "id": "did:dedi:example-utility:assets:bess:BESS-002",
+          "id": "did:web:example-utility.com:assets:bess:BESS-002",
           "type": "BATTERY",
           "attributes": {
             "ratedPowerKw": 2.5,
@@ -96,13 +96,13 @@
             "commissioningDate": "2025-06-01T00:00:00-05:00"
           },
           "parentResources": [
-            "did:dedi:example-utility:assets:meter:MET2025789456123"
+            "did:web:example-utility.com:assets:meter:MET2025789456123"
           ]
         }
       ],
       "consumptionProfiles": [
         {
-          "meterId": "did:dedi:example-utility:assets:meter:MET2025789456123",
+          "meterId": "did:web:example-utility.com:assets:meter:MET2025789456123",
           "sanctionedLoadKw": 5,
           "contractMaxDemandKw": 4,
           "tariffCategoryCode": "RES-01",

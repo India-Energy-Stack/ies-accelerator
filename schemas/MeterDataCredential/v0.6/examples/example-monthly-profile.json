@@ -20,13 +20,13 @@
     "statusListCredential": "https://dedi.global/dedi/lookup/did:web:amisp-discom.example/vc-revocation-registry"
   },
   "credentialSubject": {
-    "id": "did:dedi:discom:consumers:RR-1234",
+    "id": "did:web:discom.example:consumers:RR-1234",
     "meterData": {
       "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
       "@type": "MonthlyProfile",
       "profileType": "MONTHLY",
-      "meterRefs": [{"scheme": "DID", "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321"}],
-      "serviceDeliveryPointRefs": [{"scheme": "DID", "value": "did:dedi:discom:connections:SDP-BLR-A-12345"}],
+      "meterRefs": [{"scheme": "DID", "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321"}],
+      "serviceDeliveryPointRefs": [{"scheme": "DID", "value": "did:web:discom.example:connections:SDP-BLR-A-12345"}],
       "timePeriod": {"start": "2026-01-01T00:00:00+05:30", "duration": "P1M"},
       "readings": [
         {"readingType": "kWh imp", "value": 487.3, "openingValue": 12345.6, "closingValue": 12832.9, "validationStatus": "VALID", "source": "METER"},
