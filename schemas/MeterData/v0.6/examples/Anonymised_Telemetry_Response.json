@@ -26,10 +26,10 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      { "value": "did:dedi:discom:connections:SDP-BLR-A-12345", "scheme": "DID" }
+      { "value": "did:web:discom.example:connections:SDP-BLR-A-12345", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalEnergySet",
     "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
@@ -57,10 +57,10 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      { "value": "did:dedi:discom:connections:SDP-BLR-A-12346", "scheme": "DID" }
+      { "value": "did:web:discom.example:connections:SDP-BLR-A-12346", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-999999", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-999999", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalEnergySet",
     "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },

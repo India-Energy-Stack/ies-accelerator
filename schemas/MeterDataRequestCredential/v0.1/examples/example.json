@@ -20,11 +20,11 @@
     "statusListCredential": "https://dedi.global/dedi/lookup/did:web:discom.example/vc-revocation-registry"
   },
   "credentialSubject": {
-    "id": "did:dedi:ies:discom:IN-KA-DISCOM",
+    "id": "did:web:ies.discom.example:discom:IN-KA-DISCOM",
       "meterDataRequest": {
         "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
         "@type": "MeterDataRequest",
-        "resources": ["did:dedi:ies:feeder:IN-KA-BLR-ZONE-A"],
+        "resources": ["did:web:ies.discom.example:feeder:IN-KA-BLR-ZONE-A"],
         "scope": "ResourceAndChildren",
         "from": "2026-01-01T00:00:00Z",
         "duration": "P3M",

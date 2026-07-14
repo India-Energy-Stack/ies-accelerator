@@ -307,7 +307,7 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
        "@type": "MeterDataRequest",
        "resources": [
-           "did:dedi:ies:meter:IN-MH-MTR-89721"
+           "did:web:ies.discom.example:meter:IN-MH-MTR-89721"
        ],
        "scope": "ResourceOnly",
        "from": "2026-04-01T00:00:00Z",

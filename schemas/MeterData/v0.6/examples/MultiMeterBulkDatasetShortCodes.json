@@ -227,7 +227,7 @@
     "profileType": "CUSTOMER",
     "timeZone": "Asia/Kolkata",
     "customer": {
-      "id": { "value": "did:dedi:discom:consumers:CONSUMER-ACME-8888", "scheme": "DID" },
+      "id": { "value": "did:web:discom.example:consumers:CONSUMER-ACME-8888", "scheme": "DID" },
       "consumerCategory": "NDS",
       "sanctionedLoadKw": 45.0,
       "billingCycleDay": 1,
@@ -238,7 +238,7 @@
     },
     "serviceDeliveryPoints": [
       {
-        "id": { "value": "did:dedi:discom:connections:SDP-ACME-MAIN-01", "scheme": "DID" },
+        "id": { "value": "did:web:discom.example:connections:SDP-ACME-MAIN-01", "scheme": "DID" },
         "addressLine": "12 MG Road",
         "city": "Bengaluru",
         "postalCode": "560001",
@@ -246,7 +246,7 @@
         "longitude": 77.6064
       },
       {
-        "id": { "value": "did:dedi:discom:connections:SDP-ACME-AUX-02", "scheme": "DID" },
+        "id": { "value": "did:web:discom.example:connections:SDP-ACME-AUX-02", "scheme": "DID" },
         "addressLine": "456 Indiranagar",
         "city": "Bengaluru",
         "postalCode": "560038",
@@ -256,7 +256,7 @@
     ],
     "meters": [
       {
-        "id": { "value": "did:dedi:discom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" },
+        "id": { "value": "did:web:discom.example:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" },
         "manufacturer": "Genus",
         "modelNumber": "SM-3PH-4W-WC",
         "meterCategory": "D2",
@@ -266,7 +266,7 @@
         "meterType": "AMI"
       },
       {
-        "id": { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" },
+        "id": { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" },
         "manufacturer": "HPL",
         "modelNumber": "SM-1PH-2W-WC",
         "meterCategory": "D1",
@@ -279,28 +279,28 @@
     "associations": [
       {
         "serviceDeliveryPointRefs": [
-          { "value": "did:dedi:discom:connections:SDP-ACME-MAIN-01", "scheme": "DID" }
+          { "value": "did:web:discom.example:connections:SDP-ACME-MAIN-01", "scheme": "DID" }
         ],
         "meterRefs": [
-          { "value": "did:dedi:discom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
+          { "value": "did:web:discom.example:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
         ],
         "parentResources": [
-          { "value": "did:dedi:discom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
-          { "value": "did:dedi:discom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
+          { "value": "did:web:discom.example:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
+          { "value": "did:web:discom.example:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
         ],
         "telemetryProvider": "ACME-HES",
         "commissioningDate": "2026-05-04T10:00:00+05:30"
       },
       {
         "serviceDeliveryPointRefs": [
-          { "value": "did:dedi:discom:connections:SDP-ACME-AUX-02", "scheme": "DID" }
+          { "value": "did:web:discom.example:connections:SDP-ACME-AUX-02", "scheme": "DID" }
         ],
         "meterRefs": [
-          { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
+          { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
         ],
         "parentResources": [
-          { "value": "did:dedi:discom:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
-          { "value": "did:dedi:discom:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
+          { "value": "did:web:discom.example:assets:feeder:FDR-11KV-BLR-04", "scheme": "DID" },
+          { "value": "did:web:discom.example:assets:transformer:DT-BLR-A-400kVA-12", "scheme": "DID" }
         ],
         "telemetryProvider": "ACME-HES",
         "commissioningDate": "2026-05-04T10:30:00+05:30"
@@ -311,10 +311,10 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      { "value": "did:dedi:discom:connections:SDP-ACME-MAIN-01", "scheme": "DID" }
+      { "value": "did:web:discom.example:connections:SDP-ACME-MAIN-01", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet_Elaborated_Short",
     "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
@@ -334,10 +334,10 @@
     "@type": "IntervalProfile",
     "profileType": "INTERVAL",
     "serviceDeliveryPointRefs": [
-      { "value": "did:dedi:discom:connections:SDP-ACME-AUX-02", "scheme": "DID" }
+      { "value": "did:web:discom.example:connections:SDP-ACME-AUX-02", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "IntervalLoadSurveySet_28b9b8",
     "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT15M" },
@@ -357,7 +357,7 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet_Elaborated_Short",
     "intervalPeriod": { "start": "2026-05-17T00:00:00+05:30", "duration": "P1D" },
@@ -373,7 +373,7 @@
     "@type": "DailyProfile",
     "profileType": "DAILY",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "DailyLoadSurveySet_aee121",
     "intervalPeriod": { "start": "2026-05-17T00:00:00+05:30", "duration": "P1D" },
@@ -389,7 +389,7 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "BillingSet_BillDetails",
     "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
@@ -425,7 +425,7 @@
     "@type": "BillDetails",
     "profileType": "BILL_DETAILS",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "BillingLoadSurveySet_75c4f7",
     "intervalPeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
@@ -450,7 +450,7 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "InstantaneousSet",
     "readings": [
@@ -465,7 +465,7 @@
     "@type": "InstantaneousProfile",
     "profileType": "INSTANTANEOUS",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "InstantaneousSet",
     "readings": [
@@ -478,7 +478,7 @@
     "@type": "EventProfile",
     "profileType": "EVENT",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-GENUS-01-ELABORATED", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "EventSet",
     "timePeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H" },
@@ -491,7 +491,7 @@
     "@type": "EventProfile",
     "profileType": "EVENT",
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "EventSet",
     "timePeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "PT12H" },
@@ -504,10 +504,10 @@
     "@type": "AlarmProfile",
     "profileType": "ALARM",
     "customerRefs": [
-      { "value": "did:dedi:discom:consumers:CONSUMER-ACME-8888", "scheme": "DID" }
+      { "value": "did:web:discom.example:consumers:CONSUMER-ACME-8888", "scheme": "DID" }
     ],
     "meterRefs": [
-      { "value": "did:dedi:discom:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
+      { "value": "did:web:discom.example:assets:meter:METER-HPL-02-COMPACT", "scheme": "DID" }
     ],
     "payloadDescriptorSetRef": "AlarmSet",
     "timestamp": "2026-05-18T09:30:00+05:30",

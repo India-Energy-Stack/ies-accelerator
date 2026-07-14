@@ -242,7 +242,7 @@ When exposing smart meter data, safeguarding consumer privacy and utility grid s
 
 > [!WARNING]
 > **PII Redaction & Naming Grammars**
-> Never bundle personally identifiable information (PII) – such as customer names, phone numbers, or billing addresses – directly with high-frequency telemetry. Use public-key identifiers or standard DeDi naming grammars (e.g., `did:dedi:<discom>:consumers:CN-123`). Keep sensitive details in private registries that require explicit consumer authorization to resolve.
+> Never bundle personally identifiable information (PII) – such as customer names, phone numbers, or billing addresses – directly with high-frequency telemetry. Use DID identifiers instead: `did:web:<discom-domain>:consumers:CN-123` for DISCOM-assigned consumer records, or a wallet-generated `did:key` when the identifier must be self-sovereign and offline-resolvable. Keep sensitive details in private registries that require explicit consumer authorization to resolve.
 
 ### Key Practices:
 1. **Consent-Driven Routing**: Expose data exclusively via authenticated gateways (e.g., Beckn adapters or OpenCred portals) that validate a consumer's active cryptographic consent.
