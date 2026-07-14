@@ -26,6 +26,12 @@ Either works. Most DISCOMs use a dedicated subdomain so the credential-issuing i
 
 The host you pick becomes the host portion of your `did:web`. Your DID document will live at `https://<your-host>/.well-known/did.json`.
 
+Once picked, record it in an environment variable — the copy-pasteable commands in this guide and in [Energy Credentials](../what-ies-provides/energy-credentials/README.md) all reference `$OPENCRED_ISSUER_DOMAIN`, so you set your domain once here and never hand-edit a command:
+
+```bash
+export OPENCRED_ISSUER_DOMAIN="ies.yourdiscom.in"
+```
+
 > **About path segments.** `did:web` lets you encode a sub-path with colons in the DID. If you don't want to host at `.well-known/`, host the document at any path and reflect it in the DID via colon hierarchy. Full table in **[Identifiers — DID web variants](../what-ies-provides/identifiers/README.md#publish-your-did-web)**.
 
 ---
@@ -34,20 +40,7 @@ The host you pick becomes the host portion of your `did:web`. Your DID document 
 
 You will sign every credential and (optionally) every Beckn message with this key. Treat it as a production credential — KMS / HSM where possible, otherwise a securely backed-up file on a hardened host.
 
-The credential-issuance key is **EC P-256** (matches W3C VC Data Model 2.0 defaults). The fastest way to generate it is to install [OpenCred](../glossary.md#opencred) and let it produce the key + the `did.json` together:
-
-```bash
-docker run -d \
-  --name opencred \
-  -p 8080:8080 \
-  -e ISSUER_DID=did:web:ies.discom.example \
-  -e ISSUER_NAME="Eastern Power Distribution Company of Andhra Pradesh Ltd" \
-  ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
-```
-
-OpenCred prints the `did.json` it generated, which you then publish.
-
-The end-to-end walkthrough — install OpenCred, generate the signing key, assemble `did.json`, publish, verify — lives in **[Energy Credentials — Set up OpenCred](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Any W3C-compliant signing pipeline (custom code, AWS KMS + jose, Azure Key Vault) is a drop-in replacement.
+The credential-issuance key is **EC P-256** (matches W3C VC Data Model 2.0 defaults). The fastest way is to install [OpenCred](../glossary.md#opencred) and generate the key and `did.json` together — the copy-pasteable end-to-end walkthrough (pull the image, generate the key, run the container, generate `did.json`, publish, verify) lives in **[Energy Credentials — Set up OpenCred](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Any W3C-compliant signing pipeline (custom code, AWS KMS + jose, Azure Key Vault) is a drop-in replacement.
 
 ---
 
@@ -60,10 +53,10 @@ Put the generated `did.json` at the path implied by your DID:
 | `did:web:ies.discom.example` | `https://ies.discom.example/.well-known/did.json` |
 | `did:web:discom.example:ies` | `https://discom.example/ies/did.json` |
 
-Verify it's reachable from outside your network:
+Verify it's reachable from outside your network (`$OPENCRED_ISSUER_DOMAIN` is the domain you exported in 1.1):
 
 ```bash
-curl -sS https://ies.discom.example/.well-known/did.json | jq .
+curl -sS "https://$OPENCRED_ISSUER_DOMAIN/.well-known/did.json" | jq .
 ```
 
 If you get back the expected JSON document with your public key, identity setup is done from the wire-protocol side. Verifiers can now check signatures on credentials you issue.
@@ -74,13 +67,14 @@ If you get back the expected JSON document with your public key, identity setup 
 
 DeDi is the public registry mechanism IES uses for namespaces, credential revocation, and Beckn subscriber membership. Claiming a namespace ties your organisation's records to your domain in a way anyone can verify.
 
-1. **Sign up at [dedi.global](https://dedi.global)** using an organisational role mailbox (`registry-admin@discom.example`).
+1. **Sign up at [publish.dedi.global](https://publish.dedi.global)** using an organisational role mailbox (`registry-admin@discom.example`).
 2. **Create a namespace** — use a short name that maps to your organisation (`discom`, `np.example.com`).
-3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours).
+3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours). Once verification completes, a green **verified** label appears on your namespace in [publish.dedi.global](https://publish.dedi.global), and the namespace becomes publicly visible on [explore.dedi.global](https://explore.dedi.global) — only verified namespaces are listed there, so appearing in explore results is itself the public verification signal.
+4. **Create an API key** — in the DeDi UI, click your avatar in the top-right corner, then **Manage API key**. OpenCred uses this key (as `OPENCRED_DEDI_API_KEY`) to write revocation entries and registries into your namespace.
 
-The full UI flow with screenshots is in the **[DeDi Quickstart](https://docs.nfh.global/dedi/dedi.global-developers/quickstart)**. The IES-specific framing is in **[Registries — Step-by-step: claim your DeDi namespace](setup-register.md)**.
+The IES-specific framing is in **[Registries and Directories](../what-ies-provides/registries/README.md#setup)**; DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**.
 
-> **If you ran OpenCred in 1.2**, four registries (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) are auto-created in your namespace on first boot. You do not need to create them by hand.
+> **If you ran OpenCred with the `OPENCRED_DEDI_*` variables set** (see [Energy Credentials — step 3](../what-ies-provides/energy-credentials/README.md#id-3.-run-opencred-in-did-web-mode)), four registries (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) are auto-created in your namespace on first boot. You do not need to create them by hand — log in to [publish.dedi.global](https://publish.dedi.global), open your namespace, and confirm you can see all four.
 
 ---
 
@@ -106,7 +100,8 @@ Once your DID resolves and your DeDi namespace is verified, you have the identif
 - [ ] Signing keypair generated (EC P-256), stored in KMS / HSM where available
 - [ ] `did.json` published at `https://<domain>/.well-known/did.json` and reachable from outside
 - [ ] `curl` of the DID document returns expected JSON
-- [ ] DeDi namespace claimed at `dedi.global` and verified via DNS TXT
+- [ ] DeDi namespace claimed at `publish.dedi.global` and verified via DNS TXT (green **verified** label in `publish.dedi.global`; namespace listed on `explore.dedi.global`)
+- [ ] DeDi API key created (avatar menu → **Manage API key**) and stored alongside your other secrets
 - [ ] Internal numbering documented for the asset / connection / meter classes you'll reference
 
-When all six are ticked, you have completed the **Register** step. Move on to **[Setup Discovery](setup-discovery.md)**.
+When every box is ticked, you have completed the **Register** step. Move on to **[Setup Discovery](setup-discovery.md)**.

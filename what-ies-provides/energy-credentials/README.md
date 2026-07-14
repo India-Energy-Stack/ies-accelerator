@@ -104,6 +104,22 @@ Keep `issuer-key.pem` in your KMS in production. Treat it like a TLS private key
 
 ### 3. Run OpenCred in `did:web` mode
 
+First set three variables the container (and every later command on this page) will reuse:
+
+```bash
+export OPENCRED_ISSUER_DOMAIN="ies.yourdiscom.in"
+export OPENCRED_DEDI_NAMESPACE="yourdiscom"
+export OPENCRED_DEDI_API_KEY="paste-your-dedi-api-key-here"
+```
+
+- **`OPENCRED_ISSUER_DOMAIN`** — the domain or subdomain where you will host `did.json` (prerequisite 1). It becomes the host part of your `did:web`, so `ies.yourdiscom.in` yields `did:web:ies.yourdiscom.in`. Replace the placeholder with your own domain **once, here** — every command below references `$OPENCRED_ISSUER_DOMAIN`, so nothing else needs hand-editing.
+- **`OPENCRED_DEDI_NAMESPACE`** — the DeDi namespace you claimed and domain-verified in [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
+- **`OPENCRED_DEDI_API_KEY`** — create it in the DeDi UI at [publish.dedi.global](https://publish.dedi.global): click your avatar in the top-right corner, then **Manage API key**.
+
+The `OPENCRED_DEDI_*` variables connect the container to DeDi at startup. That is what enables **revocation** (step 4 of the issuance walkthrough below) and lets OpenCred auto-create the four registries it needs in your namespace on first boot.
+
+Now start the container:
+
 ```bash
 docker run -d \
   --name opencred \
@@ -111,40 +127,65 @@ docker run -d \
   -e OPENCRED_API_KEY="$OPENCRED_API_KEY" \
   -e OPENCRED_KEY_PATH=/secrets/issuer-key.pem \
   -e OPENCRED_ISSUER_DID_METHOD=web \
-  -e OPENCRED_ISSUER_DOMAIN=ies.discom.example \
+  -e OPENCRED_ISSUER_DOMAIN="$OPENCRED_ISSUER_DOMAIN" \
+  -e OPENCRED_DEDI_BASE_URL=https://api.dedi.global \
+  -e OPENCRED_DEDI_AUTH_TYPE=api-key \
+  -e OPENCRED_DEDI_API_KEY="$OPENCRED_DEDI_API_KEY" \
+  -e OPENCRED_DEDI_NAMESPACE="$OPENCRED_DEDI_NAMESPACE" \
   -v "$HOME/opencred/keys/issuer-key.pem:/secrets/issuer-key.pem:ro" \
   --read-only --cap-drop ALL \
   opencred:bootcamp
+```
 
+Check it came up healthy:
+
+```bash
 curl -s http://localhost:3100/v1/health | jq
-# expect "signingKeyLoaded": true
 ```
 
-> **Want offline-verifiable identity instead?** Drop `OPENCRED_ISSUER_DID_METHOD` and `OPENCRED_ISSUER_DOMAIN` and OpenCred runs in `did:key` mode by default. The same key, the same API — only the `did:` string the container reports changes. This is the right choice for first-deploy testing, demos, and consumer wallets. See [Identifiers — `did:key`](../identifiers/README.md#did-key-what-wallets-give-consumers).
+Expected: the JSON includes `"signingKeyLoaded": true`. If it is `false`, see [Troubleshooting](#troubleshooting).
 
-### 4. Assemble your `did.json` from the container
+> **Want offline-verifiable identity instead?** Drop `OPENCRED_ISSUER_DID_METHOD` and `OPENCRED_ISSUER_DOMAIN` and OpenCred runs in `did:key` mode by default. The same key, the same API — only the `did:` string the container reports changes. This is the right choice for first-deploy testing, demos, and consumer wallets. You can also drop the four `OPENCRED_DEDI_*` variables while testing — the container still issues and verifies, but revocation stays disabled until you add them back. See [Identifiers — `did:key`](../identifiers/README.md#did-key-what-wallets-give-consumers).
 
-You need the **public JWK** of your signing key for the DID document. The keys endpoint reports key metadata:
+### 4. Generate your `did.json`
 
-```bash
-curl -s http://localhost:3100/v1/keys \
-  -H "Authorization: Bearer $OPENCRED_API_KEY" | jq '.keys[0]'
-```
+The DID document needs the **public JWK** of your signing key (its `x`/`y` coordinates) plus your DID string. The container's keys endpoint (`curl -s http://localhost:3100/v1/keys -H "Authorization: Bearer $OPENCRED_API_KEY"`) returns key *metadata* only (`id`, `algorithm`, `fingerprint`) — not the coordinates. So derive them straight from your key file; it is the public half of the exact key OpenCred signs with.
 
-Current OpenCred builds return key *metadata* here (`id`, `algorithm`, `fingerprint`) — not the `x`/`y` coordinates. Derive the JWK straight from your key; it is the public half of the exact key OpenCred signs with:
+The block below is a complete generator: paste it as-is and it writes a finished `did.json` — DID `id`, `controller`, and the JWK `x`/`y` all filled in from `$OPENCRED_ISSUER_DOMAIN` (step 3) and `~/opencred/keys/issuer-key.pem` (step 2). Nothing to hand-edit.
 
 ```bash
-python3 - <<'PY'
-import subprocess, base64, json
-der = subprocess.run(["openssl", "pkey", "-in", "keys/issuer-key.pem", "-pubout", "-outform", "DER"],
+python3 - > did.json <<'PY'
+import subprocess, base64, json, os, sys
+domain = os.environ.get("OPENCRED_ISSUER_DOMAIN")
+if not domain:
+    sys.exit("OPENCRED_ISSUER_DOMAIN is not set - run the export in step 3 first")
+key = os.path.expanduser("~/opencred/keys/issuer-key.pem")
+der = subprocess.run(["openssl", "pkey", "-in", key, "-pubout", "-outform", "DER"],
                      capture_output=True, check=True).stdout
-pt = der[-65:]                       # uncompressed EC point: 0x04 || X(32) || Y(32)
+pt = der[-65:]  # uncompressed EC point: 0x04 || X(32) || Y(32)
 b64u = lambda b: base64.urlsafe_b64encode(b).rstrip(b"=").decode()
-print(json.dumps({"kty": "EC", "crv": "P-256", "x": b64u(pt[1:33]), "y": b64u(pt[33:65])}))
+did = f"did:web:{domain}"
+print(json.dumps({
+    "@context": [
+        "https://www.w3.org/ns/did/v1",
+        "https://w3id.org/security/suites/jws-2020/v1"
+    ],
+    "id": did,
+    "verificationMethod": [{
+        "id": f"{did}#key-0",
+        "type": "JsonWebKey",
+        "controller": did,
+        "publicKeyJwk": {"kty": "EC", "crv": "P-256",
+                         "x": b64u(pt[1:33]), "y": b64u(pt[33:65])}
+    }],
+    "authentication":  [f"{did}#key-0"],
+    "assertionMethod": [f"{did}#key-0"],
+}, indent=2))
 PY
+cat did.json
 ```
 
-Drop that JWK into the standard DID document template:
+Expected: `cat did.json` prints a document shaped like this, with your domain and real coordinates in place:
 
 ```json
 {
@@ -152,15 +193,15 @@ Drop that JWK into the standard DID document template:
     "https://www.w3.org/ns/did/v1",
     "https://w3id.org/security/suites/jws-2020/v1"
   ],
-  "id": "did:web:ies.discom.example",
+  "id": "did:web:ies.yourdiscom.in",
   "verificationMethod": [{
-    "id": "did:web:ies.discom.example#key-0",
+    "id": "did:web:ies.yourdiscom.in#key-0",
     "type": "JsonWebKey",
-    "controller": "did:web:ies.discom.example",
-    "publicKeyJwk": { "kty": "EC", "crv": "P-256", "x": "...", "y": "..." }
+    "controller": "did:web:ies.yourdiscom.in",
+    "publicKeyJwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" }
   }],
-  "authentication":  ["did:web:ies.discom.example#key-0"],
-  "assertionMethod": ["did:web:ies.discom.example#key-0"]
+  "authentication":  ["did:web:ies.yourdiscom.in#key-0"],
+  "assertionMethod": ["did:web:ies.yourdiscom.in#key-0"]
 }
 ```
 
@@ -177,7 +218,7 @@ You can add a `service` array later when your Beckn BPP and OpenCred endpoints a
 Upload it so this URL returns the JSON:
 
 ```
-https://ies.discom.example/.well-known/did.json
+https://$OPENCRED_ISSUER_DOMAIN/.well-known/did.json
 ```
 
 The `.well-known/` path is a standard convention; verifiers know to look there. A normal TLS cert is enough — the same one that already terminates your subdomain — and there must be no redirect.
@@ -185,11 +226,23 @@ The `.well-known/` path is a standard convention; verifiers know to look there. 
 ### 6. Verify it from the outside
 
 ```bash
-curl -s https://ies.discom.example/.well-known/did.json | jq .id
-# "did:web:ies.discom.example"
+curl -s "https://$OPENCRED_ISSUER_DOMAIN/.well-known/did.json" | jq .id
 ```
 
-If that command prints your DID, you're done — any participant on the network can now resolve `did:web:ies.discom.example` to your public key and verify any credential you sign. Move on to [Issue your first credential](#issue-your-first-credential).
+Expected: your DID, e.g. `"did:web:ies.yourdiscom.in"`. If the command prints it, you're done — any participant on the network can now resolve your `did:web` to your public key and verify any credential you sign. Move on to [Confirm your DeDi namespace is live](#confirm-your-dedi-namespace-is-live), then [Issue your first credential](#issue-your-first-credential).
+
+---
+
+## Confirm your DeDi namespace is live
+
+Credential **revocation** rides on your DeDi namespace, so before issuing anything, confirm the namespace side is in order.
+
+**How the namespace got there.** You created it once, during setup: sign up at [publish.dedi.global](https://publish.dedi.global), create a namespace named after your organisation, and verify your domain by publishing the DNS TXT record DeDi gives you. The step-by-step is in [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain), with the IES framing in [Registries — Setup](../registries/README.md#setup). That namespace is exactly what you put in `OPENCRED_DEDI_NAMESPACE` in step 3 above, and the API key you generated via **Manage API key** (top-right avatar menu in the DeDi UI) is what lets the container write to it.
+
+Two checks, both in a browser:
+
+1. **Is the namespace verified?** Open [explore.dedi.global](https://explore.dedi.global) and search for your namespace. Only verified namespaces show up in explore results — if yours appears, it is verified. (In [publish.dedi.global](https://publish.dedi.global), where you log in and manage the namespace, verification shows as a green **verified** label.) Namespace not in explore? The DNS TXT record hasn't propagated or wasn't added; revisit [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
+2. **Did OpenCred create its registries?** Log in at [publish.dedi.global](https://publish.dedi.global) and open your namespace. Can you see the four registries OpenCred auto-created on first boot — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`? If they are there, revocation is wired up and you're ready to issue. If not, the container couldn't reach DeDi — check `docker logs opencred` and re-check the `OPENCRED_DEDI_*` values from step 3 (a wrong API key or namespace name is the usual cause).
 
 ---
 
@@ -199,15 +252,15 @@ This is the bootcamp-aligned step-by-step. Five steps from a running OpenCred to
 
 ### 1. Confirm the issuer DID OpenCred reports
 
+`OPENCRED_API_KEY` is the token you generated in setup step 2 (in production, from your secret manager). If you have opened a fresh shell since then, re-export it — and `OPENCRED_ISSUER_DOMAIN` / `OPENCRED_DEDI_NAMESPACE` from step 3 — before continuing.
+
 ```bash
-export OPENCRED_API_KEY="…"   # from your secret manager
 export ISSUER_DID="$(curl -s http://localhost:3100/v1/keys \
   -H "Authorization: Bearer $OPENCRED_API_KEY" | jq -r '.keys[0].id | split("#")[0]')"
 echo "$ISSUER_DID"
-# did:web:ies.discom.example
 ```
 
-If you ran the container in `did:key` mode (for early dev), this prints `did:key:z…` instead — the rest of the flow is identical, only the issuer string changes.
+Expected: your DID, e.g. `did:web:ies.yourdiscom.in`. If you ran the container in `did:key` mode (for early dev), this prints `did:key:z…` instead — the rest of the flow is identical, only the issuer string changes.
 
 ### 2. Issue
 
@@ -227,12 +280,12 @@ curl -s http://localhost:3100/v1/credentials/issue \
       \"customerProfile\": {
         \"customerNumber\": \"DISCOM-2025-00987654\",
         \"energyResources\": [{
-          \"id\":   \"did:web:ies.discom.example:assets:meter:MET-IMPORT-001\",
+          \"id\":   \"did:web:${OPENCRED_ISSUER_DOMAIN}:assets:meter:MET-IMPORT-001\",
           \"type\": \"METER\",
           \"attributes\": {\"meterCapability\": \"AMI\", \"energyDirection\": \"Forward\"}
         }],
         \"consumptionProfiles\": [{
-          \"meterId\":            \"did:web:ies.discom.example:assets:meter:MET-IMPORT-001\",
+          \"meterId\":            \"did:web:${OPENCRED_ISSUER_DOMAIN}:assets:meter:MET-IMPORT-001\",
           \"sanctionedLoad\":     {\"value\": 10, \"unit\": \"kW\"},
           \"tariffCategoryCode\": \"DS-I\",
           \"premisesType\":       \"Residential\",
@@ -262,7 +315,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
 
 Three things worth noting:
 
-- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:ies.discom.example:assets:meter:<slno>`). Same pattern for transformers, feeders, substations — see [Identifiers — Asset patterns](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). No per-asset `did.json` hosting required for the pragmatic case.
+- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:<your-domain>:assets:meter:<slno>` — the command above builds them from `$OPENCRED_ISSUER_DOMAIN`). Same pattern for transformers, feeders, substations — see [Identifiers — Asset patterns](../identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets). No per-asset `did.json` hosting required for the pragmatic case.
 - **`issuer.idRef` is optional.** OpenCred fills `issuer` with the DID string only. Your integration service appends `name` and (if you have a regulator to cite) `idRef` on egress, then re-signs if your flow requires a single signed artefact.
 - **`credentialSubject.id` is absent here.** That's the bearer-style default. Set it to a wallet `did:key` or `tel:+91...` URI for holder-bound issuance — full guidance in [Identifiers — Holder binding](../identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity).
 
@@ -274,8 +327,9 @@ jq -n --arg c "$(jq -r '.credential.proof.jwt' credential.json)" '{credential: $
     -H "Authorization: Bearer $OPENCRED_API_KEY" \
     -H "Content-Type: application/json" \
     -d @- | jq
-# expect "valid": true
 ```
+
+Expected: the response includes `"valid": true`.
 
 For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.proof.jwt`), not the JSON envelope. For `data-integrity` proofs, send the full credential JSON. The full verification flow — checking the issuer's signature, the regulator's licensing assertion (if cited), and revocation status — is detailed in [Appendix A](#appendix-a-trust-model).
 
@@ -283,27 +337,37 @@ For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.pro
 
 OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue (as the [MeterDataCredential](#meterdatacredential-v0.6-telemetry-signing) and [MeterDataRequestCredential](#meterdatarequestcredential-v0.1-proof-of-right-to-ask) examples do); the default issue above omits it.
 
+Compute the revocation hash of the credential you issued:
+
 ```bash
-# Compute the revocation hash
 HASH=$(jq '{credential: .credential}' credential.json | \
   curl -s http://localhost:3100/v1/credentials/revocation-hash \
     -H "Authorization: Bearer $OPENCRED_API_KEY" \
     -H "Content-Type: application/json" -d @- | jq -r .revocationHash)
+echo "$HASH"
+```
 
-# Revoke
+Revoke it:
+
+```bash
 curl -s http://localhost:3100/v1/credentials/revoke \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
   -d "{\"hash\": \"$HASH\", \"reason\": \"connection-terminated\"}" | jq
+```
 
-# Check status
+Check its status:
+
+```bash
 curl -s http://localhost:3100/v1/credentials/revocation-status \
   -H "Authorization: Bearer $OPENCRED_API_KEY" \
   -H "Content-Type: application/json" \
   -d "{\"hash\": \"$HASH\"}" | jq
 ```
 
-Revocation requires the relevant `OPENCRED_DEDI_*` env vars on the container (`OPENCRED_DEDI_BASE_URL`, `OPENCRED_DEDI_AUTH_TYPE`, `OPENCRED_DEDI_API_KEY`, `OPENCRED_DEDI_NAMESPACE`). See [OpenCred Revocation](https://opencred.gitbook.io/docs/concepts/revocation) for the conceptual model.
+Expected: the status response reports the credential as revoked, with the reason you supplied.
+
+Revocation works here because the container was started with the `OPENCRED_DEDI_*` variables in [setup step 3](#id-3.-run-opencred-in-did-web-mode) (`OPENCRED_DEDI_BASE_URL`, `OPENCRED_DEDI_AUTH_TYPE`, `OPENCRED_DEDI_API_KEY`, `OPENCRED_DEDI_NAMESPACE`) — if you dropped them for early testing, add them back and restart before trying this section. See [OpenCred Revocation](https://opencred.gitbook.io/docs/concepts/revocation) for the conceptual model.
 
 ### 5. Smoke test
 
@@ -356,7 +420,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
     \"proofFormat\":  \"vc-jwt\",
     \"validFrom\":    \"2026-06-28T00:00:00+05:30\",
     \"validUntil\":   \"2026-07-05T00:00:00+05:30\",
-    \"revocationRegistryUrl\": \"https://api.dedi.global/dedi/query/<your-namespace>/vc-revocation-registry\",
+    \"revocationRegistryUrl\": \"https://api.dedi.global/dedi/query/$OPENCRED_DEDI_NAMESPACE/vc-revocation-registry\",
     \"credentialSubject\": {
       \"meterData\": { \"@type\": \"DailyProfile\", \"profileType\": \"DAILY\", \"…\": \"a MeterData v0.6 profile or array\" }
     }
@@ -373,13 +437,13 @@ Two common shapes:
 
 A signed VC carried at Beckn [`confirm`](../data-exchange/README.md#id-3.-send-confirm) time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1).
 
-This schema is **not** in OpenCred's built-in registry, so issue it with an **`inlineSchema`** rather than a `schemaId`: pass the JSON Schema in the request and OpenCred validates `credentialSubject` against it, writes the schema `$id`, and signs. Here we reuse the published MeterDataRequest `$defs` so the inline schema stays canonical:
+This schema is **not** in OpenCred's built-in registry, so issue it with an **`inlineSchema`** rather than a `schemaId`: pass the JSON Schema in the request and OpenCred validates `credentialSubject` against it, writes the schema `$id`, and signs. Here we reuse the published MeterDataRequest `$defs` so the inline schema stays canonical — the first command pulls them, the second wraps them as the `credentialSubject` schema and issues:
 
 ```bash
-# pull the MeterDataRequest v0.6 $defs and wrap them as the credentialSubject schema
 REQ_DEFS=$(curl -s https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json | jq '.["$defs"]')
 
-jq -n --argjson defs "$REQ_DEFS" --arg iss "$ISSUER_DID" '{
+jq -n --argjson defs "$REQ_DEFS" --arg iss "$ISSUER_DID" \
+  --arg reg "https://api.dedi.global/dedi/query/$OPENCRED_DEDI_NAMESPACE/vc-revocation-registry" '{
   inlineSchema: {
     "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json",
     type: "object", required: ["meterDataRequest"],
@@ -393,7 +457,7 @@ jq -n --argjson defs "$REQ_DEFS" --arg iss "$ISSUER_DID" '{
   proofFormat: "vc-jwt",
   validFrom: "2026-06-28T00:00:00+05:30",
   validUntil: "2026-12-28T00:00:00+05:30",
-  revocationRegistryUrl: "https://api.dedi.global/dedi/query/<your-namespace>/vc-revocation-registry",
+  revocationRegistryUrl: $reg,
   credentialSubject: {
     meterDataRequest: {
       "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
