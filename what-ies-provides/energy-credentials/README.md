@@ -113,6 +113,8 @@ export OPENCRED_DEDI_API_KEY="paste-your-dedi-api-key-here"
 ```
 
 - **`OPENCRED_ISSUER_DOMAIN`** — the domain or subdomain where you will host `did.json` (prerequisite 1). It becomes the host part of your `did:web`, so `ies.yourdiscom.in` yields `did:web:ies.yourdiscom.in`. Replace the placeholder with your own domain **once, here** — every command below references `$OPENCRED_ISSUER_DOMAIN`, so nothing else needs hand-editing.
+
+  > **Hosting `did.json` in a subfolder instead of the domain root?** `did:web` encodes sub-paths with colons, and `OPENCRED_ISSUER_DOMAIN` accepts the same form: set `OPENCRED_ISSUER_DOMAIN="<discom-domain>:subfolder"` and OpenCred reports `did:web:<discom-domain>:subfolder`. The `did.json` generator in step 4 works unchanged, but the hosting path changes: a path-form DID resolves to `https://<discom-domain>/subfolder/did.json` — **no `.well-known/`** — so in steps 5–6 replace the colon with a slash and drop `.well-known/` (e.g. `curl -s "https://yourdiscom.in/subfolder/did.json" | jq .id`). Full variant table in [Identifiers — Publish your did:web](../identifiers/README.md#publish-your-did-web).
 - **`OPENCRED_DEDI_NAMESPACE`** — the DeDi namespace you claimed and domain-verified in [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
 - **`OPENCRED_DEDI_API_KEY`** — create it in the DeDi UI at [publish.dedi.global](https://publish.dedi.global): click your avatar in the top-right corner, then **Manage API key**.
 
