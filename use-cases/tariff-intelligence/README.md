@@ -1,6 +1,6 @@
 # Tariff Intelligence
 
-Tariff orders, time-of-day surcharges, deviation penalties, and data-exchange rules **published once, as code, by the issuing authority** — and consumed directly by billing systems, consumer apps, smart meters and analytics agents over **[IES Data Exchange](../../what-ies-provides/data-exchange/README.md)**.
+Tariff orders, time-of-day surcharges, deviation penalties, and data-exchange rules **published once, as code, by the issuing authority** — and consumed directly by billing systems, consumer apps, smart meters and analytics agents over **[IES Data Exchange](../../what-ies-provides/discover-exchange.md)**.
 
 | | |
 |---|---|
@@ -126,7 +126,7 @@ A billing system's job collapses to a small evaluator: look up the slab for the 
 | **`IES_Program`** | The programme grouping the policy belongs to |
 | **`EnergySlab`** | One slab tier inside a `TARIFF` policy |
 | **`SurchargeTariff`** | One ToD adjustment inside a `TARIFF` policy |
-| **[DatasetItem](../../what-ies-provides/data-exchange/README.md)** (DDM) | The Beckn envelope on the wire (`accessMethod: INLINE`, settlement `0` for public disclosure) |
+| **[DatasetItem](../../what-ies-provides/discover-exchange.md)** (DDM) | The Beckn envelope on the wire (`accessMethod: INLINE`, settlement `0` for public disclosure) |
 
 ## Value Unlock
 
@@ -147,12 +147,12 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 ### Register — publisher identity
 
 - [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete for the publisher (SERC / DISCOM)
-- [ ] Publisher in the appropriate IES reference registry — [Regulators](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination) or [DISCOMs](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)
+- [ ] Publisher in the appropriate IES reference registry — [Regulators](../../what-ies-provides/register.md#the-directory-dedi) or [DISCOMs](../../what-ies-provides/register.md#the-directory-dedi)
 - [ ] `policyID` minting scheme adopted (e.g. `<STATE>-<CAT>-T<N>`); `programID`s defined
 
 ### Discover — public-disclosure catalogue
 
-- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery-exchange.md) complete
 - [ ] Publisher BPP exposes one catalogue entry per policy — `accessMethod: INLINE`, settlement `0`
 - [ ] Subscribers (DISCOMs, app developers) tested as BAPs
 

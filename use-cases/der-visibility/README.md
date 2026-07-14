@@ -129,7 +129,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Discover — grid-side catalogue
 
-- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery-exchange.md) complete
 - [ ] BPP catalogue entries published per locus (feeder / substation / licensee-wide) — `accessMethod: INLINE`
 - [ ] Grid-operator and aggregator consumers tested as BAPs
 

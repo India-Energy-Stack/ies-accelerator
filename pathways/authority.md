@@ -35,7 +35,7 @@ Before commencing the integration pathway, we recommend aligning the following i
 In this phase, the regulator establishes its own institutional cryptographic identity on the network — the same mechanism a DISCOM uses, so that DISCOMs and other participants can cite and resolve the regulator directly.
 
 <details>
-<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../what-ies-provides/identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads))</b></summary>
+<summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../what-ies-provides/register.md#two-identities-youll-set-up-and-why))</b></summary>
 
 ### 💡 Phase Advice
 > A regulator sets up its `did:web` exactly like a DISCOM does — there is no separate identity mechanism for authorities. Coordinate with your IT/DNS office early; the worked example used throughout the IES documentation is `did:web:ies.serc.example`, a regulator identity hosted on the regulator's own domain.
@@ -44,14 +44,14 @@ In this phase, the regulator establishes its own institutional cryptographic ide
 * Confirm that your IT/DNS office has write-access to a domain or subdomain (e.g. `ies.serc.example`) to host the verification path.
 
 ### Execution Guidance
-A [`did:web`](../what-ies-provides/identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads) identifier leverages your existing DNS and SSL infrastructure to publish your public keys — the same "Org identity" flow documented for DISCOMs applies to regulators.
+A [`did:web`](../what-ies-provides/register.md#two-identities-youll-set-up-and-why) identifier leverages your existing DNS and SSL infrastructure to publish your public keys — the same "Org identity" flow documented for DISCOMs applies to regulators.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g. `ies.serc.example`.
 2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path `https://ies.serc.example/.well-known/did.json`, following the same steps a DISCOM follows in [Setup Register](../how-you-implement-ies/setup-register.md).
 3. **This `did:web` becomes your citable identity**: once published, this is the identifier DISCOMs reference (e.g. as `issuer.idRef` in a credential, or as the recipient in an `ArrFiling`) and the identity your own signatures on published tariff policies resolve back to.
 
 ### References & Anchors
-* [Identifiers and Addressing — Org identity for credentials and data-exchange payloads](../what-ies-provides/identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads)
-* [Identifiers and Addressing — ID patterns you'll use day one](../what-ies-provides/identifiers/README.md#id-patterns-youll-use-day-one) (`did:web:ies.serc.example` as the regulator pattern)
+* [Register — Two identities you'll set up](../what-ies-provides/register.md#two-identities-youll-set-up-and-why)
+* [Register — Identifier patterns](../what-ies-provides/register.md#identifier-patterns) (`did:web:ies.serc.example` as the regulator pattern)
 * [Setup Register — step-by-step identity walkthrough](../how-you-implement-ies/setup-register.md) (`did:web:ies.serc.example` worked example)
 * [Register overview](../what-ies-provides/register.md)
 </details>
@@ -67,7 +67,7 @@ Follow the same namespace-claim procedure documented for network participants ge
 
 ### References & Anchors
 * [Setup Register — Claim a DeDi namespace and verify your domain](../how-you-implement-ies/setup-register.md)
-* [Registries and Directories](../what-ies-provides/registries/README.md)
+* [Register — The directory: DeDi](../what-ies-provides/register.md#the-directory-dedi)
 </details>
 
 ---
@@ -106,7 +106,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 
 ### 📋 Prework Required
 * Complete [Register](../what-ies-provides/register.md) (Phase 1) so your `did:web` is resolvable, since DISCOMs will cite it as the filing's recipient.
-* List your SERC in the [IES Regulators reference registry](../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination) so DISCOMs can resolve you for subscription and delivery.
+* List your SERC in the [IES Regulators reference registry](../what-ies-provides/register.md#the-directory-dedi) so DISCOMs can resolve you for subscription and delivery.
 
 ### Execution Guidance
 1. Confirm the DISCOM's catalogue entry for each filing (`filingType`, `policyContext` — the tariff order it answers, `accessMethod`) resolves correctly on your side.
@@ -116,7 +116,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 ### References & Anchors
 * [DISCOM Regulatory Filing — Setup: Register → Discover → Exchange](../use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange)
 * [DISCOM Regulatory Filing — Value Unlock](../use-cases/discom-regulatory-filing/README.md#value-unlock)
-* [Registries — reference allow-lists](../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)
+* [Register — The IES networks today](../what-ies-provides/register.md#the-ies-networks-today)
 </details>
 
 ---

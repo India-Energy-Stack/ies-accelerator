@@ -1,6 +1,6 @@
 # Smart Meter Data Exchange
 
-A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/data-exchange/README.md), carrying the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) payload.
+A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/discover-exchange.md), carrying the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) payload.
 
 | | |
 |---|---|
@@ -172,7 +172,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Discover — catalogue and contract
 
-- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete (ONIX running on both sides; subscriber records published)
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery-exchange.md) complete (ONIX running on both sides; subscriber records published)
 - [ ] BPP publishes a Beckn catalogue entry for the `MeterData/v0.6` dataset offered — `programID`, geographic scope, refresh cadence, `accessMethod` (`INLINE` for ≤MB chunks; `SIGNED_URL` / `KAFKA` / `SFTP` for bulk and streaming), required credentials
 - [ ] Pre-agreed bilateral subscriptions (where used) skip `discover` and go straight to `confirm`
 - [ ] Test exchange completed against sandbox: `confirm` → `on_confirm` → `on_status`

@@ -45,16 +45,16 @@ Before writing any code, get clear on the shape of the system you are integratin
 ### Execution Guidance
 IES organises every interaction into three steps, and each has a corresponding action guide:
 1. **[Register](../what-ies-provides/register.md)** — verifiable digital identity (`did:web`) and the shared directory (DeDi). See **[Setup Register](../how-you-implement-ies/setup-register.md)**.
-2. **[Discover](../what-ies-provides/discover.md)** — Beckn-protocol interaction between systems. See **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
-3. **[Exchange](../what-ies-provides/exchange.md)** — schemas, taxonomy, and verifiable credentials. See **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
+2. **[Discover](../what-ies-provides/discover-exchange.md)** — Beckn-protocol interaction between systems. See **[Setup Discovery+Exchange](../how-you-implement-ies/setup-discovery-exchange.md)**.
+3. **[Exchange](../what-ies-provides/discover-exchange.md)** — schemas, taxonomy, and verifiable credentials. See **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
 
 For most TSP engagements, Register and Discover belong to your DISCOM client (they already own the `did:web` and the DeDi namespace); **Exchange — specifically the Part-2 mapping — is where your engineering team's work concentrates.**
 
 ### References & Anchors
 * [What IES Provides — overview](../what-ies-provides/README.md)
 * [Register](../what-ies-provides/register.md)
-* [Discover](../what-ies-provides/discover.md)
-* [Exchange](../what-ies-provides/exchange.md)
+* [Discover](../what-ies-provides/discover-exchange.md)
+* [Exchange](../what-ies-provides/discover-exchange.md)
 * [How you implement IES — overview](../how-you-implement-ies/README.md)
 </details>
 
@@ -170,7 +170,7 @@ The `MeterDataCredential` schema documentation names **"AMISP, MDM system"** exp
 
 ### References & Anchors
 * [Register](../what-ies-provides/register.md)
-* [Registries and Directories — As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)
+* [Register — The registries IES uses, by role](../what-ies-provides/register.md#the-registries-ies-uses-by-role)
 * [MeterDataCredential family page](../schemas/MeterDataCredential/README.md)
 </details>
 
@@ -182,13 +182,13 @@ The `MeterDataCredential` schema documentation names **"AMISP, MDM system"** exp
 
 ### Execution Guidance
 1. Follow **[Setup Register](../how-you-implement-ies/setup-register.md)** to publish your `did.json`, generate your signing keypair, and claim a verified DeDi namespace under your own domain.
-2. Create your own subscriber registries (`subscribers-test`, `subscribers-prod`) if you are participating directly on a Beckn network as a provider — see **[Registries — As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)**.
-3. Apply for an IES listing the same way any participant does, sending your short identifier, verified DeDi namespace, and subscriber registry details to the IES Secretariat — see **[How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)**.
+2. Create your own subscriber registries (`subscribers-test`, `subscribers-prod`) if you are participating directly on a Beckn network as a provider — see **[Register — The registries IES uses, by role](../what-ies-provides/register.md#the-registries-ies-uses-by-role)**.
+3. Apply for an IES listing the same way any participant does, sending your short identifier, verified DeDi namespace, and subscriber registry details to the IES Secretariat — see **[How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)**.
 
 ### References & Anchors
 * [Setup Register](../how-you-implement-ies/setup-register.md)
-* [Registries and Directories](../what-ies-provides/registries/README.md)
-* [How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
+* [Register — The directory: DeDi](../what-ies-provides/register.md#the-directory-dedi)
+* [How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)
 </details>
 
 ---

@@ -119,7 +119,7 @@ The net meter is the billing source of truth. Generation is measured at the net 
 
 ## 11. Points for Confirmation
 
-1. **Holder-binding method** for the Passport. For the DigiLocker Pull URI channel this is confirmed: the `DigiLockerId` from the pull request is carried into `customerProfile.idRef` as the identity binding (see [DigiLocker Integration — Identity Binding](../../what-ies-provides/energy-credentials/digilocker.md#identity-binding-the-digilocker-id)). Non-DigiLocker binding methods (offline-KYC XML, in-person) remain open, to be documented for privacy review.
+1. **Holder-binding method** for the Passport. For the DigiLocker Pull URI channel this is confirmed: the `DigiLockerId` from the pull request is carried into `customerProfile.idRef` as the identity binding (see [DigiLocker Integration — Identity Binding](../../how-you-implement-ies/energy-credentials/digilocker.md#identity-binding-the-digilocker-id)). Non-DigiLocker binding methods (offline-KYC XML, in-person) remain open, to be documented for privacy review.
 2. **Selective-disclosure profile** with first verifiers (SD-JWT-VC typical), so `customerDetails` PII is disclosed field-by-field by the wallet.
 3. **Re-issuance triggers** on material change (meter swap, sanctioned-load change, DER commissioning) and the revocation flow into the DeDi registry.
 4. **Schema-host provenance.** The credential context is served from `india-energy-stack.github.io/ies-accelerator`. A custom IES/gov host domain is a governance decision.
@@ -150,8 +150,8 @@ The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.
 
 ### Discover — wallet delivery
 
-- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete (ONIX running; subscriber record published)
-- [ ] DigiLocker Pull URI registered → [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md)
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery-exchange.md) complete (ONIX running; subscriber record published)
+- [ ] DigiLocker Pull URI registered → [DigiLocker delivery](../../how-you-implement-ies/energy-credentials/digilocker.md)
 - [ ] Direct DID-push tested for one non-DigiLocker wallet (where relevant)
 - [ ] A freshly issued Passport reaches a wallet end-to-end
 
@@ -182,7 +182,7 @@ The Passport sets `credentialSubject.id` to the wallet DID and `customerProfile.
 - **Example payloads** — [`examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.2/examples) (single meter + PV; sub-metering; parallel metering)
 - **Validation** — `python3 scripts/validate_schema.py schemas/ElectricityCredential/v1.2/schema.json <your-output.json>`
 - **Reference issuer (OpenCred)** — `ghcr.io/nfh-trust-labs/opencred/opencred-server`
-- **Issuance walkthrough** — [Energy Credentials — Issue your first credential](../../what-ies-provides/energy-credentials/README.md#issue-your-first-credential)
+- **Issuance walkthrough** — [Energy Credentials — Issue your first credential](../../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential)
 
 ---
 

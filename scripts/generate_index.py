@@ -83,19 +83,19 @@ def main():
             ("SUMMARY.md", "Table of Contents sidebar structure configuration for GitBook deployment.")
         ],
         "identifiers_setup": [
-            ("what-ies-provides/identifiers/README.md", "Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.")
-        ],
-        "registries_setup": [
-            ("what-ies-provides/registries/README.md", "Introduction to the trust registry layer and related building blocks."),
+            ("what-ies-provides/register.md", "Single-page reference for the identity + directory layer: DID methods, the two identities, identifier patterns, DeDi registries, IES networks."),
+            ("how-you-implement-ies/setup-register.md", "Role-based do-guide: domain, keypair, did.json, DeDi namespace; Beckn subscriber records and IES network references for network participants.")
         ],
         "credentials_setup": [
-            ("what-ies-provides/energy-credentials/README.md", "Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.")
+            ("how-you-implement-ies/issue-credentials.md", "Do-guide: run OpenCred with DeDi config, issue / verify / revoke, credential variants, verifier walkthrough, holder binding, operational notes."),
+            ("how-you-implement-ies/energy-credentials/README.md", "Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.")
         ],
         "credentials_ops": [
-            ("what-ies-provides/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
+            ("how-you-implement-ies/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
-            ("what-ies-provides/data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
+            ("what-ies-provides/discover-exchange.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the Taxonomy, schemas by use case."),
+            ("how-you-implement-ies/setup-discovery-exchange.md", "Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.")
         ],
         "schemas": [
             ("schemas/README.md", "Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
@@ -146,9 +146,9 @@ These documents provide a general introduction, terminology definitions, and lay
     content += """
 ---
 
-## 🆔 1. Identifiers and Addressing (DIDs)
+## 🆔 1. Register — Identity and Directory (DIDs + DeDi)
 
-This block defines the cryptographic identity of utilities, consumers, assets, and datasets on the network.
+This block defines the cryptographic identity of utilities, consumers, assets, and datasets, and the directories that resolve identifiers to participant records.
 
 ### ⚙️ Setup & Configuration
 """
@@ -158,19 +158,7 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
     content += """
 ---
 
-## 🗄️ 2. Registries and Directories (DeDi)
-
-This block describes the directories that store and resolve identifiers to participant records.
-
-### ⚙️ Setup & Configuration
-"""
-    for rel_path, summary in sections["registries_setup"]:
-        content += generate_file_entry(root_dir, rel_path, summary)
-
-    content += """
----
-
-## 🪪 3. Energy Credentials (VCs / OpenCred)
+## 🪪 2. Energy Credentials (VCs / OpenCred)
 
 This block handles digital attestations of connections, billing summaries, and consumer identities.
 
@@ -188,7 +176,7 @@ This block handles digital attestations of connections, billing summaries, and c
     content += """
 ---
 
-## 🔌 4. Data Exchange (Beckn)
+## 🔌 3. Discover+Exchange (Beckn)
 
 This block governs data discovery, consent, and the transfer of telemetry and regulatory datasets.
 
@@ -200,7 +188,7 @@ This block governs data discovery, consent, and the transfer of telemetry and re
     content += """
 ---
 
-## 🗃️ 5. Schemas
+## 🗃️ 4. Schemas
 
 Each family page opens with a concise plain-language overview; version pages carry the auto-generated field reference.
 
@@ -211,7 +199,7 @@ Each family page opens with a concise plain-language overview; version pages car
     content += """
 ---
 
-## 🎯 6. Use Cases
+## 🎯 5. Use Cases
 
 Practical deployment and mapping implementations for specific grid business processes.
 
@@ -222,7 +210,7 @@ Practical deployment and mapping implementations for specific grid business proc
     content += """
 ---
 
-## 🗺️ 7. Operational Pathways (Roadmaps)
+## 🗺️ 6. Operational Pathways (Roadmaps)
 
 Step-by-step project-management pathways for onboarding and network operations.
 

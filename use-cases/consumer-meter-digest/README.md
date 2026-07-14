@@ -146,7 +146,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 
 ### Discover — consumer-pull endpoint
 
-- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery-exchange.md) complete
 - [ ] Beckn `DatasetItem` for the pull endpoint published on your BPP (`accessMethod: INLINE`)
 - [ ] `requiredCredential` restricts callers to a valid [Consumer Energy Passport](../consumer-energy-passport/README.md) (or minimal customer credential)
 - [ ] `granularityOptions` / `maxRange` agreed with internal compliance
@@ -160,7 +160,7 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 - [ ] `credentialSubject.id` = wallet DID; `schemaId` = `MeterDataCredential/v0.6`
 - [ ] `validUntil` short — 24h for loan portals, up to 7d for less time-sensitive flows
 - [ ] Schema validation passes against [MeterDataCredential v0.6 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json)
-- [ ] DigiLocker pull tested end-to-end → [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md)
+- [ ] DigiLocker pull tested end-to-end → [DigiLocker delivery](../../how-you-implement-ies/energy-credentials/digilocker.md)
 - [ ] One direct DID-push path tested for non-DigiLocker wallets
 - [ ] Verification rehearsed with one verifier (bank / marketplace / housing society / EV installer)
 - [ ] If you emit derived `summary` outputs, share the schema + description with verifiers up front

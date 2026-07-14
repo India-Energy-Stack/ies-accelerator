@@ -8,19 +8,16 @@
 * [Overview](/what-ies-provides/README.md)
 * [What IES Is](/concepts/what-ies-is.md)
 * [Register](/what-ies-provides/register.md)
-  * [Identifiers and Addressing](/what-ies-provides/identifiers/README.md)
-  * [Registries and Directories](/what-ies-provides/registries/README.md)
-* [Discover](/what-ies-provides/discover.md)
-  * [Data Exchange (Beckn lifecycle)](/what-ies-provides/data-exchange/README.md)
-* [Exchange](/what-ies-provides/exchange.md)
-  * [Energy Credentials](/what-ies-provides/energy-credentials/README.md)
-    * [DigiLocker delivery](/what-ies-provides/energy-credentials/digilocker.md)
+* [Discover+Exchange](/what-ies-provides/discover-exchange.md)
 
 ## How you implement IES
 
 * [Overview](/how-you-implement-ies/README.md)
 * [Setup Register](/how-you-implement-ies/setup-register.md)
-* [Setup Discovery](/how-you-implement-ies/setup-discovery.md)
+* [Issue Credentials](/how-you-implement-ies/issue-credentials.md)
+  * [Energy Credentials](/how-you-implement-ies/energy-credentials/README.md)
+    * [DigiLocker delivery](/how-you-implement-ies/energy-credentials/digilocker.md)
+* [Setup Discovery+Exchange](/how-you-implement-ies/setup-discovery-exchange.md)
 * [Build your Internal-facing Adapter](/how-you-implement-ies/build-adapter.md)
 * [Conformance Checklist](/how-you-implement-ies/conformance.md)
 

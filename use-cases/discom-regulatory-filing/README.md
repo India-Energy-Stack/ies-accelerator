@@ -1,6 +1,6 @@
 # DISCOM Regulatory Filing
 
-A DISCOM's Aggregate Revenue Requirement (ARR), true-up, FPPCA or compliance filing submitted to its State Electricity Regulatory Commission (SERC) as a structured, signed object — the **[ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** payload carried over **[IES Data Exchange](../../what-ies-provides/data-exchange/README.md)**.
+A DISCOM's Aggregate Revenue Requirement (ARR), true-up, FPPCA or compliance filing submitted to its State Electricity Regulatory Commission (SERC) as a structured, signed object — the **[ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** payload carried over **[IES Data Exchange](../../what-ies-provides/discover-exchange.md)**.
 
 | | |
 |---|---|
@@ -41,7 +41,7 @@ Supporting workbooks — when used — ride as separate signed datasets in the s
 | Tariff order this filing answers | `policyID` — from [Tariff Intelligence](../tariff-intelligence/README.md) | `TARIFF-ORDER-2025-26` |
 | Line item | `lineItemId` — kebab-case, stable across years | `power-purchase-cost` |
 
-The DISCOM and SERC subscriber records on the Beckn fabric resolve through the **[IES DISCOMs](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)** and **[Regulators reference registries](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)** for public-key lookup. Resubmissions reuse the same `filingId`; versioning lives on the Beckn envelope (`updatedAt`), not the ID.
+The DISCOM and SERC subscriber records on the Beckn fabric resolve through the **[IES DISCOMs](../../what-ies-provides/register.md#the-directory-dedi)** and **[Regulators reference registries](../../what-ies-provides/register.md#the-directory-dedi)** for public-key lookup. Resubmissions reuse the same `filingId`; versioning lives on the Beckn envelope (`updatedAt`), not the ID.
 
 ## 4. Definitions
 
@@ -123,7 +123,7 @@ A SERC ingesting from multiple DISCOMs sees one schema, not n bespoke spreadshee
 | Schema | Role |
 |---|---|
 | **[ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)** | The payload — filing identity, fiscal years, line items |
-| **[DatasetItem](../../what-ies-provides/data-exchange/README.md)** (DDM) | The Beckn envelope on the wire (`accessMethod: INLINE` for the filing; `SIGNED_URL` for any large workbook attachments) |
+| **[DatasetItem](../../what-ies-provides/discover-exchange.md)** (DDM) | The Beckn envelope on the wire (`accessMethod: INLINE` for the filing; `SIGNED_URL` for any large workbook attachments) |
 
 ## Value Unlock
 
@@ -142,13 +142,13 @@ Built on the four implementation steps in **[How you implement IES](../../how-yo
 ### Register — both sides
 
 - [ ] [Identity setup](../../how-you-implement-ies/setup-register.md) complete on the DISCOM side and on the SERC side
-- [ ] DISCOM in the [IES DISCOMs reference registry](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)
-- [ ] SERC in the [IES Regulators reference registry](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)
+- [ ] DISCOM in the [IES DISCOMs reference registry](../../what-ies-provides/register.md#the-directory-dedi)
+- [ ] SERC in the [IES Regulators reference registry](../../what-ies-provides/register.md#the-directory-dedi)
 - [ ] `filingId` minting convention agreed (typical: `<DISCOM>-ARR-<FY>` / `<DISCOM>-TRUEUP-<FY>`)
 
 ### Discover — catalogue the filing
 
-- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete on both sides
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery-exchange.md) complete on both sides
 - [ ] DISCOM BPP publishes a Beckn catalogue entry per filing — `descriptor.name`, `filingType` (`ARR` / `TRUE_UP` / `FPPCA` / `COMPLIANCE`), `policyContext` (the SERC orders the filing answers), `accessMethod` (`INLINE` typical; `SIGNED_URL` for workbook attachments)
 - [ ] Pre-agreed bilateral subscription (where the SERC subscribes to the DISCOM's filings ahead of time) skips `discover` and goes straight to `confirm`
 
