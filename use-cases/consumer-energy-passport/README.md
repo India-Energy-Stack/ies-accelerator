@@ -119,7 +119,7 @@ The net meter is the billing source of truth. Generation is measured at the net 
 
 ## 11. Points for Confirmation
 
-1. **Holder-binding method** for the Passport (DigiLocker Aadhaar pull / offline-KYC XML / in-person), to be documented for privacy review.
+1. **Holder-binding method** for the Passport. For the DigiLocker Pull URI channel this is confirmed: the `DigiLockerId` from the pull request is carried into `customerProfile.idRef` as the identity binding (see [DigiLocker Integration — Identity Binding](../../what-ies-provides/energy-credentials/digilocker.md#identity-binding-the-digilocker-id)). Non-DigiLocker binding methods (offline-KYC XML, in-person) remain open, to be documented for privacy review.
 2. **Selective-disclosure profile** with first verifiers (SD-JWT-VC typical), so `customerDetails` PII is disclosed field-by-field by the wallet.
 3. **Re-issuance triggers** on material change (meter swap, sanctioned-load change, DER commissioning) and the revocation flow into the DeDi registry.
 4. **Schema-host provenance.** The credential context is served from `india-energy-stack.github.io/ies-accelerator`. A custom IES/gov host domain is a governance decision.

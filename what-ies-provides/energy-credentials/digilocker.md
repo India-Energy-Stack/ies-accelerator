@@ -6,10 +6,10 @@ Two document types flow into DigiLocker through the **same Pull URI mechanism**:
 
 | DocType | Credential | What it carries | Keyed on |
 |---|---|---|---|
-| `NYCER` | **Electricity Credential v1.2** | Slow-changing facts — who holds the connection and every typed asset behind the meter (meter, solar, battery, EV, inverter, load, network), each power/capacity value a `{value, unit}` pair | Consumer number |
-| `MTRDT` | **Consumer Meter Digest** (`MeterDataCredential` v0.6) | The consumer's own meter readings for a chosen period — a signed energy *statement*, not a bill | Consumer number **+ period** |
+| `NYCER` | **Consumer Energy Passport** (`ElectricityCredential` v1.2) | Slow-changing facts — who holds the connection and every typed asset behind the meter (meter, solar, battery, EV, inverter, load, network), each power/capacity value a `{value, unit}` pair | Consumer number |
+| `MPLTR` | **Consumer Meter Digest** (`MeterDataCredential` v0.6) | The consumer's own meter readings for a chosen period — a signed energy *statement*, not a bill | Consumer number **+ period** |
 
-> **Temporary DocType.** `MTRDT` is used here as a working DocType for the Consumer Meter Digest while the formal registration with NeGD is finalised. Treat it as a placeholder — the final DocType string will be confirmed in the written ask to DigiLocker and may change.
+> **DocType confirmed.** NeGD has allotted `MPLTR` (Meter Document) as the DocType for the Consumer Meter Digest. `NYCER` stays unchanged for the Consumer Energy Passport — same DocType, same Pull URI flow; only the payload schema moves to v1.2.
 
 The Digest reuses the connection-credential flow almost unchanged. The one structural difference is the document key: the Digest puts the **period into the URI** so every period coexists instead of overwriting — exactly the difference between a statement and a bill.
 
@@ -22,7 +22,7 @@ DigiLocker is India's national digital document wallet. When a consumer searches
 ```
 Consumer                 DigiLocker              Your Endpoint           IES
    │                         │                        │                    │
-   │── search NYCER/MTRDT ──>│                        │                    │
+   │── search NYCER/MPLTR ──>│                        │                    │
    │   (consumer no. + …)    │                        │                    │
    │                         │── PullURIRequest ─────>│                    │
    │                         │   (XML, HMAC signed)   │                    │
@@ -58,7 +58,7 @@ Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a documen
 - `issuer_id` (e.g. `in.gov.discom`)
 - `api_key` — store this securely; used for HMAC verification
 
-> If your DISCOM already issues electricity bills (ELBIL) on DigiLocker, contact NeGD to add the `NYCER` and `MTRDT` document types to your existing account. Do not re-register.
+> If your DISCOM already issues electricity bills (ELBIL) on DigiLocker, contact NeGD to add the `NYCER` and `MPLTR` document types to your existing account. Do not re-register.
 
 ### Step 2 — Stand Up OpenCred and Your Issuer DID
 
@@ -85,19 +85,19 @@ Register both DocTypes against the same Pull URI endpoint. They differ only in t
 | UDF1 Label | `Consumer Number` |
 | UDF2 Label | `Registered Mobile Number` |
 
-**MTRDT — Consumer Meter Digest** (temporary DocType)
+**MPLTR — Consumer Meter Digest**
 
 | Field | Value |
 |---|---|
 | Endpoint URL | `https://{your-domain}/digilocker/pulluri` |
 | HTTP Method | `POST` |
 | Content-Type | `application/xml` |
-| DocType | `MTRDT` |
+| DocType | `MPLTR` |
 | UDF1 Label | `Consumer Number` |
 | UDF2 Label | `Statement Period` (e.g. `2026-05` or `last-12-months`) |
 | UDF3 Label | `Registered Mobile Number` |
 
-> **Two items need DigiLocker to confirm behaviour for MTRDT** — see [The Consumer Meter Digest](#the-consumer-meter-digest-doctype-mtrdt): (1) **period-in-URI** keying so multiple periods coexist, and (2) **configurable rendering** of the statement card. Everything else reuses the NYCER flow unchanged.
+> **MPLTR registers as an additional record on the same endpoint already registered for NYCER** — one Pull URI handler, branched by `DocType`. One item is still pending **written** confirmation from DigiLocker even though it was agreed in principle on the 12 June 2026 call: treating each **period-keyed URI** as a distinct, independently listable/deletable document (see [The Consumer Meter Digest](#the-consumer-meter-digest-doctype-mpltr)). **Configurable rendering** of the statement card remains an open ask. Everything else reuses the NYCER flow unchanged.
 
 ---
 
@@ -147,7 +147,7 @@ DigiLocker sends a `PullURIRequest` XML v3.0. For NYCER:
 </PullURIRequest>
 ```
 
-For MTRDT the period travels as a UDF, so the consumer can pull a chosen window:
+For MPLTR the period travels as a UDF, so the consumer can pull a chosen window:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -156,7 +156,7 @@ For MTRDT the period travels as a UDF, so the consumer can pull a chosen window:
                 txn="TXN-20260515-042"
                 orgId="discom">
   <DocDetails>
-    <DocType>MTRDT</DocType>
+    <DocType>MPLTR</DocType>
     <DigiLockerId>7a3f9b2c-1e4d-4f8a-b6c2-0d5e8f1a2b3c</DigiLockerId>
     <UDF1>DISCOM-2025-001234567</UDF1>   <!-- consumer number -->
     <UDF2>last-12-months</UDF2>          <!-- statement period: YYYY-MM, a range, or a keyword -->
@@ -170,10 +170,11 @@ For MTRDT the period travels as a UDF, so the consumer can pull a chosen window:
 |---|---|
 | `ts` | Request timestamp — echo in response |
 | `txn` | Transaction ID — echo in response |
+| `DigiLockerId` | The consumer's DigiLocker-registered ID. Carry this into the issued credential's identity binding (`idRef`) for **both** DocTypes — see [Identity Binding — the DigiLocker ID](#identity-binding-the-digilocker-id). |
 | `UDF1` | Consumer number — primary CIS lookup key |
 | `UDF2` (NYCER) | Registered mobile number — secondary verification |
-| `UDF2` (MTRDT) | Statement period — `YYYY-MM`, a range, or a keyword like `last-12-months`. A recurring pull with the current month fetches the latest statement. |
-| `UDF3` (MTRDT) | Registered mobile number — secondary verification |
+| `UDF2` (MPLTR) | Statement period — `YYYY-MM`, a range, or a keyword like `last-12-months`. A recurring pull with the current month fetches the latest statement. |
+| `UDF3` (MPLTR) | Registered mobile number — secondary verification |
 | `FullName` | DigiLocker profile name — DigiLocker validates name match against your response |
 
 ### Step 3 — Look Up Consumer in CIS
@@ -184,9 +185,24 @@ if not consumer:
     return pulluri_error_response(ts, txn, status=0, message="Consumer not found")
 ```
 
+### Identity Binding — the DigiLocker ID
+
+NeGD's requirement, confirmed and accepted: the `DigiLockerId` received in the `PullURIRequest` must be carried inside the issued credential as part of the subject's identity binding, for **both** `NYCER` and `MPLTR`. Populate `customerProfile.idRef` (Passport) / the subject-level identity reference (Digest) with it:
+
+```python
+holder_idref = {
+    "issuedBy":  "did:web:digilocker.gov.in",
+    "subjectId": f"digilocker.gov.in:{digilocker_id}",   # the <DigiLockerId> from the request
+}
+```
+
+The rendered certificate (`DocContent`) should also show this in human-readable form — e.g. *"Identity Binding: binding method DIGILOCKER_PULL, binding date …"* — the pattern APEPDCL's current implementation already follows.
+
+> **Schema gap.** `customerProfile.idRef` exists on the [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) schema, so the Passport can carry this binding today. `MeterDataCredential` v0.6's `credentialSubject` does **not** yet define an `idRef` (or equivalent) property — until the schema adds one, the Digest cannot carry this binding as a structured VC field, only in the rendered `DocContent`. Track this as an open schema item alongside the MPLTR rollout.
+
 ### Step 4 — Call OpenCred to Issue the Credential
 
-This step differs by DocType — see [Issuing NYCER (v1.2)](README.md#issue-your-first-credential) and [Issuing the Digest (MTRDT)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC; both can ask OpenCred to render the PDF via `packageFormats: ["pdf"]`.
+This step differs by DocType — see [Issuing NYCER (v1.2)](README.md#issue-your-first-credential) and [Issuing the Digest (MPLTR)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC; both can ask OpenCred to render the PDF via `packageFormats: ["pdf"]`.
 
 ### Step 5 — Package the PDF and VC for the response
 
@@ -226,7 +242,7 @@ def build_pulluri_response(ts, txn, doc_type, uri, issued_to, valid_from, valid_
 | Field | Description |
 |---|---|
 | `Status="1"` | Success. Use `Status="0"` for errors. |
-| `URI` | Unique identifier for this document in DigiLocker. NYCER: `{issuer_id}-NYCER-{consumerNo}`. MTRDT: `{issuer_id}-MTRDT-{consumerNo}-{period}` — **the period makes each statement a distinct document** (see [The document key](#the-one-real-gap-the-document-key)). |
+| `URI` | Unique identifier for this document in DigiLocker. NYCER: `{issuer_id}-NYCER-{consumerNo}`. MPLTR: `{issuer_id}-MPLTR-{consumerNo}-{period}` — **the period makes each statement a distinct document** (see [The document key](#the-one-real-gap-the-document-key)). |
 | `IssuedTo` | Consumer's full name — DigiLocker validates this against the user's profile |
 | `DocContent` | Base64-encoded PDF (the rendered statement / certificate card) |
 | `VcContent` | Base64-encoded W3C VC JSON-LD — the signed credential, proof intact |
@@ -241,7 +257,7 @@ def build_pulluri_response(ts, txn, doc_type, uri, issued_to, valid_from, valid_
 5. Resolve / generate the consumer's holder DID
 6. Branch on DocType:
      NYCER → build v1.2 credentialSubject (energyResources[])
-     MTRDT → build MeterData v0.6 payload for the requested period
+     MPLTR → build MeterData v0.6 payload for the requested period
 7. POST /v1/credentials/issue with packageFormats=["pdf"] → signed VC + PDF
 8. Base64-encode PDF and VC
 9. Return PullURIResponse XML with Status=1 and the DocType-appropriate URI
@@ -255,17 +271,17 @@ if doc_type == "ELBIL":
     return handle_elbil(request_xml)   # existing electricity bill, if you serve it
 elif doc_type == "NYCER":
     return handle_nycer(request_xml)   # Electricity Credential v1.2
-elif doc_type == "MTRDT":
-    return handle_mtrdt(request_xml)   # Consumer Meter Digest
+elif doc_type == "MPLTR":
+    return handle_mpltr(request_xml)   # Consumer Meter Digest
 else:
     return pulluri_error_response(ts, txn, status=0, message="Unsupported DocType")
 ```
 
 ---
 
-## Issuing NYCER — the Electricity Credential v1.2
+## Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)
 
-The NYCER credential DISCOMs issue today carried a flat set of customer-and-connection fields. The IES Electricity Credential is now finalised at **v1.2**, and it carries far more: every physical asset behind the connection — the meter itself, plus solar, battery, EV, inverter, and controllable-load assets — as a single typed resource model with unit-bearing quantities.
+`NYCER` is the existing, unchanged DocType; only its payload schema is upgraded. The NYCER credential DISCOMs issue today carried a flat set of customer-and-connection fields. The IES Electricity Credential is now finalised at **v1.2** as the **Consumer Energy Passport**, and it carries far more: every physical asset behind the connection — the meter itself, plus solar, battery, EV, inverter, and controllable-load assets — as a single typed resource model with unit-bearing quantities.
 
 ### What changed from the flat shape
 
@@ -285,7 +301,7 @@ credentialSubject
 ├─ id                       (optional)  customer DID
 ├─ customerProfile          (required)  non-PII
 │  ├─ customerNumber        (required)  utility CA number
-│  ├─ idRef                 (optional)  external identity reference (masked)
+│  ├─ idRef                 (optional)  identity binding — the DigiLocker ID from the pull request
 │  ├─ energyResources[]     (required)  typed assets, min 1 (at least one METER)
 │  └─ consumptionProfiles[] (optional)  tariff / load per meter (QV units)
 └─ customerDetails          (optional)  PII: fullName, address, connection date
@@ -331,8 +347,8 @@ credential_response = requests.post(
             "customerProfile": {
                 "customerNumber": consumer.consumer_number,
                 "idRef": {
-                    "issuedBy":  "did:web:uidai.gov.in",
-                    "subjectId": f"uidai.gov.in:{consumer.masked_aadhaar}",
+                    "issuedBy":  "did:web:digilocker.gov.in",
+                    "subjectId": f"digilocker.gov.in:{digilocker_id}",  # <DigiLockerId> from Step 2 — NeGD's identity-binding requirement
                 },
                 "energyResources": [
                     {
@@ -410,16 +426,17 @@ uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"
 2. **Pass `VcContent` through unchanged.** The signed JSON-LD is the v1.2 credential as issued, proof intact — no reshaping. The proof is over the canonical form, and the QUDT unit context is part of it.
 3. **Carry resource fields into the Certificate XML.** Extend the `DataContent` block so meter and DER resources (`type`, key attributes with value+unit) appear for DigiLocker-native parsers, alongside the existing connection and address fields.
 4. **Render whatever resources are present.** Drive the card from `energyResources[]` as a list, showing each value with its unit. A meter-only consumer shows one row; a prosumer shows meter, solar, battery, EV. New kinds and unit types need no card change.
+5. **Store and surface the DigiLocker identity binding.** `customerProfile.idRef` carries the `DigiLockerId` from the pull request (see [Identity Binding](#identity-binding-the-digilocker-id)) — reflect it on the rendered certificate alongside the binding date.
 
 ---
 
-## The Consumer Meter Digest (DocType `MTRDT`)
+## The Consumer Meter Digest (DocType `MPLTR`)
 
 The **Consumer Meter Digest** is a DISCOM-issued, digitally signed credential carrying a consumer's own meter readings for a chosen window of time. Where NYCER attests to slow-changing facts — who holds the connection, what assets are behind the meter — the Digest is the consumer's **energy statement**. Like a bank statement records transactions, the meter records a reading roughly every fifteen minutes — around 96 blocks a day — and the Digest packages those readings for a requested period into a signed document the consumer can hold and present.
 
 ### The core idea — a statement, not a bill
 
-Treat the meter as a statement, not a bill. A **bill** is the latest snapshot that overwrites the last. A **statement** is a series the consumer can pull by period — "April, May, last twelve months" — and each one is kept, not replaced. This single shift is what the `MTRDT` integration is about, and it is why the document key carries the period.
+Treat the meter as a statement, not a bill. A **bill** is the latest snapshot that overwrites the last. A **statement** is a series the consumer can pull by period — "April, May, last twelve months" — and each one is kept, not replaced. This single shift is what the `MPLTR` integration is about, and it is why the document key carries the period.
 
 ### Schema compliance — `MeterDataCredential` v0.6
 
@@ -537,8 +554,8 @@ DigiLocker already does everything the Digest needs — the **same Pull URI mech
 
 | DigiLocker mechanism (today) | How the Digest uses it |
 |---|---|
-| Pull URI endpoint + DocType | Register a new DocType (`MTRDT`) for the Digest; DigiLocker calls the **same Pull URI** the connection credential uses. |
-| URI — the document key | Put the period into the URI: `in.gov.{discom}-MTRDT-{consumerNo}-{YYYY-MM}`. This is the composite key that lets every period coexist instead of overwriting. |
+| Pull URI endpoint + DocType | `MPLTR` registered as an additional record for the Digest; DigiLocker calls the **same Pull URI** the connection credential uses. |
+| URI — the document key | Put the period into the URI: `in.gov.{discom}-MPLTR-{consumerNo}-{YYYY-MM}`. This is the composite key that lets every period coexist instead of overwriting — **confirmed on the 12 June 2026 call**: URI uniqueness is managed on the issuer side, DigiLocker needs no change. |
 | UDF request fields | Consumer number as `UDF1`; the period (or month) as a UDF — so the consumer pulls a chosen window, and a recurring pull fetches the current one. |
 | `VcContent` (JSON-LD) | The signed `MeterDataCredential` as-is — proof intact — for verifiers to parse and check. |
 | `DocContent` (PDF) / `DataContent` (XML) | A rendered statement card — consumption ladder or time-of-day — built from a configurable template, with a summary the consumer reads on screen. |
@@ -552,13 +569,13 @@ Today the electricity bill (and the NYCER connection credential) is keyed on the
 # NYCER — overwrite on refresh (correct for a connection credential)
 uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"
 
-# MTRDT — period in the key, so every statement coexists
-uri = f"in.gov.discom-MTRDT-{consumer.consumer_number}-{period}"   # period e.g. "2026-05" or "2025-05_2026-04"
+# MPLTR — period in the key, so every statement coexists
+uri = f"in.gov.discom-MPLTR-{consumer.consumer_number}-{period}"   # period e.g. "2026-05" or "2025-05_2026-04"
 ```
 
 ### Issuing the Digest (`MeterDataCredential` v0.6)
 
-Inside `handle_mtrdt`, resolve the requested window from `UDF2`, query MDMS/MDM for the matching readings, build the `MeterData` v0.6 payload, and call OpenCred. For a consumer-pulled Digest, `validUntil` may be set **shorter than the v0.6 default** where a verifier wants freshness (loan applications often want fresh; subsidy portals tolerate a week).
+Inside `handle_mpltr`, resolve the requested window from `UDF2`, query MDMS/MDM for the matching readings, build the `MeterData` v0.6 payload, and call OpenCred. For a consumer-pulled Digest, `validUntil` may be set **shorter than the v0.6 default** where a verifier wants freshness (loan applications often want fresh; subsidy portals tolerate a week).
 
 ```python
 import requests
@@ -593,6 +610,10 @@ credential_response = requests.post(
         "credentialSubject": {
             "id": holder_did,
             "meterData": meter_data,
+            # NeGD's identity-binding requirement applies here too, but MeterDataCredential v0.6
+            # has no idRef (or equivalent) field on credentialSubject yet — see the schema-gap
+            # note under Identity Binding. Until the schema adds one, render the DigiLocker ID
+            # binding into DocContent only (see Step 6 below).
         },
         "revocationRegistryUrl": DEDI_REVOCATION_URL,
         "packageFormats": ["pdf"],
@@ -614,7 +635,7 @@ pdf_bytes = base64.b64decode(
 )
 
 # 4. Period-keyed URI — this is the one structural difference from NYCER
-uri = f"in.gov.discom-MTRDT-{consumer.consumer_number}-{window.uri_period}"
+uri = f"in.gov.discom-MPLTR-{consumer.consumer_number}-{window.uri_period}"
 ```
 
 Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issuance → revoking](README.md#id-4.-revoke).
@@ -627,19 +648,19 @@ Three actions, all on DigiLocker's existing rails:
 2. **Download** the signed document locally.
 3. **Share** it — by **QR scan** in person, or by granting **OAuth consent** so a third-party app pulls the chosen period directly, with no app-switching.
 
-In every mode the signed JSON moves as-is. What DigiLocker shares with a verifier is the original signed credential in `VcContent`, unaltered — because the third party needs a verifiable document, not a PDF.
+In every mode the signed JSON moves as-is. What DigiLocker shares with a verifier is the original signed credential in `VcContent`, unaltered — because the third party needs a verifiable document, not a PDF. Where DigiLocker adds the holder's own signature (e.g. on a QR-scan share), it must be added as an **envelope over the credential** — a verifiable-presentation pattern — not a reshaping of the credential body; the issuer's proof inside stays intact and independently verifiable.
 
-### The ask to DigiLocker (MTRDT)
+### The ask to DigiLocker (MPLTR)
 
-| Capability | What it means |
-|---|---|
-| Introduce the Digest document type | Register the Consumer Meter Digest (a `MeterDataCredential`) as a new DocType (`MTRDT`, temporary) with its schema and tags, alongside the existing electricity credential. |
-| Key the URI on consumer + period | Put the period into the URI so multiple periods coexist rather than overwriting — the single change from today's connection credential. |
-| Accept period as a pull parameter | Let the consumer pull a chosen historical window via a UDF, and let the current statement refresh on a regular cadence. |
-| Render from a configurable template | Drive the `DocContent` / `DataContent` card from an externalised, per-DocType renderer — not hardcoded fields — so the card need not change when a parameter does. |
-| Share `VcContent` unmodified | Pass the signed JSON-LD as-is over both QR-scan and OAuth consent pull, with no manipulation in between. |
+| Capability | Status | What it means |
+|---|---|---|
+| Introduce the Digest document type | **Done** — NeGD has allotted `MPLTR` (Meter Document) | Register the Consumer Meter Digest (a `MeterDataCredential`) as `MPLTR` on API Setu, alongside the existing `NYCER` endpoint. |
+| Key the URI on consumer + period | **Agreed in principle** on the 12 June 2026 call; written confirmation still owed | Put the period into the URI so multiple periods coexist rather than overwriting. URI uniqueness is managed issuer-side — DigiLocker needs no change, only to treat each unique URI as a distinct, independently listable/deletable document. |
+| Accept period as a pull parameter | Open ask | Let the consumer pull a chosen historical window via `UDF2`, and let a recurring pull with the current period fetch the latest statement. |
+| Render from a configurable template | Open ask | Drive the `DocContent` / `DataContent` card from an externalised, per-DocType renderer — not hardcoded fields — so the card need not change when a parameter does. |
+| Position on optional `DocContent` for time-series types | Open ask — IES provides a simplified PDF meanwhile | Whether `DocContent` may be made optional for VC-only / time-series DocTypes in future, since the full ~96-blocks-a-day series lives only in `VcContent`. |
 
-> The **period-in-URI** and **configurable-rendering** items are the two that need DigiLocker to confirm behaviour; everything else reuses the connection-credential flow unchanged. A formal, written ask should capture the initial DocType list (including the final DocType string that replaces the temporary `MTRDT`) and a committed timeline.
+> Everything else reuses the connection-credential flow unchanged. Format is **W3C VC 2.0 JSON-LD** for both DocTypes (not SD-JWT) — selective disclosure via SD-JWT is a joint roadmap item once this initial integration is stable.
 
 ---
 
@@ -665,7 +686,7 @@ Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential o
 - [ ] HMAC verified on every inbound request before any processing
 - [ ] `hmac.compare_digest` used (not `==`) to prevent timing attacks
 - [ ] Raw request bytes used for HMAC computation (not re-serialised XML)
-- [ ] `customerProfile.idRef.subjectId` uses a **masked** identifier — full Aadhaar / ID never stored or logged
+- [ ] `customerProfile.idRef` carries the `DigiLockerId` from the request (identity binding, per NeGD) — logged only where necessary, never alongside the full Aadhaar / government ID
 - [ ] Digest `meterData` carries readings only — no PII beyond the consumer/meter identifiers needed to bind the statement
 - [ ] Period UDF validated and bounded to the scope authorised by the originating request (no arbitrary historical ranges)
 - [ ] API key stored in environment variable / secrets manager, not in code
