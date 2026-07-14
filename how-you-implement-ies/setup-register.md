@@ -67,14 +67,14 @@ If you get back the expected JSON document with your public key, identity setup 
 
 DeDi is the public registry mechanism IES uses for namespaces, credential revocation, and Beckn subscriber membership. Claiming a namespace ties your organisation's records to your domain in a way anyone can verify.
 
-1. **Sign up at [dedi.global](https://dedi.global)** using an organisational role mailbox (`registry-admin@discom.example`).
+1. **Sign up at [publish.dedi.global](https://publish.dedi.global)** using an organisational role mailbox (`registry-admin@discom.example`).
 2. **Create a namespace** — use a short name that maps to your organisation (`discom`, `np.example.com`).
-3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours). Once verification completes, your namespace is publicly visible on [explore.dedi.global](https://explore.dedi.global) with a green **verified** label — that label is what verifiers of your records rely on.
+3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours). Once verification completes, a green **verified** label appears on your namespace in [publish.dedi.global](https://publish.dedi.global), and the namespace becomes publicly visible on [explore.dedi.global](https://explore.dedi.global) — only verified namespaces are listed there, so appearing in explore results is itself the public verification signal.
 4. **Create an API key** — in the DeDi UI, click your avatar in the top-right corner, then **Manage API key**. OpenCred uses this key (as `OPENCRED_DEDI_API_KEY`) to write revocation entries and registries into your namespace.
 
 The IES-specific framing is in **[Registries and Directories](../what-ies-provides/registries/README.md#setup)**; DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**.
 
-> **If you ran OpenCred with the `OPENCRED_DEDI_*` variables set** (see [Energy Credentials — step 3](../what-ies-provides/energy-credentials/README.md#id-3.-run-opencred-in-did-web-mode)), four registries (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) are auto-created in your namespace on first boot. You do not need to create them by hand — log in to [dedi.global](https://dedi.global), open your namespace, and confirm you can see all four.
+> **If you ran OpenCred with the `OPENCRED_DEDI_*` variables set** (see [Energy Credentials — step 3](../what-ies-provides/energy-credentials/README.md#id-3.-run-opencred-in-did-web-mode)), four registries (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) are auto-created in your namespace on first boot. You do not need to create them by hand — log in to [publish.dedi.global](https://publish.dedi.global), open your namespace, and confirm you can see all four.
 
 ---
 
@@ -100,7 +100,7 @@ Once your DID resolves and your DeDi namespace is verified, you have the identif
 - [ ] Signing keypair generated (EC P-256), stored in KMS / HSM where available
 - [ ] `did.json` published at `https://<domain>/.well-known/did.json` and reachable from outside
 - [ ] `curl` of the DID document returns expected JSON
-- [ ] DeDi namespace claimed at `dedi.global` and verified via DNS TXT (green **verified** label visible on `explore.dedi.global`)
+- [ ] DeDi namespace claimed at `publish.dedi.global` and verified via DNS TXT (green **verified** label in `publish.dedi.global`; namespace listed on `explore.dedi.global`)
 - [ ] DeDi API key created (avatar menu → **Manage API key**) and stored alongside your other secrets
 - [ ] Internal numbering documented for the asset / connection / meter classes you'll reference
 

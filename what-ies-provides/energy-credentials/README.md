@@ -114,7 +114,7 @@ export OPENCRED_DEDI_API_KEY="paste-your-dedi-api-key-here"
 
 - **`OPENCRED_ISSUER_DOMAIN`** — the domain or subdomain where you will host `did.json` (prerequisite 1). It becomes the host part of your `did:web`, so `ies.yourdiscom.in` yields `did:web:ies.yourdiscom.in`. Replace the placeholder with your own domain **once, here** — every command below references `$OPENCRED_ISSUER_DOMAIN`, so nothing else needs hand-editing.
 - **`OPENCRED_DEDI_NAMESPACE`** — the DeDi namespace you claimed and domain-verified in [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
-- **`OPENCRED_DEDI_API_KEY`** — create it in the DeDi UI at [dedi.global](https://dedi.global): click your avatar in the top-right corner, then **Manage API key**.
+- **`OPENCRED_DEDI_API_KEY`** — create it in the DeDi UI at [publish.dedi.global](https://publish.dedi.global): click your avatar in the top-right corner, then **Manage API key**.
 
 The `OPENCRED_DEDI_*` variables connect the container to DeDi at startup. That is what enables **revocation** (step 4 of the issuance walkthrough below) and lets OpenCred auto-create the four registries it needs in your namespace on first boot.
 
@@ -237,12 +237,12 @@ Expected: your DID, e.g. `"did:web:ies.yourdiscom.in"`. If the command prints it
 
 Credential **revocation** rides on your DeDi namespace, so before issuing anything, confirm the namespace side is in order.
 
-**How the namespace got there.** You created it once, during setup: sign up at [dedi.global](https://dedi.global), create a namespace named after your organisation, and verify your domain by publishing the DNS TXT record DeDi gives you. The step-by-step is in [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain), with the IES framing in [Registries — Setup](../registries/README.md#setup). That namespace is exactly what you put in `OPENCRED_DEDI_NAMESPACE` in step 3 above, and the API key you generated via **Manage API key** (top-right avatar menu in the DeDi UI) is what lets the container write to it.
+**How the namespace got there.** You created it once, during setup: sign up at [publish.dedi.global](https://publish.dedi.global), create a namespace named after your organisation, and verify your domain by publishing the DNS TXT record DeDi gives you. The step-by-step is in [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain), with the IES framing in [Registries — Setup](../registries/README.md#setup). That namespace is exactly what you put in `OPENCRED_DEDI_NAMESPACE` in step 3 above, and the API key you generated via **Manage API key** (top-right avatar menu in the DeDi UI) is what lets the container write to it.
 
 Two checks, both in a browser:
 
-1. **Is the namespace verified?** Open [explore.dedi.global](https://explore.dedi.global) and search for your namespace. A domain-verified namespace carries a green **verified** label — that is the public signal verifiers of your credentials will rely on. No label yet? The DNS TXT record hasn't propagated or wasn't added; revisit [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
-2. **Did OpenCred create its registries?** Log in at [dedi.global](https://dedi.global) and open your namespace. Can you see the four registries OpenCred auto-created on first boot — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`? If they are there, revocation is wired up and you're ready to issue. If not, the container couldn't reach DeDi — check `docker logs opencred` and re-check the `OPENCRED_DEDI_*` values from step 3 (a wrong API key or namespace name is the usual cause).
+1. **Is the namespace verified?** Open [explore.dedi.global](https://explore.dedi.global) and search for your namespace. Only verified namespaces show up in explore results — if yours appears, it is verified. (In [publish.dedi.global](https://publish.dedi.global), where you log in and manage the namespace, verification shows as a green **verified** label.) Namespace not in explore? The DNS TXT record hasn't propagated or wasn't added; revisit [Setup Register §1.4](../../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
+2. **Did OpenCred create its registries?** Log in at [publish.dedi.global](https://publish.dedi.global) and open your namespace. Can you see the four registries OpenCred auto-created on first boot — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`? If they are there, revocation is wired up and you're ready to issue. If not, the container couldn't reach DeDi — check `docker logs opencred` and re-check the `OPENCRED_DEDI_*` values from step 3 (a wrong API key or namespace name is the usual cause).
 
 ---
 
