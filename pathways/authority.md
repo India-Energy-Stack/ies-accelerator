@@ -90,8 +90,8 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 
 ### References & Anchors
 * [DISCOM Regulatory Filing — use case overview](../use-cases/discom-regulatory-filing/README.md)
-* [DISCOM Regulatory Filing — What It Records / Covers](../use-cases/discom-regulatory-filing/README.md#id-2.-what-it-records-covers)
-* [DISCOM Regulatory Filing — How Each Item is Identified](../use-cases/discom-regulatory-filing/README.md#id-3.-how-each-item-is-identified)
+* [DISCOM Regulatory Filing — What It Records / Covers](../use-cases-overview/discom-regulatory-filing.md#id-2.-what-it-records-covers)
+* [DISCOM Regulatory Filing — How Each Item is Identified](../use-cases-overview/discom-regulatory-filing.md#id-3.-how-each-item-is-identified)
 * [ArrFiling family page](../schemas/ArrFiling/README.md)
 * [ArrFiling Schema Reference (v0.5)](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ArrFiling Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
@@ -115,7 +115,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 
 ### References & Anchors
 * [DISCOM Regulatory Filing — Setup: Register → Discover → Exchange](../use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange)
-* [DISCOM Regulatory Filing — Value Unlock](../use-cases/discom-regulatory-filing/README.md#value-unlock)
+* [DISCOM Regulatory Filing — Value Unlock](../use-cases-overview/discom-regulatory-filing.md#value-unlock)
 * [Registries — reference allow-lists](../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination)
 </details>
 
@@ -143,10 +143,10 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 
 ### References & Anchors
 * [Tariff Intelligence — use case overview](../use-cases/tariff-intelligence/README.md)
-* [Tariff Intelligence — What It Records / Covers](../use-cases/tariff-intelligence/README.md#id-2.-what-it-records-covers)
-* [Tariff Intelligence — How Each Item is Identified](../use-cases/tariff-intelligence/README.md#id-3.-how-each-item-is-identified)
+* [Tariff Intelligence — What It Records / Covers](../use-cases-overview/tariff-intelligence.md#id-2.-what-it-records-covers)
+* [Tariff Intelligence — How Each Item is Identified](../use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified)
 * [Tariff Intelligence — Setup: Register → Discover → Exchange](../use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
-* [Tariff Intelligence — Value Unlock](../use-cases/tariff-intelligence/README.md#value-unlock)
+* [Tariff Intelligence — Value Unlock](../use-cases-overview/tariff-intelligence.md#value-unlock)
 * [Taxonomy — Schema map (`IES_Policy`, in progress)](../schemas/README.md#data-exchange-payloads)
 </details>
 

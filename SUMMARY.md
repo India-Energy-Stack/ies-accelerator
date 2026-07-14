@@ -17,6 +17,15 @@
 * [Exchange](what-ies-provides/exchange.md)
   * [Energy Credentials](what-ies-provides/energy-credentials/README.md)
     * [DigiLocker delivery](what-ies-provides/energy-credentials/digilocker.md)
+  * [Schemas Overview](what-ies-provides/schemas-overview/README.md)
+    * [ElectricityCredential](what-ies-provides/schemas-overview/electricity-credential.md)
+    * [MeterData](what-ies-provides/schemas-overview/meter-data.md)
+    * [MeterDataCredential](what-ies-provides/schemas-overview/meter-data-credential.md)
+    * [MeterDataRequest](what-ies-provides/schemas-overview/meter-data-request.md)
+    * [MeterDataRequestCredential](what-ies-provides/schemas-overview/meter-data-request-credential.md)
+    * [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
+    * [OutageNotification](what-ies-provides/schemas-overview/outage-notification.md)
+* [Taxonomy](what-ies-provides/taxonomy.md)
 
 ## How you implement IES
 
@@ -25,6 +34,16 @@
 * [Setup Discovery](how-you-implement-ies/setup-discovery.md)
 * [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md)
 * [Conformance Checklist](how-you-implement-ies/conformance.md)
+
+## Use Case Overviews
+
+* [Overview](use-cases-overview/README.md)
+* [Consumer Energy Passport](use-cases-overview/consumer-energy-passport.md)
+* [Consumer Meter Digest](use-cases-overview/consumer-meter-digest.md)
+* [Smart Meter Data Exchange](use-cases-overview/smart-meter-data-exchange.md)
+* [DER Visibility](use-cases-overview/der-visibility.md)
+* [DISCOM Regulatory Filing](use-cases-overview/discom-regulatory-filing.md)
+* [Tariff Intelligence](use-cases-overview/tariff-intelligence.md)
 
 ## Use Case Implementation Guides
 

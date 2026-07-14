@@ -1,8 +1,8 @@
 # Discover
 
-> **Step 2 of the three IES steps.** Interaction protocol. Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.*
+> **Step 2 of the three IES steps.** Before every exchange, both systems look each other up, confirm authenticity, and agree terms. *No bilateral arrangement needed.*
 
-Once both parties are registered (Step 1), they need a way to **find each other, negotiate terms, and produce a signed audit trail** of what was agreed — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://becknprotocol.io)** for this.
+Once registered (Step 1), parties need to **find each other, negotiate terms, and produce a signed audit trail** — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://becknprotocol.io)**.
 
 Discover belongs to the **data exchange** capability — B2B exchange of structured datasets between registered organisations. The other IES capability, **[Energy Credentials](energy-credentials/README.md)**, does not need this step: a credential is issued and verified against the issuer's published key, with no Beckn network involved.
 
@@ -14,25 +14,25 @@ Discover belongs to the **data exchange** capability — B2B exchange of structu
 | Status and delivery | `status` / `on_status` carry asynchronous fulfilment — including payload delivery, pagination, settlement updates. |
 | Consent and audit | Every message is signed; every leg leaves a tamper-evident receipt. |
 
-Beckn is **asynchronous and peer-to-peer**: there is no central broker. The IES "network operator" curates the membership list (the allow-list of valid Beckn subscribers), but every message flows directly between participants.
+Beckn is **asynchronous and peer-to-peer**, with no central broker; the IES "network operator" curates the membership allow-list, but messages flow directly between participants.
 
 ---
 
 ## What you set up under Discover
 
-For an IES participant, Discover means running a Beckn adapter — the **Beckn ONIX reference software** — and publishing your subscriber record:
+For an IES participant, Discover means running the **Beckn ONIX reference software** and publishing your subscriber record:
 
-1. **ONIX deployment** — one Docker container per side (BAP and / or BPP). Handles signing, signature verification, registry lookup, callback routing. **Same software for everyone** — you do not modify it.
-2. **Beckn subscriber record** — a small entry in your DeDi namespace declaring your callback URL, role (`BAP` / `BPP`), and Ed25519 message-signing public key. Other Beckn nodes look this up to verify your signatures.
-3. **Network reference** — the IES network operator (acting as Network Facilitator Organisation, NFO) writes a *reference* into the network registry pointing at your subscriber record. This is the membership boundary.
+1. **ONIX deployment** — one Docker container per side (BAP and/or BPP): signing, signature verification, registry lookup, callback routing. **Same software for everyone.**
+2. **Beckn subscriber record** — an entry in your DeDi namespace with your callback URL, role (`BAP`/`BPP`), and Ed25519 signing key, for other nodes to verify your signatures.
+3. **Network reference** — the IES network operator (NFO) points a *reference* in the network registry at your subscriber record — the membership boundary.
 
-For the step-by-step setup, follow **[How you implement IES → Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
+Step-by-step: **[How you implement IES → Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
 
 ---
 
 ## Why Beckn, not a REST API
 
-A bespoke REST API per integration is exactly the n×m problem IES is solving. Beckn is a single, open, asynchronous interaction protocol that any party can build to once and use against every counterparty. Discovery, negotiation, signing, audit and consent are built in. The wire and the lifecycle are the same whether the payload is meter telemetry, a regulatory filing, a tariff order, or a peer-to-peer energy trade.
+A bespoke REST API per integration is the n×m problem IES avoids: Beckn is a single, open, asynchronous protocol built once and used against every counterparty, with discovery, negotiation, signing, audit and consent built in, whatever the payload — meter telemetry, a regulatory filing, a tariff order, or a peer-to-peer trade.
 
 ---
 
@@ -52,4 +52,4 @@ A bespoke REST API per integration is exactly the n×m problem IES is solving. B
 | Step 2 — Discover *(this page)* | — |
 | Step 3 — [Exchange](exchange.md) | Taxonomy + verifiable credentials |
 
-To set up Beckn ONIX hands-on: **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
+Hands-on: **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.

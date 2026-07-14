@@ -12,7 +12,7 @@ This page is always visible in the left nav. If you hit a term you don't recogni
 
 ### DID
 
-**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.discom.example`). Defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Identifiers chapter](what-ies-provides/identifiers/README.md).
+**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.discom.example`), defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Identifiers chapter](what-ies-provides/identifiers/README.md).
 
 ### DID methods used in IES
 
@@ -20,8 +20,8 @@ IES uses three standard W3C DID methods. There is no separate `did:dedi` method 
 
 - **`did:web`** — the DID resolves to a DID document fetched over HTTPS. Two forms in IES:
   - **Self-hosted by the institution.** `did:web:ies.discom.example` → `https://ies.discom.example/.well-known/did.json`. Used for DISCOMs, regulators, and other entities with a public web presence.
-  - **Hosted by a DeDi runtime.** `did:web:<dedi-host>:<namespace>:<class>:<id>` → `https://<dedi-host>/<namespace>/<class>/<id>/did.json`. Used to give consumers, meters, assets, connections, and credential subjects a network-resolvable DID without requiring each one to operate a web server. The method is still `did:web`; DeDi just hosts the document. Example: `did:web:dedi.global:discom:consumers:DISCOM-2025-001234567`.
-- **`did:key`** — the public key is encoded directly into the DID string. No domain or certificate required. Verifies fully offline; cannot rotate keys. Used for consumer wallets and first-deploy software keys.
+  - **Hosted by a DeDi runtime.** `did:web:<dedi-host>:<namespace>:<class>:<id>` → `https://<dedi-host>/<namespace>/<class>/<id>/did.json`. Gives consumers, meters, assets, connections, and credential subjects a network-resolvable DID without each one running a web server. Example: `did:web:dedi.global:discom:consumers:DISCOM-2025-001234567`.
+- **`did:key`** — the public key is encoded directly into the DID string. No domain or certificate required. Verifies offline; cannot rotate keys. Used for consumer wallets and first-deploy software keys.
 - **`did:jwk`** — same idea as `did:key`, using JSON Web Key encoding. Wallet-friendly.
 
 ### DeDi
@@ -29,9 +29,9 @@ IES uses three standard W3C DID methods. There is no separate `did:dedi` method 
 **Decentralised Directory** — distinguish the protocol from any runtime that implements it:
 
 - **DeDi the protocol** — an open specification developed under the [Linux Foundation Decentralized Trust labs](https://github.com/LF-Decentralized-Trust-labs/decentralized-directory-protocol). Defines record shapes, namespace ownership, lookup/query semantics, revocation, and trust-anchor records. **IES picks DeDi-the-protocol** as the registry primitive.
-- **DeDi runtimes** — any service that implements the DeDi protocol. [`dedi.global`](https://dedi.global) is one such hosted runtime; a DISCOM (or a network operator) can self-host a DeDi-compatible runtime — for a private internal mirror, for a regulated jurisdiction, or for redundancy. IES does not mandate a specific runtime; the same record shapes work across any conformant implementation.
+- **DeDi runtimes** — any service implementing the DeDi protocol. [`dedi.global`](https://dedi.global) is one hosted runtime; a DISCOM or network operator can self-host one — for a private mirror, a regulated jurisdiction, or redundancy. IES doesn't mandate a specific runtime; the same record shapes work across any conformant implementation.
 
-A DeDi record has a `subscriber_id` and `record_id` and is looked up via a public HTTPS URL (e.g. `https://<runtime-host>/dedi/lookup/...`). IES uses DeDi for namespaces, network membership, public keys, revocation, and Beckn subscriber records. See [Registries chapter](what-ies-provides/registries/README.md).
+A DeDi record has a `subscriber_id` and `record_id`, looked up via a public HTTPS URL (e.g. `https://<runtime-host>/dedi/lookup/...`). IES uses DeDi for namespaces, network membership, public keys, revocation, and Beckn subscriber records. See [Registries chapter](what-ies-provides/registries/README.md).
 
 <a id="verifiable-credential-vc"></a>
 
@@ -45,7 +45,7 @@ The three roles in any credential exchange. **Issuer** signs and emits the crede
 
 ### OpenCred
 
-The open-source credential service IES DISCOMs deploy to sign, verify, and revoke credentials. Holds your private signing key locally (or in a KMS) and exposes an HTTP API. **W3C-compliant** issuer: produces credentials that any standards-conformant verifier can validate. **DeDi-integrated** out of the box: credential revocation entries flow into a DeDi revocation registry automatically, and the container can optionally back up your `did.json` to DeDi so your DID stays resolvable even when your own domain is unreachable. Swap it for any other W3C-compliant signing pipeline if you prefer — the published `did.json` and credential format are unchanged.
+The open-source credential service IES DISCOMs deploy to sign, verify, and revoke credentials. Holds your private signing key locally (or in a KMS) and exposes an HTTP API. **W3C-compliant** issuer: produces credentials any standards-conformant verifier can validate. **DeDi-integrated** out of the box: revocation entries flow into a DeDi revocation registry automatically, and the container can optionally back up your `did.json` to DeDi so your DID stays resolvable even if your own domain is unreachable. Swap it for any other W3C-compliant signing pipeline if you prefer — the published `did.json` and credential format are unchanged.
 
 - Image: `ghcr.io/nfh-trust-labs/opencred/opencred-server` ([releases](https://github.com/nfh-trust-labs/opencred/releases) · [docs](https://opencred.gitbook.io/docs))
 - Bootcamp / first deploy: [opencred.gitbook.io/docs/bootcamp/local-docker](https://opencred.gitbook.io/docs/bootcamp/local-docker)
@@ -65,7 +65,7 @@ The [Government of India API exchange](https://apisetu.gov.in) where DISCOMs reg
 
 ### Beckn
 
-The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** in the same flow when the dataset is small and a single signed message is the simplest workflow. For bulky datasets, telemetry streams, or anything already moved over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Data Exchange chapter](what-ies-provides/data-exchange/README.md).
+The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** when the dataset is small and a single signed message is simplest. For bulky datasets, telemetry streams, or data already moving over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Data Exchange chapter](what-ies-provides/data-exchange/README.md).
 
 ### BAP
 
@@ -77,11 +77,11 @@ The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **c
 
 ### ONIX
 
-The reference Beckn adapter used in IES. Handles message signing, signature verification, DeDi lookup, network-membership checks, schema validation, and async callback routing. Ships as a container; your application code does not handle signing or key management directly.
+The reference Beckn adapter used in IES. Handles message signing, signature verification, DeDi lookup, network-membership checks, schema validation, and async callback routing. Ships as a container; your application code doesn't handle signing or key management directly.
 
 ### NFO
 
-**Network Facilitator Organisation** — the organisation that operates a Beckn network: claims a verified DeDi namespace under its own domain, publishes one or more **network registries** under that namespace (one per environment / sector), curates membership by writing **subscriber reference records** that point at participant-owned subscriber records, and publishes the network's policy manifest. The network's identifier (`network_id`) is `<nfo-domain>/<registry-name>`. For IES, the network operator (REC / IES Secretariat) acts as the NFO under the `indiaenergystack.in` namespace. See [NFH docs — Setting up the network environment](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment).
+**Network Facilitator Organisation** — the organisation that operates a Beckn network: claims a verified DeDi namespace under its own domain, publishes one or more **network registries** under that namespace (one per environment / sector), curates membership by writing **subscriber reference records** pointing at participant-owned subscriber records, and publishes the network's policy manifest. The network's identifier (`network_id`) is `<nfo-domain>/<registry-name>`. For IES, the network operator (REC / IES Secretariat) acts as the NFO under the `indiaenergystack.in` namespace. See [NFH docs — Setting up the network environment](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment).
 
 ### DEG
 

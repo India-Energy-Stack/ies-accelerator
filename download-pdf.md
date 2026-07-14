@@ -8,11 +8,11 @@ The entire GitBook — every chapter, every use-case guide, every schema overvie
 
 ## What's in it
 
-The PDF is built from the same source as this GitBook, in the same order as the left-hand navigation: Home, Getting Started, Glossary, What IES Provides (Register → Discover → Exchange, Schemas Overview, Taxonomy), How you implement IES, Use Case Implementation Guides, and Reference.
+Built from the same source as this GitBook, in the same order as the left-hand navigation: Home, Getting Started, Glossary, What IES Provides (Register → Discover → Exchange, Schemas Overview, Taxonomy), How you implement IES, Use Case Implementation Guides, and Reference.
 
 ## How it's kept current
 
-The PDF is rebuilt automatically by a GitHub Actions workflow ([`build-pdf.yml`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/workflows/build-pdf.yml)) every time a change merges to the `main` branch. There is no separate "publish" step — whatever is live on this GitBook is what the PDF reflects, usually within a couple of minutes of a merge.
+Rebuilt automatically by a GitHub Actions workflow ([`build-pdf.yml`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/workflows/build-pdf.yml)) on every merge to `main`. There's no separate "publish" step — whatever is live on this GitBook is what the PDF reflects, usually within a couple of minutes.
 
 ## Building it yourself
 

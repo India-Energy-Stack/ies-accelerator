@@ -24,14 +24,14 @@ In this phase, the Secretariat establishes the core authoritative registries tha
 <summary><b>Step 1.1: Initialize the Core Authoritative Registries</b></summary>
 
 ### 💡 Phase Advice
-> Set up the root authoritative namespace on the Decentralized Directory (DeDi) under a highly secured namespace key, since all other participant verifications depend on it.
+> Secure the root DeDi namespace key — every verification depends on it.
 
 ### Execution Guidance
-The IES operator operates the canonical DeDi namespace `india-energy-stack` (and `indiaenergystack.in` for Beckn network registries). Initialize the following registries under these namespaces:
-1. **`ies-discoms-reference-registry`** (tag: `membership`): The authoritative allow-list of recognized electricity distribution utilities.
-2. **`ies-regulators-reference-registry`** (tag: `membership`): The authoritative allow-list of recognized regulatory authorities (SERCs, CERC, etc.).
-3. **`ies-schemas`** (tag: `schema`): The directory of canonical, versioned IES semantic and credential schemas.
-4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): Registry lists defining the official participant directories for production and pre-production Beckn networks.
+Under the canonical DeDi namespace `india-energy-stack` (`indiaenergystack.in` for Beckn), initialize:
+1. **`ies-discoms-reference-registry`** (tag: `membership`): DISCOM allow-list.
+2. **`ies-regulators-reference-registry`** (tag: `membership`): regulator allow-list (SERCs, CERC, etc.).
+3. **`ies-schemas`** (tag: `schema`): canonical, versioned IES schemas.
+4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): prod/pre-prod Beckn participant directories.
 
 ### References & Anchors
 * [Registries — IES networks and registries today](../what-ies-provides/registries/README.md#ies-networks-and-registries-today)
@@ -42,11 +42,11 @@ The IES operator operates the canonical DeDi namespace `india-energy-stack` (and
 <summary><b>Step 1.2: Establish Key Custody & Namespace DID</b></summary>
 
 ### 💡 Phase Advice
-> Restrict write privileges to the authoritative namespace key. Set up multi-sig key validation or secure hardware storage (HSM) for the root namespace controller.
+> Restrict namespace-key write access via multi-sig validation or HSM storage.
 
 ### Execution Guidance
 1. Secure the namespace controller key for `india-energy-stack` (linked to `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`).
-2. Implement key access logs and administrative role assignments to prevent unauthorized writes to the membership registries.
+2. Log key access and restrict admin roles.
 
 ### References & Anchors
 * [Registries — Step-by-step (claim namespace + create registries)](../how-you-implement-ies/setup-register.md)
@@ -62,7 +62,7 @@ In this phase, you receive onboarding requests from utilities or regulators and 
 <summary><b>Step 2.1: Onboarding Request Intake Checklist</b></summary>
 
 ### Execution Guidance
-Upon receiving a registration package via the designated email channels ([IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org) or [ies@recindia.com](mailto:ies@recindia.com)), verify that it includes the following items:
+When a registration package arrives via [IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org) or [ies@recindia.com](mailto:ies@recindia.com), verify it includes:
 * **Legal Name & Short Code**: e.g., `Example Distribution Utility Limited` (`discom`).
 * **Issuer DID**: `did:web:<domain>` (production) or `did:key:<key>` (testbed).
 * **Public Verification Key**: NIST P-256 public key in JWK format.
@@ -79,15 +79,15 @@ Upon receiving a registration package via the designated email channels ([IES.Se
 <summary><b>Step 2.2: Technical Validation Checks</b></summary>
 
 ### ⚠️ Caution
-> Ensure the utility's `did.json` does not expose private key parameters, and serves correctly over HTTPS without redirect loops or private-IP targets.
+> Ensure `did.json` exposes no private keys and serves correctly over HTTPS, with no redirect loops or private-IP targets.
 
 ### Execution Guidance
-1. **Validate domain ownership**: Confirm the requesting personnel control the submitted `did:web` domain.
-2. **Resolve the public DID**: Run a resolution check to verify the W3C DID document resolves and hosts matching key parameters:
+1. **Validate domain ownership**: confirm the requester controls the `did:web` domain.
+2. **Resolve the public DID**: verify it resolves and key parameters match:
    ```bash
    curl -s https://<utility-domain>/.well-known/did.json
    ```
-3. **Verify DeDi namespace registries**: Confirm the utility has successfully initialized their own required registries (`opencred-key-registry`, `vc-revocation-registry`, `subscribers-test`) under their private namespace.
+3. **Verify DeDi namespace registries**: confirm `opencred-key-registry`, `vc-revocation-registry`, `subscribers-test` are initialized under their namespace.
 
 ### References & Anchors
 * [Energy Credentials — Set up OpenCred and publish your did:web](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)
@@ -104,11 +104,11 @@ In this phase, you whitelist the verified participant inside the authoritative n
 <summary><b>Step 3.1: Whitelist the Participant inside the Reference Registry</b></summary>
 
 ### Execution Guidance
-Once verified, the Secretariat must append the participant's metadata to the canonical reference registry:
-1. Compile the verified record payload matching the registry schema (specifying `id`, `did`, `legalName`, `publicKeys`, `serviceAreas`, `endpoints`, and `status: "active"`).
-2. Using the network operator's namespace controller key, sign the record and write it to the reference registry:
+Append the verified participant's metadata to the reference registry:
+1. Compile the verified record payload per the registry schema (`id`, `did`, `legalName`, `publicKeys`, `serviceAreas`, `endpoints`, `status: "active"`).
+2. Sign with the namespace controller key and write to:
    `india-energy-stack/ies-discoms-reference-registry/<discom-id>`
-3. Run a lookup command to confirm the entry resolves publicly:
+3. Confirm the entry resolves publicly:
    ```bash
    curl https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/ies-discoms-reference-registry/<discom-id>
    ```
@@ -121,10 +121,10 @@ Once verified, the Secretariat must append the participant's metadata to the can
 <summary><b>Step 3.2: Reference the Participant inside the Beckn Network Registry</b></summary>
 
 ### Execution Guidance
-To authorize data exchange, you must link the participant's subscriber registry to the Beckn networks:
-1. Obtain the DeDi lookup URL of the participant's `subscribers-test` or `subscribers-prod` registry.
+Link the participant's subscriber registry to the Beckn networks:
+1. Obtain the DeDi lookup URL of their `subscribers-test` or `subscribers-prod` registry.
 2. Write a subscriber reference record (tag `beckn_subscriber_reference`) to `indiaenergystack.in/test-ies-data-sharing-network` or `indiaenergystack.in/ies-data-sharing-network`.
-3. Confirm that the reference is active. This allows other network participants' ONIX adapters to automatically resolve the new participant's keys and endpoints.
+3. Confirm it's active so ONIX adapters can resolve its keys and endpoints.
 
 ### References & Anchors
 * [How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
@@ -141,11 +141,11 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 <summary><b>Step 4.1: Manage Network Membership & Revocation</b></summary>
 
 ### 💡 Phase Advice
-> Set up automated alerts to track signature verification failures or invalid certificates across BAP and BPP nodes to identify potential key compromises.
+> Alert on signature failures or invalid certificates across BAP/BPP nodes to catch key compromises early.
 
 ### Execution Guidance
-1. **Handle Key Compromises**: If a participant reports a key compromise, immediately update or revoke their subscriber reference in `ies-data-sharing-network` to block their access.
-2. **Handle Suspension**: In case of policy violations or service termination, mark the participant's reference status to `suspended` or `inactive` inside the authoritative reference registries.
+1. **Handle Key Compromises**: on report, revoke the participant's subscriber reference in `ies-data-sharing-network`.
+2. **Handle Suspension**: on violation or termination, mark the reference status `suspended` or `inactive`.
 
 ### References & Anchors
 * [Registries — As a DISCOM / issuer running OpenCred (revocation registry auto-created)](../what-ies-provides/registries/README.md#as-a-discom-issuer-running-opencred)
@@ -155,8 +155,8 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 <summary><b>Step 4.2: Enforce Network-Wide Policies</b></summary>
 
 ### Execution Guidance
-1. Define and enforce transport security baselines (such as requiring TLS 1.3 for all ONIX endpoints).
-2. Establish guidelines for node timeout configurations (e.g. maximum 5-second Beckn timeouts) to prevent cascading database latency.
+1. Enforce transport security baselines (e.g. TLS 1.3 for ONIX endpoints).
+2. Set node timeout guidelines (e.g. 5-second max) to prevent cascading latency.
 
 ### References & Anchors
 * [Data Exchange — Beckn protocol lifecycle](../what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle)
@@ -172,10 +172,10 @@ In this phase, you manage the publication, versioning, and migration of canonica
 <summary><b>Step 5.1: Publish and Version Schemas on `ies-schemas`</b></summary>
 
 ### Execution Guidance
-1. When new telemetry shapes (such as `MeterData` v0.6) are approved, compile the Draft 2020-12 JSON Schema and JSON-LD contexts.
-2. Publish these definitions to the canonical registry under:
+1. For approved telemetry shapes (e.g. `MeterData` v0.6), compile the Draft 2020-12 JSON Schema and JSON-LD contexts.
+2. Publish to the canonical registry under:
    `india-energy-stack/ies-schemas/<domain>/<version>`
-3. Maintain the mappings and documentation so that verifiers can resolve schemas in an anchored, tamper-proof manner.
+3. Maintain mappings and docs for anchored, tamper-proof schema resolution.
 
 ### References & Anchors
 * [Registries — Built-in schema tags](../what-ies-provides/registries/README.md#built-in-schema-tags-used-in-ies)
@@ -185,11 +185,11 @@ In this phase, you manage the publication, versioning, and migration of canonica
 <summary><b>Step 5.2: Coordinate Schema Migrations</b></summary>
 
 ### ⚠️ Caution
-> Schedule schema deprecations carefully. Give utilities and verifiers sufficient lead time before marking older schema versions as deprecated or unsupported.
+> Schedule deprecations with ample lead time before marking old versions unsupported.
 
 ### Execution Guidance
-1. Release clear changelogs and before/after comparisons detailing structural changes (e.g. mapping Time-of-Use buckets or introducing compact representations).
-2. Provide standardized migration scripts to help utilities map legacy data formats to newer versions without data loss.
+1. Release changelogs with before/after comparisons of structural changes (e.g. ToU bucket mapping, compact representations).
+2. Provide migration scripts so utilities can map legacy formats to newer versions without data loss.
 
 ### References & Anchors
 * [MeterData v0.6 Changelog](../schemas/MeterData/v0.6/CHANGELOG.md)
