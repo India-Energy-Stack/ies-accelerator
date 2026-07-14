@@ -22,7 +22,7 @@ This document explains the **MeterDataCredential v0.6** schema — it does not d
 MeterDataCredential does not itself record meter readings. Structurally it is thin by design — the entire schema-specific surface is one object, `MeterDataCredentialSubject`, with exactly two properties (`id` and `meterData`); everything else is inherited from EnergyCredential v2.0. What it records:
 
 - **identity of the issuing provider** — the `issuer` block (id, name, and `licenseNumber`, e.g. `SERC-AMISP-2025-007` in the worked examples) is inherited wholesale from EnergyCredential, not redefined here;
-- **identity of the subject** — `credentialSubject.id`, a DID naming the consumer or asset entity the data is about (e.g. `did:dedi:discom:consumers:RR-1234` in the examples);
+- **identity of the subject** — `credentialSubject.id`, a DID naming the consumer or asset entity the data is about (e.g. `did:web:discom.example:consumers:RR-1234` in the examples);
 - **the validity window** — `validFrom` / `validUntil`, again inherited from EnergyCredential; the worked examples all use a one-year window (`2026-04-01` to `2027-04-01`);
 - **revocation status** — `credentialStatus`, a pointer to a registry where the provider can mark the credential invalid if the data is later recalled;
 - **the attested payload itself** — `credentialSubject.meterData`, required by the schema (it is the one field the subject object actually `require`s), carrying the real MeterData v0.6 profile or set of profiles;
@@ -32,7 +32,7 @@ A short illustrative snippet from the customer-profile example makes the wrappin
 
 ```json
 "credentialSubject": {
-  "id": "did:dedi:discom:consumers:RR-1234",
+  "id": "did:web:discom.example:consumers:RR-1234",
   "meterData": {
     "@type": "CustomerProfile",
     "profileType": "CUSTOMER",
@@ -50,11 +50,11 @@ It covers identity, provenance, validity and tamper-evidence of delivered teleme
 
 The credential's `issuer` is identified by a DID (Decentralised Identifier) — the provider's verifiable digital identifier, resolvable to confirm the issuer and detect tampering. In every worked example this is a `did:web` identifier (`did:web:amisp.discom.example`), with the actual signing key referenced from `proof.verificationMethod` as a DID URL fragment (`did:web:amisp.discom.example#key-1`).
 
-The `credentialSubject.id` is a DID naming the consumer or asset entity the delivered data is about — in the examples, a `did:dedi:...` identifier scoped under the issuing DISCOM's own namespace (`did:dedi:discom:consumers:RR-1234`). Note this is a different DID method (`did:dedi`) from the issuer's `did:web`, illustrating that the schema does not mandate a single DID method across issuer and subject.
+The `credentialSubject.id` is a DID naming the consumer or asset entity the delivered data is about — in the examples, a `did:web` identifier scoped under the issuing DISCOM's own domain (`did:web:discom.example:consumers:RR-1234`), using the same path-based convention as the issuer's own `did:web`.
 
 Revocation status is tracked through a DeDi-hosted registry referenced in `credentialStatus`, rather than through any bespoke IES revocation mechanism. Concretely, the examples show `credentialStatus.type` as `"dediregistry"`, with `id` and `statusListCredential` both pointing at `https://dedi.global/dedi/query|lookup/<issuer-did>/vc-revocation-registry` and `statusPurpose` set to `"revocation"` — i.e. the registry entry is namespaced under the *issuer's* own DID, so each provider effectively runs its own revocation list.
 
-The credential does not mint new identifiers for meters, service points, or readings — those are carried inside the wrapped MeterData payload using its own `Identifier` scheme (`{scheme, value[, namespace]}`, where `scheme` is one of `METER_SERIAL`, `METER_BADGE`, `MRID`, `OBIS`, `SHORT_CODE`, `CONSUMER_NUMBER`, `SERVICE_DELIVERY_POINT`, `DID`, `ORG`, or `OTHER`). In the worked examples, meters, service delivery points and customers are all identified via `DID`-scheme references (e.g. `did:dedi:discom:assets:meter:DISCOM-SM-2025-654321`), keeping the identification model consistent end-to-end even though the credential wrapper itself only ever mints DIDs for issuer and subject.
+The credential does not mint new identifiers for meters, service points, or readings — those are carried inside the wrapped MeterData payload using its own `Identifier` scheme (`{scheme, value[, namespace]}`, where `scheme` is one of `METER_SERIAL`, `METER_BADGE`, `MRID`, `OBIS`, `SHORT_CODE`, `CONSUMER_NUMBER`, `SERVICE_DELIVERY_POINT`, `DID`, `ORG`, or `OTHER`). In the worked examples, meters, service delivery points and customers are all identified via `DID`-scheme references (e.g. `did:web:discom.example:assets:meter:DISCOM-SM-2025-654321`), keeping the identification model consistent end-to-end even though the credential wrapper itself only ever mints DIDs for issuer and subject.
 
 ## 4. Definitions
 

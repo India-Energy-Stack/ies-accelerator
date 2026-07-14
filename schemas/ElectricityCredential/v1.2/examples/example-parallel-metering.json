@@ -1,5 +1,5 @@
 {
-  "_comment": "Parallel metering: two meters at the same premises. MET-IMPORT-001 (Forward/AMI) measures grid consumption; MET-EXPORT-001 (Reverse) measures gross solar export under a feed-in tariff. Both meters are siblings. Solar DER hangs behind the export meter. Each meter has its own consumption profile. All asset IDs follow IES did:dedi: pattern.",
+  "_comment": "Parallel metering: two meters at the same premises. MET-IMPORT-001 (Forward/AMI) measures grid consumption; MET-EXPORT-001 (Reverse) measures gross solar export under a feed-in tariff. Both meters are siblings. Solar DER hangs behind the export meter. Each meter has its own consumption profile. All asset IDs use IES did:web: pattern.",
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.beckn.io/ElectricityCredential/v1.2/context.jsonld"

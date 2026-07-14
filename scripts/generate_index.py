@@ -97,21 +97,10 @@ def main():
         "exchange_setup": [
             ("what-ies-provides/data-exchange/README.md", "Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.")
         ],
-        "schemas_overview": [
-            ("what-ies-provides/schemas-overview/README.md", "Index of the plain-language Schemas Overview pages — the IES Documentation Template applied to each schema itself."),
-            ("what-ies-provides/schemas-overview/electricity-credential.md", "Plain-language walkthrough of ElectricityCredential v1.2 — scope, identifiers, standards basis, and how it fits together."),
-            ("what-ies-provides/schemas-overview/meter-data.md", "Plain-language walkthrough of MeterData v0.6 — the eight compact telemetry profiles and their standards basis."),
-            ("what-ies-provides/schemas-overview/meter-data-credential.md", "Plain-language walkthrough of MeterDataCredential v0.6 — the provenance-attestation wrapper around a MeterData payload."),
-            ("what-ies-provides/schemas-overview/meter-data-request.md", "Plain-language walkthrough of MeterDataRequest v0.6 — capabilities, authorisation, and the request payload."),
-            ("what-ies-provides/schemas-overview/meter-data-request-credential.md", "Plain-language walkthrough of MeterDataRequestCredential v0.1 — the requester-authorisation wrapper."),
-            ("what-ies-provides/schemas-overview/arr-filing.md", "Plain-language walkthrough of ArrFiling v0.5 — the ARR filing structure and standards basis."),
-            ("what-ies-provides/schemas-overview/outage-notification.md", "Plain-language walkthrough of OutageNotification v0.1 — status: work in progress.")
-        ],
         "schemas": [
-            ("schemas/README.md", "Catalog of schemas, their purpose, versioning guidelines, and file structure."),
-            ("schemas/ElectricityCredential/README.md", "Metadata, context inheritance, and fields for the ElectricityCredential VC schema."),
-            ("schemas/ElectricityCredential/v1.0/README.md", "Technical specification and fields for Customer Credential v1.0."),
-            ("schemas/MeterData/v0.5/README.md", "Overview and field representations for MeterData v0.5 profiles."),
+            ("schemas/README.md", "Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
+            ("schemas/ElectricityCredential/README.md", "ElectricityCredential family page — version history, inheritance, and usage."),
+            ("schemas/ElectricityCredential/v1.2/README.md", "Auto-generated field reference for ElectricityCredential v1.2 (current)."),
             ("schemas/MeterData/v0.6/CHANGELOG.md", "Changelog detailing Form A and Form B dual-representation upgrades in MeterData v0.6."),
             ("schemas/MeterData/v0.6/README.md", "Detailed technical specification for the updated MeterData v0.6 dual-representation schemas."),
             ("schemas/MeterDataRequest/v0.6/README.md", "Field definitions and compilation guidelines for MeterDataRequest v0.6."),
@@ -127,7 +116,7 @@ def main():
             ("use-cases/der-visibility/README.md", "Grid-side issuance of ElectricityCredential v1.2 — per-feeder view of every DER behind a DISCOM's meters."),
             ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
             ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
-            ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network and settlement rules enforced by signed Rego bundles hosted on DeDi.")
+            ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network rules and the seller-DISCOM contract policy enforced as signed Rego, hosted on DeDi.")
         ],
         "pathways": [
             ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),
@@ -213,18 +202,7 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 ## 🗃️ 5. Schemas
 
-### 📘 Schemas Overview (plain language)
-
-The IES Documentation Template applied to each schema itself — scope, identifiers, standards basis, before the auto-generated field reference.
-
-"""
-    for rel_path, summary in sections["schemas_overview"]:
-        content += generate_file_entry(root_dir, rel_path, summary)
-
-    content += """
-### 🔧 Field Reference (auto-generated)
-
-Detailed documentation for the JSON and JSON-LD schema formats used in the accelerator.
+Each family page opens with a concise plain-language overview; version pages carry the auto-generated field reference.
 
 """
     for rel_path, summary in sections["schemas"]:

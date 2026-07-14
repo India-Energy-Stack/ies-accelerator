@@ -44,6 +44,6 @@ IES has no central platform to trust — every identifier is a **`did:web`** anc
 |---|---|
 | Step 1 — Register *(this page)* | — |
 | Step 2 — [Discover](discover.md) | Beckn-protocol interaction |
-| Step 3 — [Exchange](exchange.md) | Schemas, credentials, taxonomy |
+| Step 3 — [Exchange](exchange.md) | Taxonomy + verifiable credentials |
 
 Hands-on: **[Setup Register](../how-you-implement-ies/setup-register.md)**.

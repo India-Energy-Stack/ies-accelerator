@@ -1,26 +1,28 @@
 # India Energy Stack — Accelerator
 
-**India Energy Stack (IES)** is a common set of specifications for sharing power-sector data — like UPI for banking, but for energy: no data sits with a middleman, only the shared rules for exchanging it directly between systems.
+**India Energy Stack (IES)** is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking — UPI holds no money of its own; money stays in the customer's bank, and UPI is only the shared rules that let any bank pay any other. **IES is the same idea, for energy data.** The data stays in the systems that already hold it, and IES specs let any two systems exchange and act on it directly.
 
-IES is **live**: [Four pilot DISCOMs](concepts/pilots.md) demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest, and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
+IES is **live**. [Four pilot DISCOMs](concepts/what-ies-is.md#pilots-and-status) built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
 
 {% hint style="info" %}
-📄 **Printable version:** the whole guide as one PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf), regenerated on every change.
+📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Regenerated automatically whenever the docs change.
 {% endhint %}
 
 ---
 
 ## How IES works — three steps
 
-Every IES interaction follows these three steps — the **spine of this GitBook**.
+Every IES interaction follows the same three steps. They are the **spine of this entire GitBook**.
 
 | Step | What it does | Example standard |
 |---|---|---|
 | **[1. Register](what-ies-provides/register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. *Done once.* | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
 | **[2. Discover](what-ies-provides/discover.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://becknprotocol.io) |
-| **[3. Exchange](what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, the exchange also produces a **verifiable credential** the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
+| **[3. Exchange](what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
 
-IES picks the open standard for each step and layers a spec on top; **it writes none of its own.** Build once, and any IES-ready system connects without new integration work.
+IES picks the right open standard for each step and publishes a specification on top. **IES does not write new standards.** Build to the IES specs once, and a system can connect to any other IES-ready system without fresh integration work.
+
+Two capabilities build on the shared identity foundation: **data exchange** — B2B exchange of structured datasets, for which IES recommends the Beckn protocol — and **energy credentials** — W3C Verifiable Credentials issued with OpenCred, verified against the issuer's published key, and delivered to consumers over DigiLocker, web portals or any channel the issuer already runs. Credentials do not require a Beckn network.
 
 ---
 
@@ -30,19 +32,19 @@ Three top-level sections, each organised by the **Register / Discover / Exchange
 
 ### [What IES Provides](what-ies-provides/README.md)
 
-The specifications — what's published.
+The specifications. What is published.
 
 | Section | What's in it |
 |---|---|
-| [What IES Is](concepts/what-ies-is.md) | The intro. Problem, UPI analogy, what IES is and is not, the four pilots, FAQ. |
+| [What IES Is](concepts/what-ies-is.md) | The intro, on one page. Problem, UPI analogy, what IES is and is not, sector impact, the four pilots, FAQ. |
 | [Register](what-ies-provides/register.md) | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi). Detail under: [Identifiers](what-ies-provides/identifiers/README.md), [Registries](what-ies-provides/registries/README.md). |
-| [Discover](what-ies-provides/discover.md) | Beckn-protocol interaction. Detail under: [Data Exchange](what-ies-provides/data-exchange/README.md). |
-| [Exchange](what-ies-provides/exchange.md) | Schemas, taxonomy and verifiable credentials. Detail under: [Energy Credentials](what-ies-provides/energy-credentials/README.md), [Schemas](schemas/README.md). |
-| [Taxonomy](what-ies-provides/taxonomy.md) | Master schema map, standards precedence, versioning, how to propose a new schema. |
+| [Discover](what-ies-provides/discover.md) | Beckn-protocol interaction for data exchange. Detail under: [Data Exchange](what-ies-provides/data-exchange/README.md). |
+| [Exchange](what-ies-provides/exchange.md) | The Taxonomy and verifiable credentials. Detail under: [Energy Credentials](what-ies-provides/energy-credentials/README.md), [Taxonomy](schemas/README.md). |
+| [Taxonomy](schemas/README.md) | The master vocabulary of IES — every domain object, its plain-language overview, and the schema that describes its shape; standards precedence, versioning, proposal flow. |
 
 ### [How you implement IES](how-you-implement-ies/README.md)
 
-The action guides — what you do.
+The action guides. What you do.
 
 | Step | Action page | Time |
 |---|---|---|
@@ -53,7 +55,7 @@ The action guides — what you do.
 
 ### [Use Case Implementation Guides](use-cases/README.md)
 
-What you can ship. Each guide pairs with a **[Use Case Overview](use-cases-overview/README.md)** per the **[IES Documentation Template](use-cases-overview/README.md#how-each-page-is-organised)** — the *why*, then the *how*.
+What you can ship, organised per the **[IES Documentation Template](use-cases/README.md#how-each-guide-is-organised)** so once you've read one, you know where to look in any other.
 
 | Stage | Use cases |
 |---|---|
@@ -65,17 +67,19 @@ What you can ship. Each guide pairs with a **[Use Case Overview](use-cases-overv
 
 ## Where to start
 
-- **New to IES?** [What IES Is](concepts/what-ies-is.md) — five minutes.
-- **Decision-maker?** [What IES Provides](what-ies-provides/README.md): What IES Is → Register → Discover → Exchange.
-- **Onboarding a DISCOM, regulator, or vendor?** [How you implement IES](how-you-implement-ies/README.md) — the four steps the pilots followed in 30 days.
-- **Picking a first use case?** [Use Case Implementation Guides](use-cases/README.md) — pilot cases at the top.
-- **Need a term defined?** [Glossary](glossary.md) — always in the left nav.
+- **New to IES?** Read **[What IES Is](concepts/what-ies-is.md)** — five minutes.
+- **Decision-maker / reviewer?** Skim **[What IES Provides](what-ies-provides/README.md)** in order: What IES Is → Register → Discover → Exchange.
+- **DISCOM / regulator / vendor onboarding?** Go straight to **[How you implement IES](how-you-implement-ies/README.md)** — the same four steps the pilot DISCOMs followed in 30 days.
+- **Picking a first use case?** Browse the table in **[Use Case Implementation Guides](use-cases/README.md)** — pilot cases at the top.
+- **Need a term defined?** Always-visible [Glossary](glossary.md).
 
 ---
 
 ## Why IES?
 
-The Indian power sector has spent heavily on digital tools, not on making them interoperate — the same vendor-integration effort repeated at every DISCOM. IES is the **shared digital infrastructure** that ends it: open specs, verifiable data, interoperable protocols — data stays put, and only how it's described and requested becomes common.
+The Indian power sector has spent heavily on digital tools but not on a common way for those tools to work together. A single DISCOM often runs several metering systems supplied by different firms and spends years making them work together because none was built to a common standard. The same effort is repeated across the country.
+
+IES is the **shared digital infrastructure** that ends that duplication — open specifications, verifiable data, interoperable protocols. The data stays where it is; the way it is described and requested becomes common.
 
 For the longer answer, read **[What IES Is](concepts/what-ies-is.md)**.
 

@@ -7,7 +7,7 @@ Two prosumers on different DISCOMs execute a direct, signed energy trade. Each D
 | **Document** | IES/P2PEX-PROFILE/2.0 |
 | **Status** | In progress (schema stable in DEG wave-2 devkit; pilot integrations being staged) |
 | **Applicability** | Trading platforms, regulated Ledger Providers, DISCOMs |
-| **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.beckn.io](https://schema.beckn.io)) over Beckn, with a signed Rego bundle published on DeDi governing the network and settlement rules. Mirrored in [External Schemas — Energy Trading](../../schemas/external/README.md). |
+| **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.beckn.io](https://schema.beckn.io)) over Beckn, with signed Rego policies governing the network and contract rules. Mirrored in [External Schemas — Energy Trading](../../schemas/external/README.md). |
 
 **In a hurry to prototype?** Jump to [Setup](#setup-register-discover-exchange) — a local four-actor network runs in one `docker compose up`.
 
@@ -25,7 +25,7 @@ Two prosumers on different DISCOMs execute a direct, signed energy trade. Each D
 
 The **stakeholders** are two prosumers (buyer and seller) on potentially different DISCOMs, their respective trading platforms (TPs), and the regulated Ledger Provider (LP) contracted by each DISCOM. Today, peer-to-peer energy trade requires bespoke bilateral integrations, ad-hoc settlement spreadsheets, and a central exchange-style intermediary — none of which exist in the form Indian DISCOMs need.
 
-This document defines **P2P Energy Trading** — a one-to-many discovery, contracting and settlement pattern carried over the same Beckn wire that carries dataset exchanges. The contract is a `DEGContract` with a `P2PTrade` body. Allocation and reconciliation flow as `BecknTimeSeries` inside the same envelope. Network rules and settlement flows are enforced by **signed Rego bundles** published on DeDi — any participant evaluates locally, no central exchange.
+This document defines **P2P Energy Trading** — a one-to-many discovery, contracting and settlement pattern carried over the same Beckn wire that carries dataset exchanges. The contract is a `DEGContract` with a `P2PTrade` body. Allocation and reconciliation flow as `BecknTimeSeries` inside the same envelope. Network rules are enforced by a **signed Rego network policy** in the adapter, and settlement terms by the seller-DISCOM's **contract policy** — a signed Rego bundle published on DeDi. Any participant evaluates locally; no central exchange.
 
 A trading platform integrates once. The same pattern works inter-DISCOM (two LPs, one peer leg) and intra-DISCOM (one LP, the two LPs collapse).
 
@@ -38,7 +38,7 @@ For one peer-to-peer trade the records carry:
 - per-interval **time series** — `PRICE_PER_KWH`, `AVAILABLE_QTY`, `REQUESTED_QTY`, `BUYER_DISCOM_ALLOC`, `SELLER_DISCOM_ALLOC`, `FINAL_ALLOC`;
 - the **LP↔DISCOM binding** — each LP's `utilityId` and ledger endpoint;
 - per-DISCOM **meter-data sub-transactions** delivered during reconciliation — actual injected / consumed quantities per interval, supplied by the DISCOM to its contracted LP as input to allocation (rides inside the same `message.contract` envelope as `BecknTimeSeries`; **not** a separate `MeterData` exchange);
-- the **settlement flows** — computed by the settlement Rego bundle from the final allocation; signed and recorded inside the contract. (The JSON-LD key on the wire is `revenueFlows`, of type `RevenueFlow` — the mechanism and the ONIX step that computes it are named *settlement flows*.)
+- the **revenue flows** — computed from the final allocation by the seller-DISCOM's **contract policy** Rego, and recorded inside the contract (wire key `revenueFlows`, type `RevenueFlow`; injected by the `contractpolicyenforcer` ONIX step).
 
 Customer PII and raw meter data stay with the customer's own DISCOM and TP. Both LPs record the confirmed contract — including the agreed price — and the cascaded allocation and settled-quantity updates.
 
@@ -53,8 +53,8 @@ Participants are identified by their plain **network subscriber IDs** — the `p
 | DISCOM | Network subscriber ID; bound to its LP by `utilityId` in the `DiscomLedgerProvider` block | `buyerdiscom.example.com` (`utilityId: TEST_DISCOM_BUYER`) |
 | Buyer / Seller (prosumer) | Represented by their TP — the contract's `roles[buyer/seller]` carry the TP's subscriber ID; the prosumer is pinned by their meter reference | `roles[buyer].participantId = buyerapp.example.com` |
 | Meter / DT / feeder referenced in the trade | Existing utility asset ID wrapped as `did:web:<discom-id>:meters:<meter-number>` (per [SMDX](../smart-meter-data-exchange/README.md#id-3.-how-each-item-is-identified)) | `did:web:buyerdiscom.example.com:meters:NM-44091234` |
-| Network policy bundle | DeDi-published Rego record URL (`policyUrl`) | `https://api.dedi.global/dedi/lookup/…/p2p-trading-ies-wave2_network` |
-| Settlement policy bundle | DeDi-published Rego record URL | `https://api.dedi.global/dedi/lookup/indiaenergystack.in/ies-policies/ies-p2p-network-settlement-rego-policy-v1` |
+| Network policy | Rego file loaded by the adapter (`opapolicychecker` step) from `specification/policies/` | [`p2p-trading-ies-wave2-networkpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-networkpolicy.rego) |
+| Contract policy | DeDi-published Rego record URL (`contractAttributes.policy.url`) | `https://api.dedi.global/dedi/lookup/indiaenergystack.in/ies-policies/ies-p2p-network-settlement-rego-policy-v1` |
 
 No new identifier scheme. The four-actor topology reuses the same subscriber-registry machinery as every other IES use case; public keys resolve from the same DeDi record the subscriber ID names.
 
@@ -68,7 +68,7 @@ No new identifier scheme. The four-actor topology reuses the same subscriber-reg
 - **Discovery service** — the network service that answers `discover` queries against catalogs that provider nodes have listed via `publish-catalog`.
 - **`BecknTimeSeries`** — the per-interval payload carrier; declares `payloadDescriptors` (each column's `payloadType` and `insertedBy`) and per-interval `payloads[]`.
 - **Cascade** — the auto-routing by which contract and settled-quantity messages reach both TPs and both LPs in the right order; implemented by the `degledgerrecorder` ONIX plugin (see [Auto-routing of contracts and allocations](#auto-routing-of-contracts-and-allocations)).
-- **Policy-as-code** — the network and settlement rules as Rego bundles, signed and published on DeDi, evaluated locally with OPA.
+- **Policy-as-code** — the network and contract rules as signed Rego policies, evaluated locally with OPA.
 
 ## 5. Basis of Standards
 
@@ -92,7 +92,7 @@ The P2P Energy Trading flow produces three distinct kinds of signed artefact per
 
 1. The **contract** — `DEGContract` carrying a `P2PTrade` body. Recorded by both TPs and both LPs at confirm time (each LP receives it as a blocking `on_confirm` forward from its TP).
 2. The **per-interval allocation series** — `BecknTimeSeries` carrying buyer-DISCOM allocation, seller-DISCOM allocation, final allocation. Recorded by both LPs and both TPs as Phase 5 cascades.
-3. The **settlement-flow record** — computed by the settlement Rego bundle from the final allocation via the `settlementflows` ONIX step; signed by the policy author and stored in `message.contract.consideration[id=auto-settlement-flows].considerationAttributes` (wire key `revenueFlows`, type `RevenueFlow`).
+3. The **revenue-flow record** — computed from the final allocation by the seller-DISCOM's contract policy via the `contractpolicyenforcer` ONIX step; signed by the policy author and stored in `message.contract.consideration[id=auto-settlement-flows].considerationAttributes` (wire key `revenueFlows`, type `RevenueFlow`).
 
 Together they form a **complete, attributable audit trail** of the trade — from offer to settlement — with no central exchange.
 
@@ -144,7 +144,7 @@ sequenceDiagram
   participant SDL as SellerLP
   participant S as Seller
 
-  Note over B,S: Shaded bands = automated by ONIX plugins (degledgerrecorder, settlementflows) — you configure them, you don't code them. Unshaded arrows = your application logic.
+  Note over B,S: Shaded bands = automated by ONIX plugins (degledgerrecorder, contractpolicyenforcer) — you configure them, you don't code them. Unshaded arrows = your application logic.
 
   Note over BTP,STP: Phase 1 - Discovery
   STP->>DS: publish-catalog (EnergyTradeOffer)
@@ -181,7 +181,7 @@ sequenceDiagram
   end
   SDL->>STP: on_status (seller-side allocation, settled qty with FINAL_ALLOC)
   rect rgba(128,128,128,0.18)
-    Note over STP: settlementflows step computes settlement flows
+    Note over STP: contractpolicyenforcer step computes revenue flows
     STP->>BTP: on_status (auto-forward to peer)
     BTP->>BDL: on_status (auto-record with buyerLP)
   end
@@ -192,13 +192,13 @@ sequenceDiagram
   BDL->>B: monthly bill (excl. traded bought, incl. wheeling)
 ```
 
-The shaded legs ship with ONIX: the `degledgerrecorder` cascades and the `settlementflows` computation run inside the adapter from config alone. What is left for your application: the buyer TP drives `discover` → `select` → `init` → `confirm`; the seller TP publishes its catalog and answers `on_select` / `on_init` / `on_confirm`; each LP computes allocations and emits them as `on_status`; each DISCOM supplies meter data to its LP.
+The shaded legs ship with ONIX: the `degledgerrecorder` cascades and the `contractpolicyenforcer` computation run inside the adapter from config alone. What is left for your application: the buyer TP drives `discover` → `select` → `init` → `confirm`; the seller TP publishes its catalog and answers `on_select` / `on_init` / `on_confirm`; each LP computes allocations and emits them as `on_status`; each DISCOM supplies meter data to its LP.
 
 1. **Discovery** — SellerTP lists an `EnergyTradeOffer` catalog (`publish-catalog`); BuyerTP queries the Discovery service with `discover` and a JSONPath intent filter.
 2. **Select and init** — quantity and price refined; optional LP headroom pre-check.
 3. **Confirm** — the buyer's `confirm` is answered by the seller's `on_confirm`; as that `on_confirm` travels, each TP's `degledgerrecorder` forwards a rewritten copy to its own LP and **blocks until the LP ACKs** — seller-side before the `on_confirm` leaves for the buyer, buyer-side before the buyer app receives it. The LPs do not emit an `on_confirm` of their own; their sync ACK is the record receipt.
 4. **Delivery** — seller injects, buyer consumes.
-5. **Allocation and reconciliation** — each LP receives meter data from its DISCOM and computes its side's allocation. Every allocation and settled-quantity `on_status` then cascades **symmetrically** through the two TPs to the opposite LP (an automatic forward at one TP, an automatic record at the other): buyer-side updates run `BuyerLP → BuyerTP → SellerTP → SellerLP`, seller-side updates run the mirror chain, so all four parties converge on `FINAL_ALLOC`. The `settlementflows` step computes the settlement flows as the settled `on_status` passes the seller TP.
+5. **Allocation and reconciliation** — each LP receives meter data from its DISCOM and computes its side's allocation. Every allocation and settled-quantity `on_status` then cascades **symmetrically** through the two TPs to the opposite LP (an automatic forward at one TP, an automatic record at the other): buyer-side updates run `BuyerLP → BuyerTP → SellerTP → SellerLP`, seller-side updates run the mirror chain, so all four parties converge on `FINAL_ALLOC`. The `contractpolicyenforcer` step computes the revenue flows as the settled `on_status` passes the seller TP.
 6. **Billing and settlement** — buyer pays seller (off-ledger via TPs); DISCOM monthly bills are adjusted accordingly.
 
 The allocation logic on each LP can be as simple as **pro-rata across the customer's trades in the delivery window**. The same Phase-5 message flow supports multiple rounds — a provisional allocation, a final allocation after meter-data finalisation, a deviation true-up — by repeating the `/status` round-trip with a fresh `BecknTimeSeries` payload. Iteration is a payload concern, not a protocol concern.
@@ -282,7 +282,7 @@ One `BecknTimeSeries` envelope carries the whole trade; what changes between pha
 
 (The full example also carries `BUYER_DISCOM_STATUS` / `SELLER_DISCOM_STATUS` string columns — `COMPLETED` per interval.)
 
-**3 — Settlement flows.** As the settled `on_status` passes the seller TP, the `settlementflows` step evaluates the DeDi-published rego and injects the result into the contract's `consideration` block — no application wrote this:
+**3 — Revenue flows.** As the settled `on_status` passes the seller TP, the `contractpolicyenforcer` step resolves the DeDi-published contract policy, evaluates it locally and injects the result into the contract's `consideration` block — no application wrote this (illustrative values):
 
 ```json
 "consideration": [
@@ -293,18 +293,18 @@ One `BecknTimeSeries` envelope carries the whole trade; what changes between pha
       "revenueFlows": [
         { "role": "buyerPlatform",  "value": -437.15, "currency": "INR", "description": "Energy purchase cost (18.5 kWh × ₹12.5 + 14.2 kWh × ₹14.5)" },
         { "role": "sellerPlatform", "value": 437.15,  "currency": "INR", "description": "Energy sale proceeds" },
-        { "role": "buyerDiscom",    "value": 0, "currency": "INR", "description": "Buyer-side wheeling charge (placeholder — currently 0)" },
-        { "role": "sellerDiscom",   "value": 0, "currency": "INR", "description": "Seller-side wheeling + penalty (placeholder — currently 0)" }
+        { "role": "buyerDiscom",    "value": 0, "currency": "INR", "description": "Buyer-side wheeling charge (rate per the published policy)" },
+        { "role": "sellerDiscom",   "value": 0, "currency": "INR", "description": "Seller-side wheeling + shortfall penalty (rates per the published policy)" }
       ] } }
 ]
 ```
 
-The flows sum to zero across the four roles. When real wheeling/penalty tariff rules land in the rego, the DISCOM rows take non-zero values — no payload or code change needed.
+The energy legs net to zero between the two platforms; the DISCOM rows itemize whatever wheeling and shortfall-penalty charges the seller-DISCOM's published policy defines, alongside a disclosed platform-charge cap. A DISCOM sets its own rates by publishing a new policy version — no payload or code change needed.
 
 ## 11. Points for Confirmation
 
-1. **Wheeling and penalty rules** in the settlement bundle — currently `0` placeholders pending the tariff rule plug-in; the payload shape already carries them, so flipping to real expressions needs no schema change.
-2. **`settlementflows` ONIX step** — ships in the wave-2 seller-TP config (computes settlement flows on `on_status` from the DeDi-resolved rego); being aligned across LP implementations.
+1. **Wheeling / penalty tariff values** — the rates in force are whatever the seller-DISCOM's published contract policy defines; each DISCOM sets production values per its tariff order by publishing its own policy version.
+2. **`contractpolicyenforcer` ONIX step** — ships in the wave-2 seller-TP config (computes revenue flows on `on_status` from the DeDi-resolved contract policy); being aligned across LP implementations.
 3. **TEST → PROD `utilityId` allow-list** — the network bundle's production rules check approved IDs only; the production allow-list is governance-pending.
 4. **CERC sandbox graduation** — production-grade network policy bundle awaits CERC sign-off post-sandbox.
 5. **Intra-DISCOM topology** — collapsing the two LPs into one is supported and lighter; the configuration convention is in the wave-2 devkit, being formalised.
@@ -318,7 +318,7 @@ The flows sum to zero across the four roles. When real wheeling/penalty tariff r
 | **[P2PTrade](https://schema.beckn.io/P2PTrade/)** | The contract `@type` — agreed quantity, price, delivery window, the four roles, the policy URL |
 | **[EnergyTradeOffer](https://schema.beckn.io/EnergyTradeOffer/)** | The seller's offer block |
 | **[EnergyTradeDelivery](https://schema.beckn.io/EnergyTradeDelivery/)** | The performance block populated during reconciliation |
-| **[DEGContract](https://schema.beckn.io/DEGContract/)** | The envelope — roles, the rego policy URL, computed settlement flows |
+| **[DEGContract](https://schema.beckn.io/DEGContract/)** | The envelope — roles, the rego policy URL, computed revenue flows |
 | **[DiscomLedgerProvider](https://schema.beckn.io/DiscomLedgerProvider/)** | The LP↔DISCOM binding (`utilityId`, `ledgerUrl`) |
 | **[BecknTimeSeries](https://schema.beckn.io/BecknTimeSeries/)** | Per-interval payload carrier — declares `payloadDescriptors` and `payloads[]` |
 | **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** *(optional)* | Seller's attestation of meter / sanctioned-load / DER details backing the offer |
@@ -333,7 +333,7 @@ The IES network mandates which policy bundles are in force on a given network an
 
 ### Network policy
 
-Enforces "is this a valid trade on this network at all?" Examples drawn from [`p2p-trading-ies-wave2_network.rego`](https://github.com/beckn/DEG/blob/main/devkits/p2p-trading-ies-wave2/policies/p2p-trading-ies-wave2_network.rego):
+Enforces "is this a valid trade on this network at all?" Examples drawn from [`p2p-trading-ies-wave2-networkpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-networkpolicy.rego):
 
 | Rule | What it checks |
 |---|---|
@@ -347,17 +347,16 @@ Enforces "is this a valid trade on this network at all?" Examples drawn from [`p
 
 A network operator can change the rule set without recompiling code — publish a new bundle on DeDi, bump the `policyUrl` on the next contract, every participant resolves the new bundle on first use.
 
-### Settlement policy
+### Contract policy (seller-DISCOM policy)
 
-A second rego bundle ([`p2p_trading_ies_wave2_revenue.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p_trading_ies_wave2_revenue.rego), published on DeDi as `ies-p2p-network-settlement-rego-policy-v1`) computes the **settlement flows** on each contract from the final allocation:
+A second rego bundle ([`p2p-trading-ies-wave2-contractpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-contractpolicy.rego), published on DeDi as `ies-p2p-network-settlement-rego-policy-v1`) is the policy of the *seller's* DISCOM, linked by the catalog publisher into every trade involving that DISCOM's prosumers. It computes the **revenue flows** on each contract from the final allocation:
 
-- Buyer pays `FINAL_ALLOC × PRICE_PER_KWH` (signed negative).
-- Seller receives the same amount.
-- BuyerDiscom and SellerDiscom collect wheeling charges (and any deviation penalty) — currently `0` placeholders pending the tariff rule plug-in.
+- Buyer pays `FINAL_ALLOC × PRICE_PER_KWH` (signed negative); seller receives the same amount.
+- BuyerDiscom and SellerDiscom collect wheeling charges and any delivery-shortfall penalty, with a disclosed platform-charge cap — all rates defined by the published policy version in force.
 
-The flows sum to zero across the four roles. On the seller TP, the `settlementflows` ONIX pipeline step resolves the DeDi record on `on_status`, verifies its checksum, evaluates the rego locally, and writes the result to `message.contract.consideration[id=auto-settlement-flows].considerationAttributes` as a `RevenueFlow` JSON-LD object (wire key `revenueFlows`). Settlement reconciliation reads from there.
+On the seller TP, the `contractpolicyenforcer` ONIX pipeline step resolves the DeDi record on `on_status` (accepting only URLs under the configured `allowedPolicyUrlPrefixes`), verifies its checksum, evaluates the rego locally with a ≥1-day cache, and writes the result to `message.contract.consideration[id=auto-settlement-flows].considerationAttributes` as a `RevenueFlow` JSON-LD object (wire key `revenueFlows`). Settlement reconciliation reads from there.
 
-Mandating the settlement bundle the same way as the network bundle keeps every participant computing the same answer from the same inputs. The wheeling charge a DISCOM collects is no longer a bilateral spreadsheet — it is the output of a signed rego function over a signed contract.
+Mandating the contract policy the same way as the network policy keeps every participant computing the same answer from the same inputs. The wheeling charge a DISCOM collects is no longer a bilateral spreadsheet — it is the output of a signed rego function over a signed contract. DISCOMs author and publish their own via the [discom policy guide](https://github.com/beckn/DEG/tree/main/specification/policies/discom-policy-guide).
 
 ## Value Unlock
 
@@ -407,7 +406,7 @@ This starts the buyer side (`onix-buyerapp`, `sandbox-buyerapp`, `onix-ledger-bu
 - [ ] [Adapter built](../../how-you-implement-ies/build-adapter.md) mapping your application logic to your role (see role matrix below)
 - [ ] `degledgerrecorder` ONIX plugin enabled (`ledgerUriSource: payload`, `ledgerApi: beckn`); [auto-routing](#auto-routing-of-contracts-and-allocations) verified on the devkit, no loops
 - [ ] Network policy bundle URL resolves and signature verifies; local OPA eval rejects rule-violating payloads
-- [ ] Settlement policy bundle URL resolves; `settlementflows` step computes settlement flows on `on_status`
+- [ ] Contract policy record URL resolves; `contractpolicyenforcer` step computes revenue flows on `on_status`
 - [ ] (DISCOM) meter quantities published to your LP as `BecknTimeSeries` — **not** as `MeterData` / `DatasetItem`
 - [ ] (LP) meter-quantity payloadTypes wired into the allocation function
 - [ ] One real trade completed end-to-end and reconciled
@@ -445,9 +444,9 @@ None of the four steps require permission from a platform owner. For a guided fi
 - **Devkit** — [`devkits/p2p-trading-ies-wave2`](https://github.com/beckn/DEG/tree/main/devkits/p2p-trading-ies-wave2) (code, examples, four role-specific Postman collections)
 - **Scripted lifecycle** — [`uc1/workflows/p2p-trading-ies-wave2.arazzo.yaml`](https://github.com/beckn/DEG/blob/main/devkits/p2p-trading-ies-wave2/uc1/workflows/p2p-trading-ies-wave2.arazzo.yaml)
 - **Cascade plugin** — [`plugins/degledgerrecorder`](https://github.com/beckn/DEG/tree/main/plugins/degledgerrecorder)
-- **Settlement-flows plugin** — [`plugins/settlementflows`](https://github.com/beckn/DEG/tree/main/plugins/settlementflows)
-- **Network policy bundle** — [`p2p-trading-ies-wave2_network.rego`](https://github.com/beckn/DEG/blob/main/devkits/p2p-trading-ies-wave2/policies/p2p-trading-ies-wave2_network.rego)
-- **Settlement policy bundle** — [`p2p_trading_ies_wave2_revenue.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p_trading_ies_wave2_revenue.rego)
+- **Contract-policy plugin** — [`plugins/contractpolicyenforcer`](https://github.com/beckn/DEG/tree/main/plugins/contractpolicyenforcer)
+- **Network policy** — [`p2p-trading-ies-wave2-networkpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-networkpolicy.rego)
+- **Contract policy** — [`p2p-trading-ies-wave2-contractpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-contractpolicy.rego)
 - **Inter-DISCOM specification** — [Beckn DEG full spec](https://github.com/beckn/DEG/blob/main/docs/implementation-guides/v2/P2P_Trading/Inter_energy_retailer_P2P_trading.md)
 - **IES architecture note** — [ies-docs inter-DISCOM P2P trading](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/p2p_energy_exchange/%20Inter%20discom%20P2P%20trading.md)
 - **NFH fabric onboarding** — [Join the network](https://docs.nfh.global/build/join-the-network) · [Getting started with Fabric](https://docs.nfh.global/build/getting-started-with-fabric)

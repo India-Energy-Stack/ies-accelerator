@@ -13,7 +13,7 @@ The `MeterDataRequest` schema allows a Data Consumer (BAP) to request precise da
 ### Fields and Definitions
 
 1. **`resources`** (Required, array of URIs/strings):
-   * List of target resource identifiers to query (e.g., meter DIDs like `did:dedi:ies:meter:IN-MH-MTR-89721`, service point IDs, or customer IDs).
+   * List of target resource identifiers to query (e.g., meter DIDs like `did:web:ies.discom.example:meter:IN-MH-MTR-89721`, service point IDs, or customer IDs).
 2. **`scope`** (Required, string enum):
    * Defines the hierarchical scope of the query relative to the target resources:
      * `ResourceOnly`: Returns data matching the exact resource only.
@@ -38,7 +38,7 @@ The `MeterDataRequest` schema allows a Data Consumer (BAP) to request precise da
 To avoid clutter and maintain 100% compliance audits, the usage examples for this schema are saved as standalone JSON files in the `examples/` directory:
 
 ### 1. Embedded in a Credential (DISCOM-to-TSP Data Sharing Allowance)
-* **Goal**: A DISCOM grants permission to a Third Party Service Provider (TSP) to access smart meter telemetry on behalf of a consumer, restricted to **only interval (block load survey) data** for **all child meters** under a specific feeder (`did:dedi:ies:feeder:IN-MH-FDR-101`).
+* **Goal**: A DISCOM grants permission to a Third Party Service Provider (TSP) to access smart meter telemetry on behalf of a consumer, restricted to **only interval (block load survey) data** for **all child meters** under a specific feeder (`did:web:ies.discom.example:feeder:IN-MH-FDR-101`).
 * **Implementation**: The credential embeds a `MeterDataRequest` object defining the allowed query boundaries.
 * **Telemetry Query Profile**: [MeterDataRequest_FeederAllowance.json](./examples/MeterDataRequest_FeederAllowance.json)
 
