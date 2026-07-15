@@ -172,7 +172,7 @@ This is the minimal pattern. Daily / Monthly / Instantaneous / Event / Alarm fol
 - [`MeterData`](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) — schema, examples, user guide, reference guide (mappings on this page are pinned to `v0.6`)
 - [`IES codes.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/IES%20codes.json) — canonical OBIS catalogue (machine-readable). Source on [GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/MeterData/v0.6/IES%20codes.json).
 - [Smart Meter Data Exchange](README.md) — the use case that carries this payload
-- [Data Exchange](../../what-ies-provides/data-exchange/README.md) — the wire that carries it
+- [Data Exchange](../../what-ies-provides/discover-exchange.md) — the wire that carries it
 - [`MeterDataRequest`](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) — the matching request schema (current: `v0.6`)
 - [`MeterDataRequestCredential`](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) — optional authorisation VC (current: `v0.1`)
 - [`ElectricityCredential`](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) — sits alongside `MeterData` for the slow-changing customer / asset / service-connection data (current: `v1.2`)

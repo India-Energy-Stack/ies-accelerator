@@ -1,6 +1,6 @@
 # DISCOM Regulatory Filing
 
-*A DISCOM's Aggregate Revenue Requirement (ARR), true-up, FPPCA or compliance filing submitted to its SERC as a structured, signed object — the [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) payload carried over [IES Data Exchange](../what-ies-provides/data-exchange/README.md).*
+*A DISCOM's Aggregate Revenue Requirement (ARR), true-up, FPPCA or compliance filing submitted to its SERC as a structured, signed object — the [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) payload carried over [IES Data Exchange](../what-ies-provides/discover-exchange.md).*
 
 **[Implementation Guide →](../use-cases/discom-regulatory-filing/README.md)**
 
@@ -38,7 +38,7 @@ Supporting workbooks ride as separate signed datasets in the same exchange, link
 | Filing | `filingId` — DISCOM-minted, stable | `DISCOM-ARR-2026-27` |
 | Line item | `lineItemId` — kebab-case, stable across years | `power-purchase-cost` |
 
-Subscriber records resolve through the [IES DISCOMs](../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination) and [Regulators reference registries](../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination). Resubmissions reuse the same `filingId`; versioning lives on the Beckn envelope.
+Subscriber records resolve through the [IES DISCOMs](../what-ies-provides/register.md#the-directory-dedi) and [Regulators reference registries](../what-ies-provides/register.md#the-directory-dedi). Resubmissions reuse the same `filingId`; versioning lives on the Beckn envelope.
 
 ## 4. Definitions
 

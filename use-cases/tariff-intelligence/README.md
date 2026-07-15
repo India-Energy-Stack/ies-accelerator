@@ -32,9 +32,9 @@ Publication is typically open under public-disclosure norms (settlement value `0
 
 | Block | Role in this use case |
 |---|---|
-| [Identifiers](../../what-ies-provides/identifiers/README.md) | The `policyID` (e.g. `MUM-RES-T1`) is an IES identifier; the policy binds to the publisher's `did:web` and references the `programID` it belongs to. |
-| [Registries](../../what-ies-provides/registries/README.md) | The publishing SERC/utility is looked up in the [IES Regulators or DISCOMs reference registry](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination) for its public key. |
-| [Data Exchange](../../what-ies-provides/data-exchange/README.md) | Policies are distributed over the same Beckn-based protocol used for telemetry and filings — publicly, or carried inline as part of a private data exchange to negotiate that exchange's terms. |
+| [Identifiers](../../what-ies-provides/register.md) | The `policyID` (e.g. `MUM-RES-T1`) is an IES identifier; the policy binds to the publisher's `did:web` and references the `programID` it belongs to. |
+| [Registries](../../what-ies-provides/register.md#the-directory-dedi) | The publishing SERC/utility is looked up in the [IES Regulators or DISCOMs reference registry](../../what-ies-provides/register.md#the-directory-dedi) for its public key. |
+| [Data Exchange](../../what-ies-provides/discover-exchange.md) | Policies are distributed over the same Beckn-based protocol used for telemetry and filings — publicly, or carried inline as part of a private data exchange to negotiate that exchange's terms. |
 
 ---
 
@@ -77,12 +77,12 @@ The same envelope, with a different `policyType`, expresses deviation penalties,
 
 ### 1. Register — publisher identity
 
-- Publisher (SERC / DISCOM) in the appropriate [reference registry](../../what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination) → **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
-- Mint a canonical `policyID` per policy (the stable handle every downstream system references) and a `programID` grouping related policies — see [Identifiers — Appendix C](../../what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets).
+- Publisher (SERC / DISCOM) in the appropriate [reference registry](../../what-ies-provides/register.md#the-directory-dedi) → **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
+- Mint a canonical `policyID` per policy (the stable handle every downstream system references) and a `programID` grouping related policies — see [Identifiers — Appendix C](../../what-ies-provides/register.md#identifier-patterns).
 
 ### 2. Discover — publish via the data exchange
 
-Publisher's BPP exposes one catalogue entry per policy → **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**. Public-disclosure policies typically use `accessMethod: INLINE` and settlement value `0` — anyone can pull them without a contract.
+Publisher's BPP exposes one catalogue entry per policy → **[Setup Discovery](../../how-you-implement-ies/setup-discovery-exchange.md)**. Public-disclosure policies typically use `accessMethod: INLINE` and settlement value `0` — anyone can pull them without a contract.
 
 ### 3. Exchange — author, sign, evaluate
 
@@ -147,5 +147,5 @@ For a SERC, DISCOM, or other policy authority. Role: ☐ Publisher ☐ Consumer.
 - [`IES_Policy`, `IES_Program`, `EnergySlab`, `SurchargeTariff` (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy/examples)
 - [Overview — Tariff Intelligence](../../use-cases-overview/tariff-intelligence.md) — standards basis, definitions, full field schedule
-- [Data Exchange chapter](../../what-ies-provides/data-exchange/README.md)
-- [Identifiers and Addressing](../../what-ies-provides/identifiers/README.md)
+- [Data Exchange chapter](../../what-ies-provides/discover-exchange.md)
+- [Identifiers and Addressing](../../what-ies-provides/register.md)

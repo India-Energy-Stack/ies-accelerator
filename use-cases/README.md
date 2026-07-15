@@ -63,6 +63,6 @@ If you are a DISCOM implementing IES for the first time, the [Build your Interna
 
 ## See also
 
-- **[Register](../what-ies-provides/register.md)** · **[Discover](../what-ies-provides/discover.md)** · **[Exchange](../what-ies-provides/exchange.md)** — the three IES steps each use case combines.
+- **[Register](../what-ies-provides/register.md)** · **[Discover](../what-ies-provides/discover-exchange.md)** · **[Exchange](../what-ies-provides/discover-exchange.md)** — the three IES steps each use case combines.
 - **[How you implement IES](../how-you-implement-ies/README.md)** — the one-time setup that supports every use case.
 - **[Taxonomy](../schemas/README.md)** — schema map showing which schemas each use case combines.

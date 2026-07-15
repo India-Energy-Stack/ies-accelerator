@@ -1,6 +1,6 @@
 # P2P Energy Trading
 
-Two prosumers on different DISCOMs execute a direct, signed energy trade. Each DISCOM is represented in the protocol by a regulated **Ledger Provider**. The same wire that carries dataset exchanges in [IES Data Exchange](../../what-ies-provides/data-exchange/README.md) carries the trade — but the payload is a contract and its fulfilment, not a dataset.
+Two prosumers on different DISCOMs execute a direct, signed energy trade. Each DISCOM is represented in the protocol by a regulated **Ledger Provider**. The same wire that carries dataset exchanges in [IES Data Exchange](../../what-ies-provides/discover-exchange.md) carries the trade — but the payload is a contract and its fulfilment, not a dataset.
 
 | | |
 |---|---|
@@ -17,7 +17,7 @@ Two prosumers on different DISCOMs execute a direct, signed energy trade. Each D
 | **Ledger Provider** (LP) | [Auto-routing of contracts and allocations](#auto-routing-of-contracts-and-allocations) · [Ledger interfaces](#ledger-interfaces) · [Setup](#setup-register-discover-exchange) |
 | **DISCOM** (utility) | [Payload snapshots](#payload-snapshots) — the allocation columns are yours · the DISCOM rows in [Setup → Exchange](#exchange-adapter-cascade-policy) |
 
-> **Current deployment.** The architecture supports one Ledger Provider per DISCOM, but to start with **all trading platforms connect to a single Ledger Provider**, hosted at `ies-p2p-energy-ledger.beckn.io` — the two LPs in the diagrams below collapse into one (the intra-DISCOM topology; same protocol, fewer hops). The network namespaces are `indiaenergystack.in/test-ies-p2p-trading-network` (test) and `indiaenergystack.in/ies-p2p-trading-network` (production) — use them as the `networkId` in your ONIX adapter's configuration, described in [How you implement IES → Setup Discovery (ONIX)](../../how-you-implement-ies/setup-discovery.md).
+> **Current deployment.** The architecture supports one Ledger Provider per DISCOM, but to start with **all trading platforms connect to a single Ledger Provider**, hosted at `ies-p2p-energy-ledger.beckn.io` — the two LPs in the diagrams below collapse into one (the intra-DISCOM topology; same protocol, fewer hops). The network namespaces are `indiaenergystack.in/test-ies-p2p-trading-network` (test) and `indiaenergystack.in/ies-p2p-trading-network` (production) — use them as the `networkId` in your ONIX adapter's configuration, described in [How you implement IES → Setup Discovery+Exchange (ONIX)](../../how-you-implement-ies/setup-discovery-exchange.md).
 
 ---
 
@@ -52,7 +52,7 @@ Participants are identified by their plain **network subscriber IDs** — the `p
 | Ledger Provider (LP) | Network subscriber ID | `seller-discom-ledger.example.com` |
 | DISCOM | Network subscriber ID; bound to its LP by `utilityId` in the `DiscomLedgerProvider` block | `buyerdiscom.example.com` (`utilityId: TEST_DISCOM_BUYER`) |
 | Buyer / Seller (prosumer) | Represented by their TP — the contract's `roles[buyer/seller]` carry the TP's subscriber ID; the prosumer is pinned by their meter reference | `roles[buyer].participantId = buyerapp.example.com` |
-| Meter / DT / feeder referenced in the trade | Existing utility asset ID wrapped as `did:web:<discom-id>:meters:<meter-number>` (per [SMDX](../smart-meter-data-exchange/README.md#id-3.-how-each-item-is-identified)) | `did:web:buyerdiscom.example.com:meters:NM-44091234` |
+| Meter / DT / feeder referenced in the trade | Existing utility asset ID wrapped as `did:web:<discom-id>:meters:<meter-number>` (per [Register — Identifier patterns](../../what-ies-provides/register.md#identifier-patterns)) | `did:web:buyerdiscom.example.com:meters:NM-44091234` |
 | Network policy | Rego file loaded by the adapter (`opapolicychecker` step) from `specification/policies/` | [`p2p-trading-ies-wave2-networkpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-networkpolicy.rego) |
 | Contract policy | DeDi-published Rego record URL (`contractAttributes.policy.url`) | `https://api.dedi.global/dedi/lookup/indiaenergystack.in/ies-policies/ies-p2p-network-settlement-rego-policy-v1` |
 
@@ -372,7 +372,7 @@ Mandating the contract policy the same way as the network policy keeps every par
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[How you implement IES](../../how-you-implement-ies/README.md)**. Prerequisites: Git, Docker + Docker Compose, and Postman — nothing else. If you have never run an IES exchange before, do the [Data Exchange quick start](../../what-ies-provides/data-exchange/README.md) first; this use case reuses that stack unchanged.
+Built on the four implementation steps in **[How you implement IES](../../how-you-implement-ies/README.md)**. Prerequisites: Git, Docker + Docker Compose, and Postman — nothing else. If you have never run an IES exchange before, do the [Data Exchange quick start](../../what-ies-provides/discover-exchange.md) first; this use case reuses that stack unchanged.
 
 ### Step 0 — See it run before you build (local devkit)
 
@@ -397,7 +397,7 @@ This starts the buyer side (`onix-buyerapp`, `sandbox-buyerapp`, `onix-ledger-bu
 
 ### Discover — catalog and offers
 
-- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery.md) complete
+- [ ] [Discovery setup](../../how-you-implement-ies/setup-discovery-exchange.md) complete
 - [ ] (Seller TP) Catalogue entry published via `publish-catalog` — `EnergyTradeOffer` with `BecknTimeSeries` descriptors per `payloadType`
 - [ ] (Buyer TP) `discover` against the network's Discovery service returns your counterparty's offers
 

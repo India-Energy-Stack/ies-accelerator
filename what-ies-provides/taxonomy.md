@@ -88,7 +88,7 @@ For a domain object IES doesn't yet cover:
 4. **Review by the IES Cell** (the governance body under the Central Electricity Authority) — checks standards alignment, schema overlap, and use-case fit.
 5. **Acceptance** publishes `v0.1` and adds the schema to the map above.
 
-The full governance framework will be notified separately by the IES Cell; for interim questions, contact the [IES Secretariat](registries/README.md#how-to-apply-for-an-ies-listing).
+The full governance framework will be notified separately by the IES Cell; for interim questions, contact the [IES Secretariat](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network).
 
 ---
 
@@ -105,6 +105,6 @@ The schemas are stewarded by the **IES Cell** — the governance body being cons
 
 ## Where this fits
 
-The Taxonomy is the master view of **Exchange**: **[Register](register.md)** → **[Discover](discover.md)** → **[Exchange](exchange.md)**.
+The Taxonomy is the master view of **Exchange**: **[Register](register.md)** → **[Discover](discover-exchange.md)** → **[Exchange](discover-exchange.md)**.
 
 To pick a use case: **[Use Case Implementation Guides](../use-cases/README.md)**.

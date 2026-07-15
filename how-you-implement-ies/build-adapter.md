@@ -1,14 +1,22 @@
 # Build your Internal-facing Adapter
 
-> **Step 3 of the three IES steps — set up.** Write the **Part-2 mapping** between your internal systems and the IES schemas. This is the only IES work where you write code — the rest is configuration. About 1–3 weeks for the first use case; subsequent use cases add only a few days each.
+> **Step 4 of the implementation path.** Write the **Part-2 mapping** between your internal systems and the IES schemas. This is the only IES work where you write code — the rest is configuration. About 1–3 weeks for the first use case; subsequent use cases add only a few days each.
 
-This is the **action guide** for the **[Exchange](../what-ies-provides/exchange.md)** step. Per-use-case adapter shapes are in **[Use Case Implementation Guides](../use-cases/README.md)**.
+This is where the engines from Steps 2 and 3 get fed from your internal systems. Per-use-case adapter shapes are in **[Use Case Implementation Guides](../use-cases/README.md)**.
+
+---
+
+## Before you start
+
+- Step 1 ([Setup Register](setup-register.md)) complete — your `did:web` resolves and your DeDi namespace is verified.
+- The engine your first use case needs is running: **OpenCred** for credential use cases ([Issue Credentials](issue-credentials.md)) and/or **ONIX** for data-exchange use cases ([Setup Discovery+Exchange](setup-discovery-exchange.md)). You wire your mapping into whichever you set up.
+- Read access to the internal system that holds the data (CIS, MDM, HES, DERMS, ERP) and a developer who can write ~200–1,000 lines of glue code.
 
 ---
 
 ## What the adapter is
 
-The IES adapter has two parts: a ready-made **engine** and your **mapping**. There is one engine per capability — **ONIX** for use cases that run over a Beckn network, **[OpenCred](../glossary.md#opencred)** for credential-only use cases — and you build an internal-facing mapping for each engine your use cases need. Step 2 gave you ONIX; OpenCred setup is in **[Energy Credentials](../what-ies-provides/energy-credentials/README.md)**.
+The IES adapter has two parts: a ready-made **engine** and your **mapping**. There is one engine per capability — **ONIX** for use cases that run over a Beckn network ([Setup Discovery+Exchange](setup-discovery-exchange.md)), **[OpenCred](../glossary.md#opencred)** for credential use cases ([Issue Credentials](issue-credentials.md)) — and you build an internal-facing mapping for each engine your use cases need.
 
 | Part | What it does | You build it? |
 |---|---|---|
@@ -114,15 +122,13 @@ The repo ships this validator and a `make validate` target. Examples to validate
 
 The Beckn wiring (subscriber id, callback URL, route registration) is in ONIX config; the handler endpoint is your code.
 
-**Credential-only use cases — wire into OpenCred.** Your mapping assembles the credential subject from CIS / MDM data (Tasks 1–3) and POSTs it to OpenCred's `/v1/credentials/issue`; OpenCred signs with your key and returns the credential for delivery to the holder. The issue / verify / revoke walkthrough is in **[Energy Credentials](../what-ies-provides/energy-credentials/README.md#issue-your-first-credential)**.
+**Credential use cases — wire into OpenCred.** Your mapping assembles the credential subject from CIS / MDM data (Tasks 1–3) and POSTs it to OpenCred's `/v1/credentials/issue`; OpenCred signs with your key and returns the credential for delivery to the holder. The issue / verify / revoke walkthrough is in **[Issue Credentials](issue-credentials.md#id-2.6-issue-your-first-credential)**.
 
-### Task 5 — Test against the sandbox
+### Task 5 — Test end-to-end
 
-Use the [Data Exchange devkit](../what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes) to send your handler real Beckn messages from a sandbox counterparty. Iterate until:
+**Beckn-network use cases.** Use the [Data Exchange devkit](setup-discovery-exchange.md#id-3.1-deploy-the-local-sandbox) to send your handler real Beckn messages from a sandbox counterparty. Iterate until all required schema fields are populated correctly, signatures verify on the receiving side, and the end-to-end round trip succeeds for at least one realistic record.
 
-- All required schema fields are populated correctly
-- Signatures verify on the receiving side
-- The end-to-end round trip succeeds for at least one realistic record
+**Credential use cases.** There is no Beckn counterparty — test the issuance path directly: have your mapping assemble the subject from a real record and POST it to OpenCred's `/v1/credentials/issue`, then run the [§2.9 smoke test](issue-credentials.md#id-2.9-smoke-test) (issue → resolve your `did:web` → verify → revoke → re-check). Iterate until it issues a schema-valid, signature-verifiable credential for at least one realistic record.
 
 Then graduate from sandbox → testnet → prod with the same adapter.
 
@@ -152,6 +158,6 @@ For the first use case:
 - [ ] Mapping wired into its engine — BPP handler registered with ONIX (Beckn-network use case) or issuance feed calling OpenCred (credential-only use case)
 - [ ] One realistic record exchanged or issued end-to-end with a counterparty / verifier
 
-When all six are ticked, you have completed Step 3 for your first use case. Move on to **[Step 4 — Conformance Checklist](conformance.md)**, then publish.
+When all six are ticked, you have completed Step 4 for your first use case. Move on to **[Step 5 — Conformance Checklist](conformance.md)**, then publish.
 
-For the second and subsequent use cases, only Tasks 1–4 repeat. The sandbox test (Task 5) reruns quickly, and conformance (Step 4) and all the identity / network setup are reused.
+For the second and subsequent use cases, only Tasks 1–4 repeat. The sandbox test (Task 5) reruns quickly, and conformance (Step 5) and all the identity / network setup are reused.
