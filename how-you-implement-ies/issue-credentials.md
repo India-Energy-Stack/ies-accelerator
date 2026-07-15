@@ -47,11 +47,11 @@ echo "Save this: $OPENCRED_API_KEY"
 First set the two DeDi variables (in addition to `OPENCRED_ISSUER_DOMAIN` from Setup Register §1.1 — re-export it if this is a fresh shell):
 
 ```bash
-export OPENCRED_DEDI_NAMESPACE="yourdiscom"
+export OPENCRED_DEDI_NAMESPACE="discom.example"
 export OPENCRED_DEDI_API_KEY="paste-your-dedi-api-key-here"
 ```
 
-- **`OPENCRED_DEDI_NAMESPACE`** — the namespace you claimed and domain-verified in [Setup Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
+- **`OPENCRED_DEDI_NAMESPACE`** — the **domain** your DeDi namespace is linked to and verified with (the same domain you domain-verified in [Setup Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain)) — *not* a free-text namespace name. Set it to that domain, so that `https://api.dedi.global/dedi/lookup/<namespace-domain>` resolves.
 - **`OPENCRED_DEDI_API_KEY`** — the key you created in the DeDi UI at [publish.dedi.global](https://publish.dedi.global) (avatar in the top-right corner → **Manage API key**).
 
 The `OPENCRED_DEDI_*` variables connect the container to DeDi at startup. That is what enables **revocation** (§2.8) and lets OpenCred auto-create the four registries it needs in your namespace on first boot.

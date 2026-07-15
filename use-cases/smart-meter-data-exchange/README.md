@@ -112,13 +112,13 @@ Replace the sandbox response with a live connection to your HES / MDMS. Verify t
 **There are no new IDs to allocate.** Your existing meter SLNOs, DT codes, feeder codes, and substation codes are the IDs of record and stay exactly as they are. The IES convention is a `did:web` wrapper format that reuses those existing IDs:
 
 ```
-did:web:<dedi-host>:<your-namespace>:meters:<existing-meter-serial>
-did:web:<dedi-host>:<your-namespace>:dts:<existing-DT-code>
-did:web:<dedi-host>:<your-namespace>:feeders:<existing-feeder-code>
-did:web:<dedi-host>:<your-namespace>:substations:<existing-substation-code>
+did:web:<discom-domain>:meters:<existing-meter-serial>
+did:web:<discom-domain>:dts:<existing-DT-code>
+did:web:<discom-domain>:feeders:<existing-feeder-code>
+did:web:<discom-domain>:substations:<existing-substation-code>
 ```
 
-`<dedi-host>` is the host of any DeDi runtime that publishes the DID document (e.g. `dedi.global` or a self-hosted DeDi-compatible service). The DID method is always `did:web`; DeDi just acts as a discovery layer for the document — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers — Appendix C](../../what-ies-provides/register.md#identifier-patterns). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
+`<discom-domain>` is your own domain — the same one your `did.json` and DeDi namespace hang off (see [Setup Register §1.1](../../how-you-implement-ies/setup-register.md)). The DID method is always `did:web`, so these resolve under your domain exactly like your organisation DID; DeDi acts as the discovery and verification layer for your namespace — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers — Appendix C](../../what-ies-provides/register.md#identifier-patterns). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
 
 ---
 

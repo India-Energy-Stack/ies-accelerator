@@ -1,6 +1,6 @@
 # Setup Register
 
-> **Step 1 of the implementation path — set up.** Get your organisation a verifiable digital identity, list it in the shared directory, and — if your use cases need a Beckn network — publish your network identity too. *Done once.* About 1–2 days of elapsed time (most of it waiting for DNS to propagate).
+> **Step 1 of the implementation path — set up.** Get your organisation a verifiable digital identity, list it in the shared directory, and — if your use cases need a Beckn network — publish your network identity too. *Done once.* Takes less than 30 minutes.
 
 The concepts behind every artefact on this page — DIDs, DeDi, namespaces, subscriber records — are in **[What IES Provides → Register](../what-ies-provides/register.md)**. This page is the do-guide.
 
@@ -109,6 +109,8 @@ cat did.json
 ```
 
 Expected: `cat did.json` prints a complete DID document with your domain in `id` and real `x`/`y` coordinates in `publicKeyJwk`.
+
+> **On Windows?** The Python itself is cross-platform, but this block is written for a POSIX shell — the `python3 - <<'PY' … PY` heredoc, the `python3` command name, and `cat` don't work in native `cmd.exe`/PowerShell. Run it from **WSL** or **Git Bash**, where it works as-is (and where `openssl`, `curl`, and `jq` from §1.1 are also available). If you must stay in PowerShell, save the Python between `<<'PY'` and `PY` to a file (e.g. `gen-did.py`), then run `python gen-did.py > did.json` (use `python` or `py`, not `python3`).
 
 Three fields matter, and you can ignore the rest until later:
 
