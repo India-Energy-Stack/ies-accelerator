@@ -65,7 +65,7 @@ The [Government of India API exchange](https://apisetu.gov.in) where DISCOMs reg
 
 ### Beckn
 
-The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** when the dataset is small and a single signed message is simplest. For bulky datasets, telemetry streams, or data already moving over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Discover+Exchange](what-ies-provides/discover-exchange.md).
+The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** when the dataset is small and a single signed message is simplest. For bulky datasets, telemetry streams, or data already moving over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Discover](what-ies-provides/discover.md) and [Exchange](what-ies-provides/exchange.md).
 
 ### BAP
 

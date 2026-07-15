@@ -128,7 +128,7 @@ Link the participant's subscriber registry to the Beckn networks:
 
 ### References & Anchors
 * [How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)
-* [ONIX Registry Setup Guide](../how-you-implement-ies/setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity)
+* [ONIX Registry Setup Guide](../how-you-implement-ies/setup-exchange.md#id-3.3-swap-in-your-real-identity)
 </details>
 
 ---
@@ -159,7 +159,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 2. Set node timeout guidelines (e.g. 5-second max) to prevent cascading latency.
 
 ### References & Anchors
-* [Discover+Exchange — The lifecycle at a glance](../what-ies-provides/discover-exchange.md#the-lifecycle-at-a-glance)
+* [Discover — The lifecycle at a glance](../what-ies-provides/discover.md#the-lifecycle-at-a-glance)
 </details>
 
 ---

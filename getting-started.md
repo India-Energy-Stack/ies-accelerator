@@ -12,7 +12,7 @@ This page gives you a five-minute orientation to IES before you dive into either
 
 IES is an **open protocol and governance layer** for India's energy sector: it doesn't operate data, but defines the standards and interaction patterns that let diverse organisations share data and trust each other's claims.
 
-Everything in IES follows the same three steps — **[Register](what-ies-provides/register.md) → Discover → Exchange**. Under [What IES Provides](what-ies-provides/README.md), two chapters carry the developer specifics: **[Register](what-ies-provides/register.md)** (identity + directory foundations) and **[Discover+Exchange](what-ies-provides/discover-exchange.md)** (the two capabilities — B2B data exchange over Beckn, and B2C energy credentials). The four capsules below orient you before you dive in.
+Everything in IES follows the same three steps — **[Register](what-ies-provides/register.md) → [Discover](what-ies-provides/discover.md) → [Exchange](what-ies-provides/exchange.md)**. Under [What IES Provides](what-ies-provides/README.md), these chapters carry the developer specifics: **Register** (identity + directory foundations), **Discover** (Beckn-protocol interaction, B2B), and **Exchange** (the Taxonomy, and B2C energy credentials). The four capsules below orient you before you dive in.
 
 ### Identifiers and Addressing
 
@@ -61,10 +61,10 @@ A federated, policy-governed mechanism for discovering and exchanging structured
   → Go to [Energy Credentials](what-ies-provides/energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
 
 - **Exchanging structured energy datasets (telemetry, filings, tariffs)?**
-  → Go to [Data Exchange → Quick Start](how-you-implement-ies/setup-discovery-exchange.md#id-3.1-deploy-the-local-sandbox). You will also need a Beckn subscriber registry from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
+  → Go to [Data Exchange → Quick Start](how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox). You will also need a Beckn subscriber registry from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
 
 - **Building a new application that needs both?**
-  → Start with [Registries](what-ies-provides/register.md#the-directory-dedi) (foundation) → then [Energy Credentials](what-ies-provides/energy-credentials/README.md) (simpler integration surface) → then [Data Exchange](what-ies-provides/discover-exchange.md).
+  → Start with [Registries](what-ies-provides/register.md#the-directory-dedi) (foundation) → then [Energy Credentials](what-ies-provides/energy-credentials/README.md) (simpler integration surface) → then [Discover](what-ies-provides/discover.md) and [Exchange](what-ies-provides/exchange.md).
 
 ---
 

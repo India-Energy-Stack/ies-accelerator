@@ -198,12 +198,12 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 
 ## Phase 4: Smart Meter Data Exchange (Beckn Data Pipes)
 
-*(See [Data Exchange — Core Concepts](../what-ies-provides/discover-exchange.md#the-lifecycle-at-a-glance) for the underlying Beckn primitives.)*
+*(See [Discover — Core Concepts](../what-ies-provides/discover.md#the-lifecycle-at-a-glance) for the underlying Beckn primitives.)*
 
 Enable federated, policy-governed data sharing of smart meter telemetry and master data with authorized third parties.
 
 <details>
-<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../how-you-implement-ies/setup-discovery-exchange.md#id-3.1-deploy-the-local-sandbox))</b></summary>
+<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox))</b></summary>
 
 ### 💡 Phase Advice
 > Deploying the ONIX adapter as Docker takes under 10 minutes — run the local test sandbox first to verify configs before production.
@@ -214,10 +214,10 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 3. Register your BPP credentials in DeDi [`subscribers-test`](../what-ies-provides/register.md#the-directory-dedi).
 
 ### References & Anchors
-* [Data Exchange Concepts](../what-ies-provides/discover-exchange.md#the-lifecycle-at-a-glance)
-* [Data Exchange Quick Start](../how-you-implement-ies/setup-discovery-exchange.md#id-3.1-deploy-the-local-sandbox)
-* [ONIX Registry Setup](../how-you-implement-ies/setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity)
-* [Setup Discovery — Checklist](../how-you-implement-ies/setup-discovery-exchange.md#checklist)
+* [Discover Concepts](../what-ies-provides/discover.md#the-lifecycle-at-a-glance)
+* [Data Exchange Quick Start](../how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox)
+* [ONIX Registry Setup](../how-you-implement-ies/setup-exchange.md#id-3.3-swap-in-your-real-identity)
+* [Setup Exchange — Checklist](../how-you-implement-ies/setup-exchange.md#checklist)
 </details>
 
 <details>
@@ -265,7 +265,7 @@ Authorisation logic is left to the utility; we suggest requiring the BAP present
 > **Clarity Gap**: Standardized B2B automated token validation policies on BPP ONIX are currently under-specified in the core guidelines, requiring custom token validation structures for consumer-consented exchanges.
 
 ### References & Anchors
-* [Data Exchange — Beckn protocol lifecycle](../what-ies-provides/discover-exchange.md#the-lifecycle-at-a-glance)
+* [Discover — Beckn protocol lifecycle](../what-ies-provides/discover.md#the-lifecycle-at-a-glance)
 * [MeterDataRequestCredential Schema](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)
 * [MeterDataRequestCredential Example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)
 </details>
@@ -277,7 +277,7 @@ Authorisation logic is left to the utility; we suggest requiring the BAP present
 > Run a parallel pilot — trade telemetry with a test consumer or partner BAP to confirm signing, encryption, and logging before going live.
 
 ### References & Anchors
-* [Setup Discovery — Checklist](../how-you-implement-ies/setup-discovery-exchange.md#checklist)
+* [Setup Exchange — Checklist](../how-you-implement-ies/setup-exchange.md#checklist)
 </details>
 
 ---

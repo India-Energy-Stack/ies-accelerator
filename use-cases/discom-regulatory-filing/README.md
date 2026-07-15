@@ -34,7 +34,7 @@ Unlike Smart Meter Data Exchange, here the **DISCOM is the BPP** (data provider)
 |---|---|
 | [Identifiers](../../what-ies-provides/register.md) | The DISCOM and SERC each have a `did:web` identity. The filing carries identifiers for the filing (`filingId`), each fiscal year, and each cost line item. |
 | [Registries](../../what-ies-provides/register.md#the-directory-dedi) | For Beckn message-signature verification: DISCOM and SERC subscriber records resolved via DeDi. The [IES DISCOMs](../../what-ies-provides/register.md#the-directory-dedi) and [Regulators reference registries](../../what-ies-provides/register.md#the-directory-dedi) provide the Beckn network trust boundary. |
-| [Data Exchange](../../what-ies-provides/discover-exchange.md) | Carries the `ArrFiling` payload from BPP (DISCOM) to BAP (SERC), with the same `confirm` / `on_confirm` / `status` / `on_status` lifecycle as the meter-data flow. |
+| [Data Exchange](../../what-ies-provides/discover.md) | Carries the `ArrFiling` payload from BPP (DISCOM) to BAP (SERC), with the same `confirm` / `on_confirm` / `status` / `on_status` lifecycle as the meter-data flow. |
 
 ---
 
@@ -84,7 +84,7 @@ The `category` / `subCategory` enums follow the standard ARR cost categories mos
 
 ### 2. Discover — stand up the data-exchange adapters
 
-The DISCOM runs a BPP adapter; the SERC runs a BAP adapter → **[Setup Discovery](../../how-you-implement-ies/setup-discovery-exchange.md)**.
+The DISCOM runs a BPP adapter; the SERC runs a BAP adapter → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**.
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -164,6 +164,6 @@ For the DISCOM (filing) and the SERC (receiving). Role: ☐ DISCOM ☐ SERC ☐ 
 - [`ArrFiling v0.5` schema](../../schemas/ArrFiling/v0.5/README.md)
 - [Example payload](../../schemas/ArrFiling/v0.5/examples/arr_filings.json)
 - [Overview — DISCOM Regulatory Filing](../../use-cases-overview/discom-regulatory-filing.md) — standards basis, definitions, full field schedule
-- [Data Exchange chapter](../../what-ies-provides/discover-exchange.md)
+- [Data Exchange chapter](../../what-ies-provides/discover.md)
 - [Registries and Directories](../../what-ies-provides/register.md#the-directory-dedi)
 - [Identifiers and Addressing](../../what-ies-provides/register.md)

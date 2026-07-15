@@ -17,8 +17,8 @@ Every IES interaction follows the same three steps. They are the **spine of this
 | Step | What it does | Example standard |
 |---|---|---|
 | **[1. Register](what-ies-provides/register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. *Done once.* | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
-| **[2. Discover](what-ies-provides/discover-exchange.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) |
-| **[3. Exchange](what-ies-provides/discover-exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
+| **[2. Discover](what-ies-provides/discover.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) |
+| **[3. Exchange](what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
 
 IES picks the right open standard for each step and publishes a specification on top. **IES does not write new standards.** Build to the IES specs once, and a system can connect to any other IES-ready system without fresh integration work.
 
@@ -38,7 +38,8 @@ The specifications. What is published.
 |---|---|
 | [What IES Is](concepts/what-ies-is.md) | The intro, on one page. Problem, UPI analogy, what IES is and is not, sector impact, the four pilots, FAQ. |
 | [Register](what-ies-provides/register.md) | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi) — one page. |
-| [Discover+Exchange](what-ies-provides/discover-exchange.md) | How data moves once participants are registered: Beckn-protocol interaction (B2B), the Taxonomy, and where verifiable credentials (B2C) fit — one page. |
+| [Discover](what-ies-provides/discover.md) | How two registered organisations find each other, agree terms and sign — the Beckn-protocol interaction (B2B). |
+| [Exchange](what-ies-provides/exchange.md) | How data moves once discovered: the Taxonomy, and where verifiable credentials (B2C) fit. |
 | [Taxonomy](schemas/README.md) | The master vocabulary of IES — every domain object, its plain-language overview, and the schema that describes its shape; standards precedence, versioning, proposal flow. |
 
 ### [How you implement IES](how-you-implement-ies/README.md)
@@ -49,7 +50,7 @@ The action guides. What you do.
 |---|---|---|
 | 1 | [Setup Register](how-you-implement-ies/setup-register.md) | 1–2 days |
 | 2 | [Issue Credentials](how-you-implement-ies/issue-credentials.md) *(credential use cases)* | ½ day |
-| 3 | [Setup Discovery+Exchange](how-you-implement-ies/setup-discovery-exchange.md) *(data-exchange use cases)* | 1–2 days |
+| 3 | [Setup Exchange](how-you-implement-ies/setup-exchange.md) *(data-exchange use cases)* | 1–2 days |
 | 4 | [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md) | 1–4 weeks |
 | 5 | [Conformance Checklist](how-you-implement-ies/conformance.md) | 1 day |
 
@@ -68,7 +69,7 @@ What you can ship, organised per the **[IES Documentation Template](use-cases/RE
 ## Where to start
 
 - **New to IES?** Read **[What IES Is](concepts/what-ies-is.md)** — five minutes.
-- **Decision-maker / reviewer?** Skim **[What IES Provides](what-ies-provides/README.md)** in order: What IES Is → Register → Discover+Exchange.
+- **Decision-maker / reviewer?** Skim **[What IES Provides](what-ies-provides/README.md)** in order: What IES Is → Register → Discover → Exchange.
 - **DISCOM / regulator / vendor onboarding?** Go straight to **[How you implement IES](how-you-implement-ies/README.md)** — the same path the pilot DISCOMs followed in 30 days.
 - **Picking a first use case?** Browse the table in **[Use Case Implementation Guides](use-cases/README.md)** — pilot cases at the top.
 - **Need a term defined?** Always-visible [Glossary](glossary.md).

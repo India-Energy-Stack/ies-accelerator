@@ -1,6 +1,6 @@
 # Smart Meter Data Exchange
 
-**A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a state regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/discover-exchange.md), carrying the [MeterData](../../schemas/MeterData/README.md) payload (currently `v0.6`).**
+**A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a state regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/discover.md), carrying the [MeterData](../../schemas/MeterData/README.md) payload (currently `v0.6`).**
 
 You replace bespoke FTP drops, proprietary MDMS APIs, and CSV email attachments with one signed, schema-validated flow. The same surface area works AMISP→DISCOM, DISCOM→SERC, and DISCOM→consented-third-party.
 
@@ -16,7 +16,7 @@ This use case is a thin composition over four existing building blocks. The setu
 |---|---|---|
 | A name and a signing key your counterparties can verify | [Identifiers & Addressing](../../what-ies-provides/register.md), [Registries](../../what-ies-provides/register.md#the-directory-dedi) | A DeDi namespace under your control and your current public key published into it. A formal `did:web` document is **not** required for this use case; the namespace + key are enough for Beckn signing and verification. |
 | A trust boundary — "who can transact on this network" | [Registries — IES networks today](../../what-ies-provides/register.md#the-ies-networks-today) | Your subscriber record referenced in the IES network registry |
-| The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../what-ies-provides/discover-exchange.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
+| The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../what-ies-provides/discover.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
 | (Optional) Cryptographic proof that the requester is authorised | [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/README.md) | A signed credential the seeker attaches at `confirm`; provider verifies offline |
 
 ---
@@ -77,7 +77,7 @@ You do **not** need to rename anything in your CIS, MDMS, or asset registers. Yo
 
 ### 3. Discover — stand up the Data Exchange adapters
 
-Both sides run an [ONIX](../../glossary.md#onix) adapter → **[Setup Discovery](../../how-you-implement-ies/setup-discovery-exchange.md)**. The fastest start is the devkit sandbox:
+Both sides run an [ONIX](../../glossary.md#onix) adapter → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**. The fastest start is the devkit sandbox:
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -89,7 +89,7 @@ This brings up `sandbox-bap`, `sandbox-bpp`, and `beckn-router` pre-wired with p
 
 ### 4. Exchange — publish your dataset catalogue (BPP)
 
-Publish a Beckn catalogue entry for the `MeterData/v0.6` dataset you offer — `programID`, geographic scope, refresh cadence, [`accessMethod`](../../how-you-implement-ies/setup-discovery-exchange.md) (`INLINE` for ≤MB-scale chunks; `SIGNED_URL` for daily/monthly bulk), and any required credentials (point at `MeterDataRequestCredential` if you require one). Pre-agreed bilateral subscriptions can skip `discover` and go straight to `confirm`.
+Publish a Beckn catalogue entry for the `MeterData/v0.6` dataset you offer — `programID`, geographic scope, refresh cadence, [`accessMethod`](../../how-you-implement-ies/setup-exchange.md) (`INLINE` for ≤MB-scale chunks; `SIGNED_URL` for daily/monthly bulk), and any required credentials (point at `MeterDataRequestCredential` if you require one). Pre-agreed bilateral subscriptions can skip `discover` and go straight to `confirm`.
 
 ### 5. Exercise the flow
 
@@ -101,7 +101,7 @@ The minimal lifecycle is `confirm` → `on_confirm` → (`status` → `on_status
 | `on_confirm` | BPP | Acknowledges; declares whether delivery is inline or async. |
 | `on_status` | BPP | Delivers `MeterData/v0.6` inline or returns a signed-URL pointer. |
 
-The payload sits inside `message.contract.commitments[].resources[].resourceAttributes` qualified with the DDM `DatasetItem/v1.1` context — see [Data Exchange — `DatasetItem` and `accessMethod`](../../how-you-implement-ies/setup-discovery-exchange.md).
+The payload sits inside `message.contract.commitments[].resources[].resourceAttributes` qualified with the DDM `DatasetItem/v1.1` context — see [Data Exchange — `DatasetItem` and `accessMethod`](../../how-you-implement-ies/setup-exchange.md).
 
 ### 6. Connect your real metering system
 
@@ -153,6 +153,6 @@ The items below are **meter-data-specific** additions on top of that checklist:
 - [MeterDataRequestCredential — authorisation VC](../../schemas/MeterDataRequestCredential/README.md) (current: `v0.1`)
 - [IES Meter Data Model](./ies-meter-data-model.md) — OBIS / IS 15959 / CIM → MeterData v0.6 mapping
 - [Overview — Smart Meter Data Exchange](../../use-cases-overview/smart-meter-data-exchange.md) — standards basis, definitions, full field schedule
-- [Data Exchange chapter](../../what-ies-provides/discover-exchange.md)
+- [Data Exchange chapter](../../what-ies-provides/discover.md)
 - [Registries and Directories](../../what-ies-provides/register.md#the-directory-dedi)
 - [Identifiers and Addressing](../../what-ies-provides/register.md)

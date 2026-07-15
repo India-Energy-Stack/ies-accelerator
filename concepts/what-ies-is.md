@@ -36,8 +36,8 @@ Every IES interaction follows the same three steps. They are the spine of this e
 | Step | What happens | Example standard |
 |---|---|---|
 | **1. [Register](../what-ies-provides/register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. Done once. | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
-| **2. [Discover](../what-ies-provides/discover-exchange.md)** | Before a data exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement needed. | [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) |
-| **3. [Exchange](../what-ies-provides/discover-exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a verifiable credential is issued. | DLMS/COSEM for meter data, IEEE 2030.5 for solar/storage, W3C Verifiable Credentials |
+| **2. [Discover](../what-ies-provides/discover.md)** | Before a data exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement needed. | [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) |
+| **3. [Exchange](../what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a verifiable credential is issued. | DLMS/COSEM for meter data, IEEE 2030.5 for solar/storage, W3C Verifiable Credentials |
 
 Two capabilities build on this shared identity foundation:
 
@@ -211,5 +211,5 @@ Any participant can propose a change to the IES Cell. Proposals are reviewed, an
 ## Where to go next
 
 - **Want the technical specifications?** → **[What IES Provides](../what-ies-provides/README.md)** — Register, Discover, Exchange, Taxonomy
-- **Want to implement IES in your organisation?** → **[How you implement IES](../how-you-implement-ies/README.md)** — Setup Register, Issue Credentials, Setup Discovery+Exchange, Build Adapter
+- **Want to implement IES in your organisation?** → **[How you implement IES](../how-you-implement-ies/README.md)** — Setup Register, Issue Credentials, Setup Exchange, Build Adapter
 - **Want to see a worked end-to-end use case?** → **[Use Case Implementation Guides](../use-cases/README.md)**

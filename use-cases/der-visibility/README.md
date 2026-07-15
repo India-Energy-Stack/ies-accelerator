@@ -38,7 +38,7 @@ Unlike the Passport, the DER Visibility record is **published, not held** — co
 |---|---|
 | [Identifiers](../../what-ies-provides/register.md) | Same `did:web` as the Passport; subject set to a feeder / substation / licensee DID instead of a consumer DID |
 | [Energy Credentials](../../what-ies-provides/energy-credentials/README.md) | Same signing / verification / revocation pipeline used for any ElectricityCredential v1.2 building block |
-| [Data Exchange](../../what-ies-provides/discover-exchange.md) | BPP catalogue entries published per locus; grid operators and aggregators consume as BAPs |
+| [Data Exchange](../../what-ies-provides/discover.md) | BPP catalogue entries published per locus; grid operators and aggregators consume as BAPs |
 
 ---
 
@@ -72,7 +72,7 @@ Same `did:web` as the Energy Passport — no new identity setup if you already i
 
 ### 2. Discover — grid-side catalogue
 
-Publish a BPP catalogue entry per locus (feeder / substation / licensee-wide), `accessMethod: INLINE` → **[Setup Discovery](../../how-you-implement-ies/setup-discovery-exchange.md)**. Test grid-operator and aggregator consumers as BAPs.
+Publish a BPP catalogue entry per locus (feeder / substation / licensee-wide), `accessMethod: INLINE` → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**. Test grid-operator and aggregator consumers as BAPs.
 
 ### 3. Exchange — issuance shape
 
