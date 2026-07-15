@@ -62,7 +62,7 @@ Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a documen
 
 ### Step 2 — Stand Up OpenCred and Your Issuer DID
 
-Follow [Setup Register — keypair and did.json](../setup-register.md#id-1.2-generate-your-credential-signing-keypair) and [Issue Credentials — run OpenCred](../issue-credentials.md#id-2.3-run-opencred-in-did-web-mode) end-to-end. By the time you reach this page you should have:
+Follow [Setup Register — keypair and did.json](../../how-you-implement-ies/setup-register.md#id-1.2-generate-your-credential-signing-keypair) and [Issue Credentials — run OpenCred](../../how-you-implement-ies/issue-credentials.md#id-2.3-run-opencred-in-did-web-mode) end-to-end. By the time you reach this page you should have:
 
 - OpenCred running with `signingKeyLoaded: true`
 - An issuer DID — `did:web:ies.discom.example` (recommended) or `did:key:…` (from an imported DSC)
@@ -202,7 +202,7 @@ The rendered certificate (`DocContent`) should also show this in human-readable 
 
 ### Step 4 — Call OpenCred to Issue the Credential
 
-This step differs by DocType — see [Issuing NYCER (v1.2)](../issue-credentials.md#id-2.6-issue-your-first-credential) and [Issuing the Digest (MPLTR)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC; both can ask OpenCred to render the PDF via `packageFormats: ["pdf"]`.
+This step differs by DocType — see [Issuing NYCER (v1.2)](../../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential) and [Issuing the Digest (MPLTR)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC; both can ask OpenCred to render the PDF via `packageFormats: ["pdf"]`.
 
 ### Step 5 — Package the PDF and VC for the response
 
@@ -634,7 +634,7 @@ pdf_bytes = base64.b64decode(
 uri = f"in.gov.discom-MPLTR-{consumer.consumer_number}-{window.uri_period}"
 ```
 
-Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issue Credentials → Revoke](../issue-credentials.md#id-2.8-revoke).
+Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issue Credentials → Revoke](../../how-you-implement-ies/issue-credentials.md#id-2.8-revoke).
 
 ### What the consumer can do with it
 
@@ -673,7 +673,7 @@ In every mode the signed JSON moves as-is (see [Step 5](#step-5-package-the-pdf-
 
 ## Phase 2 — Consumer Shares Credential with a Verifier
 
-Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential or Meter Digest from DigiLocker using the standard DigiLocker OAuth flow. See [Issue Credentials → Verify](../issue-credentials.md#id-2.7-verify) for the verifier-side implementation.
+Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential or Meter Digest from DigiLocker using the standard DigiLocker OAuth flow. See [Issue Credentials → Verify](../../how-you-implement-ies/issue-credentials.md#id-2.7-verify) for the verifier-side implementation.
 
 ---
 
