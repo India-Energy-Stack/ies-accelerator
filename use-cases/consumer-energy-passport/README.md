@@ -40,14 +40,14 @@ A typical issuance happens once at customer onboarding (and then is re-issued on
 | [Identifiers and Addressing](../../what-ies-provides/register.md) | DISCOM's `did:web`; consumer's wallet `did:key`; asset / meter / connection DIDs that appear inside the credential |
 | [Energy Credentials](../../what-ies-provides/energy-credentials/README.md) | The single home for signing, verifying, and revoking — including the [Consumer Energy Passport variant](../../what-ies-provides/energy-credentials/README.md#credential-variants) under "Credential variants" |
 | [Holder binding](../../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity) | Wallet-DID binding pattern; presentation-time challenge / VP proof |
-| [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md) | The bulk delivery channel for Indian consumers; for many use cases DigiLocker's Aadhaar pull also acts as the identity-binding step |
+| [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) | The bulk delivery channel for Indian consumers; for many use cases DigiLocker's Aadhaar pull also acts as the identity-binding step |
 
 ## Setup: Register → Discover → Exchange
 
 1. **Register** — set up the DISCOM `did:web` and run OpenCred → [Setup Register](../../how-you-implement-ies/setup-register.md); [Energy Credentials — Set up OpenCred](../../how-you-implement-ies/setup-register.md#id-1.2-generate-your-credential-signing-keypair).
 2. Decide your identity-proofing method (DigiLocker pull, offline-KYC XML, in-person KYC, record-match) and document it for privacy review — see [Identifiers — Identity-proofing at issuance](../../how-you-implement-ies/issue-credentials.md#before-you-bind-anything-identity-proofing-at-issuance).
 3. **Exchange** — issue the Passport via [Energy Credentials — Issue your first credential](../../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential), setting `credentialSubject.id` to the wallet DID and populating `customerProfile.idRef` with the government-ID reference.
-4. Deliver into the consumer's DigiLocker or wallet → [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md).
+4. Deliver into the consumer's DigiLocker or wallet → [DigiLocker delivery](../../how-you-implement-ies/digilocker.md).
 5. Wire revocation into the same flow you use for any v1.2 credential.
 
 ## Selective disclosure
@@ -67,7 +67,7 @@ Use-case-specific items on top of base credential issuance.
 
 **Step 2 — wallet delivery.**
 
-- [ ] DigiLocker Pull URI registered → [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md)
+- [ ] DigiLocker Pull URI registered → [DigiLocker delivery](../../how-you-implement-ies/digilocker.md)
 - [ ] Direct DID-push tested for one non-DigiLocker wallet (where relevant)
 - [ ] A freshly issued Passport reaches a wallet end-to-end
 
@@ -91,4 +91,4 @@ Use-case-specific items on top of base credential issuance.
 - [Overview — Consumer Energy Passport](../../use-cases-overview/consumer-energy-passport.md) — standards basis, definitions, full field schedule
 - [Energy Credentials — Credential variants](../../what-ies-provides/energy-credentials/README.md#credential-variants) — where the Passport variant is documented
 - [Identifiers — Holder binding patterns](../../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity)
-- [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md)
+- [DigiLocker delivery](../../how-you-implement-ies/digilocker.md)

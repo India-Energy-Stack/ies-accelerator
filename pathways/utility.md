@@ -181,16 +181,16 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 </details>
 
 <details>
-<summary><b>Step 3.2: Register with [DigiLocker](../what-ies-provides/energy-credentials/digilocker.md)</b></summary>
+<summary><b>Step 3.2: Register with [DigiLocker](../how-you-implement-ies/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
-> [API Setu](../what-ies-provides/energy-credentials/digilocker.md) compliance checks take time — start legal registration early in Phase 3 so gateways clear before your code is ready.
+> [API Setu](../how-you-implement-ies/digilocker.md) compliance checks take time — start legal registration early in Phase 3 so gateways clear before your code is ready.
 
 ### 📋 Prework Required
-* Secure authorization letters and corporate certificates from your legal department for [API Setu](../what-ies-provides/energy-credentials/digilocker.md) access.
+* Secure authorization letters and corporate certificates from your legal department for [API Setu](../how-you-implement-ies/digilocker.md) access.
 
 ### References & Anchors
-* [DigiLocker Integration Guide](../what-ies-provides/energy-credentials/digilocker.md)
+* [DigiLocker Integration Guide](../how-you-implement-ies/digilocker.md)
 * [Issuing Credentials Checklist](../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential)
 </details>
 
@@ -327,13 +327,13 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 </details>
 
 <details>
-<summary><b>Step 5.2: Link Bills to [DigiLocker](../what-ies-provides/energy-credentials/digilocker.md)</b></summary>
+<summary><b>Step 5.2: Link Bills to [DigiLocker](../how-you-implement-ies/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
 > Re-use your DigiLocker gateway — since you cleared API Setu in Step 3.2, adding the bill credential is a simple extension of your issuer record.
 
 ### References & Anchors
-* [DigiLocker Issuer Setup](../what-ies-provides/energy-credentials/digilocker.md)
+* [DigiLocker Issuer Setup](../how-you-implement-ies/digilocker.md)
 </details>
 
 ---

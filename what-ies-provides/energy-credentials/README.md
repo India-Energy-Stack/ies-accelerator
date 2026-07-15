@@ -61,7 +61,7 @@ Issued ─► Held / presented ─► Verified ─► (eventually) Revoked or ex
 |---|---|---|
 | **A DISCOM / issuer** (you sign and emit credentials) | [Setup Register §1.1–1.4](../../how-you-implement-ies/setup-register.md) → [Issue Credentials](../../how-you-implement-ies/issue-credentials.md) | [Credential variants](#credential-variants) below, [Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md) |
 | **An AMISP / MDM / aggregator** (you sign telemetry) | Same, issuing `MeterDataCredential` | [Smart Meter Data Exchange use case](../../use-cases/smart-meter-data-exchange/README.md) |
-| **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](digilocker.md) | [Issue Credentials — Holder binding](../../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity) for binding patterns |
+| **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) | [Issue Credentials — Holder binding](../../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity) for binding patterns |
 | **A verifier** (you receive and check credentials) | [Trust model](#trust-model) below | [Issue Credentials — Verify a credential you received](../../how-you-implement-ies/issue-credentials.md#verify-a-credential-you-received-the-verifiers-walkthrough) for the step-by-step |
 
 ---
@@ -112,7 +112,7 @@ Full patterns, presentation-time flows, and the adopter checklist: **[Issue Cred
 
 DigiLocker is the dominant consumer wallet in India. Once issued, an ElectricityCredential or MeterDataCredential can be delivered into a consumer's DigiLocker via a Pull URI, and any verifier reading from DigiLocker inherits DigiLocker's Aadhaar-mediated identity binding.
 
-Walkthrough (Pull URI shape, callback flow, signature pinning, common failure modes): **[DigiLocker delivery](digilocker.md)**.
+Walkthrough (Pull URI shape, callback flow, signature pinning, common failure modes): **[DigiLocker delivery](../../how-you-implement-ies/digilocker.md)**.
 
 ---
 
@@ -164,6 +164,6 @@ A **Decentralized Identifier (DID)** is a globally unique string that resolves t
 - [Register](../register.md) — DIDs, identifier patterns, DeDi, holder identifiers
 - [Issue Credentials](../../how-you-implement-ies/issue-credentials.md) — the operational walkthrough: run OpenCred, issue, verify, revoke
 - [Schemas](../../schemas/README.md) — canonical schema mirrors for ElectricityCredential, MeterData(Credential), MeterDataRequest(Credential)
-- [DigiLocker delivery](digilocker.md) — Pull URI, callback, signature pinning
+- [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) — Pull URI, callback, signature pinning
 - [Use cases — Consumer Energy Passport](../../use-cases/consumer-energy-passport/README.md), [Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md), [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md)
 - [OpenCred upstream documentation](https://opencred.gitbook.io/docs)
