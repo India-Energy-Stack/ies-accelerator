@@ -13,7 +13,7 @@ Once participants are [Registered](register.md) (Step 1), IES gives them two way
 | **What moves** | Structured datasets — meter telemetry, regulatory filings, tariff data, trade offers | Signed attestations — a consumer's connection record, a meter digest |
 | **Between whom** | Two **registered organisations** that know who they are transacting with | An issuer and **any third party** — a bank, a marketplace, a housing society — that the issuer has never met |
 | **Trust layer** | **Bilateral, anchored in DeDi.** Each side resolves the other's subscriber record, verifies its message signature, and checks that both belong to the same curated network. The network operator (NFO) maintains that membership boundary. | **Unilateral, anchored in `did:web`.** The issuer signs once; any verifier, anywhere, fetches the issuer's published key over HTTPS and checks the signature — no membership, no prior relationship, no callback to the issuer. |
-| **Channel** | Must ride a **trust-bounded open network** — IES uses [Beckn Protocol v2](https://becknprotocol.io) — because discovery, negotiation, consent and the signed audit trail are part of the exchange itself | **Any channel** — DigiLocker, a web portal, email, SMS, chat. The trust travels inside the credential, not the pipe. |
+| **Channel** | Must ride a **trust-bounded open network** — IES uses [Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2) — because discovery, negotiation, consent and the signed audit trail are part of the exchange itself | **Any channel** — DigiLocker, a web portal, email, SMS, chat. The trust travels inside the credential, not the pipe. |
 | **Typical use cases** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md), [Regulatory Filing](../use-cases/discom-regulatory-filing/README.md), [P2P Trading](../use-cases/p2p-energy-trading/README.md) | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md), [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) |
 
 The rest of this page covers the B2B rail — the Beckn interaction and the Taxonomy that both rails share. The credential rail's concepts (lifecycle, variants, trust model) are in **[Energy Credentials](../how-you-implement-ies/energy-credentials/README.md)**.
@@ -54,56 +54,13 @@ IES currently operates three Beckn networks (each with a `test-` twin for onboar
 
 ## Exchange — the Taxonomy
 
-Whichever rail data moves on, it uses agreed field names and structure:
-
-| Part | Purpose | IES choice |
-|---|---|---|
-| **[Taxonomy](../schemas/README.md)** | The master vocabulary of IES — every domain object, what it is for, which use cases combine it, how it evolves and how new ones are proposed. The shape of each object is described by its **schema**: field names, types, units, optionality — one canonical schema per object. | IES-published JSON Schema + JSON-LD context, built on public standards |
-| **Verifiable Credentials** | Where the use case needs a durable record — a Passport, a Digest — a W3C Verifiable Credential is issued that the holder keeps in DigiLocker or any wallet. | W3C VC Data Model 2.0; W3C DID Core |
+Whichever rail data moves on, it uses agreed field names and structure. IES calls that vocabulary the **[Taxonomy](taxonomy.md)** — every domain object, what it is for, which use cases combine it, how it evolves, and how to propose a new one. The shape of each object is one canonical **schema** (field names, types, units, optionality), published as JSON Schema + a JSON-LD context.
 
 **IES does not write new standards.** It picks the right open standard for each domain — DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response, CIM for grid models — and publishes a faithful schema on top. A schema is valid whether or not the payload ever travels over Beckn: the same `MeterData` object can ride a Beckn `on_confirm`, sit inside a signed `MeterDataCredential`, or be validated standalone.
 
-### Schemas grouped by use case
+Some objects are plain data payloads (they ride the Beckn wire); others are **W3C Verifiable Credentials** — durable, holder-bound records the consumer keeps independently of IES. One credential, `MeterDataRequestCredential`, is the exception that rides *inside* a Beckn message (a seeker's proof-of-right-to-ask). For the concept and trust model of credentials see **[Energy Credentials](../how-you-implement-ies/energy-credentials/README.md)**; to issue them, **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
 
-The same set of schemas combines in different ways to deliver each use case.
-
-**Pilot use cases (live):**
-
-| Use case | Schemas combined |
-|---|---|
-| [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (holder-bound) |
-| [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) wrapping [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6); often paired with the consumer's [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) |
-| [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) + [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) + optionally [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) |
-| [DER Visibility](../use-cases/der-visibility/README.md) | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) building blocks (PII-free `energyResources[]` + `consumptionProfiles[]` arrays per feeder) |
-
-**Live or staged:**
-
-| Use case | Schemas combined |
-|---|---|
-| [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) over Beckn |
-| [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | `IES_Policy` family (upstream; in progress) |
-
-**In progress:**
-
-| Use case | Schemas combined |
-|---|---|
-| [P2P Energy Trading](../use-cases/p2p-energy-trading/README.md) | DEG `P2PTrade` family — [P2PTrade, DEGContract, EnergyTradeOffer, EnergyCustomer, RevenueFlow, BecknTimeSeries](../schemas/external/README.md#energy-trading-p2p) |
-
-> **OutageNotification** (schema published, [v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)) and the **DEG demand-flex family** (`DemandFlexNeed`, `DemandFlexBuyOffer`, `DemandFlexPerformance` — see [external schemas](../schemas/external/README.md#demand-flexibility)) are published schemas without an IES use-case guide yet.
-
-The wire envelope accepts any JSON payload; validation is opt-in per object, driven by the payload's own `@context` / `@type` declaration. The families above are the ones IES ships pre-built and validated.
-
-### Verifiable credentials on the Exchange step
-
-A subset of Exchange payloads are issued as W3C Verifiable Credentials — durable, holder-bound records the consumer or another stakeholder keeps independently of IES:
-
-| Credential | What it carries |
-|---|---|
-| [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) | Static facts of a consumer's connection — sanctioned load, tariff, assets behind the meter |
-| [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) | A signed envelope around a MeterData payload — the consumer's own readings for a window |
-| [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) | A signed proof-of-right-to-ask that a seeker presents to a meter-data provider — the one credential that rides *inside* a Beckn message |
-
-Concepts, variants, and the trust model: **[Energy Credentials](../how-you-implement-ies/energy-credentials/README.md)**. Issue / verify / revoke operations: **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
+**Don't hand-map schemas to use cases here** — that lives in one place: the [Taxonomy schema map](taxonomy.md#schema-map) (which schema, which use cases, current version) and the plain-language **[Schemas Overview](schemas-overview/README.md)** pages (the *why* before the field-level reference). The wire envelope itself accepts any JSON payload; validation is opt-in per object, driven by the payload's own `@context` / `@type` declaration.
 
 ---
 

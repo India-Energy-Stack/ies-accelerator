@@ -20,15 +20,15 @@
     "statusListCredential": "https://dedi.global/dedi/lookup/did:web:amisp-discom.example/vc-revocation-registry"
   },
   "credentialSubject": {
-    "id": "did:dedi:discom:consumers:RR-1234",
+    "id": "did:web:discom.example:consumers:RR-1234",
     "meterData": {
       "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
       "@type": "CustomerProfile",
       "profileType": "CUSTOMER",
-      "customerRefs": [{"scheme": "DID", "value": "did:dedi:discom:consumers:RR-1234"}],
+      "customerRefs": [{"scheme": "DID", "value": "did:web:discom.example:consumers:RR-1234"}],
       "timeZone": "Asia/Kolkata",
       "customer": {
-        "id": {"scheme": "DID", "value": "did:dedi:discom:consumers:RR-1234"},
+        "id": {"scheme": "DID", "value": "did:web:discom.example:consumers:RR-1234"},
         "name": "Acme Industries Pvt Ltd",
         "consumerCategory": "NDS",
         "sanctionedLoadKw": 15.0,
@@ -40,13 +40,13 @@
         "sanctionedExportLoadKw": 5.0
       },
       "serviceDeliveryPoints": [
-        {"id": {"scheme": "DID", "value": "did:dedi:discom:connections:SDP-BLR-A-12345"}, "address": {"streetAddress": "12 MG Road", "addressLocality": "Bengaluru", "postalCode": "560001", "addressCountry": "IN"}, "geo": {"type": "Point", "coordinates": [77.6064, 12.9759]}}
+        {"id": {"scheme": "DID", "value": "did:web:discom.example:connections:SDP-BLR-A-12345"}, "address": {"streetAddress": "12 MG Road", "addressLocality": "Bengaluru", "postalCode": "560001", "addressCountry": "IN"}, "geo": {"type": "Point", "coordinates": [77.6064, 12.9759]}}
       ],
       "meters": [
-        {"id": {"scheme": "DID", "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321"}, "make": "Genus", "model": "SM-3PH-4W-WC", "meterType": "AMI", "meterCategory": "B", "serviceKind": "ELECTRICITY"}
+        {"id": {"scheme": "DID", "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321"}, "make": "Genus", "model": "SM-3PH-4W-WC", "meterType": "AMI", "meterCategory": "B", "serviceKind": "ELECTRICITY"}
       ],
       "associations": [
-        {"serviceDeliveryPointRefs": [{"scheme": "DID", "value": "did:dedi:discom:connections:SDP-BLR-A-12345"}], "meterRefs": [{"scheme": "DID", "value": "did:dedi:discom:assets:meter:DISCOM-SM-2025-654321"}], "parentResources": [{"scheme": "DID", "value": "did:dedi:discom:assets:feeder:IN-KA-BLR-ZONE-A"}], "commissioningDate": "2023-06-01T00:00:00+05:30"}
+        {"serviceDeliveryPointRefs": [{"scheme": "DID", "value": "did:web:discom.example:connections:SDP-BLR-A-12345"}], "meterRefs": [{"scheme": "DID", "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321"}], "parentResources": [{"scheme": "DID", "value": "did:web:discom.example:assets:feeder:IN-KA-BLR-ZONE-A"}], "commissioningDate": "2023-06-01T00:00:00+05:30"}
       ]
     }
   },

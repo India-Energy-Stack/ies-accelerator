@@ -6,8 +6,9 @@ The specifications — a broad view of the technology stack, organised by the th
 |---|---|
 | **[What IES Is](../concepts/what-ies-is.md)** | The intro, on one page. Problem, UPI analogy, how it works, what IES is not, sector impact, pilots, common questions. |
 | **[Register](register.md)** | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi) — the two identities a participant sets up, identifier patterns, and the registries IES uses. |
-| **[Discover+Exchange](discover-exchange.md)** | How data moves once participants are registered: Beckn-protocol interaction for B2B data exchange, the Taxonomy, and where verifiable credentials fit. |
-| **[Taxonomy](../schemas/README.md)** | The master vocabulary of IES — every domain object, its plain-language overview, and the schema that describes its shape. Standards precedence, versioning, how to propose a new object. *Its own chapter near the end of this book.* |
+| **[Discover+Exchange](discover-exchange.md)** | How data moves once participants are registered: Beckn-protocol interaction for B2B data exchange, and where B2C verifiable credentials fit. |
+| **[Schemas Overview](schemas-overview/README.md)** | One plain-language page per schema family — what it is, who issues it, which standards it follows — the *why* before the field-level reference. |
+| **[Taxonomy](taxonomy.md)** | The master vocabulary: the schema map (which schema for which use case), standards precedence, versioning, and how to propose a new object. The field-by-field reference is the [Taxonomy chapter](../schemas/README.md) near the end of the book. |
 
 ---
 

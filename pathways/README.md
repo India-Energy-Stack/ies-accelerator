@@ -1,14 +1,14 @@
 # IES Pathways
 
-**India Energy Stack (IES) Pathways** provide structured, step-by-step onboarding and integration roadmaps designed for specific energy sector participants — including **utilities**, **regulators**, **AMISPs**, and **third-party service providers** — to systematically adopt IES capabilities.
+**India Energy Stack (IES) Pathways** are step-by-step onboarding and integration roadmaps for specific energy sector participants — **utilities**, **regulators**, **AMISPs**, and **third-party service providers** — to adopt IES capabilities.
 
 ---
 
 ## Why Pathways?
 
-The India Energy Stack introduces a rich collection of standards (DIDs, DeDi Registries, W3C Verifiable Credentials, Beckn Protocols). Adopting these capabilities involves coordination across multiple internal IT, commercial, and operational divisions.
+IES introduces a rich set of standards (DIDs, DeDi Registries, W3C Verifiable Credentials, Beckn Protocols) that require coordination across IT, commercial, and operational divisions.
 
-Rather than diving into raw technical standards, a **Pathway** organizes these tasks into a logical sequence, aligning high-level business goals with engineering requirements.
+A **Pathway** sequences these tasks logically, aligning business goals with engineering requirements — rather than leaving you to parse raw technical standards.
 
 ---
 
@@ -28,8 +28,8 @@ Currently, the following pathways are available:
 
 ## How to Use the Pathways
 
-Each pathway is divided into operational phases (e.g., *Preparation*, *Getting Started*, *Energy Passport*, etc.). 
+Each pathway is divided into operational phases (e.g., *Preparation*, *Getting Started*, *Energy Passport*, etc.).
 
-* **Collapsible Sections**: Technical and operational details are housed inside collapsible panels (`<details>`) so you can scan the high-level roadmap or dive deep into implementation specifics as needed.
+* **Collapsible Sections**: Technical details sit in collapsible panels (`<details>`) — scan the high-level roadmap or dive into implementation specifics as needed.
 * **Checks and Prerequisites**: Use the inline checklists to assign tasks to your IT, Commercial, and Legal teams.
-* **Documentation Links**: Under each step, direct links to the relevant reference specifications, registries, and deployment guides are provided.
+* **Documentation Links**: Each step links directly to the relevant reference specifications, registries, and deployment guides.

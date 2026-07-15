@@ -145,7 +145,13 @@ DeDi is the public registry mechanism IES uses for namespaces, credential revoca
 3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours). Once verification completes, a green **verified** label appears on your namespace in [publish.dedi.global](https://publish.dedi.global), and the namespace becomes publicly visible on [explore.dedi.global](https://explore.dedi.global) — only verified namespaces are listed there, so appearing in explore results is itself the public verification signal.
 4. **Create an API key** — in the DeDi UI, click your avatar in the top-right corner, then **Manage API key**. Tools that write into your namespace (OpenCred for revocation entries, your registry publisher) authenticate with this key. Store it alongside your other secrets.
 
-You create the empty namespace here; you do **not** create the registries inside it by hand. When you run OpenCred in [Issue Credentials](issue-credentials.md), it auto-creates the four registries credential issuance needs on first boot — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`. Beckn participants additionally create a subscriber registry by hand (§1.6). DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**; the IES-specific registry map is in **[Register — The directory: DeDi](../what-ies-provides/register.md#the-directory-dedi)**.
+You create the empty namespace here. What goes inside it depends on your role:
+
+- **For credential issuance**, you do **not** need to create the registries by hand — when you run OpenCred in [Issue Credentials](issue-credentials.md), it auto-creates the four it needs on first boot (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`).
+- **As a participant on a Beckn network**, you create **subscriber registries** by hand (§1.6) — one record per role/environment declaring your callback URL and message-signing key.
+- **As a network operator (NFO)**, you create a **directory of participants** — a Beckn *subscriber-reference* registry (§1.8) that curates which subscribers belong to your network.
+
+DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**; the IES-specific registry map is in **[Register — The directory: DeDi](../what-ies-provides/register.md#the-directory-dedi)**.
 
 > **Checkpoint — issuing credentials only?** You are done with registration. Continue to **[Issue Credentials](issue-credentials.md)**, which runs the OpenCred signing container against the domain, key, namespace and API key you just set up (and auto-creates those four registries). The remaining sections of this page are for Beckn-network participants.
 
@@ -187,24 +193,24 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
 
    | Field | What to fill | Example |
    |---|---|---|
-   | `subscriber_id` | Your unique identifier, typically your domain | `ies.discom.example` |
+   | `subscriber_id` | Your **`did:web`** — the same org identity you published in §1.3. Using the DID (not a bare hostname) keeps your Beckn identity and your credential identity the same string. | `did:web:ies.discom.example` |
    | `subscriber_url` | Your Beckn ONIX receiver endpoint | `https://ies.discom.example/bpp/beckn` |
    | `type` | Your role on the network | `BAP` (consumer) or `BPP` (provider) |
    | `signing_public_key` | The Ed25519 public key from §1.5, Base64, no header/footer | `eyAeqGFtAuks...` |
    | `encryption_public_key` | *(Optional)* encryption public key | `lCI84I0Q0U0w...` |
    | `countries` | Countries where you operate | `["IND"]` |
 
-   If you operate in both roles (BAP *and* BPP), publish a separate record per role.
+   If you operate in both roles (BAP *and* BPP), publish a separate record per role. That `did:web` `subscriber_id` is what you set as `networkParticipant` in your ONIX config ([Setup Discovery+Exchange §3.3](setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity)).
 
 3. **Note the record ID** DeDi assigns — you will configure it into ONIX as the `keyId` in [Setup Discovery+Exchange §3.3](setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity).
 
-4. **Verify the lookup.** Other nodes resolve your record through the Beckn fabric lookup URL. Substitute `<your_subscriber_id>` (your namespace from §1.4) and `<your_record_id>` (from step 3); `subscribers.beckn.one` is the fixed fabric schema keyword — leave it literal, it is not your registry name. Allow 5–10 minutes for the cache, then:
+4. **Verify the lookup.** Other nodes resolve your record through the Beckn fabric lookup URL. Substitute `<your-namespace>` (the DeDi namespace from §1.4 — the path is addressed by namespace, not by the `did:web` value of the `subscriber_id` field) and `<your_record_id>` (from step 3); `subscribers.beckn.one` is the fixed fabric schema keyword — leave it literal, it is not your registry name. Allow 5–10 minutes for the cache, then:
 
    ```bash
-   curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your_subscriber_id>/subscribers.beckn.one/<your_record_id>" | jq
+   curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-namespace>/subscribers.beckn.one/<your_record_id>" | jq
    ```
 
-   Expected: the record you just published, including your `signing_public_key`.
+   Expected: the record you just published, including your `signing_public_key`. At this point `network_memberships` is empty — the NFO fills it in §1.7.
 
 ---
 
@@ -234,6 +240,14 @@ The networks you can apply to:
 - A point of contact (name, email, phone).
 
 Before approving, the Secretariat validates that your namespace is domain-verified, your callback URL is reachable, your signing public key is present and valid, and your declared role matches the network's expectations. Once the reference entry is written, your record is queryable as in-network by every counterparty — no separate bilateral handshake.
+
+**Confirm the reference landed.** Re-run the same lookup from §1.6 and check the `network_memberships` array — it should now list the network(s) you were added to:
+
+```bash
+curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-namespace>/subscribers.beckn.one/<your_record_id>" | jq '.data.network_memberships'
+```
+
+Expected: the parent network IDs appear, e.g. `["indiaenergystack.in/test-ies-data-sharing-network"]`. Empty or missing means the NFO hasn't written the reference yet (or wrote it against a different record) — this is exactly the value your ONIX checks against `allowedNetworkIDs` in [Setup Discovery+Exchange §3.3](setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity).
 
 Membership in the test network does **not** imply membership in prod; each is referenced separately.
 

@@ -10,19 +10,19 @@ This page gives you a five-minute orientation to IES before you dive into either
 
 ## What is the India Energy Stack?
 
-IES is an **open protocol and governance layer** for India's energy sector. It does not operate data — it defines the standards and interaction patterns that let diverse organisations share data and trust each other's claims.
+IES is an **open protocol and governance layer** for India's energy sector: it doesn't operate data, but defines the standards and interaction patterns that let diverse organisations share data and trust each other's claims.
 
-Everything in IES follows the same three steps — **[Register](what-ies-provides/register.md) → [Discover](what-ies-provides/discover-exchange.md) → [Exchange](what-ies-provides/discover-exchange.md)**. Four detail chapters under [What IES Provides](what-ies-provides/README.md) carry the developer-facing specifics: **Identifiers** and **Registries** (the foundations, under Register) and **Energy Credentials** and **Data Exchange** (the capabilities, under Exchange, with the Beckn lifecycle under Discover).
+Everything in IES follows the same three steps — **[Register](what-ies-provides/register.md) → Discover → Exchange**. Under [What IES Provides](what-ies-provides/README.md), two chapters carry the developer specifics: **[Register](what-ies-provides/register.md)** (identity + directory foundations) and **[Discover+Exchange](what-ies-provides/discover-exchange.md)** (the two capabilities — B2B data exchange over Beckn, and B2C energy credentials). The four capsules below orient you before you dive in.
 
 ### Identifiers and Addressing
 
-The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document, and dataset on the network — `did:web` for institutions and their assets, `did:key` / `did:jwk` for consumer wallets. All three are standard W3C DID methods; DeDi acts as a key-discovery layer for `did:web`, not as a separate method. Internal numbering (consumer numbers, asset SAP codes) is preserved and wrapped, never replaced.
+The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document, and dataset on the network — `did:web` for institutions, `did:key` / `did:jwk` for consumer wallets. All three are standard W3C DID methods; DeDi is a key-discovery layer for `did:web`, not a separate method. Internal numbering (consumer numbers, asset SAP codes) is preserved and wrapped, never replaced.
 
 **Who should use this:** Every participant — this is the addressing layer below everything else.
 
 ### Registries and Directories
 
-[DeDi](glossary.md#dedi)-based public registries that resolve identifiers to records and act as the trust layer for credentials and [Beckn](glossary.md#beckn). Covers the IES reference registries ([DISCOMs](glossary.md#discom), regulators, network), the per-participant registries you need to operate (Beckn subscriber, revocation, public-keys), and the step-by-step process for creating them.
+[DeDi](glossary.md#dedi)-based public registries that resolve identifiers to records and act as the trust layer for credentials and [Beckn](glossary.md#beckn). Covers the IES reference registries ([DISCOMs](glossary.md#discom), regulators, network), the per-participant registries you operate (Beckn subscriber, revocation, public-keys), and how to create them.
 
 **Who should use this:** Every participant onboarding to IES. Start here with [Setup Register](how-you-implement-ies/setup-register.md).
 
@@ -30,7 +30,7 @@ The [DID](glossary.md#did) grammar IES uses to name every actor, asset, document
 
 A framework for issuing, holding, and verifying **digital attestations** about energy assets and consumers, built on [W3C Verifiable Credentials](glossary.md#verifiable-credential-vc) and [DigiLocker](glossary.md#digilocker). Credential flows stand on their own — they do not require a [Beckn](glossary.md#beckn) network. Consumer-facing delivery happens over DigiLocker, a web portal, or any channel the issuer already runs; the Beckn network is what IES recommends for **B2B data exchange** (the next capability below).
 
-> **v1 scope.** DISCOMs are the sole **issuer**; consumers (or authorized actors on their behalf) are the **holder**; third parties **verify** or **receive** credentials depending on the use case. Other issuer roles (SERCs, DER OEMs, government bodies) are architecturally supported but out of scope for v1.
+> **v1 scope.** DISCOMs are the sole **issuer**; consumers (or authorized actors) are the **holder**; third parties **verify** or **receive** credentials depending on use case. Other issuer roles (SERCs, DER OEMs, government bodies) are supported architecturally but out of scope for v1.
 
 In v1, energy credentials enable:
 
@@ -42,7 +42,7 @@ In v1, energy credentials enable:
 
 ### Data Exchange
 
-A federated, policy-governed mechanism for discovering and exchanging structured energy datasets. Beckn always carries the **control plane** — discovery, offer, consent, contract, audit. The **payload** has two equally valid modes: it can ride **inline in the Beckn callback** when the dataset is small and a single signed message is the simplest workflow, or — for bulky / streaming / already-channelised data — Beckn hands off an **access method** (signed URL / SFTP / REST / [MQTT](glossary.md#mqtt) / Kafka / [OpenADR](glossary.md#openadr) / [XBRL](glossary.md#xbrl) artifact / [Akoma Ntoso](glossary.md#akoma-ntoso) document) that the consumer uses to pull or subscribe over the established channel. Covers:
+A federated, policy-governed mechanism for discovering and exchanging structured energy datasets. Beckn always carries the **control plane** — discovery, offer, consent, contract, audit. The **payload** has two modes: it can ride **inline in the Beckn callback** for small datasets where a single signed message is simplest, or — for bulky / streaming / already-channelised data — Beckn hands off an **access method** (signed URL / SFTP / REST / [MQTT](glossary.md#mqtt) / Kafka / [OpenADR](glossary.md#openadr) / [XBRL](glossary.md#xbrl) artifact / [Akoma Ntoso](glossary.md#akoma-ntoso) document) that the consumer uses to pull or subscribe over that channel. Covers:
 
 - Smart meter telemetry — typically [DLMS-COSEM / IS 15959](glossary.md#dlms-cosem) at the field layer, [IEC 61968](glossary.md#iec-61968) / [CIM](glossary.md#cim) / [MultiSpeak](glossary.md#multispeak) between [HES](glossary.md#hes) and [MDM](glossary.md#mdms)
 - Regulatory filings — [ARR](glossary.md#arr) submissions, tariff orders
@@ -70,7 +70,7 @@ A federated, policy-governed mechanism for discovering and exchanging structured
 
 ## Key Terminology
 
-A complete, plain-language glossary lives at **[Glossary](glossary.md)** (also in the left nav). It covers identity ([DID](glossary.md#did), [DeDi](glossary.md#dedi), [VC](glossary.md#verifiable-credential-vc)), Beckn ([BAP](glossary.md#bap), [BPP](glossary.md#bpp), [ONIX](glossary.md#onix), [ERA](glossary.md#era)), India energy sector ([DISCOM](glossary.md#discom), [AMISP](glossary.md#amisp), [SERC](glossary.md#serc), [ARR](glossary.md#arr), [MYT](glossary.md#myt), [HT/LT](glossary.md#ht-lt), [ToD](glossary.md#tod), [RDSS](glossary.md#rdss), [HES](glossary.md#hes), [MDMS](glossary.md#mdms)), and standards ([CIM](glossary.md#cim), [IEC 61968](glossary.md#iec-61968), [DLMS-COSEM](glossary.md#dlms-cosem), [MultiSpeak](glossary.md#multispeak), [OpenADR](glossary.md#openadr), [XBRL](glossary.md#xbrl), [Akoma Ntoso](glossary.md#akoma-ntoso), [DCAT 3](glossary.md#dcat-3), [MQTT](glossary.md#mqtt)).
+A complete, plain-language glossary lives at **[Glossary](glossary.md)** (also in the left nav), covering identity ([DID](glossary.md#did), [DeDi](glossary.md#dedi), [VC](glossary.md#verifiable-credential-vc)), Beckn ([BAP](glossary.md#bap), [BPP](glossary.md#bpp), [ONIX](glossary.md#onix), [ERA](glossary.md#era)), India energy sector ([DISCOM](glossary.md#discom), [AMISP](glossary.md#amisp), [SERC](glossary.md#serc), [ARR](glossary.md#arr), [MYT](glossary.md#myt), [HT/LT](glossary.md#ht-lt), [ToD](glossary.md#tod), [RDSS](glossary.md#rdss), [HES](glossary.md#hes), [MDMS](glossary.md#mdms)), and standards ([CIM](glossary.md#cim), [IEC 61968](glossary.md#iec-61968), [DLMS-COSEM](glossary.md#dlms-cosem), [MultiSpeak](glossary.md#multispeak), [OpenADR](glossary.md#openadr), [XBRL](glossary.md#xbrl), [Akoma Ntoso](glossary.md#akoma-ntoso), [DCAT 3](glossary.md#dcat-3), [MQTT](glossary.md#mqtt)).
 
 ---
 

@@ -17,7 +17,7 @@ Every IES interaction follows the same three steps. They are the **spine of this
 | Step | What it does | Example standard |
 |---|---|---|
 | **[1. Register](what-ies-provides/register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. *Done once.* | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
-| **[2. Discover](what-ies-provides/discover-exchange.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://becknprotocol.io) |
+| **[2. Discover](what-ies-provides/discover-exchange.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) |
 | **[3. Exchange](what-ies-provides/discover-exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
 
 IES picks the right open standard for each step and publishes a specification on top. **IES does not write new standards.** Build to the IES specs once, and a system can connect to any other IES-ready system without fresh integration work.
@@ -90,7 +90,7 @@ For the longer answer, read **[What IES Is](concepts/what-ies-is.md)**.
 | Standard | Role in IES |
 |---|---|
 | [W3C Decentralized Identifiers (DIDs)](https://www.w3.org/TR/did-core/) | The **Register** layer — cryptographic identity for issuers, holders, verifiers, assets and datasets |
-| [Beckn Protocol v2.0](https://becknprotocol.io) | The **Discover** layer — peer-to-peer discovery, contracting, consent, audit |
+| [Beckn Protocol v2.0](https://github.com/beckn/protocol-specifications-v2) | The **Discover** layer — peer-to-peer discovery, contracting, consent, audit |
 | [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/) | The durable-record half of **Exchange** — signed, machine-verifiable credentials |
 | [DLMS-COSEM / IS 15959](https://en.wikipedia.org/wiki/IEC_62056) | The meter-data half of **Exchange** — smart-meter wire protocol used in RDSS AMI deployments |
 | [IEC 61968 / CIM / MultiSpeak](https://en.wikipedia.org/wiki/IEC_61968) | The asset-data-model half of **Exchange** — HES↔MDMS interoperability standards |

@@ -2,8 +2,8 @@
     "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/context.jsonld",
     "@type": "MeterDataRequest",
     "resources": [
-        "did:dedi:ies:meter:IN-MH-MTR-89721",
-        "did:dedi:ies:meter:IN-MH-MTR-89722"
+        "did:web:ies.discom.example:meter:IN-MH-MTR-89721",
+        "did:web:ies.discom.example:meter:IN-MH-MTR-89722"
     ],
     "scope": "ResourceAndChildren",
     "from": "2026-05-18T00:00:00Z",

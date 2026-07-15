@@ -96,6 +96,7 @@ Internal numbering — CIS account numbers, meter SLNOs, SAP codes — is preser
 | Your organisation (issuer) | `did:web:<domain>` | `did:web:ies.discom.example` |
 | A regulator | `did:web:<their-domain>` | `did:web:ies.serc.example` |
 | A consumer (holder, optional) | `did:key:…` (wallet-generated) or `tel:+91…` ([RFC 3966](https://datatracker.ietf.org/doc/html/rfc3966)) | `did:key:z6MkjVQ8r4f3rPuY…` |
+| A consumer (DISCOM-assigned stable DID, when no wallet) | `did:web:<domain>:consumers:<consumer-number>` | `did:web:ies.discom.example:consumers:DISCOM-2025-00987654` |
 | The consumer's CIS account number | Plain string, kept verbatim in the credential | `DISCOM-2025-00987654` |
 | Meter | `did:web:<domain>:assets:meter:<slno>` | `did:web:ies.discom.example:assets:meter:MET-IMPORT-001` |
 | Other asset (transformer, feeder, substation, solar-plant, wind-farm, bess, ev-charger) | `did:web:<domain>:assets:<class>:<id>` (kebab-case class) | `did:web:ies.discom.example:assets:feeder:FDR-11KV-NDL-072` |

@@ -97,6 +97,26 @@ def main():
             ("what-ies-provides/discover-exchange.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the Taxonomy, schemas by use case."),
             ("how-you-implement-ies/setup-discovery-exchange.md", "Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.")
         ],
+        "schemas_overview": [
+            ("what-ies-provides/schemas-overview/README.md", "Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level Taxonomy reference."),
+            ("what-ies-provides/schemas-overview/electricity-credential.md", "ElectricityCredential — plain-language overview."),
+            ("what-ies-provides/schemas-overview/meter-data.md", "MeterData — plain-language overview."),
+            ("what-ies-provides/schemas-overview/meter-data-credential.md", "MeterDataCredential — plain-language overview."),
+            ("what-ies-provides/schemas-overview/meter-data-request.md", "MeterDataRequest — plain-language overview."),
+            ("what-ies-provides/schemas-overview/meter-data-request-credential.md", "MeterDataRequestCredential — plain-language overview."),
+            ("what-ies-provides/schemas-overview/arr-filing.md", "ArrFiling — plain-language overview."),
+            ("what-ies-provides/schemas-overview/outage-notification.md", "OutageNotification — plain-language overview."),
+            ("what-ies-provides/taxonomy.md", "Taxonomy overview — how IES domain objects relate, standards precedence, and how to propose a new object; points at the field-level schemas chapter.")
+        ],
+        "usecases_overview": [
+            ("use-cases-overview/README.md", "Shallow overviews of each IES use case — the business outcome and which schemas/rails it combines, before the implementation guide."),
+            ("use-cases-overview/consumer-energy-passport.md", "Consumer Energy Passport — overview."),
+            ("use-cases-overview/consumer-meter-digest.md", "Consumer Meter Digest — overview."),
+            ("use-cases-overview/smart-meter-data-exchange.md", "Smart Meter Data Exchange — overview."),
+            ("use-cases-overview/der-visibility.md", "DER Visibility — overview."),
+            ("use-cases-overview/discom-regulatory-filing.md", "DISCOM Regulatory Filing — overview."),
+            ("use-cases-overview/tariff-intelligence.md", "Tariff Intelligence — overview.")
+        ],
         "schemas": [
             ("schemas/README.md", "Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
             ("schemas/ElectricityCredential/README.md", "ElectricityCredential family page — version history, inheritance, and usage."),
@@ -188,7 +208,18 @@ This block governs data discovery, consent, and the transfer of telemetry and re
     content += """
 ---
 
-## 🗃️ 4. Schemas
+## 🗃️ 4. Schemas Overview & Taxonomy
+
+Plain-language overviews of each schema family and how the taxonomy fits together — the shallow layer above the field-level reference.
+
+"""
+    for rel_path, summary in sections["schemas_overview"]:
+        content += generate_file_entry(root_dir, rel_path, summary)
+
+    content += """
+---
+
+## 📚 5. Schemas (field reference)
 
 Each family page opens with a concise plain-language overview; version pages carry the auto-generated field reference.
 
@@ -199,7 +230,18 @@ Each family page opens with a concise plain-language overview; version pages car
     content += """
 ---
 
-## 🎯 5. Use Cases
+## 🧭 6. Use Case Overviews
+
+Shallow, business-outcome overviews of each use case — what it delivers and which schemas/rails it combines.
+
+"""
+    for rel_path, summary in sections["usecases_overview"]:
+        content += generate_file_entry(root_dir, rel_path, summary)
+
+    content += """
+---
+
+## 🎯 7. Use Case Implementation Guides
 
 Practical deployment and mapping implementations for specific grid business processes.
 
@@ -210,7 +252,7 @@ Practical deployment and mapping implementations for specific grid business proc
     content += """
 ---
 
-## 🗺️ 6. Operational Pathways (Roadmaps)
+## 🗺️ 8. Operational Pathways (Roadmaps)
 
 Step-by-step project-management pathways for onboarding and network operations.
 

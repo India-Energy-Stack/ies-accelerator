@@ -452,6 +452,22 @@ For consumers who already use DigiLocker, the identity binding is largely solved
 
 In this case you may issue the credential without a `credentialSubject.id` (bearer style) and document DigiLocker as the binding channel, **or** set `credentialSubject.id` to the consumer's DigiLocker-resident `did:key` if their wallet exposes one. The first is simpler; the second future-proofs the credential for re-presentation outside DigiLocker. Delivery mechanics: [DigiLocker delivery](energy-credentials/digilocker.md).
 
+### Pattern 4 — DISCOM-assigned consumer DID (stable subject reference)
+
+When the consumer has no wallet and you still want a **stable, resolvable subject identifier** on the Passport, mint one under your own domain from the consumer number:
+
+```json
+"credentialSubject": {
+  "id": "did:web:ies.discom.example:consumers:DISCOM-2025-00987654",
+  "customerProfile": { "customerNumber": "DISCOM-2025-00987654", ... },
+  "customerDetails": { ... }
+}
+```
+
+This is the same `did:web` path grammar used for assets and connections ([Register — Identifier patterns](../what-ies-provides/register.md#identifier-patterns)), scoped to `consumers:<consumer-number>`. Its value: every credential you issue for that consumer carries the **same subject id**, so a verifier (or the consumer's own history) can correlate the Passport, a Meter Digest, and a re-issued Passport as being about one subject — without exposing a wallet key or a phone number.
+
+**What it does and doesn't give you.** The DID resolves under *your* domain, so it is a stable name you control — not proof the *presenter* controls it. It does **not** replace holder proof-of-control: for presentation-time proof, layer Pattern 1 (a wallet `did:key` the consumer signs a VP with) or Pattern 2 (phone OTP) on top, or deliver via DigiLocker (Pattern 3). Use Pattern 4 as the default subject id for bearer/counter-issued Passports and DigiLocker-delivered Passports where the channel supplies the identity binding and you still want a durable, correlatable subject reference. It carries no PII — the consumer number is already inside `customerProfile.customerNumber`.
+
 ### Where does the contact identifier live in the schema?
 
 The `customerDetails` block in [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (which references the shared [`CustomerDetails/v1.0`](https://schema.beckn.io/CustomerDetails/v1.0) shape) currently carries **`fullName`, `installationAddress`, and `serviceConnectionDate`** — there is **no telephone field**. So if you choose Pattern 2 today, the `tel:` URI lives in `credentialSubject.id`, not in `customerDetails`. If a future schema revision adds a `telephone` field, the canonical URI form there should be `tel:+<E.164>` so that the two locations agree.
@@ -463,9 +479,10 @@ The `customerDetails` block in [ElectricityCredential v1.2](https://india-energy
 | Has a digital wallet (DID-capable) | **Pattern 1** — wallet DID | `did:key:z6Mkj...` |
 | Has only a phone number on record | **Pattern 2** — `tel:` URI | `tel:+919876543210` |
 | Uses DigiLocker, no separate wallet | **Pattern 3** — DigiLocker-mediated | *Omit, or use DigiLocker's `did:key` if exposed* |
+| No wallet, but you want a stable correlatable subject | **Pattern 4** — DISCOM-assigned DID | `did:web:ies.discom.example:consumers:DISCOM-2025-00987654` |
 | Paper / counter issuance, presented in person | None — bearer | *Omit* |
 
-Patterns are not exclusive. You can issue two credentials carrying the same `customerProfile.customerNumber` — one bound to a wallet DID for digital presentation, one bound to a phone URI for SMS-based flows. They share the same revocation handle, so revoking one does the right thing operationally.
+Patterns are not exclusive, and Pattern 4 composes with the others: a Passport can carry a `did:web:...:consumers:...` subject id for correlation **and** be presented with a wallet-signed VP (Pattern 1) or phone OTP (Pattern 2) for proof-of-control. Credentials sharing the same `customerProfile.customerNumber` (or the same Pattern-4 subject id) share the same revocation handle, so revoking one does the right thing operationally.
 
 ### Quick consistency checklist for adopters
 
