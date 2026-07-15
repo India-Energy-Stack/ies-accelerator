@@ -42,19 +42,15 @@ Subscriber records resolve through the [IES DISCOMs](../what-ies-provides/regist
 
 ## 4. Definitions
 
-- **ARR** — Aggregate Revenue Requirement.
-- **True-up** — reconciliation of actuals against SERC-approved amounts.
-- **FPPCA** — Fuel and Power Purchase Cost Adjustment, a periodic pass-through reconciliation.
-- **MYT** — Multi-Year Tariff framework; **control period** — the fiscal-year span it covers.
-- **Line item** — one costed row in the regulatory form.
+Terms used here (ARR, true-up, FPPCA, MYT / control period, line item) are defined once on the schema overview — see **[ArrFiling — Definitions](../what-ies-provides/schemas-overview/arr-filing.md#id-4.-definitions)** and the [Glossary](../glossary.md).
 
 ## 5. Basis of Standards
 
-**IS → CEA → IEC → IEEE.** None apply directly — filings are SERC instruments. IES adds: **Electricity Act 2003 §61–62/64** (statutory basis), **SERC tariff regulations** (form and category source; `ArrFiling` is a superset with per-state mapping), **Beckn protocol v2** (the wire), **W3C VC / DID Core** (issuer key and signature).
+Filings are SERC instruments (Electricity Act 2003 §61–62/64; SERC tariff regulations), carried over Beckn v2 and signed with W3C VC / DID Core — documented once on the schema overview — see **[ArrFiling — Basis of Standards](../what-ies-provides/schemas-overview/arr-filing.md#id-5.-basis-of-standards)**.
 
 ## 6. Where Indian Standards Do Not Yet Exist
 
-The JSON shape carrying a filing is an IES specification. SERCs' cost taxonomies vary; `ArrFiling`'s category enums are an IES superset with per-SERC mapping — the live area of work.
+The JSON shape carrying a filing is an IES specification, and `ArrFiling`'s category enums are an IES superset with per-SERC mapping — see **[ArrFiling — Where Indian Standards Do Not Yet Exist](../what-ies-provides/schemas-overview/arr-filing.md#id-6.-where-indian-standards-do-not-yet-exist)**.
 
 ## 7. The Records
 
@@ -101,13 +97,7 @@ The DISCOM is the **BPP**; the SERC is the **BAP** — the inverse of Smart Mete
 
 ## Annexure A — Standards Referenced
 
-| Standard | Scope |
-|---|---|
-| Electricity Act 2003 (§61–62, 64) | Statutory basis for tariff petitions |
-| SERC MYT / Annual Tariff Regulations (state-specific) | Form, cost categories, timetable |
-| Beckn Protocol v2 | Discovery, contracting, signed audit |
-| W3C VC Data Model 2.0; W3C DID Core | Issuer key; envelope signature |
-| JSON-LD 1.1 | Wire format and semantic resolution |
+The full standards table for this filing lives on the schema overview — see **[ArrFiling — Standards Referenced](../what-ies-provides/schemas-overview/arr-filing.md#annexure-a-standards-referenced)**.
 
 ## Annexure B — Example Payloads
 

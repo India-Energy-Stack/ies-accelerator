@@ -50,20 +50,15 @@ Eight MeterData v0.6 compact profiles cover every cadence:
 
 ## 4. Definitions
 
-- **DLMS-COSEM** — the meter↔head-end wire protocol (IS 15959 in India).
-- **OBIS** — Object Identification System code identifying a meter register.
-- **HES** — Head-End System, the AMI layer talking to meters.
-- **MDM/MDMS** — Meter Data Management System, the DISCOM's system of record.
-- **AMISP** — the entity deploying and operating smart meters and the HES for a DISCOM.
-- **READING vs USAGE** — the physical register value vs. the delta/consumed amount over a period.
+Terms used here (DLMS-COSEM, OBIS, HES, MDM/MDMS, AMISP, READING vs USAGE) are defined once on the schema overview — see **[MeterData — Definitions](../what-ies-provides/schemas-overview/meter-data.md#id-4.-definitions)** and the [Glossary](../glossary.md).
 
 ## 5. Basis of Standards
 
-**IS → CEA → IEC → IEEE.** IES follows **IS 16444** and **IS 15959 / IEC 62056** (DLMS-COSEM) directly; MeterData v0.6 is an IES specification standardising the JSON shape carrying those readings. CEA/RDSS guidance names **IEC 61968 / -100** alongside MultiSpeak for HES↔MDMS; IES uses CIM (IEC 61968-9) for master data.
+IES follows a fixed precedence (IS → CEA → IEC → IEEE); the standards MeterData is built on are documented once on the schema overview — see **[MeterData — Basis of Standards](../what-ies-provides/schemas-overview/meter-data.md#id-5.-basis-of-standards)**.
 
 ## 6. Where Indian Standards Do Not Yet Exist
 
-The compact-profile **JSON shape** is an IES specification — no predating Indian or international standard. Beckn (discovery/contracting) is also an IES choice. Event codes follow **IS 15959** allocations directly.
+The compact-profile JSON shape and Beckn discovery/contracting are IES choices; this is documented once on the schema overview — see **[MeterData — Where Indian Standards Do Not Yet Exist](../what-ies-provides/schemas-overview/meter-data.md#id-6.-where-indian-standards-do-not-yet-exist)**.
 
 ## 7. The Record
 
@@ -114,17 +109,7 @@ With IES: DISCOM ── one MeterData v0.6 over Beckn ──► AMISP-1 / AMISP-
 
 ## Annexure A — Standards Referenced
 
-| Standard | Scope |
-|---|---|
-| IS 16444 (Parts 1, 2) | AC smart meter — specification |
-| IS 15959 (Parts 1–3) | DLMS/COSEM companion spec; OBIS codes; event codes |
-| IEC 62056 | DLMS/COSEM |
-| IEC 61968-9 | CIM — meter reading and control |
-| IEC 61968-100 | Web service implementation profile (CEA AMI guidance) |
-| CEA (Installation and Operation of Meters) Regs, 2006 | Metering legal framework |
-| RDSS | Policy context for current AMI deployment |
-| DPDP Act 2023 | Consent and accountability framework |
-| W3C VC Data Model 2.0; W3C DID Core | (Optional — MeterDataRequestCredential) |
+The full standards table for the MeterData payload lives on the schema overview — see **[MeterData — Standards Referenced](../what-ies-provides/schemas-overview/meter-data.md#annexure-a-standards-referenced)**. DPDP Act 2023 (consent/accountability) and Beckn v2 (the exchange wire) additionally apply to this use case.
 
 ## Annexure B — Example Payloads
 
