@@ -45,26 +45,15 @@ Every item — consumer, connection, each meter, each asset — carries a [DID](
 
 ## 4. Definitions
 
-- **DER** — any device behind a meter that generates (solar, wind), stores (battery) or controllably consumes (EV charger) electricity.
-- **DID** — verifiable digital identifier (W3C DID Core), detailed in §3.
-- **Verifiable Credential (VC)** — a tamper-evident, signed document (W3C VC Data Model 2.0) a verifier checks offline against the issuer's published key.
-- **Energy Resource** — any physical asset in the credential, one typed entry in `energyResources[]`.
-- **QuantitativeValue** — a `{value, unit}` pair for every power/energy/capacity figure, mapped to QUDT.
-- **Holder-bound** — issued to a specific holder's wallet, vs. a bearer credential.
-- **Net Meter** — the bidirectional billing meter; the source of truth.
-- **Aggregator** — a third party enrolling controllable resources for demand response.
+Terms used here (DER, DID, VC, Energy Resource, QuantitativeValue, holder-bound, net meter, aggregator) are defined once on the schema overview — see **[ElectricityCredential — Definitions](../what-ies-provides/schemas-overview/electricity-credential.md#id-4.-definitions)** and the [Glossary](../glossary.md).
 
 ## 5. Basis of Standards
 
-Fixed order of preference: **(1) Bureau of Indian Standards (IS) → (2) CEA Regulations / IEGC → (3) IEC → (4) IEEE.** Recorded in field tables and as `x-standards-precedence` at the schema root.
-
-Metering follows Indian standards directly: **IS 16444** (smart meter spec) and **IS 15959** (DLMS/COSEM; OBIS codes). The net meter is the source of truth under **CEA (Installation and Operation of Meters) Regulations, 2006**.
+IES follows a fixed precedence (IS → CEA/IEGC → IEC → IEEE); the standards this credential is built on are documented once on the schema overview — see **[ElectricityCredential — Basis of Standards](../what-ies-provides/schemas-overview/electricity-credential.md#id-5.-basis-of-standards)**.
 
 ## 6. Where Indian Standards Do Not Yet Exist
 
-- **Grid asset data model** — IEC CIM (IEC 61970-301, IEC 61968-11) underlies the `energyResources[]` kinds.
-- **DER electrical attributes** — IEEE 1547-2018 (ride-through, anti-islanding, volt-var, freq-watt); CEA's own limits are retained where CEA sets them (harmonics per IEEE 519-2014; DC injection ≤0.5% under CEA Connectivity Regs 2013, am. 2019).
-- **PV module rating** — DC array capacity (kWp) follows **IS 14286** (= IEC 61215).
+Where IES fills a gap with IEC/IEEE references (grid asset model, DER electrical attributes, PV module rating), this is documented once on the schema overview — see **[ElectricityCredential — Where Indian Standards Do Not Yet Exist](../what-ies-provides/schemas-overview/electricity-credential.md#id-6.-where-indian-standards-do-not-yet-exist)**.
 
 ## 7. The Record
 
@@ -114,29 +103,7 @@ The consumer gains a portable, tamper-evident proof of their connection and asse
 
 ## Annexure A — Standards Referenced
 
-| Standard | Scope |
-|---|---|
-| IS 16444 (Parts 1, 2) | AC smart meter — specification |
-| IS 15959 (Parts 1–3) | DLMS/COSEM companion spec; OBIS codes |
-| IS 14286 (= IEC 61215) | PV module design qualification and type approval |
-| IS 16221 (Parts 1, 2) (= IEC 62109-1/-2) | Inverter safety (inverter resource only) |
-| IS 16270 | Solar PV batteries |
-| IS 17017 (series) (from IEC 61851 / 62196) | EV conductive charging |
-| CEA (Installation and Operation of Meters) Regs, 2006 | Metering legal framework; net meter as source of truth |
-| CEA (Connectivity of DG Resources) Regs, 2013, am. 2019 | Connectivity below 33 kV; PCC; DC-injection; harmonics |
-| IEC 61968-1 / -9 / -11 | CIM — customer, metering, distribution model |
-| IEC 61970-301 / -302 | CIM — network model; DER / power-electronics / battery |
-| IEC 61850-7-420 | DER control roles |
-| IEC 61727 / IEC 62116 | PV utility interface; anti-islanding |
-| IEC 62933 / 62933-2-1 / IEC 62619 | Storage systems; performance test; battery safety |
-| IEC 62196 | EV connectors |
-| IEC 62056 | DLMS/COSEM; OBIS |
-| IEEE 1547-2018 | DER interconnection and interoperability |
-| IEEE 519-2014 | Harmonic control (CEA-referenced) |
-| IEEE 2030.5 | DER communications / aggregator roles |
-| W3C VC Data Model 2.0; W3C DID Core | Credential envelope; identifiers |
-| GeoJSON (RFC 7946); schema.org PostalAddress | Location and postal address |
-| OCPP; ISO 15118 | EV charger control / V2G |
+The full standards table for this credential lives on the schema overview — see **[ElectricityCredential — Standards Referenced](../what-ies-provides/schemas-overview/electricity-credential.md#annexure-a-standards-referenced)**.
 
 ## Annexure B — Example Payload
 
