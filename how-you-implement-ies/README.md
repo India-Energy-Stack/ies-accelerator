@@ -11,7 +11,7 @@ The work follows the **[Register → Discover → Exchange](../concepts/what-ies
 | **3. Build your Internal-facing Adapter(s)** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | Small mapping layers between your internal systems and the IES schemas — feeding ONIX and/or OpenCred |
 | **4. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A signed-off, IES-ready interface, end-to-end |
 
-Step 2 sets up the Beckn network membership used for **B2B data exchange**. In Step 3 you build an internal-facing adapter per engine your use cases need: one feeding **ONIX** for use cases that run over a Beckn network (e.g. Smart Meter Data Exchange, Regulatory Filing), and one feeding **[OpenCred](../glossary.md#opencred)** for credential-only use cases (e.g. Consumer Energy Passport, Consumer Meter Digest). If your first use case is credentials only, you can start with Steps 1 and 3 ([Energy Credentials](../what-ies-provides/energy-credentials/README.md) needs no Beckn network) and add Step 2 when a data-exchange use case calls for it.
+Step 2 sets up Beckn network membership for **B2B data exchange**. In Step 3 you build an adapter per engine your use cases need: one feeding **ONIX** for Beckn-network use cases (Smart Meter Data Exchange, Regulatory Filing) and one feeding **[OpenCred](../glossary.md#opencred)** for credential-only use cases (Consumer Energy Passport, Consumer Meter Digest). Credentials-only first? Start with Steps 1 and 3 — no Beckn network needed — and add Step 2 when a data-exchange use case calls for it.
 
 ---
 

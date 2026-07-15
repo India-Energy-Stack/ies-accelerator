@@ -69,7 +69,7 @@ DeDi is the public registry mechanism IES uses for namespaces, credential revoca
 
 1. **Sign up at [publish.dedi.global](https://publish.dedi.global)** using an organisational role mailbox (`registry-admin@discom.example`).
 2. **Create a namespace** — use a short name that maps to your organisation (`discom`, `np.example.com`).
-3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours). Once verification completes, a green **verified** label appears on your namespace in [publish.dedi.global](https://publish.dedi.global), and the namespace becomes publicly visible on [explore.dedi.global](https://explore.dedi.global) — only verified namespaces are listed there, so appearing in explore results is itself the public verification signal.
+3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your zone and click *Verify* (15 min–48 hr for propagation). A green **verified** label then appears in [publish.dedi.global](https://publish.dedi.global), and the namespace becomes publicly listed on [explore.dedi.global](https://explore.dedi.global) — only verified namespaces appear there, so that listing is itself the public signal.
 4. **Create an API key** — in the DeDi UI, click your avatar in the top-right corner, then **Manage API key**. OpenCred uses this key (as `OPENCRED_DEDI_API_KEY`) to write revocation entries and registries into your namespace.
 
 The IES-specific framing is in **[Registries and Directories](../what-ies-provides/registries/README.md#setup)**; DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**.

@@ -65,7 +65,7 @@ The schema canonical references — JSON Schema, JSON-LD context, RDF vocabulary
 
 ## Verifiable Credentials
 
-A subset of Exchange payloads are issued as W3C Verifiable Credentials — durable, holder-bound records the consumer or another stakeholder keeps independently of IES and can re-present anywhere. A credential is verified against the issuer's published key, so issuing, holding and verifying one involves no Beckn network at all. The three credential schemas today:
+A subset of Exchange payloads are issued as W3C Verifiable Credentials — durable, holder-bound records kept independently of IES and re-presentable anywhere. A credential is verified against the issuer's published key, so issuing, holding and verifying one involves no Beckn network at all. The three credential schemas today:
 
 | Credential | What it carries |
 |---|---|

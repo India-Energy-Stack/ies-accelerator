@@ -394,7 +394,6 @@ This block handles digital attestations of connections, billing summaries, and c
       </li>
       </ul>
       <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-core-idea-a-statement-not-a-bill">The core idea — a statement, not a bill</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
         <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>

@@ -1,6 +1,6 @@
 # Energy Credentials
 
-The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware), a web portal, or any channel the issuer already runs. Credential flows stand on their own — issuing, holding and verifying a credential requires **no Beckn network**. This page is the **reference** for the credential lifecycle, the variants IES uses (`ElectricityCredential`, `MeterDataCredential`, `MeterDataRequestCredential`), and the operational commands to issue / verify / revoke with [OpenCred](../../glossary.md#opencred).
+The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware), a web portal, or any channel the issuer already runs. Credential flows stand on their own — issuing, holding and verifying requires **no Beckn network**. This page is the reference for the credential lifecycle, the variants IES uses (`ElectricityCredential`, `MeterDataCredential`, `MeterDataRequestCredential`), and the operational commands to issue / verify / revoke with [OpenCred](../../glossary.md#opencred).
 
 For first-time setup — getting OpenCred running, publishing `did.json`, claiming a DeDi namespace — follow **[Setup Register](../../how-you-implement-ies/setup-register.md)** and **[Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md)** first.
 
@@ -10,7 +10,7 @@ For first-time setup — getting OpenCred running, publishing `did.json`, claimi
 
 ## Why credentials
 
-When a DISCOM hands a consumer a digital electricity attestation, or shares meter readings with a regulator or a marketplace, the receiver needs to answer one question on their own: *"Is this really from the DISCOM, intact, and still valid?"* If they have to call you, the system does not scale and is not really verifiable.
+When a DISCOM hands a consumer a digital electricity attestation, or shares meter readings with a regulator or marketplace, the receiver needs to answer one question alone: *"Is this really from the DISCOM, intact, and still valid?"* If they have to call you, it doesn't scale and isn't really verifiable.
 
 A **Verifiable Credential** is a small JSON object you sign with the private key behind your `did:web`. Anyone — a wallet, another DISCOM, a bank, a regulator — can fetch your `did.json` over HTTPS, check the signature, and consult a public revocation list. No callback to you required.
 
@@ -75,7 +75,7 @@ Before you can issue, get these in place:
 
 ## Set up OpenCred and publish your `did:web`
 
-The practical setup is one JSON file on a web server you already run, plus the [OpenCred](../../glossary.md#opencred) container that signs credentials with the matching private key. Six steps; ~15 minutes end-to-end.
+One JSON file on a web server you already run, plus the [OpenCred](../../glossary.md#opencred) container signing with the matching private key. Six steps, ~15 minutes end-to-end.
 
 ### 1. Pull the OpenCred image
 

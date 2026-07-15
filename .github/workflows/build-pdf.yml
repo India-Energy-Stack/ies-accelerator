@@ -1,11 +1,13 @@
 name: Build & publish PDF
 
 # Publish the whole site to the gh-pages branch on every merge to main: a
-# mirror of the repo tree (so all schema/context URLs keep resolving) plus the
-# freshly built implementation-guide PDF. GitHub Pages serves gh-pages at the
-# same per-repo URL, so existing paths are unchanged, e.g.:
+# mirror of the repo tree (so all schema/context URLs keep resolving) plus two
+# freshly built PDFs — the narrative + implementation guide, and the schemas
+# reference. GitHub Pages serves gh-pages at the same per-repo URL, so
+# existing paths are unchanged, e.g.:
 #   https://india-energy-stack.github.io/ies-accelerator/schemas/.../context.jsonld
 #   https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf
+#   https://india-energy-stack.github.io/ies-accelerator/IES_proposed_schemas.pdf
 
 on:
   push:
@@ -66,7 +68,7 @@ jobs:
       - name: Install mermaid-cli
         run: npm install -g @mermaid-js/mermaid-cli
 
-      - name: Build PDF
+      - name: Build PDFs
         env:
           # Use the runner's preinstalled Chrome so puppeteer doesn't download
           # Chromium. build_pdf.sh writes a puppeteer.json from this var.
@@ -86,9 +88,12 @@ jobs:
             --exclude='build/' \
             --exclude='public/' \
             ./ public/
-          # Add the freshly built PDF (published as ies-report.pdf) and a root
-          # landing page.
+          # Add the freshly built PDFs and a root landing page. ies-report.pdf
+          # keeps its established name (narrative + implementation guide,
+          # schemas excluded); IES_proposed_schemas.pdf is the new companion
+          # covering the Schemas Overview + Taxonomy field reference.
           cp build/ies_accelerator.pdf public/ies-report.pdf
+          cp build/ies_accelerator_schemas.pdf public/IES_proposed_schemas.pdf
           # Serve files literally (no Jekyll); .nojekyll is mirrored from root,
           # but ensure it exists.
           touch public/.nojekyll
@@ -98,24 +103,26 @@ jobs:
           <title>IES Accelerator Implementation Guide</title>
           <meta http-equiv="refresh" content="0; url=ies-report.pdf">
           <p><a href="ies-report.pdf">IES Accelerator Implementation Guide (PDF)</a></p>
+          <p><a href="IES_proposed_schemas.pdf">IES Proposed Schemas (PDF)</a></p>
           HTML
 
       - name: Verify publish dir is complete
         # Guard against a complete-but-wrong tree: every tracked schema artifact
-        # and the PDF must be present before we replace gh-pages. If anything is
-        # missing the job fails here and the publish step is skipped, leaving the
-        # live site untouched.
+        # and both PDFs must be present before we replace gh-pages. If anything
+        # is missing the job fails here and the publish step is skipped,
+        # leaving the live site untouched.
         run: |
           missing=0
           while IFS= read -r f; do
             if [ ! -f "public/$f" ]; then echo "MISSING: $f"; missing=1; fi
           done < <(git ls-files schemas/)
           [ -f public/ies-report.pdf ] || { echo "MISSING: ies-report.pdf"; missing=1; }
+          [ -f public/IES_proposed_schemas.pdf ] || { echo "MISSING: IES_proposed_schemas.pdf"; missing=1; }
           if [ "$missing" -ne 0 ]; then
             echo "::error::publish dir incomplete; aborting before replacing gh-pages"
             exit 1
           fi
-          echo "publish dir complete ($(git ls-files schemas/ | wc -l) schema files + PDF)"
+          echo "publish dir complete ($(git ls-files schemas/ | wc -l) schema files + 2 PDFs)"
 
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
