@@ -5,7 +5,7 @@
 IES is **live**. [Four pilot DISCOMs](concepts/what-ies-is.md#pilots-and-status) built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
 
 {% hint style="info" %}
-📄 **Printable versions:** [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf) (narrative + implementation guide) and [**IES_proposed_schemas.pdf**](https://india-energy-stack.github.io/ies-accelerator/IES_proposed_schemas.pdf) (schemas reference). Both regenerate automatically whenever the docs change — see [Download PDF](download-pdf.md).
+📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
 {% endhint %}
 
 ---
