@@ -2,7 +2,7 @@
 
 > **Step 2 of the implementation path — set up + operate.** Run the [OpenCred](../glossary.md#opencred) signing container and issue, verify, and revoke W3C Verifiable Credentials. This is the **B2C rail**: a credential is signed once by you and can then be trusted by *any* third party — a bank, a marketplace, a housing society — that resolves your `did:web`, and delivered over any channel (DigiLocker, web portal, email, SMS, chat). **No Beckn network is involved.** About half a day.
 
-The concepts — what a credential is, the trust model, the credential variants and when to use each — are in **[Energy Credentials](energy-credentials/README.md)**. This page is the do-guide.
+The concepts — what a credential is, the trust model, the credential variants and when to use each — are in **[Discover+Exchange — Energy credentials](../what-ies-provides/discover-exchange.md#energy-credentials-the-b2c-rail)**. This page is the do-guide.
 
 > **About the walkthrough.** The commands use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
@@ -225,11 +225,21 @@ A passing integration test should:
 
 Run on every release. It exercises every leg of the trust chain.
 
+## 2.10 — Deliver the credential
+
+A signed credential is just a JSON object — because trust lives inside it, you can hand it to the holder over **any** channel: a portal download, an email or SMS link, a chat attachment, or a DID-aware wallet push. In India the dominant consumer wallet is **DigiLocker**: delivered via a Pull URI, and any verifier reading from DigiLocker inherits its Aadhaar-mediated identity binding.
+
+The DigiLocker path has enough moving parts (Pull URI shape, the callback flow, signature pinning, DocType registration, common failure modes) to warrant its own guide:
+
+**→ [DigiLocker delivery](digilocker.md)** — the full walkthrough for pushing an ElectricityCredential or Meter Digest into a consumer's DigiLocker.
+
+For other channels there is nothing more to do here — the credential you issued in §2.6 is the artefact you deliver.
+
 ---
 
 ## Issue the credential variants
 
-The walkthrough above issued an ElectricityCredential. The other two IES credentials use the same `POST /v1/credentials/issue` flow with different schemas — what each variant is *for* is described in [Energy Credentials — Credential variants](energy-credentials/README.md#credential-variants).
+The walkthrough above issued an ElectricityCredential. The other two IES credentials use the same `POST /v1/credentials/issue` flow with different schemas — what each variant is *for* is described in [Discover+Exchange — Variants](../what-ies-provides/discover-exchange.md#variants-same-schemas-different-issuance-shapes).
 
 ### MeterDataCredential v0.6 — telemetry signing
 
@@ -335,6 +345,18 @@ OpenCred loads exactly one signing key from one of:
 | GCP Cloud KMS | `OPENCRED_KMS_PROVIDER=gcp`, `OPENCRED_GCP_KMS_KEY_NAME` | Production on GCP |
 
 The private key never leaves the container; in KMS modes it never leaves the HSM at all. There is no shared signing service and no key escrow.
+
+### Proof formats
+
+The `proofFormat` you pass at issue (§2.6) decides the wire shape of `proof`:
+
+| Format | When to choose | Where it shines |
+|---|---|---|
+| `vc-jwt` (default) | Most flows | Compact wire form, easy to embed in headers, fast to verify |
+| `data-integrity` | Custom-registered clean-context schemas | Linked-data-friendly, supports selective-disclosure variants |
+| `sd-jwt-vc` | Selective disclosure | The holder presents only chosen fields to each verifier |
+
+The walkthroughs use `vc-jwt`; only the verify call differs by format (send the compact JWS for `vc-jwt`, the full JSON for `data-integrity` — see §2.7).
 
 ### Schema validation
 
@@ -450,7 +472,7 @@ Compared to Pattern 1, this is weaker security: phone numbers can be ported, SIM
 
 For consumers who already use DigiLocker, the identity binding is largely solved before the credential reaches the consumer: DigiLocker performs an Aadhaar-backed identity check before granting access, and the credential is delivered into the consumer's DigiLocker vault. A verifier consuming a credential out of DigiLocker can rely on DigiLocker's own access-control rather than re-running a presentation-time challenge.
 
-In this case you may issue the credential without a `credentialSubject.id` (bearer style) and document DigiLocker as the binding channel, **or** set `credentialSubject.id` to the consumer's DigiLocker-resident `did:key` if their wallet exposes one. The first is simpler; the second future-proofs the credential for re-presentation outside DigiLocker. Delivery mechanics: [DigiLocker delivery](energy-credentials/digilocker.md).
+In this case you may issue the credential without a `credentialSubject.id` (bearer style) and document DigiLocker as the binding channel, **or** set `credentialSubject.id` to the consumer's DigiLocker-resident `did:key` if their wallet exposes one. The first is simpler; the second future-proofs the credential for re-presentation outside DigiLocker. Delivery mechanics: [DigiLocker delivery](digilocker.md).
 
 ### Pattern 4 — DISCOM-assigned consumer DID (stable subject reference)
 

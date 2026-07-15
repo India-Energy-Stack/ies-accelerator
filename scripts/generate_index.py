@@ -87,11 +87,10 @@ def main():
             ("how-you-implement-ies/setup-register.md", "Role-based do-guide: domain, keypair, did.json, DeDi namespace; Beckn subscriber records and IES network references for network participants.")
         ],
         "credentials_setup": [
-            ("how-you-implement-ies/issue-credentials.md", "Do-guide: run OpenCred with DeDi config, issue / verify / revoke, credential variants, verifier walkthrough, holder binding, operational notes."),
-            ("how-you-implement-ies/energy-credentials/README.md", "Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.")
+            ("how-you-implement-ies/issue-credentials.md", "Do-guide: run OpenCred with DeDi config, issue / verify / revoke, credential variants, verifier walkthrough, holder binding, proof formats, delivery, operational notes.")
         ],
         "credentials_ops": [
-            ("how-you-implement-ies/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
+            ("how-you-implement-ies/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
             ("what-ies-provides/discover-exchange.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the Taxonomy, schemas by use case."),

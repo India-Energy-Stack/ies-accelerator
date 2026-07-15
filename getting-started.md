@@ -58,13 +58,13 @@ A federated, policy-governed mechanism for discovering and exchanging structured
   → Go to [Setup Register](how-you-implement-ies/setup-register.md), the first step of [How you implement IES](how-you-implement-ies/README.md).
 
 - **Issuing or verifying credentials about energy consumers or assets?**
-  → Go to [Energy Credentials](how-you-implement-ies/energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
+  → Go to [Issue Credentials](how-you-implement-ies/issue-credentials.md). You will also need the revocation + public-keys registries from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
 
 - **Exchanging structured energy datasets (telemetry, filings, tariffs)?**
   → Go to [Data Exchange → Quick Start](how-you-implement-ies/setup-discovery-exchange.md#id-3.1-deploy-the-local-sandbox). You will also need a Beckn subscriber registry from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
 
 - **Building a new application that needs both?**
-  → Start with [Registries](what-ies-provides/register.md#the-directory-dedi) (foundation) → then [Energy Credentials](how-you-implement-ies/energy-credentials/README.md) (simpler integration surface) → then [Data Exchange](what-ies-provides/discover-exchange.md).
+  → Start with [Registries](what-ies-provides/register.md#the-directory-dedi) (foundation) → then [Issue Credentials](how-you-implement-ies/issue-credentials.md) (simpler integration surface) → then [Data Exchange](what-ies-provides/discover-exchange.md).
 
 ---
 

@@ -49,7 +49,7 @@ The open-source credential service IES DISCOMs deploy to sign, verify, and revok
 
 - Image: `ghcr.io/nfh-trust-labs/opencred/opencred-server` ([releases](https://github.com/nfh-trust-labs/opencred/releases) · [docs](https://opencred.gitbook.io/docs))
 - Bootcamp / first deploy: [opencred.gitbook.io/docs/bootcamp/local-docker](https://opencred.gitbook.io/docs/bootcamp/local-docker)
-- See the [Energy Credentials chapter](how-you-implement-ies/energy-credentials/README.md) for the IES-specific issuance walkthrough.
+- See the [Issue Credentials](how-you-implement-ies/issue-credentials.md) for the IES-specific issuance walkthrough.
 
 ### DigiLocker
 
