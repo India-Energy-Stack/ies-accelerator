@@ -94,8 +94,9 @@ def main():
             ("what-ies-provides/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
-            ("what-ies-provides/discover-exchange.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the Taxonomy, schemas by use case."),
-            ("how-you-implement-ies/setup-discovery-exchange.md", "Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.")
+            ("what-ies-provides/discover.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the IES networks."),
+            ("what-ies-provides/exchange.md", "Single-page reference: the Taxonomy, verifiable credentials, schemas by use case."),
+            ("how-you-implement-ies/setup-discovery.md", "Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.")
         ],
         "schemas_overview": [
             ("what-ies-provides/schemas-overview/README.md", "Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level Taxonomy reference."),
@@ -196,7 +197,7 @@ This block handles digital attestations of connections, billing summaries, and c
     content += """
 ---
 
-## 🔌 3. Discover+Exchange (Beckn)
+## 🔌 3. Discover and Exchange (Beckn)
 
 This block governs data discovery, consent, and the transfer of telemetry and regulatory datasets.
 

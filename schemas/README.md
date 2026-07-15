@@ -9,7 +9,7 @@ The Taxonomy answers the practical questions an implementer asks:
 3. *"My system has a domain object IES doesn't yet cover. How do I propose a new schema?"* — the **proposal flow** below.
 4. *"Who owns these schemas, who can change them, and when?"* — **Stewardship**.
 
-Every schema stands on its own: a complete, self-describing data shape (JSON Schema + JSON-LD context + RDF vocabulary + worked examples) that is valid wherever the payload travels — over the IES Beckn network, through a wallet such as DigiLocker, on a web portal, or as a plain signed file. IES recommends the [Beckn data-exchange flow](../what-ies-provides/discover-exchange.md) for organisation-to-organisation (B2B) exchange; consumer-facing (B2C) delivery can use any channel the issuer already runs.
+Every schema stands on its own: a complete, self-describing data shape (JSON Schema + JSON-LD context + RDF vocabulary + worked examples) that is valid wherever the payload travels — over the IES Beckn network, through a wallet such as DigiLocker, on a web portal, or as a plain signed file. IES recommends the [Beckn data-exchange flow](../what-ies-provides/discover.md) for organisation-to-organisation (B2B) exchange; consumer-facing (B2C) delivery can use any channel the issuer already runs.
 
 ---
 
@@ -124,6 +124,6 @@ The schemas are stewarded by the **IES Cell**, the governance body being constit
 
 ## Where this fits
 
-The Taxonomy is the master view of **Exchange**. To see how the three IES steps fit together: **[Register](../what-ies-provides/register.md)** → **[Discover](../what-ies-provides/discover-exchange.md)** → **[Exchange](../what-ies-provides/discover-exchange.md)**.
+The Taxonomy is the master view of **Exchange**. To see how the three IES steps fit together: **[Register](../what-ies-provides/register.md)** → **[Discover](../what-ies-provides/discover.md)** → **[Exchange](../what-ies-provides/exchange.md)**.
 
 To pick a use case to ship first: **[Use Case Implementation Guides](../use-cases/README.md)**.

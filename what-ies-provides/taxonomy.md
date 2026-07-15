@@ -105,6 +105,6 @@ The schemas are stewarded by the **IES Cell** — the governance body being cons
 
 ## Where this fits
 
-The Taxonomy is the master view of **Exchange**: **[Register](register.md)** → **[Discover](discover-exchange.md)** → **[Exchange](discover-exchange.md)**.
+The Taxonomy is the master view of **Exchange**: **[Register](register.md)** → **[Discover](discover.md)** → **[Exchange](exchange.md)**.
 
 To pick a use case: **[Use Case Implementation Guides](../use-cases/README.md)**.

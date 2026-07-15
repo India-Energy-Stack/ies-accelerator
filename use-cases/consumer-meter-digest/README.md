@@ -40,13 +40,13 @@ Granularity options today: `RAW_15M` (15-minute interval data), `DAILY`, `MONTHL
 |---|---|
 | [Identifiers and Addressing](../../what-ies-provides/register.md) | DISCOM's `did:web`; consumer's wallet `did:key`; meter and connection DIDs that anchor the Digest |
 | [Energy Credentials](../../what-ies-provides/energy-credentials/README.md) | Issuance, signing, verification, revocation — including the [Consumer Meter Digest variant](../../what-ies-provides/energy-credentials/README.md#credential-variants) under "Credential variants" |
-| [Data Exchange](../../what-ies-provides/discover-exchange.md) | If the consumer-pull endpoint is fronted by your BPP over Beckn, the BAP/BPP machinery is the same as [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) — only the trigger (consumer, not DISCOM) and the `validUntil` differ |
+| [Data Exchange](../../what-ies-provides/discover.md) | If the consumer-pull endpoint is fronted by your BPP over Beckn, the BAP/BPP machinery is the same as [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) — only the trigger (consumer, not DISCOM) and the `validUntil` differ |
 | [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md) | The dominant delivery channel into the consumer's wallet |
 
 ## Setup: Register → Discover → Exchange
 
 1. **Register.** The consumer must hold a credential proving the right to request data for this meter — typically a [Consumer Energy Passport](../consumer-energy-passport/README.md) (holder-bound ElectricityCredential v1.2) or a minimal customer credential.
-2. **Discover.** Catalogue a "consumer-pull" endpoint on your BPP that accepts a request bearing that credential and returns a MeterDataCredential v0.6 → [Setup Discovery](../../how-you-implement-ies/setup-discovery-exchange.md).
+2. **Discover.** Catalogue a "consumer-pull" endpoint on your BPP that accepts a request bearing that credential and returns a MeterDataCredential v0.6 → [Setup Discovery](../../how-you-implement-ies/setup-discovery.md).
 3. **Exchange.** Issue the Digest via [Energy Credentials — Issue your first credential](../../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential), setting `credentialSubject.id` to the consumer's wallet DID, `schemaId` to `MeterDataCredential/v0.6`, and `validUntil` to a short window matching the use case (24h for loan portals, up to 7d for non-time-sensitive flows).
 4. Deliver to the consumer's wallet — [DigiLocker delivery](../../what-ies-provides/energy-credentials/digilocker.md), or directly to a known DID inbox if the wallet exposes one.
 5. Revocation rarely matters in practice (Digests typically expire faster than they would need revocation), but the same DeDi-hash revocation flow is available if you need it.

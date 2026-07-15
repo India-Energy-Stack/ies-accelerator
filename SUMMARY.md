@@ -10,7 +10,8 @@
 * [Overview](what-ies-provides/README.md)
 * [What IES Is](concepts/what-ies-is.md)
 * [Register](what-ies-provides/register.md)
-* [Discover+Exchange](what-ies-provides/discover-exchange.md)
+* [Discover](what-ies-provides/discover.md)
+* [Exchange](what-ies-provides/exchange.md)
 * [Energy Credentials](what-ies-provides/energy-credentials/README.md)
   * [DigiLocker delivery](what-ies-provides/energy-credentials/digilocker.md)
 * [Schemas Overview](what-ies-provides/schemas-overview/README.md)
@@ -28,7 +29,7 @@
 * [Overview](how-you-implement-ies/README.md)
 * [Setup Register](how-you-implement-ies/setup-register.md)
 * [Issue Credentials](how-you-implement-ies/issue-credentials.md)
-* [Setup Discovery+Exchange](how-you-implement-ies/setup-discovery-exchange.md)
+* [Setup Discovery](how-you-implement-ies/setup-discovery.md)
 * [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md)
 * [Conformance Checklist](how-you-implement-ies/conformance.md)
 

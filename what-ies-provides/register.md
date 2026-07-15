@@ -220,7 +220,7 @@ Membership in a test network does not imply membership in prod — each is refer
 
 ## Setup
 
-Everything on this page turns into action in **[Setup Register](../how-you-implement-ies/setup-register.md)**: domain → keypair → `did.json` → DeDi namespace (§1.1–1.4 for everyone), then subscriber records and network references for Beckn participants (§1.5–1.7) and network registries for NFOs (§1.8). From there: **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)** (B2C rail) or **[Setup Discovery+Exchange](../how-you-implement-ies/setup-discovery-exchange.md)** (B2B rail).
+Everything on this page turns into action in **[Setup Register](../how-you-implement-ies/setup-register.md)**: domain → keypair → `did.json` → DeDi namespace (§1.1–1.4 for everyone), then subscriber records and network references for Beckn participants (§1.5–1.7) and network registries for NFOs (§1.8). From there: **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)** (B2C rail) or **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)** (B2B rail).
 
 ---
 
@@ -229,4 +229,5 @@ Everything on this page turns into action in **[Setup Register](../how-you-imple
 | Step | Page |
 |---|---|
 | Step 1 — Register *(this page)* | — |
-| Steps 2+3 — [Discover+Exchange](discover-exchange.md) | Beckn-protocol interaction, the Taxonomy, and verifiable credentials |
+| Step 2 — [Discover](discover.md) | Beckn-protocol interaction |
+| Step 3 — [Exchange](exchange.md) | The Taxonomy and verifiable credentials |

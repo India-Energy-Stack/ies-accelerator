@@ -5,7 +5,7 @@
 ## Before you start
 
 - Step 1 ([Setup Register](setup-register.md)) complete for your role.
-- The engine(s) your use cases need are running: [Issue Credentials](issue-credentials.md) (B2C) and/or [Setup Discovery+Exchange](setup-discovery-exchange.md) (B2B).
+- The engine(s) your use cases need are running: [Issue Credentials](issue-credentials.md) (B2C) and/or [Setup Discovery](setup-discovery.md) (B2B).
 - At least one use case wired through [Build your Internal-facing Adapter](build-adapter.md) (Step 4).
 
 **Only the checks for the rails you actually use apply.** The checklist below is tagged: **[all]** applies to everyone, **[credential]** only to credential issuers (B2C), **[beckn]** only to Beckn-network participants (B2B). A credential-only issuer skips every **[beckn]** item and the production-network submission at the end; a pure data-exchange participant skips every **[credential]** item.
@@ -62,7 +62,7 @@
 
 ### Beckn participants (B2B)
 
-Run the conformance suite that ships with the devkit you cloned in [Setup Discovery+Exchange](setup-discovery-exchange.md#id-3.1-deploy-the-local-sandbox):
+Run the conformance suite that ships with the devkit you cloned in [Setup Discovery](setup-discovery.md#id-3.1-deploy-the-local-sandbox):
 
 ```bash
 cd DEG/devkits/data-exchange/conformance

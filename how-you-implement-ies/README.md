@@ -6,7 +6,7 @@ A pragmatic, step-by-step path from zero to a working IES adapter — the same p
 |---|---|---|---|
 | **1. Setup Register** *(everyone)* | [Setup Register](setup-register.md) | 1–2 days | A verifiable `did:web`, a verified DeDi namespace — plus, for Beckn participants, a published subscriber record and an IES network reference |
 | **2. Issue Credentials** *(B2C — credential use cases)* | [Issue Credentials](issue-credentials.md) | ½ day | A running OpenCred signing service: issue, verify, revoke W3C Verifiable Credentials |
-| **3. Setup Discovery+Exchange** *(B2B — data-exchange use cases)* | [Setup Discovery+Exchange](setup-discovery-exchange.md) | 1–2 days | A running Beckn adapter (ONIX) exchanging signed messages on the IES network |
+| **3. Setup Discovery** *(B2B — data-exchange use cases)* | [Setup Discovery](setup-discovery.md) | 1–2 days | A running Beckn adapter (ONIX) exchanging signed messages on the IES network |
 | **4. Build your Internal-facing Adapter(s)** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | Small mapping layers between your internal systems and the IES schemas — feeding OpenCred and/or ONIX |
 | **5. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A signed-off, IES-ready interface, end-to-end |
 
