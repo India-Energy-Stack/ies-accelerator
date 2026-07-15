@@ -38,14 +38,16 @@ For the concept, trust model and issuance operations, see **[Energy Credentials]
 
 ## What you set up under Exchange
 
-For an IES participant, Exchange means writing the **Part-2 mapping** — the small adapter layer that translates between your internal systems and the IES schemas:
+For an IES participant, Exchange means standing up the adapter that runs the exchange and then wiring your own data into it:
 
-1. Pick the use case you want to ship first.
-2. Map each IES field to the corresponding column / API field / file format in your internal systems (CIS, MDM, billing, DERMS, etc.).
-3. Hook the mapping into your ONIX as a BPP handler (or BAP callback), and/or into OpenCred as an issuance feed if your use case issues credentials.
-4. Validate the output against the canonical JSON Schema.
+1. **Deploy [ONIX](../glossary.md#onix)** and run a sandbox `confirm` → `on_confirm` round-trip end to end, then over the public internet — the Beckn stack that actually moves a payload once Discover's registration is in place.
+2. **Write the Part-2 mapping** — the small adapter layer that translates between your internal systems and the IES schemas:
+   1. Pick the use case you want to ship first.
+   2. Map each IES field to the corresponding column / API field / file format in your internal systems (CIS, MDM, billing, DERMS, etc.).
+   3. Hook the mapping into your ONIX as a BPP handler (or BAP callback), and/or into OpenCred as an issuance feed if your use case issues credentials.
+   4. Validate the output against the canonical JSON Schema.
 
-For the step-by-step setup, follow **[How you implement IES → Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**. If your use case issues credentials, also see **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
+For the step-by-step setup, follow **[How you implement IES → Setup Exchange](../how-you-implement-ies/setup-exchange.md)** (step 1), then **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)** (step 2). If your use case issues credentials, also see **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
 
 The schema canonical references — JSON Schema, JSON-LD context, RDF vocabulary, example payloads — are in the **[Taxonomy](../schemas/README.md)**.
 

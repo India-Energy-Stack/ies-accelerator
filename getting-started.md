@@ -61,7 +61,7 @@ A federated, policy-governed mechanism for discovering and exchanging structured
   → Go to [Energy Credentials](what-ies-provides/energy-credentials/README.md). You will also need the revocation + public-keys registries from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
 
 - **Exchanging structured energy datasets (telemetry, filings, tariffs)?**
-  → Go to [Data Exchange → Quick Start](how-you-implement-ies/setup-discovery.md#id-3.1-deploy-the-local-sandbox). You will also need a Beckn subscriber registry from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
+  → Go to [Data Exchange → Quick Start](how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox). You will also need a Beckn subscriber registry from the [Registries](what-ies-provides/register.md#the-directory-dedi) chapter.
 
 - **Building a new application that needs both?**
   → Start with [Registries](what-ies-provides/register.md#the-directory-dedi) (foundation) → then [Energy Credentials](what-ies-provides/energy-credentials/README.md) (simpler integration surface) → then [Discover](what-ies-provides/discover.md) and [Exchange](what-ies-provides/exchange.md).

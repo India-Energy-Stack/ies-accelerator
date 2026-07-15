@@ -27,7 +27,7 @@
 * [Overview](/how-you-implement-ies/README.md)
 * [Setup Register](/how-you-implement-ies/setup-register.md)
 * [Issue Credentials](/how-you-implement-ies/issue-credentials.md)
-* [Setup Discovery](/how-you-implement-ies/setup-discovery.md)
+* [Setup Exchange](/how-you-implement-ies/setup-exchange.md)
 * [Build your Internal-facing Adapter](/how-you-implement-ies/build-adapter.md)
 * [Conformance Checklist](/how-you-implement-ies/conformance.md)
 

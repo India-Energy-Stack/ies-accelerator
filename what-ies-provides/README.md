@@ -20,7 +20,7 @@ The IES Technical Note defines three steps that every interaction follows:
 
 > *"IES tells any two systems in the power sector how to share data with each other. It works in three steps. (a) **Register** — verifiable digital identity. (b) **Discover** — interaction protocol. (c) **Exchange** — schema, taxonomy and verifiable credentials."*
 
-This section publishes those specifications — deliberately broad and shallow, so a regulator or a CTO can understand the whole stack in one sitting. **[How you implement IES](../how-you-implement-ies/README.md)** turns each specification into end-to-end, copy-pasteable action: Setup Register, Issue Credentials, Setup Discovery, Build your Internal-facing Adapter. **[Use Case Implementation Guides](../use-cases/README.md)** combine them into shippable outcomes.
+This section publishes those specifications — deliberately broad and shallow, so a regulator or a CTO can understand the whole stack in one sitting. **[How you implement IES](../how-you-implement-ies/README.md)** turns each specification into end-to-end, copy-pasteable action: Setup Register, Issue Credentials, Setup Exchange, Build your Internal-facing Adapter. **[Use Case Implementation Guides](../use-cases/README.md)** combine them into shippable outcomes.
 
 ## Two capabilities on one foundation
 

@@ -77,7 +77,7 @@ You do **not** need to rename anything in your CIS, MDMS, or asset registers. Yo
 
 ### 3. Discover — stand up the Data Exchange adapters
 
-Both sides run an [ONIX](../../glossary.md#onix) adapter → **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**. The fastest start is the devkit sandbox:
+Both sides run an [ONIX](../../glossary.md#onix) adapter → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**. The fastest start is the devkit sandbox:
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -89,7 +89,7 @@ This brings up `sandbox-bap`, `sandbox-bpp`, and `beckn-router` pre-wired with p
 
 ### 4. Exchange — publish your dataset catalogue (BPP)
 
-Publish a Beckn catalogue entry for the `MeterData/v0.6` dataset you offer — `programID`, geographic scope, refresh cadence, [`accessMethod`](../../how-you-implement-ies/setup-discovery.md) (`INLINE` for ≤MB-scale chunks; `SIGNED_URL` for daily/monthly bulk), and any required credentials (point at `MeterDataRequestCredential` if you require one). Pre-agreed bilateral subscriptions can skip `discover` and go straight to `confirm`.
+Publish a Beckn catalogue entry for the `MeterData/v0.6` dataset you offer — `programID`, geographic scope, refresh cadence, [`accessMethod`](../../how-you-implement-ies/setup-exchange.md) (`INLINE` for ≤MB-scale chunks; `SIGNED_URL` for daily/monthly bulk), and any required credentials (point at `MeterDataRequestCredential` if you require one). Pre-agreed bilateral subscriptions can skip `discover` and go straight to `confirm`.
 
 ### 5. Exercise the flow
 
@@ -101,7 +101,7 @@ The minimal lifecycle is `confirm` → `on_confirm` → (`status` → `on_status
 | `on_confirm` | BPP | Acknowledges; declares whether delivery is inline or async. |
 | `on_status` | BPP | Delivers `MeterData/v0.6` inline or returns a signed-URL pointer. |
 
-The payload sits inside `message.contract.commitments[].resources[].resourceAttributes` qualified with the DDM `DatasetItem/v1.1` context — see [Data Exchange — `DatasetItem` and `accessMethod`](../../how-you-implement-ies/setup-discovery.md).
+The payload sits inside `message.contract.commitments[].resources[].resourceAttributes` qualified with the DDM `DatasetItem/v1.1` context — see [Data Exchange — `DatasetItem` and `accessMethod`](../../how-you-implement-ies/setup-exchange.md).
 
 ### 6. Connect your real metering system
 

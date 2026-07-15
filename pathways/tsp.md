@@ -45,7 +45,7 @@ Before writing any code, get clear on the shape of the system you are integratin
 ### Execution Guidance
 IES organises every interaction into three steps:
 1. **[Register](../what-ies-provides/register.md)** — verifiable digital identity (`did:web`) and the shared directory (DeDi). See **[Setup Register](../how-you-implement-ies/setup-register.md)**.
-2. **[Discover](../what-ies-provides/discover.md)** — Beckn-protocol interaction between systems. See **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
+2. **[Discover](../what-ies-provides/discover.md)** — Beckn-protocol interaction between systems. See **[Setup Exchange](../how-you-implement-ies/setup-exchange.md)**.
 3. **[Exchange](../what-ies-provides/exchange.md)** — schemas, taxonomy, and verifiable credentials. See **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
 
 Register and Discover usually belong to your DISCOM client. **Exchange — the Part-2 mapping — is your team's work.**

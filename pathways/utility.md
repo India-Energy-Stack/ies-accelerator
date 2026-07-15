@@ -203,7 +203,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 Enable federated, policy-governed data sharing of smart meter telemetry and master data with authorized third parties.
 
 <details>
-<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../how-you-implement-ies/setup-discovery.md#id-3.1-deploy-the-local-sandbox))</b></summary>
+<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox))</b></summary>
 
 ### 💡 Phase Advice
 > Deploying the ONIX adapter as Docker takes under 10 minutes — run the local test sandbox first to verify configs before production.
@@ -215,9 +215,9 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 
 ### References & Anchors
 * [Discover Concepts](../what-ies-provides/discover.md#the-lifecycle-at-a-glance)
-* [Data Exchange Quick Start](../how-you-implement-ies/setup-discovery.md#id-3.1-deploy-the-local-sandbox)
-* [ONIX Registry Setup](../how-you-implement-ies/setup-discovery.md#id-3.3-swap-in-your-real-identity)
-* [Setup Discovery — Checklist](../how-you-implement-ies/setup-discovery.md#checklist)
+* [Data Exchange Quick Start](../how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox)
+* [ONIX Registry Setup](../how-you-implement-ies/setup-exchange.md#id-3.3-swap-in-your-real-identity)
+* [Setup Exchange — Checklist](../how-you-implement-ies/setup-exchange.md#checklist)
 </details>
 
 <details>
@@ -277,7 +277,7 @@ Authorisation logic is left to the utility; we suggest requiring the BAP present
 > Run a parallel pilot — trade telemetry with a test consumer or partner BAP to confirm signing, encryption, and logging before going live.
 
 ### References & Anchors
-* [Setup Discovery — Checklist](../how-you-implement-ies/setup-discovery.md#checklist)
+* [Setup Exchange — Checklist](../how-you-implement-ies/setup-exchange.md#checklist)
 </details>
 
 ---

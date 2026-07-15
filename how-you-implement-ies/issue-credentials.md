@@ -503,4 +503,4 @@ Patterns are not exclusive, and Pattern 4 composes with the others: a Passport c
 - [ ] Smoke test (§2.9) scripted into your release pipeline
 - [ ] For consumer-facing credentials: identity-proofing procedure in place before any holder binding
 
-When all boxes are ticked, you can issue production credentials. To feed OpenCred from your CIS / MDM automatically, continue to **[Build your Internal-facing Adapter](build-adapter.md)**. To exchange data over a Beckn network as well, do **[Setup Register §1.5–1.7](setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)** then **[Setup Discovery](setup-discovery.md)**.
+When all boxes are ticked, you can issue production credentials. To feed OpenCred from your CIS / MDM automatically, continue to **[Build your Internal-facing Adapter](build-adapter.md)**. To exchange data over a Beckn network as well, do **[Setup Register §1.5–1.7](setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)** then **[Setup Exchange](setup-exchange.md)**.

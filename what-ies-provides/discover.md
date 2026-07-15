@@ -46,7 +46,7 @@ There is no central broker: the network operator curates the membership list, bu
 | Delivery | `status` | `on_status` | Payload prepared asynchronously, or paged across messages |
 | Post-fulfilment | `update` | `on_update` | Amendments, credential rotation |
 
-**Minimal viable exchange:** `confirm` → `on_confirm`, with the dataset embedded in the callback. Everything else is optional; each [use-case guide](../use-cases/README.md) lists which actions it actually exercises. Small datasets ride **inline** in the message (the IES default — end-to-end verifiable); large ones hand off to an established channel (signed URL, MQTT, Kafka, SFTP) agreed inside the same contract, so every exchange gets the same signed-audit story. Wire-level detail — message envelope, correlation rules, pagination, `accessMethod` values — is in the [Setup Discovery appendices](../how-you-implement-ies/setup-discovery.md#appendices).
+**Minimal viable exchange:** `confirm` → `on_confirm`, with the dataset embedded in the callback. Everything else is optional; each [use-case guide](../use-cases/README.md) lists which actions it actually exercises. Small datasets ride **inline** in the message (the IES default — end-to-end verifiable); large ones hand off to an established channel (signed URL, MQTT, Kafka, SFTP) agreed inside the same contract, so every exchange gets the same signed-audit story. Wire-level detail — message envelope, correlation rules, pagination, `accessMethod` values — is in the [Setup Exchange appendices](../how-you-implement-ies/setup-exchange.md#appendices).
 
 ## The IES networks
 
@@ -56,13 +56,13 @@ IES currently operates three Beckn networks (each with a `test-` twin for onboar
 
 ## What you set up under Discover
 
-For an IES participant, Discover means running a Beckn adapter — the **[ONIX](../glossary.md#onix)** reference software — and publishing your subscriber record:
+For an IES participant, Discover means registering on Beckn and becoming findable — before anyone can exchange anything with you, they need to be able to look you up and verify who you are:
 
-1. **ONIX deployment** — one Docker container per side (BAP and / or BPP). Handles signing, signature verification, registry lookup, callback routing. **Same software for everyone** — you do not modify it.
+1. **Beckn signing keypair** — an Ed25519 keypair used to sign and verify messages (separate from the EC P-256 keypair used for credentials).
 2. **Beckn subscriber record** — a small entry in your DeDi namespace declaring your callback URL, role (`BAP` / `BPP`), and Ed25519 message-signing public key. Other Beckn nodes look this up to verify your signatures.
 3. **Network reference** — the IES network operator (acting as Network Facilitator Organisation, NFO) writes a *reference* into the network registry pointing at your subscriber record. This is the membership boundary.
 
-For the step-by-step setup, follow **[How you implement IES → Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
+These three are covered by **[How you implement IES → Setup Register §1.5–1.7](../how-you-implement-ies/setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)**. Standing up the adapter that actually runs an exchange against this registration — ONIX, the sandbox walkthrough, wire mechanics — is **[Setup Exchange](../how-you-implement-ies/setup-exchange.md)**.
 
 ---
 
@@ -74,4 +74,4 @@ For the step-by-step setup, follow **[How you implement IES → Setup Discovery]
 | Step 2 — Discover *(this page)* | — |
 | Step 3 — [Exchange](exchange.md) | Taxonomy + verifiable credentials |
 
-To set up Beckn ONIX hands-on: **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
+To register on Beckn hands-on: **[Setup Register §1.5–1.7](../how-you-implement-ies/setup-register.md)**. To run the adapter and exchange data: **[Setup Exchange](../how-you-implement-ies/setup-exchange.md)**.

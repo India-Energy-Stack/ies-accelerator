@@ -50,7 +50,7 @@ The action guides. What you do.
 |---|---|---|
 | 1 | [Setup Register](how-you-implement-ies/setup-register.md) | 1–2 days |
 | 2 | [Issue Credentials](how-you-implement-ies/issue-credentials.md) *(credential use cases)* | ½ day |
-| 3 | [Setup Discovery](how-you-implement-ies/setup-discovery.md) *(data-exchange use cases)* | 1–2 days |
+| 3 | [Setup Exchange](how-you-implement-ies/setup-exchange.md) *(data-exchange use cases)* | 1–2 days |
 | 4 | [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md) | 1–4 weeks |
 | 5 | [Conformance Checklist](how-you-implement-ies/conformance.md) | 1 day |
 

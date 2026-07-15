@@ -72,7 +72,7 @@ Same `did:web` as the Energy Passport — no new identity setup if you already i
 
 ### 2. Discover — grid-side catalogue
 
-Publish a BPP catalogue entry per locus (feeder / substation / licensee-wide), `accessMethod: INLINE` → **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**. Test grid-operator and aggregator consumers as BAPs.
+Publish a BPP catalogue entry per locus (feeder / substation / licensee-wide), `accessMethod: INLINE` → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**. Test grid-operator and aggregator consumers as BAPs.
 
 ### 3. Exchange — issuance shape
 

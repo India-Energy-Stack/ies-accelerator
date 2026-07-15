@@ -84,7 +84,7 @@ The `category` / `subCategory` enums follow the standard ARR cost categories mos
 
 ### 2. Discover — stand up the data-exchange adapters
 
-The DISCOM runs a BPP adapter; the SERC runs a BAP adapter → **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**.
+The DISCOM runs a BPP adapter; the SERC runs a BAP adapter → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**.
 
 ```bash
 git clone https://github.com/beckn/DEG.git

@@ -128,7 +128,7 @@ Link the participant's subscriber registry to the Beckn networks:
 
 ### References & Anchors
 * [How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)
-* [ONIX Registry Setup Guide](../how-you-implement-ies/setup-discovery.md#id-3.3-swap-in-your-real-identity)
+* [ONIX Registry Setup Guide](../how-you-implement-ies/setup-exchange.md#id-3.3-swap-in-your-real-identity)
 </details>
 
 ---

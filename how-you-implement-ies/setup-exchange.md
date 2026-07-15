@@ -1,8 +1,8 @@
-# Setup Discovery
+# Setup Exchange
 
 > **Step 3 of the implementation path — set up.** Stand up the [Beckn](../glossary.md#beckn) adapter — the ready-made "ONIX" reference software — run a local end-to-end exchange, then swap in your real identity and go live on the IES network. This is the **B2B rail**: structured datasets moving between registered organisations over a trust-bounded open network. About 1–2 days.
 
-The concepts — why Beckn, what the network provides, the protocol lifecycle — are in **[What IES Provides → Discover](../what-ies-provides/discover.md)**. This page is the do-guide; the wire-level reference (message envelope, pagination, architecture) is in the [appendices](#appendices) below.
+Registering on Beckn and being discoverable — your subscriber record, the network reference — is already done in **[Setup Register §1.5–1.7](setup-register.md)**. This page is what comes after: standing up the adapter that actually runs the exchange, and the wire-level mechanics of the data that moves across it (message envelope, pagination, schema validation). The concepts — why Beckn, what the network provides, the protocol lifecycle — are in **[What IES Provides → Discover](../what-ies-provides/discover.md)** and **[Exchange](../what-ies-provides/exchange.md)**. This page is the do-guide; the wire-level reference (message envelope, pagination, architecture) is in the [appendices](#appendices) below.
 
 > **About the walkthrough.** The commands use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
 
@@ -204,7 +204,7 @@ With your real identity configured, run a `discover` (or `confirm`) from your BA
 - Discovery returns a catalogue / `on_confirm` returns data.
 - ONIX's network-membership check passes (both subscribers are referenced into the same IES network registry).
 
-If all four pass, Setup Discovery is done.
+If all four pass, Setup Exchange is done.
 
 ---
 

@@ -132,9 +132,9 @@ These documents provide a general introduction, terminology definitions, and lay
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="download-pdf.md#download-pdf">Download PDF</a>    <ul>
-      <li><a href="download-pdf.md#whats-in-each">What's in each</a></li>
-      <li><a href="download-pdf.md#how-theyre-kept-current">How they're kept current</a></li>
-      <li><a href="download-pdf.md#building-them-yourself">Building them yourself</a>
+      <li><a href="download-pdf.md#whats-in-it">What's in it</a></li>
+      <li><a href="download-pdf.md#how-its-kept-current">How it's kept current</a></li>
+      <li><a href="download-pdf.md#building-it-yourself">Building it yourself</a>
     </li>
     </ul>
   </li>
@@ -408,48 +408,48 @@ This block governs data discovery, consent, and the transfer of telemetry and re
   </li>
   </ul>
   </details>
-* **[setup-discovery.md](how-you-implement-ies/setup-discovery.md)**
+* **[setup-exchange.md](how-you-implement-ies/setup-exchange.md)**
   - *Summary*: Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="how-you-implement-ies/setup-discovery.md#setup-discovery">Setup Discovery</a>    <ul>
-      <li><a href="how-you-implement-ies/setup-discovery.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#before-you-start">Before you start</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#31-deploy-the-local-sandbox">3.1 — Deploy the local sandbox</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#32-run-your-first-exchange">3.2 — Run your first exchange</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#33-swap-in-your-real-identity">3.3 — Swap in your real identity</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#34-go-over-the-public-internet-ngrok">3.4 — Go over the public internet (ngrok)</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#35-two-registries-two-onix-deployments">3.5 — Two registries, two ONIX deployments</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#36-make-the-sandbox-your-own">3.6 — Make the sandbox your own</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#37-test-the-end-to-end-loop">3.7 — Test the end-to-end loop</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#checklist">Checklist</a>
+    <li><a href="how-you-implement-ies/setup-exchange.md#setup-exchange">Setup Exchange</a>    <ul>
+      <li><a href="how-you-implement-ies/setup-exchange.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#before-you-start">Before you start</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#31-deploy-the-local-sandbox">3.1 — Deploy the local sandbox</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#32-run-your-first-exchange">3.2 — Run your first exchange</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#33-swap-in-your-real-identity">3.3 — Swap in your real identity</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#34-go-over-the-public-internet-ngrok">3.4 — Go over the public internet (ngrok)</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#35-two-registries-two-onix-deployments">3.5 — Two registries, two ONIX deployments</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#36-make-the-sandbox-your-own">3.6 — Make the sandbox your own</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#37-test-the-end-to-end-loop">3.7 — Test the end-to-end loop</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#checklist">Checklist</a>
     </li>
     </ul>
-    <li><a href="how-you-implement-ies/setup-discovery.md#appendices">Appendices</a>    <ul>
-      <li><a href="how-you-implement-ies/setup-discovery.md#appendix-a-message-envelope-and-correlation-rules">Appendix A — Message envelope and correlation rules</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-discovery.md#datasetitem-and-accessmethod">`DatasetItem` and `accessMethod`</a>
+    <li><a href="how-you-implement-ies/setup-exchange.md#appendices">Appendices</a>    <ul>
+      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-a-message-envelope-and-correlation-rules">Appendix A — Message envelope and correlation rules</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#datasetitem-and-accessmethod">`DatasetItem` and `accessMethod`</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/setup-discovery.md#appendix-b-pagination-large-datasets-across-multiple-status-on-status-messages">Appendix B — Pagination: large datasets across multiple `status` / `on_status` messages</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-discovery.md#bap-pull-the-bap-drives-the-cadence">BAP-PULL — the BAP drives the cadence</a></li>
-        <li><a href="how-you-implement-ies/setup-discovery.md#bpp-push-the-bpp-drives-the-cadence">BPP-PUSH — the BPP drives the cadence</a></li>
-        <li><a href="how-you-implement-ies/setup-discovery.md#worked-examples-in-the-devkit">Worked examples in the devkit</a>
+      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-b-pagination-large-datasets-across-multiple-status-on-status-messages">Appendix B — Pagination: large datasets across multiple `status` / `on_status` messages</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#bap-pull-the-bap-drives-the-cadence">BAP-PULL — the BAP drives the cadence</a></li>
+        <li><a href="how-you-implement-ies/setup-exchange.md#bpp-push-the-bpp-drives-the-cadence">BPP-PUSH — the BPP drives the cadence</a></li>
+        <li><a href="how-you-implement-ies/setup-exchange.md#worked-examples-in-the-devkit">Worked examples in the devkit</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/setup-discovery.md#appendix-c-architecture-at-a-glance">Appendix C — Architecture at a glance</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-discovery.md#the-four-onix-endpoints">The four ONIX endpoints</a></li>
-        <li><a href="how-you-implement-ies/setup-discovery.md#identity-resolution">Identity resolution</a>
+      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-c-architecture-at-a-glance">Appendix C — Architecture at a glance</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#the-four-onix-endpoints">The four ONIX endpoints</a></li>
+        <li><a href="how-you-implement-ies/setup-exchange.md#identity-resolution">Identity resolution</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/setup-discovery.md#appendix-d-schema-validation-on-the-wire">Appendix D — Schema validation on the wire</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-discovery.md#failure-modes">Failure modes</a></li>
-        <li><a href="how-you-implement-ies/setup-discovery.md#publishing-your-own-schema-for-onix-to-validate">Publishing your own schema for ONIX to validate</a>
+      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-d-schema-validation-on-the-wire">Appendix D — Schema validation on the wire</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#failure-modes">Failure modes</a></li>
+        <li><a href="how-you-implement-ies/setup-exchange.md#publishing-your-own-schema-for-onix-to-validate">Publishing your own schema for ONIX to validate</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/setup-discovery.md#appendix-e-hostnames-sandbox-vs-production">Appendix E — Hostnames: sandbox vs production</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#appendix-f-generic-beckn-flow-sequence-diagram">Appendix F — Generic Beckn flow (sequence diagram)</a></li>
-      <li><a href="how-you-implement-ies/setup-discovery.md#references">References</a>
+      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-e-hostnames-sandbox-vs-production">Appendix E — Hostnames: sandbox vs production</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-f-generic-beckn-flow-sequence-diagram">Appendix F — Generic Beckn flow (sequence diagram)</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#references">References</a>
     </li>
     </ul>
   </li>

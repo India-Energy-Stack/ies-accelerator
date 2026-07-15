@@ -211,5 +211,5 @@ Any participant can propose a change to the IES Cell. Proposals are reviewed, an
 ## Where to go next
 
 - **Want the technical specifications?** → **[What IES Provides](../what-ies-provides/README.md)** — Register, Discover, Exchange, Taxonomy
-- **Want to implement IES in your organisation?** → **[How you implement IES](../how-you-implement-ies/README.md)** — Setup Register, Issue Credentials, Setup Discovery, Build Adapter
+- **Want to implement IES in your organisation?** → **[How you implement IES](../how-you-implement-ies/README.md)** — Setup Register, Issue Credentials, Setup Exchange, Build Adapter
 - **Want to see a worked end-to-end use case?** → **[Use Case Implementation Guides](../use-cases/README.md)**

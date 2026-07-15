@@ -96,7 +96,7 @@ def main():
         "exchange_setup": [
             ("what-ies-provides/discover.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the IES networks."),
             ("what-ies-provides/exchange.md", "Single-page reference: the Taxonomy, verifiable credentials, schemas by use case."),
-            ("how-you-implement-ies/setup-discovery.md", "Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.")
+            ("how-you-implement-ies/setup-exchange.md", "Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.")
         ],
         "schemas_overview": [
             ("what-ies-provides/schemas-overview/README.md", "Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level Taxonomy reference."),

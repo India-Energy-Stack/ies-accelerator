@@ -82,7 +82,7 @@ The same envelope, with a different `policyType`, expresses deviation penalties,
 
 ### 2. Discover — publish via the data exchange
 
-Publisher's BPP exposes one catalogue entry per policy → **[Setup Discovery](../../how-you-implement-ies/setup-discovery.md)**. Public-disclosure policies typically use `accessMethod: INLINE` and settlement value `0` — anyone can pull them without a contract.
+Publisher's BPP exposes one catalogue entry per policy → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**. Public-disclosure policies typically use `accessMethod: INLINE` and settlement value `0` — anyone can pull them without a contract.
 
 ### 3. Exchange — author, sign, evaluate
 
