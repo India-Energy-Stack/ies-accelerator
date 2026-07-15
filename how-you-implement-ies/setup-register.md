@@ -1,19 +1,36 @@
 # Setup Register
 
-> **Step 1 of the three IES steps — set up.** Get your organisation a verifiable digital identity, and list it in a shared directory. *Done once.* About 1–2 days of elapsed time (most of it waiting for DNS to propagate).
+> **Step 1 of the implementation path — set up.** Get your organisation a verifiable digital identity, list it in the shared directory, and — if your use cases need a Beckn network — publish your network identity too. *Done once.* About 1–2 days of elapsed time (most of it waiting for DNS to propagate).
 
-This is the **action guide** for the **[Register](../what-ies-provides/register.md)** step. The deep specification is in **[Identifiers and Addressing](../what-ies-provides/identifiers/README.md)**. The registry mechanics are in **[Registries and Directories](../what-ies-provides/registries/README.md)**.
+The concepts behind every artefact on this page — DIDs, DeDi, namespaces, subscriber records — are in **[What IES Provides → Register](../what-ies-provides/register.md)**. This page is the do-guide.
 
 ---
 
+## Who does what
+
+Registration is role-based. Everyone does §1.1–1.4; the rest depends on what you plan to run.
+
+| You are… | Do | Then go to |
+|---|---|---|
+| **A DISCOM / AMISP issuing credentials only** (Consumer Energy Passport, Meter Digest) | §1.1 – §1.4 | [Issue Credentials](issue-credentials.md) |
+| **Any organisation joining a Beckn network** (data exchange, P2P trading — DISCOMs, AMISPs, trading platforms, aggregators) | §1.1 – §1.4, then §1.5 – §1.7 | [Setup Discovery+Exchange](setup-discovery-exchange.md) |
+| **A network operator (NFO)** running your own Beckn network | §1.1 – §1.4, then §1.8 | NFH network-operator docs (linked in §1.8) |
+
+Trading platforms and other pure Beckn participants who never issue credentials still need §1.1–1.4: the domain, `did.json`, and the verified DeDi namespace are the root of trust that the Beckn subscriber record hangs off.
+
 ## What you'll have at the end
 
-- A resolvable `did:web` for your organisation (e.g. `did:web:ies.discom.example`).
-- A signing keypair, securely stored (KMS / HSM where available).
-- A verified DeDi namespace anchored to your domain.
-- Optional: a separate Ed25519 keypair for Beckn message signing (you can defer this to [Step 2](setup-discovery.md)).
+- A resolvable `did:web` for your organisation.
+- Your public signing key published at a well-known URL under your domain.
+- A verified DeDi namespace anchored to your domain, plus a DeDi API key.
+- *(Beckn participants)* An Ed25519 message-signing keypair, a published Beckn subscriber record, and a reference entry in an IES network registry.
 
-This is everything credential issuance requires. You do not need to be listed in any IES-side DISCOM registry to issue credentials — verifiers fetch your `did.json` directly to check signatures.
+## Before you start
+
+- **A domain or subdomain you control**, with the ability to host one small static file under it.
+- **DNS access** — to add one TXT record (DeDi domain verification).
+- **`openssl`, `python3`, `curl`, `jq`** on the machine where you generate keys.
+- *(Beckn participants, §1.5 only)* **Go 1.21+** — see [the official Go install guide](https://go.dev/doc/install).
 
 ---
 
@@ -26,40 +43,96 @@ Either works. Most DISCOMs use a dedicated subdomain so the credential-issuing i
 
 The host you pick becomes the host portion of your `did:web`. Your DID document will live at `https://<your-host>/.well-known/did.json`.
 
-Once picked, record it in an environment variable — the copy-pasteable commands in this guide and in [Energy Credentials](../what-ies-provides/energy-credentials/README.md) all reference `$OPENCRED_ISSUER_DOMAIN`, so you set your domain once here and never hand-edit a command:
+Once picked, record it in an environment variable — the copy-pasteable commands in this guide and in [Issue Credentials](issue-credentials.md) all reference `$OPENCRED_ISSUER_DOMAIN`, so you set your domain once here and never hand-edit a command:
 
 ```bash
 export OPENCRED_ISSUER_DOMAIN="ies.yourdiscom.in"
 ```
 
-> **About path segments.** `did:web` lets you encode a sub-path with colons in the DID. If you don't want to host at `.well-known/`, host the document at any path and reflect it in the DID via colon hierarchy. Full table in **[Identifiers — DID web variants](../what-ies-provides/identifiers/README.md#publish-your-did-web)**.
+> **Hosting `did.json` in a subfolder instead of the domain root?** `did:web` encodes sub-paths with colons, and `OPENCRED_ISSUER_DOMAIN` accepts the same form: set `OPENCRED_ISSUER_DOMAIN="<discom-domain>:subfolder"` and your DID becomes `did:web:<discom-domain>:subfolder`. The generator in §1.3 works unchanged, but the hosting path changes: a path-form DID resolves to `https://<discom-domain>/subfolder/did.json` — **no `.well-known/`** — so in §1.3 replace the colon with a slash and drop `.well-known/` when uploading and verifying. Variant table in [Register — DID and DID document](../what-ies-provides/register.md#the-did-methods-ies-uses).
 
 ---
 
-## 1.2 — Generate a signing keypair
+## 1.2 — Generate your credential-signing keypair
 
-You will sign every credential and (optionally) every Beckn message with this key. Treat it as a production credential — KMS / HSM where possible, otherwise a securely backed-up file on a hardened host.
-
-The credential-issuance key is **EC P-256** (matches W3C VC Data Model 2.0 defaults). The fastest way is to install [OpenCred](../glossary.md#opencred) and generate the key and `did.json` together — the copy-pasteable end-to-end walkthrough (pull the image, generate the key, run the container, generate `did.json`, publish, verify) lives in **[Energy Credentials — Set up OpenCred](../what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-did-web)**. Any W3C-compliant signing pipeline (custom code, AWS KMS + jose, Azure Key Vault) is a drop-in replacement.
-
----
-
-## 1.3 — Publish `did.json`
-
-Put the generated `did.json` at the path implied by your DID:
-
-| DID string | DID document URL |
-|---|---|
-| `did:web:ies.discom.example` | `https://ies.discom.example/.well-known/did.json` |
-| `did:web:discom.example:ies` | `https://discom.example/ies/did.json` |
-
-Verify it's reachable from outside your network (`$OPENCRED_ISSUER_DOMAIN` is the domain you exported in 1.1):
+You will sign every credential with this key. Treat it as a production credential — KMS / HSM where possible, otherwise a securely backed-up file on a hardened host. The key is **EC P-256** (matches W3C VC Data Model 2.0 defaults):
 
 ```bash
-curl -sS "https://$OPENCRED_ISSUER_DOMAIN/.well-known/did.json" | jq .
+mkdir -p ~/opencred/keys
+cd ~/opencred
+
+openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 \
+  -out keys/issuer-key.pem
+chmod 600 keys/issuer-key.pem
 ```
 
-If you get back the expected JSON document with your public key, identity setup is done from the wire-protocol side. Verifiers can now check signatures on credentials you issue.
+Keep `issuer-key.pem` in your KMS in production. Treat it like a TLS private key. [Issue Credentials](issue-credentials.md) mounts this exact file into the OpenCred signing container, so keep the `~/opencred/keys/` path (or adjust consistently later).
+
+> This key signs **credentials**. Beckn messages use a different key (Ed25519, §1.5). The two identities intentionally use separate keys, live in different registries, and serve different verifiers, so a compromise of one does not compromise the other.
+
+---
+
+## 1.3 — Generate and publish `did.json`
+
+The DID document is one small JSON file: your DID string plus the public half of the key from §1.2. The block below is a complete generator — paste it as-is and it writes a finished `did.json`, with the DID `id`, `controller`, and JWK `x`/`y` coordinates all filled in from `$OPENCRED_ISSUER_DOMAIN` and `~/opencred/keys/issuer-key.pem`. Nothing to hand-edit.
+
+```bash
+python3 - > did.json <<'PY'
+import subprocess, base64, json, os, sys
+domain = os.environ.get("OPENCRED_ISSUER_DOMAIN")
+if not domain:
+    sys.exit("OPENCRED_ISSUER_DOMAIN is not set - run the export in 1.1 first")
+key = os.path.expanduser("~/opencred/keys/issuer-key.pem")
+der = subprocess.run(["openssl", "pkey", "-in", key, "-pubout", "-outform", "DER"],
+                     capture_output=True, check=True).stdout
+pt = der[-65:]  # uncompressed EC point: 0x04 || X(32) || Y(32)
+b64u = lambda b: base64.urlsafe_b64encode(b).rstrip(b"=").decode()
+did = f"did:web:{domain}"
+print(json.dumps({
+    "@context": [
+        "https://www.w3.org/ns/did/v1",
+        "https://w3id.org/security/suites/jws-2020/v1"
+    ],
+    "id": did,
+    "verificationMethod": [{
+        "id": f"{did}#key-0",
+        "type": "JsonWebKey",
+        "controller": did,
+        "publicKeyJwk": {"kty": "EC", "crv": "P-256",
+                         "x": b64u(pt[1:33]), "y": b64u(pt[33:65])}
+    }],
+    "authentication":  [f"{did}#key-0"],
+    "assertionMethod": [f"{did}#key-0"],
+}, indent=2))
+PY
+cat did.json
+```
+
+Expected: `cat did.json` prints a complete DID document with your domain in `id` and real `x`/`y` coordinates in `publicKeyJwk`.
+
+Three fields matter, and you can ignore the rest until later:
+
+- **`verificationMethod`** is the public key. Verifiers use it to check your signatures.
+- **`assertionMethod`** says which key is allowed to issue credentials.
+- **`authentication`** says which key can sign requests on behalf of the DID.
+
+You can add a `service` array later when your Beckn and OpenCred endpoints are publicly addressable; the DID is valid without it.
+
+**Publish it.** Upload the file so this URL returns the JSON:
+
+```
+https://$OPENCRED_ISSUER_DOMAIN/.well-known/did.json
+```
+
+The `.well-known/` path is a standard convention; verifiers know to look there. A normal TLS cert is enough — the same one that already terminates your subdomain — and there must be **no redirect** on that URL.
+
+**Verify it from outside your network:**
+
+```bash
+curl -s "https://$OPENCRED_ISSUER_DOMAIN/.well-known/did.json" | jq .id
+```
+
+Expected: your DID, e.g. `"did:web:ies.yourdiscom.in"`. If that prints, identity setup is done from the wire-protocol side — any participant can now resolve your `did:web` to your public key and verify anything you sign.
 
 ---
 
@@ -69,39 +142,155 @@ DeDi is the public registry mechanism IES uses for namespaces, credential revoca
 
 1. **Sign up at [publish.dedi.global](https://publish.dedi.global)** using an organisational role mailbox (`registry-admin@discom.example`).
 2. **Create a namespace** — use a short name that maps to your organisation (`discom`, `np.example.com`).
-3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your zone and click *Verify* (15 min–48 hr for propagation). A green **verified** label then appears in [publish.dedi.global](https://publish.dedi.global), and the namespace becomes publicly listed on [explore.dedi.global](https://explore.dedi.global) — only verified namespaces appear there, so that listing is itself the public signal.
-4. **Create an API key** — in the DeDi UI, click your avatar in the top-right corner, then **Manage API key**. OpenCred uses this key (as `OPENCRED_DEDI_API_KEY`) to write revocation entries and registries into your namespace.
+3. **Verify your domain** — DeDi issues a DNS TXT record; add it to your DNS zone and click *Verify*. Wait for DNS propagation (usually 15 minutes; can take up to 48 hours). Once verification completes, a green **verified** label appears on your namespace in [publish.dedi.global](https://publish.dedi.global), and the namespace becomes publicly visible on [explore.dedi.global](https://explore.dedi.global) — only verified namespaces are listed there, so appearing in explore results is itself the public verification signal.
+4. **Create an API key** — in the DeDi UI, click your avatar in the top-right corner, then **Manage API key**. Tools that write into your namespace (OpenCred for revocation entries, your registry publisher) authenticate with this key. Store it alongside your other secrets.
 
-The IES-specific framing is in **[Registries and Directories](../what-ies-provides/registries/README.md#setup)**; DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**.
+You create the empty namespace here. What goes inside it depends on your role:
 
-> **If you ran OpenCred with the `OPENCRED_DEDI_*` variables set** (see [Energy Credentials — step 3](../what-ies-provides/energy-credentials/README.md#id-3.-run-opencred-in-did-web-mode)), four registries (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`) are auto-created in your namespace on first boot. You do not need to create them by hand — log in to [publish.dedi.global](https://publish.dedi.global), open your namespace, and confirm you can see all four.
+- **For credential issuance**, you do **not** need to create the registries by hand — when you run OpenCred in [Issue Credentials](issue-credentials.md), it auto-creates the four it needs on first boot (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`).
+- **As a participant on a Beckn network**, you create **subscriber registries** by hand (§1.6) — one record per role/environment declaring your callback URL and message-signing key.
+- **As a network operator (NFO)**, you create a **directory of participants** — a Beckn *subscriber-reference* registry (§1.8) that curates which subscribers belong to your network.
+
+DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**; the IES-specific registry map is in **[Register — The directory: DeDi](../what-ies-provides/register.md#the-directory-dedi)**.
+
+> **Checkpoint — issuing credentials only?** You are done with registration. Continue to **[Issue Credentials](issue-credentials.md)**, which runs the OpenCred signing container against the domain, key, namespace and API key you just set up (and auto-creates those four registries). The remaining sections of this page are for Beckn-network participants.
 
 ---
 
-## 1.5 — Identifier patterns you'll use day one
+## 1.5 — *(Beckn participants)* Generate your Beckn signing keypair
 
-Once your DID resolves and your DeDi namespace is verified, you have the identifier scheme below available. Internal numbering (CIS account numbers, meter SLNOs, SAP codes) is preserved as the tail of the DID — nothing renames.
+**Prerequisite:** §1.1–1.4 complete; Go installed.
 
-| Subject | Identifier method | Example |
+Beckn message signing uses **Ed25519** keys — a different key from the P-256 credential key in §1.2. Beckn ONIX ships a small generator that prints the two Base64 values the subscriber record and your ONIX config need:
+
+```bash
+git clone https://github.com/beckn/beckn-onix.git
+cd beckn-onix
+go run install/generate-ed25519-keys.go
+```
+
+Expected output — two lines:
+
+```
+signingPrivateKey: <Base64, 32-byte seed>
+signingPublicKey:  <Base64, 32-byte public key>
+```
+
+- **`signingPrivateKey`** — store in your secret manager; ONIX loads it to sign outgoing messages ([Setup Discovery+Exchange §3.3](setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity)). Never commit it.
+- **`signingPublicKey`** — publish in your subscriber record (§1.6). Other Beckn nodes fetch it to verify your message signatures.
+
+The generator source is [`install/generate-ed25519-keys.go`](https://github.com/beckn/beckn-onix/blob/main/install/generate-ed25519-keys.go); any other Ed25519 keypair generator works as long as it produces the same two Base64 artefacts (raw 32-byte seed and raw public key, no PEM headers).
+
+---
+
+## 1.6 — *(Beckn participants)* Publish your Beckn subscriber record
+
+**Prerequisite:** verified namespace (§1.4), Ed25519 public key (§1.5), and the public HTTPS URL where your Beckn adapter will receive messages (you can publish first and deploy the adapter in [Setup Discovery+Exchange](setup-discovery-exchange.md); the URL just has to be the one you will use).
+
+1. **Create a subscriber registry** under your verified namespace in [publish.dedi.global](https://publish.dedi.global), with the built-in **`beckn_subscriber`** tag. Create **one registry per environment** — `subscribers-test` and `subscribers-prod` — so a misconfigured test run can never pollute a production lookup.
+
+2. **Add a record** with these fields:
+
+   | Field | What to fill | Example |
+   |---|---|---|
+   | `subscriber_id` | Your **`did:web`** — the same org identity you published in §1.3. Using the DID (not a bare hostname) keeps your Beckn identity and your credential identity the same string. | `did:web:ies.discom.example` |
+   | `subscriber_url` | Your Beckn ONIX receiver endpoint | `https://ies.discom.example/bpp/beckn` |
+   | `type` | Your role on the network | `BAP` (consumer) or `BPP` (provider) |
+   | `signing_public_key` | The Ed25519 public key from §1.5, Base64, no header/footer | `eyAeqGFtAuks...` |
+   | `encryption_public_key` | *(Optional)* encryption public key | `lCI84I0Q0U0w...` |
+   | `countries` | Countries where you operate | `["IND"]` |
+
+   If you operate in both roles (BAP *and* BPP), publish a separate record per role. That `did:web` `subscriber_id` is what you set as `networkParticipant` in your ONIX config ([Setup Discovery+Exchange §3.3](setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity)).
+
+3. **Note the record ID** DeDi assigns — you will configure it into ONIX as the `keyId` in [Setup Discovery+Exchange §3.3](setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity).
+
+4. **Verify the lookup.** Other nodes resolve your record through the Beckn fabric lookup URL. Substitute `<your-namespace>` (the DeDi namespace from §1.4 — the path is addressed by namespace, not by the `did:web` value of the `subscriber_id` field) and `<your_record_id>` (from step 3); `subscribers.beckn.one` is the fixed fabric schema keyword — leave it literal, it is not your registry name. Allow 5–10 minutes for the cache, then:
+
+   ```bash
+   curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-namespace>/subscribers.beckn.one/<your_record_id>" | jq
+   ```
+
+   Expected: the record you just published, including your `signing_public_key`. At this point `network_memberships` is empty — the NFO fills it in §1.7.
+
+---
+
+## 1.7 — *(Beckn participants)* Get referenced into an IES network
+
+**Prerequisite:** subscriber record published and resolvable (§1.6).
+
+A subscriber record alone does not put you on a network. Each IES network is a curated registry operated by the IES network operator (the [NFO](../glossary.md#nfo) — currently REC / IES Secretariat under the `indiaenergystack.in` namespace). To join, the NFO writes a **reference entry** pointing at your subscriber record; your identity stays self-owned, nothing is copied.
+
+The networks you can apply to:
+
+| Network registry | Env | Purpose |
 |---|---|---|
-| Your DISCOM (issuer) | `did:web` on your domain | `did:web:ies.discom.example` |
-| A regulator | Same — `did:web` on their own domain | `did:web:ies.serc.example` |
-| A consumer (holder) | `did:key` (wallet) — generated by the wallet, not the DISCOM | `did:key:z6MkjVQ8r4f3rPuY…` |
-| A meter / inverter / DER / transformer | `did:web` under your domain | `did:web:ies.discom.example:assets:meter:NM-44091234` |
-| The consumer's existing CIS account number | Plain string, kept verbatim | `1102004567` → stays as `customerProfile.customerNumber` |
+| `ies-data-sharing-network` / `test-…` | prod / test | Energy data sharing (DISCOM ↔ DISCOM, regulators, aggregators) |
+| `ies-p2p-trading-network` / `test-…` | prod / test | P2P energy trading between consumers, prosumers, aggregators |
+| `ies-der-integration-network` / `test-…` | prod / test | DER (rooftop solar, BESS, EV) integration with DISCOMs |
 
-> Detailed grammar and worked examples: **[Identifiers and Addressing — Appendix C](../what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets)**.
+**Apply by email** to the IES Secretariat — [IES.Secretariat@fsrglobal.org](mailto:IES.Secretariat@fsrglobal.org) (alternate: [ies@recindia.com](mailto:ies@recindia.com); web: [ies.fsrglobal.org](https://ies.fsrglobal.org/#footer)) — with:
+
+- Your short identifier (`<discom-short-code>` for DISCOMs, FQDN for other participants).
+- Your verified DeDi namespace (e.g. `discom`, `np.example.com`).
+- The DeDi lookup URL of either your **whole subscriber registry** (typically `subscribers-prod`) or a **single record** inside it.
+- Whether that URL is a `Registry` or a `Record` (one of those two values).
+- Which network(s) you want to join, including the `test-` variant if you want sandbox first (recommended — you must certify on test before prod; see [Conformance](conformance.md)).
+- Role: `BAP`, `BPP`, or both.
+- Service areas / countries (`IND` for India).
+- A point of contact (name, email, phone).
+
+Before approving, the Secretariat validates that your namespace is domain-verified, your callback URL is reachable, your signing public key is present and valid, and your declared role matches the network's expectations. Once the reference entry is written, your record is queryable as in-network by every counterparty — no separate bilateral handshake.
+
+**Confirm the reference landed.** Re-run the same lookup from §1.6 and check the `network_memberships` array — it should now list the network(s) you were added to:
+
+```bash
+curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-namespace>/subscribers.beckn.one/<your_record_id>" | jq '.data.network_memberships'
+```
+
+Expected: the parent network IDs appear, e.g. `["indiaenergystack.in/test-ies-data-sharing-network"]`. Empty or missing means the NFO hasn't written the reference yet (or wrote it against a different record) — this is exactly the value your ONIX checks against `allowedNetworkIDs` in [Setup Discovery+Exchange §3.3](setup-discovery-exchange.md#id-3.3-swap-in-your-real-identity).
+
+Membership in the test network does **not** imply membership in prod; each is referenced separately.
+
+---
+
+## 1.8 — *(NFOs)* Run your own Beckn network
+
+**Prerequisite:** §1.1–1.4 complete for your own organisation.
+
+If you operate a network rather than joining one, create a registry under your namespace with the built-in **`beckn_subscriber_reference`** tag — one registry per network you facilitate (typically separate `test-` and prod variants). The `network_id` becomes `<your-domain>/<registry-name>`. You curate membership by writing reference records that point at participant-owned subscriber records — you never copy participant data.
+
+The NFO operational details (network manifest, policies, key rotation) are in the NFH docs: [setting up the network environment](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment) and [configuring network policies](https://docs.nfh.global/beckn/creating-an-open-network/configuring-network-policies).
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Action |
+|---|---|---|
+| `curl` of `did.json` fails or redirects | File not at the exact path, or a `www.`/HTTPS redirect in front of it | The DID document URL must return the JSON directly, status 200, no redirect |
+| DNS TXT verification stuck on "pending" for > 1 hour | Propagation delay (normal up to 48 h) or wrong record in zone | Check with `dig +short TXT <your-domain>`; ensure the record matches what DeDi issued |
+| `404` on `GET /dedi/lookup/<namespace>/<registry>/<record-id>` | Wrong record-id (case-sensitive), or the record was never published (left as `draft`) | Verify in [publish.dedi.global](https://publish.dedi.global); re-publish with the correct id |
+| `403 / signature invalid` on a DeDi write | Namespace controller key changed, or wrong API key | Confirm the API key belongs to the account controlling the namespace |
+| Beckn counterparty cannot find your subscriber | Network reference not yet written (§1.7), or you're looking at the wrong environment | Verify the lookup URL the NFO wrote; check that `test-` vs prod matches the network you're targeting |
 
 ---
 
 ## Checklist
 
-- [ ] Domain picked (typically a dedicated subdomain like `ies.<discom>.in`)
-- [ ] Signing keypair generated (EC P-256), stored in KMS / HSM where available
-- [ ] `did.json` published at `https://<domain>/.well-known/did.json` and reachable from outside
-- [ ] `curl` of the DID document returns expected JSON
-- [ ] DeDi namespace claimed at `publish.dedi.global` and verified via DNS TXT (green **verified** label in `publish.dedi.global`; namespace listed on `explore.dedi.global`)
-- [ ] DeDi API key created (avatar menu → **Manage API key**) and stored alongside your other secrets
-- [ ] Internal numbering documented for the asset / connection / meter classes you'll reference
+Everyone:
 
-When every box is ticked, you have completed the **Register** step. Move on to **[Setup Discovery](setup-discovery.md)**.
+- [ ] Domain picked (typically a dedicated subdomain like `ies.<discom>.in`); `OPENCRED_ISSUER_DOMAIN` exported
+- [ ] EC P-256 signing keypair generated, stored in KMS / HSM where available
+- [ ] `did.json` generated and published at `https://<domain>/.well-known/did.json`
+- [ ] `curl` of the DID document from outside returns your DID
+- [ ] DeDi namespace claimed at `publish.dedi.global` and verified via DNS TXT (green **verified** label; listed on `explore.dedi.global`)
+- [ ] DeDi API key created (avatar menu → **Manage API key**) and stored alongside your other secrets
+
+Beckn participants additionally:
+
+- [ ] Ed25519 keypair generated (`go run install/generate-ed25519-keys.go`); private key in secret manager
+- [ ] `subscribers-test` / `subscribers-prod` registries created; subscriber record(s) published with public key, callback URL, role
+- [ ] Fabric lookup URL returns your record
+- [ ] IES Secretariat emailed; reference entry written into the network registry you applied for
+
+When your role's boxes are ticked, you have completed **Setup Register**. Credential issuers: continue to **[Issue Credentials](issue-credentials.md)**. Beckn participants: continue to **[Setup Discovery+Exchange](setup-discovery-exchange.md)**.

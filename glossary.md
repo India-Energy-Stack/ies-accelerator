@@ -12,7 +12,7 @@ This page is always visible in the left nav. If you hit a term you don't recogni
 
 ### DID
 
-**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.discom.example`), defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Identifiers chapter](what-ies-provides/identifiers/README.md).
+**Decentralized Identifier** — a globally unique, cryptographically verifiable identifier of the form `did:method:identifier` (e.g. `did:web:ies.discom.example`), defined by the [W3C DID Core](https://www.w3.org/TR/did-core/) standard. Resolves to a **DID Document** containing public keys and service endpoints. IES uses DIDs to name every participant, asset, and credential issuer. See [Register](what-ies-provides/register.md).
 
 ### DID methods used in IES
 
@@ -31,7 +31,7 @@ IES uses three standard W3C DID methods. There is no separate `did:dedi` method 
 - **DeDi the protocol** — an open specification developed under the [Linux Foundation Decentralized Trust labs](https://github.com/LF-Decentralized-Trust-labs/decentralized-directory-protocol). Defines record shapes, namespace ownership, lookup/query semantics, revocation, and trust-anchor records. **IES picks DeDi-the-protocol** as the registry primitive.
 - **DeDi runtimes** — any service implementing the DeDi protocol. [`dedi.global`](https://dedi.global) is one hosted runtime; a DISCOM or network operator can self-host one — for a private mirror, a regulated jurisdiction, or redundancy. IES doesn't mandate a specific runtime; the same record shapes work across any conformant implementation.
 
-A DeDi record has a `subscriber_id` and `record_id`, looked up via a public HTTPS URL (e.g. `https://<runtime-host>/dedi/lookup/...`). IES uses DeDi for namespaces, network membership, public keys, revocation, and Beckn subscriber records. See [Registries chapter](what-ies-provides/registries/README.md).
+A DeDi record has a `subscriber_id` and `record_id`, looked up via a public HTTPS URL (e.g. `https://<runtime-host>/dedi/lookup/...`). IES uses DeDi for namespaces, network membership, public keys, revocation, and Beckn subscriber records. See [Register — The directory: DeDi](what-ies-provides/register.md#the-directory-dedi).
 
 <a id="verifiable-credential-vc"></a>
 
@@ -49,7 +49,7 @@ The open-source credential service IES DISCOMs deploy to sign, verify, and revok
 
 - Image: `ghcr.io/nfh-trust-labs/opencred/opencred-server` ([releases](https://github.com/nfh-trust-labs/opencred/releases) · [docs](https://opencred.gitbook.io/docs))
 - Bootcamp / first deploy: [opencred.gitbook.io/docs/bootcamp/local-docker](https://opencred.gitbook.io/docs/bootcamp/local-docker)
-- See the [Energy Credentials chapter](what-ies-provides/energy-credentials/README.md) for the IES-specific issuance walkthrough.
+- See the [Energy Credentials chapter](how-you-implement-ies/energy-credentials/README.md) for the IES-specific issuance walkthrough.
 
 ### DigiLocker
 
@@ -65,7 +65,7 @@ The [Government of India API exchange](https://apisetu.gov.in) where DISCOMs reg
 
 ### Beckn
 
-The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** when the dataset is small and a single signed message is simplest. For bulky datasets, telemetry streams, or data already moving over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Data Exchange chapter](what-ies-provides/data-exchange/README.md).
+The open, asynchronous, peer-to-peer protocol IES Data Exchange uses for the **control plane** — discovery, offer, consent, contract, and audit. Beckn can also carry the **payload inline** when the dataset is small and a single signed message is simplest. For bulky datasets, telemetry streams, or data already moving over an established channel (signed URL, REST, SFTP, MQTT, Kafka, OpenADR, etc.), Beckn instead delivers the **access method** via the `accessMethod` field on the DatasetItem. See [Discover+Exchange](what-ies-provides/discover-exchange.md).
 
 ### BAP
 

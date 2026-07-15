@@ -132,9 +132,9 @@ These documents provide a general introduction, terminology definitions, and lay
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="download-pdf.md#download-pdf">Download PDF</a>    <ul>
-      <li><a href="download-pdf.md#whats-in-it">What's in it</a></li>
-      <li><a href="download-pdf.md#how-its-kept-current">How it's kept current</a></li>
-      <li><a href="download-pdf.md#building-it-yourself">Building it yourself</a>
+      <li><a href="download-pdf.md#whats-in-each">What's in each</a></li>
+      <li><a href="download-pdf.md#how-theyre-kept-current">How they're kept current</a></li>
+      <li><a href="download-pdf.md#building-them-yourself">Building them yourself</a>
     </li>
     </ul>
   </li>
@@ -160,78 +160,59 @@ These documents provide a general introduction, terminology definitions, and lay
 
 ---
 
-## 🆔 1. Identifiers and Addressing (DIDs)
+## 🆔 1. Register — Identity and Directory (DIDs + DeDi)
 
-This block defines the cryptographic identity of utilities, consumers, assets, and datasets on the network.
+This block defines the cryptographic identity of utilities, consumers, assets, and datasets, and the directories that resolve identifiers to participant records.
 
 ### ⚙️ Setup & Configuration
-* **[README.md](what-ies-provides/identifiers/README.md)**
-  - *Summary*: Single-page guide to the IES addressing layer: DID methods, did:web step-by-step, ID patterns, holder binding, Beckn subscriber identity.
+* **[register.md](what-ies-provides/register.md)**
+  - *Summary*: Single-page reference for the identity + directory layer: DID methods, the two identities, identifier patterns, DeDi registries, IES networks.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/identifiers/README.md#identifiers-and-addressing">Identifiers and Addressing</a>    <ul>
-      <li><a href="what-ies-provides/identifiers/README.md#why-this-matters">Why this matters</a>      <ul>
-        <li><a href="what-ies-provides/identifiers/README.md#pick-your-role">Pick your role</a>
+    <li><a href="what-ies-provides/register.md#register">Register</a>    <ul>
+      <li><a href="what-ies-provides/register.md#why-a-verifiable-identity-not-a-username">Why a verifiable identity, not a username</a></li>
+      <li><a href="what-ies-provides/register.md#two-identities-youll-set-up-and-why">Two identities you'll set up (and why)</a></li>
+      <li><a href="what-ies-provides/register.md#the-did-methods-ies-uses">The DID methods IES uses</a>      <ul>
+        <li><a href="what-ies-provides/register.md#identifier-vs-record">Identifier vs. record</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/identifiers/README.md#two-identities-youll-set-up-and-why">Two identities you'll set up (and why)</a>      <ul>
-        <li><a href="what-ies-provides/identifiers/README.md#a-org-identity-for-credentials-and-data-exchange-payloads">(a) Org identity — for credentials and data-exchange payloads</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#b-beckn-network-identity-for-participating-on-a-beckn-network">(b) Beckn network identity — for participating on a Beckn network</a>
+      <li><a href="what-ies-provides/register.md#identifier-patterns">Identifier patterns</a>      <ul>
+        <li><a href="what-ies-provides/register.md#where-each-id-goes-in-a-credential">Where each ID goes in a credential</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/identifiers/README.md#publish-your-didweb">Publish your `did:web`</a></li>
-      <li><a href="what-ies-provides/identifiers/README.md#id-patterns-youll-use-day-one">ID patterns you'll use day one</a></li>
-      <li><a href="what-ies-provides/identifiers/README.md#where-each-id-goes-in-a-credential">Where each ID goes in a credential</a></li>
-      <li><a href="what-ies-provides/identifiers/README.md#setup">Setup</a></li>
-      <li><a href="what-ies-provides/identifiers/README.md#appendix-a-how-dids-work-and-the-three-methods-ies-uses">Appendix A — How DIDs work, and the three methods IES uses</a>      <ul>
-        <li><a href="what-ies-provides/identifiers/README.md#whats-in-a-did-document">What's in a DID document</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#the-three-did-methods-ies-uses">The three DID methods IES uses</a>        <ul>
-          <li><a href="what-ies-provides/identifiers/README.md#didweb-the-one-your-discom-will-use">`did:web` — the one your DISCOM will use</a></li>
-          <li><a href="what-ies-provides/identifiers/README.md#didkey-what-wallets-give-consumers">`did:key` — what wallets give consumers</a></li>
-          <li><a href="what-ies-provides/identifiers/README.md#didjwk-same-shape-as-didkey-jwk-encoded">`did:jwk` — same shape as `did:key`, JWK-encoded</a>
-        </li>
-        </ul>
-        <li><a href="what-ies-provides/identifiers/README.md#quick-reference">Quick reference</a>
+      <li><a href="what-ies-provides/register.md#the-directory-dedi">The directory: DeDi</a>      <ul>
+        <li><a href="what-ies-provides/register.md#the-three-coordinate-model">The three-coordinate model</a></li>
+        <li><a href="what-ies-provides/register.md#the-registries-ies-uses-by-role">The registries IES uses, by role</a></li>
+        <li><a href="what-ies-provides/register.md#the-ies-networks-today">The IES networks today</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/identifiers/README.md#appendix-b-issuing-credentials-moved">Appendix B — Issuing credentials (moved)</a></li>
-      <li><a href="what-ies-provides/identifiers/README.md#appendix-c-identifying-assets-meters-connections-datasets">Appendix C — Identifying assets, meters, connections, datasets</a>      <ul>
-        <li><a href="what-ies-provides/identifiers/README.md#conventions">Conventions</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#meter">Meter</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#other-assets-transformer-feeder-substation-solar-bess-ev-charger">Other assets — transformer, feeder, substation, solar, BESS, EV charger</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#service-connection">Service connection</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#dataset-beckn-datasetitem">Dataset (Beckn `DatasetItem`)</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#summary">Summary</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/identifiers/README.md#appendix-d-identifier-vs-record">Appendix D — Identifier vs. record</a>      <ul>
-        <li><a href="what-ies-provides/identifiers/README.md#five-places-this-matters-in-ies">Five places this matters in IES</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#asset-did-resolution-patterns-pragmatic-programmatic-per-asset">Asset-DID resolution patterns (pragmatic / programmatic / per-asset)</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/identifiers/README.md#appendix-e-joining-a-beckn-network-subscriber-registry-on-the-beckn-fabric">Appendix E — Joining a Beckn network (subscriber registry on the Beckn fabric)</a>      <ul>
-        <li><a href="what-ies-provides/identifiers/README.md#step-1-set-up-a-dedi-account-and-verify-your-namespace">Step 1 — Set up a DeDi account and verify your namespace</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#step-2-generate-your-beckn-signing-keypair">Step 2 — Generate your Beckn signing keypair</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#step-3-create-a-beckn-subscriber-registry-under-your-namespace">Step 3 — Create a Beckn subscriber registry under your namespace</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#step-4-publish-your-subscriber-record">Step 4 — Publish your subscriber record</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#step-5-verify-your-key-lookup">Step 5 — Verify your key lookup</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#step-6-get-added-to-the-nfos-network-registry">Step 6 — Get added to the NFO's network registry</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#how-other-beckn-nodes-consume-your-identity">How other Beckn nodes consume your identity</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#step-7-configure-your-onix-to-accept-the-right-networks-allowednetworkids">Step 7 — Configure your ONIX to accept the right networks (`allowedNetworkIDs`)</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#why-the-two-identity-model">Why the two-identity model</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/identifiers/README.md#appendix-f-binding-the-credential-to-a-holder-identity">Appendix F — Binding the credential to a holder identity</a>      <ul>
-        <li><a href="what-ies-provides/identifiers/README.md#before-you-bind-anything-identity-proofing-at-issuance">Before you bind anything: identity-proofing at issuance</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#pattern-1-wallet-did-cryptographic-recommended-where-a-wallet-exists">Pattern 1 — Wallet DID (cryptographic, recommended where a wallet exists)</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#pattern-2-phone-number-uri-out-of-band-when-there-is-no-wallet">Pattern 2 — Phone-number URI (out-of-band, when there is no wallet)</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#pattern-3-digilocker-mediated-indian-context-shortcut">Pattern 3 — DigiLocker-mediated (Indian-context shortcut)</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#where-does-the-contact-identifier-live-in-the-schema">Where does the contact identifier live in the schema?</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#picking-a-pattern">Picking a pattern</a></li>
-        <li><a href="what-ies-provides/identifiers/README.md#quick-consistency-checklist-for-adopters">Quick consistency checklist for adopters</a>
-      </li>
-      </ul>
+      <li><a href="what-ies-provides/register.md#setup">Setup</a></li>
+      <li><a href="what-ies-provides/register.md#where-this-fits">Where this fits</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[setup-register.md](how-you-implement-ies/setup-register.md)**
+  - *Summary*: Role-based do-guide: domain, keypair, did.json, DeDi namespace; Beckn subscriber records and IES network references for network participants.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="how-you-implement-ies/setup-register.md#setup-register">Setup Register</a>    <ul>
+      <li><a href="how-you-implement-ies/setup-register.md#who-does-what">Who does what</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#before-you-start">Before you start</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#11-pick-a-domain-or-subdomain-you-control">1.1 — Pick a domain (or subdomain) you control</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#12-generate-your-credential-signing-keypair">1.2 — Generate your credential-signing keypair</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#13-generate-and-publish-didjson">1.3 — Generate and publish `did.json`</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#14-claim-a-dedi-namespace-and-verify-your-domain">1.4 — Claim a DeDi namespace and verify your domain</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#15-beckn-participants-generate-your-beckn-signing-keypair">1.5 — *(Beckn participants)* Generate your Beckn signing keypair</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#16-beckn-participants-publish-your-beckn-subscriber-record">1.6 — *(Beckn participants)* Publish your Beckn subscriber record</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#17-beckn-participants-get-referenced-into-an-ies-network">1.7 — *(Beckn participants)* Get referenced into an IES network</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#18-nfos-run-your-own-beckn-network">1.8 — *(NFOs)* Run your own Beckn network</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#troubleshooting">Troubleshooting</a></li>
+      <li><a href="how-you-implement-ies/setup-register.md#checklist">Checklist</a>
     </li>
     </ul>
   </li>
@@ -240,118 +221,89 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
 
 ---
 
-## 🗄️ 2. Registries and Directories (DeDi)
-
-This block describes the directories that store and resolve identifiers to participant records.
-
-### ⚙️ Setup & Configuration
-* **[README.md](what-ies-provides/registries/README.md)**
-  - *Summary*: Introduction to the trust registry layer and related building blocks.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="what-ies-provides/registries/README.md#registries-and-directories">Registries and Directories</a>    <ul>
-      <li><a href="what-ies-provides/registries/README.md#why-dedi-and-the-three-questions-it-answers">Why DeDi (and the three questions it answers)</a></li>
-      <li><a href="what-ies-provides/registries/README.md#registry-tags-used-in-ies">Registry tags used in IES</a></li>
-      <li><a href="what-ies-provides/registries/README.md#the-registries-youll-touch-in-ies-by-role">The registries you'll touch in IES, by role</a>      <ul>
-        <li><a href="what-ies-provides/registries/README.md#as-a-discom-issuer-running-opencred">As a DISCOM / issuer running OpenCred</a></li>
-        <li><a href="what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform">As a Beckn Network Participant (BAP / BPP, aggregator, AMISP, trading platform)</a></li>
-        <li><a href="what-ies-provides/registries/README.md#as-an-nfo">As an NFO</a></li>
-        <li><a href="what-ies-provides/registries/README.md#as-a-verifier-or-wallet">As a verifier or wallet</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/registries/README.md#ies-networks-and-registries-today">IES networks and registries today</a>      <ul>
-        <li><a href="what-ies-provides/registries/README.md#beckn-networks-nfo-operated-reference-registries">Beckn networks (NFO-operated reference registries)</a></li>
-        <li><a href="what-ies-provides/registries/README.md#reference-allow-lists-industry-coordination">Reference allow-lists (industry coordination)</a></li>
-        <li><a href="what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing">How to apply for an IES listing</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/registries/README.md#setup">Setup</a></li>
-      <li><a href="what-ies-provides/registries/README.md#appendix-a-dedi-primer-just-enough-to-navigate">Appendix A — DeDi primer (just enough to navigate)</a>      <ul>
-        <li><a href="what-ies-provides/registries/README.md#the-three-coordinate-model">The three-coordinate model</a></li>
-        <li><a href="what-ies-provides/registries/README.md#built-in-schema-tags-used-in-ies">Built-in schema tags used in IES</a></li>
-        <li><a href="what-ies-provides/registries/README.md#opencred-auto-creates-four-registries">OpenCred auto-creates four registries</a></li>
-        <li><a href="what-ies-provides/registries/README.md#api-at-a-glance">API at a glance</a></li>
-        <li><a href="what-ies-provides/registries/README.md#deployment-options">Deployment options</a></li>
-        <li><a href="what-ies-provides/registries/README.md#state-versioning-time-travel">State, versioning, time-travel</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/registries/README.md#appendix-b-verifying-a-credential-end-to-end">Appendix B — Verifying a credential, end-to-end</a></li>
-      <li><a href="what-ies-provides/registries/README.md#appendix-c-troubleshooting">Appendix C — Troubleshooting</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-
----
-
-## 🪪 3. Energy Credentials (VCs / OpenCred)
+## 🪪 2. Energy Credentials (VCs / OpenCred)
 
 This block handles digital attestations of connections, billing summaries, and consumer identities.
 
 ### ⚙️ Setup & Configuration
-* **[README.md](what-ies-provides/energy-credentials/README.md)**
-  - *Summary*: Single-page guide: prerequisites, step-by-step issuance / verification / revocation, credential variants, checklist, and trust-model appendices.
+* **[issue-credentials.md](how-you-implement-ies/issue-credentials.md)**
+  - *Summary*: Do-guide: run OpenCred with DeDi config, issue / verify / revoke, credential variants, verifier walkthrough, holder binding, operational notes.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/energy-credentials/README.md#energy-credentials">Energy Credentials</a>    <ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#why-credentials">Why credentials</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/README.md#lifecycle-at-a-glance">Lifecycle at a glance</a>
+    <li><a href="how-you-implement-ies/issue-credentials.md#issue-credentials">Issue Credentials</a>    <ul>
+      <li><a href="how-you-implement-ies/issue-credentials.md#before-you-start">Before you start</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#21-pull-the-opencred-image">2.1 — Pull the OpenCred image</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#22-generate-the-opencred-api-token">2.2 — Generate the OpenCred API token</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#23-run-opencred-in-didweb-mode">2.3 — Run OpenCred in `did:web` mode</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#24-confirm-your-dedi-namespace-is-live">2.4 — Confirm your DeDi namespace is live</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#25-confirm-the-issuer-did-opencred-reports">2.5 — Confirm the issuer DID OpenCred reports</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#26-issue-your-first-credential">2.6 — Issue your first credential</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#27-verify">2.7 — Verify</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#28-revoke">2.8 — Revoke</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#29-smoke-test">2.9 — Smoke test</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#issue-the-credential-variants">Issue the credential variants</a>      <ul>
+        <li><a href="how-you-implement-ies/issue-credentials.md#meterdatacredential-v06-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#meterdatarequestcredential-v01-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#pick-your-role">Pick your role</a></li>
-      <li><a href="what-ies-provides/energy-credentials/README.md#prerequisites">Prerequisites</a></li>
-      <li><a href="what-ies-provides/energy-credentials/README.md#set-up-opencred-and-publish-your-didweb">Set up OpenCred and publish your `did:web`</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/README.md#1-pull-the-opencred-image">1. Pull the OpenCred image</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#2-generate-a-signing-key-and-api-token">2. Generate a signing key and API token</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#3-run-opencred-in-didweb-mode">3. Run OpenCred in `did:web` mode</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#4-generate-your-didjson">4. Generate your `did.json`</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#5-publish-the-file">5. Publish the file</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#6-verify-it-from-the-outside">6. Verify it from the outside</a>
+      <li><a href="how-you-implement-ies/issue-credentials.md#verify-a-credential-you-received-the-verifiers-walkthrough">Verify a credential you received (the verifier's walkthrough)</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#operational-notes">Operational notes</a>      <ul>
+        <li><a href="how-you-implement-ies/issue-credentials.md#key-rotation">Key rotation</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#signing-key-sources">Signing-key sources</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#schema-validation">Schema validation</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#batch-issuance">Batch issuance</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#reverse-proxy-tls">Reverse proxy + TLS</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#troubleshooting">Troubleshooting</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#confirm-your-dedi-namespace-is-live">Confirm your DeDi namespace is live</a></li>
-      <li><a href="what-ies-provides/energy-credentials/README.md#issue-your-first-credential">Issue your first credential</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/README.md#1-confirm-the-issuer-did-opencred-reports">1. Confirm the issuer DID OpenCred reports</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#2-issue">2. Issue</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#3-verify">3. Verify</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#4-revoke">4. Revoke</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#5-smoke-test">5. Smoke test</a>
+      <li><a href="how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity">Appendix — Binding the credential to a holder identity</a>      <ul>
+        <li><a href="how-you-implement-ies/issue-credentials.md#before-you-bind-anything-identity-proofing-at-issuance">Before you bind anything: identity-proofing at issuance</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#pattern-1-wallet-did-cryptographic-recommended-where-a-wallet-exists">Pattern 1 — Wallet DID (cryptographic, recommended where a wallet exists)</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#pattern-2-phone-number-uri-out-of-band-when-there-is-no-wallet">Pattern 2 — Phone-number URI (out-of-band, when there is no wallet)</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#pattern-3-digilocker-mediated-indian-context-shortcut">Pattern 3 — DigiLocker-mediated (Indian-context shortcut)</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#pattern-4-discom-assigned-consumer-did-stable-subject-reference">Pattern 4 — DISCOM-assigned consumer DID (stable subject reference)</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#where-does-the-contact-identifier-live-in-the-schema">Where does the contact identifier live in the schema?</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#picking-a-pattern">Picking a pattern</a></li>
+        <li><a href="how-you-implement-ies/issue-credentials.md#quick-consistency-checklist-for-adopters">Quick consistency checklist for adopters</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#credential-variants">Credential variants</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/README.md#electricitycredential-v12-the-default">ElectricityCredential v1.2 — the default</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#meterdatacredential-v06-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#meterdatarequestcredential-v01-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#summary">Summary</a>
+      <li><a href="how-you-implement-ies/issue-credentials.md#checklist">Checklist</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[README.md](how-you-implement-ies/energy-credentials/README.md)**
+  - *Summary*: Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="how-you-implement-ies/energy-credentials/README.md#energy-credentials">Energy Credentials</a>    <ul>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#why-credentials">Why credentials</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#lifecycle-at-a-glance">Lifecycle at a glance</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#holder-binding">Holder binding</a></li>
-      <li><a href="what-ies-provides/energy-credentials/README.md#digilocker-delivery">DigiLocker delivery</a></li>
-      <li><a href="what-ies-provides/energy-credentials/README.md#setup-checklist">Setup checklist</a></li>
-      <li><a href="what-ies-provides/energy-credentials/README.md#appendix-a-trust-model">Appendix A — Trust model</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/README.md#signing-key-sources">Signing-key sources</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#proof-formats">Proof formats</a>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#pick-your-role">Pick your role</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#credential-variants">Credential variants</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#electricitycredential-v12-the-default">ElectricityCredential v1.2 — the default</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#meterdatacredential-v06-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#meterdatarequestcredential-v01-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#summary">Summary</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#appendix-b-operational-notes">Appendix B — Operational notes</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/README.md#key-rotation">Key rotation</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#schema-validation">Schema validation</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#batch-issuance">Batch issuance</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#reverse-proxy-tls">Reverse proxy + TLS</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#troubleshooting">Troubleshooting</a>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#holder-binding">Holder binding</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#digilocker-delivery">DigiLocker delivery</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#trust-model">Trust model</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#proof-formats">Proof formats</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#appendix-c-core-concepts">Appendix C — Core concepts</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/README.md#whats-a-verifiable-credential">What's a Verifiable Credential</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#whats-a-did">What's a DID</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#identifier-vs-record">Identifier vs. record</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#credential-lifecycle">Credential lifecycle</a>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#core-concepts">Core concepts</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#whats-a-verifiable-credential">What's a Verifiable Credential</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/README.md#whats-a-did">What's a DID</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/README.md#references">References</a>
+      <li><a href="how-you-implement-ies/energy-credentials/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -359,55 +311,55 @@ This block handles digital attestations of connections, billing summaries, and c
   </details>
 
 ### 🔌 Use & Operations
-* **[digilocker.md](what-ies-provides/energy-credentials/digilocker.md)**
+* **[digilocker.md](how-you-implement-ies/energy-credentials/digilocker.md)**
   - *Summary*: DigiLocker delivery: Pull URI, callback flow, signature pinning.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/energy-credentials/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#flow-overview">Flow Overview</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
+    <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#flow-overview">Flow Overview</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#handler-logic-summary">Handler Logic Summary</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#routing-by-doctype">Routing by DocType</a>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#handler-logic-summary">Handler Logic Summary</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#routing-by-doctype">Routing by DocType</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v12">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v12">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-ask-to-digilocker-mpltr">The ask to DigiLocker (MPLTR)</a>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
+        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-ask-to-digilocker-mpltr">The ask to DigiLocker (MPLTR)</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#error-response-format">Error Response Format</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#security-checklist">Security Checklist</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#reference">Reference</a>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#error-response-format">Error Response Format</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#security-checklist">Security Checklist</a></li>
+      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#reference">Reference</a>
     </li>
     </ul>
   </li>
@@ -416,65 +368,73 @@ This block handles digital attestations of connections, billing summaries, and c
 
 ---
 
-## 🔌 4. Data Exchange (Beckn)
+## 🔌 3. Discover+Exchange (Beckn)
 
 This block governs data discovery, consent, and the transfer of telemetry and regulatory datasets.
 
 ### ⚙️ Setup & Configuration
-* **[README.md](what-ies-provides/data-exchange/README.md)**
-  - *Summary*: Single-page guide: prerequisites, 10-minute devkit walkthrough, real-network swap, pagination protocol, optional Beckn actions, two-deployment pattern, and protocol/architecture/validation appendices.
+* **[discover-exchange.md](what-ies-provides/discover-exchange.md)**
+  - *Summary*: Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the Taxonomy, schemas by use case.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/data-exchange/README.md#data-exchange">Data Exchange</a>    <ul>
-      <li><a href="what-ies-provides/data-exchange/README.md#why-this-page">Why this page</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#pick-your-role">Pick your role</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#prerequisites">Prerequisites</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#quick-start-run-a-local-exchange-in-10-minutes">Quick start — run a local exchange in 10 minutes</a>      <ul>
-        <li><a href="what-ies-provides/data-exchange/README.md#1-clone-and-start-the-stack">1. Clone and start the stack</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#2-import-the-postman-collection-for-your-use-case">2. Import the Postman collection for your use case</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#3-send-confirm">3. Send `confirm`</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#4-watch-on-confirm-land">4. Watch `on_confirm` land</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#5-stop-the-stack-when-done">5. Stop the stack when done</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#bpp-path">BPP path</a>
+    <li><a href="what-ies-provides/discover-exchange.md#discoverexchange">Discover+Exchange</a>    <ul>
+      <li><a href="what-ies-provides/discover-exchange.md#two-rails-two-kinds-of-trust">Two rails, two kinds of trust</a></li>
+      <li><a href="what-ies-provides/discover-exchange.md#discover-find-agree-and-sign-without-a-pre-negotiated-integration">Discover — find, agree, and sign without a pre-negotiated integration</a>      <ul>
+        <li><a href="what-ies-provides/discover-exchange.md#the-lifecycle-at-a-glance">The lifecycle at a glance</a></li>
+        <li><a href="what-ies-provides/discover-exchange.md#the-ies-networks">The IES networks</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/data-exchange/README.md#go-over-the-public-internet-ngrok">Go over the public internet (ngrok)</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#swap-in-your-real-identity">Swap in your real identity</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#the-ies-networks">The IES networks</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#pagination-large-datasets-across-multiple-status-on-status-messages">Pagination — large datasets across multiple `status` / `on_status` messages</a>      <ul>
-        <li><a href="what-ies-provides/data-exchange/README.md#bap-pull-the-bap-drives-the-cadence">BAP-PULL — the BAP drives the cadence</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#bpp-push-the-bpp-drives-the-cadence">BPP-PUSH — the BPP drives the cadence</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#worked-examples-in-the-devkit">Worked examples in the devkit</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/data-exchange/README.md#optional-beckn-actions">Optional Beckn actions</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#two-registries-two-onix-deployments">Two registries, two ONIX deployments</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#make-the-sandbox-your-own">Make the sandbox your own</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#what-you-can-exchange-schema-families">What you can exchange (schema families)</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#setup-checklist">Setup checklist</a>
+      <li><a href="what-ies-provides/discover-exchange.md#exchange-the-taxonomy">Exchange — the Taxonomy</a></li>
+      <li><a href="what-ies-provides/discover-exchange.md#what-you-set-up">What you set up</a></li>
+      <li><a href="what-ies-provides/discover-exchange.md#where-this-fits">Where this fits</a>
     </li>
     </ul>
-    <li><a href="what-ies-provides/data-exchange/README.md#appendices">Appendices</a>    <ul>
-      <li><a href="what-ies-provides/data-exchange/README.md#appendix-a-beckn-protocol-lifecycle">Appendix A — Beckn protocol lifecycle</a>      <ul>
-        <li><a href="what-ies-provides/data-exchange/README.md#message-structure">Message structure</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#context-invariants">Context invariants</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#datasetitem-and-accessmethod">`DatasetItem` and `accessMethod`</a>
+  </li>
+  </ul>
+  </details>
+* **[setup-discovery-exchange.md](how-you-implement-ies/setup-discovery-exchange.md)**
+  - *Summary*: Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="how-you-implement-ies/setup-discovery-exchange.md#setup-discoveryexchange">Setup Discovery+Exchange</a>    <ul>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#before-you-start">Before you start</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#31-deploy-the-local-sandbox">3.1 — Deploy the local sandbox</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#32-run-your-first-exchange">3.2 — Run your first exchange</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#33-swap-in-your-real-identity">3.3 — Swap in your real identity</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#34-go-over-the-public-internet-ngrok">3.4 — Go over the public internet (ngrok)</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#35-two-registries-two-onix-deployments">3.5 — Two registries, two ONIX deployments</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#36-make-the-sandbox-your-own">3.6 — Make the sandbox your own</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#37-test-the-end-to-end-loop">3.7 — Test the end-to-end loop</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#checklist">Checklist</a>
+    </li>
+    </ul>
+    <li><a href="how-you-implement-ies/setup-discovery-exchange.md#appendices">Appendices</a>    <ul>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#appendix-a-message-envelope-and-correlation-rules">Appendix A — Message envelope and correlation rules</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#datasetitem-and-accessmethod">`DatasetItem` and `accessMethod`</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/data-exchange/README.md#appendix-b-architecture-at-a-glance">Appendix B — Architecture at a glance</a>      <ul>
-        <li><a href="what-ies-provides/data-exchange/README.md#the-four-onix-endpoints">The four ONIX endpoints</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#identity-resolution">Identity resolution</a>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#appendix-b-pagination-large-datasets-across-multiple-status-on-status-messages">Appendix B — Pagination: large datasets across multiple `status` / `on_status` messages</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#bap-pull-the-bap-drives-the-cadence">BAP-PULL — the BAP drives the cadence</a></li>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#bpp-push-the-bpp-drives-the-cadence">BPP-PUSH — the BPP drives the cadence</a></li>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#worked-examples-in-the-devkit">Worked examples in the devkit</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/data-exchange/README.md#appendix-c-schema-validation">Appendix C — Schema validation</a>      <ul>
-        <li><a href="what-ies-provides/data-exchange/README.md#failure-modes">Failure modes</a></li>
-        <li><a href="what-ies-provides/data-exchange/README.md#publishing-your-own-schema-for-onix-to-validate">Publishing your own schema for ONIX to validate</a>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#appendix-c-architecture-at-a-glance">Appendix C — Architecture at a glance</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#the-four-onix-endpoints">The four ONIX endpoints</a></li>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#identity-resolution">Identity resolution</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/data-exchange/README.md#appendix-d-hostnames-sandbox-vs-production">Appendix D — Hostnames sandbox vs production</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#appendix-e-generic-beckn-flow-sequence-diagram">Appendix E — Generic Beckn flow (sequence diagram)</a></li>
-      <li><a href="what-ies-provides/data-exchange/README.md#references">References</a>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#appendix-d-schema-validation-on-the-wire">Appendix D — Schema validation on the wire</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#failure-modes">Failure modes</a></li>
+        <li><a href="how-you-implement-ies/setup-discovery-exchange.md#publishing-your-own-schema-for-onix-to-validate">Publishing your own schema for ONIX to validate</a>
+      </li>
+      </ul>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#appendix-e-hostnames-sandbox-vs-production">Appendix E — Hostnames: sandbox vs production</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#appendix-f-generic-beckn-flow-sequence-diagram">Appendix F — Generic Beckn flow (sequence diagram)</a></li>
+      <li><a href="how-you-implement-ies/setup-discovery-exchange.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -483,7 +443,238 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 ---
 
-## 🗃️ 5. Schemas
+## 🗃️ 4. Schemas Overview & Taxonomy
+
+Plain-language overviews of each schema family and how the taxonomy fits together — the shallow layer above the field-level reference.
+
+* **[README.md](what-ies-provides/schemas-overview/README.md)**
+  - *Summary*: Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level Taxonomy reference.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/README.md#schemas-overview">Schemas Overview</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/README.md#how-each-page-is-organised">How each page is organised</a></li>
+      <li><a href="what-ies-provides/schemas-overview/README.md#where-this-fits">Where this fits</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[electricity-credential.md](what-ies-provides/schemas-overview/electricity-credential.md)**
+  - *Summary*: ElectricityCredential — plain-language overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#electricitycredential-v12">ElectricityCredential v1.2</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/electricity-credential.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data.md](what-ies-provides/schemas-overview/meter-data.md)**
+  - *Summary*: MeterData — plain-language overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data.md#meterdata-v06">MeterData v0.6</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data-credential.md](what-ies-provides/schemas-overview/meter-data-credential.md)**
+  - *Summary*: MeterDataCredential — plain-language overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#meterdatacredential-v06">MeterDataCredential v0.6</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-credential.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data-request.md](what-ies-provides/schemas-overview/meter-data-request.md)**
+  - *Summary*: MeterDataRequest — plain-language overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#meterdatarequest-v06">MeterDataRequest v0.6</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[meter-data-request-credential.md](what-ies-provides/schemas-overview/meter-data-request-credential.md)**
+  - *Summary*: MeterDataRequestCredential — plain-language overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#meterdatarequestcredential-v01">MeterDataRequestCredential v0.1</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[arr-filing.md](what-ies-provides/schemas-overview/arr-filing.md)**
+  - *Summary*: ArrFiling — plain-language overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/arr-filing.md#arrfiling-v05">ArrFiling v0.5</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/arr-filing.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/arr-filing.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/arr-filing.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/arr-filing.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[outage-notification.md](what-ies-provides/schemas-overview/outage-notification.md)**
+  - *Summary*: OutageNotification — plain-language overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/schemas-overview/outage-notification.md#outagenotification-v01">OutageNotification v0.1</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#4-definitions">4. Definitions</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#7-the-records">7. The Record(s)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#8-schedule-i-field-reference-summary">8. Schedule I — Field Reference (summary)</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="what-ies-provides/schemas-overview/outage-notification.md#11-points-for-confirmation">11. Points for Confirmation</a>      <ul>
+        <li><a href="what-ies-provides/schemas-overview/outage-notification.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+        <li><a href="what-ies-provides/schemas-overview/outage-notification.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+        <li><a href="what-ies-provides/schemas-overview/outage-notification.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[taxonomy.md](what-ies-provides/taxonomy.md)**
+  - *Summary*: Taxonomy overview — how IES domain objects relate, standards precedence, and how to propose a new object; points at the field-level schemas chapter.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="what-ies-provides/taxonomy.md#taxonomy">Taxonomy</a>    <ul>
+      <li><a href="what-ies-provides/taxonomy.md#schema-map">Schema map</a>      <ul>
+        <li><a href="what-ies-provides/taxonomy.md#verifiable-credentials">Verifiable Credentials</a></li>
+        <li><a href="what-ies-provides/taxonomy.md#data-exchange-payloads">Data Exchange payloads</a></li>
+        <li><a href="what-ies-provides/taxonomy.md#external-deg-schemas-ies-uses">External — DEG schemas IES uses</a>
+      </li>
+      </ul>
+      <li><a href="what-ies-provides/taxonomy.md#standards-precedence">Standards precedence</a></li>
+      <li><a href="what-ies-provides/taxonomy.md#versioning">Versioning</a></li>
+      <li><a href="what-ies-provides/taxonomy.md#proposing-a-new-schema-or-a-change">Proposing a new schema (or a change)</a></li>
+      <li><a href="what-ies-provides/taxonomy.md#stewardship">Stewardship</a></li>
+      <li><a href="what-ies-provides/taxonomy.md#where-this-fits">Where this fits</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+
+---
+
+## 📚 5. Schemas (field reference)
 
 Each family page opens with a concise plain-language overview; version pages carry the auto-generated field reference.
 
@@ -754,7 +945,189 @@ Each family page opens with a concise plain-language overview; version pages car
 
 ---
 
-## 🎯 6. Use Cases
+## 🧭 6. Use Case Overviews
+
+Shallow, business-outcome overviews of each use case — what it delivers and which schemas/rails it combines.
+
+* **[README.md](use-cases-overview/README.md)**
+  - *Summary*: Shallow overviews of each IES use case — the business outcome and which schemas/rails it combines, before the implementation guide.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/README.md#use-case-overviews">Use Case Overviews</a>    <ul>
+      <li><a href="use-cases-overview/README.md#how-each-page-is-organised">How each page is organised</a></li>
+      <li><a href="use-cases-overview/README.md#where-this-fits">Where this fits</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[consumer-energy-passport.md](use-cases-overview/consumer-energy-passport.md)**
+  - *Summary*: Consumer Energy Passport — overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/consumer-energy-passport.md#consumer-energy-passport">Consumer Energy Passport</a>    <ul>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#4-definitions">4. Definitions</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#7-the-record">7. The Record</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#8-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[consumer-meter-digest.md](use-cases-overview/consumer-meter-digest.md)**
+  - *Summary*: Consumer Meter Digest — overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/consumer-meter-digest.md#consumer-meter-digest">Consumer Meter Digest</a>    <ul>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#4-definitions">4. Definitions</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#7-the-record">7. The Record</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#8-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[smart-meter-data-exchange.md](use-cases-overview/smart-meter-data-exchange.md)**
+  - *Summary*: Smart Meter Data Exchange — overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/smart-meter-data-exchange.md#smart-meter-data-exchange">Smart Meter Data Exchange</a>    <ul>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#4-definitions">4. Definitions</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#7-the-record">7. The Record</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#8-schedule-i-static-fields-of-the-data-exchange">8. Schedule I — Static Fields of the Data Exchange</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#9-schedule-ii-reportee-templates-optional">9. Schedule II — Reportee Templates (optional)</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[der-visibility.md](use-cases-overview/der-visibility.md)**
+  - *Summary*: DER Visibility — overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/der-visibility.md#der-visibility">DER Visibility</a>    <ul>
+      <li><a href="use-cases-overview/der-visibility.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#4-definitions">4. Definitions</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#7-the-record">7. The Record</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#8-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#9-schedule-ii">9. Schedule II</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[discom-regulatory-filing.md](use-cases-overview/discom-regulatory-filing.md)**
+  - *Summary*: DISCOM Regulatory Filing — overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/discom-regulatory-filing.md#discom-regulatory-filing">DISCOM Regulatory Filing</a>    <ul>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#4-definitions">4. Definitions</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#7-the-records">7. The Records</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#8-schedule-i-static-fields-of-the-filing">8. Schedule I — Static Fields of the Filing</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[tariff-intelligence.md](use-cases-overview/tariff-intelligence.md)**
+  - *Summary*: Tariff Intelligence — overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/tariff-intelligence.md#tariff-intelligence">Tariff Intelligence</a>    <ul>
+      <li><a href="use-cases-overview/tariff-intelligence.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#4-definitions">4. Definitions</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#5-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#7-the-record">7. The Record</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#8-schedule-i-static-fields-of-the-policy">8. Schedule I — Static Fields of the Policy</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#10-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+
+---
+
+## 🎯 7. Use Case Implementation Guides
 
 Practical deployment and mapping implementations for specific grid business processes.
 
@@ -997,7 +1370,7 @@ Practical deployment and mapping implementations for specific grid business proc
 
 ---
 
-## 🗺️ 7. Operational Pathways (Roadmaps)
+## 🗺️ 8. Operational Pathways (Roadmaps)
 
 Step-by-step project-management pathways for onboarding and network operations.
 

@@ -45,16 +45,16 @@ Before writing any code, get clear on the shape of the system you are integratin
 ### Execution Guidance
 IES organises every interaction into three steps:
 1. **[Register](../what-ies-provides/register.md)** — verifiable digital identity (`did:web`) and the shared directory (DeDi). See **[Setup Register](../how-you-implement-ies/setup-register.md)**.
-2. **[Discover](../what-ies-provides/discover.md)** — Beckn-protocol interaction between systems. See **[Setup Discovery](../how-you-implement-ies/setup-discovery.md)**.
-3. **[Exchange](../what-ies-provides/exchange.md)** — schemas, taxonomy, and verifiable credentials. See **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
+2. **[Discover](../what-ies-provides/discover-exchange.md)** — Beckn-protocol interaction between systems. See **[Setup Discovery](../how-you-implement-ies/setup-discovery-exchange.md)**.
+3. **[Exchange](../what-ies-provides/discover-exchange.md)** — schemas, taxonomy, and verifiable credentials. See **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
 
 Register and Discover usually belong to your DISCOM client. **Exchange — the Part-2 mapping — is your team's work.**
 
 ### References & Anchors
 * [What IES Provides — overview](../what-ies-provides/README.md)
 * [Register](../what-ies-provides/register.md)
-* [Discover](../what-ies-provides/discover.md)
-* [Exchange](../what-ies-provides/exchange.md)
+* [Discover](../what-ies-provides/discover-exchange.md)
+* [Exchange](../what-ies-provides/discover-exchange.md)
 * [How you implement IES — overview](../how-you-implement-ies/README.md)
 </details>
 
@@ -170,7 +170,7 @@ The `MeterDataCredential` schema names **"AMISP, MDM system"** as the typical pr
 
 ### References & Anchors
 * [Register](../what-ies-provides/register.md)
-* [Registries and Directories — As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)
+* [Registries and Directories — As a Beckn Network Participant](../what-ies-provides/register.md#the-directory-dedi)
 * [MeterDataCredential family page](../schemas/MeterDataCredential/README.md)
 </details>
 
@@ -182,13 +182,13 @@ The `MeterDataCredential` schema names **"AMISP, MDM system"** as the typical pr
 
 ### Execution Guidance
 1. Follow **[Setup Register](../how-you-implement-ies/setup-register.md)** to publish `did.json`, generate a signing keypair, and claim a DeDi namespace.
-2. Create your own subscriber registries (`subscribers-test`, `subscribers-prod`) if participating directly as a provider — see **[Registries — As a Beckn Network Participant](../what-ies-provides/registries/README.md#as-a-beckn-network-participant-bap-bpp-aggregator-amisp-trading-platform)**.
-3. Apply for an IES listing like any participant: send your identifier, DeDi namespace, and subscriber registry details to the Secretariat — see **[How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)**.
+2. Create your own subscriber registries (`subscribers-test`, `subscribers-prod`) if participating directly as a provider — see **[Registries — As a Beckn Network Participant](../what-ies-provides/register.md#the-directory-dedi)**.
+3. Apply for an IES listing like any participant: send your identifier, DeDi namespace, and subscriber registry details to the Secretariat — see **[How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)**.
 
 ### References & Anchors
 * [Setup Register](../how-you-implement-ies/setup-register.md)
-* [Registries and Directories](../what-ies-provides/registries/README.md)
-* [How to apply for an IES listing](../what-ies-provides/registries/README.md#how-to-apply-for-an-ies-listing)
+* [Registries and Directories](../what-ies-provides/register.md#the-directory-dedi)
+* [How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)
 </details>
 
 ---

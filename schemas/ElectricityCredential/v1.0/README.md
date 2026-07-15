@@ -55,7 +55,7 @@ All date-time values include an explicit timezone offset (e.g., `2025-01-13T10:3
 
 ## Revocation
 
-Credential revocation is managed via DeDi. See [Energy Credentials — Revoke](../../../what-ies-provides/energy-credentials/README.md#id-4.-revoke) for the publication flow.
+Credential revocation is managed via DeDi. See [Energy Credentials — Revoke](../../../how-you-implement-ies/issue-credentials.md#id-2.8-revoke) for the publication flow.
 
 ## Profile Sections
 

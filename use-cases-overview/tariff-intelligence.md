@@ -1,6 +1,6 @@
 # Tariff Intelligence
 
-*Tariff orders, time-of-day surcharges, deviation penalties, and data-exchange rules published once, as code, by the issuing authority — consumed directly by billing systems, consumer apps, smart meters and analytics agents over [IES Data Exchange](../what-ies-provides/data-exchange/README.md).*
+*Tariff orders, time-of-day surcharges, deviation penalties, and data-exchange rules published once, as code, by the issuing authority — consumed directly by billing systems, consumer apps, smart meters and analytics agents over [IES Data Exchange](../what-ies-provides/discover-exchange.md).*
 
 **[Implementation Guide →](../use-cases/tariff-intelligence/README.md)**
 

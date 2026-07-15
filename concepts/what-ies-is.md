@@ -36,12 +36,12 @@ Every IES interaction follows the same three steps. They are the spine of this e
 | Step | What happens | Example standard |
 |---|---|---|
 | **1. [Register](../what-ies-provides/register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. Done once. | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
-| **2. [Discover](../what-ies-provides/discover.md)** | Before a data exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement needed. | [Beckn protocol](https://becknprotocol.io) |
-| **3. [Exchange](../what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a verifiable credential is issued. | DLMS/COSEM for meter data, IEEE 2030.5 for solar/storage, W3C Verifiable Credentials |
+| **2. [Discover](../what-ies-provides/discover-exchange.md)** | Before a data exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement needed. | [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) |
+| **3. [Exchange](../what-ies-provides/discover-exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a verifiable credential is issued. | DLMS/COSEM for meter data, IEEE 2030.5 for solar/storage, W3C Verifiable Credentials |
 
 Two capabilities build on this shared identity foundation:
 
-- **Data exchange** — organisation-to-organisation (B2B) exchange of structured datasets: meter telemetry, regulatory filings, tariff data. IES recommends the open [Beckn protocol](https://becknprotocol.io) for this — discovery, consent, contract and audit trail between any two registered parties.
+- **Data exchange** — organisation-to-organisation (B2B) exchange of structured datasets: meter telemetry, regulatory filings, tariff data. IES recommends the open [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) for this — discovery, consent, contract and audit trail between any two registered parties.
 - **Energy credentials** — signed, durable records ([W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/)) a holder keeps and re-presents anywhere: a consumer's connection record, a signed meter digest. Credentials are verified against the issuer's published key and do not require a Beckn network — consumer-facing delivery happens over [DigiLocker](../glossary.md#digilocker), a web portal, or any channel the issuer already runs.
 
 In Step 1 a DISCOM, AMISP, regulator, aggregator or vendor publishes a small JSON file (`did:web`) at a web address it controls, listing the public key it signs with; anyone can fetch it over plain HTTPS and check signatures on their own. Internal numbering (CIS consumer numbers, meter serial numbers) is preserved as the tail of the identifier — nothing renames. The discovery and revocation layer is **[DeDi](../glossary.md#dedi)**, a public registry mechanism for namespaces, network membership, public keys and credential revocation.
@@ -211,5 +211,5 @@ Any participant can propose a change to the IES Cell. Proposals are reviewed, an
 ## Where to go next
 
 - **Want the technical specifications?** → **[What IES Provides](../what-ies-provides/README.md)** — Register, Discover, Exchange, Taxonomy
-- **Want to implement IES in your organisation?** → **[How you implement IES](../how-you-implement-ies/README.md)** — Setup Register, Setup Discovery, Build Adapter
+- **Want to implement IES in your organisation?** → **[How you implement IES](../how-you-implement-ies/README.md)** — Setup Register, Issue Credentials, Setup Discovery+Exchange, Build Adapter
 - **Want to see a worked end-to-end use case?** → **[Use Case Implementation Guides](../use-cases/README.md)**
