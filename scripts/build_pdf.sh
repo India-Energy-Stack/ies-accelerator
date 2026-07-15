@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Build two printed-book PDFs from the GitBook:
-#   - ies_accelerator.pdf         narrative + implementation guide (published as ies-report.pdf)
-#   - ies_accelerator_schemas.pdf schemas overview + taxonomy field reference
-#                                 (published as IES_proposed_schemas.pdf)
+# Build a single printed-book PDF of the IES Accelerator implementation guide.
+# All schema content (Schemas Overview + Taxonomy field reference) is moved
+# to a clearly divided "Appendix — Schemas Reference" chapter at the end,
+# instead of interleaved with the narrative in SUMMARY.md order — see
+# scripts/build_pdf.py.
 #
 # Requirements:
 #   - pandoc       (brew install pandoc)
@@ -15,7 +16,7 @@
 #                              script writes a puppeteer config so mermaid-cli
 #                              uses it instead of downloading Chromium.
 #
-# Output: build/ies_accelerator.pdf, build/ies_accelerator_schemas.pdf
+# Output: build/ies_accelerator.pdf
 
 set -euo pipefail
 
@@ -45,35 +46,33 @@ fi
 
 python3 "$REPO_ROOT/scripts/build_pdf.py"
 
-# Shared pandoc settings: tighter margins and a smaller base font than the
-# LaTeX report-class defaults, cutting page count with no content change —
-# still comfortably readable for a printed technical guide.
-build_pdf() {
-    local combined_md="$1" out_pdf="$2" title="$3"
-    pandoc "$combined_md" \
-        --output="$out_pdf" \
-        --pdf-engine=tectonic \
-        --from=markdown-task_lists \
-        --toc \
-        --toc-depth=2 \
-        --number-sections \
-        -V secnumdepth=2 \
-        -V documentclass=report \
-        -V geometry:margin=0.75in \
-        -V fontsize=10pt \
-        -V monofont="${MONOFONT:-Menlo}" \
-        -V graphics=true \
-        -V header-includes='\usepackage{graphicx}' \
-        --metadata title="$title" \
-        --metadata author="India Energy Stack" \
-        --metadata date="$(date +%Y-%m-%d)" \
-        --resource-path="$REPO_ROOT" \
-        2> "$BUILD_DIR/$(basename "$out_pdf" .pdf).log" || {
-            echo "error: pandoc failed on $combined_md; see $BUILD_DIR/$(basename "$out_pdf" .pdf).log" >&2
-            exit 1
-        }
-    echo "Built: $out_pdf ($(du -h "$out_pdf" | cut -f1))"
-}
+COMBINED_MD="$BUILD_DIR/ies_combined.md"
+OUT_PDF="$BUILD_DIR/ies_accelerator.pdf"
 
-build_pdf "$BUILD_DIR/ies_combined.md" "$BUILD_DIR/ies_accelerator.pdf" "IES Accelerator Implementation Guide"
-build_pdf "$BUILD_DIR/ies_schemas_combined.md" "$BUILD_DIR/ies_accelerator_schemas.pdf" "IES Proposed Schemas"
+# Tighter margins and a smaller base font than the LaTeX report-class
+# defaults, cutting page count with no content change — still comfortably
+# readable for a printed technical guide.
+pandoc "$COMBINED_MD" \
+    --output="$OUT_PDF" \
+    --pdf-engine=tectonic \
+    --from=markdown-task_lists \
+    --toc \
+    --toc-depth=2 \
+    --number-sections \
+    -V secnumdepth=2 \
+    -V documentclass=report \
+    -V geometry:margin=0.75in \
+    -V fontsize=10pt \
+    -V monofont="${MONOFONT:-Menlo}" \
+    -V graphics=true \
+    -V header-includes='\usepackage{graphicx}' \
+    --metadata title="IES Accelerator Implementation Guide" \
+    --metadata author="India Energy Stack" \
+    --metadata date="$(date +%Y-%m-%d)" \
+    --resource-path="$REPO_ROOT" \
+    2> "$BUILD_DIR/pandoc.log" || {
+        echo "error: pandoc failed; see $BUILD_DIR/pandoc.log" >&2
+        exit 1
+    }
+
+echo "Built: $OUT_PDF ($(du -h "$OUT_PDF" | cut -f1))"

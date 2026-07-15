@@ -6,6 +6,9 @@
 - Renders ```mermaid``` fenced blocks to PNG via mermaid-cli (`mmdc`) and
   replaces the block with a markdown image reference. If `mmdc` is not on
   PATH the block is left as a code block (and a warning is printed).
+- Moves all schema content (Schemas Overview + Taxonomy) to a clearly
+  divided appendix at the end, instead of interleaving it with the
+  narrative in SUMMARY.md order.
 """
 from __future__ import annotations
 
@@ -22,12 +25,22 @@ SUMMARY = ROOT / "SUMMARY.md"
 BUILD = ROOT / "build"
 MERMAID_DIR = BUILD / "mermaid"
 OUT_MD = BUILD / "ies_combined.md"
-OUT_SCHEMAS_MD = BUILD / "ies_schemas_combined.md"
+APPENDIX_DIVIDER_MD = BUILD / "appendix_divider.md"
 
-# Path prefixes that make up the standalone schemas document (the prose
-# "Schemas Overview" walkthroughs plus the auto-generated Taxonomy field-
-# reference tables). Everything else goes in the main documentation PDF.
+# Path prefixes that make up the schemas appendix (the prose "Schemas
+# Overview" walkthroughs plus the auto-generated Taxonomy field-reference
+# tables). Everything else stays in narrative SUMMARY.md order; these are
+# pulled out and appended at the end, behind a clear divider chapter.
 SCHEMA_PATH_PREFIXES = ("what-ies-provides/schemas-overview/", "schemas/")
+
+APPENDIX_TITLE = "Appendix — Schemas Reference"
+APPENDIX_INTRO = f"""# {APPENDIX_TITLE}
+
+Plain-language overviews of each IES schema family (Schemas Overview) and the
+auto-generated field-reference tables for every current schema version
+(Taxonomy). This appendix mirrors the same content published on GitBook under
+**What IES Provides → Schemas Overview** and the **Taxonomy** chapter.
+"""
 
 
 def is_schema_entry(path: str) -> bool:
@@ -211,20 +224,22 @@ def preprocess(text: str, mmdc: str | None) -> str:
     return text
 
 
-def renormalize_depth(entries: list[tuple[int, str, str]]) -> list[tuple[int, str, str]]:
-    """Shift a filtered entry list so its shallowest entry starts at depth 0.
+def shift_depth_to(entries: list[tuple[int, str, str]], target_min: int) -> list[tuple[int, str, str]]:
+    """Shift a filtered entry list so its shallowest entry lands at `target_min`.
 
-    Filtering (e.g. to just the schema entries) can leave the group's first
-    run starting at depth 1+ (it was nested under a parent chapter that got
-    filtered out). Shifting so the minimum depth present becomes 0 gives the
-    standalone document a proper top-level chapter to start from.
+    Filtering (e.g. pulling out just the schema entries) can leave the
+    group's first run starting at whatever depth it had under its old
+    parent chapter. Shifting so the minimum depth present becomes
+    `target_min` lets the group nest cleanly under a new synthetic parent
+    (e.g. depth 1, to sit as sections under an appendix chapter at depth 0).
     """
     if not entries:
         return entries
     min_depth = min(depth for depth, _, _ in entries)
-    if min_depth == 0:
+    delta = target_min - min_depth
+    if delta == 0:
         return entries
-    return [(depth - min_depth, title, path) for depth, title, path in entries]
+    return [(depth + delta, title, path) for depth, title, path in entries]
 
 
 def build_document(entries: list[tuple[int, str, str]], out_path: pathlib.Path, mmdc: str | None) -> int:
@@ -280,10 +295,13 @@ def main() -> int:
             print(f"Including latest version only — dropped {dropped} older version page(s). Use --all-versions to include all.")
 
     main_entries = [e for e in entries if not is_schema_entry(e[2])]
-    schema_entries = renormalize_depth([e for e in entries if is_schema_entry(e[2])])
+    schema_entries = shift_depth_to([e for e in entries if is_schema_entry(e[2])], target_min=1)
 
-    build_document(main_entries, OUT_MD, mmdc)
-    build_document(schema_entries, OUT_SCHEMAS_MD, mmdc)
+    APPENDIX_DIVIDER_MD.write_text(APPENDIX_INTRO)
+    appendix_divider_entry = (0, APPENDIX_TITLE, str(APPENDIX_DIVIDER_MD.relative_to(ROOT)))
+
+    combined_entries = main_entries + [appendix_divider_entry] + schema_entries
+    build_document(combined_entries, OUT_MD, mmdc)
     return 0
 
 
