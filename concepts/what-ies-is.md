@@ -6,9 +6,9 @@ The India Energy Stack in plain words — the problem, the idea, how it works, w
 
 ## The problem
 
-Power utilities in India have added many digital tools at the consumer end: smart meters, rooftop solar, electric-vehicle charging, demand-side measures. Each produces useful data. **But the data stays locked inside separate systems** — the DISCOM's own software, the metering agency's portal (operated by the [AMISP](../glossary.md#amisp)), each vendor's database — in formats that other systems cannot read. Each time two systems must share data, a fresh connection has to be built by hand. Rules are issued and checked on paper. Consumers cannot use their own consumption records.
+Power utilities in India have added many digital tools at the consumer end: smart meters, rooftop solar, EV charging, demand-side measures. Each produces useful data. **But the data stays locked inside separate systems** — the DISCOM's own software, the metering agency's portal (the [AMISP](../glossary.md#amisp)), each vendor's database — in formats other systems can't read. Every data share means a fresh connection built by hand; rules are issued and checked on paper; consumers can't use their own consumption records.
 
-The cost is real, and it is borne across the sector. A single DISCOM often runs several metering systems supplied by different firms and spends years making them work together, because none was built to a common standard. System operators, regulators and technology providers face the same difficulty in their own systems. **The same effort is repeated across the country.**
+The cost is real and sector-wide: a DISCOM often runs several metering systems from different firms and spends years making them work together, because none was built to a common standard. **The same effort is repeated across the country.**
 
 ---
 
@@ -113,7 +113,7 @@ None of this is new infrastructure or new compliance; it is what becomes possibl
 | **New services become viable** | Banks, financiers and aggregators can build services on verified energy data, as new lenders did on Account Aggregator in the financial sector. |
 | **Existing data becomes more useful** | Once energy data is verifiable and in a common format, it can be used for power procurement, demand forecasting, loss reduction and consented services like green lending. |
 
-**For a DISCOM** — three plain-terms gains: (1) *lower cost* — one published standard replaces repeated custom integration work, with no lock-in to a single vendor; (2) *better operations* — reliable, verifiable data supports demand forecasting and analytics that can improve power procurement and reduce losses; (3) *wider use of existing data* — with consumer consent, verified records support services like green lending and rooftop solar financing, and the demand for those records flows back through the DISCOM. **IES is not a revenue scheme and does not monetise personal data.**
+**For a DISCOM** — three gains: *lower cost* (one published standard replaces custom integration, no vendor lock-in); *better operations* (verifiable data improves forecasting and reduces losses); *wider use of existing data* (with consent, verified records support green lending and solar financing, with demand flowing back through the DISCOM). **IES is not a revenue scheme and does not monetise personal data.**
 
 **For a consumer** — their energy history becomes portable and verifiable. The DISCOM signs it; the consumer holds it (in [DigiLocker](../glossary.md#digilocker) or a DID wallet); any verifier checks it offline against the DISCOM's published key. That unlocks green loans, subsidy claims and service enrolment without repeated paperwork; **selective disclosure** (prove "my sanctioned load is above 5 kW" without revealing the rest); and portability across DISCOMs and States. The credential types in use today are the **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md)** and the **[Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md)**.
 

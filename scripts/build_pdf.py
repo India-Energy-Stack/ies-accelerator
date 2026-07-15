@@ -22,6 +22,16 @@ SUMMARY = ROOT / "SUMMARY.md"
 BUILD = ROOT / "build"
 MERMAID_DIR = BUILD / "mermaid"
 OUT_MD = BUILD / "ies_combined.md"
+OUT_SCHEMAS_MD = BUILD / "ies_schemas_combined.md"
+
+# Path prefixes that make up the standalone schemas document (the prose
+# "Schemas Overview" walkthroughs plus the auto-generated Taxonomy field-
+# reference tables). Everything else goes in the main documentation PDF.
+SCHEMA_PATH_PREFIXES = ("what-ies-provides/schemas-overview/", "schemas/")
+
+
+def is_schema_entry(path: str) -> bool:
+    return path.startswith(SCHEMA_PATH_PREFIXES)
 
 GLYPH_FALLBACKS = {
     "←": "<-",
@@ -201,6 +211,50 @@ def preprocess(text: str, mmdc: str | None) -> str:
     return text
 
 
+def renormalize_depth(entries: list[tuple[int, str, str]]) -> list[tuple[int, str, str]]:
+    """Shift a filtered entry list so its shallowest entry starts at depth 0.
+
+    Filtering (e.g. to just the schema entries) can leave the group's first
+    run starting at depth 1+ (it was nested under a parent chapter that got
+    filtered out). Shifting so the minimum depth present becomes 0 gives the
+    standalone document a proper top-level chapter to start from.
+    """
+    if not entries:
+        return entries
+    min_depth = min(depth for depth, _, _ in entries)
+    if min_depth == 0:
+        return entries
+    return [(depth - min_depth, title, path) for depth, title, path in entries]
+
+
+def build_document(entries: list[tuple[int, str, str]], out_path: pathlib.Path, mmdc: str | None) -> int:
+    out_lines: list[str] = []
+    missing: list[str] = []
+    for depth, title, path in entries:
+        p = ROOT / path
+        if not p.exists():
+            missing.append(path)
+            continue
+        body = shift_headings(strip_leading_h1(preprocess(p.read_text(), mmdc)), depth)
+        heading = "#" * (depth + 1) + " " + title
+        # depth 0 maps to \chapter, which already starts a fresh page. Deeper
+        # entries map to \section/\subsection/etc and flow naturally after the
+        # preceding page's content instead of forcing a break — a printed book
+        # doesn't start every subsection on its own page, and each forced break
+        # was leaving a partially-blank page behind it (a major contributor to
+        # page count with no content difference).
+        out_lines.append(heading)
+        out_lines.append("")
+        out_lines.append(body)
+        out_lines.append("")
+
+    out_path.write_text("\n".join(out_lines))
+    print(f"Combined {len(entries) - len(missing)} of {len(entries)} files into {out_path}")
+    if missing:
+        print("Missing files:", *missing, sep="\n  ", file=sys.stderr)
+    return len(missing)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument(
@@ -224,31 +278,12 @@ def main() -> int:
         dropped = before - len(entries)
         if dropped:
             print(f"Including latest version only — dropped {dropped} older version page(s). Use --all-versions to include all.")
-    out_lines: list[str] = []
-    missing: list[str] = []
-    for depth, title, path in entries:
-        p = ROOT / path
-        if not p.exists():
-            missing.append(path)
-            continue
-        body = shift_headings(strip_leading_h1(preprocess(p.read_text(), mmdc)), depth)
-        heading = "#" * (depth + 1) + " " + title
-        # depth 0 maps to \chapter, which already starts a fresh page; an extra
-        # \newpage there leaves a blank page (e.g. before "Home" after the TOC).
-        # Deeper entries map to \section/\subsection, so force a page break to
-        # keep each nav page on its own page.
-        if depth > 0:
-            out_lines.append("\\newpage")
-            out_lines.append("")
-        out_lines.append(heading)
-        out_lines.append("")
-        out_lines.append(body)
-        out_lines.append("")
 
-    OUT_MD.write_text("\n".join(out_lines))
-    print(f"Combined {len(entries) - len(missing)} of {len(entries)} files into {OUT_MD}")
-    if missing:
-        print("Missing files:", *missing, sep="\n  ", file=sys.stderr)
+    main_entries = [e for e in entries if not is_schema_entry(e[2])]
+    schema_entries = renormalize_depth([e for e in entries if is_schema_entry(e[2])])
+
+    build_document(main_entries, OUT_MD, mmdc)
+    build_document(schema_entries, OUT_SCHEMAS_MD, mmdc)
     return 0
 
 

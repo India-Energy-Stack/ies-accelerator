@@ -36,7 +36,7 @@ Consumer                 DigiLocker              Your Endpoint           IES
    │<── credential saved ────│                        │                    │
 ```
 
-DigiLocker matters because the credential only has value when it reaches a use case. A consumer does not wake up wanting to download meter data; they download it because an analytics app will break down their consumption, a lender will assess them, or a subsidy portal will verify eligibility. DigiLocker is the bridge between the signed credential and that ecosystem — it carries the consent and sharing rails (QR scan in person, OAuth consent pull for third-party apps) that make a credential useful beyond the wallet.
+A credential only has value once it reaches a use case — a lender assessing the consumer, an analytics app, a subsidy portal. DigiLocker is that bridge: it carries the consent and sharing rails (QR scan in person, OAuth consent pull for third-party apps) that make a credential useful beyond the wallet.
 
 ---
 
@@ -216,9 +216,7 @@ pdf_b64 = base64.b64encode(pdf_bytes).decode()
 vc_b64  = base64.b64encode(json.dumps(vc_json).encode()).decode()
 ```
 
-If your DISCOM wants a custom PDF design instead (branded letterhead, regional language, a consumption-ladder or time-of-day card for the Digest), render server-side with your own template engine and embed the QR + the credential JSON as you prefer. The `VcContent` field in the PullURIResponse is what verifiers actually parse — the PDF is mostly for human display.
-
-> **In every mode the signed JSON moves as-is.** DigiLocker may render a summary card on screen, but what it shares with a verifier is the original signed credential in `VcContent`, unaltered — because the third party needs a verifiable document, not a PDF. A PDF cannot be checked against the issuer's signature; the signed JSON can.
+For a custom PDF design (branded letterhead, regional language, a consumption-ladder or time-of-day card), render server-side with your own template engine and embed the QR + credential JSON as you prefer. `VcContent` is what verifiers actually parse — the PDF is for human display only and can't be checked against the issuer's signature.
 
 ### Step 6 — Return the PullURIResponse
 
@@ -281,7 +279,7 @@ else:
 
 ## Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)
 
-`NYCER` is the existing, unchanged DocType; only its payload schema is upgraded. The NYCER credential DISCOMs issue today carried a flat set of customer-and-connection fields. The IES Electricity Credential is now finalised at **v1.2** as the **Consumer Energy Passport**, and it carries far more: every physical asset behind the connection — the meter itself, plus solar, battery, EV, inverter, and controllable-load assets — as a single typed resource model with unit-bearing quantities.
+`NYCER` is the existing, unchanged DocType; only its payload schema is upgraded. Today's NYCER credential carries a flat set of customer-and-connection fields. The IES Electricity Credential, finalised at **v1.2** as the **Consumer Energy Passport**, carries far more: every physical asset behind the connection — meter, solar, battery, EV, inverter, controllable load — as one typed resource model with unit-bearing quantities.
 
 ### What changed from the flat shape
 
@@ -432,15 +430,13 @@ uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"
 
 ## The Consumer Meter Digest (DocType `MPLTR`)
 
-The **Consumer Meter Digest** is a DISCOM-issued, digitally signed credential carrying a consumer's own meter readings for a chosen window of time. Where NYCER attests to slow-changing facts — who holds the connection, what assets are behind the meter — the Digest is the consumer's **energy statement**. Like a bank statement records transactions, the meter records a reading roughly every fifteen minutes — around 96 blocks a day — and the Digest packages those readings for a requested period into a signed document the consumer can hold and present.
+The **Consumer Meter Digest** is a DISCOM-issued, digitally signed credential carrying a consumer's own meter readings for a chosen window of time. Where NYCER attests to slow-changing facts — who holds the connection, what assets sit behind the meter — the Digest is the consumer's **energy statement**: the meter records a reading roughly every fifteen minutes (~96 blocks a day), and the Digest packages those readings for a requested period into a signed document the consumer can hold and present.
 
-### The core idea — a statement, not a bill
-
-Treat the meter as a statement, not a bill. A **bill** is the latest snapshot that overwrites the last. A **statement** is a series the consumer can pull by period — "April, May, last twelve months" — and each one is kept, not replaced. This single shift is what the `MPLTR` integration is about, and it is why the document key carries the period.
+**A statement, not a bill.** A bill is the latest snapshot, overwriting the last. A statement is a series the consumer can pull by period ("April, May, last twelve months"), each one kept rather than replaced — the whole point of the `MPLTR` integration, and why the document key carries the period (see [The one real gap](#the-one-real-gap-the-document-key)).
 
 ### Schema compliance — `MeterDataCredential` v0.6
 
-The Digest is **not a new schema**. It is a consumer-facing issuance of the standard `MeterDataCredential` v0.6 — a W3C VC 2.0 that subclasses `EnergyCredential` v2.0 and wraps a `MeterData` v0.6 payload. The same credential AMISPs and MDMs issue provider-to-DISCOM in the Beckn data-exchange flow is what the consumer pulls into DigiLocker. Only the trigger differs: the consumer requests it for a period.
+The Digest is **not a new schema**. It is a consumer-facing issuance of the standard `MeterDataCredential` v0.6 — a W3C VC 2.0 subclassing `EnergyCredential` v2.0 and wrapping a `MeterData` v0.6 payload — the same credential AMISPs and MDMs issue provider-to-DISCOM in the Beckn data-exchange flow. Only the trigger differs: the consumer requests it for a period.
 
 The envelope — `issuer` (with regulatory `licenseNumber`), `validFrom` / `validUntil`, DeDi `credentialStatus`, `proof` — is inherited from `EnergyCredential` v2.0. What the Digest defines is `credentialSubject.meterData`: a `MeterData` v0.6 payload of one or more typed profiles.
 
@@ -563,7 +559,7 @@ DigiLocker already does everything the Digest needs — the **same Pull URI mech
 
 ### The one real gap — the document key
 
-Today the electricity bill (and the NYCER connection credential) is keyed on the **consumer number alone**, so each refresh overwrites the last. The Digest must be keyed on **consumer number plus period**. With the period in the URI, April's statement and May's statement are distinct documents the consumer holds side by side — exactly the difference between a statement and a bill.
+The electricity bill and NYCER are keyed on the consumer number alone, so each refresh overwrites the last. The Digest must be keyed on **consumer number plus period**, so April's and May's statements sit side by side as distinct documents.
 
 ```python
 # NYCER — overwrite on refresh (correct for a connection credential)
@@ -648,7 +644,7 @@ Three actions, all on DigiLocker's existing rails:
 2. **Download** the signed document locally.
 3. **Share** it — by **QR scan** in person, or by granting **OAuth consent** so a third-party app pulls the chosen period directly, with no app-switching.
 
-In every mode the signed JSON moves as-is. What DigiLocker shares with a verifier is the original signed credential in `VcContent`, unaltered — because the third party needs a verifiable document, not a PDF. Where DigiLocker adds the holder's own signature (e.g. on a QR-scan share), it must be added as an **envelope over the credential** — a verifiable-presentation pattern — not a reshaping of the credential body; the issuer's proof inside stays intact and independently verifiable.
+In every mode the signed JSON moves as-is (see [Step 5](#step-5-package-the-pdf-and-vc-for-the-response) above). Where DigiLocker adds the holder's own signature (e.g. on a QR-scan share), it must be an **envelope over the credential** — a verifiable-presentation pattern, not a reshaping of the credential body — so the issuer's proof stays intact and independently verifiable.
 
 ### The ask to DigiLocker (MPLTR)
 

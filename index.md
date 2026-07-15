@@ -132,9 +132,9 @@ These documents provide a general introduction, terminology definitions, and lay
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="download-pdf.md#download-pdf">Download PDF</a>    <ul>
-      <li><a href="download-pdf.md#whats-in-it">What's in it</a></li>
-      <li><a href="download-pdf.md#how-its-kept-current">How it's kept current</a></li>
-      <li><a href="download-pdf.md#building-it-yourself">Building it yourself</a>
+      <li><a href="download-pdf.md#whats-in-each">What's in each</a></li>
+      <li><a href="download-pdf.md#how-theyre-kept-current">How they're kept current</a></li>
+      <li><a href="download-pdf.md#building-them-yourself">Building them yourself</a>
     </li>
     </ul>
   </li>
@@ -346,7 +346,6 @@ This block handles digital attestations of connections, billing summaries, and c
       </li>
       </ul>
       <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-core-idea-a-statement-not-a-bill">The core idea — a statement, not a bill</a></li>
         <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
         <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
         <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>

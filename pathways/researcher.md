@@ -82,7 +82,7 @@ You do not need to run an adapter to read a schema. Every schema family in IES s
 <summary><b>Step 2.2: Read a Schema Without Running an Adapter</b></summary>
 
 ### 💡 Phase Advice
-> Every schema family follows the exact same on-disk layout, described in the Taxonomy's **Versioning** section: `attributes.yaml` (hand-edited source of truth), `schema.json` (compiled JSON Schema), `context.jsonld` (JSON-LD context), `vocab.jsonld` (RDF vocabulary with CIM alignments), and an `examples/` folder of worked payloads. Once you know this pattern, you can read any of the seven schema families the same way.
+> Every schema family follows the same on-disk layout (Taxonomy's **Versioning** section): `attributes.yaml` (source of truth), `schema.json` (compiled JSON Schema), `context.jsonld`, `vocab.jsonld` (RDF, CIM-aligned), and an `examples/` folder. Learn this once and read any of the seven families the same way.
 
 ### Execution Guidance
 1. Pick a schema family from the Taxonomy's schema map, e.g. `schemas/MeterData/v0.6/`.
@@ -133,7 +133,7 @@ If your research makes a claim about how a schema behaves, verify it empirically
 <summary><b>Step 3.2: Study the Documented Pilot Outcomes</b></summary>
 
 ### 💡 Phase Advice
-> Don't rely on secondary summaries of what the pilots demonstrated. [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) is the primary, citable source: a concrete outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), covering the four pilot DISCOMs and which use case each demonstrated.
+> Don't rely on secondary summaries. [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) is the primary, citable source: an outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), covering the four pilot DISCOMs and what each demonstrated.
 
 ### Execution Guidance
 1. Read [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.

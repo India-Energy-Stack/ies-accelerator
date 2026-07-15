@@ -129,7 +129,7 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 <summary><b>Step 3.1: Publish Tariff Structures as Signed, Machine-Readable Policy</b></summary>
 
 ### 💡 Phase Advice
-> Today, every DISCOM manually transcribes slab rates, time-of-day surcharges, and deviation penalties from a PDF tariff order into its own billing system, and every consumer-facing app interprets the same order independently — drift and bugs are inevitable. Publishing the order once as signed, structured data lets every downstream system ingest the identical object.
+> Today every DISCOM manually transcribes slab rates, ToD surcharges, and deviation penalties from a PDF order into its own billing system, and every consumer app interprets it independently — drift and bugs are inevitable. Publishing the order once as signed, structured data lets every downstream system ingest the identical object.
 
 ### ⚠️ Caution
 > **Schema still in progress.** Tariff Intelligence is built on the `IES_Policy` family (tracked upstream at [`beckn/DEG ies-specs`](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)) while a first-class `Tariff` schema in this repository is being finalised. Treat this phase as an early-adopter track and expect the schema location to move.
@@ -179,7 +179,7 @@ When a proposal arrives, the review checks:
 <summary><b>Step 4.2: Steward the Published Schemas</b></summary>
 
 ### 💡 Phase Advice
-> IES does not change a regulator's relationship with DISCOMs or invent new compliance obligations. IES only turns existing CEA and CERC rules into a form software can read; if putting a rule into practice reveals a gap, IES points it out to the regulator, and only the regulator decides what to do about it. Governance duties under the IES Cell are about stewarding the *representation* of rules, not about creating new regulatory authority.
+> IES does not change a regulator's relationship with DISCOMs or invent new compliance obligations — it turns existing CEA and CERC rules into a form software can read. If a gap surfaces, IES flags it; only the regulator decides what to do. Governance duties under the IES Cell steward the *representation* of rules, not new regulatory authority.
 
 ### Execution Guidance
 As the schema steward, the IES Cell is operationally responsible for:
