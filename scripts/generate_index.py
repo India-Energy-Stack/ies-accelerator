@@ -88,10 +88,10 @@ def main():
         ],
         "credentials_setup": [
             ("how-you-implement-ies/issue-credentials.md", "Do-guide: run OpenCred with DeDi config, issue / verify / revoke, credential variants, verifier walkthrough, holder binding, operational notes."),
-            ("how-you-implement-ies/energy-credentials/README.md", "Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.")
+            ("what-ies-provides/energy-credentials/README.md", "Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.")
         ],
         "credentials_ops": [
-            ("how-you-implement-ies/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
+            ("what-ies-provides/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
             ("what-ies-provides/discover-exchange.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the Taxonomy, schemas by use case."),

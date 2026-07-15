@@ -16,7 +16,7 @@ Once participants are [Registered](register.md) (Step 1), IES gives them two way
 | **Channel** | Must ride a **trust-bounded open network** — IES uses [Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2) — because discovery, negotiation, consent and the signed audit trail are part of the exchange itself | **Any channel** — DigiLocker, a web portal, email, SMS, chat. The trust travels inside the credential, not the pipe. |
 | **Typical use cases** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md), [Regulatory Filing](../use-cases/discom-regulatory-filing/README.md), [P2P Trading](../use-cases/p2p-energy-trading/README.md) | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md), [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) |
 
-The rest of this page covers the B2B rail — the Beckn interaction and the Taxonomy that both rails share. The credential rail's concepts (lifecycle, variants, trust model) are in **[Energy Credentials](../how-you-implement-ies/energy-credentials/README.md)**.
+The rest of this page covers the B2B rail — the Beckn interaction and the Taxonomy that both rails share. The credential rail's concepts (lifecycle, variants, trust model) are in **[Energy Credentials](energy-credentials/README.md)**.
 
 ---
 
@@ -58,7 +58,7 @@ Whichever rail data moves on, it uses agreed field names and structure. IES call
 
 **IES does not write new standards.** It picks the right open standard for each domain — DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response, CIM for grid models — and publishes a faithful schema on top. A schema is valid whether or not the payload ever travels over Beckn: the same `MeterData` object can ride a Beckn `on_confirm`, sit inside a signed `MeterDataCredential`, or be validated standalone.
 
-Some objects are plain data payloads (they ride the Beckn wire); others are **W3C Verifiable Credentials** — durable, holder-bound records the consumer keeps independently of IES. One credential, `MeterDataRequestCredential`, is the exception that rides *inside* a Beckn message (a seeker's proof-of-right-to-ask). For the concept and trust model of credentials see **[Energy Credentials](../how-you-implement-ies/energy-credentials/README.md)**; to issue them, **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
+Some objects are plain data payloads (they ride the Beckn wire); others are **W3C Verifiable Credentials** — durable, holder-bound records the consumer keeps independently of IES. One credential, `MeterDataRequestCredential`, is the exception that rides *inside* a Beckn message (a seeker's proof-of-right-to-ask). For the concept and trust model of credentials see **[Energy Credentials](energy-credentials/README.md)**; to issue them, **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
 
 **Don't hand-map schemas to use cases here** — that lives in one place: the [Taxonomy schema map](taxonomy.md#schema-map) (which schema, which use cases, current version) and the plain-language **[Schemas Overview](schemas-overview/README.md)** pages (the *why* before the field-level reference). The wire envelope itself accepts any JSON payload; validation is opt-in per object, driven by the payload's own `@context` / `@type` declaration.
 

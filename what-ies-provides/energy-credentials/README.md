@@ -1,6 +1,6 @@
 # Energy Credentials
 
-The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware), a web portal, or any channel the issuer already runs. Credential flows stand on their own — issuing, holding and verifying a credential requires **no Beckn network**. This page is the **reference** for the credential lifecycle, the variants IES uses, and the trust model. The operational commands — run OpenCred, issue, verify, revoke — are in **[Issue Credentials](../issue-credentials.md)**; identity prerequisites are in **[Setup Register](../setup-register.md)**.
+The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware), a web portal, or any channel the issuer already runs. Credential flows stand on their own — issuing, holding and verifying a credential requires **no Beckn network**. This page is the **reference** for the credential lifecycle, the variants IES uses, and the trust model. The operational commands — run OpenCred, issue, verify, revoke — are in **[Issue Credentials](../../how-you-implement-ies/issue-credentials.md)**; identity prerequisites are in **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
 
 ---
 
@@ -59,16 +59,16 @@ Issued ─► Held / presented ─► Verified ─► (eventually) Revoked or ex
 
 | If you are… | Read | Then |
 |---|---|---|
-| **A DISCOM / issuer** (you sign and emit credentials) | [Setup Register §1.1–1.4](../setup-register.md) → [Issue Credentials](../issue-credentials.md) | [Credential variants](#credential-variants) below, [Build your Internal-facing Adapter](../build-adapter.md) |
+| **A DISCOM / issuer** (you sign and emit credentials) | [Setup Register §1.1–1.4](../../how-you-implement-ies/setup-register.md) → [Issue Credentials](../../how-you-implement-ies/issue-credentials.md) | [Credential variants](#credential-variants) below, [Build your Internal-facing Adapter](../../how-you-implement-ies/build-adapter.md) |
 | **An AMISP / MDM / aggregator** (you sign telemetry) | Same, issuing `MeterDataCredential` | [Smart Meter Data Exchange use case](../../use-cases/smart-meter-data-exchange/README.md) |
-| **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](digilocker.md) | [Issue Credentials — Holder binding](../issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity) for binding patterns |
-| **A verifier** (you receive and check credentials) | [Trust model](#trust-model) below | [Issue Credentials — Verify a credential you received](../issue-credentials.md#verify-a-credential-you-received-the-verifiers-walkthrough) for the step-by-step |
+| **A holder / wallet** (you hold credentials on behalf of a consumer) | [Holder binding](#holder-binding) → [DigiLocker delivery](digilocker.md) | [Issue Credentials — Holder binding](../../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity) for binding patterns |
+| **A verifier** (you receive and check credentials) | [Trust model](#trust-model) below | [Issue Credentials — Verify a credential you received](../../how-you-implement-ies/issue-credentials.md#verify-a-credential-you-received-the-verifiers-walkthrough) for the step-by-step |
 
 ---
 
 ## Credential variants
 
-The same schemas cover several use cases. **No new VC `type` values are introduced** — the variants are issuance configurations over the existing schemas. The issuance commands for each are in [Issue Credentials](../issue-credentials.md#issue-the-credential-variants).
+The same schemas cover several use cases. **No new VC `type` values are introduced** — the variants are issuance configurations over the existing schemas. The issuance commands for each are in [Issue Credentials](../../how-you-implement-ies/issue-credentials.md#issue-the-credential-variants).
 
 ### ElectricityCredential v1.2 — the default
 
@@ -104,7 +104,7 @@ A signed VC carried at Beckn `confirm` time by a seeker (typically a DISCOM) whe
 
 Holder binding turns a credential from a bearer token into something only the consumer's wallet can present. Choose a pattern (wallet DID, `tel:+91...` URI, or DigiLocker-mediated) based on the consumer's situation. **Identity-proofing at issuance is mandatory** — you must verify the consumer controls the identifier before embedding it.
 
-Full patterns, presentation-time flows, and the adopter checklist: **[Issue Credentials — Binding the credential to a holder identity](../issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity)**.
+Full patterns, presentation-time flows, and the adopter checklist: **[Issue Credentials — Binding the credential to a holder identity](../../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity)**.
 
 ---
 
@@ -127,7 +127,7 @@ A credential's trust chain has at most two legs, plus two freshness checks:
 
 Holder-bound variants add a fifth check at presentation time: the wallet signs a Verifiable Presentation with the key matching `credentialSubject.id`, embedding a fresh `challenge` and `domain`.
 
-The verifier's step-by-step (with URLs and expected responses) is in [Issue Credentials — Verify a credential you received](../issue-credentials.md#verify-a-credential-you-received-the-verifiers-walkthrough). No IES-curated registry sits between the credential and the verifier — the IES network registries are the Beckn-side (B2B) trust boundary only; see [Register — Two identities](../../what-ies-provides/register.md#two-identities-youll-set-up-and-why).
+The verifier's step-by-step (with URLs and expected responses) is in [Issue Credentials — Verify a credential you received](../../how-you-implement-ies/issue-credentials.md#verify-a-credential-you-received-the-verifiers-walkthrough). No IES-curated registry sits between the credential and the verifier — the IES network registries are the Beckn-side (B2B) trust boundary only; see [Register — Two identities](../register.md#two-identities-youll-set-up-and-why).
 
 ### Proof formats
 
@@ -155,14 +155,14 @@ The IES profile uses the [W3C VC Data Model 2.0](https://www.w3.org/TR/vc-data-m
 
 ### What's a DID
 
-A **Decentralized Identifier (DID)** is a globally unique string that resolves to a DID document — a small JSON object listing the subject's current public keys. IES uses three standard W3C methods (`did:web` for institutions, `did:key` / `did:jwk` for consumer wallets); there is no `did:dedi` method — DeDi is a key-discovery and registry layer over `did:web`. Full treatment: [Register — The DID methods IES uses](../../what-ies-provides/register.md#the-did-methods-ies-uses).
+A **Decentralized Identifier (DID)** is a globally unique string that resolves to a DID document — a small JSON object listing the subject's current public keys. IES uses three standard W3C methods (`did:web` for institutions, `did:key` / `did:jwk` for consumer wallets); there is no `did:dedi` method — DeDi is a key-discovery and registry layer over `did:web`. Full treatment: [Register — The DID methods IES uses](../register.md#the-did-methods-ies-uses).
 
 ---
 
 ## References
 
-- [Register](../../what-ies-provides/register.md) — DIDs, identifier patterns, DeDi, holder identifiers
-- [Issue Credentials](../issue-credentials.md) — the operational walkthrough: run OpenCred, issue, verify, revoke
+- [Register](../register.md) — DIDs, identifier patterns, DeDi, holder identifiers
+- [Issue Credentials](../../how-you-implement-ies/issue-credentials.md) — the operational walkthrough: run OpenCred, issue, verify, revoke
 - [Schemas](../../schemas/README.md) — canonical schema mirrors for ElectricityCredential, MeterData(Credential), MeterDataRequest(Credential)
 - [DigiLocker delivery](digilocker.md) — Pull URI, callback, signature pinning
 - [Use cases — Consumer Energy Passport](../../use-cases/consumer-energy-passport/README.md), [Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md), [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md)

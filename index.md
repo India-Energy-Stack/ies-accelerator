@@ -274,36 +274,36 @@ This block handles digital attestations of connections, billing summaries, and c
   </li>
   </ul>
   </details>
-* **[README.md](how-you-implement-ies/energy-credentials/README.md)**
+* **[README.md](what-ies-provides/energy-credentials/README.md)**
   - *Summary*: Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="how-you-implement-ies/energy-credentials/README.md#energy-credentials">Energy Credentials</a>    <ul>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#why-credentials">Why credentials</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#lifecycle-at-a-glance">Lifecycle at a glance</a>
+    <li><a href="what-ies-provides/energy-credentials/README.md#energy-credentials">Energy Credentials</a>    <ul>
+      <li><a href="what-ies-provides/energy-credentials/README.md#why-credentials">Why credentials</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/README.md#lifecycle-at-a-glance">Lifecycle at a glance</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#pick-your-role">Pick your role</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#credential-variants">Credential variants</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#electricitycredential-v12-the-default">ElectricityCredential v1.2 — the default</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#meterdatacredential-v06-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#meterdatarequestcredential-v01-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#summary">Summary</a>
+      <li><a href="what-ies-provides/energy-credentials/README.md#pick-your-role">Pick your role</a></li>
+      <li><a href="what-ies-provides/energy-credentials/README.md#credential-variants">Credential variants</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/README.md#electricitycredential-v12-the-default">ElectricityCredential v1.2 — the default</a></li>
+        <li><a href="what-ies-provides/energy-credentials/README.md#meterdatacredential-v06-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
+        <li><a href="what-ies-provides/energy-credentials/README.md#meterdatarequestcredential-v01-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a></li>
+        <li><a href="what-ies-provides/energy-credentials/README.md#summary">Summary</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#holder-binding">Holder binding</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#digilocker-delivery">DigiLocker delivery</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#trust-model">Trust model</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#proof-formats">Proof formats</a>
+      <li><a href="what-ies-provides/energy-credentials/README.md#holder-binding">Holder binding</a></li>
+      <li><a href="what-ies-provides/energy-credentials/README.md#digilocker-delivery">DigiLocker delivery</a></li>
+      <li><a href="what-ies-provides/energy-credentials/README.md#trust-model">Trust model</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/README.md#proof-formats">Proof formats</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#core-concepts">Core concepts</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#whats-a-verifiable-credential">What's a Verifiable Credential</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/README.md#whats-a-did">What's a DID</a>
+      <li><a href="what-ies-provides/energy-credentials/README.md#core-concepts">Core concepts</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/README.md#whats-a-verifiable-credential">What's a Verifiable Credential</a></li>
+        <li><a href="what-ies-provides/energy-credentials/README.md#whats-a-did">What's a DID</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/README.md#references">References</a>
+      <li><a href="what-ies-provides/energy-credentials/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -311,55 +311,55 @@ This block handles digital attestations of connections, billing summaries, and c
   </details>
 
 ### 🔌 Use & Operations
-* **[digilocker.md](how-you-implement-ies/energy-credentials/digilocker.md)**
+* **[digilocker.md](what-ies-provides/energy-credentials/digilocker.md)**
   - *Summary*: DigiLocker delivery: Pull URI, callback flow, signature pinning.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#flow-overview">Flow Overview</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
+    <li><a href="what-ies-provides/energy-credentials/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#flow-overview">Flow Overview</a></li>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#handler-logic-summary">Handler Logic Summary</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#routing-by-doctype">Routing by DocType</a>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#handler-logic-summary">Handler Logic Summary</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#routing-by-doctype">Routing by DocType</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v12">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v12">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
-        <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#the-ask-to-digilocker-mpltr">The ask to DigiLocker (MPLTR)</a>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
+        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-ask-to-digilocker-mpltr">The ask to DigiLocker (MPLTR)</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#error-response-format">Error Response Format</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#security-checklist">Security Checklist</a></li>
-      <li><a href="how-you-implement-ies/energy-credentials/digilocker.md#reference">Reference</a>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#error-response-format">Error Response Format</a></li>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#security-checklist">Security Checklist</a></li>
+      <li><a href="what-ies-provides/energy-credentials/digilocker.md#reference">Reference</a>
     </li>
     </ul>
   </li>

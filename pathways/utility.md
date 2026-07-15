@@ -171,8 +171,8 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 6. **Validate the Issued Credential**: Call `/v1/credentials/verify` on the issued VC to confirm the verifier resolves the DID and validates the signature (see [OpenCred Resolve Verification Check](../how-you-implement-ies/issue-credentials.md#id-2.9-smoke-test) for DeDi sync caveats).
 
 ### References & Anchors
-* [Energy Credentials Overview](../how-you-implement-ies/energy-credentials/README.md)
-* [Energy Credentials Deployment Guide](../how-you-implement-ies/energy-credentials/README.md)
+* [Energy Credentials Overview](../what-ies-provides/energy-credentials/README.md)
+* [Energy Credentials Deployment Guide](../what-ies-provides/energy-credentials/README.md)
 * [OpenCred Resolve Verification Check & Env Options](../how-you-implement-ies/issue-credentials.md#id-2.9-smoke-test)
 * [Energy Credentials — Troubleshooting (revocation caching)](../how-you-implement-ies/issue-credentials.md#troubleshooting)
 * [Batch Issuance at Scale (Queue & Workers)](../how-you-implement-ies/issue-credentials.md#batch-issuance)
@@ -181,16 +181,16 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 </details>
 
 <details>
-<summary><b>Step 3.2: Register with [DigiLocker](../how-you-implement-ies/energy-credentials/digilocker.md)</b></summary>
+<summary><b>Step 3.2: Register with [DigiLocker](../what-ies-provides/energy-credentials/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
-> [API Setu](../how-you-implement-ies/energy-credentials/digilocker.md) compliance checks take time — start legal registration early in Phase 3 so gateways clear before your code is ready.
+> [API Setu](../what-ies-provides/energy-credentials/digilocker.md) compliance checks take time — start legal registration early in Phase 3 so gateways clear before your code is ready.
 
 ### 📋 Prework Required
-* Secure authorization letters and corporate certificates from your legal department for [API Setu](../how-you-implement-ies/energy-credentials/digilocker.md) access.
+* Secure authorization letters and corporate certificates from your legal department for [API Setu](../what-ies-provides/energy-credentials/digilocker.md) access.
 
 ### References & Anchors
-* [DigiLocker Integration Guide](../how-you-implement-ies/energy-credentials/digilocker.md)
+* [DigiLocker Integration Guide](../what-ies-provides/energy-credentials/digilocker.md)
 * [Issuing Credentials Checklist](../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential)
 </details>
 
@@ -327,13 +327,13 @@ Move beyond static PDFs to compile and issue verifiable, machine-readable monthl
 </details>
 
 <details>
-<summary><b>Step 5.2: Link Bills to [DigiLocker](../how-you-implement-ies/energy-credentials/digilocker.md)</b></summary>
+<summary><b>Step 5.2: Link Bills to [DigiLocker](../what-ies-provides/energy-credentials/digilocker.md)</b></summary>
 
 ### 💡 Phase Advice
 > Re-use your DigiLocker gateway — since you cleared API Setu in Step 3.2, adding the bill credential is a simple extension of your issuer record.
 
 ### References & Anchors
-* [DigiLocker Issuer Setup](../how-you-implement-ies/energy-credentials/digilocker.md)
+* [DigiLocker Issuer Setup](../what-ies-provides/energy-credentials/digilocker.md)
 </details>
 
 ---

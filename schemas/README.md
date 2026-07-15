@@ -19,7 +19,7 @@ Every IES schema, the domain it covers, the use cases that combine it, and its c
 
 ### Verifiable Credentials
 
-W3C VC payloads — signed, durable records the holder keeps and verifies independently of any network. Issuance, verification and revocation operations are in **[Energy Credentials](../how-you-implement-ies/energy-credentials/README.md)**.
+W3C VC payloads — signed, durable records the holder keeps and verifies independently of any network. Issuance, verification and revocation operations are in **[Energy Credentials](../what-ies-provides/energy-credentials/README.md)**.
 
 | Schema | Domain | Used in | Reference |
 |---|---|---|---|
