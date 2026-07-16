@@ -43,15 +43,21 @@ The meter identifier matches the one in the consumer's [Consumer Energy Passport
 
 ## 4. Definitions
 
-Terms used here (holder-bound, READING, USAGE, OBIS, summary) are defined once on the schema overview — see **[MeterDataCredential — Definitions](../what-ies-provides/schemas-overview/meter-data-credential.md#id-4.-definitions)**, the [Glossary](../glossary.md), and the **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)** for the underlying meter-data terminology.
+- **Holder-bound** — `credentialSubject.id` set to the holder's wallet DID.
+- **READING** — register value at a point in time (cumulative; strictly increasing).
+- **USAGE** — delta / consumed amount over a period.
+- **OBIS** — Object Identification System code (IEC 62056 / IS 15959) for a meter register.
+- **Summary** — a derived aggregate computed from raw readings.
+
+See **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)** for the underlying meter-data terminology.
 
 ## 5. Basis of Standards
 
-IES follows a fixed precedence (IS → CEA → IEC → IEEE); the standards this credential is built on are documented once on the schema overview — see **[MeterDataCredential — Basis of Standards](../what-ies-provides/schemas-overview/meter-data-credential.md#id-5.-basis-of-standards)**.
+Same precedence: **IS → CEA → IEC → IEEE**. Metering reads follow **IS 15959** (DLMS/COSEM; OBIS codes) and **IS 16444** directly. The credential envelope is **W3C VC Data Model 2.0**.
 
 ## 6. Where Indian Standards Do Not Yet Exist
 
-The credential envelope (W3C VC) and the underlying compact-profile data model are IES specifications with no Indian equivalent — see **[MeterDataCredential — Where Indian Standards Do Not Yet Exist](../what-ies-provides/schemas-overview/meter-data-credential.md#id-6.-where-indian-standards-do-not-yet-exist)**.
+The credential envelope (W3C VC) and the underlying compact-profile data model have no Indian equivalent; the MeterData v0.6 shapes are an IES specification on top of IEC 62056 / IS 15959.
 
 ## 7. The Record
 
@@ -98,7 +104,14 @@ The consumer proves actual consumption history, DISCOM-signed, verifiable in sec
 
 ## Annexure A — Standards Referenced
 
-The full standards table for this credential lives on the schema overview — see **[MeterDataCredential — Standards Referenced](../what-ies-provides/schemas-overview/meter-data-credential.md#annexure-a-standards-referenced)**.
+| Standard | Scope |
+|---|---|
+| IS 15959 (Parts 1–3) | DLMS/COSEM companion spec; OBIS codes |
+| IS 16444 (Parts 1, 2) | AC smart meter — specification |
+| IEC 62056 | DLMS/COSEM; OBIS |
+| IEC 61968-9 | CIM — meter reading and control |
+| W3C VC Data Model 2.0; W3C DID Core | Credential envelope; identifiers |
+| RFC 3339 / ISO 8601 | Date-time format for `period` |
 
 ## Annexure B — Example Payload
 
