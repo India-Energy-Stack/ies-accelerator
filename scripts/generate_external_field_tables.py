@@ -70,7 +70,7 @@ GROUPS = [
     {
         "title": "Energy Trading (P2P)",
         "links": [
-            ("Use case", "../../use-cases/energy-trading/README.md"),
+            ("Use case", "../../use-cases/p2p-energy-trading/README.md"),
             ("Devkit", f"{DEG_DEVKITS}/p2p-trading-ies-wave2"),
         ],
         "intro": (

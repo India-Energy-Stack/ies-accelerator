@@ -100,7 +100,7 @@ _Defined at [`DEGContract/v2.0`](https://schema.beckn.io/DEGContract/v2.0) — D
 |----|-------|-----------------|
 | **`roles`** \* | list of object | Contract roles. The participantId key is required on every role entry, but its value MAY be null in the catalog/offer (buyer and buyerDiscom unknown until select/init) and is bound to a concrete participant id at select/init. Identity attributes (meter, utility, utilityCustomerId) for each bound role live at Contract.participants[*].participantAttributes. |
 | **`policy`** \* | object | OPA/Rego policy governing this contract. |
-| `revenueFlows` | list of object | Optional. Settlement-time per-role flows written by the `revenueflows` plugin when it is configured with outputMode: raw and outputPath ending at this property (the legacy demand-flex shape). Wave2 P2P trading instead uses Contract.consideration[*].considerationAttributes (RevenueFlow JSON-LD) and leaves this array unset. |
+| `revenueFlows` | list of object | Optional. Settlement-time per-role flows written by the `contractpolicyenforcer` plugin when it is configured with outputMode: raw and outputPath ending at this property (the legacy demand-flex shape). Wave2 P2P trading instead uses Contract.consideration[*].considerationAttributes (RevenueFlow JSON-LD) and leaves this array unset. |
 
 _Object: `DEGContract.roles[]`_
 
@@ -129,7 +129,7 @@ _Object: `DEGContract.revenueFlows[]`_
 
 _Defined at [`EnergyResource/v2.0`](https://schema.beckn.io/EnergyResource/v2.0) — EnergyResource — Resource Attributes (v2.0)._
 
-Discriminated union of all typed EnergyResource kinds. Dispatched by the 'type' field. Each kind lives in its own schema at schema.beckn.io/<Kind>/v1.0 and is referenced above. EnergyResourceCommon (id, type, subResources, parentResources, attributes) and EnergyResourceCommonAttributes (make, model, maxExportKw, maxImportKw, ratedPowerKw, telemetryProvider, commissioningDate, location) are defined in EnergyResourceCommon/v1.0 and inherited by all kinds via allOf external $ref. For P2P-trading: minimal usage is {id, type}. For demand-flex and credentials: add attributes fields as needed. For targeted validation: $ref the specific kind directly.
+Discriminated union of all typed EnergyResource kinds. Dispatched by the 'type' field. Each kind lives in its own schema at schema.nfh.global/<Kind>/v1.0 and is referenced above. EnergyResourceCommon (id, type, subResources, parentResources, attributes) and EnergyResourceCommonAttributes (make, model, maxExportKw, maxImportKw, ratedPowerKw, telemetryProvider, commissioningDate, location) are defined in EnergyResourceCommon/v1.0 and inherited by all kinds via allOf external $ref. For P2P-trading: minimal usage is {id, type}. For demand-flex and credentials: add attributes fields as needed. For targeted validation: $ref the specific kind directly.
 
 _Discriminated union (`oneOf`) of: `EnergyResourceMeter`, `EnergyResourceGenerator`, `EnergyResourceStorage`, `EnergyResourceEVCharger`, `EnergyResourceInverter`, `EnergyResourceLoad`, `EnergyResourceNetwork`._
 
@@ -164,29 +164,17 @@ A flexibility programme advertises a `DemandFlexNeed`, contracts via a `DemandFl
 
 _Defined at [`DemandFlexNeed/v2.0`](https://schema.beckn.io/DemandFlexNeed/v2.0) — Demand Flex — Need Attributes (v2.0)._
 
-Resource attributes describing a demand-flex need. Attached to Resource.resourceAttributes to describe what the utility needs from the network. Captures the direction (increase/reduce), event timing, capacity, and location.
+_Based on **OpenADR 3.1.0 (event time series)**._
+
+Buyer-authored demand-flex procurement schedule as an OpenADR-aligned time series — one interval per tranche. This is the single, unified Need shape for every demand-flex market, from full price discovery (uc2 pay-as-clear auction: many aggregators bid, market clears) down to its monopsony degenerate (uc1: a single buyer, the DISCOM, fixes one clearing price for any quantity — a flat, self-cleared curve). The column set is intentionally NOT fixed by this schema. Each market profile carries different columns, and the governing CONTRACT POLICY REGO imposes the exact required set as a hard const: uc1 (deg.contracts.demand_flex) — CAPACITY_REQUESTED, PRICE, SHORTFALL_PENALTY uc2 (deg.contracts.demand_flex_pac) — CAPACITY_REQUESTED
 
 | Field | Type | Description |
 |----|-------|-----------------|
-| **`direction`** \* | `INCREASE` / `REDUCE` | Whether the utility needs demand increase or demand reduction. REDUCE = curtailment (typical DR). INCREASE = load shifting to off-peak. |
-| **`eventWindow`** \* | object | The time window during which the flex event occurs. All times MUST be in UTC (ISO 8601 with Z suffix). |
-| `capacityType` | `CURTAILMENT` / `SHIFT` / `GENERATION` | Type of flex capacity. CURTAILMENT = reduce consumption. SHIFT = move consumption to different time. GENERATION = increase local generation. |
-| **`maxCapacityKw`** \* | number | Maximum flex capacity needed in kW. |
-| `location` | object | **Based on** GeoJSON (RFC 7946). Geographic area where flex is needed (GeoJSON). |
-
-_Object: `DemandFlexNeed.eventWindow`_
-
-| Field | Type | Description |
-|----|-------|-----------------|
-| **`startDate`** \* | date-time | **Based on** ISO 8601 (UTC, RFC 3339 profile). Event start time in UTC. |
-| **`endDate`** \* | date-time | **Based on** ISO 8601 (UTC, RFC 3339 profile). Event end time in UTC. |
-
-_Object: `DemandFlexNeed.location`_
-
-| Field | Type | Description |
-|----|-------|-----------------|
-| `type` | `Point` / `Polygon` | — |
-| `coordinates` | list of any | — |
+| `@type` | `DemandFlexNeed` | JSON-LD type discriminator. |
+| `location` | Location | **Based on** GeoJSON (RFC 7946). Geographic area where flex is needed. Beckn Location — GeoJSON geometry (geo) plus optional address. |
+| **`intervalPeriod`** \* | intervalPeriod | Default temporal bounds of the schedule — ISO 8601 `start` and `duration` (e.g. PT30M). Interval `id` 0..n-1 index sequential tranches off this grid. This exact grid MUST be shared by the seller's CAPACITY_OFFERED series and by every meter's telemetry. |
+| **`payloadDescriptors`** \* | list of eventPayloadDescriptor | Buyer-authored column descriptors (OpenADR eventPayloadDescriptor). The set is profile-specific and NOT fixed here — the governing contract policy rego imposes the exact required columns as a hard const (uc1: CAPACITY_REQUESTED / PRICE / SHORTFALL_PENALTY; uc2: CAPACITY_REQUESTED). Downstream series extend the grid with CAPACITY_OFFERED (seller, on commitmentAttributes) and BASELINE / USAGE (meter telemetry). |
+| **`intervals`** \* | list of interval | One row per tranche. Each row carries integer `id` and typed `payloads` — CAPACITY_REQUESTED, PRICE, SHORTFALL_PENALTY. |
 
 ### DemandFlexBuyOffer
 
@@ -205,7 +193,7 @@ _Defined at [`DemandFlexBuyOffer/v2.0`](https://schema.beckn.io/DemandFlexBuyOff
 |----|-------|-----------------|
 | **`role`** \* | `buyer` / `seller` | — |
 | **`participantId`** \* | text (nullable) | Participant bound to this role. Null until bound. |
-| `inputs` | object | Role-specific inputs. Structure varies by role and contract type. For buyer: incentivePerKwh, currency, penaltyRate, baselineMethodology, etc. For seller: plannedDemandChange (beckn:Quantity), participatingMeters (or participatingMetersRef when the cohort is bulk), energyResources (or energyResourcesRef) — EnergyResource objects each linked to a participatingMeters[*] entry via meterId — and reportDescriptors (see below). Bulk delivery: the offer is bound at confirm and cannot span Beckn messages, so when the seller's cohort would stretch a single confirm payload beyond a reasonable wire budget (e.g. > 10k meters) the *Ref siblings replace the inline arrays. participatingMetersRef / energyResourcesRef each carry a BecknResourceRef pointing at a content- addressed BPP-hosted bundle. participatingMetersDigest is an on-protocol tamper-evidence anchor that survives even if the ref URL later goes 404 — Beckn signing of the confirm payload commits the contract to that exact cohort. |
+| `inputs` | object | Role-specific scalar inputs. Per-slot commercial terms are NOT here — they ride the DemandFlexNeed time series (buyer columns CAPACITY_REQUESTED / PRICE / SHORTFALL_PENALTY) and the commitment series (seller column CAPACITY_OFFERED); these inputs carry only what does not vary by interval. For buyer: currency and baselineMethodology (a negative PRICE column pays for increased consumption, so there is no scalar incentive/penalty field). For seller: participatingMeters (or participatingMetersRef when the cohort is bulk), energyResources (or energyResourcesRef) — EnergyResource objects each linked to a participatingMeters[*] entry via meterId — and reportDescriptors (see below). The seller's per-slot CAPACITY_OFFERED is added as a column on Commitment.commitmentAttributes at confirm, not here. Bulk delivery: the offer is bound at confirm and cannot span Beckn messages, so when the seller's cohort would stretch a single confirm payload beyond a reasonable wire budget (e.g. > 10k meters) the *Ref siblings replace the inline arrays. participatingMetersRef / energyResourcesRef each carry a BecknResourceRef pointing at a content- addressed BPP-hosted bundle. participatingMetersDigest is an on-protocol tamper-evidence anchor that survives even if the ref URL later goes 404 — Beckn signing of the confirm payload commits the contract to that exact cohort. |
 
 _Object: `DemandFlexRoleInput.inputs`_
 
