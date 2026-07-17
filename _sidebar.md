@@ -40,6 +40,7 @@
 * [DER Visibility](/use-cases-overview/der-visibility.md)
 * [DISCOM Regulatory Filing](/use-cases-overview/discom-regulatory-filing.md)
 * [Tariff Intelligence](/use-cases-overview/tariff-intelligence.md)
+* [P2P Energy Trading](/use-cases-overview/p2p-energy-trading.md)
 
 ## Use Case Implementation Guides
 
