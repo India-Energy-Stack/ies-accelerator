@@ -64,27 +64,27 @@ The full wire sequence for the inter-DISCOM flow. **Shaded (grey) bands are auto
 sequenceDiagram
   autonumber
   participant B as Buyer
+  participant BDisc as Buyer DISCOM
+  participant BDL as BuyerLP
   participant BTP as BuyerTP
   participant DS as Discovery service
   participant STP as SellerTP
-  participant BDL as BuyerLP
-  participant BDisc as Buyer DISCOM
   participant SDL as SellerLP
   participant SDisc as Seller DISCOM
   participant S as Seller
 
-  Note over BTP,STP: Phase 1 - Discovery
-  STP->>DS: publish-catalog (EnergyTradeOffer)
-  BTP->>DS: discover (intent filter)
+  Note over B,S: Phase 1 - Discovery
+  STP->>DS: publish-catalog
+  BTP->>DS: discover
   DS->>BTP: matching offers
 
-  Note over BTP,SDL: Phase 2 - Select and init
+  Note over B,S: Phase 2 - Select and init
   BTP->>STP: select
   STP->>BTP: on_select
   BTP->>STP: init
   STP->>BTP: on_init
 
-  Note over BDL,SDL: Phase 3 - Confirm
+  Note over B,S: Phase 3 - Confirm
   BTP->>STP: confirm
   rect rgba(128,128,128,0.18)
     STP->>SDL: on_confirm (blocking ledger write)
@@ -100,9 +100,8 @@ sequenceDiagram
   S->>S: inject
   B->>B: consume
 
-  Note over BDL,SDisc: Phase 5 - Allocation and reconciliation
-
-  Note over BDisc,SDisc: Daily - each LP pulls metered actuals from its own DISCOM for the meters & intervals with unallocated trades, then allocates
+  Note over B,S: Phase 5 - Allocation and reconciliation
+  Note over BDisc,SDisc: Daily - each LP pulls metered actuals from its own DISCOM for meters & intervals with unallocated trades, then allocates
   loop Daily, per meter & interval with an unallocated trade (buyer side)
     BDL->>BDisc: status (request metered actuals)
     BDisc->>BDL: on_status (metered actuals)
@@ -132,18 +131,19 @@ sequenceDiagram
       STP->>SDL: status (auto-cascade to own ledger)
     end
   end
-  SDL->>STP: on_status (seller-side allocation, settled qty with FINAL_ALLOC)
+  SDL->>STP: on_status (seller-side allocation)
   rect rgba(128,128,128,0.18)
-    Note over STP: contractpolicyenforcer step computes revenue flows
     STP->>BTP: on_status (auto-forward to peer)
     BTP->>BDL: on_status (auto-record with buyerLP)
   end
 
   Note over B,S: Phase 6 - Billing and settlement
   B->>S: pay for the trade (off-ledger, via TPs)
-  SDisc->>S: monthly bill
   BDisc->>B: monthly bill
+  SDisc->>S: monthly bill
 ```
+
+The lanes are laid out **symmetrically** — `Buyer · Buyer DISCOM · BuyerLP · BuyerTP` on the left mirror `SellerTP · SellerLP · Seller DISCOM · Seller` on the right, with the Discovery service as the centre axis and the two trading platforms meeting in the middle. The flow is a mirror image side-to-side, with **two real seller-side specifics**: on the seller side, `SDL->STP` `on_status (seller-side allocation)` carries the `FINAL_ALLOC` settled quantity, and the `contractpolicyenforcer` step computes the revenue flows as that `on_status` passes SellerTP.
 
 The table below maps each phase to what every actor does:
 
