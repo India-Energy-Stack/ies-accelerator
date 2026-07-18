@@ -112,111 +112,13 @@ The closest analogues are the **per-DISCOM monthly bill** (which excludes the tr
 
 ## 10. How It Fits Together
 
-```mermaid
-flowchart LR
-  BuyerDiscom["Buyer's<br/>DISCOM"] -. "daily meter-data pull — Beckn" .- BuyerDL["BuyerDiscomLedger<br/>regulated LP"]
-  Buyer["Buyer<br/>prosumer"] --- BuyerTP["BuyerTP<br/>BAP — trading platform"]
-  BuyerDL <-- "Beckn<br/>contract • allocations • settled qty" --> BuyerTP
-  BuyerTP <-- "Beckn<br/>select / init / confirm / status" --> SellerTP["SellerTP<br/>BPP — trading platform"]
-  SellerTP --- Seller["Seller<br/>prosumer"]
-  SellerTP <-- "Beckn<br/>contract • allocations • settled qty" --> SellerDL["SellerDiscomLedger<br/>regulated LP"]
-  SellerDL -. "daily meter-data pull — Beckn" .- SellerDiscom["Seller's<br/>DISCOM"]
-```
+Everything buyer-side mirrors everything seller-side: a buyer prosumer and their trading platform (BAP) on one side, a seller prosumer and their trading platform (BPP) on the other, the two platforms meeting over the `select / init / confirm / status` leg. Each DISCOM is represented by one regulated Ledger Provider, and each LP pulls metered actuals daily from its own DISCOM as the input to allocation. The two LPs — one per DISCOM — never speak to each other directly; the two TPs are the only liaison between them. No central exchange. Discovery goes through the network's Discovery service: the SellerTP lists offers via `publish-catalog`, the BuyerTP queries with `discover`.
 
-Everything buyer-side sits on the left, everything seller-side mirrors it on the right, and the two TPs meet in the middle over the `select / init / confirm / status` leg. Two regulated LPs in the protocol — one per DISCOM. No central exchange. The two LPs never speak to each other directly; the two TPs are the only liaison between them. Each LP pulls metered actuals daily from its **own** DISCOM (dashed lines) as the input to its allocation. Discovery (not drawn) goes through the network's Discovery service: the SellerTP lists offers via `publish-catalog`, the BuyerTP queries with `discover`.
+> **The block-topology diagram and the full six-phase sequence diagram** (with the automated ONIX legs shaded) live in the **[Implementation Guide → What each actor does, per phase](../use-cases/p2p-energy-trading/README.md#what-each-actor-does-per-phase)** — placed there so a developer has the topology, the wire sequence and the per-actor build steps in one place.
 
 ### The six phases
 
-This is the inter-DISCOM flow. Intra-DISCOM (buyer and seller behind the same DISCOM) collapses Phase 2's optional limit check and Phase 5 into a single ledger.
-
-```mermaid
-sequenceDiagram
-  autonumber
-  participant B as Buyer
-  participant BTP as BuyerTP
-  participant DS as Discovery service
-  participant STP as SellerTP
-  participant BDL as BuyerLP
-  participant BDisc as Buyer DISCOM
-  participant SDL as SellerLP
-  participant SDisc as Seller DISCOM
-  participant S as Seller
-
-  Note over B,S: Shaded bands = automated by ONIX plugins (degledgerrecorder, contractpolicyenforcer) — you configure them, you don't code them. Unshaded arrows = your application logic.
-
-  Note over BTP,STP: Phase 1 - Discovery
-  STP->>DS: publish-catalog (EnergyTradeOffer)
-  BTP->>DS: discover (intent filter)
-  DS->>BTP: matching offers
-
-  Note over BTP,SDL: Phase 2 - Select and init
-  BTP->>STP: select
-  STP->>BTP: on_select
-  BTP->>STP: init
-  STP->>BTP: on_init
-
-  Note over BDL,SDL: Phase 3 - Confirm
-  BTP->>STP: confirm
-  rect rgba(128,128,128,0.18)
-    STP->>SDL: on_confirm (blocking ledger write)
-    SDL-->>STP: ACK
-  end
-  STP->>BTP: on_confirm
-  rect rgba(128,128,128,0.18)
-    BTP->>BDL: on_confirm (blocking ledger write)
-    BDL-->>BTP: ACK
-  end
-
-  Note over B,S: Phase 4 - Delivery
-  S->>S: inject
-  B->>B: consume
-
-  Note over BDL,SDisc: Phase 5 - Allocation and reconciliation
-
-  Note over BDisc,SDisc: Daily - each LP pulls metered actuals from its own DISCOM for the meters & intervals with unallocated trades, then allocates
-  loop Daily, per meter & interval with an unallocated trade (buyer side)
-    BDL->>BDisc: status (request metered actuals)
-    BDisc->>BDL: on_status (metered actuals)
-    BDL->>BDL: allocate buyer side
-  end
-  loop Daily, per meter & interval with an unallocated trade (seller side)
-    SDL->>SDisc: status (request metered actuals)
-    SDisc->>SDL: on_status (metered actuals)
-    SDL->>SDL: allocate seller side
-  end
-
-  opt Peer polls for the buyer-side allocation
-    STP->>BTP: status (peer status-check)
-    rect rgba(128,128,128,0.18)
-      BTP->>BDL: status (auto-cascade to own ledger)
-    end
-  end
-  BDL->>BTP: on_status (buyer-side allocation)
-  rect rgba(128,128,128,0.18)
-    BTP->>STP: on_status (auto-forward to peer)
-    STP->>SDL: on_status (auto-record with sellerLP)
-  end
-
-  opt Peer polls for the seller-side allocation
-    BTP->>STP: status (peer status-check)
-    rect rgba(128,128,128,0.18)
-      STP->>SDL: status (auto-cascade to own ledger)
-    end
-  end
-  SDL->>STP: on_status (seller-side allocation, settled qty with FINAL_ALLOC)
-  rect rgba(128,128,128,0.18)
-    Note over STP: contractpolicyenforcer step computes revenue flows
-    STP->>BTP: on_status (auto-forward to peer)
-    BTP->>BDL: on_status (auto-record with buyerLP)
-  end
-
-  Note over B,S: Phase 6 - Billing and settlement
-  B->>S: pay for the trade (off-ledger, via TPs)
-  SDL->>S: monthly bill (excl. traded sold, incl. wheeling)
-  BDL->>B: monthly bill (excl. traded bought, incl. wheeling)
-```
-
-The shaded legs ship with ONIX: the `degledgerrecorder` cascades — including the auto-cascade of a peer status-check to the TP's own ledger — and the `contractpolicyenforcer` computation run inside the adapter from config alone. What is left for your application: the buyer TP drives `discover` → `select` → `init` → `confirm`; the seller TP publishes its catalog and answers `on_select` / `on_init` / `on_confirm`; each DISCOM answers its LP's **daily** `status` pull with metered actuals; each LP allocates and emits the result as `on_status`; either TP may **poll** the peer's latest allocation with a `status` request.
+This is the inter-DISCOM flow. Intra-DISCOM (buyer and seller behind the same DISCOM) collapses Phase 2's optional limit check and Phase 5 into a single ledger. The wire sequence is drawn — with the automated (ONIX) legs shaded — in the [Implementation Guide](../use-cases/p2p-energy-trading/README.md#what-each-actor-does-per-phase); in words:
 
 1. **Discovery** — SellerTP lists an `EnergyTradeOffer` catalog (`publish-catalog`); BuyerTP queries the Discovery service with `discover` and a JSONPath intent filter.
 2. **Select and init** — quantity and price refined; optional LP headroom pre-check.
@@ -227,7 +129,7 @@ The shaded legs ship with ONIX: the `degledgerrecorder` cascades — including t
 
 The allocation logic on each LP can be as simple as **pro-rata across the customer's trades in the delivery window**. The same Phase-5 message flow supports multiple rounds — a provisional allocation, a final allocation after meter-data finalisation, a deviation true-up — by repeating the `/status` round-trip with a fresh `BecknTimeSeries` payload. Iteration is a payload concern, not a protocol concern.
 
-For the operational detail behind this flow — the cascade rules, the four ledger interfaces, and the payload snapshots at each phase — see the **[Implementation Guide](../use-cases/p2p-energy-trading/README.md)**.
+The cascade rules, the four ledger interfaces, and the payload snapshots that make this flow concrete are in the **[Implementation Guide](../use-cases/p2p-energy-trading/README.md)**.
 
 ## 11. Points for Confirmation
 

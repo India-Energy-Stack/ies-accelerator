@@ -1,6 +1,6 @@
 # P2P Energy Trading
 
-**In a hurry?** Jump to the [Checklist](#checklist), or [See it run](#step-0-see-it-run-before-you-build-local-devkit) in one `docker compose up`. For the standards basis, the full field schedule, definitions and the end-to-end sequence diagram, see the **[Overview](../../use-cases-overview/p2p-energy-trading.md)**.
+**In a hurry?** Jump to the [Checklist](#checklist), or [See it run](#step-0-see-it-run-before-you-build-local-devkit) in one `docker compose up`. For the standards basis, the full field schedule and definitions, see the **[Overview](../../use-cases-overview/p2p-energy-trading.md)**.
 
 **Two prosumers on different DISCOMs execute a direct, signed energy trade over the same Beckn wire that carries dataset exchanges. Each DISCOM is represented in the protocol by a regulated Ledger Provider; allocation and settlement are computed by signed Rego policy, with no central exchange.**
 
@@ -39,11 +39,113 @@ Participants are identified by their plain **network subscriber IDs** (from the 
 | [Discover](../../what-ies-provides/discover.md) | Seller TP lists an `EnergyTradeOffer` catalog via `publish-catalog`; buyer TP queries with `discover` |
 | [Exchange](../../what-ies-provides/exchange.md) | The `select` → `init` → `confirm` → `status` lifecycle, plus the `degledgerrecorder` and `contractpolicyenforcer` ONIX steps |
 
+## Topology
+
+```mermaid
+flowchart LR
+  BuyerDiscom["Buyer's<br/>DISCOM"] -. "daily meter-data pull — Beckn" .- BuyerDL["BuyerDiscomLedger<br/>regulated LP"]
+  Buyer["Buyer<br/>prosumer"] --- BuyerTP["BuyerTP<br/>BAP — trading platform"]
+  BuyerDL <-- "Beckn<br/>contract • allocations • settled qty" --> BuyerTP
+  BuyerTP <-- "Beckn<br/>select / init / confirm / status" --> SellerTP["SellerTP<br/>BPP — trading platform"]
+  SellerTP --- Seller["Seller<br/>prosumer"]
+  SellerTP <-- "Beckn<br/>contract • allocations • settled qty" --> SellerDL["SellerDiscomLedger<br/>regulated LP"]
+  SellerDL -. "daily meter-data pull — Beckn" .- SellerDiscom["Seller's<br/>DISCOM"]
+```
+
+Everything buyer-side sits on the left, everything seller-side mirrors it on the right, and the two TPs meet in the middle over the `select / init / confirm / status` leg. Two regulated LPs in the protocol — one per DISCOM. No central exchange. The two LPs never speak to each other directly; the two TPs are the only liaison between them. Each LP pulls metered actuals daily from its **own** DISCOM (dashed lines) as the input to its allocation. Discovery (not drawn) goes through the network's Discovery service: the SellerTP lists offers via `publish-catalog`, the BuyerTP queries with `discover`.
+
 ---
 
 ## What each actor does, per phase
 
-This is the inter-DISCOM flow, read against the **[sequence diagram in the Overview](../../use-cases-overview/p2p-energy-trading.md#the-six-phases)**. Everything in a **shaded band there is automated by ONIX** — you configure it, you do not code it. Everything else is your application logic. Intra-DISCOM collapses Phase 2's optional limit check and Phase 5 into a single ledger.
+The full wire sequence for the inter-DISCOM flow. **Shaded (grey) bands are automated by ONIX plugins** (`degledgerrecorder`, `contractpolicyenforcer`) — you configure them, you don't code them; **unshaded arrows are your application logic.** Intra-DISCOM (buyer and seller behind the same DISCOM) collapses Phase 2's optional limit check and Phase 5 into a single ledger.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant B as Buyer
+  participant BTP as BuyerTP
+  participant DS as Discovery service
+  participant STP as SellerTP
+  participant BDL as BuyerLP
+  participant BDisc as Buyer DISCOM
+  participant SDL as SellerLP
+  participant SDisc as Seller DISCOM
+  participant S as Seller
+
+  Note over BTP,STP: Phase 1 - Discovery
+  STP->>DS: publish-catalog (EnergyTradeOffer)
+  BTP->>DS: discover (intent filter)
+  DS->>BTP: matching offers
+
+  Note over BTP,SDL: Phase 2 - Select and init
+  BTP->>STP: select
+  STP->>BTP: on_select
+  BTP->>STP: init
+  STP->>BTP: on_init
+
+  Note over BDL,SDL: Phase 3 - Confirm
+  BTP->>STP: confirm
+  rect rgba(128,128,128,0.18)
+    STP->>SDL: on_confirm (blocking ledger write)
+    SDL-->>STP: ACK
+  end
+  STP->>BTP: on_confirm
+  rect rgba(128,128,128,0.18)
+    BTP->>BDL: on_confirm (blocking ledger write)
+    BDL-->>BTP: ACK
+  end
+
+  Note over B,S: Phase 4 - Delivery
+  S->>S: inject
+  B->>B: consume
+
+  Note over BDL,SDisc: Phase 5 - Allocation and reconciliation
+
+  Note over BDisc,SDisc: Daily - each LP pulls metered actuals from its own DISCOM for the meters & intervals with unallocated trades, then allocates
+  loop Daily, per meter & interval with an unallocated trade (buyer side)
+    BDL->>BDisc: status (request metered actuals)
+    BDisc->>BDL: on_status (metered actuals)
+    BDL->>BDL: allocate buyer side
+  end
+  loop Daily, per meter & interval with an unallocated trade (seller side)
+    SDL->>SDisc: status (request metered actuals)
+    SDisc->>SDL: on_status (metered actuals)
+    SDL->>SDL: allocate seller side
+  end
+
+  opt Peer polls for the buyer-side allocation
+    STP->>BTP: status (peer status-check)
+    rect rgba(128,128,128,0.18)
+      BTP->>BDL: status (auto-cascade to own ledger)
+    end
+  end
+  BDL->>BTP: on_status (buyer-side allocation)
+  rect rgba(128,128,128,0.18)
+    BTP->>STP: on_status (auto-forward to peer)
+    STP->>SDL: on_status (auto-record with sellerLP)
+  end
+
+  opt Peer polls for the seller-side allocation
+    BTP->>STP: status (peer status-check)
+    rect rgba(128,128,128,0.18)
+      STP->>SDL: status (auto-cascade to own ledger)
+    end
+  end
+  SDL->>STP: on_status (seller-side allocation, settled qty with FINAL_ALLOC)
+  rect rgba(128,128,128,0.18)
+    Note over STP: contractpolicyenforcer step computes revenue flows
+    STP->>BTP: on_status (auto-forward to peer)
+    BTP->>BDL: on_status (auto-record with buyerLP)
+  end
+
+  Note over B,S: Phase 6 - Billing and settlement
+  B->>S: pay for the trade (off-ledger, via TPs)
+  SDisc->>S: monthly bill
+  BDisc->>B: monthly bill
+```
+
+The table below maps each phase to what every actor does:
 
 | Phase | Buyer TP | Seller TP | Each LP | Each DISCOM |
 |---|---|---|---|---|
@@ -309,7 +411,7 @@ None of the four steps require permission from a platform owner. For a guided fi
 
 ## References
 
-- **[Overview — P2P Energy Trading](../../use-cases-overview/p2p-energy-trading.md)** — standards basis, definitions, full field schedule, the six-phase sequence diagram, and Points for Confirmation
+- **[Overview — P2P Energy Trading](../../use-cases-overview/p2p-energy-trading.md)** — standards basis, definitions, full field schedule, the six-phase walkthrough, and Points for Confirmation
 - **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)** — consolidated field reference
 - Canonical schemas at **[schema.beckn.io](https://schema.beckn.io)** — [P2PTrade/v2.0](https://schema.beckn.io/P2PTrade/v2.0) · [DEGContract/v2.0](https://schema.beckn.io/DEGContract/v2.0) · [EnergyTradeOffer/v2.0](https://schema.beckn.io/EnergyTradeOffer/v2.0) · [EnergyTradeDelivery/v2.0](https://schema.beckn.io/EnergyTradeDelivery/v2.0) · [DiscomLedgerProvider/v2.0](https://schema.beckn.io/DiscomLedgerProvider/v2.0) · [BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)
 - **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** *(optional)* — seller's attestation backing the offer
