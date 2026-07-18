@@ -96,7 +96,7 @@ print(json.dumps({
     "id": did,
     "verificationMethod": [{
         "id": f"{did}#key-0",
-        "type": "JsonWebKey",
+        "type": "JsonWebKey2020",
         "controller": did,
         "publicKeyJwk": {"kty": "EC", "crv": "P-256",
                          "x": b64u(pt[1:33]), "y": b64u(pt[33:65])}
@@ -117,6 +117,8 @@ Three fields matter, and you can ignore the rest until later:
 - **`verificationMethod`** is the public key. Verifiers use it to check your signatures.
 - **`assertionMethod`** says which key is allowed to issue credentials.
 - **`authentication`** says which key can sign requests on behalf of the DID.
+
+> **Keep the verification-method `type` as `JsonWebKey2020`.** It is the type defined by the `jws-2020` context already listed in `@context`, and it is the type that mainstream verifier libraries (did-jwt / Veramo, Spruce, `jose`-based stacks) map to your P-256 key for `ES256`. The plain `JsonWebKey` name is valid did-core, but several widely used verifiers do **not** resolve it to an `ES256` key and reject the signature with a "no suitable keys" error — a genuine, correctly signed credential then fails to verify. Publish `JsonWebKey2020` so any verifier can find your key.
 
 You can add a `service` array later when your Beckn and OpenCred endpoints are publicly addressable; the DID is valid without it.
 
