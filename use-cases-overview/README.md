@@ -12,8 +12,7 @@ Read one of these before the [Use Case Implementation Guide](../use-cases/README
 | **[DER Visibility](der-visibility.md)** | Grid-side, PII-free ElectricityCredential v1.2 issuance — per-feeder DER visibility for operators and aggregators | Live in pilot |
 | **[DISCOM Regulatory Filing](discom-regulatory-filing.md)** | Structured ArrFiling v0.5 — ARR, true-up and compliance filings from DISCOM to SERC | Live or staged |
 | **[Tariff Intelligence](tariff-intelligence.md)** | Tariff orders and other policy published once, as code | Live or staged |
-
-> **P2P Energy Trading** has its own page directly under [Use Case Implementation Guides](../use-cases/p2p-energy-trading/README.md) — it already carries its full context inline and isn't split into a separate overview.
+| **[P2P Energy Trading](p2p-energy-trading.md)** | Two prosumers on different DISCOMs execute a direct, signed energy trade over Beckn — regulated Ledger Providers, signed-Rego settlement, no central exchange | In progress |
 
 ---
 
