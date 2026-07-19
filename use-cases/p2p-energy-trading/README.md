@@ -67,7 +67,7 @@ sequenceDiagram
   participant BDisc as Buyer DISCOM
   participant BDL as BuyerLP
   participant BTP as BuyerTP
-  participant DS as Discovery service
+  participant DS as Discover/Catalog service
   participant STP as SellerTP
   participant SDL as SellerLP
   participant SDisc as Seller DISCOM
@@ -143,7 +143,7 @@ sequenceDiagram
   SDisc->>S: monthly bill
 ```
 
-The lanes are laid out **symmetrically** — `Buyer · Buyer DISCOM · BuyerLP · BuyerTP` on the left mirror `SellerTP · SellerLP · Seller DISCOM · Seller` on the right, with the Discovery service as the centre axis and the two trading platforms meeting in the middle. The flow is a mirror image side-to-side, with **two real seller-side specifics**: on the seller side, `SDL->STP` `on_status (seller-side allocation)` carries the `FINAL_ALLOC` settled quantity, and the `contractpolicyenforcer` step computes the revenue flows as that `on_status` passes SellerTP.
+The lanes are laid out **symmetrically** — `Buyer · Buyer DISCOM · BuyerLP · BuyerTP` on the left mirror `SellerTP · SellerLP · Seller DISCOM · Seller` on the right, with the Discover/Catalog service as the centre axis and the two trading platforms meeting in the middle. The flow is a mirror image side-to-side, with **two real seller-side specifics**: on the seller side, `SDL->STP` `on_status (seller-side allocation)` carries the `FINAL_ALLOC` settled quantity, and the `contractpolicyenforcer` step computes the revenue flows as that `on_status` passes SellerTP.
 
 The table below maps each phase to what every actor does:
 
