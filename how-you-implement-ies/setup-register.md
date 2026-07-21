@@ -208,10 +208,10 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
 
 3. **Note the record ID** DeDi assigns — you will configure it into ONIX as the `keyId` in [Setup Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
 
-4. **Verify the lookup.** Other nodes resolve your record through the Beckn fabric lookup URL. Substitute `<your-namespace>` (the DeDi namespace from §1.4 — the path is addressed by namespace, not by the `did:web` value of the `subscriber_id` field) and `<your_record_id>` (from step 3); `subscribers.beckn.one` is the fixed fabric schema keyword — leave it literal, it is not your registry name. Allow 5–10 minutes for the cache, then:
+4. **Verify the lookup.** Other nodes resolve your record through the Beckn fabric lookup URL. Substitute `<your-subscriber-id>` (your DeDi namespace from §1.4 — the path is addressed by this subscriber id, not by the `did:web` value of the `subscriber_id` record field) and `<your_record_id>` (from step 3); `subscribers.beckn.one` is the fixed fabric schema keyword — leave it literal, it is not your registry name. Allow 5–10 minutes for the cache, then:
 
    ```bash
-   curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-namespace>/subscribers.beckn.one/<your_record_id>" | jq
+   curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-subscriber-id>/subscribers.beckn.one/<your_record_id>" | jq
    ```
 
    Expected: the record you just published, including your `signing_public_key`. At this point `network_memberships` is empty — the NFO fills it in §1.7.
@@ -248,7 +248,7 @@ Before approving, the Secretariat validates that your namespace is domain-verifi
 **Confirm the reference landed.** Re-run the same lookup from §1.6 and check the `network_memberships` array — it should now list the network(s) you were added to:
 
 ```bash
-curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-namespace>/subscribers.beckn.one/<your_record_id>" | jq '.data.network_memberships'
+curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-subscriber-id>/subscribers.beckn.one/<your_record_id>" | jq '.data.network_memberships'
 ```
 
 Expected: the parent network IDs appear, e.g. `["indiaenergystack.in/test-ies-data-sharing-network"]`. Empty or missing means the NFO hasn't written the reference yet (or wrote it against a different record) — this is exactly the value your ONIX checks against `allowedNetworkIDs` in [Setup Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
