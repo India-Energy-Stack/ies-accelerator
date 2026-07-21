@@ -179,6 +179,24 @@ Four things worth noting:
 
 > **The credential is W3C VC Data Model 2.0** — its `@context` is `https://www.w3.org/ns/credentials/v2` (single context, no `credentials/v1`). Point third parties at a **VC-2.0-aware verifier**. Libraries still pinned to VC Data Model 1.1 reject the `v2` context outright (e.g. an error like `@context is missing default context "https://www.w3.org/2018/credentials/v1"`) even though the signature is valid. This is a verifier-version mismatch, not a defect in the credential: do **not** add the `credentials/v1` context to "fix" it — a v2 credential must not carry the v1 context. If you must interoperate with a v1.1-only consumer, issue that consumer a separate v1.1 credential rather than downgrading the v2 one.
 
+### Issue from a script
+
+Prefer a script to raw `curl`? [`scripts/issue_credential.py`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/how-you-implement-ies/scripts/issue_credential.py) issues the same ElectricityCredential v1.2 using only the Python standard library — no `pip install`. It is **revocable by default**: it embeds `revocationRegistryUrl`, so the credential comes back with the `credentialStatus` block described above.
+
+```bash
+export OPENCRED_API_KEY="your-issuer-api-key"
+export OPENCRED_DEDI_NAMESPACE="discom.example"
+python3 how-you-implement-ies/scripts/issue_credential.py -o credential.json
+```
+
+It prints the stamped `credentialStatus` and writes the signed credential to `credential.json`, ready for §2.7. `ISSUER_DID` and `OPENCRED_BASE` are read from the environment if set, otherwise the DID is fetched from `/v1/keys` and the base defaults to `http://localhost:3100`.
+
+To issue **without** revocation — bearer-style, no `credentialStatus`, so the credential cannot be revoked (demos and throwaway testing only) — pass `--no-revocation`:
+
+```bash
+python3 how-you-implement-ies/scripts/issue_credential.py --no-revocation
+```
+
 ## 2.7 — Verify
 
 ```bash
