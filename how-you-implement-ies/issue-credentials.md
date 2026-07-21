@@ -116,6 +116,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
     \"proofFormat\": \"vc-jwt\",
     \"validFrom\":   \"2026-04-01T00:00:00+05:30\",
     \"validUntil\":  \"2031-04-01T00:00:00+05:30\",
+    \"revocationRegistryUrl\": \"https://api.dedi.global/dedi/query/$OPENCRED_DEDI_NAMESPACE/vc-revocation-registry\",
     \"credentialSubject\": {
       \"customerProfile\": {
         \"customerNumber\": \"DISCOM-2025-00987654\",
@@ -158,13 +159,7 @@ Four things worth noting:
 - **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:<your-domain>:assets:meter:<slno>` — the command above builds them from `$OPENCRED_ISSUER_DOMAIN`). Same pattern for transformers, feeders, substations — see [Register — Identifier patterns](../what-ies-provides/register.md#identifier-patterns). No per-asset `did.json` hosting required for the pragmatic case.
 - **`issuer.idRef` is optional.** OpenCred fills `issuer` with the DID string only. Your integration service appends `name` and (if you have a regulator to cite) `idRef` on egress, then re-signs if your flow requires a single signed artefact.
 - **`credentialSubject.id` is absent here.** That's the bearer-style default. Set it to a wallet `did:key` or `tel:+91...` URI for holder-bound issuance — see [Appendix — Holder binding](#appendix-binding-the-credential-to-a-holder-identity).
-- **No `credentialStatus` here — this credential can't be revoked.** The default issue omits `revocationRegistryUrl`, so nothing points a verifier at a revocation registry. To make it revocable, add **one top-level field** to the issue body (the [variant examples](#issue-the-credential-variants) already do; §2.8 covers the revoke call itself):
-
-  ```bash
-  "revocationRegistryUrl": "https://api.dedi.global/dedi/query/$OPENCRED_DEDI_NAMESPACE/vc-revocation-registry",
-  ```
-
-  OpenCred then stamps a `credentialStatus` onto both the credential and its JWT payload:
+- **This credential is revocable — it carries a `credentialStatus`.** The `revocationRegistryUrl` line points OpenCred at your DeDi revocation registry (built from `$OPENCRED_DEDI_NAMESPACE`), so it stamps a `credentialStatus` block onto both the credential and its JWT payload:
 
   ```json
   "credentialStatus": {
@@ -176,6 +171,8 @@ Four things worth noting:
   ```
 
   You pass the **`query`** (whole-registry) URL at issue; OpenCred writes back the **`lookup`** (per-credential record) URL into `credentialStatus.id` — the [two URL shapes are deliberate](#id-2.8-revoke). The stamping happens at issue and needs no live DeDi connection; the actual revocation write in §2.8 does, so make sure the `OPENCRED_DEDI_*` variables from §2.3 are set before you rely on it.
+
+  **To issue *without* revocation** — bearer-style, no `credentialStatus`, e.g. for `did:key` demos or throwaway testing — drop the `revocationRegistryUrl` line from the request body. The credential then can't be revoked, which is fine for those cases but not for anything a verifier will trust in production.
 
 > **The credential is W3C VC Data Model 2.0** — its `@context` is `https://www.w3.org/ns/credentials/v2` (single context, no `credentials/v1`). Point third parties at a **VC-2.0-aware verifier**. Libraries still pinned to VC Data Model 1.1 reject the `v2` context outright (e.g. an error like `@context is missing default context "https://www.w3.org/2018/credentials/v1"`) even though the signature is valid. This is a verifier-version mismatch, not a defect in the credential: do **not** add the `credentials/v1` context to "fix" it — a v2 credential must not carry the v1 context. If you must interoperate with a v1.1-only consumer, issue that consumer a separate v1.1 credential rather than downgrading the v2 one.
 
