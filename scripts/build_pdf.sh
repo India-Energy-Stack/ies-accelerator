@@ -52,14 +52,20 @@ OUT_PDF="$BUILD_DIR/ies_accelerator.pdf"
 # Tighter margins and a smaller base font than the LaTeX report-class
 # defaults, cutting page count with no content change — still comfortably
 # readable for a printed technical guide.
+#
+# No --number-sections: the source headings already carry their own manual
+# numbers (e.g. "2.4 — Confirm your DeDi namespace is live", "11. Points for
+# Confirmation") which the GitBook web view and the in-text §-cross-references
+# rely on. Letting LaTeX auto-number on top of those produced double numbering
+# in the TOC ("14.5  2.4 Confirm your DeDi namespace is live"). Without the
+# flag, pandoc sets secnumdepth to -\maxdimen (no auto numbering) and the TOC
+# shows only the authored numbers — matching the web exactly.
 pandoc "$COMBINED_MD" \
     --output="$OUT_PDF" \
     --pdf-engine=tectonic \
     --from=markdown-task_lists \
     --toc \
     --toc-depth=2 \
-    --number-sections \
-    -V secnumdepth=2 \
     -V documentclass=report \
     -V geometry:margin=0.75in \
     -V fontsize=10pt \
