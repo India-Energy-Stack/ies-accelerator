@@ -78,9 +78,7 @@ sequenceDiagram
   BTP->>DS: discover
   DS->>BTP: matching offers
 
-  Note over B,S: Phase 2 - Select and init
-  BTP->>STP: select
-  STP->>BTP: on_select
+  Note over B,S: Phase 2 - Init
   BTP->>STP: init
   STP->>BTP: on_init
 
@@ -150,7 +148,7 @@ The table below maps each phase to what every actor does:
 | Phase | Buyer TP | Seller TP | Each LP | Each DISCOM |
 |---|---|---|---|---|
 | **1 · Discovery** | `discover` against the Discovery service with a JSONPath intent filter | `publish-catalog` an `EnergyTradeOffer` | — | — |
-| **2 · Select & init** | `select`, then `init` — refine quantity and price | Answer `on_select`, `on_init`; optional LP headroom pre-check | *(optional)* answer a headroom pre-check | — |
+| **2 · Init** | `init` — refine quantity and price | Answer `on_init`; optional LP headroom pre-check | *(optional)* answer a headroom pre-check | — |
 | **3 · Confirm** | `confirm` | Answer `on_confirm` | **(auto)** record the blocking `on_confirm` forward and sync-ACK it | — |
 | **4 · Delivery** | Buyer consumes | Seller injects | — | — |
 | **5 · Allocation & reconciliation** | *(optional)* poll the seller side with `status` | *(optional)* poll the buyer side with `status`; the `contractpolicyenforcer` step computes revenue flows | **Daily**, `status`-pull metered actuals from your own DISCOM for meters/intervals with unallocated trades, allocate, emit `on_status`; **(auto)** cascade | **Daily**, answer your LP's `status` pull with an `on_status` carrying the metered actuals |

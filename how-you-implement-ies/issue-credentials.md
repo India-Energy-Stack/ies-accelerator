@@ -227,6 +227,45 @@ A passing integration test should:
 
 Run on every release. It exercises every leg of the trust chain.
 
+## 2.10 — Package the credential as a PDF / QR code
+
+A signed VC is a JSON blob — fine for machine-to-machine, awkward to hand to a consumer. OpenCred renders the same credential into a printable **PDF certificate** with an embedded **QR code**, so a DISCOM can email or DigiLocker-share a document a person can actually read, and a field verifier can scan the QR to recover the credential verbatim. This mirrors the [OpenCred bootcamp — Package the credential as a PDF / QR code](https://opencred.gitbook.io/docs/bootcamp/local-docker#id-6c.-package-the-credential-as-a-pdf-qr-code).
+
+Packaging is a **rendering** step, not a signing step — no signature is added or checked. The integrity guarantee stays in the credential you issued in §2.6, which is preserved byte-for-byte inside the QR and the JSON output.
+
+```bash
+curl -s http://localhost:3100/v1/credentials/package \
+  -H "Authorization: Bearer $OPENCRED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"credential\": $(jq '.credential' credential.json),
+    \"formats\": [\"pdf\", \"qr-png\", \"json\"],
+    \"customization\": {
+      \"primaryColor\":      \"#003366\",
+      \"issuerDisplayName\": \"Example DISCOM\",
+      \"footerText\":        \"Issued under IES ElectricityCredential v1.2\"
+    }
+  }" | tee packaged.json | jq '{outputs: [.outputs[] | {format, mimeType, suggestedFileName}], errors: .errors}'
+```
+
+- **`credential`** takes either the signed VC JSON object (as above — `data-integrity` and `vc-jwt` both work) or the bare compact token string (the `.credential.proof.jwt` from a `vc-jwt` issue, or an `sd-jwt-vc` token). For `vc-jwt` the QR embeds the VC with the JWT in `proof.jwt`; the PDF layout is driven by the decoded payload.
+- **`formats`** is the field the endpoint reads — `qr-png`, `qr-svg`, `pdf`, `json`, `json-compact`. It defaults to `["json"]`, so **a misspelled or omitted key silently gives you JSON only** (there is no error — an unknown top-level field like `packageFormats` is ignored and the default applies).
+- **`customization`** is entirely optional. All fields: `primaryColor`, `secondaryColor`, `textColor`, `labelColor`, `backgroundColor`, `issuerDisplayName` (≤200 chars), `logoDataUri` + `logoWidth`/`logoHeight` (10–200), `sealDataUri`, `footerText` (≤500 chars). Colours are `#rrggbb`; logo/seal are `data:` URIs.
+
+Per-format failures land in `errors[]` without failing the whole call — the response is still `200` with whatever rendered.
+
+Extract the files. **PDF** data is pure base64; **QR PNG** data is a `data:` URL (strip the prefix first); **SVG** and **JSON** are UTF-8 text:
+
+```bash
+jq -r '.outputs[] | select(.format=="pdf") | .data' packaged.json | base64 -d > certificate.pdf
+
+jq -r '.outputs[] | select(.format=="qr-png") | .data | sub("^data:image/png;base64,"; "")' packaged.json | base64 -d > qr.png
+
+jq -r '.outputs[] | select(.format=="json") | .data' packaged.json > credential-packaged.json
+```
+
+Expected: `certificate.pdf` is a two-page PDF — page 1 is the credential rendered as a certificate with the "Scan to verify" QR, page 2 is the digital-signature block (proof type, algorithm, verification method). `qr.png` is a 400×400 PNG that decodes back to the credential you issued.
+
 ---
 
 ## Issue the credential variants
