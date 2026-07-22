@@ -26,4 +26,4 @@ npx -y @mermaid-js/mermaid-cli --version   # confirms mmdc is available for diag
 bash scripts/build_pdf.sh
 ```
 
-This produces `build/ies_accelerator.pdf` — the exact file the GitHub Actions workflow publishes.
+This produces `build/ies_accelerator.pdf` — the same document the GitHub Actions workflow builds and publishes as [`ies-report.pdf`](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf).
