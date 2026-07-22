@@ -55,10 +55,12 @@
 Fable must select **one** initial mechanical target from the carried evidence, define its exact files, fixtures, acceptance command, regression boundary, and kill criteria. Candidate families include:
 
 1. directory-target link detection and repair;
-2. `SUMMARY.md` / `_sidebar.md` / index-generation parity and stable slug reuse; or
+2. stable numeric-heading slug reuse in index generation, without changing navigation membership, publication content, or the roles of the navigation surfaces; or
 3. another single mechanical defect already demonstrated by `qaqc/02` and confirmed unchanged by `qaqc/04`.
 
 The first Spark work order must not bundle link validation, navigation generation, schema generation, PDF, CI, and platform portability into a broad rewrite. It must have a deterministic failing fixture before the fix and an independent verification command afterward.
+
+The already-verified exact `SUMMARY.md` / `_sidebar.md` parity is an invariant, not a defect to reopen. Any change to `index.md`'s role or to Pathways publication requires recorded `OD-E4` / `OD-E6` decisions before dispatch; a slug-mechanics work order may not decide either issue indirectly.
 
 ## 5. Separate authorization lanes
 
@@ -79,6 +81,6 @@ Fable must return a written decision that:
 4. selects the first bounded Spark target, or explicitly defers Spark until a later gate;
 5. assigns checkpoint boundaries and quality-engineer gates;
 6. records stop conditions and any additional files that must be read but not edited; and
-7. produces executor-ready work orders with exact file lists, acceptance tests, and forbidden changes.
+7. produces executor-ready work orders with exact file lists, acceptance tests, forbidden changes, and every applicable owner precondition recorded explicitly.
 
 Approval of this draft alone does not authorize a release or publication. The final regression sequence and kill criteria in `qaqc/02` remain controlling for any release-readiness claim.
