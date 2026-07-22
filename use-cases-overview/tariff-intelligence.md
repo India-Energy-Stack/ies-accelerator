@@ -2,12 +2,16 @@
 
 *Any authority policy — tariff orders, time-of-day surcharges, dispatch guides, deviation penalties, and data-exchange rules — published once, as signed machine-readable code by the issuing authority, and consumed directly by billing systems, consumer apps, smart meters and analytics agents over [IES Data Exchange](../what-ies-provides/discover.md).*
 
+{% hint style="warning" %}
+🚧 **Work in progress.** This section is still being finalised and may change before sign-off.
+{% endhint %}
+
 **[Implementation Guide →](../use-cases/tariff-intelligence/README.md)**
 
 | Field | Value |
 |---|---|
 | Document | IES/TI-PROFILE/0.5 |
-| Status | Live or staged |
+| Status | 🚧 Work in progress (WIP) |
 | Applicability | All SERCs and DISCOMs publishing tariff or programme rules |
 | This version | Built on the `IES_Policy` family ([upstream](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)) over Beckn. Live for `TARIFF` and `DISPATCH_GUIDE` types. A first-class `Tariff/v0.x` schema in this repo is in progress. |
 

@@ -38,8 +38,8 @@
 * [Consumer Meter Digest](/use-cases-overview/consumer-meter-digest.md)
 * [Smart Meter Data Exchange](/use-cases-overview/smart-meter-data-exchange.md)
 * [DER Visibility](/use-cases-overview/der-visibility.md)
-* [DISCOM Regulatory Filing](/use-cases-overview/discom-regulatory-filing.md)
-* [Policy as Code](/use-cases-overview/tariff-intelligence.md)
+* [DISCOM Regulatory Filing (WIP)](/use-cases-overview/discom-regulatory-filing.md)
+* [Policy as Code (WIP)](/use-cases-overview/tariff-intelligence.md)
 * [P2P Energy Exchange](/use-cases-overview/p2p-energy-trading.md)
 
 ## Use Case Implementation Guides
@@ -50,8 +50,8 @@
 * [Smart Meter Data Exchange](/use-cases/smart-meter-data-exchange/README.md)
   * [IES Meter Data Model](/use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
 * [DER Visibility](/use-cases/der-visibility/README.md)
-* [DISCOM Regulatory Filing](/use-cases/discom-regulatory-filing/README.md)
-* [Policy as Code](/use-cases/tariff-intelligence/README.md)
+* [DISCOM Regulatory Filing (WIP)](/use-cases/discom-regulatory-filing/README.md)
+* [Policy as Code (WIP)](/use-cases/tariff-intelligence/README.md)
 * [P2P Energy Exchange](/use-cases/p2p-energy-trading/README.md)
 
 ## Schemas

@@ -4,6 +4,10 @@
 
 **A DISCOM submits its Aggregate Revenue Requirement (ARR), tariff petition, true-up, or other compliance filing to a State Electricity Regulatory Commission (SERC) as a structured, signed, machine-verifiable [ArrFiling v0.5](../../schemas/ArrFiling/v0.5/README.md) object.**
 
+{% hint style="warning" %}
+🚧 **Work in progress.** This guide is still being finalised and may change before sign-off.
+{% endhint %}
+
 ---
 
 ## Scenario

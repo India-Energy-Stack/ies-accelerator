@@ -4,6 +4,10 @@
 
 **Any authority policy — tariff orders, time-of-day surcharges, dispatch guides, deviation penalties, and data-exchange rules — published as signed machine-readable *policy-as-code*, consumable by billing systems, consumer apps, smart meters, and analytics agents directly. This guide walks the flagship sub-use-case, [Tariff Intelligence](#scenario); the other policy types reuse the same envelope and identity.**
 
+{% hint style="warning" %}
+🚧 **Work in progress.** This guide is still being finalised and may change before sign-off.
+{% endhint %}
+
 ---
 
 ## Scenario

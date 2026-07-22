@@ -1171,7 +1171,7 @@ Practical deployment and mapping implementations for specific grid business proc
   <ul>
     <li><a href="use-cases/README.md#use-case-implementation-guides">Use Case Implementation Guides</a>    <ul>
       <li><a href="use-cases/README.md#live-in-pilot">Live in pilot</a></li>
-      <li><a href="use-cases/README.md#live-or-staged">Live or staged</a></li>
+      <li><a href="use-cases/README.md#work-in-progress-wip">Work in progress (WIP)</a></li>
       <li><a href="use-cases/README.md#in-progress">In progress</a></li>
       <li><a href="use-cases/README.md#how-each-guide-is-organised">How each guide is organised</a></li>
       <li><a href="use-cases/README.md#picking-a-first-use-case">Picking a first use case</a></li>
