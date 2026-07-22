@@ -15,10 +15,6 @@ These documents provide a general introduction, terminology definitions, and lay
   <ul>
     <li><a href="README.md#india-energy-stack-accelerator">India Energy Stack — Accelerator</a>    <ul>
       <li><a href="README.md#how-ies-works-three-steps">How IES works — three steps</a></li>
-      <li><a href="README.md#what-ies-is-not">What IES is not</a></li>
-      <li><a href="README.md#what-ies-makes-possible">What IES makes possible</a></li>
-      <li><a href="README.md#what-ies-changes-for-the-sector">What IES changes for the sector</a></li>
-      <li><a href="README.md#who-should-participate">Who should participate</a></li>
       <li><a href="README.md#how-this-guide-is-organised">How this guide is organised</a>      <ul>
         <li><a href="README.md#what-ies-provideswhat-ies-providesreadmemd">[What IES Provides](what-ies-provides/README.md)</a></li>
         <li><a href="README.md#how-you-implement-ieshow-you-implement-iesreadmemd">[How you implement IES](how-you-implement-ies/README.md)</a></li>

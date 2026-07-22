@@ -156,47 +156,7 @@ All State Governments, Union Territory Administrations and entities in the power
 
 ## Common questions
 
-The questions most often asked by utilities, regulators and vendors, beyond what is covered above.
-
-### Is IES only for connecting to other organisations, or also for internal systems?
-
-**Mainly external** — that is where most of the difficulty lies today. The same adapter and standard also help within an organisation, where several systems from different vendors may not exchange data with each other. The larger gain is external; the internal improvement follows.
-
-### Some functions can already be done within a single DISCOM. Why is IES needed?
-
-A few functions, such as shifting demand within a single area, can be done alone today. **But IES is built for the whole country, and this benefits every participant.** Records, services and vendors proven in one State work in every other without fresh verification or rebuilding.
-
-### Is IES still relevant for an organisation that mainly wants to improve existing systems rather than build new ones?
-
-**Yes.** The same one-time adapter serves both purposes: it improves how current systems exchange data today, and provides the base to add new services later on the same standard.
-
-### If a new service or a new kind of device is added later, does the process start over?
-
-**No.** Each asset — a meter, a solar unit, an EV charger — is given its digital identity at the moment a use case first needs it. Everything already in place (verified identities, trust checks, agreed data formats) is reused. The first asset connected takes the most effort; each one after is far easier.
-
-### Does IES meet cybersecurity requirements for the power sector?
-
-**Yes.** IES is being designed to follow the applicable cyber-security regulations for the power sector. Every message carries a digital signature; the identity, consent and data layers are kept separate; the adapter sits at the edge only and creates no new internal integration points; and there is no central bottleneck all data must pass through. Security incidents follow the established power-sector incident response process.
-
-### Does IES protect personal data?
-
-**Yes.** IES stores no personal data. Consumer data is shared only with the consumer's explicit consent, for the stated purpose, and the consumer can prove a single fact (selective disclosure) without revealing the rest. IES is being designed to follow the applicable data protection law.
-
-### Does IES change the relationship with the regulator?
-
-**No.** IES only turns the existing CEA and CERC rules into a form software can read. If putting a rule into practice reveals a gap, IES points it out to the regulator. Only the regulator decides what to do about it.
-
-### Does IES support large or bulk data transfers?
-
-**Yes, with no size limit.** IES specifies the data format and the coordination, not the transport, so data moves over the organisation's normal channels (secure web, file transfer, signed URL, Kafka, MQTT, SFTP). Either **inline** — smaller batches inside the IES-formatted messages (best for small / mid-sized pulls) — or **by link** — the IES message carries a signed pointer or streaming endpoint (best for SLA-bound feeds and multi-gigabyte artefacts). Either way, IES handles discovery, consent, the data shape, and the audit trail.
-
-### Who adds or updates the specifications and standards?
-
-The **IES Cell** — the governance body being constituted under the Central Electricity Authority, with representation from across the sector. It owns the specifications, decides what is added or changed, and publishes each version. Its detailed governance framework will be notified separately.
-
-### What is the process to request changes to the published specifications?
-
-Any participant can propose a change to the IES Cell. Proposals are reviewed, and accepted changes are published as a new, versioned specification. Until the IES Cell's governance framework is notified, raise an issue or a discussion in the [ies-accelerator repository](https://github.com/India-Energy-Stack/ies-accelerator).
+The questions utilities, regulators and vendors ask most — *does IES replace my systems? will it create new compliance work? how is consumer data protected? does it support bulk transfers? who governs the specifications?* — are answered in the **[FAQ](../faq.md)** (20 questions, drawn from the IES Technical Note).
 
 ---
 
