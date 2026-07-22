@@ -1,6 +1,6 @@
 # FAQ
 
-Answers to common questions about the India Energy Stack. This is a running list — it will grow as more questions come in. For a term-by-term reference see the [Glossary](glossary.md); for the full narrative see [Home](README.md).
+Answers to common questions about the India Energy Stack. This is a running list — it will grow as more questions come in. For a term-by-term reference see the [Glossary](glossary.md); for the full narrative see [What IES Is](concepts/what-ies-is.md).
 
 ---
 

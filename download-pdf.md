@@ -8,7 +8,7 @@ The entire GitBook — every chapter, every use-case guide, every schema overvie
 
 ## What's in it
 
-Built from the same source as this GitBook, in the same order as the left-hand navigation: Home, Getting Started, Glossary, FAQ, What IES Provides (Register → Discover → Exchange → Electricity Credentials), How you implement IES, Use Case Overviews, Use Case Implementation Guides, and Reference — followed by an **Appendix — Schemas Reference** at the end, covering Schemas Overview and the field reference for every schema family.
+Built from the same source as this GitBook, in the same order as the left-hand navigation: Getting Started, Glossary, FAQ, What IES Provides (Register → Discover → Exchange → Electricity Credentials), How you implement IES, Use Case Overviews, Use Case Implementation Guides, and Reference — followed by an **Appendix — Schemas Reference** at the end, covering Schemas Overview and the field reference for every schema family.
 
 The appendix is placed last and behind a clear divider chapter on purpose: the document is long, and the schema field-reference tables are lookup material, not narrative reading. Putting them at the end keeps the front of the PDF a clean, linear read, while still shipping the complete schema reference inside the same file.
 

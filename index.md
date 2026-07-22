@@ -9,47 +9,30 @@ Welcome to the India Energy Stack (IES) documentation map. This index organizes 
 These documents provide a general introduction, terminology definitions, and layout structures for the repository.
 
 * **[README.md](README.md)**
-  - *Summary*: Root-level introduction to the IES accelerator repository structure, standard protocols, and setup environment.
+  - *Summary*: Getting Started — the landing page: IES in brief, the three steps, the building blocks, how the guide is organised, choose-your-path routing, key terminology, prerequisites and standards.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="README.md#india-energy-stack-accelerator">India Energy Stack — Accelerator</a>    <ul>
+    <li><a href="README.md#getting-started">Getting Started</a>    <ul>
       <li><a href="README.md#how-ies-works-three-steps">How IES works — three steps</a></li>
+      <li><a href="README.md#the-building-blocks">The building blocks</a>      <ul>
+        <li><a href="README.md#identifiers-and-addressing">Identifiers and Addressing</a></li>
+        <li><a href="README.md#registries-and-directories">Registries and Directories</a></li>
+        <li><a href="README.md#electricity-credentials">Electricity Credentials</a></li>
+        <li><a href="README.md#data-exchange">Data Exchange</a>
+      </li>
+      </ul>
       <li><a href="README.md#how-this-guide-is-organised">How this guide is organised</a>      <ul>
         <li><a href="README.md#what-ies-provideswhat-ies-providesreadmemd">[What IES Provides](what-ies-provides/README.md)</a></li>
         <li><a href="README.md#how-you-implement-ieshow-you-implement-iesreadmemd">[How you implement IES](how-you-implement-ies/README.md)</a></li>
         <li><a href="README.md#use-case-implementation-guidesuse-casesreadmemd">[Use Case Implementation Guides](use-cases/README.md)</a>
       </li>
       </ul>
-      <li><a href="README.md#where-to-start">Where to start</a></li>
+      <li><a href="README.md#choose-your-path">Choose your path</a></li>
+      <li><a href="README.md#key-terminology">Key terminology</a></li>
+      <li><a href="README.md#prerequisites-by-capability">Prerequisites by capability</a></li>
       <li><a href="README.md#key-standards-and-protocols">Key standards and protocols</a></li>
-      <li><a href="README.md#related-repositories">Related Repositories</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[getting-started.md](getting-started.md)**
-  - *Summary*: A 5-minute technical orientation covering IES core capabilities, roles, prerequisites, and developer onboarding options.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="getting-started.md#getting-started">Getting Started</a>    <ul>
-      <li><a href="getting-started.md#what-is-the-india-energy-stack">What is the India Energy Stack?</a>      <ul>
-        <li><a href="getting-started.md#identifiers-and-addressing">Identifiers and Addressing</a></li>
-        <li><a href="getting-started.md#registries-and-directories">Registries and Directories</a></li>
-        <li><a href="getting-started.md#energy-credentials">Energy Credentials</a></li>
-        <li><a href="getting-started.md#data-exchange">Data Exchange</a>
-      </li>
-      </ul>
-      <li><a href="getting-started.md#choosing-your-path">Choosing Your Path</a></li>
-      <li><a href="getting-started.md#key-terminology">Key Terminology</a></li>
-      <li><a href="getting-started.md#prerequisites-by-capability">Prerequisites by Capability</a>      <ul>
-        <li><a href="getting-started.md#energy-credentials">Energy Credentials</a></li>
-        <li><a href="getting-started.md#data-exchange">Data Exchange</a>
-      </li>
-      </ul>
-      <li><a href="getting-started.md#getting-help">Getting Help</a>
+      <li><a href="README.md#getting-help-related-repositories">Getting help & related repositories</a>
     </li>
     </ul>
   </li>

@@ -1,5 +1,4 @@
-* [Home](/README.md)
-* [Getting Started](/getting-started.md)
+* [Getting Started](/README.md)
 * [Glossary](/glossary.md)
 * [FAQ](/faq.md)
 * [Download PDF](/download-pdf.md)
