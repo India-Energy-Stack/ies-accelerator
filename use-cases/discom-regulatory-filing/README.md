@@ -4,6 +4,10 @@
 
 **A DISCOM submits its Aggregate Revenue Requirement (ARR), tariff petition, true-up, or other compliance filing to a State Electricity Regulatory Commission (SERC) as a structured, signed, machine-verifiable [ArrFiling v0.5](../../schemas/ArrFiling/v0.5/README.md) object.**
 
+{% hint style="warning" %}
+🚧 **Work in progress.** This guide is still being finalised and may change before sign-off.
+{% endhint %}
+
 ---
 
 ## Scenario
@@ -80,7 +84,7 @@ The `category` / `subCategory` enums follow the standard ARR cost categories mos
 
 - DISCOM in the [IES DISCOMs reference registry](../../what-ies-provides/register.md#the-directory-dedi); SERC in the [Regulators reference registry](../../what-ies-provides/register.md#the-directory-dedi) → **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
 - Mint a single canonical `filingId` per submission (typical pattern: `<COMMISSION>/ARR/<DISCOM>/<TYPE>/<FY-range>`). The same `filingId` should appear on any resubmissions — versioning lives on the data-exchange envelope, not the ID.
-- If the filing responds to a specific tariff order, reference the `policyID` of that order (see [Tariff Intelligence](../tariff-intelligence/README.md)).
+- If the filing responds to a specific tariff order, reference the `policyID` of that order (see [Policy as Code](../tariff-intelligence/README.md)).
 
 ### 2. Discover — stand up the data-exchange adapters
 
@@ -98,7 +102,7 @@ The DISCOM publishes the filing through its BPP catalogue with `descriptor.name`
 
 ### 4. (Optional) Open the filing for public consumption
 
-If the SERC mandates public disclosure, the same dataset is republished from the SERC's BPP under a public-disclosure catalogue, settlement value `0` — see [Tariff Intelligence](../tariff-intelligence/README.md) for the pattern.
+If the SERC mandates public disclosure, the same dataset is republished from the SERC's BPP under a public-disclosure catalogue, settlement value `0` — see [Policy as Code](../tariff-intelligence/README.md) for the pattern.
 
 ---
 
@@ -112,7 +116,7 @@ ARR filings arrive today as PDFs/Excel sheets that regulators manually re-key. D
 
 - **`ArrFiling` cost-category enumeration** is converging across SERCs — expect additions, not breaking renames.
 - **Workbook attachments.** The convention for supporting Excel models (separate dataset per workbook vs. embedded) is being agreed.
-- **Cross-filing references.** A standard shape for *"this filing responds to SERC Order X"* is being aligned with the [Tariff Intelligence](../tariff-intelligence/README.md) `policyID` pattern.
+- **Cross-filing references.** A standard shape for *"this filing responds to SERC Order X"* is being aligned with the [Policy as Code](../tariff-intelligence/README.md) `policyID` pattern.
 
 ---
 

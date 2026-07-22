@@ -2,12 +2,16 @@
 
 *A DISCOM's Aggregate Revenue Requirement (ARR), true-up, FPPCA or compliance filing submitted to its SERC as a structured, signed object — the [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) payload carried over [IES Data Exchange](../what-ies-provides/discover.md).*
 
+{% hint style="warning" %}
+🚧 **Work in progress.** This section is still being finalised and may change before sign-off.
+{% endhint %}
+
 **[Implementation Guide →](../use-cases/discom-regulatory-filing/README.md)**
 
 | Field | Value |
 |---|---|
 | Document | IES/DRF-PROFILE/0.5 |
-| Status | Live or staged |
+| Status | 🚧 Work in progress (WIP) |
 | Applicability | All distribution licensees and SERCs |
 | This version | Built on ArrFiling v0.5 over Beckn. Replaces PDF/Excel submission with a machine-verifiable JSON-LD object signed by the DISCOM's `did:web`. |
 
@@ -68,7 +72,7 @@ Three signed artefacts per submission: a **signed Beckn contract** (parties, sco
 
 ## 9. Schedule II — Report Templates
 
-Not applicable — the filing is the report. The closest interdependence is the tariff order it answers (`policyID`, see [Tariff Intelligence](tariff-intelligence.md)) and any prior-year filing it trues up against — both references, not derived templates.
+Not applicable — the filing is the report. The closest interdependence is the tariff order it answers (`policyID`, see [Policy as Code](tariff-intelligence.md)) and any prior-year filing it trues up against — both references, not derived templates.
 
 ## 10. How It Fits Together
 
@@ -83,7 +87,7 @@ The DISCOM is the **BPP**; the SERC is the **BAP** — the inverse of Smart Mete
 
 1. **Cost-category superset** — `category`/`subCategory` enums are converging across SERCs; expect additions, not renames.
 2. **Workbook attachments** — the convention (separate dataset vs. embedded) is being agreed.
-3. **Cross-filing references** — aligning with the [Tariff Intelligence](tariff-intelligence.md) `policyID` pattern.
+3. **Cross-filing references** — aligning with the [Policy as Code](tariff-intelligence.md) `policyID` pattern.
 4. **Public-disclosure republication** — being formalised with the Forum of Regulators.
 
 ---

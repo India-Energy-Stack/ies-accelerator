@@ -17,12 +17,14 @@ These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/w
 | **[Smart Meter Data Exchange](smart-meter-data-exchange/README.md)** | AMISP / DISCOM | DISCOM / SERC / consented third party | [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) |
 | **[DER Visibility](der-visibility/README.md)** | DISCOM | Grid operator, aggregator | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) energyResources |
 
-## Live or staged
+## Work in progress (WIP)
+
+These guides are still being finalised and may change.
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
 | **[DISCOM Regulatory Filing](discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) |
-| **[Tariff Intelligence](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
+| **[Policy as Code](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
 
 ## In progress
 

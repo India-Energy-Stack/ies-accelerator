@@ -1128,12 +1128,15 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
   </ul>
   </details>
 * **[tariff-intelligence.md](use-cases-overview/tariff-intelligence.md)**
-  - *Summary*: Tariff Intelligence — overview.
+  - *Summary*: Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases-overview/tariff-intelligence.md#tariff-intelligence">Tariff Intelligence</a>    <ul>
-      <li><a href="use-cases-overview/tariff-intelligence.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
+    <li><a href="use-cases-overview/tariff-intelligence.md#policy-as-code">Policy as Code</a>    <ul>
+      <li><a href="use-cases-overview/tariff-intelligence.md#1-scope-and-purpose">1. Scope and Purpose</a>      <ul>
+        <li><a href="use-cases-overview/tariff-intelligence.md#sub-use-cases">Sub-use-cases</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/tariff-intelligence.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
       <li><a href="use-cases-overview/tariff-intelligence.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
       <li><a href="use-cases-overview/tariff-intelligence.md#4-definitions">4. Definitions</a></li>
@@ -1168,7 +1171,7 @@ Practical deployment and mapping implementations for specific grid business proc
   <ul>
     <li><a href="use-cases/README.md#use-case-implementation-guides">Use Case Implementation Guides</a>    <ul>
       <li><a href="use-cases/README.md#live-in-pilot">Live in pilot</a></li>
-      <li><a href="use-cases/README.md#live-or-staged">Live or staged</a></li>
+      <li><a href="use-cases/README.md#work-in-progress-wip">Work in progress (WIP)</a></li>
       <li><a href="use-cases/README.md#in-progress">In progress</a></li>
       <li><a href="use-cases/README.md#how-each-guide-is-organised">How each guide is organised</a></li>
       <li><a href="use-cases/README.md#picking-a-first-use-case">Picking a first use case</a></li>
@@ -1326,11 +1329,11 @@ Practical deployment and mapping implementations for specific grid business proc
   </ul>
   </details>
 * **[README.md](use-cases/tariff-intelligence/README.md)**
-  - *Summary*: Publishing tariff rate structures and telescopic schedules as IES policies.
+  - *Summary*: Policy as Code — publishing authority policy (tariff rate structures and telescopic schedules, dispatch guides, and more) as signed IES policies.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/tariff-intelligence/README.md#tariff-intelligence">Tariff Intelligence</a>    <ul>
+    <li><a href="use-cases/tariff-intelligence/README.md#policy-as-code">Policy as Code</a>    <ul>
       <li><a href="use-cases/tariff-intelligence/README.md#scenario">Scenario</a></li>
       <li><a href="use-cases/tariff-intelligence/README.md#actors-and-roles">Actors and Roles</a></li>
       <li><a href="use-cases/tariff-intelligence/README.md#building-blocks-used">Building Blocks Used</a></li>

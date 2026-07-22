@@ -119,7 +119,7 @@ None of this is new infrastructure or new compliance; it is what becomes possibl
 
 **For the grid** — every distributed energy resource (rooftop solar, battery, EV charger) gets a verified identity when first connected. That makes practical: **[DER Visibility](../use-cases/der-visibility/README.md)** for the operator, aggregation across DISCOMs without bespoke per-utility integration, and flexibility programmes on the same identity layer.
 
-**For regulators** — filings arrive already signed and in a single, consistent format ([ARR filings](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)); tariff orders become computable; every share leaves an audit trail. See **[DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md)** and **[Tariff Intelligence](../use-cases/tariff-intelligence/README.md)**.
+**For regulators** — filings arrive already signed and in a single, consistent format ([ARR filings](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)); tariff orders become computable; every share leaves an audit trail. See **[DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md)** and **[Policy as Code](../use-cases/tariff-intelligence/README.md)**.
 
 **For markets** — demand-side flexibility, **[P2P Energy Exchange](../use-cases/p2p-energy-trading/README.md)** and open access become workable without a separate agreement between every pair of participants.
 

@@ -123,7 +123,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 
 ## Phase 3: Publish Tariff Orders as Policy-as-Code
 
-Move from issuing tariff orders as PDFs to publishing them as computable objects that DISCOM billing systems, consumer apps, and smart meters can consume directly. This is the [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) use case, currently in progress.
+Move from issuing tariff orders as PDFs to publishing them as computable objects that DISCOM billing systems, consumer apps, and smart meters can consume directly. This is the [Policy as Code](../use-cases/tariff-intelligence/README.md) use case (its flagship Tariff Intelligence sub-use-case), currently in progress.
 
 <details>
 <summary><b>Step 3.1: Publish Tariff Structures as Signed, Machine-Readable Policy</b></summary>
@@ -132,7 +132,7 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 > Today every DISCOM manually transcribes slab rates, ToD surcharges, and deviation penalties from a PDF order into its own billing system, and every consumer app interprets it independently — drift and bugs are inevitable. Publishing the order once as signed, structured data lets every downstream system ingest the identical object.
 
 ### ⚠️ Caution
-> **Schema still in progress.** Tariff Intelligence is built on the `IES_Policy` family (tracked upstream at [`beckn/DEG ies-specs`](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)) while a first-class `Tariff` schema in this repository is being finalised. Treat this phase as an early-adopter track and expect the schema location to move.
+> **Schema still in progress.** Policy as Code is built on the `IES_Policy` family (tracked upstream at [`beckn/DEG ies-specs`](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)) while a first-class `Tariff` schema in this repository is being finalised. Treat this phase as an early-adopter track and expect the schema location to move.
 
 ### Execution Guidance
 1. **Author the policy**: represent slab billing as `energySlabs[]` (progressive consumption tiers, each with `start`/`end`/`price`), and time-of-day or deviation adjustments as `surchargeTariffs[]` (`recurrence`, `interval`, `value`, `unit`).
@@ -142,11 +142,11 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 5. **Confirm parity with the underlying order**: have regulatory affairs staff confirm the published policy-as-code object matches the tariff order's stated rates before publication.
 
 ### References & Anchors
-* [Tariff Intelligence — use case overview](../use-cases/tariff-intelligence/README.md)
-* [Tariff Intelligence — What It Records / Covers](../use-cases-overview/tariff-intelligence.md#id-2.-what-it-records-covers)
-* [Tariff Intelligence — How Each Item is Identified](../use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified)
-* [Tariff Intelligence — Setup: Register → Discover → Exchange](../use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
-* [Tariff Intelligence — Value Unlock](../use-cases-overview/tariff-intelligence.md#value-unlock)
+* [Policy as Code — use case overview](../use-cases/tariff-intelligence/README.md)
+* [Policy as Code — What It Records / Covers](../use-cases-overview/tariff-intelligence.md#id-2.-what-it-records-covers)
+* [Policy as Code — How Each Item is Identified](../use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified)
+* [Policy as Code — Setup: Register → Discover → Exchange](../use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
+* [Policy as Code — Value Unlock](../use-cases-overview/tariff-intelligence.md#value-unlock)
 * [Schemas — Schema map (`IES_Policy`, in progress)](../schemas/README.md#data-exchange-payloads)
 </details>
 
