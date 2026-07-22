@@ -14,6 +14,14 @@ Read one of these before the auto-generated field reference in [Schemas](../../s
 | **[ArrFiling v0.5](arr-filing.md)** | Structured Aggregate Revenue Requirement filing — DISCOM to SERC | Draft for technical review |
 | **[OutageNotification v0.1](outage-notification.md)** | Planned/unplanned outage record — pull feed + CAP-aligned push | **Work in progress** |
 
+The full field-level reference for each of these families lives in the **[Schemas](../../schemas/README.md)** section (directly below this one in the navigation), which is the canonical home of the machine-readable files (`schema.json`, `context.jsonld`, examples).
+
+---
+
+## Where the P2P and flexibility schemas live (external)
+
+Some IES use cases build on schemas that IES does **not** publish itself — they are maintained upstream in the **Digital Energy Grid (DEG)** project, canonical at [schema.beckn.io](https://schema.beckn.io). If you are looking for the schemas behind **[P2P Energy Transaction](../../use-cases/p2p-energy-trading/README.md)** (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, …) or demand-side flexibility (`DemandFlexNeed`, `DemandFlexBuyOffer`, …), you will not find them among the families above — they are mirrored, with a field reference, in **[External Schemas](../../schemas/external/README.md)** under the [Schemas](../../schemas/README.md) section. The pages above cover only the schema families IES itself stewards.
+
 ---
 
 ## How each page is organised

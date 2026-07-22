@@ -1,14 +1,6 @@
 # India Energy Stack — Accelerator
 
-Power utilities in India have added many digital tools at the consumer end — smart meters, rooftop solar, EV charging, demand-side measures — each producing useful data that stays locked inside separate systems, in formats other systems can't read. Every data share is a fresh connection built by hand, and the same integration effort is repeated across the country.
-
-**India Energy Stack (IES)** is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking — UPI holds no money of its own; money stays in the customer's bank, and UPI is only the shared rules that let any bank pay any other. **IES is the same idea, for energy data:** the data stays in the systems that already hold it, and IES specs let any two systems exchange and act on it directly — without replacing any existing system or standard.
-
-{% hint style="info" %}
-🧭 **New to IES?** **[What IES Is](concepts/what-ies-is.md)** tells the whole story on one page — the problem, the idea, what IES is and is not, what changes for each stakeholder, and where it's live. This page is the map to the rest of the GitBook.
-{% endhint %}
-
-IES is **live**. [Four pilot DISCOMs](concepts/what-ies-is.md#pilots-and-status) built their **adapter** — the small edge software that makes a system IES-ready (see **[What IES Is](concepts/what-ies-is.md#what-you-change-in-your-own-systems)**) — and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
+**IES: the why, what and how.** The India Energy Stack in plain words — the problem, the idea, how it works, what it is not, what it changes for the sector, and where it is already live. This page is the starting point; the rest of the GitBook turns it into specifications, implementation steps and worked use cases.
 
 {% hint style="info" %}
 📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
@@ -16,68 +8,133 @@ IES is **live**. [Four pilot DISCOMs](concepts/what-ies-is.md#pilots-and-status)
 
 ---
 
-## How IES works — three steps
+## The problem
 
-Every IES interaction follows the same three steps. They are the **spine of this entire GitBook**.
+Power utilities in India have added many digital tools at the consumer end: smart meters, rooftop solar, electric-vehicle charging and demand-side measures. Each of these produces useful data. But the data stays locked inside separate systems: the DISCOM's own software, the metering agency's portal (operated by the Advanced Metering Infrastructure Service Provider, or [AMISP](glossary.md#amisp)), and each vendor's database, in formats that other systems cannot read. Each time two systems must share data, a fresh connection has to be built by hand. Rules are issued and checked on paper. Consumers cannot use their own consumption records. India has spent heavily on digital tools, but not on a common way for those tools to work together.
 
-| Step | What it does | Example standard |
-|---|---|---|
-| **[1. Register](what-ies-provides/register.md)** | Every participant gets a verifiable digital identity and is listed in a shared directory. *Done once.* | [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/) |
-| **[2. Discover](what-ies-provides/discover.md)** | Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.* | [Beckn protocol](https://github.com/beckn/protocol-specifications-v2) |
-| **[3. Exchange](what-ies-provides/exchange.md)** | Data moves using agreed field names and structure, following the public standard for that domain. Where the use case needs a durable record, a **verifiable credential** is issued that the holder keeps. | DLMS/COSEM, IEEE 2030.5, OpenADR; W3C VCs |
-
-IES picks the right open standard for each step and publishes a specification on top. **IES does not write new standards.** Build to the IES specs once, and a system can connect to any other IES-ready system without fresh integration work.
-
-Two capabilities build on the shared identity foundation: **data exchange** (B2B exchange of structured datasets, for which IES recommends the Beckn protocol) and **energy credentials** (W3C Verifiable Credentials verified against the issuer's published key, delivered over DigiLocker or any channel — no Beckn network required). For what IES *is and is not*, what it changes for each stakeholder, the adapter, and the pilots, read **[What IES Is](concepts/what-ies-is.md)**.
+The cost of this fragmentation is real, and it is borne across the sector. A single DISCOM often runs several metering systems supplied by different firms and spends years making them work together, because none was built to a common standard. System operators, regulators and technology providers face the same difficulty in their own systems. The same effort is repeated across the country.
 
 ---
 
-## How this guide is organised
+## What IES is
 
-Three top-level sections, each organised by the **Register / Discover / Exchange** spine.
+The India Energy Stack (IES) is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking. UPI holds no money of its own. Money stays in the customer's bank, and UPI is only the shared set of rules that lets any bank's app pay any other bank's customer, without a separate arrangement for each pair. IES works the same way, for energy data rather than money. The data stays in the systems that already hold it, and IES specs ensure that any system can exchange data with any other, without a separate arrangement for each pair.
 
-### [What IES Provides](what-ies-provides/README.md)
+The sector already has rules and standards for what data to report and how it is structured. IES does not replace any of them. It makes the same data machine-readable, common across the sector, and verifiable, so any two systems can exchange and act on it directly.
 
-The specifications. What is published.
-
-| Section | What's in it |
-|---|---|
-| [What IES Is](concepts/what-ies-is.md) | The intro, on one page. Problem, UPI analogy, what IES is and is not, sector impact, the four pilots, FAQ. |
-| [Register](what-ies-provides/register.md) | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi) — one page. |
-| [Discover](what-ies-provides/discover.md) | How two registered organisations find each other, agree terms and sign — the Beckn-protocol interaction (B2B). |
-| [Exchange](what-ies-provides/exchange.md) | How data moves once discovered: the schemas, and where verifiable credentials (B2C) fit. |
-| [Schemas](schemas/README.md) | The master vocabulary of IES — every domain object, its plain-language overview, and the schema that describes its shape; standards precedence, versioning, proposal flow. |
-
-### [How you implement IES](how-you-implement-ies/README.md)
-
-The action guides. What you do.
-
-| Step | Action page | Time |
+| | UPI (banking) | IES (energy data) |
 |---|---|---|
-| 1 | [Setup Register](how-you-implement-ies/setup-register.md) | 1–2 days |
-| 2 | [Issue Credentials](how-you-implement-ies/issue-credentials.md) *(credential use cases)* | ½ day |
-| 3 | [Setup Exchange](how-you-implement-ies/setup-exchange.md) *(data-exchange use cases)* | 1–2 days |
-| 4 | [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md) | 1–4 weeks |
-| 5 | [Conformance Checklist](how-you-implement-ies/conformance.md) | 1 day |
-
-### [Use Case Implementation Guides](use-cases/README.md)
-
-What you can ship, organised per the **[IES Documentation Template](use-cases/README.md#how-each-guide-is-organised)** so once you've read one, you know where to look in any other.
-
-| Stage | Use cases |
-|---|---|
-| **Live in pilot** | [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md) · [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md) · [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md) · [DER Visibility](use-cases/der-visibility/README.md) |
-| **Work in progress** | [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md) · [Policy as Code](use-cases/tariff-intelligence/README.md) · [P2P Energy Exchange](use-cases/p2p-energy-trading/README.md) |
+| Where the value lives | In each bank's accounts | In each system that already holds the data |
+| What the standard owns | The interaction rules between banks | The interaction rules between systems |
+| Who builds the connector | Each bank, once | Each organisation, once |
+| What gets cheaper for everyone | New apps and services on top of money flows | New apps and services on top of verified energy data |
 
 ---
 
-## Where to start
+## What IES is not
 
-- **New to IES?** Read **[What IES Is](concepts/what-ies-is.md)** — five minutes.
-- **Decision-maker / reviewer?** Skim **[What IES Provides](what-ies-provides/README.md)** in order: What IES Is → Register → Discover → Exchange.
-- **DISCOM / regulator / vendor onboarding?** Go straight to **[How you implement IES](how-you-implement-ies/README.md)** — the same path the pilot DISCOMs followed in 30 days.
-- **Picking a first use case?** Browse the table in **[Use Case Implementation Guides](use-cases/README.md)** — pilot cases at the top.
-- **Need a term defined?** Always-visible [Glossary](glossary.md).
+To clarify, IES is **NOT**:
+
+1. a central platform or database that stores energy data;
+2. a replacement for any existing DISCOM system, meter-data-management system or consumer-information system;
+3. a new regulator or authority that frames energy rules;
+4. a software product that utilities buy and install; or
+5. a system that controls or monitors the physical grid.
+
+---
+
+## How it works — three steps
+
+IES tells any two systems in the power sector how to share data with each other. It works in three steps. They are the spine of this entire GitBook — each step has its own specification page in **[What IES Provides](what-ies-provides/README.md)** and a matching set-up page in **[How you implement IES](how-you-implement-ies/README.md)**.
+
+- **(a) [Register](what-ies-provides/register.md) (verifiable digital identity).** Every participant gets a digital identity and is listed in a shared directory. This is done once. Uses [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/), for example.
+- **(b) [Discover](what-ies-provides/discover.md) (interaction protocol).** Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement is needed. Uses the [Beckn protocol](https://github.com/beckn/protocol-specifications-v2), for example.
+- **(c) [Exchange](what-ies-provides/exchange.md) (schema, taxonomy and verifiable credentials).** Data moves using agreed field names and structure, following the public standard for that domain: DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response. Where the use case needs a durable record, the exchange also produces a verifiable credential, such as a [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](glossary.md#digilocker) and can share it with any bank, regulator, or scheme administrator without returning to the issuer.
+
+IES selects the right open standard for each step and publishes a specification that builds on it. **IES does not write new standards.** Build to the IES specifications once, and a system can connect to any other IES-ready system without fresh integration work.
+
+---
+
+## What you change in your own systems
+
+An organisation's own systems are not changed. A small piece of "software", called the **adapter**, sits at the edge of each system to ensure conformance with IES specs. The adapter comes in two parts. The first part is ready-made and the same for everyone: it handles finding other systems and exchanging messages with them. This is the [Beckn ONIX](glossary.md#onix) reference software, which the participant does not build. The second part is specific to each organisation: a small mapping that translates between its own data formats and the IES specs. This is set up once. Databases, field names and internal software stay exactly as they are. After this, every new IES-ready partner connects with no further integration work.
+
+```
+                                ┌──────────────────────┐
+   Your existing systems        │   IES adapter        │       Other IES
+   (CIS · MDM · HES · ERP ·     │   ONIX (ready-made)  │  ◄──► participants
+    DERMS · billing · web)  ◄──►│   ─────────────      │       (DISCOMs, AMISPs,
+                                │   Your mapping       │        regulators, banks,
+   No changes needed.           │   (set up once)      │        aggregators…)
+                                └──────────────────────┘
+```
+
+The minimum to participate is the same for every organisation: create a digital identity and list your organisation in the shared directory; install the adapter once; and pass the basic conformance check. The how-to is in **[How you implement IES](how-you-implement-ies/README.md)**.
+
+---
+
+## What becomes possible
+
+When the India Energy Stack is used, for example the following becomes possible:
+
+- **For consumers.** A consumer's energy history becomes portable and verifiable. It can be used to obtain a green loan, claim a subsidy or sign up for a service, without repeated paperwork or calls to the DISCOM. Certificates issued by a DISCOM are of direct use to banks, housing finance companies, scheme administrators and service providers who need verified energy data. When consumers can prove their energy history, demand for those certificates flows back through the DISCOM.
+- **For the grid.** Every distributed energy resource, for example a rooftop solar unit or a small battery, is given a verified identity when it is first connected. Operators obtain reliable visibility of these resources ([DER Visibility](use-cases/der-visibility/README.md)), and connection across DISCOMs, AMISPs and aggregators (firms that pool many small resources) happens without a separate arrangement for each pair.
+- **For regulators.** Filings reach the regulator already signed and in a single, consistent format ([DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)). Tariff orders become computable ([Policy as Code](use-cases/tariff-intelligence/README.md)). Regulators move from reading PDF documents to monitoring data directly.
+- **For markets.** Demand-side flexibility, [peer-to-peer energy transaction](use-cases/p2p-energy-trading/README.md) (consumers buying and selling power directly) and open access (a large consumer buying power from a supplier other than the local DISCOM) become workable in practice, without a separate agreement between every pair of participants.
+
+---
+
+## What IES changes for the sector
+
+Taken together, these specifications produce the following practical outcomes:
+
+| Outcome | What changes |
+|---|---|
+| **Integration cost falls** | One published standard replaces bespoke point-to-point work. A new integration connects in days, not months. |
+| **No vendor lock-in** | IES conformance is written into the procurement specification. Vendors build to a published standard, and the utility is not tied to any single supplier. |
+| **Each new capability costs less than the last** | The identity and trust foundation is reused, so distributed resource, flexibility and market use cases build on what is already in place. |
+| **New services become viable** | Banks, financiers and aggregators can build services on verified energy data, as new lenders did on Account Aggregator in the financial sector, creating demand that flows back through the DISCOM. |
+| **Existing data becomes more useful** | Once energy data is verifiable and in a common format, it can be used for power procurement and demand forecasting, for analytics such as loss reduction and load management, and as the basis for consented services such as green lending. This is the same data the DISCOM already holds, now usable beyond the system that created it. |
+
+**IES is not a revenue scheme and does not monetise personal data.**
+
+---
+
+## Pilots and status
+
+IES is already running in a test environment. The specifications have been published on this GitBook, and the sandbox is working. Four pilot DISCOMs in four States undertook a 30-day challenge, in which each built its IES adapter and demonstrated a first set of live use cases.
+
+### The 30-day DISCOM Challenge
+
+The four pilot DISCOMs, spread across four States, were:
+
+1. **Paschimanchal Vidyut Vitran Nigam Limited (PVVNL)**, Meerut, Uttar Pradesh;
+2. **Eastern Power Distribution Company of Andhra Pradesh Limited (APEPDCL)**, Visakhapatnam, Andhra Pradesh;
+3. **Dakshin Gujarat Vij Company Limited (DGVCL)**, Surat, Gujarat; and
+4. **Tata Power**, Mumbai, Maharashtra.
+
+### Use cases demonstrated
+
+The four use cases demonstrated were DER Visibility, Consumer Energy Passport, Consumer Meter Digest, and Smart Meter Data Exchange. The outcomes recorded are set out below.
+
+| Use case | What was demonstrated | With IES | Before IES |
+|---|---|---|---|
+| **[DER Visibility](use-cases/der-visibility/README.md)** | Solar unit registered with a verified digital identity; grid operator visibility confirmed | ✓ | No reliable sector-wide method existed |
+| **[Consumer Energy Passport](use-cases/consumer-energy-passport/README.md)** | Energy Passport issued and stored in DigiLocker; consumer able to share it for a green loan, subsidy claim or service enrolment | ✓ | Not possible earlier: no portable, verifiable consumer energy record existed |
+| **[Consumer Meter Digest](use-cases/consumer-meter-digest/README.md)** | Verifiable record of consumption history, reusable across DISCOMs and States without repeat verification | ✓ | Manual and limited to a single DISCOM; not reusable elsewhere |
+| **[Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)** | IES-compliant data exchange completed between DISCOM and AMISP without a bilateral integration agreement | ✓ | Weeks to months of bilateral integration per pair |
+
+**Being added next:** [P2P Energy Transaction](use-cases/p2p-energy-trading/README.md) (schema published; pilot integrations being staged) and [OutageNotification](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1) (schema published; no use-case guide yet).
+
+### The next phase
+
+All State Governments and Union Territory Administrations, and all entities in the power sector, are requested to take part. Participation is sought from distribution utilities, generation companies (GENCOs), transmission companies (TRANSCOs), State Load Despatch Centres and the National Load Despatch Centre, the Central and State electricity regulatory commissions and the Forum of Regulators, metering agencies (AMISPs), equipment manufacturers (including electric-vehicle and metering OEMs), technology and analytics providers, aggregators, and financial institutions that use verified energy data. The minimum needed to participate is the same for every organisation: create a digital identity and list the organisation in the shared directory; build the IES adapter once; and pass the basic conformance check. After this, every new partner connects without fresh integration work. The implementation path is in **[How you implement IES](how-you-implement-ies/README.md)**.
+
+---
+
+## Common questions
+
+The questions utilities, regulators and vendors ask most — *does IES replace my systems? will it create new compliance work? how is consumer data protected? does it support bulk transfers? who governs the specifications?* — are answered in the **[FAQ](faq.md)** (the 20 questions from Annexure A of the IES Technical Note).
 
 ---
 
@@ -96,8 +153,23 @@ What you can ship, organised per the **[IES Documentation Template](use-cases/RE
 
 ---
 
-## Related Repositories
+## Get in touch
+
+- **IES Secretariat** — `ies.secretariat@fsrglobal.org`
+- **REC (Nodal Agency)** — `ies@recindia.com`
+- **Issues, discussions, contributions** — [github.com/India-Energy-Stack/ies-accelerator](https://github.com/India-Energy-Stack/ies-accelerator)
+
+### Related Repositories
 
 - [ies-docs](https://github.com/India-Energy-Stack/ies-docs) — IES architecture primitives and implementation guides
 - [Digital Energy Grid (DEG)](https://github.com/Beckn-One/DEG) — upstream open protocol specification
 - [DDM](https://github.com/beckn/DDM) — Decentralized Data Marketplace (`DatasetItem` schema family)
+
+---
+
+## Where to go next
+
+- **Want the technical specifications?** → **[What IES Provides](what-ies-provides/README.md)** — Register, Discover, Exchange, Verifiable Credentials, Schemas
+- **Want to implement IES in your organisation?** → **[How you implement IES](how-you-implement-ies/README.md)** — the getting-started checklist: Setup Register, Issue Credentials, Setup Exchange, Build Adapter
+- **Want to see a worked end-to-end use case?** → **[Use Case Implementation Guides](use-cases/README.md)**
+- **Need a term defined?** → the always-visible [Glossary](glossary.md).

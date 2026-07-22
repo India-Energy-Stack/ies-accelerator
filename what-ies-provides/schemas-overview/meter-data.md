@@ -105,22 +105,30 @@ Within these profiles, individual readings distinguish `READING` (the physical r
 
 MeterData v0.6 is built from these logical blocks:
 
-- **BaseProfile** — shared identity/routing fields (`meterRefs` required; `customerRefs`, `serviceDeliveryPointRefs`, `payloadDescriptorSetRef` optional) inherited by every telemetry profile.
-- **CustomerProfile / Customer / ServiceDeliveryPoint / Meter / Association / CustomerDetails** — customer, connection and meter-installation metadata, including feeder/DT topology (`parentResources`, replacing older `feederId`/`dtId` fields), lightweight DER capacity fields (`generationCapacityKw`, `storageCapacityKw`) on `Association`, a multi-utility `serviceKind` on `Meter`, and a PII-isolated `CustomerDetails` sub-object.
-- **IntervalProfile, DailyProfile, MonthlyProfile** — the three load-survey cadences, plus `TouBucket` for time-of-use segmentation.
-- **BillDetailsProfile** (`BillDetails` in the schema) — computed billing outcome with a charges breakdown.
-- **InstantaneousProfile** — real-time electrical snapshot.
-- **EventProfile / MeterEvent** — diagnostic and tamper event log.
-- **AlarmProfile / MeterAlarm** — active alert state.
-- **PayloadDescriptorProfile / PayloadDescriptorSet / PayloadDescriptor / CompactSequence / SequenceItem** — the shared descriptor dictionary that powers the Data Descriptor Engine.
-- **Reading / Override / TimePeriod / IntervalPeriod / Interval** — the shared reading and time-window primitives used across profiles.
-- **Identifier / IdentifierList** — the generic `{scheme, value, namespace}` object and its non-empty-array wrapper, used throughout (Section 3).
+| Block | What it contains |
+|---|---|
+| **BaseProfile** | shared identity/routing fields (`meterRefs` required; `customerRefs`, `serviceDeliveryPointRefs`, `payloadDescriptorSetRef` optional) inherited by every telemetry profile. |
+| **CustomerProfile / Customer / ServiceDeliveryPoint / Meter / Association / CustomerDetails** | customer, connection and meter-installation metadata, including feeder/DT topology (`parentResources`, replacing older `feederId`/`dtId` fields), lightweight DER capacity fields (`generationCapacityKw`, `storageCapacityKw`) on `Association`, a multi-utility `serviceKind` on `Meter`, and a PII-isolated `CustomerDetails` sub-object. |
+| **IntervalProfile, DailyProfile, MonthlyProfile** | the three load-survey cadences, plus `TouBucket` for time-of-use segmentation. |
+| **BillDetailsProfile** (`BillDetails` in the schema) | computed billing outcome with a charges breakdown. |
+| **InstantaneousProfile** | real-time electrical snapshot. |
+| **EventProfile / MeterEvent** | diagnostic and tamper event log. |
+| **AlarmProfile / MeterAlarm** | active alert state. |
+| **PayloadDescriptorProfile / PayloadDescriptorSet / PayloadDescriptor / CompactSequence / SequenceItem** | the shared descriptor dictionary that powers the Data Descriptor Engine. |
+| **Reading / Override / TimePeriod / IntervalPeriod / Interval** | the shared reading and time-window primitives used across profiles. |
+| **Identifier / IdentifierList** | the generic `{scheme, value, namespace}` object and its non-empty-array wrapper, used throughout (Section 3). |
 
 The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterData v0.6 — README](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6#field-reference).
 
 ## 9. Schedule II
 
-MeterData v0.6 is a stand-alone payload schema — it does not itself wrap or depend on another schema. When a use case needs cryptographic proof of provenance (a signed, durable record rather than a raw telemetry exchange), a MeterData payload is instead wrapped *inside* the separate **MeterDataCredential v0.6** schema, which is itself a subclass of **`EnergyCredential v2.0`** (from the Beckn DEG specification) rather than a bespoke envelope: `MeterDataCredential` inherits `issuer`, `validFrom`/`validUntil`, `credentialStatus` (checked against a DeDi registry for revocation) and `proof` (an Ed25519Signature2020 signature) from `EnergyCredential`, and defines only `credentialSubject.meterData` itself. MeterData itself carries no such wrapper, no `issuer`, and no `proof` block.
+| Aspect | Detail |
+|---|---|
+| Stand-alone? | Yes — MeterData v0.6 is a stand-alone payload schema; it does not itself wrap or depend on another schema. It carries no wrapper, no `issuer`, and no `proof` block. |
+| Wrapped when? | When a use case needs cryptographic proof of provenance (a signed, durable record rather than a raw telemetry exchange), a MeterData payload is instead wrapped *inside* the separate **MeterDataCredential v0.6** schema. |
+| Wrapper's base | `MeterDataCredential` is itself a subclass of **`EnergyCredential v2.0`** (from the Beckn DEG specification) rather than a bespoke envelope. |
+| Wrapper inherits | `issuer`, `validFrom`/`validUntil`, `credentialStatus` (checked against a DeDi registry for revocation) and `proof` (an Ed25519Signature2020 signature) from `EnergyCredential`. |
+| Wrapper defines | only `credentialSubject.meterData` itself. |
 
 ## 10. How It Fits Together
 

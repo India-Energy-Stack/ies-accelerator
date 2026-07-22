@@ -2,13 +2,13 @@
 
 Each guide takes a real outcome and shows how to ship it on IES — what schemas it uses, what your adapter needs to do, who is involved, and what good looks like at the end.
 
-Every guide follows the same **IES Documentation Template** (eleven numbered sections + use-case extras), and every guide's **Setup** section is organised by the same **[Register → Discover → Exchange](../README.md#how-ies-works-three-steps)** spine that runs through the whole GitBook. Once you have read one guide, you know where to look in any other.
+Every guide follows the same **IES Documentation Template** (eleven numbered sections + use-case extras), and every guide's **Setup** section is organised by the same **[Register → Discover → Exchange](../README.md#how-it-works-three-steps)** spine that runs through the whole GitBook. Once you have read one guide, you know where to look in any other.
 
 ---
 
 ## Live in pilot
 
-These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/what-ies-is.md#pilots-and-status) in the 30-day Challenge (21 May – 21 June 2026).
+These four use cases were [demonstrated by the four pilot DISCOMs](../README.md#pilots-and-status) in the 30-day Challenge.
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
@@ -30,7 +30,7 @@ These guides are still being finalised and may change.
 
 | Use case | Schema | Status |
 |---|---|---|
-| **[P2P Energy Exchange](p2p-energy-trading/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
+| **[P2P Energy Transaction](p2p-energy-trading/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
 
 > **OutageNotification** — the schema is published ([v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)), but there is no IES use-case guide for outage visibility yet. See the [OutageNotification family page](../schemas/OutageNotification/README.md) for the plain-language walkthrough of what the schema covers.
 

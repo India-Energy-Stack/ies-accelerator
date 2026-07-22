@@ -120,22 +120,29 @@ The record is issued by the distribution licensee or a system acting on its beha
 
 OutageNotification v0.1 is built from the following logical blocks:
 
-- **OutageNotification** — the root object: identity, class, status, message semantics, cause, timing window reference, network context, affected assets and area, impact, response, public-facing text, provenance, and extensions.
-- **OutageCause** — the standardized cause category and subcategory, vendor fault type and code, and free-text reason.
-- **OutageAsset** — one affected network asset (feeder, substation, DT, line segment, or service point), its level, and optional map geometry.
-- **OutageNetworkContext** — the DISCOM's own organisational hierarchy (zone, circle, division, subdivision, substation, district).
-- **OutageAffectedArea** — the affected geography as free text, named administrative areas, and GeoJSON geometry.
-- **OutageImpact** — customers affected and the de-energized/energized connection points.
-- **OutageTiming** — the outage window, estimated restoration, actual restoration, and SLA target.
-- **OutageResponse** — back-feed status, field resource status, and linked complaint count.
-- **OutagePublicInfo** — the localized headline, description and instruction shown to consumers.
-- **OutageProvenance** — the detecting system, the AMISP code, the raw detection signal (`OutageSignal`), and references into the originating smart-meter signal and MeterData alarms (`OutageAlarmRef`).
+| Block | What it contains |
+|---|---|
+| **OutageNotification** | the root object: identity, class, status, message semantics, cause, timing window reference, network context, affected assets and area, impact, response, public-facing text, provenance, and extensions |
+| **OutageCause** | the standardized cause category and subcategory, vendor fault type and code, and free-text reason |
+| **OutageAsset** | one affected network asset (feeder, substation, DT, line segment, or service point), its level, and optional map geometry |
+| **OutageNetworkContext** | the DISCOM's own organisational hierarchy (zone, circle, division, subdivision, substation, district) |
+| **OutageAffectedArea** | the affected geography as free text, named administrative areas, and GeoJSON geometry |
+| **OutageImpact** | customers affected and the de-energized/energized connection points |
+| **OutageTiming** | the outage window, estimated restoration, actual restoration, and SLA target |
+| **OutageResponse** | back-feed status, field resource status, and linked complaint count |
+| **OutagePublicInfo** | the localized headline, description and instruction shown to consumers |
+| **OutageProvenance** | the detecting system, the AMISP code, the raw detection signal (`OutageSignal`), and references into the originating smart-meter signal and MeterData alarms (`OutageAlarmRef`) |
 
 The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [OutageNotification v0.1 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1#field-reference).
 
 ## 9. Schedule II
 
-Not applicable as a populated report template. OutageNotification is stand-alone: it is not a Verifiable Credential and does not wrap another IES schema as its payload. It does, however, reference another IES record — its `provenance.alarmRefs` field points into MeterData v0.6's `AlarmProfile` records where an outage was auto-detected — but this is a cross-reference between two independent records, not a wrapping relationship. The design note separately notes an optional, not-yet-adopted possibility: wrapping the notice as a W3C Verifiable Credential (`OutageNotificationCredential`, issued by the DISCOM's DID) for tamper-evidence and cross-network trust, mirroring the existing `MeterDataCredential` pattern — but v0.1 as published is signed only at the Beckn envelope level, and bare JSON is described as sufficient for ordinary web publishing.
+| Aspect | Detail |
+|---|---|
+| Report template | Not applicable as a populated report template |
+| Wrapping / dependency | OutageNotification is stand-alone: it is not a Verifiable Credential and does not wrap another IES schema as its payload |
+| Cross-reference | It does, however, reference another IES record — its `provenance.alarmRefs` field points into MeterData v0.6's `AlarmProfile` records where an outage was auto-detected — but this is a cross-reference between two independent records, not a wrapping relationship |
+| Optional future wrapping | The design note separately notes an optional, not-yet-adopted possibility: wrapping the notice as a W3C Verifiable Credential (`OutageNotificationCredential`, issued by the DISCOM's DID) for tamper-evidence and cross-network trust, mirroring the existing `MeterDataCredential` pattern — but v0.1 as published is signed only at the Beckn envelope level, and bare JSON is described as sufficient for ordinary web publishing |
 
 ## 10. How It Fits Together
 

@@ -1,6 +1,21 @@
 # How you implement IES
 
-A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../concepts/what-ies-is.md#pilots-and-status) followed in the 30-day Challenge. Each page is an end-to-end do-guide: prerequisites first, then numbered copy-pasteable steps, then a checklist. The concepts behind the steps live in **[What IES Provides](../what-ies-provides/README.md)**.
+**Start here to implement IES.** A pragmatic, step-by-step path from zero to a working IES adapter — the same path the four [pilot DISCOMs](../README.md#pilots-and-status) followed in the 30-day Challenge. Each page is an end-to-end do-guide: prerequisites first, then numbered copy-pasteable steps, then a checklist. The concepts behind the steps live in **[What IES Provides](../what-ies-provides/README.md)**; if you want the plain-language intro first, read **[Home](../README.md)**.
+
+## Getting-started checklist
+
+Work top to bottom. Set up only the rails your use cases need (see the two-rails note below).
+
+- [ ] **Read the concepts.** Skim **[What IES Provides](../what-ies-provides/README.md)** — Register, Discover, Exchange, Verifiable Credentials — so the steps below have context.
+- [ ] **Line up the prerequisites** — a domain you control, DNS access, one Linux host that runs Docker, one engineer (see [Before you start](#before-you-start)).
+- [ ] **Step 1 — [Setup Register](setup-register.md)** *(everyone)*: publish a `did:web`, claim and verify a DeDi namespace; Beckn participants also publish a subscriber record.
+- [ ] **Step 2 — [Issue Credentials](issue-credentials.md)** *(B2C credential use cases)*: run OpenCred; issue, verify and revoke W3C Verifiable Credentials.
+- [ ] **Step 3 — [Setup Exchange](setup-exchange.md)** *(B2B data-exchange use cases)*: run the ONIX Beckn adapter and complete a signed round-trip on the IES network.
+- [ ] **Step 4 — [Build your Internal-facing Adapter](build-adapter.md)**: map your internal systems to the IES schemas, feeding OpenCred and/or ONIX.
+- [ ] **Step 5 — [Conformance Checklist](conformance.md)**: run the conformance suite end-to-end and sign off as IES-ready.
+- [ ] **Ship a use case.** Pick your first from the **[Use Case Implementation Guides](../use-cases/README.md)**.
+
+The rest of this page expands each step.
 
 | Step | Page | Time | What you get |
 |---|---|---|---|
@@ -46,8 +61,6 @@ A credentials-only DISCOM can ship its first use case with just steps 1, 2, 4, 5
 | **Application developer / vendor** | Write the Part-2 mapping (your data → IES schema) | The bulk of the work |
 | **Authorised signatory** | Submit your subscriber record for IES network whitelisting | Email/form, once |
 | **Customer-ops / compliance** | (For consumer credentials only) Identity-proofing procedure and privacy review | One review pass |
-
-For the full department-by-department mapping see the **[utility pathway prework matrix](../pathways/utility.md#prework-pre-alignment-matrix)**.
 
 ---
 
@@ -104,7 +117,7 @@ Go to **[Use Case Implementation Guides](../use-cases/README.md)** and pick the 
 
 ## How long does the whole thing take?
 
-The four pilot DISCOMs each went from cold start to four demonstrated use cases in **30 days** (21 May – 21 June 2026). The bulk of that time was the Part-2 mapping (Step 4) and customer-ops procedures for the consumer-facing credentials.
+The four pilot DISCOMs each went from cold start to four demonstrated use cases in **30 days**. The bulk of that time was the Part-2 mapping (Step 4) and customer-ops procedures for the consumer-facing credentials.
 
 | Phase | Calendar time (typical) |
 |---|---|

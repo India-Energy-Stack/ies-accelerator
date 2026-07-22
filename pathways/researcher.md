@@ -25,15 +25,15 @@ Before reading a single schema file, get a correct mental model of what IES is (
 <summary><b>Step 1.1: Understand What IES Is (and Is Not)</b></summary>
 
 ### 💡 Phase Advice
-> Read [What IES Is](../concepts/what-ies-is.md) before anything else. It sets up the **Register → Discover → Exchange** spine that every other page in this GitBook assumes you already know. Skipping it makes the schema and taxonomy pages harder to parse later.
+> Read [What IES Is](../README.md) before anything else. It sets up the **Register → Discover → Exchange** spine that every other page in this GitBook assumes you already know. Skipping it makes the schema and taxonomy pages harder to parse later.
 
 ### Execution Guidance
-1. Read [What IES Is](../concepts/what-ies-is.md) for the plain-language explanation of the problem IES solves and the UPI-style analogy it uses.
+1. Read [What IES Is](../README.md) for the plain-language explanation of the problem IES solves and the UPI-style analogy it uses.
 2. Note the three-step spine: **Register** (verifiable digital identity), **Discover** (Beckn-protocol interaction), **Exchange** (schemas, taxonomy, verifiable credentials). Nearly every specification page in this GitBook is filed under one of these three steps.
 3. If your research concerns what IES deliberately does **not** do, also read the companion "What IES Is Not" page linked from the same section — this heads off a common category of misreading in policy commentary.
 
 ### References & Anchors
-* [What IES Is](../concepts/what-ies-is.md)
+* [What IES Is](../README.md)
 * [What IES Provides — Register / Discover / Exchange overview](../what-ies-provides/README.md)
 </details>
 
@@ -53,7 +53,7 @@ Before reading a single schema file, get a correct mental model of what IES is (
 
 ### References & Anchors
 * [What IES Provides](../what-ies-provides/README.md)
-* [What IES Is — Pilots and status](../concepts/what-ies-is.md#pilots-and-status)
+* [What IES Is — Pilots and status](../README.md#pilots-and-status)
 </details>
 
 ---
@@ -133,17 +133,17 @@ If your research makes a claim about how a schema behaves, verify it empirically
 <summary><b>Step 3.2: Study the Documented Pilot Outcomes</b></summary>
 
 ### 💡 Phase Advice
-> Don't rely on secondary summaries. [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) is the primary, citable source: an outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), covering the four pilot DISCOMs and what each demonstrated.
+> Don't rely on secondary summaries. [Pilots and Status](../README.md#pilots-and-status) is the primary, citable source: an outcomes table from the 30-day DISCOM Challenge, covering the four pilot DISCOMs and what each demonstrated.
 
 ### Execution Guidance
-1. Read [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.
+1. Read [Pilots and Status](../README.md#pilots-and-status) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.
 2. Cross-reference the "Use cases demonstrated" table against the four capabilities shown live: **DER Visibility**, **Consumer Energy Passport**, **Consumer Meter Digest**, and **Smart Meter Data Exchange** — each row also states the "Before IES" baseline, useful if your analysis is a before/after comparison.
 3. Note the "What 'live in pilot' means" section, which defines exactly what evidentiary bar each demonstration had to clear (adapter running, `did:web` identity resolvable, subscriber record in the network registry, issued credential or completed exchange, independently verified by a counterparty) — useful if you need to characterise the rigour of the pilot claims in your own writing.
 
 ### References & Anchors
-* [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status)
-* [Pilots and Status — The 30-day DISCOM Challenge](../concepts/what-ies-is.md#the-30-day-discom-challenge)
-* [Pilots and Status — Use cases demonstrated](../concepts/what-ies-is.md#use-cases-demonstrated)
+* [Pilots and Status](../README.md#pilots-and-status)
+* [Pilots and Status — The 30-day DISCOM Challenge](../README.md#the-30-day-discom-challenge)
+* [Pilots and Status — Use cases demonstrated](../README.md#use-cases-demonstrated)
 </details>
 
 ---
@@ -179,11 +179,11 @@ Follow the flow documented in [Schemas — Proposing a new schema (or a change)]
 
 ### Execution Guidance
 1. Cite the canonical hosting path noted under [Schemas — Stewardship](../schemas/README.md#stewardship): the repository (`schemas/` folder) as source of truth, with canonical published URLs of the form `india-energy-stack.github.io/ies-accelerator/schemas/...`.
-2. When citing pilot outcomes, cite [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) directly and name the specific DISCOM(s) and use case(s) your analysis draws on, rather than "the IES pilots" generically.
-3. For questions that arise during citation or proposal review, the IES Secretariat is the documented contact point (see [Pilots and Status — Get in touch](../concepts/what-ies-is.md#get-in-touch)).
+2. When citing pilot outcomes, cite [Pilots and Status](../README.md#pilots-and-status) directly and name the specific DISCOM(s) and use case(s) your analysis draws on, rather than "the IES pilots" generically.
+3. For questions that arise during citation or proposal review, the IES Secretariat is the documented contact point (see [Pilots and Status — Get in touch](../README.md#get-in-touch)).
 
 ### References & Anchors
 * [Schemas — Stewardship](../schemas/README.md#stewardship)
-* [Pilots and Status — Get in touch](../concepts/what-ies-is.md#get-in-touch)
+* [Pilots and Status — Get in touch](../README.md#get-in-touch)
 * [Schemas — Where this fits](../schemas/README.md#where-this-fits)
 </details>

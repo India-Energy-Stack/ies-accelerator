@@ -9,47 +9,31 @@ Welcome to the India Energy Stack (IES) documentation map. This index organizes 
 These documents provide a general introduction, terminology definitions, and layout structures for the repository.
 
 * **[README.md](README.md)**
-  - *Summary*: Root-level introduction to the IES accelerator repository structure, standard protocols, and setup environment.
+  - *Summary*: Home — the India Energy Stack in plain words: the problem, the UPI-style idea, how it works, what it is not, sector impact, pilots, and key standards.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="README.md#india-energy-stack-accelerator">India Energy Stack — Accelerator</a>    <ul>
-      <li><a href="README.md#how-ies-works-three-steps">How IES works — three steps</a></li>
-      <li><a href="README.md#how-this-guide-is-organised">How this guide is organised</a>      <ul>
-        <li><a href="README.md#what-ies-provideswhat-ies-providesreadmemd">[What IES Provides](what-ies-provides/README.md)</a></li>
-        <li><a href="README.md#how-you-implement-ieshow-you-implement-iesreadmemd">[How you implement IES](how-you-implement-ies/README.md)</a></li>
-        <li><a href="README.md#use-case-implementation-guidesuse-casesreadmemd">[Use Case Implementation Guides](use-cases/README.md)</a>
+      <li><a href="README.md#the-problem">The problem</a></li>
+      <li><a href="README.md#what-ies-is">What IES is</a></li>
+      <li><a href="README.md#what-ies-is-not">What IES is not</a></li>
+      <li><a href="README.md#how-it-works-three-steps">How it works — three steps</a></li>
+      <li><a href="README.md#what-you-change-in-your-own-systems">What you change in your own systems</a></li>
+      <li><a href="README.md#what-becomes-possible">What becomes possible</a></li>
+      <li><a href="README.md#what-ies-changes-for-the-sector">What IES changes for the sector</a></li>
+      <li><a href="README.md#pilots-and-status">Pilots and status</a>      <ul>
+        <li><a href="README.md#the-30-day-discom-challenge">The 30-day DISCOM Challenge</a></li>
+        <li><a href="README.md#use-cases-demonstrated">Use cases demonstrated</a></li>
+        <li><a href="README.md#the-next-phase">The next phase</a>
       </li>
       </ul>
-      <li><a href="README.md#where-to-start">Where to start</a></li>
+      <li><a href="README.md#common-questions">Common questions</a></li>
       <li><a href="README.md#key-standards-and-protocols">Key standards and protocols</a></li>
-      <li><a href="README.md#related-repositories">Related Repositories</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[getting-started.md](getting-started.md)**
-  - *Summary*: A 5-minute technical orientation covering IES core capabilities, roles, prerequisites, and developer onboarding options.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="getting-started.md#getting-started">Getting Started</a>    <ul>
-      <li><a href="getting-started.md#what-is-the-india-energy-stack">What is the India Energy Stack?</a>      <ul>
-        <li><a href="getting-started.md#identifiers-and-addressing">Identifiers and Addressing</a></li>
-        <li><a href="getting-started.md#registries-and-directories">Registries and Directories</a></li>
-        <li><a href="getting-started.md#energy-credentials">Energy Credentials</a></li>
-        <li><a href="getting-started.md#data-exchange">Data Exchange</a>
+      <li><a href="README.md#get-in-touch">Get in touch</a>      <ul>
+        <li><a href="README.md#related-repositories">Related Repositories</a>
       </li>
       </ul>
-      <li><a href="getting-started.md#choosing-your-path">Choosing Your Path</a></li>
-      <li><a href="getting-started.md#key-terminology">Key Terminology</a></li>
-      <li><a href="getting-started.md#prerequisites-by-capability">Prerequisites by Capability</a>      <ul>
-        <li><a href="getting-started.md#energy-credentials">Energy Credentials</a></li>
-        <li><a href="getting-started.md#data-exchange">Data Exchange</a>
-      </li>
-      </ul>
-      <li><a href="getting-started.md#getting-help">Getting Help</a>
+      <li><a href="README.md#where-to-go-next">Where to go next</a>
     </li>
     </ul>
   </li>
@@ -180,11 +164,11 @@ These documents provide a general introduction, terminology definitions, and lay
   <ul>
     <li><a href="SUMMARY.md#table-of-contents">Table of contents</a>    <ul>
       <li><a href="SUMMARY.md#what-ies-provides">What IES Provides</a></li>
+      <li><a href="SUMMARY.md#schemas">Schemas</a></li>
       <li><a href="SUMMARY.md#how-you-implement-ies">How you implement IES</a></li>
       <li><a href="SUMMARY.md#use-case-overviews">Use Case Overviews</a></li>
       <li><a href="SUMMARY.md#use-case-implementation-guides">Use Case Implementation Guides</a></li>
-      <li><a href="SUMMARY.md#schemas">Schemas</a></li>
-      <li><a href="SUMMARY.md#reference">Reference</a>
+      <li><a href="SUMMARY.md#contributors">Contributors</a>
     </li>
     </ul>
   </li>
@@ -254,7 +238,7 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
 
 ---
 
-## 🪪 2. Energy Credentials (VCs / OpenCred)
+## 🪪 2. Verifiable Credentials (VCs / OpenCred)
 
 This block handles digital attestations of connections, billing summaries, and consumer identities.
 
@@ -275,6 +259,7 @@ This block handles digital attestations of connections, billing summaries, and c
       <li><a href="how-you-implement-ies/issue-credentials.md#27-verify">2.7 — Verify</a></li>
       <li><a href="how-you-implement-ies/issue-credentials.md#28-revoke">2.8 — Revoke</a></li>
       <li><a href="how-you-implement-ies/issue-credentials.md#29-smoke-test">2.9 — Smoke test</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#210-package-the-credential-as-a-pdf-qr-code">2.10 — Package the credential as a PDF / QR code</a></li>
       <li><a href="how-you-implement-ies/issue-credentials.md#issue-the-credential-variants">Issue the credential variants</a>      <ul>
         <li><a href="how-you-implement-ies/issue-credentials.md#meterdatacredential-v06-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
         <li><a href="how-you-implement-ies/issue-credentials.md#meterdatarequestcredential-v01-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a>
@@ -308,11 +293,11 @@ This block handles digital attestations of connections, billing summaries, and c
   </ul>
   </details>
 * **[README.md](what-ies-provides/energy-credentials/README.md)**
-  - *Summary*: Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.
+  - *Summary*: Reference: Verifiable Credentials — credential lifecycle, the three IES credentials, variants, trust model, core concepts.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/energy-credentials/README.md#electricity-credentials">Electricity Credentials</a>    <ul>
+    <li><a href="what-ies-provides/energy-credentials/README.md#verifiable-credentials">Verifiable Credentials</a>    <ul>
       <li><a href="what-ies-provides/energy-credentials/README.md#why-credentials">Why credentials</a>      <ul>
         <li><a href="what-ies-provides/energy-credentials/README.md#lifecycle-at-a-glance">Lifecycle at a glance</a>
       </li>
@@ -501,6 +486,7 @@ Plain-language overviews of each schema family and how the schemas fit together 
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="what-ies-provides/schemas-overview/README.md#schemas-overview">Schemas Overview</a>    <ul>
+      <li><a href="what-ies-provides/schemas-overview/README.md#where-the-p2p-and-flexibility-schemas-live-external">Where the P2P and flexibility schemas live (external)</a></li>
       <li><a href="what-ies-provides/schemas-overview/README.md#how-each-page-is-organised">How each page is organised</a></li>
       <li><a href="what-ies-provides/schemas-overview/README.md#where-this-fits">Where this fits</a>
     </li>
@@ -1353,7 +1339,7 @@ Practical deployment and mapping implementations for specific grid business proc
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/p2p-energy-trading/README.md#p2p-energy-exchange">P2P Energy Exchange</a>    <ul>
+    <li><a href="use-cases/p2p-energy-trading/README.md#p2p-energy-transaction">P2P Energy Transaction</a>    <ul>
       <li><a href="use-cases/p2p-energy-trading/README.md#scenario">Scenario</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#actors-and-roles">Actors and Roles</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#building-blocks-used">Building Blocks Used</a></li>
@@ -1387,322 +1373,17 @@ Practical deployment and mapping implementations for specific grid business proc
 
 ---
 
-## 🗺️ 8. Operational Pathways (Roadmaps)
+## 🙌 8. Contributors
 
-Step-by-step project-management pathways for onboarding and network operations.
+Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.
 
-* **[README.md](pathways/README.md)**
-  - *Summary*: Map of available role roadmaps in the IES ecosystem.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="pathways/README.md#ies-pathways">IES Pathways</a>    <ul>
-      <li><a href="pathways/README.md#why-pathways">Why Pathways?</a></li>
-      <li><a href="pathways/README.md#available-pathways">Available Pathways</a></li>
-      <li><a href="pathways/README.md#how-to-use-the-pathways">How to Use the Pathways</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[utility.md](pathways/utility.md)**
-  - *Summary*: The chronological onboarding roadmap for a new utility (DISCOM) joining the network.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="pathways/utility.md#utility-pathway-step-by-step-ies-integration-roadmap">Utility Pathway: Step-by-Step IES Integration Roadmap</a>    <ul>
-      <li><a href="pathways/utility.md#roadmap-overview">Roadmap Overview</a></li>
-      <li><a href="pathways/utility.md#prework-pre-alignment-matrix">Prework & Pre-Alignment Matrix</a></li>
-      <li><a href="pathways/utility.md#phase-1-preparation-identity-addressing">Phase 1: Preparation (Identity & Addressing)</a>      <ul>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/utility.md#phase-2-getting-started-registry-setup">Phase 2: Getting Started (Registry Setup)</a>      <ul>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/utility.md#phase-3-consumer-energy-passport-verifiable-credentials">Phase 3: Consumer Energy Passport (Verifiable Credentials)</a>      <ul>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/utility.md#phase-4-smart-meter-data-exchange-beckn-data-pipes">Phase 4: Smart Meter Data Exchange (Beckn Data Pipes)</a>      <ul>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/utility.md#phase-5-consumer-meter-digest-electricity-bill">Phase 5: Consumer Meter Digest (Electricity Bill)</a>      <ul>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/utility.md#phase-6-der-visibility-distributed-energy-resources">Phase 6: DER Visibility (Distributed Energy Resources)</a>      <ul>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a>
-      </li>
-      </ul>
-      <li><a href="pathways/utility.md#phase-7-arr-publication-annual-revenue-requirement">Phase 7: ARR Publication (Annual Revenue Requirement)</a>      <ul>
-        <li><a href="pathways/utility.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/utility.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/utility.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[secretariat.md](pathways/secretariat.md)**
-  - *Summary*: The operational roadmap for the Secretariat to approve registries, monitor networks, and maintain schemas.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="pathways/secretariat.md#ies-secretariat-pathway-step-by-step-registration-approval-network-governance-roadmap">IES Secretariat Pathway: Step-by-Step Registration Approval & Network Governance Roadmap</a>    <ul>
-      <li><a href="pathways/secretariat.md#roadmap-overview">Roadmap Overview</a></li>
-      <li><a href="pathways/secretariat.md#phase-1-setting-up-ies-specific-authoritative-registries">Phase 1: Setting up IES-Specific Authoritative Registries</a>      <ul>
-        <li><a href="pathways/secretariat.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/secretariat.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/secretariat.md#phase-2-request-intake-verification">Phase 2: Request Intake & Verification</a>      <ul>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/secretariat.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/secretariat.md#phase-3-approval-provisioning">Phase 3: Approval & Provisioning</a>      <ul>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/secretariat.md#phase-4-beckn-network-governance">Phase 4: BECKN Network Governance</a>      <ul>
-        <li><a href="pathways/secretariat.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/secretariat.md#phase-5-schemas-protocol-maintenance">Phase 5: Schemas & Protocol Maintenance</a>      <ul>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/secretariat.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/secretariat.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/secretariat.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[authority.md](pathways/authority.md)**
-  - *Summary*: The roadmap for a Ministry / CEA / SERC-CERC / Forum of Regulators reader — filings, tariff policy-as-code, and IES Cell governance.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="pathways/authority.md#authority-regulator-pathway-step-by-step-ies-integration-roadmap">Authority / Regulator Pathway: Step-by-Step IES Integration Roadmap</a>    <ul>
-      <li><a href="pathways/authority.md#roadmap-overview">Roadmap Overview</a></li>
-      <li><a href="pathways/authority.md#prework-pre-alignment-matrix">Prework & Pre-Alignment Matrix</a></li>
-      <li><a href="pathways/authority.md#phase-1-register-as-a-network-participant-identity-addressing">Phase 1: Register as a Network Participant (Identity & Addressing)</a>      <ul>
-        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/authority.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/authority.md#phase-2-receive-regulatory-filings-machine-readably">Phase 2: Receive Regulatory Filings Machine-Readably</a>      <ul>
-        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/authority.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/authority.md#phase-3-publish-tariff-orders-as-policy-as-code">Phase 3: Publish Tariff Orders as Policy-as-Code</a>      <ul>
-        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/authority.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/authority.md#phase-4-exercise-ies-cell-governance-duties">Phase 4: Exercise IES Cell Governance Duties</a>      <ul>
-        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/authority.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/authority.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/authority.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[tsp.md](pathways/tsp.md)**
-  - *Summary*: The roadmap for a Technology Service Provider (AMISP, OEM, integrator) building or configuring the IES adapter.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="pathways/tsp.md#technology-service-provider-pathway-step-by-step-ies-integration-roadmap">Technology Service Provider Pathway: Step-by-Step IES Integration Roadmap</a>    <ul>
-      <li><a href="pathways/tsp.md#roadmap-overview">Roadmap Overview</a></li>
-      <li><a href="pathways/tsp.md#prework-pre-alignment-matrix">Prework & Pre-Alignment Matrix</a></li>
-      <li><a href="pathways/tsp.md#phase-1-understand-what-you-are-building">Phase 1: Understand What You Are Building</a>      <ul>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/tsp.md#phase-2-map-your-product-data-model-to-the-relevant-ies-schema">Phase 2: Map Your Product Data Model to the Relevant IES Schema</a>      <ul>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/tsp.md#phase-3-register-your-own-entity-if-you-serve-multiple-discoms">Phase 3: Register Your Own Entity if You Serve Multiple DISCOMs</a>      <ul>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/tsp.md#phase-4-conformance-testing-across-deployments">Phase 4: Conformance Testing Across Deployments</a>      <ul>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/tsp.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/tsp.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/tsp.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
-* **[researcher.md](pathways/researcher.md)**
-  - *Summary*: The roadmap for a researcher or analyst studying IES using its published specs, examples and pilot outcomes.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="pathways/researcher.md#researcher-analyst-pathway-step-by-step-ies-study-roadmap">Researcher / Analyst Pathway: Step-by-Step IES Study Roadmap</a>    <ul>
-      <li><a href="pathways/researcher.md#roadmap-overview">Roadmap Overview</a></li>
-      <li><a href="pathways/researcher.md#phase-1-orient">Phase 1: Orient</a>      <ul>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#prework-required">📋 Prework Required</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/researcher.md#phase-2-explore-the-specifications-examples">Phase 2: Explore the Specifications & Examples</a>      <ul>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/researcher.md#phase-3-reproduce-analyse">Phase 3: Reproduce & Analyse</a>      <ul>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#caution">⚠️ Caution</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-      <li><a href="pathways/researcher.md#phase-4-contribute-back">Phase 4: Contribute Back</a>      <ul>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a></li>
-        <li><a href="pathways/researcher.md#phase-advice">💡 Phase Advice</a></li>
-        <li><a href="pathways/researcher.md#execution-guidance">Execution Guidance</a></li>
-        <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 * **[contributors.md](contributors.md)**
   - *Summary*: Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="contributors.md#contributors">Contributors</a>    <ul>
-      <li><a href="contributors.md#pilot-discoms-30-day-challenge-21-may-21-june-2026">Pilot DISCOMs — 30-day Challenge (21 May – 21 June 2026)</a></li>
+      <li><a href="contributors.md#pilot-discoms-30-day-challenge">Pilot DISCOMs — 30-day Challenge</a></li>
       <li><a href="contributors.md#governance">Governance</a></li>
       <li><a href="contributors.md#individual-contributors">Individual contributors</a></li>
       <li><a href="contributors.md#how-to-contribute">How to contribute</a>

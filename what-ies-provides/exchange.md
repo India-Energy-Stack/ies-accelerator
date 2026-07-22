@@ -32,7 +32,7 @@ A subset of Exchange payloads are issued as W3C Verifiable Credentials — durab
 | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) | A signed envelope around a MeterData payload — consumer's own readings for a window |
 | [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) | A signed proof-of-right-to-ask that a seeker presents to a meter-data provider |
 
-For the concept, trust model and issuance operations, see **[Electricity Credentials](energy-credentials/README.md)**; to issue them, **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
+For the concept, trust model and issuance operations, see **[Verifiable Credentials](energy-credentials/README.md)**; to issue them, **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)**.
 
 ---
 
@@ -55,7 +55,7 @@ The schema canonical references — JSON Schema, JSON-LD context, RDF vocabulary
 
 ## Detail pages
 
-- **[Electricity Credentials](energy-credentials/README.md)** — issuance / verification / revocation operations using OpenCred; credential variants; trust model; DigiLocker delivery.
+- **[Verifiable Credentials](energy-credentials/README.md)** — issuance / verification / revocation operations using OpenCred; credential variants; trust model; DigiLocker delivery.
 - **[Schemas](../schemas/README.md)** — the master schema map, plain-language overview of each schema, and every version's field reference and example payloads.
 - **[External Schemas](../schemas/external/README.md)** — DEG-published schemas (P2PTrade, DemandFlex*) referenced by IES use cases.
 
