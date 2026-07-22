@@ -25,11 +25,11 @@ This document defines the **Consumer Meter Digest** — a verifier-friendly, DIS
 |---|---|---|
 | Meter & service-delivery point | `meterRefs` and the service-delivery-point reference | MeterDataCredential v0.6 wrapping MeterData v0.6 |
 | Period | The window the readings cover | MeterData v0.6 |
-| Readings | Raw profiles (`INTERVAL`, `DAILY`, `MONTHLY`) or derived summaries (`SUMMARY_TOTAL`, `SUMMARY_PEAK`, `SUMMARY_TOD`) | MeterData v0.6 (IS 15959 / DLMS-COSEM) |
+| Readings | Profile-typed data (`intervals` for `INTERVAL`/`DAILY` cadence, `readings` for other profile types), discriminated by `profileType` | MeterData v0.6 (IS 15959 / DLMS-COSEM) |
 | Data quality | Estimation flags, missing intervals | MeterData v0.6 |
 | Issuer & proof | Issuing DISCOM (`did:web`) and cryptographic proof | MeterDataCredential v0.6 (W3C VC) |
 
-Granularity: `RAW_15M`, `DAILY`, `MONTHLY`, plus derived summaries. Typical max period: 24 months (`MONTHLY`), 90 days (`RAW_15M`).
+Granularity: `DAILY`, `MONTHLY`, or `INTERVAL` (15-minute interval data expressed as `profileType: INTERVAL` with `intervalPeriod.duration: PT15M`). Typical max period: 24 months for `MONTHLY`, 90 days for 15-minute `INTERVAL` data.
 
 ## 3. How Each Item is Identified
 
@@ -49,7 +49,7 @@ The meter identifier matches the one in the consumer's [Consumer Energy Passport
 - **READING** — register value at a point in time (cumulative; strictly increasing).
 - **USAGE** — delta / consumed amount over a period.
 - **OBIS** — Object Identification System code (IEC 62056 / IS 15959) for a meter register.
-- **Summary** — a derived aggregate computed from raw readings.
+- **Summary** — a derived aggregate computed from raw readings by downstream analytics; not itself a field defined by the MeterData v0.6 schema.
 
 See **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)** for the underlying meter-data terminology.
 
@@ -76,13 +76,13 @@ One record: a Verifiable Credential wrapping a MeterData profile. Unlike the Pas
 | Part | Fields | Basis |
 |---|---|---|
 | Credential envelope | `@context`, `id`, `type`, `issuer`, `credentialSubject`, `proof` | Standard W3C VC |
-| Payload | `meterReference`, `period`, `readings`, `summary`, `dataQuality` | [MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) |
+| Payload | `profileType`, `meterRefs`, `intervalPeriod` / `timePeriod`, `intervals` / `readings`, `validationStatus` | [MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) |
 
 ## 9. Schedule II
 
 | Wrapping / dependency | Detail |
 |---|---|
-| Not applicable as a populated report | The closest analogue is the **summary** profile, deriving `SUMMARY_TOTAL` / `SUMMARY_PEAK` / `SUMMARY_TOD` aggregates from raw readings — documented per summary kind in the schema. |
+| Not applicable as a populated report | Derived summary aggregates (totals, peaks, time-of-day breakdowns) are downstream analytics computed from the raw readings; they are not fields defined by the current MeterDataCredential/MeterData v0.6 schema. |
 
 ## 10. How It Fits Together
 
@@ -100,7 +100,7 @@ Consumer (wallet)                     DISCOM
 ## 11. Points for Confirmation
 
 1. **Maximum-range policy** by granularity — to be tightened per use case.
-2. **Summary-derivation formula** per kind, especially ToD bucket boundaries (may vary by SERC).
+2. **Summary-derivation formula** for any downstream analytics built on these readings, especially ToD bucket boundaries (may vary by SERC) — out of scope for the credential schema itself.
 3. **Latency budget** — MDM read-path performance is the binding constraint.
 
 ---
@@ -124,7 +124,7 @@ The consumer proves actual consumption history, DISCOM-signed, verifiable in sec
 | IEC 62056 | DLMS/COSEM; OBIS |
 | IEC 61968-9 | CIM — meter reading and control |
 | W3C VC Data Model 2.0; W3C DID Core | Credential envelope; identifiers |
-| RFC 3339 / ISO 8601 | Date-time format for `period` |
+| RFC 3339 / ISO 8601 | Date-time format for `intervalPeriod` / `timePeriod` |
 
 ## Annexure B — Example Payload
 
