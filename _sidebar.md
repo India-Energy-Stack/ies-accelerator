@@ -21,22 +21,22 @@
 
 ## Schemas
 
-* [Schemas](/schemas/README.md)
-  * [ElectricityCredential](/schemas/ElectricityCredential/README.md)
-    * [v1.2](/schemas/ElectricityCredential/v1.2/README.md)
-  * [MeterData](/schemas/MeterData/README.md)
-    * [v0.6](/schemas/MeterData/v0.6/README.md)
-  * [MeterDataCredential](/schemas/MeterDataCredential/README.md)
-    * [v0.6](/schemas/MeterDataCredential/v0.6/README.md)
-  * [MeterDataRequest](/schemas/MeterDataRequest/README.md)
-    * [v0.6](/schemas/MeterDataRequest/v0.6/README.md)
-  * [MeterDataRequestCredential](/schemas/MeterDataRequestCredential/README.md)
-    * [v0.1](/schemas/MeterDataRequestCredential/v0.1/README.md)
-  * [ArrFiling](/schemas/ArrFiling/README.md)
-    * [v0.5](/schemas/ArrFiling/v0.5/README.md)
-  * [OutageNotification](/schemas/OutageNotification/README.md)
-    * [v0.1](/schemas/OutageNotification/v0.1/README.md)
-  * [External Schemas](/schemas/external/README.md)
+* [Overview](/schemas/README.md)
+* [ElectricityCredential](/schemas/ElectricityCredential/README.md)
+  * [v1.2](/schemas/ElectricityCredential/v1.2/README.md)
+* [MeterData](/schemas/MeterData/README.md)
+  * [v0.6](/schemas/MeterData/v0.6/README.md)
+* [MeterDataCredential](/schemas/MeterDataCredential/README.md)
+  * [v0.6](/schemas/MeterDataCredential/v0.6/README.md)
+* [MeterDataRequest](/schemas/MeterDataRequest/README.md)
+  * [v0.6](/schemas/MeterDataRequest/v0.6/README.md)
+* [MeterDataRequestCredential](/schemas/MeterDataRequestCredential/README.md)
+  * [v0.1](/schemas/MeterDataRequestCredential/v0.1/README.md)
+* [ArrFiling](/schemas/ArrFiling/README.md)
+  * [v0.5](/schemas/ArrFiling/v0.5/README.md)
+* [OutageNotification](/schemas/OutageNotification/README.md)
+  * [v0.1](/schemas/OutageNotification/v0.1/README.md)
+* [External Schemas](/schemas/external/README.md)
 
 ## How you implement IES
 

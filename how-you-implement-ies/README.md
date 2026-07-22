@@ -117,7 +117,7 @@ Go to **[Use Case Implementation Guides](../use-cases/README.md)** and pick the 
 
 ## How long does the whole thing take?
 
-The four pilot DISCOMs each went from cold start to four demonstrated use cases in **30 days** (21 May – 21 June 2026). The bulk of that time was the Part-2 mapping (Step 4) and customer-ops procedures for the consumer-facing credentials.
+The four pilot DISCOMs each went from cold start to four demonstrated use cases in **30 days**. The bulk of that time was the Part-2 mapping (Step 4) and customer-ops procedures for the consumer-facing credentials.
 
 | Phase | Calendar time (typical) |
 |---|---|
