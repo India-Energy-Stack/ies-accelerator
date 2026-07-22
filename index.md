@@ -1383,7 +1383,7 @@ Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="contributors.md#contributors">Contributors</a>    <ul>
-      <li><a href="contributors.md#pilot-discoms-30-day-challenge-21-may-21-june-2026">Pilot DISCOMs — 30-day Challenge (21 May – 21 June 2026)</a></li>
+      <li><a href="contributors.md#pilot-discoms-30-day-challenge">Pilot DISCOMs — 30-day Challenge</a></li>
       <li><a href="contributors.md#governance">Governance</a></li>
       <li><a href="contributors.md#individual-contributors">Individual contributors</a></li>
       <li><a href="contributors.md#how-to-contribute">How to contribute</a>

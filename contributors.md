@@ -6,7 +6,7 @@ The India Energy Stack is a collaborative effort across the power sector. This p
 
 ---
 
-## Pilot DISCOMs — 30-day Challenge (21 May – 21 June 2026)
+## Pilot DISCOMs — 30-day Challenge
 
 The first organisations to build an IES adapter and demonstrate live use cases:
 
