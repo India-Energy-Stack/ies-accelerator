@@ -55,18 +55,15 @@ This schema does not introduce its own identifier scheme -- it reuses the DID-ba
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed:
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. MeterDataRequestCredential v0.1 is a credential envelope; it defines no new engineering/metering standards. No IS or CEA/IEGC citation appears anywhere in this schema family — the envelope is pure W3C/DEG, and the wrapped request payload's only cited standard is the IEC OBIS/DLMS-COSEM register scheme.
 
-1. Bureau of Indian Standards (IS)
-2. CEA Regulations and the Indian Electricity Grid Code (IEGC)
-3. International Electrotechnical Commission (IEC)
-4. Institute of Electrical and Electronics Engineers (IEEE)
+| Standard | Role here |
+|---|---|
+| **W3C Verifiable Credential Data Model 2.0** | Followed directly for the credential envelope |
+| **DEG EnergyCredential v2.0** | Superclass (`allOf: - $ref: …/EnergyCredential/v2.0`) supplying issuer, validity window, revocation status and proof — the same inheritance pattern as sibling `ConsumptionProfileCredential` / `GenerationProfileCredential` |
+| **IEC 62056** (OBIS / DLMS-COSEM) | *Via the wrapped MeterDataRequest v0.6* — `ValueCapability.value` is "the OBIS code (e.g. 1.0.1.8.0.255) or short code (e.g. kWh imp) representing the register" |
 
-MeterDataRequestCredential v0.1 does not itself define new engineering or metering standards to place against this order -- it is a credential envelope. It follows the **W3C Verifiable Credential Data Model 2.0** directly, as a subclass of the DEG-published **EnergyCredential v2.0** (`https://schema.beckn.io/EnergyCredential/v2.0`, expressed in `attributes.yaml` as `allOf: - $ref: https://schema.beckn.io/EnergyCredential/v2.0`), from which it inherits the issuer, validity window, revocation status and proof structure rather than redefining them. The schema's own README notes this is the same inheritance pattern used by sibling DEG energy credentials `ConsumptionProfileCredential` and `GenerationProfileCredential`, so MeterDataRequestCredential is one instance of a general IES/DEG convention rather than a one-off design.
-
-The engineering substance this credential authorises access to -- registers, profile types, telemetry modes -- lives in the wrapped **MeterDataRequest v0.6** schema, and it is there that IEC alignment becomes concrete: `ValueCapability.value` is described as "The OBIS code (e.g. 1.0.1.8.0.255) or short code (e.g. kWh imp) representing the register," which is the object-identification system standardised in **IEC 62056** (Companion Specification for Energy Metering / DLMS-COSEM). The `MeterDataRequest` validator (`schemas/MeterDataRequest/v0.6/validation/validator.py`) enforces this at runtime: it resolves every requested register string (OBIS or short code) against a project-maintained `IES codes.json` lookup (held in the sibling `schemas/MeterData/v0.6/` directory, not duplicated here), checks that a register requested under a given `profileType` is actually permitted for that profile group (its worked test case: `kWh imp` must not be requested under `IntervalProfile`), and checks that the requested `TelemetryMode` (`READING`/`USAGE`) is among the modes the register supports. The reason that particular combination is invalid is visible in `IES codes.json` itself: `kWh imp` is defined there with `accumulationBehaviour: CUMULATIVE` (a running meter-dial total, category `energyCumulative`), whereas `IntervalProfile` expects a per-interval figure -- which is what the sibling register `kWh imp block` provides, defined with `accumulationBehaviour: DELTA` (category `energyIncremental`). So the profile-type restriction is not arbitrary; it follows from whether the register is a cumulative reading or an incremental delta. None of this validation logic lives inside MeterDataRequestCredential itself -- it is inherited by reference, since the credential only wraps the `MeterDataRequest` object rather than re-specifying its rules.
-
-No IS or CEA/IEGC citation appears anywhere in this schema family's `attributes.yaml`, vocab.jsonld, or README files -- the credential envelope is pure W3C/DEG, and the wrapped request payload's only cited standard is the IEC OBIS/DLMS-COSEM register scheme.
+The engineering substance this credential authorises access to — registers, profile types, telemetry modes — lives in the wrapped **MeterDataRequest v0.6** schema, whose validator enforces register/profile/mode rules against `IES codes.json` at runtime (e.g. `kWh imp`, defined `accumulationBehaviour: CUMULATIVE`, may not be requested under `IntervalProfile`, which expects the per-interval `kWh imp block`, defined `DELTA`). None of this validation lives inside the credential itself — it is inherited by reference (see section 7).
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

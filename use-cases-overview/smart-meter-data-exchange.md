@@ -68,7 +68,15 @@ Eight MeterData v0.6 compact profiles cover every cadence:
 
 ## 5. Basis of Standards
 
-**IS → CEA → IEC → IEEE.** IES follows **IS 16444** and **IS 15959 / IEC 62056** (DLMS-COSEM) directly; MeterData v0.6 is an IES specification standardising the JSON shape carrying those readings. CEA/RDSS guidance names **IEC 61968 / -100** alongside MultiSpeak for HES↔MDMS; IES uses CIM (IEC 61968-9) for master data.
+Fixed order of preference: **IS → CEA → IEC → IEEE**.
+
+| Standard | Role here |
+|---|---|
+| **IS 16444** | Smart meter specification (followed directly) |
+| **IS 15959 / IEC 62056** (DLMS-COSEM) | Meter readings (followed directly) |
+| **MeterData v0.6** | IES specification standardising the JSON shape that carries those readings |
+| **IEC 61968 / -100** | HES↔MDMS interoperability (CEA/RDSS guidance, alongside MultiSpeak) |
+| **CIM (IEC 61968-9)** | Master data |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

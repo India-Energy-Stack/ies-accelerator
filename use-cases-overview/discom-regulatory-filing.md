@@ -56,7 +56,14 @@ Subscriber records resolve through the [IES DISCOMs](../what-ies-provides/regist
 
 ## 5. Basis of Standards
 
-**IS → CEA → IEC → IEEE.** None apply directly — filings are SERC instruments. IES adds: **Electricity Act 2003 §61–62/64** (statutory basis), **SERC tariff regulations** (form and category source; `ArrFiling` is a superset with per-state mapping), **Beckn protocol v2** (the wire), **W3C VC / DID Core** (issuer key and signature).
+Fixed order of preference: **IS → CEA → IEC → IEEE** — none apply directly, as filings are SERC instruments. IES adds:
+
+| Standard | Role here |
+|---|---|
+| **Electricity Act 2003, §61–62/64** | Statutory basis |
+| **SERC tariff regulations** | Form and category source (`ArrFiling` is a superset with per-state mapping) |
+| **Beckn Protocol v2** | The wire |
+| **W3C VC / DID Core** | Issuer key and signature |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

@@ -83,21 +83,19 @@ The schema does not mint DIDs for outages, assets or consumers itself; where a D
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed:
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. No Indian standard for outage-notification data exists to occupy the first two tiers (the one IS-tier standard the pipeline touches — IS 15959/DLMS-COSEM — governs the *upstream* feeder-status signal, not this schema's own fields; see section 6). The schema composes several standards, each occupying a distinct layer:
 
-1. Bureau of Indian Standards (IS)
-2. CEA Regulations and the Indian Electricity Grid Code (IEGC)
-3. International Electrotechnical Commission (IEC)
-4. Institute of Electrical and Electronics Engineers (IEEE)
+| Standard | What it governs here |
+|---|---|
+| **IEC 61968-3 (CIM), 2021** | Outage and UsagePoint semantics, and the planned/unplanned split `outageClass` mirrors; `impact.deEnergized`/`energized` → CIM `Outage.deEnergizedUsagePoint`/`energizedUsagePoint` |
+| **OASIS CAP v1.2** (ITU-T X.1303) | The push-alert envelope — `msgType`, `references`, `severity`, `publicInfo.*`, `affectedArea.text`/`geo` map to CAP `alert`/`info`/`area` fields |
+| **IEEE 1366** (+ RDSS, CEA reliability reporting) | Restoration-time and customer-count fields feeding SAIDI/SAIFI/CAIDI/MAIFI indices |
+| **IEEE 1782-2022 §4.4–4.5** | The standardized outage cause category (ten categories) and subcategory taxonomy, used with IEEE 1366 |
+| **ODIN** (US DOE/ORNL) *(convention)* | The public/authenticated two-tier API pattern and coded-plus-free-text cause convention |
+| **MultiSpeak** *(convention)* | The AMI/MDMS-to-OMS detection flow and provenance chain |
+| **GeoJSON (RFC 7946)** | All GIS geometry, in WGS84 |
 
-OutageNotification v0.1 does not draw on a Bureau of Indian Standards specification or a CEA/IEGC provision directly — no Indian standard for outage-notification data currently exists to occupy the first two tiers. (The one IS-tier standard the surrounding pipeline does touch — IS 15959/DLMS-COSEM for meter event and OBIS codes — governs the *upstream* feeder-status signal, not this schema's own fields; see section 6.) The schema instead composes several standards at the IEC and IEEE tiers and beyond, each occupying a distinct layer:
-
-- **IEC 61968-3 (CIM), 2021 edition** — outage and UsagePoint data semantics, and the planned-versus-unplanned split that this schema's `outageClass` mirrors (`PlannedOutage`/`PlannedOutageNotification` vs. `UnplannedOutage`). `impact.deEnergized`/`impact.energized` map to CIM's `Outage.deEnergizedUsagePoint`/`energizedUsagePoint`.
-- **OASIS CAP v1.2** (also referenced as ITU-T X.1303) — the push-alert envelope: `msgType` maps to CAP `alert.msgType`, `references` to `alert.references`, `severity` to `info.severity`, `publicInfo.headline/description/instruction` to `info.headline/description/instruction`, and `affectedArea.text`/`geo` to `area.areaDesc`/`area.polygon`/`area.circle`.
-- **IEEE 1366**, together with RDSS and CEA reliability reporting, for the restoration-time and customer-count fields that feed SAIDI/SAIFI/CAIDI/MAIFI indices.
-- **IEEE 1782-2022 §4.4 and §4.5** for the standardized outage cause category (ten categories: EQUIPMENT, LIGHTNING, PLANNED, POWER_SUPPLY, PUBLIC, VEGETATION, WEATHER, WILDLIFE, UNKNOWN, OTHER) and subcategory taxonomy, used together with IEEE 1366.
-
-Two further conventions are layered in without being formal IEC/IEEE standards themselves: the **ODIN** (US DOE/ORNL) publication pattern — public/authenticated two-tier APIs and the coded-plus-free-text cause convention — and **MultiSpeak**, for the AMI/MDMS-to-OMS detection flow and provenance chain. **GeoJSON (RFC 7946)** is used for all GIS geometry in WGS84. The design note also names two further de-facto references that shaped the delivery-pattern design without being cited as data-model standards inside the schema itself: the **UK Power Networks "Live Faults" open dataset**, the reference pattern for a public, near-real-time, GIS-ready outage feed; and the **US DOE OE-417/EIA** emergency-incident reporting regime and the **ENTSO-E Transparency Platform**, both cited as confirming a general regulatory need to publish outages in structured form, at the transmission level in ENTSO-E's case.
+The design note names further de-facto references that shaped the delivery pattern without being cited as data-model standards: the **UK Power Networks "Live Faults"** open dataset (the reference pattern for a public, near-real-time, GIS-ready outage feed), and the **US DOE OE-417/EIA** regime and **ENTSO-E Transparency Platform** (both confirming a regulatory need to publish outages in structured form).
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

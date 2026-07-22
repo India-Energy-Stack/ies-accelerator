@@ -67,7 +67,15 @@ A new amendment is a new `id` with the same `policyID`; downstream systems refer
 
 ## 5. Basis of Standards
 
-**IS → CEA → IEC → IEEE** — none apply directly; tariffs are SERC instruments. IES adds: **Electricity Act 2003 §61–62** (statutory basis), **SERC tariff orders** (source; `IES_Policy` is a faithful signed restatement), **ISO 8601** (recurrence semantics), **Beckn v2** (the wire), **W3C VC / DID Core** (issuer key, signature).
+Fixed order of preference: **IS → CEA → IEC → IEEE** — none apply directly, as tariffs are SERC instruments. IES adds:
+
+| Standard | Role here |
+|---|---|
+| **Electricity Act 2003, §61–62** | Statutory basis |
+| **SERC tariff orders** | Source (`IES_Policy` is a faithful signed restatement) |
+| **ISO 8601** | Recurrence semantics |
+| **Beckn Protocol v2** | The wire |
+| **W3C VC / DID Core** | Issuer key, signature |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

@@ -59,14 +59,13 @@ The payload schema itself defines no DID scheme for these identifiers. However, 
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed, always the same:
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. ArrFiling does not follow a metering or asset-modelling standard in this order — it is a regulatory-filing structure, not a technical/electrical schema, and `attributes.yaml` carries no `x-standard` annotations. Instead:
 
-1. Bureau of Indian Standards (IS)
-2. CEA Regulations and the Indian Electricity Grid Code (IEGC)
-3. International Electrotechnical Commission (IEC)
-4. Institute of Electrical and Electronics Engineers (IEEE)
-
-ArrFiling itself does not follow a metering or asset-modelling standard in this order, because it is not a technical/electrical schema — it is a regulatory-filing structure, and a full read of `attributes.yaml` confirms it carries no `x-standard` annotations of the kind used elsewhere in IES to cite a specific IS/IEC/IEEE clause. Instead it follows each state's own **SERC tariff regulations** (each commission's MYT / Annual Tariff Regulations define the filing form, the cost categories and the filing timetable); ArrFiling's `category`/`subCategory` enumeration is built as a superset across these SERC regulations, and its own description explicitly names the cross-DISCOM variation it has to absorb — for instance, "Return" appearing as Return on Net Fixed Assets (NFA), Return on Equity (RoE), or Return on Capital Base depending on which SERC's regulations govern a given filing (the sampled examples show both `return-on-nfa` and `return-on-equity` as `lineItemId` values used by the same DISCOM in different years). On the wire, it follows the **Beckn Protocol** for discovery and delivery, and **W3C VC Data Model 2.0** / **W3C DID Core** for the issuer key and signature on the Beckn envelope that carries the payload.
+| Standard | Role here |
+|---|---|
+| **SERC tariff regulations** (per state) | The filing form, cost categories and timetable (each commission's MYT / Annual Tariff Regulations). ArrFiling's `category`/`subCategory` is a superset across these, absorbing cross-DISCOM variation — e.g. "Return" as Return on Net Fixed Assets, Return on Equity, or Return on Capital Base depending on the SERC (`return-on-nfa` and `return-on-equity` both appear as `lineItemId` values) |
+| **Beckn Protocol** | Discovery and delivery on the wire |
+| **W3C VC Data Model 2.0 / W3C DID Core** | Issuer key and signature on the Beckn envelope that carries the payload |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 
