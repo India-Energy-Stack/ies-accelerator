@@ -102,11 +102,11 @@ Taken together, these specifications produce the following practical outcomes:
 
 ## Pilots and status
 
-IES is already running in a test environment. The specifications have been published on this GitBook, and the sandbox is working. Four pilot DISCOMs in four States undertook a 30-day challenge (21 May to 21 June 2026), in which each built its IES adapter and demonstrated a first set of live use cases.
+IES is already running in a test environment. The specifications have been published on this GitBook, and the sandbox is working. Four pilot DISCOMs in four States undertook a 30-day challenge, in which each built its IES adapter and demonstrated a first set of live use cases.
 
 ### The 30-day DISCOM Challenge
 
-**21 May 2026 – 21 June 2026.** The four pilot DISCOMs, spread across four States, were:
+The four pilot DISCOMs, spread across four States, were:
 
 1. **Paschimanchal Vidyut Vitran Nigam Limited (PVVNL)**, Meerut, Uttar Pradesh;
 2. **Eastern Power Distribution Company of Andhra Pradesh Limited (APEPDCL)**, Visakhapatnam, Andhra Pradesh;

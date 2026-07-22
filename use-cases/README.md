@@ -8,7 +8,7 @@ Every guide follows the same **IES Documentation Template** (eleven numbered sec
 
 ## Live in pilot
 
-These four use cases were [demonstrated by the four pilot DISCOMs](../README.md#pilots-and-status) in the 30-day Challenge (21 May – 21 June 2026).
+These four use cases were [demonstrated by the four pilot DISCOMs](../README.md#pilots-and-status) in the 30-day Challenge.
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|

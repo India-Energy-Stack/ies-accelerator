@@ -133,7 +133,7 @@ If your research makes a claim about how a schema behaves, verify it empirically
 <summary><b>Step 3.2: Study the Documented Pilot Outcomes</b></summary>
 
 ### 💡 Phase Advice
-> Don't rely on secondary summaries. [Pilots and Status](../README.md#pilots-and-status) is the primary, citable source: an outcomes table from the 30-day DISCOM Challenge (21 May – 21 June 2026), covering the four pilot DISCOMs and what each demonstrated.
+> Don't rely on secondary summaries. [Pilots and Status](../README.md#pilots-and-status) is the primary, citable source: an outcomes table from the 30-day DISCOM Challenge, covering the four pilot DISCOMs and what each demonstrated.
 
 ### Execution Guidance
 1. Read [Pilots and Status](../README.md#pilots-and-status) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.
