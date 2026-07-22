@@ -100,4 +100,4 @@ You are now an IES-conformant production participant. New counterparties can tra
 
 - **Add new use cases** by repeating only Step 4 (Build your Internal-facing Adapter) for the new schema. Identity, engines, network membership and trust foundation are reused.
 - **Stay current with schema versions.** New versions are announced via the [ies-accelerator repository](https://github.com/India-Energy-Stack/ies-accelerator); migration guides ship alongside.
-- **Contribute** — propose a new schema or a change to an existing one by raising a discussion on the repository. The [IES Cell](../concepts/what-ies-is.md#who-adds-or-updates-the-specifications-and-standards) governance process handles ratification.
+- **Contribute** — propose a new schema or a change to an existing one by raising a discussion on the repository. The [IES Cell](../faq.md#id-19.-who-adds-or-updates-the-specifications-and-standards) governance process handles ratification.
