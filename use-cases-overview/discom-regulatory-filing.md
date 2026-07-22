@@ -68,7 +68,7 @@ Three signed artefacts per submission: a **signed Beckn contract** (parties, sco
 
 ## 9. Schedule II — Report Templates
 
-Not applicable — the filing is the report. The closest interdependence is the tariff order it answers (`policyID`, see [Tariff Intelligence](tariff-intelligence.md)) and any prior-year filing it trues up against — both references, not derived templates.
+Not applicable — the filing is the report. The closest interdependence is the tariff order it answers (`policyID`, see [Policy as Code](tariff-intelligence.md)) and any prior-year filing it trues up against — both references, not derived templates.
 
 ## 10. How It Fits Together
 
@@ -83,7 +83,7 @@ The DISCOM is the **BPP**; the SERC is the **BAP** — the inverse of Smart Mete
 
 1. **Cost-category superset** — `category`/`subCategory` enums are converging across SERCs; expect additions, not renames.
 2. **Workbook attachments** — the convention (separate dataset vs. embedded) is being agreed.
-3. **Cross-filing references** — aligning with the [Tariff Intelligence](tariff-intelligence.md) `policyID` pattern.
+3. **Cross-filing references** — aligning with the [Policy as Code](tariff-intelligence.md) `policyID` pattern.
 4. **Public-disclosure republication** — being formalised with the Forum of Regulators.
 
 ---

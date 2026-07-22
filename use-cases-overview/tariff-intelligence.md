@@ -1,6 +1,6 @@
-# Tariff Intelligence
+# Policy as Code
 
-*Tariff orders, time-of-day surcharges, deviation penalties, and data-exchange rules published once, as code, by the issuing authority — consumed directly by billing systems, consumer apps, smart meters and analytics agents over [IES Data Exchange](../what-ies-provides/discover.md).*
+*Any authority policy — tariff orders, time-of-day surcharges, dispatch guides, deviation penalties, and data-exchange rules — published once, as signed machine-readable code by the issuing authority, and consumed directly by billing systems, consumer apps, smart meters and analytics agents over [IES Data Exchange](../what-ies-provides/discover.md).*
 
 **[Implementation Guide →](../use-cases/tariff-intelligence/README.md)**
 
@@ -15,9 +15,23 @@
 
 ## 1. Scope and Purpose
 
-The stakeholders are the SERC (or any policy authority) and every downstream system that must interpret its rules. Today a SERC issues a tariff order as a PDF; every DISCOM transcribes rate slabs, surcharges and category definitions by hand into billing systems, and consumer apps each interpret the order independently. Drift and bugs are inevitable.
+The stakeholders are the policy authority (a SERC, the CEA, a load-despatch centre or a programme administrator) and every downstream system that must interpret its rules. Today an authority issues a policy — most commonly a tariff order — as a PDF; every DISCOM transcribes rate slabs, surcharges and category definitions by hand into billing systems, and consumer apps each interpret the order independently. Drift and bugs are inevitable.
 
-This document defines **Tariff Intelligence** — the authority publishes machine-readable `IES_Policy` artefacts alongside the order; DISCOMs, apps and meters ingest the same signed object. The same envelope generalises to deviation penalties, DR participation rules and data-quality SLAs.
+This document defines **Policy as Code** — the authority publishes machine-readable, signed `IES_Policy` artefacts alongside the order; DISCOMs, apps and meters ingest the same object and evaluate it locally. The same envelope carries any policy the sector must apply consistently.
+
+### Sub-use-cases
+
+Policy as Code is a family; each sub-use-case publishes a different kind of authority policy through the same `IES_Policy` envelope, identity and signing.
+
+| Sub-use-case | Policy published as code | Status |
+|---|---|---|
+| **Tariff Intelligence** *(flagship)* | Tariff orders, telescopic slabs, time-of-day surcharges (`policyType: TARIFF`) | Live or staged |
+| **Dispatch guides** | Merit-order / dispatch rules (`policyType: DISPATCH_GUIDE`) | Live or staged |
+| **Deviation penalties** | Sanctioned-load / schedule deviation charges | Draft |
+| **DR programme rules** | Demand-response participation and incentive rules | Draft |
+| **Data-exchange SLAs** | Data-quality and public-disclosure thresholds | Draft |
+
+The rest of this page details the **Tariff Intelligence** sub-use-case — the first published; the other policy types reuse the same envelope and identity described below.
 
 ## 2. What It Records / Covers
 

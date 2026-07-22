@@ -11,7 +11,7 @@ Read one of these before the [Use Case Implementation Guide](../use-cases/README
 | **[Smart Meter Data Exchange](smart-meter-data-exchange.md)** | Bulk, audit-trailed MeterData v0.6 exchange between AMISP, DISCOM, SERC and consented third parties | Live in pilot |
 | **[DER Visibility](der-visibility.md)** | Grid-side, PII-free ElectricityCredential v1.2 issuance — per-feeder DER visibility for operators and aggregators | Live in pilot |
 | **[DISCOM Regulatory Filing](discom-regulatory-filing.md)** | Structured ArrFiling v0.5 — ARR, true-up and compliance filings from DISCOM to SERC | Live or staged |
-| **[Tariff Intelligence](tariff-intelligence.md)** | Tariff orders and other policy published once, as code | Live or staged |
+| **[Policy as Code](tariff-intelligence.md)** | Tariff orders and other authority policy published once, as code (flagship sub-use-case: Tariff Intelligence) | Live or staged |
 | **[P2P Energy Exchange](p2p-energy-trading.md)** | Two prosumers on different DISCOMs execute a direct, signed energy trade over Beckn — regulated Ledger Providers, signed-Rego settlement, no central exchange | In progress |
 
 ---

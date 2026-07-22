@@ -37,7 +37,7 @@ Structured, non-credential payload schemas.
 | [MeterDataRequest](MeterDataRequest/README.md) | Query / capabilities / authorisation shapes for meter-data requests | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | **[v0.6](MeterDataRequest/v0.6/README.md)** |
 | [ArrFiling](ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | **[v0.5](ArrFiling/v0.5/README.md)** |
 | [OutageNotification](OutageNotification/README.md) | Planned + unplanned outage notices — pull feed (outage map) and push alert (CAP). **WIP** | — no IES use-case guide yet | **[v0.1](OutageNotification/v0.1/README.md)** |
-| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Tariff Intelligence](../use-cases/tariff-intelligence/README.md) | in progress |
+| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Policy as Code](../use-cases/tariff-intelligence/README.md) | in progress |
 
 ### External — DEG schemas IES uses
 

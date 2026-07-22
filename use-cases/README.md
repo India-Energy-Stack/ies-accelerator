@@ -22,7 +22,7 @@ These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/w
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
 | **[DISCOM Regulatory Filing](discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) |
-| **[Tariff Intelligence](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
+| **[Policy as Code](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
 
 ## In progress
 

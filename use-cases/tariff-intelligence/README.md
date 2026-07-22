@@ -1,8 +1,8 @@
-# Tariff Intelligence
+# Policy as Code
 
 **In a hurry?** Jump to the [Checklist](#checklist). For the standards basis and full field schedule, see the **[Overview](../../use-cases-overview/tariff-intelligence.md)**.
 
-**Tariff orders, time-of-day surcharges, deviation penalties, and data-exchange rules published as machine-readable *policy-as-code* — consumable by billing systems, consumer apps, smart meters, and analytics agents directly.**
+**Any authority policy — tariff orders, time-of-day surcharges, dispatch guides, deviation penalties, and data-exchange rules — published as signed machine-readable *policy-as-code*, consumable by billing systems, consumer apps, smart meters, and analytics agents directly. This guide walks the flagship sub-use-case, [Tariff Intelligence](#scenario); the other policy types reuse the same envelope and identity.**
 
 ---
 
@@ -12,7 +12,7 @@ A SERC issues a tariff order today as a PDF. Every DISCOM in that state then man
 
 The same problem applies more broadly than tariff orders. Any **policy** the sector needs to interpret consistently — sanctioned-load deviation penalties, peak-hour incentives, DR programme rules, data-quality SLAs, public-disclosure thresholds — benefits from being published once, as code, by the issuing authority.
 
-Tariff Intelligence packages this as `IES_Policy` artefacts. The SERC (or any policy issuer) publishes machine-readable policy alongside the regulatory order; DISCOMs, apps, and meters ingest it directly, with no re-keying and no interpretation drift. Issuers may publish policy in the public data exchange, or hand it inline during a private data exchange to set the terms of that exchange.
+Policy as Code packages this as `IES_Policy` artefacts. The SERC (or any policy issuer) publishes machine-readable policy alongside the regulatory order; DISCOMs, apps, and meters ingest it directly, with no re-keying and no interpretation drift. Issuers may publish policy in the public data exchange, or hand it inline during a private data exchange to set the terms of that exchange.
 
 ---
 
@@ -146,6 +146,6 @@ For a SERC, DISCOM, or other policy authority. Role: ☐ Publisher ☐ Consumer.
 
 - [`IES_Policy`, `IES_Program`, `EnergySlab`, `SurchargeTariff` (upstream)](https://github.com/beckn/DEG/tree/ies-specs/specification/external/schema/ies/core)
 - [Example payloads (devkit)](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc3-tariff-policy/examples)
-- [Overview — Tariff Intelligence](../../use-cases-overview/tariff-intelligence.md) — standards basis, definitions, full field schedule
+- [Overview — Policy as Code](../../use-cases-overview/tariff-intelligence.md) — standards basis, definitions, full field schedule
 - [Data Exchange chapter](../../what-ies-provides/discover.md)
 - [Identifiers and Addressing](../../what-ies-provides/register.md)

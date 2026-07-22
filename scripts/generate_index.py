@@ -116,7 +116,7 @@ def main():
             ("use-cases-overview/smart-meter-data-exchange.md", "Smart Meter Data Exchange — overview."),
             ("use-cases-overview/der-visibility.md", "DER Visibility — overview."),
             ("use-cases-overview/discom-regulatory-filing.md", "DISCOM Regulatory Filing — overview."),
-            ("use-cases-overview/tariff-intelligence.md", "Tariff Intelligence — overview.")
+            ("use-cases-overview/tariff-intelligence.md", "Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).")
         ],
         "schemas": [
             ("schemas/README.md", "Schemas — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
@@ -136,7 +136,7 @@ def main():
             ("use-cases/smart-meter-data-exchange/ies-meter-data-model.md", "Reference: Indian smart-metering terminology (OBIS, IS 15959 profiles and event IDs, CIM master data) mapped to the MeterData schema, with the IS 15959 deep-reference appendix."),
             ("use-cases/der-visibility/README.md", "Grid-side issuance of ElectricityCredential v1.2 — per-feeder view of every DER behind a DISCOM's meters."),
             ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
-            ("use-cases/tariff-intelligence/README.md", "Publishing tariff rate structures and telescopic schedules as IES policies."),
+            ("use-cases/tariff-intelligence/README.md", "Policy as Code — publishing authority policy (tariff rate structures and telescopic schedules, dispatch guides, and more) as signed IES policies."),
             ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network rules and the seller-DISCOM contract policy enforced as signed Rego, hosted on DeDi.")
         ],
         "pathways": [

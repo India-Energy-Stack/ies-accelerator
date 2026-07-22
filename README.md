@@ -6,7 +6,7 @@ The cost of this fragmentation is borne across the sector. A single DISCOM often
 
 **India Energy Stack (IES)** is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking — UPI holds no money of its own; money stays in the customer's bank, and UPI is only the shared rules that let any bank pay any other. **IES is the same idea, for energy data.** The data stays in the systems that already hold it, and IES specs let any two systems exchange and act on it directly. The sector already has rules and standards for what data to report and how it is structured; IES does not replace any of them — it makes the same data machine-readable, common across the sector, and verifiable.
 
-IES is **live**. [Four pilot DISCOMs](concepts/what-ies-is.md#pilots-and-status) built their adapter and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
+IES is **live**. [Four pilot DISCOMs](concepts/what-ies-is.md#pilots-and-status) built their **adapter** — the small piece of software that sits at the edge of a system and makes it IES-ready (explained [below](#what-ies-is-not)) — and demonstrated DER Visibility, Consumer Energy Passport, Consumer Meter Digest and Smart Meter Data Exchange in the 30-day Challenge (21 May – 21 June 2026).
 
 {% hint style="info" %}
 📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
@@ -98,7 +98,7 @@ What you can ship, organised per the **[IES Documentation Template](use-cases/RE
 | Stage | Use cases |
 |---|---|
 | **Live in pilot** | [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md) · [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md) · [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md) · [DER Visibility](use-cases/der-visibility/README.md) |
-| **Live or staged** | [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md) · [Tariff Intelligence](use-cases/tariff-intelligence/README.md) |
+| **Live or staged** | [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md) · [Policy as Code](use-cases/tariff-intelligence/README.md) |
 | **In progress** | [P2P Energy Exchange](use-cases/p2p-energy-trading/README.md) |
 
 ---
