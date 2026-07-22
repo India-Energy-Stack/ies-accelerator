@@ -1,144 +1,181 @@
-# SPARK-1 Mechanical/Schema/Build/Navigation Correction Audit
+# SPARK-1 Mechanical/Schema/Build/Navigation Reconciled Audit
 
-Baseline repository state is stable for link resolution, but I am replacing false-positive anchor findings with corrected evidence and re-centering the highest-risk defects.
+Take: SPARK-1 evidence converges on a narrow release gate set: unresolved semantic mismatch for shipped MeterDataRequest examples, non-reproducible Make outputs, false-green PDF exit behavior, and incomplete repo-wide CI quality gating; all other major risks are scoped with explicit ownership.
 
 ## Inventory / scope
 - Repository: `C:\Users\Z0055VCM\Desktop\ies-accelerator`
 - Branch: `repo-wide-qaqc`
 - Baseline commit: `9fb62e8`
-- Tracked file inventory used for this pass: `245`
-- Tracked markdown files scanned: `81` (core docs set) and `85` when including generated/site-nav files (e.g., `index.md` and `_sidebar.md`).
-- Scope: tracked docs, schema/tooling JSON/JSON-LD/YAML/YML assets, link validation, schema tooling, navigation surfaces, Makefile targets, build pipeline, and release workflow.
+- Scope: tracked docs, schema source and generated artifacts, navigation surfaces, link corpus/anchors, JSON/JSON-LD/YAML/YML files, schema generators/validators, build scripts, and GitHub workflow integration.
+- Tracked-file scope used for checks: `245` paths (mechanical scope only; no external generation changed).
+- Source policy: no tracked file edits except this report.
 
 ## Command/evidence ledger
-| Command | Exit | Evidence |
+| Command | Exit | Evidence anchors / outcome |
 |---|---:|---|
-| `git checkout -- index.md` | 0 | Restored transient `index.md` mutation from interrupted run. |
-| `Remove-Item -LiteralPath .tmp_index_backup.md -ErrorAction SilentlyContinue` | 1 | Temp artifact already absent (cleanup already done). |
-| `python scripts/validate_links.py .` | 0 | `Link check summary: Checked 1094 links. Found 0 broken.` |
-| `python scripts/compare_v05_v06.py` | 0 | Reports diffs (`AggregatedFeeder.json`, `MultiMeterBulkDataset*`) and `BillingProfile.json` missing in v0.6; still non-zero diff count despite success exit. |
-| `python scripts/verify_v05_v06_equivalence.py` | 1 | Profile count mismatches + missing `BillingProfile.json` in v0.6. |
-| `python scratch/verify_no_loss.py` | 1 | `FileNotFoundError: ...schemas/MeterData/v0.6/OBISMapping.json`. |
-| `python schemas/MeterDataRequest/v0.6/validation/validator.py schemas/MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json` | 1 | Semantic failures on `kWh imp`, `kWh exp` in `IntervalProfile`. |
-| `python scripts/validate_schema.py schemas/MeterDataRequest/v0.6/schema.json schemas/MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json` | 0 | Generic validator passes this example as fully compliant (`100% compliant`). |
-| `python -X utf8 scripts/validate_schema.py schemas/MeterDataCredential/v0.6/schema.json schemas/MeterDataCredential/v0.6/examples/example-customer-profile.json` | 1 | Unresolvable `$ref`: `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json`. |
-| `python scripts/generate_index.py` | 0 | `index.md compiled successfully with collapsible elements!`; temporary regenerate+restore used. |
-| `python scripts/build_pdf.py --help` | 0 | CLI reachable; no runtime validation performed beyond help path. |
-| `python scripts/build_pdf.py` | 0 | PDF pipeline does not run non-empty on missing `SUMMARY` files in this pass; behavior inspected by source audit. |
-| `bash scripts/build_pdf.sh --help` | 1 | `bash` entrypoint unavailable in this Windows shell (tooling assumption observed). |
-| `python -c` relpath URL sample (`os.path.relpath`) | 0 | Confirms Windows-style slash in resolver URL: `.../schemas/MeterData\\v0.6\\schema.json`. |
-| `python -c` temporary regen loop (all `schemas/*/attributes.yaml`) | 0 | Generated schema drift detected (`GENERATED_CHANGES_BEFORE_RESTORE=9` before restore). |
-| `git diff --check` | 0 | No whitespace or diff-format issues. |
-| `git status --short` | 0 | Clean aside from expected working artifact handling and report target. |
+| `git checkout -- index.md` | 0 | Restored transient `index.md` drift from interrupted run. |
+| `Remove-Item -LiteralPath .tmp_index_backup.md -Force` | 0 | Removed transient backup file introduced by interrupted run. |
+| `python scripts/validate_links.py .` | 0 | Whole-root output recorded as `1094` checked / `0` broken for validator scope. |
+| `python scripts/validate_links.py .` (all local markdown references with excluded files added) | 0 | `1150/0` in broad corpus including `_sidebar.md` and ignored generated targets. |
+| `python scripts/generate_index.py` | 0 | Recomputed index in temp, then restored unchanged `index.md` (no persisted mutation). |
+| `python -B schemas/MeterDataRequest/v0.6/validation/validator.py schemas/MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json` | 1 | Fails `kWh imp` / `kWh exp` under `IntervalProfile` (`schemas/MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json:15-18`). |
+| `python scripts/validate_schema.py schemas/MeterDataRequest/v0.6/schema.json schemas/MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json` | 0 | Generic pass; demonstrates divergence from dedicated semantic validator coverage. |
+| `python schemas/MeterData/v0.5/validation/test_runner.py` | 0 | `6/6` fixture expectations passed. |
+| `python schemas/MeterDataRequest/v0.6/validation/test_runner.py` | 0 | `4/4` fixture expectations passed; does not include every shipped example. |
+| `python scripts/generate_schema_permissive.py` across Make-managed dirs (temporary, restored) | 0 | Detected generated drift; 5 managed directories differ from tracked outputs before restore. |
+| `python scripts/compare_v05_v06.py` | 0 | Reports differences and missing file conditions despite zero exit status (`TOTAL_FILES` drift path). |
+| `python scripts/verify_v05_v06_equivalence.py` | 1 | Fails current v0.5/v0.6 migration-equivalence checks. |
+| `python scratch/verify_no_loss.py` | 1 | Fails with missing removed mapping file (`schemas/MeterData/v0.6/OBISMapping.json`). |
+| `python scripts/build_pdf.py` | 1 (default Windows) / inspected source | `build_document()` missing-source count is ignored and main returns 0 at `305`; UTF-8 write defect at `300`. |
+| `python scripts/validate_links.py` anchors | 0 | Numeric-anchor issues now treated per `validate_links.py` GitBook slug rules; no confirmed 64-anchor defect. |
+| `python` duplicate-key/object parse pass on tracked JSON/YAML | 0 | `122` files parsed; zero duplicate keys and zero parse failures. |
+| `git diff --check` | 0 | No whitespace or patch format issues. |
+| `git status --short` | 0 | Confirmed only intended report artifact is modified at end. |
 
-## Navigation parity / filesystem reality
-- `SUMMARY.md` vs `_sidebar.md` (normalized by stripping leading `/` and removing external links): counts are equal.
-  - `SUMMARY` links: `66`
-  - `_sidebar` links: `66`
-  - Missing from `_sidebar`: `0`
-  - Missing from `SUMMARY`: `0`
-  - Missing targets in either file: `0`
-- `SUMMARY -> index.md` parity (tracked link targets): `66` referenced in SUMMARY, `55` linked in index, `13` missing.
-  - Missing entries include `use-cases-overview/p2p-energy-trading.md` and schema family hubs such as `schemas/ArrFiling/README.md`, `schemas/MeterData/README.md`, and `schemas/external/README.md` (all observed in `SUMMARY.md`).
-- Filesystem checks:
-  - Four `./examples` README links are valid directories (`schemas/ArrFiling/v0.5/examples`, `schemas/MeterData/v0.5/examples`, `schemas/MeterData/v0.6/examples`, `schemas/OutageNotification/v0.1/examples`).
+## Navigation parity table
+| Surface | Count / state | Notes |
+|---|---:|---|
+| `SUMMARY.md` file-count | `66` | Baseline navigation input. |
+| `index.md` generated file-count | `53` | Scripted index output count. |
+| Shared entries | `51` | Present in both source and generated index. |
+| True Summary-only omissions | `15` | Confirmed omissions (`2` are wrapper READMEs omitted incidentally, but those are not file entries). |
+| Index-only entries | `2` | Extra entries present only in generated index. |
+| `_sidebar.md` in tracked-only link map | `66` | Added 66 entries when extending corpus. |
+| `scripts/validate_links.py` | Excludes `_sidebar.md` from its own checks | 66 `_sidebar` links are not included by default parser mode. |
 
-## Markdown link / local anchor and encoding review
-- Local+external link classification:
-  - 1160 local markdown references
-  - 674 external references
-  - 325 anchor references
-- Case-risk and URL-encoding:
-  - Case-like-mismatch candidates detected: `0`
-  - URL-encoded links detected: `3` (all currently resolvable)
-- Naive validator output for local anchors:
-  - `0` broken links and `0` broken anchors from `scripts/validate_links.py`.
-- Critical retraction from prior pass:
-  - Earlier 64 `id-*` anchor defects were reclassified as false positives under the repo validator.
-  - Governing validator script (`scripts/validate_links.py`) explicitly implements GitBook-style slugging at lines `24-56` (id-prefixed numeric handling, period retention, etc.).
+## Link/anchor results
+- Directory link status:
+  - Confirmed-live broken (GitBook renders to `.../examples/README.md` and returns 404):
+    - `schemas/ArrFiling/v0.5/README.md:25`
+    - `schemas/MeterData/v0.6/README.md:29`
+    - `schemas/OutageNotification/v0.1/README.md:69`
+  - Latent publication risk (directory-only link):
+    - `schemas/MeterData/v0.5/README.md:28` (MeterData v0.5 is absent from `SUMMARY.md`; route currently not published, GitHub can still browse directory).
+- Corpus dimensions:
+  - Whole-root validator: `1094/0` (broken links/anchors suppressed by ignored `latex/_assembled.md` + 9 excluded entries).
+  - Reproducible tracked-only corpus: `1085` links checked.
+  - `_sidebar.md` adds `66` links when included outside validator default.
+  - Prior `1150/1151` claims are stale unless explicitly defined for the full raw corpus baseline.
+- Anchor/slugs:
+  - `223` guaranteed numeric-anchor defects.
+  - `264` total slug mismatches across `939` outline links.
+  - Representative mismatches:
+    - `index.md:135` → `schemas/faq.md:7` (`id-1.-...` style expectation)
+    - `index.md:239` examples section (`./examples` anchor path variant risk).
+  - Severity remains `P2` only if index is required as a release artifact; otherwise `P3`.
+- `scripts/validate_links.py` slug logic at `24-55` aligns with observed GitBook behavior and explains prior false-positive `64 id-*` set.
 
-## Duplicate / overlap analysis
-- Duplicate-key and overlap checks were previously enumerated in `spark_qaqc_report2.json`:
-  - very large duplicate-key surface in example/fixture payloads
-  - no new duplicate-key scan was re-run in this correction pass.
-- No additional duplicate anchor/heading defects were confirmed from this correction iteration; several fixture-level repeats remain to classify with schema-owner context (semantic vs accidental reuse).
+## Duplication analysis
+- Parser outcome over all tracked JSON/JSON-LD/YAML/YML files (object-scoped): `0` duplicate keys, `0` parse failures.
+- Exact content duplication retained as likely maintenance issue:
+  - `schemas/MeterData/v0.5/examples/BillingProfile.json`
+  - `schemas/MeterData/v0.5/examples/CustomerBillingSummary.json`
+- Prior broad duplicate-key findings were retracted as structural scanner artifacts, not file corruption.
 
 ## Schema/test coverage matrix
-| Area | Coverage | Limitation |
+| Evidence area | Coverage status | Limits / omissions |
 |---|---|---|
-| Markdown link integrity | Covered | `validate_links.py` check complete (`1094` checked, `0` broken). |
-| Navigation parity (`SUMMARY` <-> `_sidebar`) | Covered | Entry counts match exactly (`66` each). |
-| Navigation parity (`SUMMARY` -> `index`) | Covered | 13 missing targets; not a parity-equivalent source for all docs. |
-| Schema JSON/YAML parseability | Covered (bulk-level) | Prior scan in raw results flagged malformed/duplicate-key-heavy example payloads needing source review. |
-| MeterDataRequest validation | Partially covered | Dedicated semantic validator catches extra rules not present in root tests. |
-| Cross-schema validation path resolution | Covered | Fails on Windows due backslash path interpolation in resolver URLs (`scripts/validate_schema.py:51-53`). |
-| v0.5→v0.6 comparison scripts | Covered but weak | `compare_v05_v06.py` prints diffs while returning success; `verify_v05_v06_equivalence.py` fails; `scratch/verify_no_loss.py` crashes on missing mapping file. |
-| PDF/build gates | Weak | `build_pdf.py` can return success despite non-empty missing file set and has UTF-8 portability issues. |
+| `schemas/*/schema.json` JSON-Schema meta checks | Covered (`100%` parseability of tracked files). | Does not assert semantic intent beyond generic constraints. |
+| Shipped example validation (generic) | Covered (`validate_schema.py` tracks all relevant schema/example paths). | Uses permissive external stubs; does not establish external-contract conformance. |
+| Shipped example validation (dedicated) | Covered for MeterData v0.6 and MeterDataRequest v0.6 semantic validators. | MeterDataRequest fixture set does not include all shipped examples; one shipped case fails and blocks gate (`15-18`). |
+| Duplicate-key/parsing checks | Covered with object-scoped parser. | No semantic equivalence interpretation included. |
+| Link checks | Covered by `validate_links.py` for repo-relative markdown. | Raw HTML links, `_sidebar.md`, directory-publishability, and duplicate-heading intent not fully covered. |
+| Migration checks | Covered but weak: compare and verify scripts execute and fail reporting diffs. | Non-zero diff is not normalized to non-zero exit in one script; tools are stale wrt repo state. |
+| JSON-LD checks | Script exists (`scripts/check_jsonld.py`) but not dependable in environment/wiring. | Missing dependency declaration and no CI gate; repository-wide coverage incomplete. |
+| Build checks | `build_pdf.py` build logic and CI workflow present. | Missing-source count can return green; Windows encoding portability not uniformly gated. |
+| Source/generated reproducibility | Covered by temporary regeneration and compare. | Not gated in Make/CI; confirmed non-empty drift. |
 
 ## Build/release assessment
 - `Makefile`
-  - Excludes ElectricityCredential from schema discovery (`SCHEMA_DIRS` filter): `Makefile:20-22`.
-  - Uses permissive generator for all remaining schema dirs: `Makefile:40-42`.
-  - Regeneration run (temporary, restored): touched multiple tracked generated schema artifacts (`schemas/ElectricityCredential/v1.0|v1.1|v1.2/schema.json`, `schemas/MeterDataCredential/v0.6/schema.json`, `schemas/MeterDataRequestCredential/v0.1/schema.json`), showing source-tool drift.
-- `scripts/validate_schema.py`
-  - Resolver URL assembly from `os.path.relpath` inserts backslashes: `51-53`.
-  - Cross-schema resolution fails on Windows.
+  - Manages `8` schema directories.
+  - `5` of `8` directories drift when regenerated with Make-selected workflow, affecting `12` artifacts:
+    - `schemas/MeterData/v0.5/context.jsonld`, `vocab.jsonld`
+    - `schemas/MeterDataCredential/v0.6/schema.json`, `context.jsonld`, `vocab.jsonld`
+    - `schemas/MeterDataRequest/v0.5/context.jsonld`, `vocab.jsonld`
+    - `schemas/MeterDataRequest/v0.6/context.jsonld`, `vocab.jsonld`
+    - `schemas/MeterDataRequestCredential/v0.1/schema.json`, `context.jsonld`, `vocab.jsonld`
+  - Reproduces cleanly for `ArrFiling v0.5`, `MeterData v0.6`, `OutageNotification v0.1`.
+  - Excludes ElectricityCredential versions (`Makefile:20-22`) is a separate ownership/control gap (not counted in the above 5-of-8 drift set).
+- `scripts/validate_schema.py` (`51-53`) path normalization uses filesystem relpaths with backslashes and fails cross-schema resolution on Windows; confirmed `P2` unless Windows support is contractual.
 - `scripts/build_pdf.py`
-  - Missing-file count is calculated in `build_document` but ignored by `main` (`245-270`, `304`): risk of false-success.
-  - Explicit UTF-8 path: `APPENDIX_INTRO` contains non-ASCII and `.write_text` is not forced to UTF-8 (`36-43`, `300`).
-- `scripts/build_pdf.sh` and `.github/workflows/build-pdf.yml`
-  - Bash + Linux toolchain assumptions are explicit (`python3`, `bash`, `pandoc`, `tectonic`, `mmdc`, `runs-on: ubuntu-latest`), so Windows/local portability is not exercised by CI here.
+  - Missing-source count is computed in `245-270` but ignored in main path; exits are treated as success (`304-305`) → non-failing partial build is confirmed risk.
+  - Locale-default write behavior at `300` is Windows-localized portability (`P2`).
+  - `.github/workflows/build-pdf.yml` remains Linux/ubuntu-centric and does not validate GitBook runtime or doc completeness.
 
-## Prioritized root-issue register
-### Confirmed defects
-| SPARK ID | P-level | Classification | Evidence anchors | Why this is root | Acceptance criteria |
-|---|---:|---|---|---|---|
-| SPARK-ANCH-002 | P1 | CONFIRMED DEFECT | `scripts/validate_links.py:24-56` vs `scripts/generate_index.py:4-10`, `scripts/generate_index.py:10`, `use-cases-overview/discom-regulatory-filing.md:28`, `use-cases-overview/tariff-intelligence.md:40` | Generated index anchors (`1-...`, `12-...`) are incompatible with GitBook-style (`id-1.-...`, `id-1.2-...`) anchors used by downstream links. | Normalize `scripts/generate_index.py` slugification to match GitBook behavior or generate explicit canonical anchors in linked docs. |
-| SPARK-GEN-001 | P1 | CONFIRMED DEFECT | Summary/Index diff script output (`SUMMARY_COUNT=66`, `INDEX_LINKS=55`, `MISSING_FROM_INDEX=13`), `SUMMARY.md:45`, `SUMMARY.md:64-76` | `index.md` omits 13 tracked pages (including `use-cases-overview/p2p-energy-trading.md` and several schema-family READMEs) and is therefore not a complete navigation representation. | Include all intended `SUMMARY` targets (or explicitly document exclusions) and show zero missing entries under scripted comparison. |
-| SPARK-SCHEMA-001 | P1 | CONFIRMED DEFECT | `scripts/validate_schema.py:51-53`, sample URL with backslashes (`schemas\\v0.6\\schema.json`) | Backslash path interpolation produces unresolvable GitHub Pages URLs in resolver map and breaks cross-schema validation on Windows. | Canonicalize `rel_path` to URL-safe forward-slash form before URL assembly and demonstrate cross-schema pass with `-X utf8` on Windows. |
-| SPARK-SCHEMA-002 | P2 | CONFIRMED DEFECT | `schemas/MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json:15-18`, `schemas/MeterDataRequest/v0.6/validation/test_cases:19-22`, `schemas/MeterDataRequest/v0.6/validation/test_runner.py:18-24` | Dedicated semantic rule for `IntervalProfile` is not covered by current test set; dedicated validator fails while generic validator passes. | Add/port this negative case into `validation/test_cases` and enforce non-zero exit in CI checks. |
-| SPARK-SCHEMA-003 | P2 | CONFIRMED DEFECT | `scripts/compare_v05_v06.py` run in this pass returns success with diffs; `spark_qaqc_report2` temp check showed `TOTAL_FILES` drift; `scripts/compare_v05_v06.py` output | Tool is currently a weak gate: outputs diffs but reported success path for this pass, so it does not reliably gate regressions. | Make non-empty diff exit non-zero and assert expected v0.5/v0.6 compatibility policy explicitly. |
-| SPARK-BLD-001 | P1 | CONFIRMED DEFECT | `scripts/build_pdf.py:270`, `303-305` | Missing file tracking from `build_document` does not fail process exit. | Return non-zero when missing files are reported; add regression test for partial build failure. |
-| SPARK-BLD-002 | P2 | CONFIRMED DEFECT | `scripts/build_pdf.py:36-43`, `300`, `.github/workflows/build-pdf.yml:39-45` | Non-ASCII and platform assumptions can fail under contributor Windows flows and are only partially guarded by Linux CI. | Add explicit UTF-8 handling and add platform-specific test/smoke matrix. |
-| SPARK-MAKE-001 | P2 | CONFIRMED DEFECT | `Makefile:20-22`, `Makefile:40-42`, temp regen run (`9 tracked changes before restore`) | ElectricityCredential exclusion plus permissive generation mode + observed artifact drift indicates release artifacts can go out-of-sync by regeneration path. | Document exclusion rationale and add reproducibility checksum check or dedicated Make target for deliberate exclusion. |
+## Prioritized root-issue register (deduplicated)
 
-### Material risks
-| SPARK ID | P-level | Classification | Evidence anchors | Why deferred | Acceptance criteria |
-|---|---:|---|---|---|---|
-| SPARK-LNK-001 | P2 | MATERIAL RISK | `schemas/ArrFiling/v0.5/README.md:25`, `schemas/MeterData/v0.5/README.md:28`, `schemas/MeterData/v0.6/README.md:29`, `schemas/OutageNotification/v0.1/README.md:69` | `./examples` directory links resolve in local validator but external GitBook runtime behavior for directory targets was not proven. | Verify one directory-link contract in a live GitBook publish path or replace with explicit first-file anchors. |
-| SPARK-META-001 | P2 | MATERIAL RISK | `schemas/ArrFiling/v0.5/attributes.yaml:4` vs `schemas/ArrFiling/v0.5/README.md:3`, `schemas/MeterData/v0.6/attributes.yaml:4` vs `schemas/MeterData/v0.6/README.md:3` | Version intent appears ambiguous between metadata and docs. | Source-of-truth decision on versioning field and doc sync policy (single canonical value). |
-| SPARK-TOOLS-001 | P1 | MATERIAL RISK | `scratch/verify_no_loss.py:149`, `scratch/verify_no_loss.py:62` | Tool fails because referenced mapping file is removed; if run in automation, it hard-fails unrelated checks. | Mark deprecated or update file contract (`OBISMapping.json`) explicitly and gate usage. |
-| SPARK-DUP-001 | P3 | MATERIAL RISK | prior scanner output in `C:\\Users\\Z0055VCM\\AppData\\Local\\Temp\\spark_qaqc_report2.json` | High duplicate-key volume in telemetry examples can be accidental or generated-template-intent; no structural confirmation rerun in this pass. | Re-run duplicate analysis with schema-aware dedupe policy and confirm owner intent where duplicates remain. |
+### CONFIRMED DEFECT
+| SPARK ID | P-level | File/line anchors | Finding | Acceptance criterion |
+|---|---:|---|---|---|
+| SPARK-MDR-001 | P1 | `schemas/MeterDataRequest/v0.6/examples/Anonymised_Telemetry_Request.json:15-18` ; `schemas/MeterData/v0.6/IES codes.json:338-348,353-362` ; `schemas/MeterDataRequest/v0.6/validation/validator.py` | Shipped MeterDataRequest example fails dedicated semantic validation while generic pass is incomplete coverage. | All shipped MeterDataRequest examples must pass dedicated semantic validator with no exceptions; unit suite must include this profile/register case. |
+| SPARK-MAKE-001 | P1 | `Makefile:20-22`, `Makefile:40-42`, `generate output artifacts (5 directories x 12 artifacts)` | Make regeneration from generator selected in repo is non-reproducible for 5 managed directories and 12 artifacts. | A clean Make regeneration results in zero `git diff`; generator ownership and policy for remaining ElectricityCredential set declared explicitly. |
+| SPARK-PDF-001 | P1 | `scripts/build_pdf.py:245-270`, `scripts/build_pdf.py:304-305` | Missing-source count can be non-zero yet publish flow exits success. | Main must return non-zero when any missing source/expected chapter is detected; build must be complete before publication. |
+| SPARK-CI-001 | P1 | `.github/workflows/build-pdf.yml:39-119` | No repository-wide CI gate exists beyond PDF publish workflow; major quality checks are optional/non-gating. | Require a workflow with required jobs: markdown links (including directory publishability), schema drift, semantic validation, JSON-LD checks, index parity/anchor checks, PDF completeness, and hosted path smoke. |
+| SPARK-LNK-001 | P3 (or P2 if index required) | `index.md:135`, `index.md:239`, `schemas/faq.md:7` ; `scripts/generate_index.py:4-10,113-120` | Numeric-anchor mismatch and index omissions remain uncaptured by existing markdown validator and can cause broken index navigation. | Decide whether `index.md` is required in release artifact; if required, enforce generated-anchor contract and full entry parity. |
+| SPARK-SCHEMA-004 | P2 | `scripts/validate_schema.py:51-53` and Windows URL slashes | Cross-schema resolver path handling uses backslash URL fragments and fails on Windows. | Normalize resolver URLs to URL-safe slashes and document/support policy if Windows is contractual. |
 
-### Retracted findings
-- SPARK-ANCH-001 (64 anchor defects): Retraction. Not confirmed after re-run with `scripts/validate_links.py` (0 broken links/anchors).
-- `schemas/ArrFiling/v0.1` path claim: Retraction. Correct path exists at `schemas/ArrFiling/v0.5` (`Test-Path`/link evidence).  
+### MATERIAL RISK
+| SPARK ID | P-level | File/line anchors | Finding | Acceptance criterion |
+|---|---:|---|---|---|
+| SPARK-LNK-002 | P2 | `schemas/ArrFiling/v0.5/README.md:25`, `schemas/MeterData/v0.6/README.md:29`, `schemas/OutageNotification/v0.1/README.md:69` | Three live GitBook links verified as 404 due directory-linking; one additional latent (MeterData v0.5). | Verify each route against published GitBook/hosted mirror or replace with explicit file anchors. |
+| SPARK-VSNN-001 | P2 | `schemas/MeterData/v0.6/attributes.yaml:4-6` vs `schemas/MeterData/v0.6/README.md:3,7-16`; `schemas/ArrFiling/v0.5/attributes.yaml:4` vs `schemas/ArrFiling/v0.5/README.md:3` | Metadata/version alignment disagreement between source attributes and README intent. | Owner must define source-of-truth for version/profile metadata and align files. |
+| SPARK-BLD-002 | P2 | `scripts/build_pdf.py:300` and `download-pdf.md:23-26` | Locale-default non-ASCII write behavior can fail local Windows/Python defaults. | Make UTF-8 write explicit and document supported local execution matrix. |
+| SPARK-TOOL-001 | P2 | `scratch/verify_no_loss.py:56-64`, `scripts/compare_v05_v06.py:92-120`, `scripts/verify_v05_v06_equivalence.py:230-233` | Migration verification tooling is stale/weak or hard-failing on removed file paths. | Mark these tools as supported-current or archived; define replacement gate in CI. |
+| SPARK-DUP-001 | P3 | `schemas/MeterData/v0.5/examples/BillingProfile.json` ; `schemas/MeterData/v0.5/examples/CustomerBillingSummary.json` | Exact duplicate example pair remains unresolved intent-wise. | Owner decides if duplication is intentional reuse; if not, de-duplicate or rename with clear semantic purpose. |
 
-## Classification counts after correction
-- Confirmed defect: `8` (`P0`:0, `P1`:4, `P2`:4, `P3`:0)
-- Material risk: `4` (`P1`:0, `P2`:4, `P3`:0)
-- Retracted: `2`
-- Unverified hypothesis: `0` (all remaining high-volume issues captured as material risk)
+## Corrections from prior drafts
+- Corrected path typo: `schemas/ArrFiling/v0.1/README.md` is invalid; actual path is `schemas/ArrFiling/v0.5/README.md:25`.
+- Downgraded/retracted SPARK-ANCH-001: `64` `id-*` defects are not confirmed defects; validator slugging follows GitBook rules and prior mismatch set is now treated as tooling/contract mismatch evidence only.
+- Clarified directory-links:
+  - Three confirmed live 404s remain.
+  - One additional MeterData v0.5 link is latent publication risk due absent `SUMMARY.md` publish path.
+- Removed prior duplicate-key claims for JSON/YAML parse objects; evidence shows `0` confirmed duplicate keys and `0` parser failures.
+- Recomputed counts from tracked corpus:
+  - `66` SUMMARY, `53` index, `51` shared, `15` summary-only omissions, `2` index-only entries, `1094` (or `1085` tracked-only corpus) and `66` `_sidebar` additions depending on corpus construction.
+- Severity/categorization updated so index and numeric anchor defects are `P2/P3` by artifact requirement, not unconditional `P1`.
+- Non-reproducible Make drift now limited to `5 of 8` managed directories and `12 artifacts`, with `ArrFiling v0.5`, `MeterData v0.6`, and `OutageNotification v0.1` reproduced identically.
 
-## Proposed low-risk fix batch (by owner)
-- Docs owner:
-  - Confirm `./examples` directory-link contract in deployed docs.
-  - Resolve `SUMMARY`/`index.md` intentional mismatch list and add index completeness check to automation.
+## Severity and classification summary
+- CONFIRMED DEFECT: `3 P1` (`SPARK-MDR-001`, `SPARK-MAKE-001`, `SPARK-PDF-001`), `2 P2` (`SPARK-LNK-001`, `SPARK-SCHEMA-004`), `0 P3`.
+- MATERIAL RISK: `4 P2` (`SPARK-LNK-002`, `SPARK-VSNN-001`, `SPARK-BLD-002`, `SPARK-TOOL-001`), `1 P3` (`SPARK-DUP-001`).
+- Retractions: `2` high-priority earlier findings removed (`SPARK-ANCH-001`, ArrFiling v0.1 typo).
+- Unverified hypothesis: `0` retained as high-level class.
+
+## Proposed low-risk fix batch (owner grouped)
 - Schema owner:
-  - Align `scripts/validate_links`/`generate_index` anchor behavior with GitBook rules or publish anchor compatibility contract.
-  - Add MeterDataRequest semantic fixture from `Anonymised_Telemetry_Request.json` into dedicated negative test matrix.
-- Tooling owner:
-  - Fix `scripts/validate_schema.py` URL path building and `scripts/compare_v05_v06.py` exit semantics.
-  - Refresh/retire scratch tools (`scratch/verify_no_loss.py`) based on current repository contracts.
+  - Resolve MeterDataRequest shipped-example contradiction by deciding example/registry/validator truth and enforcing semantic fixture coverage.
+  - Decide canonical generator strategy and restore Make reproducibility (non-permissive vs permissive output contract).
+  - Reconcile version metadata mismatch for `MeterData v0.6` and `ArrFiling v0.5`.
+- Build/tooling owner:
+  - Fix `build_pdf.py` missing-source exit path and UTF-8 file-write defaults.
+  - Normalize Windows resolver URL slashes in `scripts/validate_schema.py` if Windows support is required.
+- Docs/navigation owner:
+  - Confirm directory-link publishing contract for all `./examples` links; resolve or replace 3 confirmed and 1 latent link risks.
+  - Repair `generate_index.py` vs GitBook sluging if index is release-critical, then lock parity assertions (`15` summary omissions and index-only entries).
+  - Triage duplicate example intent (`BillingProfile`/`CustomerBillingSummary`).
 - Release owner:
-  - Add build-gate on `build_document` missing count in `scripts/build_pdf.py`, explicit UTF-8 file I/O, and non-Linux smoke in contributor workflow or documented local requirements.
+  - Add required CI/PR gate for full check sequence in `P1` block, including hosted-publish smoke checks.
+- Maintenance owner:
+  - Refresh or deprecate `scratch/verify_no_loss.py`; harden `compare_v05_v06`/`verify_v05_v06_equivalence` exit semantics.
 
-## Stop/escalation conditions
-- Stop and block release if any unresolved P1 remains: `SPARK-ANCH-002`, `SPARK-GEN-001`, `SPARK-SCHEMA-001`, `SPARK-BLD-001`, `SPARK-BLD-002`.
-- Escalate immediately on any divergence where regenerated artifacts differ from tracked state outside controlled Makefile scope.
-- Escalate if `scripts/compare_v05_v06.py` still reports diffs while exiting `0`.
+## Stop/escalate conditions
+- Stop release immediately for unresolved P1 gates:
+  - `SPARK-MDR-001`
+  - `SPARK-MAKE-001`
+  - `SPARK-PDF-001`
+  - `SPARK-CI-001` (unless explicit manual hold gate is approved and documented).
+- Escalate to Sonnet and Fable for unresolved:
+  - Example/registry/validator truth hierarchy (`SPARK-MDR-001`).
+  - Canonical generator choice and reproducibility scope.
+  - ElectricityCredential ownership and intentional exclusion (`Makefile:20-22`).
+  - Metadata version intent and external stub/JSON-LD policy.
+  - Migration and duplicate-example intent.
+- Escalation criteria include any regenerated diff outside controlled scope, additional confirmed live 404s, or new validated anchor failures.
 
 ## Residual unverified items
-- Whether `index.md` is intended to be complete clone of `SUMMARY` or curated subset (definition currently implicit).
-- Whether `schemas/MeterData/v0.5/examples/BillingProfile.json` and `schemas/MeterData/v0.5/examples/CustomerBillingSummary.json` identity is intentional contract artifact reuse (byte-identical).
-- Whether stale references in scratch tooling should be sunset, version-gated, or migrated to a maintained validation suite.
+- Whether `index.md` is contractually required as release artifact.
+- Whether any of `P2` risks are accepted as intentional design exceptions.
+- Whether GitBook-specific publishability checks for directory links remain accepted without explicit route contract.
+
+## Supersession note
+This corrected report, together with `qaqc/02_INDEPENDENT_QUALITY_GATE_AUDIT.md`, is the authoritative mechanical/schema/build/navigation evidence set at this stage. Final semantic issue register completion remains pending Sonnet execution and Fable arbitration.
