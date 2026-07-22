@@ -30,7 +30,7 @@ Before reading a single schema file, get a correct mental model of what IES is (
 ### Execution Guidance
 1. Read [What IES Is](../README.md) for the plain-language explanation of the problem IES solves and the UPI-style analogy it uses.
 2. Note the three-step spine: **Register** (verifiable digital identity), **Discover** (Beckn-protocol interaction), **Exchange** (schemas, taxonomy, verifiable credentials). Nearly every specification page in this GitBook is filed under one of these three steps.
-3. If your research concerns what IES deliberately does **not** do, also read the companion "What IES Is Not" page linked from the same section — this heads off a common category of misreading in policy commentary.
+3. If your research concerns what IES deliberately does **not** do, also read the companion [What IES is not](../README.md#what-ies-is-not) section — this heads off a common category of misreading in policy commentary.
 
 ### References & Anchors
 * [What IES Is](../README.md)
@@ -48,7 +48,7 @@ Before reading a single schema file, get a correct mental model of what IES is (
 
 ### Execution Guidance
 1. **The GitBook** — this repository itself (`ies-accelerator`) is the canonical, rendered specification set. Start from [What IES Provides](../what-ies-provides/README.md), which indexes Register, Discover, Exchange and the Schemas.
-2. **The sandbox** — the pilot environment referenced throughout the concepts pages, used by the four pilot DISCOMs to demonstrate live use cases (see Phase 3 below for the documented outcomes).
+2. **The sandbox** — the pilot environment referenced in [Pilots and Status](../README.md#pilots-and-status), used by the four pilot DISCOMs to demonstrate live use cases (see Phase 3 below for the documented outcomes).
 3. Confirm you can navigate from [What IES Provides](../what-ies-provides/README.md) down into a schema family folder (e.g. `schemas/MeterData/`) so that Phase 2 is a matter of reading, not searching.
 
 ### References & Anchors

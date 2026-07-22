@@ -84,14 +84,14 @@ Families whose source of truth is upstream (e.g. `beckn/DEG` for ElectricityCred
 
 ## Standards precedence
 
-Every schema in IES records, per field, the standard that governs it. The IES order of preference is fixed:
+Every IES schema follows the same fixed standards order of preference, whether or not it separately annotates individual fields with their governing standard:
 
 1. **Bureau of Indian Standards (IS)** — e.g. IS 16444 for smart meters, IS 15959 for DLMS/COSEM.
 2. **CEA Regulations** and the **Indian Electricity Grid Code (IEGC)**.
 3. **International Electrotechnical Commission (IEC)** — CIM (IEC 61968 distribution, IEC 61970 transmission/DER), IEC 62056 (DLMS/COSEM).
 4. **Institute of Electrical and Electronics Engineers (IEEE)** — IEEE 1547 (DER interconnection), IEEE 2030.5 (Smart Energy Profile), IEEE 1366 (SAIDI/SAIFI), IEEE 1782 (outage causes).
 
-The precedence is recorded as the machine-readable `x-standards-precedence` map at the root of every JSON Schema: `{ IS:1, CEA:2, IEGC:2, IEC:3, IEEE:4 }`. Per-field standard provenance is in the `x-standard` annotation on every property.
+Per-field standard provenance, where recorded, uses a singular `x-standard` annotation on the property; today that annotation appears in two of the eleven schema-version directories (`ElectricityCredential/v1.2`, `OutageNotification/v0.1`). No schema declares a machine-readable `x-standards-precedence` map — the numbered order above is the precedence IES applies.
 
 Where no Indian standard applies, an international one is used and the gap is recorded — see the standards-basis notes on each family page and the **§6 Where Indian Standards Do Not Yet Exist** section in every use-case guide.
 

@@ -76,7 +76,7 @@ The script exercises every path on the checklist above against a sandbox peer an
 You have no Beckn devkit and no counterparty, so conformance is self-contained — run the [§2.9 smoke test](issue-credentials.md#id-2.9-smoke-test) end-to-end:
 
 1. Issue a credential with your adapter (or OpenCred directly).
-2. Validate the `credentialSubject` against the canonical JSON Schema (`python3 scripts/validate_schema.py schemas/<Credential>/<version>/schema.json out.json`).
+2. Validate the credential document (`out.json`) against the canonical credential-root JSON Schema (`python3 scripts/validate_schema.py schemas/<Credential>/<version>/schema.json out.json`).
 3. Resolve your own `did:web` over HTTPS and confirm the published key verifies the credential's `proof`.
 4. Check revocation status (not revoked), revoke, re-check (revoked).
 

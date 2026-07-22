@@ -58,7 +58,7 @@ Every item — consumer, connection, each meter, each asset — carries a [DID](
 
 ## 5. Basis of Standards
 
-Fixed order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE** (recorded in field tables and as `x-standards-precedence` at the schema root).
+Fixed order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE**, recorded in the field tables below.
 
 | Standard | Role here |
 |---|---|
@@ -156,4 +156,4 @@ A single-phase LT-Domestic connection with a 5 kW PV array on a 5 kVA inverter a
 
 ## Annexure C — JSON Schema
 
-Canonical: `https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/` — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json) (Draft 2020-12), [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/context.jsonld), [`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/vocab.jsonld). Each field's governing standard is recorded as `x-standards`; the §5 precedence is `x-standards-precedence { IS:1, CEA:2, IEGC:2, IEC:3, IEEE:4 }`.
+Canonical: `https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/` — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json) (Draft 2020-12), [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/context.jsonld), [`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/vocab.jsonld). ElectricityCredential v1.2 is one of two schema-version directories (of eleven across IES) that annotates individual fields with their governing standard, via the singular `x-standard` property; the §5 order of preference (`IS → CEA Regulations / IEGC → IEC → IEEE`) applies regardless of whether a given schema carries that annotation.

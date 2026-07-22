@@ -55,7 +55,7 @@ See **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-da
 
 ## 5. Basis of Standards
 
-Fixed order of preference: **IS → CEA → IEC → IEEE**.
+See [Schemas — Standards precedence](../schemas/README.md#standards-precedence) for the fixed IES order of preference.
 
 | Standard | Role here |
 |---|---|
