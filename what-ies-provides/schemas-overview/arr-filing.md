@@ -87,15 +87,20 @@ ArrFiling relates to other IES records at the transport level: it is carried as 
 
 ArrFiling is built from three logical blocks:
 
-- **ArrFiling** — global filing metadata: filing identity, licensee and regulator, control period, currency/scale, status, and the list of fiscal years.
-- **ArrFiscalYear** — one fiscal year's classification (base year, control-period year, or historical) and amount basis (audited, approved, proposed, trued-up, or not filed), plus its list of line items.
-- **ArrLineItem** — one cost, revenue, subtotal or adjustment row: its category and sub-category, its form heading and description, its amount, and how it rolls up into other line items.
+| Block | What it contains |
+|---|---|
+| **ArrFiling** | global filing metadata: filing identity, licensee and regulator, control period, currency/scale, status, and the list of fiscal years |
+| **ArrFiscalYear** | one fiscal year's classification (base year, control-period year, or historical) and amount basis (audited, approved, proposed, trued-up, or not filed), plus its list of line items |
+| **ArrLineItem** | one cost, revenue, subtotal or adjustment row: its category and sub-category, its form heading and description, its amount, and how it rolls up into other line items |
 
 The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [ArrFiling v0.5 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5#field-reference).
 
 ## 9. Schedule II
 
-ArrFiling is stand-alone. It is a payload schema in its own right and does not wrap or depend on another IES schema. It is not a Verifiable Credential and defines no VC wrapper; when it travels over Beckn Data Exchange, the signature is applied to the transport envelope, not to a credential structure defined by ArrFiling itself.
+| Wrapping / dependency | Detail |
+|---|---|
+| Not applicable | ArrFiling is stand-alone. It is a payload schema in its own right and does not wrap or depend on another IES schema. |
+| Not a Verifiable Credential | It defines no VC wrapper; when it travels over Beckn Data Exchange, the signature is applied to the transport envelope, not to a credential structure defined by ArrFiling itself. |
 
 ## 10. How It Fits Together
 

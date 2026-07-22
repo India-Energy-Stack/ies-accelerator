@@ -87,11 +87,17 @@ One signed artefact per policy — addressable by `policyID`, pinned by `id`, si
 
 ## 8. Schedule I — Static Fields of the Policy
 
-Field tables are defined upstream in [`IES_Policy` / `IES_Program` / `EnergySlab` / `SurchargeTariff`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/attributes.yaml). Once the schema moves to `schemas/Tariff/v0.x/` in this repo, the generated field reference becomes canonical.
+| Reference | What it covers |
+|---|---|
+| [`IES_Policy` / `IES_Program` / `EnergySlab` / `SurchargeTariff`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/attributes.yaml) | Field tables defined upstream. |
+
+Once the schema moves to `schemas/Tariff/v0.x/` in this repo, the generated field reference becomes canonical.
 
 ## 9. Schedule II — Report Templates
 
-Not applicable — a tariff is consumed by computation, not templating. The closest analogue is a derived rate card (a flattened slab × ToD view), produced by a billing implementation for display, not a separate schema.
+| Wrapping / dependency | Detail |
+|---|---|
+| Not applicable | A tariff is consumed by computation, not templating. The closest analogue is a derived rate card (a flattened slab × ToD view), produced by a billing implementation for display, not a separate schema. |
 
 ## 10. How It Fits Together
 

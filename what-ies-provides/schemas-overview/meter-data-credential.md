@@ -101,14 +101,22 @@ It is issued by the provider — an AMISP, an MDM system, or a DISCOM performing
 
 MeterDataCredential is built from two logical blocks:
 
-- the **credential envelope** — inherited from EnergyCredential v2.0: `issuer` (id, name, licence number), `validFrom`/`validUntil`, `credentialStatus`, and `proof`; none of these are redefined in this schema's own `attributes.yaml` — they arrive entirely via the `allOf` reference;
-- **`credentialSubject`** — defined by this schema: the subject `id` (DID of the consumer or asset entity, optional) and `meterData` (required), the attested MeterData v0.6 payload (a single profile object or an array of profile objects, per the `oneOf` in MeterData's own root schema).
+| Block | What it contains |
+|---|---|
+| **credential envelope** | inherited from EnergyCredential v2.0: `issuer` (id, name, licence number), `validFrom`/`validUntil`, `credentialStatus`, and `proof`; none of these are redefined in this schema's own `attributes.yaml` — they arrive entirely via the `allOf` reference. |
+| **`credentialSubject`** | defined by this schema: the subject `id` (DID of the consumer or asset entity, optional) and `meterData` (required), the attested MeterData v0.6 payload (a single profile object or an array of profile objects, per the `oneOf` in MeterData's own root schema). |
 
 The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterDataCredential v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6#field-reference).
 
 ## 9. Schedule II
 
-MeterDataCredential is not stand-alone. It wraps a MeterData v0.6 payload inside `credentialSubject.meterData`: the credential provides the verifiable envelope (identity, validity, proof, revocation), and the MeterData schema provides the substance (customer, interval, daily, monthly, bill-details, instantaneous, event, alarm, or descriptor profiles). The `$ref` in `attributes.yaml` points at MeterData's own `attributes.yaml` component directly (`.../MeterData/v0.6/attributes.yaml#/components/schemas/MeterData`), so the two schemas are compiled together rather than loosely coupled. Validating a MeterDataCredential instance requires checking both — the credential envelope and the embedded MeterData payload against its own schema — and, one level up, the credential envelope itself is inherited from (wrapped by reference to) EnergyCredential v2.0, so a complete validation chain touches three schema documents: EnergyCredential v2.0, MeterDataCredential v0.6, and MeterData v0.6.
+| Aspect | Detail |
+|---|---|
+| Stand-alone? | No — MeterDataCredential is not stand-alone. It wraps a MeterData v0.6 payload inside `credentialSubject.meterData`. |
+| Division of labour | The credential provides the verifiable envelope (identity, validity, proof, revocation), and the MeterData schema provides the substance (customer, interval, daily, monthly, bill-details, instantaneous, event, alarm, or descriptor profiles). |
+| How coupled | The `$ref` in `attributes.yaml` points at MeterData's own `attributes.yaml` component directly (`.../MeterData/v0.6/attributes.yaml#/components/schemas/MeterData`), so the two schemas are compiled together rather than loosely coupled. |
+| Validation | Validating a MeterDataCredential instance requires checking both — the credential envelope and the embedded MeterData payload against its own schema. |
+| Inherits from | One level up, the credential envelope itself is inherited from (wrapped by reference to) EnergyCredential v2.0, so a complete validation chain touches three schema documents: EnergyCredential v2.0, MeterDataCredential v0.6, and MeterData v0.6. |
 
 ## 10. How It Fits Together
 

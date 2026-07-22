@@ -88,15 +88,19 @@ No Verifiable Credential by default. Each exchange produces: a **signed Beckn co
 
 ## 8. Schedule I — Static Fields of the Data Exchange
 
-- **[MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** — the payload (eight compact profiles)
-- **[MeterDataRequest v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6)** — the query shape
-- **[MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** — the optional authorisation VC
+| Reference | What it is |
+|---|---|
+| **[MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** | The payload (eight compact profiles) |
+| **[MeterDataRequest v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6)** | The query shape |
+| **[MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** | The optional authorisation VC |
 
 For Indian-terminology mapping, see **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)**.
 
 ## 9. Schedule II — Reportee Templates (optional)
 
-Several deployments produce derived reports from the raw stream — feeder-aggregated profiles, anonymised responses, billing summaries — documented as example payloads, not separate schemas. See [`MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples).
+| Wrapping / dependency | Detail |
+|---|---|
+| Derived reports (optional) | Several deployments produce derived reports from the raw stream — feeder-aggregated profiles, anonymised responses, billing summaries — documented as example payloads, not separate schemas. See [`MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples). |
 
 ## 10. How It Fits Together
 

@@ -84,15 +84,23 @@ It relates to other IES records in two ways:
 
 The schema is built from these logical blocks:
 
-- the inherited **EnergyCredential v2.0 envelope** -- `issuer` (`id`, `name`, `licenseNumber`), `validFrom`/`validUntil`, `credentialStatus` (DeDi registry reference), and `proof` (the worked example uses `Ed25519Signature2020`);
-- **credentialSubject** (`MeterDataRequestCredentialSubject`) -- the DID of the requesting entity (`id`) and its one required, substantive field, `meterDataRequest`;
-- the embedded **MeterDataRequest object** (defined in the separate MeterDataRequest v0.6 family, required fields `from`, `duration`, `capabilitiesRequested`) -- `consumers`, `resources`, `scope`, `from`/`duration`, `consumerConsent`, `authorisation`, `capabilitiesRequested` (itself built from `MeterDataCapabilities` → `ProfileCapability` → `ValueCapability`, down to individual OBIS/short-code registers and telemetry modes), and the optional `maxRecordsShared` cap.
+| Block | What it contains |
+|---|---|
+| inherited **EnergyCredential v2.0 envelope** | `issuer` (`id`, `name`, `licenseNumber`), `validFrom`/`validUntil`, `credentialStatus` (DeDi registry reference), and `proof` (the worked example uses `Ed25519Signature2020`) |
+| **credentialSubject** (`MeterDataRequestCredentialSubject`) | the DID of the requesting entity (`id`) and its one required, substantive field, `meterDataRequest` |
+| embedded **MeterDataRequest object** (defined in the separate MeterDataRequest v0.6 family, required fields `from`, `duration`, `capabilitiesRequested`) | `consumers`, `resources`, `scope`, `from`/`duration`, `consumerConsent`, `authorisation`, `capabilitiesRequested` (itself built from `MeterDataCapabilities` → `ProfileCapability` → `ValueCapability`, down to individual OBIS/short-code registers and telemetry modes), and the optional `maxRecordsShared` cap |
 
 The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) for this credential is at [MeterDataRequestCredential v0.1 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1#field-reference); the fields of the object it wraps are documented at [MeterDataRequest v0.6 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6#field-reference).
 
 ## 9. Schedule II
 
-MeterDataRequestCredential does not stand alone in either direction. It **wraps** a `MeterDataRequest` payload inside its `credentialSubject`, and it is itself **wrapped by** (a subclass of) the DEG-published EnergyCredential v2.0, from which it inherits its envelope rather than redefining it. There is no separate Schedule II report template for this schema.
+MeterDataRequestCredential does not stand alone in either direction.
+
+| Aspect | Detail |
+|---|---|
+| Wraps | a `MeterDataRequest` payload inside its `credentialSubject` |
+| Wrapped by | (a subclass of) the DEG-published EnergyCredential v2.0, from which it inherits its envelope rather than redefining it |
+| Report template | There is no separate Schedule II report template for this schema |
 
 ## 10. How It Fits Together
 
