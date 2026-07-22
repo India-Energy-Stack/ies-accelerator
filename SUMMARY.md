@@ -3,6 +3,7 @@
 * [Home](README.md)
 * [Getting Started](getting-started.md)
 * [Glossary](glossary.md)
+* [FAQ](faq.md)
 * [Download PDF](download-pdf.md)
 
 ## What IES Provides
@@ -12,7 +13,7 @@
 * [Register](what-ies-provides/register.md)
 * [Discover](what-ies-provides/discover.md)
 * [Exchange](what-ies-provides/exchange.md)
-* [Energy Credentials](what-ies-provides/energy-credentials/README.md)
+* [Electricity Credentials](what-ies-provides/energy-credentials/README.md)
 * [Schemas Overview](what-ies-provides/schemas-overview/README.md)
   * [ElectricityCredential](what-ies-provides/schemas-overview/electricity-credential.md)
   * [MeterData](what-ies-provides/schemas-overview/meter-data.md)
@@ -21,7 +22,6 @@
   * [MeterDataRequestCredential](what-ies-provides/schemas-overview/meter-data-request-credential.md)
   * [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
   * [OutageNotification](what-ies-provides/schemas-overview/outage-notification.md)
-* [Taxonomy](what-ies-provides/taxonomy.md)
 
 ## How you implement IES
 
@@ -42,7 +42,7 @@
 * [DER Visibility](use-cases-overview/der-visibility.md)
 * [DISCOM Regulatory Filing](use-cases-overview/discom-regulatory-filing.md)
 * [Tariff Intelligence](use-cases-overview/tariff-intelligence.md)
-* [P2P Energy Trading](use-cases-overview/p2p-energy-trading.md)
+* [P2P Energy Exchange](use-cases-overview/p2p-energy-trading.md)
 
 ## Use Case Implementation Guides
 
@@ -54,11 +54,11 @@
 * [DER Visibility](use-cases/der-visibility/README.md)
 * [DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)
 * [Tariff Intelligence](use-cases/tariff-intelligence/README.md)
-* [P2P Energy Trading](use-cases/p2p-energy-trading/README.md)
+* [P2P Energy Exchange](use-cases/p2p-energy-trading/README.md)
 
-## Taxonomy
+## Schemas
 
-* [Taxonomy](schemas/README.md)
+* [Schemas](schemas/README.md)
   * [ElectricityCredential](schemas/ElectricityCredential/README.md)
     * [v1.2](schemas/ElectricityCredential/v1.2/README.md)
   * [MeterData](schemas/MeterData/README.md)
@@ -83,3 +83,4 @@
   * [Authority / Regulator Pathway](pathways/authority.md)
   * [Technology Service Provider (TSP) Pathway](pathways/tsp.md)
   * [Researcher / Analyst Pathway](pathways/researcher.md)
+* [Contributors](contributors.md)

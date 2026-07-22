@@ -230,4 +230,4 @@ Everything on this page turns into action in **[Setup Register](../how-you-imple
 |---|---|
 | Step 1 — Register *(this page)* | — |
 | Step 2 — [Discover](discover.md) | Beckn-protocol interaction |
-| Step 3 — [Exchange](exchange.md) | The Taxonomy and verifiable credentials |
+| Step 3 — [Exchange](exchange.md) | The schemas and verifiable credentials |

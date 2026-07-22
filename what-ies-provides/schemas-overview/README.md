@@ -37,4 +37,4 @@ Every page follows the same eleven numbered sections as a use-case guide, minus 
 
 ## Where this fits
 
-This page sits under **[Exchange](../exchange.md)**, alongside the [Taxonomy](../taxonomy.md) (the master schema map) and [Schemas](../../schemas/README.md) (the auto-generated technical reference).
+This page sits under **[Exchange](../exchange.md)**, alongside the [Schemas](../../schemas/README.md) reference (the master schema map and the auto-generated technical reference).

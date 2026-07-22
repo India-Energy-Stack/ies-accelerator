@@ -21,11 +21,13 @@ This document defines the **Consumer Energy Passport** — the holder-bound issu
 
 ## 2. What It Records / Covers
 
-- the consumer and issuing licensee;
-- the service connection, tariff category and sanctioned load;
-- the net meter, and a generation meter where used;
-- the distribution transformer, where known;
-- each energy resource behind the meter — solar, battery, EV charger, inverter, controllable load — with capacity, inspection status and equipment details.
+| Records | Detail | Source |
+|---|---|---|
+| Consumer & issuing licensee | The consumer and the DISCOM that issues the credential | ElectricityCredential v1.2 (`customerProfile`, `issuer`) |
+| Service connection | Tariff category and sanctioned load | ElectricityCredential v1.2 (`consumptionProfiles[]`) |
+| Meters | The net meter, and a generation meter where used | ElectricityCredential v1.2 (`energyResources[]`, type `METER`) |
+| Distribution transformer | Where known | ElectricityCredential v1.2 (`energyResources[]`, network equipment) |
+| Energy resources behind the meter | Solar, battery, EV charger, inverter, controllable load — with capacity, inspection status and equipment details | ElectricityCredential v1.2 (`energyResources[]`) |
 
 It records identity, capacity and status — **not live readings**, which are the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, linked by asset identifier (see [Consumer Meter Digest](consumer-meter-digest.md)).
 

@@ -28,7 +28,7 @@ These four use cases were [demonstrated by the four pilot DISCOMs](../concepts/w
 
 | Use case | Schema | Status |
 |---|---|---|
-| **[P2P Energy Trading](p2p-energy-trading/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
+| **[P2P Energy Exchange](p2p-energy-trading/README.md)** | [External — Energy Trading](../schemas/external/README.md) | Schema published; pilot integrations being staged |
 
 > **OutageNotification** — the schema is published ([v0.1](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1)), but there is no IES use-case guide for outage visibility yet. See the [OutageNotification family page](../schemas/OutageNotification/README.md) for the plain-language walkthrough of what the schema covers.
 
@@ -65,4 +65,4 @@ If you are a DISCOM implementing IES for the first time, the [Build your Interna
 
 - **[Register](../what-ies-provides/register.md)** · **[Discover](../what-ies-provides/discover.md)** · **[Exchange](../what-ies-provides/exchange.md)** — the three IES steps each use case combines.
 - **[How you implement IES](../how-you-implement-ies/README.md)** — the one-time setup that supports every use case.
-- **[Taxonomy](../schemas/README.md)** — schema map showing which schemas each use case combines.
+- **[Schemas](../schemas/README.md)** — schema map showing which schemas each use case combines.

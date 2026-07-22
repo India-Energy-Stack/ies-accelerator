@@ -1,4 +1,4 @@
-# Energy Credentials
+# Electricity Credentials
 
 The trust layer. W3C Verifiable Credentials, signed by a DISCOM's `did:web`, delivered through wallets (DigiLocker or DID-aware), a web portal, or any channel the issuer already runs. Credential flows stand on their own — issuing, holding and verifying a credential requires **no Beckn network**. This page is the **reference** for the credential lifecycle, the variants IES uses, and the trust model. The operational commands — run OpenCred, issue, verify, revoke — are in **[Issue Credentials](../../how-you-implement-ies/issue-credentials.md)**; identity prerequisites are in **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
 

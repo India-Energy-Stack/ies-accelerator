@@ -15,6 +15,10 @@ These documents provide a general introduction, terminology definitions, and lay
   <ul>
     <li><a href="README.md#india-energy-stack-accelerator">India Energy Stack — Accelerator</a>    <ul>
       <li><a href="README.md#how-ies-works-three-steps">How IES works — three steps</a></li>
+      <li><a href="README.md#what-ies-is-not">What IES is not</a></li>
+      <li><a href="README.md#what-ies-makes-possible">What IES makes possible</a></li>
+      <li><a href="README.md#what-ies-changes-for-the-sector">What IES changes for the sector</a></li>
+      <li><a href="README.md#who-should-participate">Who should participate</a></li>
       <li><a href="README.md#how-this-guide-is-organised">How this guide is organised</a>      <ul>
         <li><a href="README.md#what-ies-provideswhat-ies-providesreadmemd">[What IES Provides](what-ies-provides/README.md)</a></li>
         <li><a href="README.md#how-you-implement-ieshow-you-implement-iesreadmemd">[How you implement IES](how-you-implement-ies/README.md)</a></li>
@@ -22,7 +26,6 @@ These documents provide a general introduction, terminology definitions, and lay
       </li>
       </ul>
       <li><a href="README.md#where-to-start">Where to start</a></li>
-      <li><a href="README.md#why-ies">Why IES?</a></li>
       <li><a href="README.md#key-standards-and-protocols">Key standards and protocols</a></li>
       <li><a href="README.md#related-repositories">Related Repositories</a>
     </li>
@@ -126,6 +129,40 @@ These documents provide a general introduction, terminology definitions, and lay
   </li>
   </ul>
   </details>
+* **[faq.md](faq.md)**
+  - *Summary*: Running list of common questions and answers about IES — drawn from the IES Technical Note's Annexure A.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="faq.md#faq">FAQ</a>    <ul>
+      <ul>
+        <li><a href="faq.md#1-does-ies-replace-existing-systems">1. Does IES replace existing systems?</a></li>
+        <li><a href="faq.md#2-is-ies-only-for-connecting-to-other-organisations-or-also-for-internal-systems">2. Is IES only for connecting to other organisations, or also for internal systems?</a></li>
+        <li><a href="faq.md#3-will-ies-create-new-compliance-work">3. Will IES create new compliance work?</a></li>
+        <li><a href="faq.md#4-if-a-metering-system-has-just-been-integrated-is-that-work-wasted">4. If a metering system has just been integrated, is that work wasted?</a></li>
+        <li><a href="faq.md#5-where-does-the-data-go">5. Where does the data go?</a></li>
+        <li><a href="faq.md#6-is-ies-something-to-be-bought-and-installed">6. Is IES something to be bought and installed?</a></li>
+        <li><a href="faq.md#7-who-builds-the-connector">7. Who builds the connector?</a></li>
+        <li><a href="faq.md#8-does-ies-change-the-relationship-with-the-regulator">8. Does IES change the relationship with the regulator?</a></li>
+        <li><a href="faq.md#9-how-is-a-consumers-private-data-protected">9. How is a consumer's private data protected?</a></li>
+        <li><a href="faq.md#10-is-ies-live-or-still-on-paper">10. Is IES live, or still on paper?</a></li>
+        <li><a href="faq.md#11-some-functions-can-already-be-done-within-a-single-discom-why-is-ies-needed">11. Some functions can already be done within a single DISCOM. Why is IES needed?</a></li>
+        <li><a href="faq.md#12-what-does-the-consumer-receive">12. What does the consumer receive?</a></li>
+        <li><a href="faq.md#13-is-ies-still-relevant-for-an-organisation-that-mainly-wants-to-improve-existing-systems-rather-than-build-new-ones">13. Is IES still relevant for an organisation that mainly wants to improve existing systems rather than build new ones?</a></li>
+        <li><a href="faq.md#14-if-a-new-service-or-a-new-kind-of-device-is-added-later-does-the-process-start-over">14. If a new service or a new kind of device is added later, does the process start over?</a></li>
+        <li><a href="faq.md#15-does-ies-meet-cybersecurity-requirements-for-the-power-sector">15. Does IES meet cybersecurity requirements for the power sector?</a></li>
+        <li><a href="faq.md#16-does-ies-protect-personal-data">16. Does IES protect personal data?</a></li>
+        <li><a href="faq.md#17-what-does-a-discom-gain-commercially-from-ies">17. What does a DISCOM gain commercially from IES?</a></li>
+        <li><a href="faq.md#18-does-ies-support-large-or-bulk-data-transfers">18. Does IES support large or bulk data transfers?</a></li>
+        <li><a href="faq.md#19-who-adds-or-updates-the-specifications-and-standards">19. Who adds or updates the specifications and standards?</a></li>
+        <li><a href="faq.md#20-what-is-the-process-to-request-changes-to-the-published-specifications">20. What is the process to request changes to the published specifications?</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
 * **[download-pdf.md](download-pdf.md)**
   - *Summary*: Where to download the auto-published, always-current printable PDF of this entire guide, and how to build it locally.
   <details>
@@ -150,7 +187,7 @@ These documents provide a general introduction, terminology definitions, and lay
       <li><a href="SUMMARY.md#how-you-implement-ies">How you implement IES</a></li>
       <li><a href="SUMMARY.md#use-case-overviews">Use Case Overviews</a></li>
       <li><a href="SUMMARY.md#use-case-implementation-guides">Use Case Implementation Guides</a></li>
-      <li><a href="SUMMARY.md#taxonomy">Taxonomy</a></li>
+      <li><a href="SUMMARY.md#schemas">Schemas</a></li>
       <li><a href="SUMMARY.md#reference">Reference</a>
     </li>
     </ul>
@@ -279,7 +316,7 @@ This block handles digital attestations of connections, billing summaries, and c
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/energy-credentials/README.md#energy-credentials">Energy Credentials</a>    <ul>
+    <li><a href="what-ies-provides/energy-credentials/README.md#electricity-credentials">Electricity Credentials</a>    <ul>
       <li><a href="what-ies-provides/energy-credentials/README.md#why-credentials">Why credentials</a>      <ul>
         <li><a href="what-ies-provides/energy-credentials/README.md#lifecycle-at-a-glance">Lifecycle at a glance</a>
       </li>
@@ -311,55 +348,55 @@ This block handles digital attestations of connections, billing summaries, and c
   </details>
 
 ### 🔌 Use & Operations
-* **[digilocker.md](what-ies-provides/energy-credentials/digilocker.md)**
+* **[digilocker.md](how-you-implement-ies/digilocker.md)**
   - *Summary*: DigiLocker delivery: Pull URI, callback flow, signature pinning.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/energy-credentials/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#flow-overview">Flow Overview</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
+    <li><a href="how-you-implement-ies/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
+      <li><a href="how-you-implement-ies/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
+      <li><a href="how-you-implement-ies/digilocker.md#flow-overview">Flow Overview</a></li>
+      <li><a href="how-you-implement-ies/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
+        <li><a href="how-you-implement-ies/digilocker.md#step-1-register-on-api-setu">Step 1 — Register on API Setu</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-2-stand-up-opencred-and-your-issuer-did">Step 2 — Stand Up OpenCred and Your Issuer DID</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-3-register-the-pull-uri-endpoints-on-api-setu">Step 3 — Register the Pull URI Endpoints on API Setu</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#handler-logic-summary">Handler Logic Summary</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#routing-by-doctype">Routing by DocType</a>
+      <li><a href="how-you-implement-ies/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
+        <li><a href="how-you-implement-ies/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-4-call-opencred-to-issue-the-credential">Step 4 — Call OpenCred to Issue the Credential</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-5-package-the-pdf-and-vc-for-the-response">Step 5 — Package the PDF and VC for the response</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-6-return-the-pulluriresponse">Step 6 — Return the PullURIResponse</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#handler-logic-summary">Handler Logic Summary</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#routing-by-doctype">Routing by DocType</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v12">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
+      <li><a href="how-you-implement-ies/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v12">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
+        <li><a href="how-you-implement-ies/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#what-digilocker-needs-to-accept-for-v12">What DigiLocker needs to accept for v1.2</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
-        <li><a href="what-ies-provides/energy-credentials/digilocker.md#the-ask-to-digilocker-mpltr">The ask to DigiLocker (MPLTR)</a>
+      <li><a href="how-you-implement-ies/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
+        <li><a href="how-you-implement-ies/digilocker.md#schema-compliance-meterdatacredential-v06">Schema compliance — `MeterDataCredential` v0.6</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#example-a-twelve-month-statement-monthly-profile">Example — a twelve-month statement (`MONTHLY` profile)</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#example-raw-analytics-interval-profile-descriptor">Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#mapping-to-digilocker-as-it-works-today">Mapping to DigiLocker as it works today</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#the-one-real-gap-the-document-key">The one real gap — the document key</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#issuing-the-digest-meterdatacredential-v06">Issuing the Digest (`MeterDataCredential` v0.6)</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#what-the-consumer-can-do-with-it">What the consumer can do with it</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#the-ask-to-digilocker-mpltr">The ask to DigiLocker (MPLTR)</a>
       </li>
       </ul>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#error-response-format">Error Response Format</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#security-checklist">Security Checklist</a></li>
-      <li><a href="what-ies-provides/energy-credentials/digilocker.md#reference">Reference</a>
+      <li><a href="how-you-implement-ies/digilocker.md#error-response-format">Error Response Format</a></li>
+      <li><a href="how-you-implement-ies/digilocker.md#phase-2-consumer-shares-credential-with-a-verifier">Phase 2 — Consumer Shares Credential with a Verifier</a></li>
+      <li><a href="how-you-implement-ies/digilocker.md#security-checklist">Security Checklist</a></li>
+      <li><a href="how-you-implement-ies/digilocker.md#reference">Reference</a>
     </li>
     </ul>
   </li>
@@ -393,7 +430,7 @@ This block governs data discovery, consent, and the transfer of telemetry and re
   </ul>
   </details>
 * **[exchange.md](what-ies-provides/exchange.md)**
-  - *Summary*: Single-page reference: the Taxonomy, verifiable credentials, schemas by use case.
+  - *Summary*: Single-page reference: the schemas, verifiable credentials, schemas by use case.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -458,12 +495,12 @@ This block governs data discovery, consent, and the transfer of telemetry and re
 
 ---
 
-## 🗃️ 4. Schemas Overview & Taxonomy
+## 🗃️ 4. Schemas Overview
 
-Plain-language overviews of each schema family and how the taxonomy fits together — the shallow layer above the field-level reference.
+Plain-language overviews of each schema family and how the schemas fit together — the shallow layer above the field-level reference.
 
 * **[README.md](what-ies-provides/schemas-overview/README.md)**
-  - *Summary*: Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level Taxonomy reference.
+  - *Summary*: Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level reference.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -664,28 +701,6 @@ Plain-language overviews of each schema family and how the taxonomy fits togethe
   </li>
   </ul>
   </details>
-* **[taxonomy.md](what-ies-provides/taxonomy.md)**
-  - *Summary*: Taxonomy overview — how IES domain objects relate, standards precedence, and how to propose a new object; points at the field-level schemas chapter.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="what-ies-provides/taxonomy.md#taxonomy">Taxonomy</a>    <ul>
-      <li><a href="what-ies-provides/taxonomy.md#schema-map">Schema map</a>      <ul>
-        <li><a href="what-ies-provides/taxonomy.md#verifiable-credentials">Verifiable Credentials</a></li>
-        <li><a href="what-ies-provides/taxonomy.md#data-exchange-payloads">Data Exchange payloads</a></li>
-        <li><a href="what-ies-provides/taxonomy.md#external-deg-schemas-ies-uses">External — DEG schemas IES uses</a>
-      </li>
-      </ul>
-      <li><a href="what-ies-provides/taxonomy.md#standards-precedence">Standards precedence</a></li>
-      <li><a href="what-ies-provides/taxonomy.md#versioning">Versioning</a></li>
-      <li><a href="what-ies-provides/taxonomy.md#proposing-a-new-schema-or-a-change">Proposing a new schema (or a change)</a></li>
-      <li><a href="what-ies-provides/taxonomy.md#stewardship">Stewardship</a></li>
-      <li><a href="what-ies-provides/taxonomy.md#where-this-fits">Where this fits</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>
 
 ---
 
@@ -694,11 +709,11 @@ Plain-language overviews of each schema family and how the taxonomy fits togethe
 Each family page opens with a concise plain-language overview; version pages carry the auto-generated field reference.
 
 * **[README.md](schemas/README.md)**
-  - *Summary*: Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas.
+  - *Summary*: Schemas — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="schemas/README.md#taxonomy">Taxonomy</a>    <ul>
+    <li><a href="schemas/README.md#schemas">Schemas</a>    <ul>
       <li><a href="schemas/README.md#schema-map">Schema map</a>      <ul>
         <li><a href="schemas/README.md#verifiable-credentials">Verifiable Credentials</a></li>
         <li><a href="schemas/README.md#data-exchange-payloads">Data Exchange payloads</a></li>
@@ -1339,44 +1354,32 @@ Practical deployment and mapping implementations for specific grid business proc
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/p2p-energy-trading/README.md#p2p-energy-trading">P2P Energy Trading</a>    <ul>
-      <li><a href="use-cases/p2p-energy-trading/README.md#1-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#2-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#3-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#4-definitions">4. Definitions</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#5-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#6-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#7-the-records">7. The Records</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#8-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#9-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#10-how-it-fits-together">10. How It Fits Together</a>      <ul>
-        <li><a href="use-cases/p2p-energy-trading/README.md#the-six-phases">The six phases</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#auto-routing-of-contracts-and-allocations">Auto-routing of contracts and allocations</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#payload-snapshots">Payload snapshots</a>
-      </li>
-      </ul>
-      <li><a href="use-cases/p2p-energy-trading/README.md#11-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+    <li><a href="use-cases/p2p-energy-trading/README.md#p2p-energy-exchange">P2P Energy Exchange</a>    <ul>
+      <li><a href="use-cases/p2p-energy-trading/README.md#scenario">Scenario</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#actors-and-roles">Actors and Roles</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#building-blocks-used">Building Blocks Used</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#topology">Topology</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#what-each-actor-does-per-phase">What each actor does, per phase</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#auto-routing-of-contracts-and-allocations">Auto-routing of contracts and allocations</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#ledger-interfaces">Ledger interfaces</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#payload-snapshots">Payload snapshots</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#policy-as-code-rego-opa">Policy-as-code (Rego / OPA)</a>      <ul>
         <li><a href="use-cases/p2p-energy-trading/README.md#network-policy">Network policy</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#contract-policy-seller-discom-policy">Contract policy (seller-DISCOM policy)</a>
       </li>
       </ul>
-      <li><a href="use-cases/p2p-energy-trading/README.md#value-unlock">Value Unlock</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
         <li><a href="use-cases/p2p-energy-trading/README.md#step-0-see-it-run-before-you-build-local-devkit">Step 0 — See it run before you build (local devkit)</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#register-four-actor-network-identity">Register — four-actor network identity</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#discover-catalog-and-offers">Discover — catalog and offers</a></li>
         <li><a href="use-cases/p2p-energy-trading/README.md#exchange-adapter-cascade-policy">Exchange — adapter, cascade, policy</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#go-live-join-the-production-network">Go live — join the production network</a></li>
-        <li><a href="use-cases/p2p-energy-trading/README.md#team">Team</a>
+        <li><a href="use-cases/p2p-energy-trading/README.md#go-live-join-the-production-network">Go live — join the production network</a>
       </li>
       </ul>
+      <li><a href="use-cases/p2p-energy-trading/README.md#checklist">Checklist</a></li>
+      <li><a href="use-cases/p2p-energy-trading/README.md#open-items">Open Items</a></li>
       <li><a href="use-cases/p2p-energy-trading/README.md#dev-kits-and-code">Dev kits and code</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases/p2p-energy-trading/README.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases/p2p-energy-trading/README.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -1689,6 +1692,21 @@ Step-by-step project-management pathways for onboarding and network operations.
         <li><a href="pathways/researcher.md#references-anchors">References & Anchors</a>
       </li>
       </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
+* **[contributors.md](contributors.md)**
+  - *Summary*: Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="contributors.md#contributors">Contributors</a>    <ul>
+      <li><a href="contributors.md#pilot-discoms-30-day-challenge-21-may-21-june-2026">Pilot DISCOMs — 30-day Challenge (21 May – 21 June 2026)</a></li>
+      <li><a href="contributors.md#governance">Governance</a></li>
+      <li><a href="contributors.md#individual-contributors">Individual contributors</a></li>
+      <li><a href="contributors.md#how-to-contribute">How to contribute</a>
     </li>
     </ul>
   </li>

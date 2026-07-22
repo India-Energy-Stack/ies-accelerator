@@ -23,11 +23,13 @@ This document defines **DER Visibility** — the DISCOM publishes a signed, aggr
 
 ## 2. What It Records / Covers
 
-- the issuing licensee and network locus it covers;
-- distribution transformers in scope, where known;
-- each energy resource behind those DTs — solar, battery, EV charger, inverter, controllable load — with capacity, inspection status, equipment;
-- parent/sub-resource topology (PV and BESS → Inverter → Meter → DT);
-- optionally, an aggregator binding.
+| Records | Detail | Source |
+|---|---|---|
+| Issuing licensee & locus | The DISCOM and the network locus the record covers | ElectricityCredential v1.2 (`issuer`) |
+| Distribution transformers | Those in scope, where known | ElectricityCredential v1.2 (`energyResources[]`, network equipment) |
+| Energy resources behind those DTs | Solar, battery, EV charger, inverter, controllable load — with capacity, inspection status, equipment | ElectricityCredential v1.2 (`energyResources[]`) |
+| Topology | Parent/sub-resource chain (PV and BESS → Inverter → Meter → DT) | ElectricityCredential v1.2 (`parentResources[]` / `subResources[]`) |
+| Aggregator binding | Optional third-party aggregator enrolment | ElectricityCredential v1.2 |
 
 **Consumer identity is omitted, and consumers are never merged.** One consumer's credential is never combined with another's: the record carries only `energyResources[]` and `consumptionProfiles[]` entries for the locus — no `customerDetails`, no customer numbers. Each consumer's own credential exists separately as the Energy Passport, held by the consumer.
 

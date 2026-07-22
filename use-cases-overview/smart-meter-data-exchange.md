@@ -23,7 +23,16 @@ This document defines **Smart Meter Data Exchange** — a one-to-many, standard 
 
 ## 2. What It Records / Covers
 
-Four things, and only these four: **the contract** (how a request is discovered and agreed), **consent and scope** (how consent, scope, duration are recorded), **the data shape** (the MeterData wire format), **receipts and audit** (proof of what was exchanged). The meter keeps speaking DLMS-COSEM / IS 15959; the head-end, MDM and AMISP's systems are unchanged.
+Four things, and only these four:
+
+| Records | Detail | Source |
+|---|---|---|
+| The contract | How a request is discovered and agreed | Beckn protocol |
+| Consent & scope | How consent, scope and duration are recorded | MeterDataRequest / MeterDataRequestCredential v0.6 |
+| The data shape | The MeterData wire format | MeterData v0.6 (DLMS-COSEM / IS 15959) |
+| Receipts & audit | Proof of what was exchanged | Beckn protocol; W3C VC |
+
+The meter keeps speaking DLMS-COSEM / IS 15959; the head-end, MDM and AMISP's systems are unchanged.
 
 Eight MeterData v0.6 compact profiles cover every cadence:
 

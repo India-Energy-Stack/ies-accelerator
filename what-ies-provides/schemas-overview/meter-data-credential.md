@@ -21,12 +21,14 @@ This document explains the **MeterDataCredential v0.6** schema — it does not d
 
 MeterDataCredential does not itself record meter readings. Structurally it is thin by design — the entire schema-specific surface is one object, `MeterDataCredentialSubject`, with exactly two properties (`id` and `meterData`); everything else is inherited from EnergyCredential v2.0. What it records:
 
-- **identity of the issuing provider** — the `issuer` block (id, name, and `licenseNumber`, e.g. `SERC-AMISP-2025-007` in the worked examples) is inherited wholesale from EnergyCredential, not redefined here;
-- **identity of the subject** — `credentialSubject.id`, a DID naming the consumer or asset entity the data is about (e.g. `did:web:discom.example:consumers:RR-1234` in the examples);
-- **the validity window** — `validFrom` / `validUntil`, again inherited from EnergyCredential; the worked examples all use a one-year window (`2026-04-01` to `2027-04-01`);
-- **revocation status** — `credentialStatus`, a pointer to a registry where the provider can mark the credential invalid if the data is later recalled;
-- **the attested payload itself** — `credentialSubject.meterData`, required by the schema (it is the one field the subject object actually `require`s), carrying the real MeterData v0.6 profile or set of profiles;
-- **a cryptographic proof** — `proof`, binding all of the above together so any change to the payload invalidates the signature.
+| Records | Detail | Source |
+|---|---|---|
+| Issuing provider identity | The `issuer` block (id, name, `licenseNumber`, e.g. `SERC-AMISP-2025-007`), inherited wholesale from EnergyCredential | `EnergyCredential/v2.0` |
+| Subject identity | `credentialSubject.id`, a DID naming the consumer or asset entity the data is about (e.g. `did:web:discom.example:consumers:RR-1234`) | `EnergyCredential/v2.0` |
+| Validity window | `validFrom` / `validUntil`, inherited from EnergyCredential (worked examples use a one-year window) | `EnergyCredential/v2.0` |
+| Revocation status | `credentialStatus`, a pointer to a registry where the provider can mark the credential invalid if the data is later recalled | `EnergyCredential/v2.0` |
+| Attested payload | `credentialSubject.meterData` — the one field the subject object `require`s — carrying the real MeterData v0.6 profile or set of profiles | MeterData v0.6 |
+| Cryptographic proof | `proof`, binding all of the above together so any change to the payload invalidates the signature | W3C VC Data Model |
 
 A short illustrative snippet from the customer-profile example makes the wrapping concrete — this is the whole schema-specific contribution, everything above and below it is inherited envelope:
 
