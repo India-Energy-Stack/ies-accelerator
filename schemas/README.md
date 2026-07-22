@@ -1,8 +1,8 @@
-# Taxonomy
+# Schemas
 
 > **The master vocabulary of IES.** Every domain object, what it is for, which use cases combine it, how versions evolve, and how a new object is proposed and accepted. The shape of each object is described by its **schema** — and this section is the canonical home of those schema files: each family below carries its machine-readable reference (`schema.json`, `context.jsonld`, examples) alongside a plain-language overview.
 
-The Taxonomy answers the practical questions an implementer asks:
+This section answers the practical questions an implementer asks:
 
 1. *"For my use case, which schemas do I need?"* — the **schema map** below.
 2. *"What is this schema, in plain words, and what do I validate against?"* — each family page below opens with a concise overview, ahead of the versioned field reference.
@@ -45,7 +45,7 @@ Canonical at [schema.beckn.io](https://schema.beckn.io); the field reference is 
 
 | Schema family | Domain | Used in |
 |---|---|---|
-| `P2PTrade` / `DEGContract` / `EnergyTradeOffer` / `EnergyTradeDelivery` / `DiscomLedgerProvider` / `BecknTimeSeries` (mirror covers the core trade tables; `EnergyTradeDelivery` and `DiscomLedgerProvider` are defined only at schema.beckn.io) | Peer-to-peer energy trade | [P2P Energy Trading](../use-cases/p2p-energy-trading/README.md) |
+| `P2PTrade` / `DEGContract` / `EnergyTradeOffer` / `EnergyTradeDelivery` / `DiscomLedgerProvider` / `BecknTimeSeries` (mirror covers the core trade tables; `EnergyTradeDelivery` and `DiscomLedgerProvider` are defined only at schema.beckn.io) | Peer-to-peer energy trade | [P2P Energy Exchange](../use-cases/p2p-energy-trading/README.md) |
 | `DemandFlexNeed` / `DemandFlexBuyOffer` / `DemandFlexPerformance` + shared `EnergyResource` / `DEGContract` / `RevenueFlow` / `BecknTimeSeries` | Demand-side flexibility procurement and M&V | — not yet an IES use case |
 
 ---
@@ -124,6 +124,6 @@ The schemas are stewarded by the **IES Cell**, the governance body being constit
 
 ## Where this fits
 
-The Taxonomy is the master view of **Exchange**. To see how the three IES steps fit together: **[Register](../what-ies-provides/register.md)** → **[Discover](../what-ies-provides/discover.md)** → **[Exchange](../what-ies-provides/exchange.md)**.
+The Schemas section is the master view of **Exchange**. To see how the three IES steps fit together: **[Register](../what-ies-provides/register.md)** → **[Discover](../what-ies-provides/discover.md)** → **[Exchange](../what-ies-provides/exchange.md)**.
 
 To pick a use case to ship first: **[Use Case Implementation Guides](../use-cases/README.md)**.

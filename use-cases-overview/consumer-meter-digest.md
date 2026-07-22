@@ -21,11 +21,13 @@ This document defines the **Consumer Meter Digest** — a verifier-friendly, DIS
 
 ## 2. What It Records / Covers
 
-- the **meter reference** (`meterRefs`) and **service-delivery-point reference**;
-- the **period** covered;
-- **readings** — raw profiles (`INTERVAL`, `DAILY`, `MONTHLY`) or derived **summaries** (`SUMMARY_TOTAL`, `SUMMARY_PEAK`, `SUMMARY_TOD`);
-- **data quality** metadata (estimation flags, missing intervals);
-- **issuer** (DISCOM `did:web`) and **proof**.
+| Records | Detail | Source |
+|---|---|---|
+| Meter & service-delivery point | `meterRefs` and the service-delivery-point reference | MeterDataCredential v0.6 wrapping MeterData v0.6 |
+| Period | The window the readings cover | MeterData v0.6 |
+| Readings | Raw profiles (`INTERVAL`, `DAILY`, `MONTHLY`) or derived summaries (`SUMMARY_TOTAL`, `SUMMARY_PEAK`, `SUMMARY_TOD`) | MeterData v0.6 (IS 15959 / DLMS-COSEM) |
+| Data quality | Estimation flags, missing intervals | MeterData v0.6 |
+| Issuer & proof | Issuing DISCOM (`did:web`) and cryptographic proof | MeterDataCredential v0.6 (W3C VC) |
 
 Granularity: `RAW_15M`, `DAILY`, `MONTHLY`, plus derived summaries. Typical max period: 24 months (`MONTHLY`), 90 days (`RAW_15M`).
 

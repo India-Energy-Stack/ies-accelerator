@@ -79,6 +79,7 @@ def main():
             ("README.md", "Root-level introduction to the IES accelerator repository structure, standard protocols, and setup environment."),
             ("getting-started.md", "A 5-minute technical orientation covering IES core capabilities, roles, prerequisites, and developer onboarding options."),
             ("glossary.md", "A comprehensive directory defining energy, decentralized identity (DIDs, VCs), and Beckn protocol terms."),
+            ("faq.md", "Running list of common questions and answers about IES — drawn from the IES Technical Note's Annexure A."),
             ("download-pdf.md", "Where to download the auto-published, always-current printable PDF of this entire guide, and how to build it locally."),
             ("SUMMARY.md", "Table of Contents sidebar structure configuration for GitBook deployment.")
         ],
@@ -91,23 +92,22 @@ def main():
             ("what-ies-provides/energy-credentials/README.md", "Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.")
         ],
         "credentials_ops": [
-            ("what-ies-provides/energy-credentials/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
+            ("how-you-implement-ies/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
         ],
         "exchange_setup": [
             ("what-ies-provides/discover.md", "Single-page reference: the two rails (B2B data exchange vs B2C credentials), Beckn lifecycle, the IES networks."),
-            ("what-ies-provides/exchange.md", "Single-page reference: the Taxonomy, verifiable credentials, schemas by use case."),
+            ("what-ies-provides/exchange.md", "Single-page reference: the schemas, verifiable credentials, schemas by use case."),
             ("how-you-implement-ies/setup-exchange.md", "Do-guide: ONIX sandbox walkthrough, ngrok interop, real-identity swap, allowedNetworkIDs, test/prod separation, wire-level appendices.")
         ],
         "schemas_overview": [
-            ("what-ies-provides/schemas-overview/README.md", "Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level Taxonomy reference."),
+            ("what-ies-provides/schemas-overview/README.md", "Plain-language overviews of each IES schema family — what it carries and when to use it, before the field-level reference."),
             ("what-ies-provides/schemas-overview/electricity-credential.md", "ElectricityCredential — plain-language overview."),
             ("what-ies-provides/schemas-overview/meter-data.md", "MeterData — plain-language overview."),
             ("what-ies-provides/schemas-overview/meter-data-credential.md", "MeterDataCredential — plain-language overview."),
             ("what-ies-provides/schemas-overview/meter-data-request.md", "MeterDataRequest — plain-language overview."),
             ("what-ies-provides/schemas-overview/meter-data-request-credential.md", "MeterDataRequestCredential — plain-language overview."),
             ("what-ies-provides/schemas-overview/arr-filing.md", "ArrFiling — plain-language overview."),
-            ("what-ies-provides/schemas-overview/outage-notification.md", "OutageNotification — plain-language overview."),
-            ("what-ies-provides/taxonomy.md", "Taxonomy overview — how IES domain objects relate, standards precedence, and how to propose a new object; points at the field-level schemas chapter.")
+            ("what-ies-provides/schemas-overview/outage-notification.md", "OutageNotification — plain-language overview.")
         ],
         "usecases_overview": [
             ("use-cases-overview/README.md", "Shallow overviews of each IES use case — the business outcome and which schemas/rails it combines, before the implementation guide."),
@@ -119,7 +119,7 @@ def main():
             ("use-cases-overview/tariff-intelligence.md", "Tariff Intelligence — overview.")
         ],
         "schemas": [
-            ("schemas/README.md", "Taxonomy — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
+            ("schemas/README.md", "Schemas — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
             ("schemas/ElectricityCredential/README.md", "ElectricityCredential family page — version history, inheritance, and usage."),
             ("schemas/ElectricityCredential/v1.2/README.md", "Auto-generated field reference for ElectricityCredential v1.2 (current)."),
             ("schemas/MeterData/v0.6/CHANGELOG.md", "Changelog detailing Form A and Form B dual-representation upgrades in MeterData v0.6."),
@@ -145,7 +145,8 @@ def main():
             ("pathways/secretariat.md", "The operational roadmap for the Secretariat to approve registries, monitor networks, and maintain schemas."),
             ("pathways/authority.md", "The roadmap for a Ministry / CEA / SERC-CERC / Forum of Regulators reader — filings, tariff policy-as-code, and IES Cell governance."),
             ("pathways/tsp.md", "The roadmap for a Technology Service Provider (AMISP, OEM, integrator) building or configuring the IES adapter."),
-            ("pathways/researcher.md", "The roadmap for a researcher or analyst studying IES using its published specs, examples and pilot outcomes.")
+            ("pathways/researcher.md", "The roadmap for a researcher or analyst studying IES using its published specs, examples and pilot outcomes."),
+            ("contributors.md", "Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.")
         ]
     }
     
@@ -209,9 +210,9 @@ This block governs data discovery, consent, and the transfer of telemetry and re
     content += """
 ---
 
-## 🗃️ 4. Schemas Overview & Taxonomy
+## 🗃️ 4. Schemas Overview
 
-Plain-language overviews of each schema family and how the taxonomy fits together — the shallow layer above the field-level reference.
+Plain-language overviews of each schema family and how the schemas fit together — the shallow layer above the field-level reference.
 
 """
     for rel_path, summary in sections["schemas_overview"]:

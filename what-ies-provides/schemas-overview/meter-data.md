@@ -21,15 +21,17 @@ This document explains the **MeterData v0.6** schema — it does not define a ne
 
 MeterData v0.6 captures, across nine record shapes:
 
-- **Identity** — which meter(s), customer(s) and service delivery point(s) a payload is about, via the shared `BaseProfile` identity fields (`meterRefs`, `customerRefs`, `serviceDeliveryPointRefs`) that every telemetry profile inherits.
-- **Slow-changing customer and service-point metadata** (`CustomerProfile`) — the customer, their tariff category, sanctioned load, payment mode, billing cycle day, contract maximum demand, sanctioned export load, and the meters, service delivery points and `Association` records (feeder/DT topology, telemetry provider, commissioning date, DER capacity) attached to their connection. A `CustomerDetails` sub-object carries the customer's name — the schema explicitly marks this as a **PII sub-object to be omitted entirely for anonymised or pseudonymous exchange**.
-- **High-resolution interval readings** (`IntervalProfile`) — block load survey data at intervals such as 15 or 30 minutes (`PT15M`/`PT30M`).
-- **Daily accumulated readings** (`DailyProfile`) — a daily load survey summary (`P1D` cadence), structurally identical to `IntervalProfile`.
-- **Monthly billing resets** (`MonthlyProfile`) — cumulative registers, time-of-use buckets and maximum demand at each billing cycle. Notably, `MonthlyProfile` is *structurally forbidden* from using the compact matrix form: the schema requires `readings` and `touBuckets` directly and does not permit `intervals` or a `compactSequenceRef`, because — per the README — a monthly snapshot is "sparse and highly variable" (ad-hoc resets, mid-cycle meter swaps) and gains little from dense-array compression.
-- **Computed billing details** (`BillDetails`) — bill amount, bill number, due dates, currency (ISO 4217), prepaid balance and payment status, plus a breakdown into `energyCharges`, `fixedCharges` and `otherCharges`.
-- **Instantaneous electrical snapshots** (`InstantaneousProfile`) — voltages, currents, and active/reactive power at one moment in time.
-- **Event history** (`EventProfile`) — diagnostic and tamper events matching IS 15959 codes, each with an integer `eventId`, phase, and duration.
-- **Active alarms** (`AlarmProfile`) — real-time alerts such as tamper, low prepayment credit, voltage sag or overload, each carrying a `status` (`ACTIVE`/`CLEARED`) and `severity` (`CRITICAL`/`WARNING`/`INFO`).
+| Record shape | What it records | Source |
+|---|---|---|
+| **Identity** (`BaseProfile`) | Which meter(s), customer(s) and service delivery point(s) a payload is about, via the shared identity fields (`meterRefs`, `customerRefs`, `serviceDeliveryPointRefs`) that every telemetry profile inherits | MeterData v0.6 |
+| **`CustomerProfile`** | Slow-changing customer and service-point metadata — the customer, tariff category, sanctioned load, payment mode, billing cycle day, contract maximum demand, sanctioned export load, and the meters, service delivery points and `Association` records (feeder/DT topology, telemetry provider, commissioning date, DER capacity) on their connection. A `CustomerDetails` sub-object carries the name and is marked a **PII sub-object to be omitted entirely for anonymised or pseudonymous exchange** | MeterData v0.6 |
+| **`IntervalProfile`** | High-resolution interval readings — block load survey data at intervals such as 15 or 30 minutes (`PT15M`/`PT30M`) | IS 15959 / DLMS-COSEM (OBIS) |
+| **`DailyProfile`** | Daily accumulated readings — a daily load survey summary (`P1D`), structurally identical to `IntervalProfile` | IS 15959 / DLMS-COSEM |
+| **`MonthlyProfile`** | Monthly billing resets — cumulative registers, time-of-use buckets and maximum demand at each billing cycle; *structurally forbidden* from the compact matrix form (requires `readings` and `touBuckets` directly) because a monthly snapshot is sparse and highly variable | IS 15959 / DLMS-COSEM |
+| **`BillDetails`** | Computed billing details — bill amount, bill number, due dates, currency, prepaid balance and payment status, plus a breakdown into `energyCharges`, `fixedCharges` and `otherCharges` | MeterData v0.6 (ISO 4217) |
+| **`InstantaneousProfile`** | Instantaneous electrical snapshots — voltages, currents, and active/reactive power at one moment in time | IS 15959 |
+| **`EventProfile`** | Event history — diagnostic and tamper events matching IS 15959 codes, each with an integer `eventId`, phase, and duration | IS 15959 |
+| **`AlarmProfile`** | Active alarms — real-time alerts (tamper, low prepayment credit, voltage sag, overload), each with a `status` (`ACTIVE`/`CLEARED`) and `severity` (`CRITICAL`/`WARNING`/`INFO`) | IS 15959 |
 
 A ninth, non-telemetry shape — `PayloadDescriptorProfile` — carries no readings itself; it is the shared dictionary described in Section 7.
 

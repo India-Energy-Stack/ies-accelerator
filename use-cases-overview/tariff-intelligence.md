@@ -21,11 +21,13 @@ This document defines **Tariff Intelligence** — the authority publishes machin
 
 ## 2. What It Records / Covers
 
-- **policy identity** — `id`, `policyID` (stable handle), `policyName`, `policyType` (`TARIFF` / `DISPATCH_GUIDE` / …), `programID`;
-- the **validity window** — `samplingInterval` as an ISO 8601 recurrence (e.g. `R/2026-04-10T00:00:00Z/P1M`);
-- for a tariff, **`energySlabs[]`** — progressive tiers `{ id, start, end, price }`;
-- for a tariff, **`surchargeTariffs[]`** — time-of-day adjustments `{ id, recurrence, interval, value, unit }`;
-- the **issuer** block and **proof**.
+| Records | Detail | Source |
+|---|---|---|
+| Policy identity | `id`, `policyID` (stable handle), `policyName`, `policyType` (`TARIFF` / `DISPATCH_GUIDE` / …), `programID` | IES_Policy |
+| Validity window | `samplingInterval` as an ISO 8601 recurrence (e.g. `R/2026-04-10T00:00:00Z/P1M`) | IES_Policy (ISO 8601) |
+| Energy slabs | For a tariff, `energySlabs[]` — progressive tiers `{ id, start, end, price }` | IES_Policy |
+| Surcharge tariffs | For a tariff, `surchargeTariffs[]` — time-of-day adjustments `{ id, recurrence, interval, value, unit }` | IES_Policy |
+| Issuer & proof | The issuer block and cryptographic proof | IES_Policy (W3C VC) |
 
 ## 3. How Each Item is Identified
 

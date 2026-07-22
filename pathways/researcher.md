@@ -47,7 +47,7 @@ Before reading a single schema file, get a correct mental model of what IES is (
 * None. This step is purely orientation — bookmark the two entry points below.
 
 ### Execution Guidance
-1. **The GitBook** — this repository itself (`ies-accelerator`) is the canonical, rendered specification set. Start from [What IES Provides](../what-ies-provides/README.md), which indexes Register, Discover, Exchange and the Taxonomy.
+1. **The GitBook** — this repository itself (`ies-accelerator`) is the canonical, rendered specification set. Start from [What IES Provides](../what-ies-provides/README.md), which indexes Register, Discover, Exchange and the Schemas.
 2. **The sandbox** — the pilot environment referenced throughout the concepts pages, used by the four pilot DISCOMs to demonstrate live use cases (see Phase 3 below for the documented outcomes).
 3. Confirm you can navigate from [What IES Provides](../what-ies-provides/README.md) down into a schema family folder (e.g. `schemas/MeterData/`) so that Phase 2 is a matter of reading, not searching.
 
@@ -63,36 +63,36 @@ Before reading a single schema file, get a correct mental model of what IES is (
 You do not need to run an adapter to read a schema. Every schema family in IES ships its JSON Schema, JSON-LD context, RDF vocabulary and worked example payloads directly in this repository — no separate SDK or credential is required to open and study them.
 
 <details>
-<summary><b>Step 2.1: Use the Taxonomy as Your Index</b></summary>
+<summary><b>Step 2.1: Use the Schemas as Your Index</b></summary>
 
 ### 💡 Phase Advice
-> Don't try to guess which schema covers your research question by browsing folders. Start from [Taxonomy](../schemas/README.md) — its **schema map** table lists every schema, the domain it covers, and which use case combines it, all in one place.
+> Don't try to guess which schema covers your research question by browsing folders. Start from [Schemas](../schemas/README.md) — its **schema map** table lists every schema, the domain it covers, and which use case combines it, all in one place.
 
 ### Execution Guidance
-1. Open [Taxonomy](../schemas/README.md) and read the **Schema map** section — it groups schemas into Verifiable Credentials, Data Exchange payloads, and External (DEG) schemas, with a one-line domain description and current version for each.
+1. Open [Schemas](../schemas/README.md) and read the **Schema map** section — it groups schemas into Verifiable Credentials, Data Exchange payloads, and External (DEG) schemas, with a one-line domain description and current version for each.
 2. Cross-reference against the family pages linked from the map — each opens with a concise plain-language overview, so you can scan schema families without opening every folder individually.
-3. Note the **Standards precedence** section of the Taxonomy page: every schema records, per field, which standard governs it (Bureau of Indian Standards first, then CEA Regulations/IEGC, then IEC, then IEEE). This is directly citable if your analysis concerns standards alignment.
+3. Note the **Standards precedence** section of the Schemas page: every schema records, per field, which standard governs it (Bureau of Indian Standards first, then CEA Regulations/IEGC, then IEC, then IEEE). This is directly citable if your analysis concerns standards alignment.
 
 ### References & Anchors
-* [Taxonomy — Schema map](../schemas/README.md#schema-map)
-* [Taxonomy — Standards precedence](../schemas/README.md#standards-precedence)
+* [Schemas — Schema map](../schemas/README.md#schema-map)
+* [Schemas — Standards precedence](../schemas/README.md#standards-precedence)
 </details>
 
 <details>
 <summary><b>Step 2.2: Read a Schema Without Running an Adapter</b></summary>
 
 ### 💡 Phase Advice
-> Every schema family follows the same on-disk layout (Taxonomy's **Versioning** section): `attributes.yaml` (source of truth), `schema.json` (compiled JSON Schema), `context.jsonld`, `vocab.jsonld` (RDF, CIM-aligned), and an `examples/` folder. Learn this once and read any of the seven families the same way.
+> Every schema family follows the same on-disk layout (Schemas's **Versioning** section): `attributes.yaml` (source of truth), `schema.json` (compiled JSON Schema), `context.jsonld`, `vocab.jsonld` (RDF, CIM-aligned), and an `examples/` folder. Learn this once and read any of the seven families the same way.
 
 ### Execution Guidance
-1. Pick a schema family from the Taxonomy's schema map, e.g. `schemas/MeterData/v0.6/`.
+1. Pick a schema family from the Schemas's schema map, e.g. `schemas/MeterData/v0.6/`.
 2. Read `README.md` in that folder first — it is the auto-generated field reference, following the IES Documentation Template.
 3. Open the `examples/` subfolder (e.g. `schemas/MeterData/v0.6/examples/`) to see worked, realistic payloads rather than abstract field lists — these are the fastest way to understand what a real exchange looks like on the wire.
 4. If your analysis needs the formal schema rather than the prose reference, open `schema.json` (JSON Schema Draft 2020-12) directly, or `context.jsonld` / `vocab.jsonld` if you are doing semantic-web or linked-data analysis.
 
 ### References & Anchors
-* [Taxonomy — Versioning](../schemas/README.md#versioning)
-* [Taxonomy — Schema map](../schemas/README.md#schema-map)
+* [Schemas — Versioning](../schemas/README.md#versioning)
+* [Schemas — Schema map](../schemas/README.md#schema-map)
 * [MeterData example payloads](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples)
 </details>
 
@@ -126,7 +126,7 @@ If your research makes a claim about how a schema behaves, verify it empirically
 
 ### References & Anchors
 * [MeterData v0.6 validator README](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
-* [Taxonomy — Versioning](../schemas/README.md#versioning)
+* [Schemas — Versioning](../schemas/README.md#versioning)
 </details>
 
 <details>
@@ -156,19 +156,19 @@ Research sometimes surfaces something IES itself should know about: a domain obj
 <summary><b>Step 4.1: Propose a Schema Change or Extension</b></summary>
 
 ### 💡 Phase Advice
-> If your analysis surfaces a genuine gap, don't just note it in a footnote — the Taxonomy page documents an actual proposal flow with a real review body. Following it turns a research observation into a durable specification improvement that other researchers benefit from too.
+> If your analysis surfaces a genuine gap, don't just note it in a footnote — the Schemas page documents an actual proposal flow with a real review body. Following it turns a research observation into a durable specification improvement that other researchers benefit from too.
 
 ### Execution Guidance
-Follow the flow documented in [Taxonomy — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change):
+Follow the flow documented in [Schemas — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change):
 1. **Check the schema map first** — confirm no existing schema (with an optional extension) already covers the object you think is missing.
-2. **Draft the schema** in `attributes.yaml` shape, following the IES Documentation Template referenced from the Taxonomy page.
+2. **Draft the schema** in `attributes.yaml` shape, following the IES Documentation Template referenced from the Schemas page.
 3. **Open a PR** against this repository, including a scope statement, the basis of standards used (in the IS → CEA → IEC → IEEE precedence order), and example payloads.
 4. **Review by the IES Cell** — the CEA-constituted governance body — which checks standards alignment, field overlap with existing schemas, and use-case fit.
-5. **Acceptance** publishes a versioned `v0.1` and adds the schema to the Taxonomy's schema map.
+5. **Acceptance** publishes a versioned `v0.1` and adds the schema to the Schemas's schema map.
 
 ### References & Anchors
-* [Taxonomy — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change)
-* [Taxonomy — Stewardship](../schemas/README.md#stewardship)
+* [Schemas — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change)
+* [Schemas — Stewardship](../schemas/README.md#stewardship)
 </details>
 
 <details>
@@ -178,12 +178,12 @@ Follow the flow documented in [Taxonomy — Proposing a new schema (or a change)
 > Cite a specific schema family and version (e.g. "IES MeterData v0.6"), not just "the India Energy Stack" in general — schemas are versioned precisely so that a citation stays reproducible even as later versions are published, since old versions stay reachable.
 
 ### Execution Guidance
-1. Cite the canonical hosting path noted under [Taxonomy — Stewardship](../schemas/README.md#stewardship): the repository (`schemas/` folder) as source of truth, with canonical published URLs of the form `india-energy-stack.github.io/ies-accelerator/schemas/...`.
+1. Cite the canonical hosting path noted under [Schemas — Stewardship](../schemas/README.md#stewardship): the repository (`schemas/` folder) as source of truth, with canonical published URLs of the form `india-energy-stack.github.io/ies-accelerator/schemas/...`.
 2. When citing pilot outcomes, cite [Pilots and Status](../concepts/what-ies-is.md#pilots-and-status) directly and name the specific DISCOM(s) and use case(s) your analysis draws on, rather than "the IES pilots" generically.
 3. For questions that arise during citation or proposal review, the IES Secretariat is the documented contact point (see [Pilots and Status — Get in touch](../concepts/what-ies-is.md#get-in-touch)).
 
 ### References & Anchors
-* [Taxonomy — Stewardship](../schemas/README.md#stewardship)
+* [Schemas — Stewardship](../schemas/README.md#stewardship)
 * [Pilots and Status — Get in touch](../concepts/what-ies-is.md#get-in-touch)
-* [Taxonomy — Where this fits](../schemas/README.md#where-this-fits)
+* [Schemas — Where this fits](../schemas/README.md#where-this-fits)
 </details>

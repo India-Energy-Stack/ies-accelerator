@@ -23,9 +23,11 @@ This document defines the **DISCOM Regulatory Filing** — a structured `ArrFili
 
 ## 2. What It Records / Covers
 
-- **filing identity** — `filingId`, `licensee`, `regulatoryCommission`, `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`), `controlPeriodStart/End`, `currency`, `unitScale`;
-- one or more **fiscal years** (`fiscalYears[]`), tagged `yearType` (`BASE_YEAR` / `CONTROL_PERIOD` / `HISTORICAL`) and `amountBasis` (`AUDITED` / `APPROVED` / `PROPOSED` / `TRUED_UP`);
-- per-year **line items** (`lineItems[]`) — `category` (`VARIABLE` / `FIXED` / `INCOME` / `SUB_TOTAL` / `ARR` / `ADJUSTMENT`), `subCategory`, `head`, `amount`, `formReference`, `componentOf`.
+| Records | Detail | Source |
+|---|---|---|
+| Filing identity | `filingId`, `licensee`, `regulatoryCommission`, `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`), `controlPeriodStart/End`, `currency`, `unitScale` | ArrFiling v0.5 |
+| Fiscal years | One or more `fiscalYears[]`, tagged `yearType` (`BASE_YEAR` / `CONTROL_PERIOD` / `HISTORICAL`) and `amountBasis` (`AUDITED` / `APPROVED` / `PROPOSED` / `TRUED_UP`) | ArrFiling v0.5 |
+| Line items | Per-year `lineItems[]` — `category` (`VARIABLE` / `FIXED` / `INCOME` / `SUB_TOTAL` / `ARR` / `ADJUSTMENT`), `subCategory`, `head`, `amount`, `formReference`, `componentOf` | ArrFiling v0.5 |
 
 Supporting workbooks ride as separate signed datasets in the same exchange, linked by `filingId`.
 

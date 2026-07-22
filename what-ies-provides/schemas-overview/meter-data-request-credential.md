@@ -21,9 +21,11 @@ This document explains the **MeterDataRequestCredential v0.1** schema. It does n
 
 The credential records:
 
-- the **identity** of the requesting entity -- a DID at both `issuer.id` and `credentialSubject.id` -- plus, inherited from EnergyCredential, the issuer's human-readable `name` and a regulatory `licenseNumber` (the worked example uses `SERC-DISCOM-2025-001`, a State Electricity Regulatory Commission licence format);
-- the **scoped data request** it is authorising, expressed as an embedded `MeterDataRequest` object (from the separate MeterDataRequest v0.6 family) rather than redefined inline. That embedded object can carry: which `consumers` and which `resources` (meter or feeder DIDs) the request covers; a hierarchical `scope` over those resources; the `from`/`duration` time window; `consumerConsent` references; an `authorisation` (inline `MeterDataAuthorisation` object or a URI to one); the `capabilitiesRequested` (which profile types and registers are being asked for, and in what telemetry mode); and an optional `maxRecordsShared` cap;
-- the standard verifiable-credential **envelope** it inherits from EnergyCredential v2.0 rather than redefining -- `issuer`, `validFrom`/`validUntil`, `credentialStatus`, and `proof`.
+| Records | Detail | Source |
+|---|---|---|
+| Requesting-entity identity | A DID at both `issuer.id` and `credentialSubject.id`, plus the issuer's human-readable `name` and a regulatory `licenseNumber` (the worked example uses `SERC-DISCOM-2025-001`, a State Electricity Regulatory Commission licence format) | `EnergyCredential/v2.0` |
+| Scoped data request | An embedded `MeterDataRequest` object (not redefined inline) carrying which `consumers` and `resources` (meter or feeder DIDs) the request covers, a hierarchical `scope`, the `from`/`duration` window, `consumerConsent` references, an `authorisation` (inline `MeterDataAuthorisation` or a URI), the `capabilitiesRequested` (profile types, registers and telemetry mode), and an optional `maxRecordsShared` cap | MeterDataRequest v0.6 |
+| VC envelope | The standard verifiable-credential envelope — `issuer`, `validFrom`/`validUntil`, `credentialStatus`, and `proof` — inherited rather than redefined | `EnergyCredential/v2.0` (W3C VC) |
 
 It does not carry the telemetry itself. It only authorises a request for that telemetry.
 

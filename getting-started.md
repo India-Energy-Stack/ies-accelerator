@@ -12,7 +12,7 @@ This page gives you a five-minute orientation to IES before you dive into either
 
 IES is an **open protocol and governance layer** for India's energy sector: it doesn't operate data, but defines the standards and interaction patterns that let diverse organisations share data and trust each other's claims.
 
-Everything in IES follows the same three steps — **[Register](what-ies-provides/register.md) → [Discover](what-ies-provides/discover.md) → [Exchange](what-ies-provides/exchange.md)**. Under [What IES Provides](what-ies-provides/README.md), these chapters carry the developer specifics: **Register** (identity + directory foundations), **Discover** (Beckn-protocol interaction, B2B), and **Exchange** (the Taxonomy, and B2C energy credentials). The four capsules below orient you before you dive in.
+Everything in IES follows the same three steps — **[Register](what-ies-provides/register.md) → [Discover](what-ies-provides/discover.md) → [Exchange](what-ies-provides/exchange.md)**. Under [What IES Provides](what-ies-provides/README.md), these chapters carry the developer specifics: **Register** (identity + directory foundations), **Discover** (Beckn-protocol interaction, B2B), and **Exchange** (the schemas, and B2C electricity credentials). The four capsules below orient you before you dive in.
 
 ### Identifiers and Addressing
 

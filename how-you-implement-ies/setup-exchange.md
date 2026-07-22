@@ -417,7 +417,7 @@ ONIX only fetches `@context` URLs from **allow-listed hosts** (default: `raw.git
 3. Host both at a URL ONIX is allowed to reach — they must sit at the same path (`<base>/context.jsonld` and `<base>/attributes.yaml`).
 4. In your payload, set `@context` to the context URL and `@type` to the matching schema name.
 
-No code change in ONIX — the dispatch is purely URL-driven. The families under [Taxonomy](../schemas/README.md) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
+No code change in ONIX — the dispatch is purely URL-driven. The families under [Schemas](../schemas/README.md) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
 
 ## Appendix E — Hostnames: sandbox vs production
 

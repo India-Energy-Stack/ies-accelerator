@@ -4,7 +4,7 @@
 
 Once participants are [Registered](register.md) (Step 1), they need a way to **find each other, negotiate terms, and produce a signed audit trail** of what was agreed — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2)** for this.
 
-Discover belongs to the **data exchange** capability — B2B exchange of structured datasets between registered organisations. The other IES capability, **[Energy Credentials](energy-credentials/README.md)**, does not need this step: a credential is issued and verified against the issuer's published key, with no Beckn network involved.
+Discover belongs to the **data exchange** capability — B2B exchange of structured datasets between registered organisations. The other IES capability, **[Electricity Credentials](energy-credentials/README.md)**, does not need this step: a credential is issued and verified against the issuer's published key, with no Beckn network involved.
 
 ---
 
@@ -18,7 +18,7 @@ Discover belongs to the **data exchange** capability — B2B exchange of structu
 | **Channel** | Must ride a **trust-bounded open network** — IES uses [Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2) — because discovery, negotiation, consent and the signed audit trail are part of the exchange itself | **Any channel** — DigiLocker, a web portal, email, SMS, chat. The trust travels inside the credential, not the pipe. |
 | **Typical use cases** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md), [Regulatory Filing](../use-cases/discom-regulatory-filing/README.md), [P2P Trading](../use-cases/p2p-energy-trading/README.md) | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md), [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) |
 
-The rest of this page covers how the B2B rail's two registered parties find each other, agree terms, and sign — the *Discover* step. What they actually exchange once agreed — the Taxonomy and, where needed, verifiable credentials — is *Exchange*, covered on its own page.
+The rest of this page covers how the B2B rail's two registered parties find each other, agree terms, and sign — the *Discover* step. What they actually exchange once agreed — the schemas and, where needed, verifiable credentials — is *Exchange*, covered on its own page.
 
 ---
 
@@ -72,6 +72,6 @@ These three are covered by **[How you implement IES → Setup Register §1.5–1
 |---|---|
 | Step 1 — [Register](register.md) | Identity + directory |
 | Step 2 — Discover *(this page)* | — |
-| Step 3 — [Exchange](exchange.md) | Taxonomy + verifiable credentials |
+| Step 3 — [Exchange](exchange.md) | Schemas + verifiable credentials |
 
 To register on Beckn hands-on: **[Setup Register §1.5–1.7](../how-you-implement-ies/setup-register.md)**. To run the adapter and exchange data: **[Setup Exchange](../how-you-implement-ies/setup-exchange.md)**.

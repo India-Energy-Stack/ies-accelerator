@@ -121,7 +121,7 @@ None of this is new infrastructure or new compliance; it is what becomes possibl
 
 **For regulators** — filings arrive already signed and in a single, consistent format ([ARR filings](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)); tariff orders become computable; every share leaves an audit trail. See **[DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md)** and **[Tariff Intelligence](../use-cases/tariff-intelligence/README.md)**.
 
-**For markets** — demand-side flexibility, **[P2P Energy Trading](../use-cases/p2p-energy-trading/README.md)** and open access become workable without a separate agreement between every pair of participants.
+**For markets** — demand-side flexibility, **[P2P Energy Exchange](../use-cases/p2p-energy-trading/README.md)** and open access become workable without a separate agreement between every pair of participants.
 
 These compound: with one common standard the work is done once and every participant can use it. A consumer who moves in from another State arrives with an energy record that can be trusted at once. A bank or scheme anywhere in India can accept a record any DISCOM has issued. A service or vendor proven in one State is available to others without being rebuilt.
 
@@ -146,7 +146,7 @@ IES is **live**. The specifications have been published on this GitBook, the san
 
 For each demonstration: an IES adapter (Beckn ONIX reference + DISCOM-specific mapping) running at the DISCOM, a `did:web` identity published and resolvable, a subscriber record in the IES network registry, an issued credential or completed exchange signed by the DISCOM's key, and end-to-end verification by a counterparty. The artefacts — example payloads, schemas, configuration — are public in this repository.
 
-**Being added next:** [P2P Energy Trading](../use-cases/p2p-energy-trading/README.md) (schema published; pilot integrations being staged) and [OutageNotification](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1) (schema published; no use-case guide yet).
+**Being added next:** [P2P Energy Exchange](../use-cases/p2p-energy-trading/README.md) (schema published; pilot integrations being staged) and [OutageNotification](https://india-energy-stack.gitbook.io/docs/schemas/outagenotification/v0.1) (schema published; no use-case guide yet).
 
 ### The next phase
 
@@ -210,6 +210,6 @@ Any participant can propose a change to the IES Cell. Proposals are reviewed, an
 
 ## Where to go next
 
-- **Want the technical specifications?** → **[What IES Provides](../what-ies-provides/README.md)** — Register, Discover, Exchange, Taxonomy
+- **Want the technical specifications?** → **[What IES Provides](../what-ies-provides/README.md)** — Register, Discover, Exchange, Schemas
 - **Want to implement IES in your organisation?** → **[How you implement IES](../how-you-implement-ies/README.md)** — Setup Register, Issue Credentials, Setup Exchange, Build Adapter
 - **Want to see a worked end-to-end use case?** → **[Use Case Implementation Guides](../use-cases/README.md)**
