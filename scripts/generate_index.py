@@ -76,8 +76,7 @@ def main():
     
     sections = {
         "foundational": [
-            ("README.md", "Root-level introduction to the IES accelerator repository structure, standard protocols, and setup environment."),
-            ("getting-started.md", "A 5-minute technical orientation covering IES core capabilities, roles, prerequisites, and developer onboarding options."),
+            ("README.md", "Home — the India Energy Stack in plain words: the problem, the UPI-style idea, how it works, what it is not, sector impact, pilots, and key standards."),
             ("glossary.md", "A comprehensive directory defining energy, decentralized identity (DIDs, VCs), and Beckn protocol terms."),
             ("faq.md", "Running list of common questions and answers about IES — drawn from the IES Technical Note's Annexure A."),
             ("download-pdf.md", "Where to download the auto-published, always-current printable PDF of this entire guide, and how to build it locally."),
@@ -89,7 +88,7 @@ def main():
         ],
         "credentials_setup": [
             ("how-you-implement-ies/issue-credentials.md", "Do-guide: run OpenCred with DeDi config, issue / verify / revoke, credential variants, verifier walkthrough, holder binding, operational notes."),
-            ("what-ies-provides/energy-credentials/README.md", "Reference: credential lifecycle, the three IES credentials, variants, trust model, core concepts.")
+            ("what-ies-provides/energy-credentials/README.md", "Reference: Verifiable Credentials — credential lifecycle, the three IES credentials, variants, trust model, core concepts.")
         ],
         "credentials_ops": [
             ("how-you-implement-ies/digilocker.md", "DigiLocker delivery: Pull URI, callback flow, signature pinning.")
@@ -139,13 +138,7 @@ def main():
             ("use-cases/tariff-intelligence/README.md", "Policy as Code — publishing authority policy (tariff rate structures and telescopic schedules, dispatch guides, and more) as signed IES policies."),
             ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network rules and the seller-DISCOM contract policy enforced as signed Rego, hosted on DeDi.")
         ],
-        "pathways": [
-            ("pathways/README.md", "Map of available role roadmaps in the IES ecosystem."),
-            ("pathways/utility.md", "The chronological onboarding roadmap for a new utility (DISCOM) joining the network."),
-            ("pathways/secretariat.md", "The operational roadmap for the Secretariat to approve registries, monitor networks, and maintain schemas."),
-            ("pathways/authority.md", "The roadmap for a Ministry / CEA / SERC-CERC / Forum of Regulators reader — filings, tariff policy-as-code, and IES Cell governance."),
-            ("pathways/tsp.md", "The roadmap for a Technology Service Provider (AMISP, OEM, integrator) building or configuring the IES adapter."),
-            ("pathways/researcher.md", "The roadmap for a researcher or analyst studying IES using its published specs, examples and pilot outcomes."),
+        "contributors": [
             ("contributors.md", "Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.")
         ]
     }
@@ -180,7 +173,7 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
     content += """
 ---
 
-## 🪪 2. Energy Credentials (VCs / OpenCred)
+## 🪪 2. Verifiable Credentials (VCs / OpenCred)
 
 This block handles digital attestations of connections, billing summaries, and consumer identities.
 
@@ -254,12 +247,12 @@ Practical deployment and mapping implementations for specific grid business proc
     content += """
 ---
 
-## 🗺️ 8. Operational Pathways (Roadmaps)
+## 🙌 8. Contributors
 
-Step-by-step project-management pathways for onboarding and network operations.
+Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.
 
 """
-    for rel_path, summary in sections["pathways"]:
+    for rel_path, summary in sections["contributors"]:
         content += generate_file_entry(root_dir, rel_path, summary)
 
     out_file = os.path.join(root_dir, "index.md")

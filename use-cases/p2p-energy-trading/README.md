@@ -1,4 +1,4 @@
-# P2P Energy Exchange
+# P2P Energy Transaction
 
 **In a hurry?** Jump to the [Checklist](#checklist), or [See it run](#step-0-see-it-run-before-you-build-local-devkit) in one `docker compose up`. For the standards basis, the full field schedule and definitions, see the **[Overview](../../use-cases-overview/p2p-energy-trading.md)**.
 
@@ -409,7 +409,7 @@ None of the four steps require permission from a platform owner. For a guided fi
 
 ## References
 
-- **[Overview — P2P Energy Exchange](../../use-cases-overview/p2p-energy-trading.md)** — standards basis, definitions, full field schedule, the six-phase walkthrough, and Points for Confirmation
+- **[Overview — P2P Energy Transaction](../../use-cases-overview/p2p-energy-trading.md)** — standards basis, definitions, full field schedule, the six-phase walkthrough, and Points for Confirmation
 - **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)** — consolidated field reference
 - Canonical schemas at **[schema.beckn.io](https://schema.beckn.io)** — [P2PTrade/v2.0](https://schema.beckn.io/P2PTrade/v2.0) · [DEGContract/v2.0](https://schema.beckn.io/DEGContract/v2.0) · [EnergyTradeOffer/v2.0](https://schema.beckn.io/EnergyTradeOffer/v2.0) · [EnergyTradeDelivery/v2.0](https://schema.beckn.io/EnergyTradeDelivery/v2.0) · [DiscomLedgerProvider/v2.0](https://schema.beckn.io/DiscomLedgerProvider/v2.0) · [BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)
 - **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** *(optional)* — seller's attestation backing the offer

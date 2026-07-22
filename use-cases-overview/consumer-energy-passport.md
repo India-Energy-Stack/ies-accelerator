@@ -78,13 +78,15 @@ One record: a static Verifiable Credential, changed only on commissioning, capac
 
 ## 8. Schedule I — Static Fields of the Credential
 
-→ **[ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference)**
-
-Eight tables: envelope, `CustomerDetails`, `CustomerProfile`, the typed `EnergyResource*` kinds (METER, GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK), and `ConsumptionProfile`. Each row: `Field`, `Type`, standard(s) **Based on**, `Status` (Mandatory / Optional).
+| Reference | What it covers |
+|---|---|
+| [ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference) | Eight tables: envelope, `CustomerDetails`, `CustomerProfile`, the typed `EnergyResource*` kinds (METER, GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK), and `ConsumptionProfile`. Each row: `Field`, `Type`, standard(s) **Based on**, `Status` (Mandatory / Optional). |
 
 ## 9. Schedule II
 
-Not applicable — the Passport is self-contained. The one interdependency is the live [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, which references this credential's meter/asset identifiers but is a separate exchange, not a populated report.
+| Wrapping / dependency | Detail |
+|---|---|
+| Not applicable | The Passport is self-contained. The one interdependency is the live [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, which references this credential's meter/asset identifiers but is a separate exchange, not a populated report. |
 
 ## 10. How It Fits Together
 

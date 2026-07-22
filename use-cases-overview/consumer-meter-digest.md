@@ -73,11 +73,16 @@ One record: a Verifiable Credential wrapping a MeterData profile. Unlike the Pas
 
 ## 8. Schedule I — Static Fields of the Credential
 
-Credential envelope (`@context`, `id`, `type`, `issuer`, `credentialSubject`, `proof`) is standard W3C VC. Payload (`meterReference`, `period`, `readings`, `summary`, `dataQuality`) follows [MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6).
+| Part | Fields | Basis |
+|---|---|---|
+| Credential envelope | `@context`, `id`, `type`, `issuer`, `credentialSubject`, `proof` | Standard W3C VC |
+| Payload | `meterReference`, `period`, `readings`, `summary`, `dataQuality` | [MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) |
 
 ## 9. Schedule II
 
-Not applicable as a populated report. The closest analogue is the **summary** profile, deriving `SUMMARY_TOTAL` / `SUMMARY_PEAK` / `SUMMARY_TOD` aggregates from raw readings — documented per summary kind in the schema.
+| Wrapping / dependency | Detail |
+|---|---|
+| Not applicable as a populated report | The closest analogue is the **summary** profile, deriving `SUMMARY_TOTAL` / `SUMMARY_PEAK` / `SUMMARY_TOD` aggregates from raw readings — documented per summary kind in the schema. |
 
 ## 10. How It Fits Together
 

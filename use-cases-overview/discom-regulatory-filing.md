@@ -75,11 +75,15 @@ Three signed artefacts per submission: a **signed Beckn contract** (parties, sco
 
 ## 8. Schedule I — Static Fields of the Filing
 
-→ **[ArrFiling v0.5 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5#field-reference)**. Three tables: `ArrFiling` (root), `ArrFiscalYear` (per-year basis and items), `ArrLineItem` (the rows).
+| Reference | What it covers |
+|---|---|
+| [ArrFiling v0.5 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5#field-reference) | Three tables: `ArrFiling` (root), `ArrFiscalYear` (per-year basis and items), `ArrLineItem` (the rows). |
 
 ## 9. Schedule II — Report Templates
 
-Not applicable — the filing is the report. The closest interdependence is the tariff order it answers (`policyID`, see [Policy as Code](tariff-intelligence.md)) and any prior-year filing it trues up against — both references, not derived templates.
+| Wrapping / dependency | Detail |
+|---|---|
+| Not applicable | The filing is the report. The closest interdependence is the tariff order it answers (`policyID`, see [Policy as Code](tariff-intelligence.md)) and any prior-year filing it trues up against — both references, not derived templates. |
 
 ## 10. How It Fits Together
 

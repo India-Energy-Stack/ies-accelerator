@@ -97,17 +97,25 @@ These three records relate to each other by direct composition — a `MeterDataR
 
 MeterDataRequest v0.6 is built from five logical blocks:
 
-- **MeterDataCapabilities** — a provider's advertised profiles, supported scopes, and maximum history window. Only `profiles[]` is required.
-- **MeterDataAuthorisation** — the grantor, grantee, purpose, validity period, and granted capability slice. All six fields (`grantor`, `grantee`, `purpose`, `validFrom`, `validUntil`, `capabilities`) are required.
-- **MeterDataRequest** (`MeterDataRequestObject`) — the query itself: targets, scope, time window, consent references, authorisation, requested capability slice, and record cap. Only `from`, `duration` and `capabilitiesRequested` are required.
-- **ProfileCapability** — the nested detail inside a capabilities block, naming individual profile types (one of eight enumerated values) and, where needed, the specific registers within them.
-- **ValueCapability** — the innermost detail: a register's OBIS/short code, telemetry mode, and optional multiplier/accuracy.
+| Block | What it contains |
+|---|---|
+| **MeterDataCapabilities** | a provider's advertised profiles, supported scopes, and maximum history window. Only `profiles[]` is required. |
+| **MeterDataAuthorisation** | the grantor, grantee, purpose, validity period, and granted capability slice. All six fields (`grantor`, `grantee`, `purpose`, `validFrom`, `validUntil`, `capabilities`) are required. |
+| **MeterDataRequest** (`MeterDataRequestObject`) | the query itself: targets, scope, time window, consent references, authorisation, requested capability slice, and record cap. Only `from`, `duration` and `capabilitiesRequested` are required. |
+| **ProfileCapability** | the nested detail inside a capabilities block, naming individual profile types (one of eight enumerated values) and, where needed, the specific registers within them. |
+| **ValueCapability** | the innermost detail: a register's OBIS/short code, telemetry mode, and optional multiplier/accuracy. |
 
 The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) is at [MeterDataRequest v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6#field-reference).
 
 ## 9. Schedule II
 
-Not applicable as a stand-alone dependency in this direction, but MeterDataRequest is itself depended on. MeterDataRequest v0.6 is a plain payload schema — it does not wrap or depend on another schema. It can, however, optionally be wrapped: a `MeterDataRequest` payload may be carried inside a **MeterDataRequestCredential** (schema family `MeterDataRequestCredential v0.1`), a W3C Verifiable Credential (VC Data Model 2.0) used to prove the requester's authorisation at Beckn `confirm` time. That wrapper schema is itself declared a **subclass of `EnergyCredential v2.0`** (the Beckn DEG specification's common energy-credential envelope, expressed in its `attributes.yaml` as `allOf: - $ref: https://schema.beckn.io/EnergyCredential/v2.0`), inheriting `issuer`, `validFrom`/`validUntil`, `credentialStatus` and `proof` from that parent rather than redefining them. See the dedicated [MeterDataRequestCredential overview](meter-data-request-credential.md) for that wrapping schema's own field reference.
+| Aspect | Detail |
+|---|---|
+| Stand-alone? | Not applicable as a stand-alone dependency in this direction — MeterDataRequest v0.6 is a plain payload schema; it does not wrap or depend on another schema. But MeterDataRequest is itself depended on. |
+| Optionally wrapped | A `MeterDataRequest` payload may be carried inside a **MeterDataRequestCredential** (schema family `MeterDataRequestCredential v0.1`), a W3C Verifiable Credential (VC Data Model 2.0) used to prove the requester's authorisation at Beckn `confirm` time. |
+| Wrapper's base | That wrapper schema is itself declared a **subclass of `EnergyCredential v2.0`** (the Beckn DEG specification's common energy-credential envelope, expressed in its `attributes.yaml` as `allOf: - $ref: https://schema.beckn.io/EnergyCredential/v2.0`), inheriting `issuer`, `validFrom`/`validUntil`, `credentialStatus` and `proof` from that parent rather than redefining them. |
+
+See the dedicated [MeterDataRequestCredential overview](meter-data-request-credential.md) for that wrapping schema's own field reference.
 
 ## 10. How It Fits Together
 

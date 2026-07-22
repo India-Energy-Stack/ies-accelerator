@@ -113,18 +113,25 @@ This page describes the schema and its structure; readers who need the holder-bo
 
 The schema is built from these logical blocks:
 
-- **Envelope** — `id`, `type`, `issuer`, `validFrom`, `validUntil`, `credentialStatus`, `credentialSubject`, `proof` — the standard W3C VC wrapper fields.
-- **CustomerProfile** — the required, non-PII block: `customerNumber`, optional `idRef`, the `energyResources[]` array (minimum one entry), and optional `consumptionProfiles[]`.
-- **CustomerDetails** — the optional, PII block: `fullName`, optional `careOf`, `installationAddress` (GeoJSON `geo` plus optional `address`), `serviceConnectionDate`.
-- **EnergyResource kinds** — seven typed entries (`EnergyResourceMeter`, `EnergyResourceGenerator`, `EnergyResourceStorage`, `EnergyResourceEVCharger`, `EnergyResourceInverter`, `EnergyResourceLoad`, `EnergyResourceNetwork`), each inheriting `EnergyResourceCommonAttributes` and adding its own kind-specific fields, plus the `subResources[]` / `parentResources[]` topology links common to every kind.
-- **ConsumptionProfile** — `meterId`, `sanctionedLoad`, optional `sanctionedExportLoad`, `billingCycleDay`, `contractMaxDemand`, `tariffCategoryCode`, `premisesType`, `connectionType`, `paymentMode`, `serviceStatus` — one entry per meter.
-- **QuantitativeValue types** — `QVPower` (`W`/`kW`/`MW`), `QVEnergy` (`kWh`/`MWh`), `QVApparentPower` (`kVA`/`MVA`), `QVReactivePower` (`kVAR`/`MVAR`), `QVVoltage` (`V`/`kV`) — the `{value, unit}` pairs used throughout the other blocks.
+| Block | What it contains |
+|---|---|
+| **Envelope** | `id`, `type`, `issuer`, `validFrom`, `validUntil`, `credentialStatus`, `credentialSubject`, `proof` — the standard W3C VC wrapper fields. |
+| **CustomerProfile** | the required, non-PII block: `customerNumber`, optional `idRef`, the `energyResources[]` array (minimum one entry), and optional `consumptionProfiles[]`. |
+| **CustomerDetails** | the optional, PII block: `fullName`, optional `careOf`, `installationAddress` (GeoJSON `geo` plus optional `address`), `serviceConnectionDate`. |
+| **EnergyResource kinds** | seven typed entries (`EnergyResourceMeter`, `EnergyResourceGenerator`, `EnergyResourceStorage`, `EnergyResourceEVCharger`, `EnergyResourceInverter`, `EnergyResourceLoad`, `EnergyResourceNetwork`), each inheriting `EnergyResourceCommonAttributes` and adding its own kind-specific fields, plus the `subResources[]` / `parentResources[]` topology links common to every kind. |
+| **ConsumptionProfile** | `meterId`, `sanctionedLoad`, optional `sanctionedExportLoad`, `billingCycleDay`, `contractMaxDemand`, `tariffCategoryCode`, `premisesType`, `connectionType`, `paymentMode`, `serviceStatus` — one entry per meter. |
+| **QuantitativeValue types** | `QVPower` (`W`/`kW`/`MW`), `QVEnergy` (`kWh`/`MWh`), `QVApparentPower` (`kVA`/`MVA`), `QVReactivePower` (`kVAR`/`MVAR`), `QVVoltage` (`V`/`kV`) — the `{value, unit}` pairs used throughout the other blocks. |
 
 The full field-by-field reference (Field / Type / Description, auto-generated from schema.json, with each standards-derived field's description prefixed "Based on") is at [ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference).
 
 ## 9. Schedule II
 
-Not applicable as a wrapping relationship in the usual sense, but ElectricityCredential v1.2 is explicitly a **composition**, not a self-contained monolith: its own `attributes.yaml` defines only the envelope and the `CustomerProfile`/`CustomerDetails` shapes, and pulls in `EnergyCredential/v2.0` (as its base, via `allOf`), `EnergyResource/v2.1` (for the seven-kind discriminated union), `MeterServiceProfile/v1.1` (aliased as `ConsumptionProfile`), `CustomerDetails/v1.0`, and `IdRef/v1.0` by `$ref`. It does not wrap, and is not wrapped by, any other top-level *credential* — it remains the one Verifiable Credential issued and verified as a single signed document.
+| Aspect | Detail |
+|---|---|
+| Stand-alone? | Not applicable as a wrapping relationship in the usual sense — ElectricityCredential v1.2 is explicitly a **composition**, not a self-contained monolith. |
+| Defines directly | Its own `attributes.yaml` defines only the envelope and the `CustomerProfile`/`CustomerDetails` shapes. |
+| Pulls in by `$ref` | `EnergyCredential/v2.0` (as its base, via `allOf`), `EnergyResource/v2.1` (for the seven-kind discriminated union), `MeterServiceProfile/v1.1` (aliased as `ConsumptionProfile`), `CustomerDetails/v1.0`, and `IdRef/v1.0`. |
+| Wrapped by another credential? | No — it does not wrap, and is not wrapped by, any other top-level *credential*; it remains the one Verifiable Credential issued and verified as a single signed document. |
 
 ## 10. How It Fits Together
 
