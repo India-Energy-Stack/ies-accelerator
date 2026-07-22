@@ -55,7 +55,13 @@ See **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-da
 
 ## 5. Basis of Standards
 
-Same precedence: **IS → CEA → IEC → IEEE**. Metering reads follow **IS 15959** (DLMS/COSEM; OBIS codes) and **IS 16444** directly. The credential envelope is **W3C VC Data Model 2.0**.
+Fixed order of preference: **IS → CEA → IEC → IEEE**.
+
+| Standard | Role here |
+|---|---|
+| **IS 15959** | DLMS/COSEM; OBIS codes — metering reads |
+| **IS 16444** | Smart meter specification |
+| **W3C VC Data Model 2.0** | The credential envelope |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

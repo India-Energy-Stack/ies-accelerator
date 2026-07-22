@@ -70,22 +70,14 @@ The schema does not mint a new identifier scheme of its own; it consumes whateve
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed. Where more than one standard could apply, use, in order:
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. MeterDataRequest v0.6 is a request/authorisation envelope, not a metering data model, so `attributes.yaml` carries no `x-standard` field annotations of its own; its one point of contact with a standard is indirect — `ValueCapability.value` names a register using an OBIS/short code from the same register space the sibling `MeterData` schema follows.
 
-1. Bureau of Indian Standards (IS)
-2. CEA Regulations and the Indian Electricity Grid Code (IEGC)
-3. International Electrotechnical Commission (IEC)
-4. Institute of Electrical and Electronics Engineers (IEEE)
+| Standard | Role here |
+|---|---|
+| **IS 15959** ("Data Exchange for Electricity Meter Reading, Tariff and Load Control") | Anchors the register space. The `MeterData v0.6` family's `IES codes.json` gives 75 register entries, each citing a specific IS 15959 part/table/clause — e.g. `0.0.96.1.0.255` (meter serial) → Part 1 Table 30 / Part 2 Table A12 / Part 3 Table 12; `0.0.1.0.0.255` (clock) → Part 2 Table A1; current/voltage/energy registers → Part 2 Clauses 13/14 |
+| **IEC 62056** (OBIS / DLMS-COSEM) | Second-order reference behind IS 15959 in the order of preference — the international harmonisation of the OBIS code space, not cited directly by this schema |
 
-MeterDataRequest v0.6 itself is a request/authorisation envelope, not a metering data-model schema, so `attributes.yaml` carries no `x-standard` field annotations of its own — confirmed by reading the source file in full: every property description is IES-native ("Reason/purpose for data access", "ISO 8601 duration string...") with no standard citation attached to any field. Its one point of contact with a standard is indirect but concrete: `ValueCapability.value` names the register being requested or offered using an OBIS code or short code drawn from the same register space that the sibling `MeterData` payload schema follows.
-
-That register space is anchored in **IS 15959** ("Data Exchange for Electricity Meter Reading, Tariff and Load Control"), and the anchoring is more granular than a single blanket citation: the `MeterData v0.6` family ships an `IES codes.json` register-code table of 75 entries, each with its own `source` annotation citing a specific IS 15959 part, table, or clause — for example:
-
-- `0.0.96.1.0.255` (Meter serial number) → *IS 15959 Part 1 Table 30; Part 2 Table A12; Part 3 Table 12*
-- `0.0.1.0.0.255` (Clock) → *IS 15959 Part 2 Table A1*
-- Several current/voltage/energy registers cite *IS 15959 Part 2 Clause 13* and *Clause 14* directly, and one cites *Part 2 Table A8 / Clause 15*.
-
-Each register-code entry also states its own `profiles[]` (which of `CUSTOMER`/`INTERVAL`/`DAILY`/`MONTHLY`/`INSTANTANEOUS`/`EVENT`/`ALARM` it is valid under) and `supportedModes[]` (`READING`/`USAGE`, with a `defaultMode`). That is the authoritative source this schema's own `ProfileCapability.profileType` enum and `ValueCapability.mode` enum are meant to be checked against — see the schema's own semantic validator, which cross-checks exactly this (section 7). IEC 62056 (the international harmonisation of the OBIS code space that IS 15959 draws on) is the second-order reference behind IS 15959 in the fixed order of preference, not a standard this schema cites directly.
+Each register entry also states its valid `profiles[]` and `supportedModes[]` (`READING`/`USAGE`), which this schema's `ProfileCapability.profileType` and `ValueCapability.mode` enums are checked against (see section 7).
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

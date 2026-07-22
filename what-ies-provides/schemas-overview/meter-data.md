@@ -69,18 +69,13 @@ Individual readings are named either by their OBIS code (for example `1.0.1.8.0.
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed, always in this order:
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. MeterData ties individual fields to specific clauses rather than citing the standard only at schema level:
 
-1. Bureau of Indian Standards (IS)
-2. CEA Regulations and the Indian Electricity Grid Code (IEGC)
-3. International Electrotechnical Commission (IEC)
-4. Institute of Electrical and Electronics Engineers (IEEE)
-
-MeterData follows Indian standards directly and, unusually for a schema in this stack, ties individual fields to specific clauses rather than citing the standard only at the schema level:
-
-- **IS 15959** governs the OBIS-code and event-ID conventions used for Indian AMI. The schema's own `IES codes.json` registry cites, per register, the exact Part and table — for example the meter serial number and device ID registers are sourced to **IS 15959 Part 1 Table 30 / Part 2 Table A12 / Part 3 Table 12**, and other registers cite **Part 2 Clause 13**, **Clause 14**, **Table A1**, **Table A4**, **Table A8**, and combinations across Parts 1–3 — the registry's citations track which meter category, `A` through `D4`, each register applies to.
-- **IS 16444** is the overarching AC smart meter specification that MeterData's profile shapes are built to carry data for.
-- The `EventProfile`/`MeterEvent` shape and the 25-entry event taxonomy in `IES codes.json` (IDs 1–305+, phase-qualified, split into occurrence/restoration/configurationChange/control kinds) are sourced to IS 15959's event/diagnostic tables.
+| Standard | What it governs here |
+|---|---|
+| **IS 15959** | The OBIS-code and event-ID conventions for Indian AMI. `IES codes.json` cites the exact Part and table per register — e.g. meter serial number / device ID → **Part 1 Table 30 / Part 2 Table A12 / Part 3 Table 12**; other registers cite **Part 2 Clauses 13/14, Tables A1/A4/A8** — tracking which meter category (`A`–`D4`) each applies to |
+| **IS 16444** | The overarching AC smart meter specification the profile shapes carry data for |
+| **IS 15959 event/diagnostic tables** | The `EventProfile`/`MeterEvent` shape and the 25-entry event taxonomy in `IES codes.json` (IDs 1–305+, phase-qualified; occurrence/restoration/configurationChange/control kinds) |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

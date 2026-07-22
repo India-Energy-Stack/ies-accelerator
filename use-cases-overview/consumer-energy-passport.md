@@ -58,9 +58,13 @@ Every item — consumer, connection, each meter, each asset — carries a [DID](
 
 ## 5. Basis of Standards
 
-Fixed order of preference: **(1) Bureau of Indian Standards (IS) → (2) CEA Regulations / IEGC → (3) IEC → (4) IEEE.** Recorded in field tables and as `x-standards-precedence` at the schema root.
+Fixed order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE** (recorded in field tables and as `x-standards-precedence` at the schema root).
 
-Metering follows Indian standards directly: **IS 16444** (smart meter spec) and **IS 15959** (DLMS/COSEM; OBIS codes). The net meter is the source of truth under **CEA (Installation and Operation of Meters) Regulations, 2006**.
+| Standard | Role here |
+|---|---|
+| **IS 16444** | Smart meter specification |
+| **IS 15959** | DLMS/COSEM; OBIS codes for metering |
+| **CEA (Installation and Operation of Meters) Regulations, 2006** | The net meter as the source of truth |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

@@ -71,16 +71,17 @@ The credential does not mint new identifiers for meters, service points, or read
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed, always the same:
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. MeterDataCredential inherits its envelope rather than redefining it, so the credential-level standard is the W3C VC framework; any Indian- or IEC-standard references for the metering data itself belong to the wrapped MeterData v0.6 payload.
 
-1. Bureau of Indian Standards (IS)
-2. CEA Regulations and the Indian Electricity Grid Code (IEGC)
-3. International Electrotechnical Commission (IEC)
-4. Institute of Electrical and Electronics Engineers (IEEE)
+| Standard | Role here |
+|---|---|
+| **W3C Verifiable Credential Data Model 2.0** | The credential envelope — issuer, validity period, credential status, proof |
+| **W3C DID Core** | Identifying issuer and subject |
+| **DEG EnergyCredential v2.0** | The superclass this schema subclasses (`allOf: [$ref: …/EnergyCredential/v2.0]`), itself a subclass of `beckn:Credential` |
+| **Ed25519Signature2020** | `proof.type` in the worked examples |
+| **IS 15959 / IEC 62056** (OBIS) | *Transitively*, via the inline-wrapped MeterData payload — e.g. `EventProfile` is an "IS 15959 event log"; `meterCategory` (`A`, `B`, `C`, `D1`–`D4`) is the IS 15959 classification; OBIS codes identify physical quantities in `payloadDescriptors`, resolved against `IES codes.json` |
 
-MeterDataCredential itself is declared in `attributes.yaml` as a subclass of the DEG-published **EnergyCredential v2.0** specification (`allOf: [$ref: https://schema.beckn.io/EnergyCredential/v2.0]`), which is in turn a subclass of `beckn:Credential`. It follows the **W3C Verifiable Credential Data Model 2.0** for its envelope (issuer, validity period, credential status, proof) and **W3C DID Core** for identifying issuer and subject. The `@context` chain a valid instance must declare is three deep: `https://www.w3.org/ns/credentials/v2`, then `https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld`, then this schema's own `context.jsonld` — each layer adding only what it defines, nothing duplicated. The proof examples all use `Ed25519Signature2020` as `proof.type`.
-
-It inherits this envelope rather than redefining it, so the credential-level standard is the W3C VC framework; any Indian- or IEC-standard references for the metering data itself belong to the wrapped MeterData v0.6 schema, not to this wrapper. That said, because the wrapped payload is inline (not merely referenced), a MeterDataCredential instance transitively carries MeterData's own standards basis: profile fields such as `EventProfile` are explicitly described in MeterData's `attributes.yaml` as an "**IS 15959** event log for one meter over a coverage period," and the `meterCategory` enum on `Meter` (values `A`, `B`, `C`, `D1`–`D4`) reflects the IS 15959 meter-classification scheme, per the MeterData README's own note that "`meterCategory` describes the regulatory standards category under IS 15959." OBIS codes (IEC 62056 object identification system) are the canonical reference for physical-quantity identification inside `payloadDescriptors`, resolved against the schema family's own `IES codes.json` registry.
+The `@context` chain a valid instance must declare is three deep: `https://www.w3.org/ns/credentials/v2` → `https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld` → this schema's own `context.jsonld`, each layer adding only what it defines.
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

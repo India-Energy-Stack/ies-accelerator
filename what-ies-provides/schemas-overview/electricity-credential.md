@@ -72,23 +72,18 @@ Topology between resources is carried by two link arrays rather than by nesting:
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed:
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. This schema follows, directly and field by field:
 
-1. Bureau of Indian Standards (IS)
-2. CEA Regulations and the Indian Electricity Grid Code (IEGC)
-3. International Electrotechnical Commission (IEC)
-4. Institute of Electrical and Electronics Engineers (IEEE)
-
-This schema follows, directly, field by field:
-
-- **IS 16444** for the meter application protocol: the field reference states plainly that `DLMS_COSEM` (IEC 62056) is "mandatory for India AMI per BIS IS 16444";
-- **CEA Connectivity Regulations, 2013 (amended 2018)**, together with **IEEE 1547-2018 Clause 11**, for the `inspection` object on every energy resource (asset commissioning and safety inspection, "captured by the distribution licensee at energisation and on re-certification events");
-- **IEC 61968-9** (CIM, metering) for `EnergyResourceMeter` and the common device attributes — `EndDeviceInfo.ratedPower`, `EndDeviceInfo.serialNumber`, `AmiBillingReadyKind` (for `meterCapability`), `EndDeviceFunction` (for the `functions[]` enum), and `FlowDirectionKind` (for `energyDirection`, paired with **ESPI NAESB REQ.21**);
-- **IEC 61970-301/302** (CIM, transmission and DER) for generators, storage, EV chargers, inverters, controllable loads and network equipment — down to individual attributes: `GeneratingUnit.maxOperatingP` and `.nominalP`, `BatteryUnit.ratedE`, `PowerElectronicsConnection.maxP/minQ/maxQ/ratedS/inverterMode`, `EnergyConsumer`/`ConformLoad` classification, and `BaseVoltage.nominalVoltage`;
-- **IS 16221** (PV module qualification), together with **IEC 61727** (PV grid interface), for `dcArrayCapacity` — the DC-side nameplate capacity of a solar array at Standard Test Conditions (the industry "kWp" figure), which the schema notes is typically larger than the AC-side `maxExport` because of inverter clipping and DC-to-AC ratio;
-- **IEC 61968-1** for the PII block in `CustomerDetails` — `Customer.name` for `fullName` and `ServiceLocation` for both `installationAddress` and the activation semantics of `serviceConnectionDate` — alongside **GeoJSON RFC 7946** for the `geo` coordinate pair and **schema.org PostalAddress** for the optional `address` fields;
-- **IEC 62196-2** for EV connector types `Type1` (J1772) and `Type2` (Mennekes), alongside the non-IEC industry connectors `CCS1`/`CCS2`, `CHAdeMO`, **GB/T 20234**, and **SAE J3400** (NACS) — reflecting that EVSE connector standards are a genuinely mixed international field, not an IEC monopoly;
-- **ISO 15118-20** and **OCPP 2.1 Bidirectional Power Transfer (BPT)** for the `EV_V2G` kind's vehicle-to-grid control protocol.
+| Standard | What it governs here |
+|---|---|
+| **IS 16444** | The meter application protocol — the field reference states `DLMS_COSEM` (IEC 62056) is "mandatory for India AMI per BIS IS 16444" |
+| **CEA Connectivity Regulations, 2013 (amended 2018)** + **IEEE 1547-2018 Clause 11** | The `inspection` object on every energy resource (asset commissioning and safety inspection at energisation and re-certification) |
+| **IEC 61968-9** (CIM, metering) | `EnergyResourceMeter` and common device attributes — `EndDeviceInfo.ratedPower`/`.serialNumber`, `AmiBillingReadyKind` (`meterCapability`), `EndDeviceFunction` (`functions[]`), `FlowDirectionKind` (`energyDirection`, paired with **ESPI NAESB REQ.21**) |
+| **IEC 61970-301/302** (CIM, transmission & DER) | Generators, storage, EV chargers, inverters, controllable loads, network equipment — e.g. `GeneratingUnit.maxOperatingP`/`.nominalP`, `BatteryUnit.ratedE`, `PowerElectronicsConnection.maxP/minQ/maxQ/ratedS/inverterMode`, `EnergyConsumer`/`ConformLoad`, `BaseVoltage.nominalVoltage` |
+| **IS 16221** + **IEC 61727** | `dcArrayCapacity` — DC-side nameplate capacity of a solar array at Standard Test Conditions (industry "kWp"), typically larger than AC-side `maxExport` due to inverter clipping |
+| **IEC 61968-1** + **GeoJSON RFC 7946** + **schema.org PostalAddress** | The PII block in `CustomerDetails` — `Customer.name` (`fullName`), `ServiceLocation` (`installationAddress`, `serviceConnectionDate`); the `geo` coordinate pair; optional `address` fields |
+| **IEC 62196-2** (+ `CCS1`/`CCS2`, `CHAdeMO`, **GB/T 20234**, **SAE J3400**/NACS) | EV connector types `Type1` (J1772) and `Type2` (Mennekes), alongside the non-IEC industry connectors — a genuinely mixed international field |
+| **ISO 15118-20** + **OCPP 2.1 BPT** | The `EV_V2G` kind's vehicle-to-grid control protocol |
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

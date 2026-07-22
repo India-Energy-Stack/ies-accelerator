@@ -70,13 +70,15 @@ No new identifier scheme. The four-actor topology reuses the same subscriber-reg
 
 ## 5. Basis of Standards
 
-IES order of preference: **IS → CEA → IEC → IEEE**. Indian standards do not yet exist for peer-to-peer energy trade as a protocol. The IES choices are:
+IES order of preference: **IS → CEA → IEC → IEEE**. Indian standards do not yet exist for peer-to-peer energy trade as a protocol. The IES choices:
 
-- **Beckn Protocol v2** — the discovery / contracting / status lifecycle (`discover` → `select` → `init` → `confirm` → `status`); providers list offers to the network's Catalog service via `publish-catalog`, and consumers query the Discovery service with `discover`.
-- **DEG schema family** — `P2PTrade`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DEGContract`, `DiscomLedgerProvider`, `BecknTimeSeries` — canonical at [schema.beckn.io](https://schema.beckn.io).
-- **OPA / Rego** — the policy bundle format; standardised by CNCF.
-- **W3C VC Data Model 2.0** / **W3C DID Core** — issuer key, signing.
-- **JSON-LD 1.1** — wire format and semantic resolution.
+| Standard | Role here |
+|---|---|
+| **Beckn Protocol v2** | The discovery / contracting / status lifecycle (`discover` → `select` → `init` → `confirm` → `status`); providers list offers to the Catalog service via `publish-catalog`, consumers query the Discovery service with `discover` |
+| **DEG schema family** | `P2PTrade`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DEGContract`, `DiscomLedgerProvider`, `BecknTimeSeries` — canonical at [schema.beckn.io](https://schema.beckn.io) |
+| **OPA / Rego** | The policy bundle format (standardised by CNCF) |
+| **W3C VC Data Model 2.0 / W3C DID Core** | Issuer key, signing |
+| **JSON-LD 1.1** | Wire format and semantic resolution |
 
 Meter data referenced by the trade conforms to **IS 16444** and **IS 15959** — the same standards as the [Smart Meter Data Exchange](smart-meter-data-exchange.md).
 
