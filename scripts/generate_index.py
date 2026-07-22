@@ -76,8 +76,7 @@ def main():
     
     sections = {
         "foundational": [
-            ("README.md", "Root-level introduction to the IES accelerator repository structure, standard protocols, and setup environment."),
-            ("getting-started.md", "A 5-minute technical orientation covering IES core capabilities, roles, prerequisites, and developer onboarding options."),
+            ("README.md", "Getting Started — the landing page: IES in brief, the three steps, the building blocks, how the guide is organised, choose-your-path routing, key terminology, prerequisites and standards."),
             ("glossary.md", "A comprehensive directory defining energy, decentralized identity (DIDs, VCs), and Beckn protocol terms."),
             ("faq.md", "Running list of common questions and answers about IES — drawn from the IES Technical Note's Annexure A."),
             ("download-pdf.md", "Where to download the auto-published, always-current printable PDF of this entire guide, and how to build it locally."),
