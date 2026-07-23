@@ -46,6 +46,40 @@ auto-generated field-reference tables for every current schema version
 def is_schema_entry(path: str) -> bool:
     return path.startswith(SCHEMA_PATH_PREFIXES)
 
+
+def resolve_source_path(raw: str) -> pathlib.Path:
+    """Safely resolve a SUMMARY.md entry path to a file under ROOT.
+
+    Rejects any spelling that isn't the canonical relative POSIX form, every
+    backslash, any ".." segment, and any absolute or drive-rooted path (POSIX
+    or Windows, including UNC). The resolved path must exist as a file
+    strictly under ROOT — symlink/junction escapes are rejected too. Raises
+    ValueError with a clear message on any violation.
+    """
+    if not raw:
+        raise ValueError("empty path")
+    if "\\" in raw:
+        raise ValueError(f"backslash not allowed: {raw!r}")
+    pp = pathlib.PurePosixPath(raw)
+    if str(pp) != raw:
+        raise ValueError(f"non-canonical path spelling: {raw!r}")
+    if pp.is_absolute():
+        raise ValueError(f"absolute path not allowed: {raw!r}")
+    if any(part == ".." for part in pp.parts):
+        raise ValueError(f"'..' segment not allowed: {raw!r}")
+    wp = pathlib.PureWindowsPath(raw)
+    if wp.drive or wp.root or wp.is_absolute():
+        raise ValueError(f"windows-rooted/drive path not allowed: {raw!r}")
+    candidate = ROOT.joinpath(*pp.parts)
+    resolved = candidate.resolve()
+    try:
+        resolved.relative_to(ROOT)
+    except ValueError:
+        raise ValueError(f"path escapes repository root: {raw!r}")
+    if not resolved.is_file():
+        raise ValueError(f"missing or not a file: {raw!r}")
+    return resolved
+
 GLYPH_FALLBACKS = {
     "←": "<-",
     "→": "->",
@@ -117,8 +151,14 @@ def parse_summary() -> list[tuple[int, str, str]]:
     return entries
 
 
-def render_mermaid(source: str, mmdc: str | None) -> str:
-    """Replace each ```mermaid``` block with a PNG image reference."""
+def render_mermaid(source: str, mmdc: str | None, no_generate: bool = False) -> str:
+    """Replace each ```mermaid``` block with a PNG image reference.
+
+    In no-generation mode (used by the verifier), an already-cached digest
+    PNG is still reused, but a missing one is never generated — the block
+    falls back to the same code-block rendering used when `mmdc` is absent,
+    preserving the existing degrade-to-code policy without creating files.
+    """
     if mmdc is None:
         return source
 
@@ -127,6 +167,8 @@ def render_mermaid(source: str, mmdc: str | None) -> str:
         digest = hashlib.sha1(diagram.encode()).hexdigest()[:12]
         out_png = MERMAID_DIR / f"{digest}.png"
         if not out_png.exists():
+            if no_generate:
+                return match.group(0)
             src = MERMAID_DIR / f"{digest}.mmd"
             src.write_text(diagram)
             cmd = [mmdc, "-i", str(src), "-o", str(out_png), "-b", "white", "-s", "2"]
@@ -214,13 +256,13 @@ def shift_headings(body: str, levels: int) -> str:
     return "\n".join(out)
 
 
-def preprocess(text: str, mmdc: str | None) -> str:
+def preprocess(text: str, mmdc: str | None, no_generate: bool = False) -> str:
     text = re.sub(r"\{%\s*hint\s+style=\"[^\"]*\"\s*%\}", "", text)
     text = re.sub(r"\{%\s*endhint\s*%\}", "", text)
     for ch, sub in GLYPH_FALLBACKS.items():
         text = text.replace(ch, sub)
     text = shrink_field_tables(text)
-    text = render_mermaid(text, mmdc)
+    text = render_mermaid(text, mmdc, no_generate)
     return text
 
 
@@ -298,11 +340,24 @@ def main() -> int:
     schema_entries = shift_depth_to([e for e in entries if is_schema_entry(e[2])], target_min=1)
 
     APPENDIX_DIVIDER_MD.write_text(APPENDIX_INTRO)
-    appendix_divider_entry = (0, APPENDIX_TITLE, str(APPENDIX_DIVIDER_MD.relative_to(ROOT)))
+    appendix_divider_entry = (0, APPENDIX_TITLE, APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix())
 
     combined_entries = main_entries + [appendix_divider_entry] + schema_entries
-    build_document(combined_entries, OUT_MD, mmdc)
-    return 0
+
+    errors: list[str] = []
+    for _, _, path in combined_entries:
+        try:
+            resolve_source_path(path)
+        except ValueError as exc:
+            errors.append(str(exc))
+    if errors:
+        print("Invalid or missing SUMMARY entries:", file=sys.stderr)
+        for err in errors:
+            print(f"  {err}", file=sys.stderr)
+        return 1
+
+    missing = build_document(combined_entries, OUT_MD, mmdc)
+    return 1 if missing else 0
 
 
 if __name__ == "__main__":

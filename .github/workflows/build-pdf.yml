@@ -20,6 +20,7 @@ on:
       - "**/*.yml"
       - "scripts/build_pdf.py"
       - "scripts/build_pdf.sh"
+      - "scripts/verify_pdf.py"
       - ".github/workflows/build-pdf.yml"
   workflow_dispatch: {}
 
@@ -44,7 +45,8 @@ jobs:
       - name: Install pandoc and fonts
         # fonts-dejavu provides "DejaVu Sans Mono" for the PDF's monofont
         # (the script defaults to macOS-only "Menlo", overridden below).
-        run: sudo apt-get update && sudo apt-get install -y pandoc fonts-dejavu
+        # poppler-utils (pdfinfo/pdftotext) backs scripts/verify_pdf.py's PDF SMOKE checks.
+        run: sudo apt-get update && sudo apt-get install -y pandoc fonts-dejavu poppler-utils
 
       - name: Cache tectonic binary
         id: cache-tectonic
@@ -75,6 +77,9 @@ jobs:
           # Menlo (the script default) is macOS-only; use a font present on the runner.
           MONOFONT: "DejaVu Sans Mono"
         run: bash scripts/build_pdf.sh
+
+      - name: Verify PDF
+        run: python3 -B scripts/verify_pdf.py --pdf build/ies_accelerator.pdf
 
       - name: Stage site
         run: |
@@ -117,6 +122,12 @@ jobs:
             exit 1
           fi
           echo "publish dir complete ($(git ls-files schemas/ | wc -l) schema files + PDF)"
+
+          python3 -B scripts/verify_pdf.py --public-root public
+
+          [ -s build/ies_accelerator.pdf ] || { echo "::error::build/ies_accelerator.pdf missing or empty"; exit 1; }
+          [ -s public/ies-report.pdf ] || { echo "::error::public/ies-report.pdf missing or empty"; exit 1; }
+          cmp -s build/ies_accelerator.pdf public/ies-report.pdf || { echo "::error::build/ies_accelerator.pdf and public/ies-report.pdf differ"; exit 1; }
 
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
