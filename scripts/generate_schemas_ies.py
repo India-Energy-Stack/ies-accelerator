@@ -174,6 +174,51 @@ def parse_readme(family: str) -> dict:
 
 # ---- field tables -----------------------------------------------------------
 
+# Abbreviations whose trailing period must not be treated as a sentence end.
+_ABBREV = {"e.g", "i.e", "etc", "vs", "cf", "no", "al", "approx",
+           "incl", "resp", "min", "max", "fig", "eq"}
+
+
+def _first_sentence(s: str) -> str:
+    """First sentence of ``s`` — a period ends the sentence only when it is at
+    paren depth 0, followed by whitespace + an uppercase letter or '(', and not
+    part of an abbreviation (so "e.g. Asia/Kolkata" and "(0.5)" stay intact)."""
+    depth = 0
+    n = len(s)
+    for i, ch in enumerate(s):
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth = max(0, depth - 1)
+        elif ch in ".!?" and depth == 0:
+            j = i + 1
+            if j >= n:
+                break
+            if s[j].isspace() and j + 1 < n and (s[j + 1].isupper() or s[j + 1] == "("):
+                prefix = s[:i].split()
+                if prefix and prefix[-1].lower() in _ABBREV:
+                    continue
+                return s[: i + 1].strip()
+    return s.strip()
+
+
+def simple_desc(prop: dict) -> str:
+    """A plain-language, single-sentence description for the developer view.
+
+    The canonical ``schemas/`` reference records the full standards basis (the
+    ``x-standard`` ``Based on …`` line) and any backward-compat / edge-case notes.
+    For this developer section we keep it simple: drop the standards provenance
+    entirely and keep only the first sentence of the description — "what the
+    attribute is", nothing more. The full text stays one click away on the
+    linked canonical per-version README."""
+    if not isinstance(prop, dict):
+        return gft.DASH
+    d = prop.get("description")
+    if not d:
+        return gft.DASH
+    return _first_sentence(" ".join(str(d).split())) or gft.DASH
+
+
 def _component_table(title: str, comp: dict, defs: dict, bold_label: bool) -> str:
     props, required = gft.resolve(comp, defs)
     rows = []
@@ -181,14 +226,9 @@ def _component_table(title: str, comp: dict, defs: dict, bold_label: bool) -> st
         if name == "@context":
             continue
         field = f"**`{gft.md_escape(name)}`** \\*" if name in required else f"`{gft.md_escape(name)}`"
-        standard = prop.get("x-standard") if isinstance(prop, dict) else None
-        desc = gft.md_escape(gft.desc_str(prop))
-        parts = []
-        if standard:
-            parts.append(f"**Based on** {gft.md_escape(standard)}.")
-        if desc != gft.DASH:
-            parts.append(desc)
-        rows.append((field, gft.md_escape(gft.type_str(prop, defs)), " ".join(parts) or gft.DASH))
+        desc = simple_desc(prop)
+        cell = gft.md_escape(desc) if desc != gft.DASH else gft.DASH
+        rows.append((field, gft.md_escape(gft.type_str(prop, defs)), cell))
     if not rows:
         return ""
     # Current version uses ### headings (they surface in the page TOC); previous
@@ -270,8 +310,9 @@ def family_page(family: str) -> str:
     L += [f"## Developer resources — {latest} (current)", "", dev_resources_table(family, latest), ""]
     L += [f"## Field reference — {latest} (current)", "",
           "_A field name in **bold** with a trailing **\\*** is required; all others are optional. "
-          "**Type** shows units for QuantitativeValue models. Where a field derives from a standard, "
-          "its description begins with **Based on** and the standard reference._", ""]
+          "**Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain "
+          "meaning of each field — the canonical per-version README (linked above) carries the full "
+          "text, standards basis and notes._", ""]
     L += [field_tables(latest_schema, bold_label=True), ""]
 
     # Previous versions

@@ -34,7 +34,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.6 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
 
 **MeterDataRequest**
 
@@ -74,7 +74,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | Field | Type | Description |
 |---|---|---|
 | **`profileType`** \* | `CustomerProfile` / `IntervalProfile` / `DailyProfile` / `MonthlyProfile` / `BillDetails` / `InstantaneousProfile` / `EventProfile` / `AlarmProfile` | — |
-| `readings` | list of ValueCapability | Granular capabilities for specific registers and metrics. If omitted, all readings under this profile are supported. |
+| `readings` | list of ValueCapability | Granular capabilities for specific registers and metrics. |
 
 **ValueCapability**
 
@@ -123,7 +123,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 |---|---|---|
 | **`profileType`** \* | `CustomerProfile` / `IntervalProfile` / `DailyProfile` / `MonthlyProfile` / `BillDetails` / `InstantaneousProfile` / `EventProfile` / `AlarmProfile` | — |
 | `values` | list of text | List of requested reading/OBIS short codes or value names. |
-| `requestedMode` | `READING` / `USAGE` | The specific mode requested for these values. Defaults to the code's default mode if omitted. |
+| `requestedMode` | `READING` / `USAGE` | The specific mode requested for these values. |
 
 
 </details>

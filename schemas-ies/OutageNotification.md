@@ -36,7 +36,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.1 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
 
 **OutageNotification Payload**
 
@@ -44,12 +44,12 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 |---|---|---|
 | **`objectType`** \* | `OUTAGE_NOTIFICATION` | — |
 | **`id`** \* | Identifier | Stable notice identity; reused across UPDATE/CANCEL messages. |
-| **`outageClass`** \* | `PLANNED` / `BREAKDOWN` / `SCHEDULED_ROSTERING` / `EMERGENCY_ROSTERING` | Outage class, from the DISCOM OMS "Down Info" set (local, additive enum). Rostering = rotational load-shedding (scheduled vs emergency). Restoration is a status transition (status=RESTORED), not a class. |
-| **`status`** \* | `SCHEDULED` / `ACTIVE` / `PARTIALLY_RESTORED` / `RESTORED` / `CANCELLED` | Outage lifecycle state. LOCAL enum (not from a published standard); loosely aligned with the CIM Outage lifecycle. |
-| `msgType` | `ALERT` / `UPDATE` / `CANCEL` | **Based on** OASIS CAP v1.2 (alert/msgType). Message type; UPDATE/CANCEL refer to a prior notice via `references`. |
-| `references` | list of Identifier | **Based on** OASIS CAP v1.2 (alert/references). Prior notice ids this message updates or cancels (CAP `references`). |
-| `severity` | `EXTREME` / `SEVERE` / `MODERATE` / `MINOR` / `UNKNOWN` | **Based on** OASIS CAP v1.2 (info/severity). Severity of the outage. |
-| `category` | `MAINTENANCE` / `UPGRADE` / `FAULT` / `LOAD_SHEDDING` / `WEATHER` / `SAFETY` / `OTHER` | Coarse descriptor for display/filtering (local enum; not CAP `info/category`). For analytics, prefer the standardized `cause.category`. |
+| **`outageClass`** \* | `PLANNED` / `BREAKDOWN` / `SCHEDULED_ROSTERING` / `EMERGENCY_ROSTERING` | Outage class, from the DISCOM OMS "Down Info" set (local, additive enum). |
+| **`status`** \* | `SCHEDULED` / `ACTIVE` / `PARTIALLY_RESTORED` / `RESTORED` / `CANCELLED` | Outage lifecycle state. |
+| `msgType` | `ALERT` / `UPDATE` / `CANCEL` | Message type; UPDATE/CANCEL refer to a prior notice via `references`. |
+| `references` | list of Identifier | Prior notice ids this message updates or cancels (CAP `references`). |
+| `severity` | `EXTREME` / `SEVERE` / `MODERATE` / `MINOR` / `UNKNOWN` | Severity of the outage. |
+| `category` | `MAINTENANCE` / `UPGRADE` / `FAULT` / `LOAD_SHEDDING` / `WEATHER` / `SAFETY` / `OTHER` | Coarse descriptor for display/filtering (local enum; not CAP `info/category`). |
 | `cause` | OutageCause | — |
 | `forceMajeure` | yes / no | OMS "Force Majeure" flag. |
 | `issuedBy` | Party | — |
@@ -70,10 +70,10 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 
 | Field | Type | Description |
 |---|---|---|
-| `category` | `EQUIPMENT` / `LIGHTNING` / `PLANNED` / `POWER_SUPPLY` / `PUBLIC` / `VEGETATION` / `WEATHER` / `WILDLIFE` / `UNKNOWN` / `OTHER` | **Based on** IEEE 1782-2022 §4.4 (with IEEE 1366). Standardized interruption cause category, for reliability benchmarking. Load-shedding/rostering has no standard category — map scheduled rostering to PLANNED, emergency to OTHER, and carry the nature in `outageClass`. |
-| `subcategory` | `DEGRADATION` / `EQUIPMENT_ERROR` / `ENVIRONMENTAL` / `DIRECT_STRIKE` / `INDIRECT_STRIKE` / `NEW_CONSTRUCTION` / `MAINTENANCE` / `CUSTOMER_REQUEST` / `OTHER_UTILITY_REQUEST` / `GENERATION` / `TRANSMISSION` / `SUBTRANSMISSION` / `DISTRIBUTION` / `DISTRIBUTED_GENERATION_STORAGE` / `OTHER_UTILITY_SUPPLY` / `DIG_IN` / `FOREIGN_CONTACT` / `FIRE_POLICE` / `VEHICLE` / `WITHIN_CLEARANCE_ZONE` / `OUTSIDE_CLEARANCE_ZONE` / `PRECIPITATION` / `ICE` / `WIND` / `EXTREME_TEMPERATURE` / `MAMMAL` / `BIRD` / `REPTILE_AMPHIBIAN` / `NO_SPECIFIC_CAUSE_FOUND` / `UTILITY_ERROR` / `OTHER_UTILITY_INITIATED` / `OTHER` | **Based on** IEEE 1782-2022 §4.5. Standardized cause subcategory; must be valid for the chosen `category` (see $comment for the mapping). Leave unset if the field finding is inconclusive. |
+| `category` | `EQUIPMENT` / `LIGHTNING` / `PLANNED` / `POWER_SUPPLY` / `PUBLIC` / `VEGETATION` / `WEATHER` / `WILDLIFE` / `UNKNOWN` / `OTHER` | Standardized interruption cause category, for reliability benchmarking. |
+| `subcategory` | `DEGRADATION` / `EQUIPMENT_ERROR` / `ENVIRONMENTAL` / `DIRECT_STRIKE` / `INDIRECT_STRIKE` / `NEW_CONSTRUCTION` / `MAINTENANCE` / `CUSTOMER_REQUEST` / `OTHER_UTILITY_REQUEST` / `GENERATION` / `TRANSMISSION` / `SUBTRANSMISSION` / `DISTRIBUTION` / `DISTRIBUTED_GENERATION_STORAGE` / `OTHER_UTILITY_SUPPLY` / `DIG_IN` / `FOREIGN_CONTACT` / `FIRE_POLICE` / `VEHICLE` / `WITHIN_CLEARANCE_ZONE` / `OUTSIDE_CLEARANCE_ZONE` / `PRECIPITATION` / `ICE` / `WIND` / `EXTREME_TEMPERATURE` / `MAMMAL` / `BIRD` / `REPTILE_AMPHIBIAN` / `NO_SPECIFIC_CAUSE_FOUND` / `UTILITY_ERROR` / `OTHER_UTILITY_INITIATED` / `OTHER` | Standardized cause subcategory; must be valid for the chosen `category` (see $comment for the mapping). |
 | `faultType` | text | Vendor asset/voltage level of the fault, e.g. 33KV, 11KV, DT, LT. |
-| `code` | text | Vendor/OMS fault-reason code, carried verbatim (e.g. a DISCOM FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). Set `codeNamespace` where the code's authority matters. |
+| `code` | text | Vendor/OMS fault-reason code, carried verbatim (e.g. a DISCOM FAULT_REASON) — not standardized; map to `category`/`subcategory` for interoperability (see fault_reason_crosswalk.json). |
 | `codeNamespace` | text | Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM). |
 | `text` | text | Free-text reason; may be localized (e.g. Hindi). |
 
@@ -87,7 +87,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `consumerCategory` | `URBAN` / `RURAL` / `AGRICULTURE` / `INDUSTRIAL` / `MIXED` / `OTHER` | Consumer mix on the asset (local enum; DISCOM "Feeder Type"). |
 | `meterRef` | Identifier | Feeder/substation smart-meter number — join key to MDMS/MeterData. |
 | `parentRef` | Identifier | Parent asset (e.g. a feeder's substation, a DT's feeder). |
-| `geo` | GeoJSONGeometry | **Based on** GeoJSON (RFC 7946), WGS84. Optional inline geometry (WGS84): Point (substation/DT), LineString (feeder route), Polygon (service area). |
+| `geo` | GeoJSONGeometry | Optional inline geometry (WGS84): Point (substation/DT), LineString (feeder route), Polygon (service area). |
 
 **OutageNetworkContext**
 
@@ -107,15 +107,15 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 |---|---|---|
 | `text` | text | Free-text localities (CAP areaDesc), e.g. "SEC-14, 9, 11 Rajnagar". |
 | `adminAreas` | list of text | Named localities / wards / villages. |
-| `geo` | GeoJSONGeometry | **Based on** GeoJSON (RFC 7946); CAP area. Polygon/MultiPolygon service area, or Point/circle (CAP). WGS84. |
+| `geo` | GeoJSONGeometry | Polygon/MultiPolygon service area, or Point/circle (CAP). |
 
 **OutageImpact**
 
 | Field | Type | Description |
 |---|---|---|
 | `customersAffected` | integer | — |
-| `deEnergized` | list of Identifier | **Based on** CIM (IEC 61968-3 UsagePoint). Optional SDP/UsagePoint refs (authenticated tier). |
-| `energized` | list of Identifier | **Based on** CIM (IEC 61968-3 UsagePoint). Optional points confirmed still energized. |
+| `deEnergized` | list of Identifier | Optional SDP/UsagePoint refs (authenticated tier). |
+| `energized` | list of Identifier | Optional points confirmed still energized. |
 
 **OutageTiming**
 
@@ -149,7 +149,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 |---|---|---|
 | `source` | `MDMS` / `OMS` / `SCADA` / `RTDAS` / `AMI` / `MANUAL` | System that raised this notice (local enum; RTDAS = Real-Time Data Acquisition System). |
 | `amispCode` | text | AMI Service Provider that supplied the detection signal (feeder-status ingest API). |
-| `detectionRef` | Identifier | Reference to the real-time detection record that raised the outage (e.g. a DISCOM RTDAS_DATA_ID). Absence or a "0" sentinel indicates a manually entered outage (source=MANUAL). |
+| `detectionRef` | Identifier | Reference to the real-time detection record that raised the outage (e.g. a DISCOM RTDAS_DATA_ID). |
 | `signal` | OutageSignal | — |
 | `alarmRefs` | list of OutageAlarmRef | References into MeterData AlarmProfile records. |
 
@@ -158,7 +158,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | Field | Type | Description |
 |---|---|---|
 | `eventId` | text | Idempotency key of the originating feeder-status event. |
-| `feederStatus` | `ENERGIZED` / `DE_ENERGIZED` / `UNKNOWN` | Normalized feeder status (local enum); raw vendor code in `rawCode`. Energized/de-energized align with CIM UsagePoint semantics. |
+| `feederStatus` | `ENERGIZED` / `DE_ENERGIZED` / `UNKNOWN` | Normalized feeder status (local enum); raw vendor code in `rawCode`. |
 | `diPort` | text | Digital-input port on the substation meter that carried the signal. |
 | `rawCode` | text | Vendor-native status code as received (e.g. FEEDER_STATUS=102), for traceability. |
 
@@ -182,7 +182,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 
 | Field | Type | Description |
 |---|---|---|
-| **`scheme`** \* | `METER_SERIAL` / `MRID` / `GIS_FEATURE_ID` / `SERVICE_DELIVERY_POINT` / `FEEDER` / `SUBSTATION` / `DT` / `CONSUMER_NUMBER` / `ORG` / `DID` / `OTHER` | **Based on** MRID: CIM (IEC 61968/61970); DID: W3C DID Core. Identifier scheme (mixed provenance). MRID and DID are borrowed from their standards; the rest are local vendor/DISCOM master keys. |
+| **`scheme`** \* | `METER_SERIAL` / `MRID` / `GIS_FEATURE_ID` / `SERVICE_DELIVERY_POINT` / `FEEDER` / `SUBSTATION` / `DT` / `CONSUMER_NUMBER` / `ORG` / `DID` / `OTHER` | Identifier scheme (mixed provenance). |
 | **`value`** \* | text | — |
 | `namespace` | text | — |
 

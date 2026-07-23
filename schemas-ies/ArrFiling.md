@@ -34,7 +34,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.5 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
 
 **ArrFiling**
 
@@ -71,16 +71,16 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 
 | Field | Type | Description |
 |---|---|---|
-| **`lineItemId`** \* | text | Stable identifier for this line item across years. Use kebab-case, e.g., "power-purchase-cost", "interest-working-cap". |
+| **`lineItemId`** \* | text | Stable identifier for this line item across years. |
 | `serialNumber` | integer | Display order as shown in the regulatory form. |
 | **`category`** \* | `VARIABLE` / `FIXED` / `INCOME` / `SUB_TOTAL` / `ARR` / `ADJUSTMENT` | VARIABLE - costs varying with energy volume (power purchase) FIXED - costs independent of volume (O&M, depreciation, interest, return) INCOME - revenue credits that reduce the ARR (negative amounts) SUB_TOTAL - computed aggregation of other line items ARR - the final net/aggregate revenue requirement ADJUSTMENT - true-up corrections, pass-throughs, FPPCA adjustments |
 | `subCategory` | `POWER_PURCHASE` / `NETWORK_COST` / `O_AND_M` / `DEPRECIATION` / `INTEREST` / `RETURN_ON_EQUITY` / `PROVISIONAL` / `OTHER` / `NON_TARIFF_INCOME` / `REVENUE_CREDIT` / `TOTAL` / `NET_ARR` | Functional sub-classification for analysis and comparison across DISCOMs. |
-| **`head`** \* | text | Short heading as used in the regulatory form. Varies by DISCOM — use the original text from the filing. |
-| `particulars` | text | Detailed description or the "Particulars" column value. Useful when head alone is ambiguous (e.g., "Others" head with "Incentive/Disincentive on achievement of norms" as particulars). |
-| **`amount`** \* | number / null | Amount in the filing's currency and unitScale. Null means the line item exists in the form but was not filed / not applicable. Negative values represent credits, deductions, or adjustments that reduce ARR. |
+| **`head`** \* | text | Short heading as used in the regulatory form. |
+| `particulars` | text | Detailed description or the "Particulars" column value. |
+| **`amount`** \* | number / null | Amount in the filing's currency and unitScale. |
 | `formReference` | text | Reference to the supporting sub-form or schedule. |
 | `componentOf` | text | lineItemId of the parent subtotal this item contributes to. |
-| `formula` | text | Human-readable computation formula expressed as references to other lineItemIds. Only present on SUB_TOTAL and ARR items. |
+| `formula` | text | Human-readable computation formula expressed as references to other lineItemIds. |
 
 
 ---
