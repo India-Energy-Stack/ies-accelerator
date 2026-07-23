@@ -249,6 +249,7 @@ def build_pulluri_response(ts, txn, doc_type, uri, issued_to, valid_from, valid_
     <ValidTo>{valid_to}</ValidTo>
     <DocContent format="pdf">{pdf_b64}</DocContent>
     <VcContent format="json-ld">{vc_b64}</VcContent>
+    <VcType>application/ld+json</VcType>
   </DocDetails>
 </PullURIResponse>"""
 ```
@@ -256,10 +257,11 @@ def build_pulluri_response(ts, txn, doc_type, uri, issued_to, valid_from, valid_
 | Field | Description |
 |---|---|
 | `Status="1"` | Success. Use `Status="0"` for errors. |
-| `URI` | Unique identifier for this document in DigiLocker. NYCER: `{issuer_id}-NYCER-{consumerNo}`. MPLTR: `{issuer_id}-MPLTR-{consumerNo}-{period}` — **the period makes each statement a distinct document** (see [The document key](#the-one-real-gap-the-document-key)). |
+| `URI` | Unique identifier for this document in DigiLocker — `{issuer_id}-{DocType}-{docId}`. The final **doc-id** segment is **required**: NeGD rejects a URI that ends at the DocType with no doc-id. Form it the same way your existing electricity-bill (`ELBIL`) integration forms its doc-id; for a connection-keyed credential the CA / consumer number serves this role. NYCER: `{issuer_id}-NYCER-{consumerNo}`. MPLTR: `{issuer_id}-MPLTR-{consumerNo}-{period}` — **the period makes each statement a distinct document** (see [The document key](#the-one-real-gap-the-document-key)). |
 | `IssuedTo` | Consumer's full name — DigiLocker validates this against the user's profile |
 | `DocContent` | Base64-encoded PDF (the rendered statement / certificate card) |
 | `VcContent` | Base64-encoded W3C VC JSON-LD — the signed credential, proof intact |
+| `VcType` | Media type of the `VcContent` payload — **`application/ld+json`**. Required by NeGD immediately after `VcContent`; a response without it is rejected. |
 
 ### Handler Logic Summary
 
@@ -439,7 +441,7 @@ vc_json["issuer"] = {
 The URI for NYCER stays keyed on the consumer number — a refresh overwrites the last, which is correct for a slow-changing connection credential:
 
 ```python
-uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"
+uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"   # trailing segment is the required doc-id (see URI note in Step 6)
 ```
 
 ### What DigiLocker needs to accept for v1.2
@@ -587,7 +589,7 @@ The electricity bill and NYCER are keyed on the consumer number alone, so each r
 
 ```python
 # NYCER — overwrite on refresh (correct for a connection credential)
-uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"
+uri = f"in.gov.discom-NYCER-{consumer.consumer_number}"   # trailing segment is the required doc-id (see URI note in Step 6)
 
 # MPLTR — period in the key, so every statement coexists
 uri = f"in.gov.discom-MPLTR-{consumer.consumer_number}-{period}"   # period e.g. "2026-05" or "2025-05_2026-04"
