@@ -37,6 +37,17 @@
   * [v0.1](/schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](/schemas/external/README.md)
 
+## IES Schemas (developer)
+
+* [All schemas](/schemas-ies/README.md)
+* [ElectricityCredential](/schemas-ies/ElectricityCredential.md)
+* [MeterData](/schemas-ies/MeterData.md)
+* [MeterDataCredential](/schemas-ies/MeterDataCredential.md)
+* [MeterDataRequest](/schemas-ies/MeterDataRequest.md)
+* [MeterDataRequestCredential](/schemas-ies/MeterDataRequestCredential.md)
+* [ArrFiling](/schemas-ies/ArrFiling.md)
+* [OutageNotification](/schemas-ies/OutageNotification.md)
+
 ## How you implement IES
 
 * [Overview](/how-you-implement-ies/README.md)
