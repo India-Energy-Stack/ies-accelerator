@@ -1124,6 +1124,36 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
   </li>
   </ul>
   </details>
+* **[p2p-energy-trading.md](use-cases-overview/p2p-energy-trading.md)**
+  - *Summary*: P2P Energy Trading — overview.
+  <details>
+  <summary><b>Show Outline / Headings</b></summary>
+  <ul>
+    <li><a href="use-cases-overview/p2p-energy-trading.md#p2p-energy-transaction">P2P Energy Transaction</a>    <ul>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-1.-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-2.-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-3.-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-4.-definitions">4. Definitions</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-7.-the-records">7. The Records</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-10.-how-it-fits-together">10. How It Fits Together</a>      <ul>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#the-six-phases">The six phases</a>
+      </li>
+      </ul>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#value-unlock">Value Unlock</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+  </details>
 * **[tariff-intelligence.md](use-cases-overview/tariff-intelligence.md)**
   - *Summary*: Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).
   <details>

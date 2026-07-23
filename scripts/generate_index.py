@@ -116,6 +116,7 @@ def main():
             ("use-cases-overview/smart-meter-data-exchange.md", "Smart Meter Data Exchange — overview."),
             ("use-cases-overview/der-visibility.md", "DER Visibility — overview."),
             ("use-cases-overview/discom-regulatory-filing.md", "DISCOM Regulatory Filing — overview."),
+            ("use-cases-overview/p2p-energy-trading.md", "P2P Energy Trading — overview."),
             ("use-cases-overview/tariff-intelligence.md", "Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).")
         ],
         "schemas": [
