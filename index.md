@@ -988,20 +988,21 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-7.-the-record">7. The Record</a></li>
-      <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a>      <ul>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.1-passport-envelope-holder-and-issuer">8.1 Passport Envelope, Holder, and Issuer</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.2-consumer-and-service-connection">8.2 Consumer and Service Connection</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.3-energy-resources-and-common-attributes">8.3 Energy Resources and Common Attributes</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.4-resource-specific-attributes">8.4 Resource-Specific Attributes</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.5-tariff-and-sanctioned-load-profile">8.5 Tariff and Sanctioned-load Profile</a>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.-schedule-i-consumer-energy-passport-static-record">8. Schedule I --- Consumer Energy Passport (Static Record)</a>      <ul>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.1-consumer-and-licensee">8.1 Consumer and Licensee</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.2-service-connection-and-metering">8.2 Service Connection and Metering</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.3-energy-assets-one-entry-per-der">8.3 Energy Assets (one entry per DER)</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.4-asset-type-details-within-der-.profile-where-the-type-applies">8.4 Asset-type details (within der[].profile, where the type applies)</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.5-controllable-assets-separate-list-for-devices-an-aggregator-can-control">8.5 Controllable Assets (separate list, for devices an aggregator can control)</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.-schedule-ii-separate-meterdata-v0.6-reference">9. Schedule II — Separate MeterData v0.6 Reference</a>      <ul>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.1-identification-and-linkage">9.1 Identification and Linkage</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.2-meterdata-profile-shapes">9.2 MeterData Profile Shapes</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.3-readings-intervals-and-descriptors">9.3 Readings, Intervals, and Descriptors</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.4-canonical-electrical-registers-ies-codes">9.4 Canonical Electrical Registers (IES Codes)</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.5-events-and-alarms">9.5 Events and Alarms</a>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.-schedule-ii-der-telemetry-live-record">9. Schedule II --- DER Telemetry (Live Record)</a>      <ul>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.1-one-record-per-inverter-per-interval">9.1 One record per inverter, per interval</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.2-identification">9.2 Identification</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.3-electrical-measurements">9.3 Electrical measurements</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.4-environmental-where-a-weather-sensor-is-fitted">9.4 Environmental (where a weather sensor is fitted)</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.5-asset-type-measurements">9.5 Asset-type measurements</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.6-transmission-and-security-mnre-m2m">9.6 Transmission and security (MNRE M2M)</a>
       </li>
       </ul>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
@@ -1437,3 +1438,4 @@ Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute
   </li>
   </ul>
   </details>
+

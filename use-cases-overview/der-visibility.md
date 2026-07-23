@@ -63,7 +63,7 @@ One signed Verifiable Credential per locus per refresh cycle. Unlike the consume
 
 | Reference | What it covers |
 |---|---|
-| [Consumer Energy Passport §8](consumer-energy-passport.md#id-8.-schedule-i-static-fields-of-the-credential) → **[ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference)** | DER Visibility publishes `energyResources[]` (GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) with the parent / sub-resource links, plus `consumptionProfiles[]` where sanctioned-load / export-limit context is needed. No `customerDetails`, no customer numbers. |
+| [Consumer Energy Passport §8](consumer-energy-passport.md#id-8.-schedule-i-consumer-energy-passport-static-record) → **[ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference)** | DER Visibility publishes `energyResources[]` (GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) with the parent / sub-resource links, plus `consumptionProfiles[]` where sanctioned-load / export-limit context is needed. No `customerDetails`, no customer numbers. |
 
 ## 9. Schedule II
 
