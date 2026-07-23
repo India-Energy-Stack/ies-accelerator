@@ -5,7 +5,7 @@ ifeq ($(shell python3 -c "import yaml, jsonschema" >/dev/null 2>&1 && echo ok ||
   $(error Error: Required Python packages (PyYAML, jsonschema) are missing. Please activate your virtual environment or install them: pip install pyyaml jsonschema)
 endif
 
-.PHONY: all clean build validate index test external
+.PHONY: all clean build validate index test external schemas-ies
 
 # Local checkout that holds the external schema sources
 # (override: make external SCHEMA_REPO=/path/to/DEG)
@@ -28,7 +28,7 @@ COMPILED_SCHEMAS := $(foreach dir,$(SCHEMA_DIRS),$(dir)schema.json $(dir)context
 VALIDATION_STAMPS := $(foreach dir,$(SCHEMA_DIRS),$(dir).validate_stamp)
 
 # Default target builds and validates everything
-all: build validate index
+all: build validate index schemas-ies
 
 # Build target compiles all schemas whose attributes.yaml has changed
 build: $(COMPILED_SCHEMAS)
@@ -53,6 +53,12 @@ validate: $(VALIDATION_STAMPS)
 index:
 	@echo "Generating collapsible index.md..."
 	@python3 scripts/generate_index.py
+
+# Regenerate the developer-facing schemas-ies/ catalog and per-family term pages
+# from the compiled schema.json files (current version inline, older versions below).
+schemas-ies:
+	@echo "Generating schemas-ies developer section..."
+	@python3 scripts/generate_schemas_ies.py
 
 # Regenerate the External Schemas field-reference page from the schema sources.
 # Not part of `all` because it needs that local checkout present.
