@@ -30,7 +30,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 _A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
 
-### CustomerProfile
+**CustomerProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -43,7 +43,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`meters`** \* | list of Meter | — |
 | **`associations`** \* | list of Association | — |
 
-### BaseProfile
+**BaseProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -53,21 +53,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `serviceDeliveryPointRefs` | IdentifierList | — |
 | `payloadDescriptorSetRef` | text | Reference ID matching a previously exchanged PayloadDescriptorProfile's payloadDescriptorSet. |
 
-### IntervalProfile
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | text | — |
-| `customerRefs` | IdentifierList | — |
-| **`meterRefs`** \* | IdentifierList | — |
-| `serviceDeliveryPointRefs` | IdentifierList | — |
-| `payloadDescriptorSetRef` | text | Reference ID matching a previously exchanged PayloadDescriptorProfile's payloadDescriptorSet. |
-| `compactSequenceRef` | text | Name of the compact sequence to use from the payloadDescriptorSets. |
-| **`intervalPeriod`** \* | IntervalPeriod | — |
-| `intervals` | list of Interval | — |
-| `readings` | list of Reading | — |
-
-### DailyProfile
+**IntervalProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -81,7 +67,21 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `intervals` | list of Interval | — |
 | `readings` | list of Reading | — |
 
-### MonthlyProfile
+**DailyProfile**
+
+| Field | Type | Description |
+|---|---|---|
+| **`profileType`** \* | text | — |
+| `customerRefs` | IdentifierList | — |
+| **`meterRefs`** \* | IdentifierList | — |
+| `serviceDeliveryPointRefs` | IdentifierList | — |
+| `payloadDescriptorSetRef` | text | Reference ID matching a previously exchanged PayloadDescriptorProfile's payloadDescriptorSet. |
+| `compactSequenceRef` | text | Name of the compact sequence to use from the payloadDescriptorSets. |
+| **`intervalPeriod`** \* | IntervalPeriod | — |
+| `intervals` | list of Interval | — |
+| `readings` | list of Reading | — |
+
+**MonthlyProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -94,7 +94,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`readings`** \* | list of Reading | — |
 | `touBuckets` | list of TouBucket | — |
 
-### BillDetails
+**BillDetails**
 
 | Field | Type | Description |
 |---|---|---|
@@ -117,7 +117,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `prepaidBalance` | number | Prepaid remaining balance/credit amount on the account/meter, if applicable. |
 | `paymentStatus` | text | Status of the payment, e.g. PAID, UNPAID, PARTIAL. |
 
-### InstantaneousProfile
+**InstantaneousProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -129,7 +129,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`timestamp`** \* | date-time | — |
 | **`readings`** \* | list of Reading | — |
 
-### AlarmProfile
+**AlarmProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -141,7 +141,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`timestamp`** \* | date-time | — |
 | **`alarms`** \* | list of MeterAlarm | — |
 
-### EventProfile
+**EventProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -153,7 +153,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`timePeriod`** \* | TimePeriod | — |
 | **`events`** \* | list of MeterEvent | — |
 
-### Identifier
+**Identifier**
 
 | Field | Type | Description |
 |---|---|---|
@@ -161,14 +161,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`value`** \* | text | — |
 | `namespace` | text | — |
 
-### TimePeriod
+**TimePeriod**
 
 | Field | Type | Description |
 |---|---|---|
 | **`start`** \* | date-time | — |
 | **`duration`** \* | duration | — |
 
-### ReadingDefinition
+**ReadingDefinition**
 
 | Field | Type | Description |
 |---|---|---|
@@ -183,7 +183,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `accumulationBehaviour` | `CUMULATIVE` / `DELTA` / `INSTANTANEOUS` / `SUMMATION` / `INDICATING` | — |
 | `touZone` | integer | — |
 
-### PayloadDescriptorSet
+**PayloadDescriptorSet**
 
 | Field | Type | Description |
 |---|---|---|
@@ -191,21 +191,21 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`payloadDescriptors`** \* | list of PayloadDescriptor | — |
 | `compactSequences` | list of CompactSequence | — |
 
-### CompactSequence
+**CompactSequence**
 
 | Field | Type | Description |
 |---|---|---|
 | **`name`** \* | text | — |
 | **`sequenceItems`** \* | list of SequenceItem | — |
 
-### SequenceItem
+**SequenceItem**
 
 | Field | Type | Description |
 |---|---|---|
 | **`readingType`** \* | text | — |
 | `attribute` | `value` / `occurredAt` / `openingValue` / `closingValue` / `validationStatus` | — |
 
-### PayloadDescriptor
+**PayloadDescriptor**
 
 | Field | Type | Description |
 |---|---|---|
@@ -220,14 +220,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `multiplier` | number | Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo). Default value is 1. |
 | `accuracy` | number | Accuracy class or precision value, applied after the multiplier. |
 
-### IntervalPeriod
+**IntervalPeriod**
 
 | Field | Type | Description |
 |---|---|---|
 | **`start`** \* | date-time | — |
 | **`duration`** \* | duration | — |
 
-### Interval
+**Interval**
 
 | Field | Type | Description |
 |---|---|---|
@@ -237,7 +237,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `readings` | list of Reading | — |
 | `overrides` | list of Override | — |
 
-### Override
+**Override**
 
 | Field | Type | Description |
 |---|---|---|
@@ -249,7 +249,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `changeMethod` | text | — |
 | `failCode` | text | — |
 
-### Reading
+**Reading**
 
 | Field | Type | Description |
 |---|---|---|
@@ -265,14 +265,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `changeMethod` | text | — |
 | `failCode` | text | — |
 
-### TouBucket
+**TouBucket**
 
 | Field | Type | Description |
 |---|---|---|
 | **`zone`** \* | integer | — |
 | **`readings`** \* | list of Reading | — |
 
-### Customer
+**Customer**
 
 | Field | Type | Description |
 |---|---|---|
@@ -287,7 +287,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `tariffCategoryCode` | text | Billing/tariff category code assigned by the utility. |
 | `sanctionedExportLoadKw` | number | Sanctioned/approved grid export limit in kW. |
 
-### ServiceDeliveryPoint
+**ServiceDeliveryPoint**
 
 | Field | Type | Description |
 |---|---|---|
@@ -295,7 +295,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `address` | Address | — |
 | `geo` | GeoJSONGeometry | — |
 
-### Meter
+**Meter**
 
 | Field | Type | Description |
 |---|---|---|
@@ -306,7 +306,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `meterCategory` | `A` / `B` / `C` / `D1` / `D2` / `D3` / `D4` | — |
 | `serviceKind` | `ELECTRICITY` / `GAS` / `WATER` / `HEAT` | — |
 
-### Association
+**Association**
 
 | Field | Type | Description |
 |---|---|---|
@@ -318,7 +318,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `generationCapacityKw` | number | Rated power generation capacity (e.g. solar PV inverter capacity) in kW. |
 | `storageCapacityKw` | number | Rated energy storage capacity in kWh. |
 
-### MeterEvent
+**MeterEvent**
 
 | Field | Type | Description |
 |---|---|---|
@@ -330,7 +330,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `magnitude` | number | — |
 | `duration` | duration | — |
 
-### MeterAlarm
+**MeterAlarm**
 
 | Field | Type | Description |
 |---|---|---|
@@ -340,7 +340,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`status`** \* | `ACTIVE` / `CLEARED` | — |
 | `severity` | `CRITICAL` / `WARNING` / `INFO` | — |
 
-### PayloadDescriptorProfile
+**PayloadDescriptorProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -348,7 +348,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`id`** \* | text | Unique identifier for this specific configuration state. |
 | **`payloadDescriptorSets`** \* | list of PayloadDescriptorSet | — |
 
-### CustomerDetails
+**CustomerDetails**
 
 | Field | Type | Description |
 |---|---|---|

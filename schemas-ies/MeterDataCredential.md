@@ -30,13 +30,13 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 _A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
 
-### MeterDataCredential
+**MeterDataCredential**
 
 | Field | Type | Description |
 |---|---|---|
 | `credentialSubject` | MeterDataCredentialSubject | The subject of the credential: the consumer or asset entity whose meter data is attested, plus the MeterData payload. |
 
-### MeterDataCredentialSubject
+**MeterDataCredentialSubject**
 
 | Field | Type | Description |
 |---|---|---|
