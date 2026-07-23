@@ -34,7 +34,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.6 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
 
 **MeterDataCredential**
 
@@ -47,7 +47,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | Field | Type | Description |
 |---|---|---|
 | `id` | uri | DID of the consumer or asset entity whose meter data is being delivered. |
-| **`meterData`** \* | schema.json | The attested meter data payload. May be a single EnergyData profile or an array of profiles per MeterData v0.6. |
+| **`meterData`** \* | schema.json | The attested meter data payload. |
 
 
 ---

@@ -34,7 +34,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.1 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
 
 **MeterDataRequestCredential**
 
@@ -47,7 +47,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | Field | Type | Description |
 |---|---|---|
 | `id` | uri | DID of the requesting entity (e.g., the DISCOM). |
-| **`meterDataRequest`** \* | schema.json | The scoped, time-bounded data request. Specifies the meter resources, hierarchical scope, time window, and profile types being requested. The provider validates this against its capability profile before fulfilling delivery. |
+| **`meterDataRequest`** \* | schema.json | The scoped, time-bounded data request. |
 
 
 ---

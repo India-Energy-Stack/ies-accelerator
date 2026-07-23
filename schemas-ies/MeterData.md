@@ -34,7 +34,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.6 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
 
 **CustomerProfile**
 
@@ -223,7 +223,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `category` | text | — |
 | `reportedMode` | `READING` / `USAGE` | — |
 | `touZone` | integer | — |
-| `multiplier` | number | Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo). Default value is 1. |
+| `multiplier` | number | Decimal scaling factor (e.g. 0.001 for milli, 1000 for kilo). |
 | `accuracy` | number | Accuracy class or precision value, applied after the multiplier. |
 
 **IntervalPeriod**
