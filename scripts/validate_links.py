@@ -134,6 +134,14 @@ def check_markdown_links(root_dir: str) -> int:
                 broken += 1
                 continue
 
+            if os.path.isdir(target_path):
+                readme_target = os.path.join(target_path, "README.md")
+                if not os.path.exists(readme_target):
+                    print(f"❌ Broken link in [{rel_filepath}]: [{text}]({url})")
+                    print(f"   target directory has no README.md: {readme_target}")
+                    broken += 1
+                    continue
+
             # If anchor present and target is a markdown file, verify the anchor exists
             if anchor and target_path.endswith(".md"):
                 if target_path not in anchors_cache:
