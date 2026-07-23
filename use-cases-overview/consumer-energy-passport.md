@@ -78,15 +78,251 @@ One record: a static Verifiable Credential, changed only on commissioning, capac
 
 ## 8. Schedule I — Static Fields of the Credential
 
-| Reference | What it covers |
-|---|---|
-| [ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference) | Eight tables: envelope, `CustomerDetails`, `CustomerProfile`, the typed `EnergyResource*` kinds (METER, GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK), and `ConsumptionProfile`. Each row: `Field`, `Type`, standard(s) **Based on**, `Status` (Mandatory / Optional). |
+Schedule I lists the ElectricityCredential v1.2 fields used by this Passport profile.
+`Required` means required whenever the enclosing object/profile applies. `Conditional` means required only under the stated condition. `Optional` means not schema-required. `—` means no field-level standard annotation.
 
-## 9. Schedule II
+### 8.1 Passport Envelope, Holder, and Issuer
 
-| Wrapping / dependency | Detail |
-|---|---|
-| Not applicable | The Passport is self-contained. The one interdependency is the live [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, which references this credential's meter/asset identifiers but is a separate exchange, not a populated report. |
+| Field path | Type / allowed values | Standard / basis | Status |
+|---|---|---|---|
+| `@context` | array of text; required contains `https://www.w3.org/ns/credentials/v2` | W3C VC Data Model 2.0 | Required |
+| `id` | uri with pattern `urn:uuid:<UUID>` (lowercase hex UUID) | W3C VC Data Model 2.0 | Required |
+| `type` | list of text containing `ElectricityCredential` | W3C VC Data Model 2.0 | Required |
+| `issuer` | object (`id`, `name`, optional `idRef`) | ElectricityCredential v1.2 | Required |
+| `issuer.id` | uri | ElectricityCredential v1.2 | Required |
+| `issuer.name` | text | ElectricityCredential v1.2 | Required |
+| `issuer.idRef` | IdRef object (`issuedBy`, `subjectId`) | IdRef/v1.0 | Optional |
+| `issuer.idRef.issuedBy` | uri | IdRef/v1.0 | Conditional — required when `issuer.idRef` exists |
+| `issuer.idRef.subjectId` | text matching `authority-domain:id-value` | IdRef/v1.0 | Conditional — required when `issuer.idRef` exists |
+| `validFrom` | date-time | W3C VC Data Model 2.0 | Required |
+| `validUntil` | date-time | W3C VC Data Model 2.0 | Optional |
+| `credentialStatus` | object (`id`, `type`, `statusPurpose`, `statusListCredential`) | W3C VC Data Model 2.0 | Optional |
+| `credentialStatus.id` | uri | W3C VC Data Model 2.0 | Conditional — required when `credentialStatus` exists |
+| `credentialStatus.type` | `dediregistry` | W3C VC Data Model 2.0 | Conditional — required when `credentialStatus` exists |
+| `credentialStatus.statusPurpose` | `revocation`, `suspension` | W3C VC Data Model 2.0 | Conditional — required when `credentialStatus` exists |
+| `credentialStatus.statusListCredential` | uri | W3C VC Data Model 2.0 | Conditional — required when `credentialStatus` exists |
+| `proof` | object | W3C VC Data Model 2.0 | Optional |
+| `proof.type` | text | W3C VC Data Model 2.0 | Conditional — required when `proof` exists |
+| `proof.created` | date-time | W3C VC Data Model 2.0 | Conditional — required when `proof` exists |
+| `proof.verificationMethod` | uri | W3C VC Data Model 2.0 | Conditional — required when `proof` exists |
+| `proof.proofPurpose` | `assertionMethod`, `authentication` | W3C VC Data Model 2.0 | Conditional — required when `proof` exists |
+| `proof.proofValue` | text | W3C VC Data Model 2.0 | Conditional — required when `proof` exists |
+| `credentialSubject` | object | W3C VC Data Model 2.0 | Required |
+| `credentialSubject.id` | uri | Holder wallet DID/URI | Optional |
+| `credentialSubject.customerProfile` | CustomerProfile object | ElectricityCredential v1.2 | Required |
+
+### 8.2 Consumer and Service Connection
+
+| Field path | Type / allowed values | Standard / basis | Status |
+|---|---|---|---|
+| `credentialSubject.customerProfile.customerNumber` | text | utility customer account (CA) number | Required |
+| `credentialSubject.customerProfile.idRef` | IdRef | — | Optional |
+| `credentialSubject.customerProfile.idRef.issuedBy` | uri | IdRef/v1.0 | Conditional — required when `credentialSubject.customerProfile.idRef` exists |
+| `credentialSubject.customerProfile.idRef.subjectId` | text matching `authority-domain:id-value` | IdRef/v1.0 | Conditional — required when `credentialSubject.customerProfile.idRef` exists |
+| `credentialSubject.customerDetails` | object | — | Optional |
+| `credentialSubject.customerDetails.fullName` | text | CIM IEC 61968-1 Customer.name | Conditional — required when `credentialSubject.customerDetails` is present |
+| `credentialSubject.customerDetails.installationAddress` | object | GeoJSON RFC 7946 + schema.org PostalAddress + CIM IEC 61968-1 ServiceLocation | Conditional — required when `credentialSubject.customerDetails` is present |
+| `credentialSubject.customerDetails.careOf` | object (`name`, optional `relationship`) | — | Optional |
+| `credentialSubject.customerDetails.careOf.name` | text | — | Conditional — required when `credentialSubject.customerDetails.careOf` exists |
+| `credentialSubject.customerDetails.careOf.relationship` | enum `parent`, `spouse`, `guardian`, `sibling`, `child`, `other` | — | Optional |
+| `credentialSubject.customerDetails.installationAddress.geo` | GeoJSON Geometry | GeoJSON RFC 7946, EPSG:4326 | Conditional — required when `credentialSubject.customerDetails.installationAddress` is present |
+| `credentialSubject.customerDetails.installationAddress.address` | schema.org PostalAddress-aligned object | schema.org PostalAddress | Optional |
+| `credentialSubject.customerDetails.serviceConnectionDate` | date-time | CIM ServiceLocation activation date | Conditional — required when `credentialSubject.customerDetails` is present |
+
+### 8.3 Energy Resources and Common Attributes
+
+| Field path | Type / allowed values | Standard / basis | Status |
+|---|---|---|---|
+| `credentialSubject.customerProfile.energyResources` | list of EnergyResource | CIM-aligned ElectricityCredential resource model | Required |
+| `credentialSubject.customerProfile.energyResources[].id` | text (stable identifier) | Passport profile uses DID pattern in §3; base schema also permits meter serial-number style identifiers | Required |
+| `credentialSubject.customerProfile.energyResources[].type` | `METER`, `SOLAR_PV`, `SOLAR` (deprecated alias), `WIND`, `HYDRO`, `BIOGAS`, `CHP`, `FUEL_CELL`, `BESS`, `BATTERY` (deprecated alias), `EV_CHARGER`, `EV_V2G`, `INVERTER`, `SMART_HVAC`, `SMART_WATER_HEATER`, `CONTROLLABLE_LOAD`, `DT`, `BUS`, `FEEDER`, `MICROGRID` | CIM discriminator per kind | Required |
+| `credentialSubject.customerProfile.energyResources[].subResources` | list of text or inline EnergyResource | Topology (child refs or embedded items) | Optional |
+| `credentialSubject.customerProfile.energyResources[].parentResources` | list of text | Topology (parent refs) | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes` | object | EnergyResourceCommonAttributes | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.make` | text | CIM asset metadata | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.model` | text | CIM asset metadata | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.ratedPower` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | CIM (EndDeviceInfo.ratedPower; GeneratingUnit.maxOperatingP) | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.maxExport` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | CIM / IEC 61970-302 PowerElectronicsConnection.maxP | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.maxImport` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | CIM / IEC 61970-302 PowerElectronicsConnection.maxP | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.telemetryProvider` | text | Local integration metadata | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.commissioningDate` | date-time | ISO 8601 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.location` | Location | GeoJSON RFC 7946 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.serialNumber` | text | CIM (EndDeviceInfo.serialNumber) | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.inspection` | object | IEEE 1547-2018 Cl.11 + CEA Connectivity Regs 2013 amended 2018 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.inspection.date` | date | IEEE 1547-2018 Cl.11 + CEA Connectivity Regs 2013 amended 2018 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.inspection.result` | `pass`, `fail`, `conditional` | IEEE 1547-2018 Cl.11 + CEA Connectivity Regs 2013 amended 2018 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.inspection.inspectorId` | text | IEEE 1547-2018 Cl.11 + CEA Connectivity Regs 2013 amended 2018 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.aggregator` | object | IEEE 2030.5 + IEC 61850-7-420 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.aggregator.id` | uri | IEEE 2030.5 + IEC 61850-7-420 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.aggregator.name` | text | IEEE 2030.5 + IEC 61850-7-420 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.aggregator.controllable` | boolean (`true`, `false`) | IEEE 2030.5 + IEC 61850-7-420 | Optional |
+| `credentialSubject.customerProfile.energyResources[].attributes.aggregator.enrolledOn` | date | IEEE 2030.5 + IEC 61850-7-420 | Optional |
+
+### 8.4 Resource-Specific Attributes
+
+| Resource kind | Field path | Type / allowed values | Standard / basis | Status |
+|---|---|---|---|---|
+| Meter | `credentialSubject.customerProfile.energyResources[].attributes.meterCapability` | `Electromechanical`, `CMRI`, `AMR`, `AMI` | CIM IEC 61968-9 `AmiBillingReadyKind` | Optional |
+| Meter | `credentialSubject.customerProfile.energyResources[].attributes.energyDirection` | `Forward`, `Reverse`, `Bidirectional`, `Net` | CIM FlowDirectionKind | Optional |
+| Meter | `credentialSubject.customerProfile.energyResources[].attributes.functions` | list of `ToU`, `NetMetering`, `MaxDemand`, `LoadControl`, `TamperDetection`, `PowerQuality`, `EventLogging` | CIM EndDeviceFunction | Optional |
+| Meter | `credentialSubject.customerProfile.energyResources[].attributes.feeder` | text | Utility topology metadata | Optional |
+| Meter | `credentialSubject.customerProfile.energyResources[].attributes.bus` | text | Utility topology metadata | Optional |
+| Meter | `credentialSubject.customerProfile.energyResources[].attributes.communicationTechnology` | `PLC`, `RF_Mesh`, `GPRS`, `NB-IoT`, `LoRa`, `ZigBee`, `Other` | Deployment metadata | Optional |
+| Meter | `credentialSubject.customerProfile.energyResources[].attributes.applicationProtocol` | `DLMS_COSEM`, `ANSI_C12_18`, `IEC_61850`, `Modbus`, `Other` | DLMS/IEC application protocol layer | Optional |
+| Generator | `credentialSubject.customerProfile.energyResources[].attributes.dcArrayCapacity` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | IS 16221 / IEC 61727 | Optional |
+| Generator | `credentialSubject.customerProfile.energyResources[].attributes.nominalPower` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | CIM (GeneratingUnit.nominalP) | Optional |
+| Generator | `credentialSubject.customerProfile.energyResources[].attributes.efficiency` | number (0 to 100) | Resource-specific | Optional |
+| Storage | `credentialSubject.customerProfile.energyResources[].attributes.storageCapacity` | QuantitativeValue `{value, unit}`; unit ∈ kWh, MWh | CIM BatteryUnit.ratedE | Optional |
+| Storage | `credentialSubject.customerProfile.energyResources[].attributes.storageType` | `LithiumIon`, `LeadAcid`, `FlowBattery`, `NaS`, `NiCd`, `Flywheel`, `Other` | BESS taxonomy | Optional |
+| Storage | `credentialSubject.customerProfile.energyResources[].attributes.stateOfHealthPct` | number (0 to 100) | BESS state health metadata | Optional |
+| Storage | `credentialSubject.customerProfile.energyResources[].attributes.roundTripEfficiencyPct` | number (0 to 100) | IEC 62933-2-1 | Optional |
+| EV charger | `credentialSubject.customerProfile.energyResources[].attributes.connectorType` | `Type1`, `Type2`, `CCS1`, `CCS2`, `CHAdeMO`, `GB_T`, `NACS`, `Other` | IEC 62196 / IS 17017 | Optional |
+| EV charger | `credentialSubject.customerProfile.energyResources[].attributes.controlProtocol` | `OCPP_1.6`, `OCPP_2.0.1`, `OCPP_2.1`, `ISO_15118_2`, `ISO_15118_20`, `Other` | OCPP / ISO 15118 | Optional |
+| EV charger | `credentialSubject.customerProfile.energyResources[].attributes.v2xProtocol` | `CHAdeMO_V2G`, `CCS_BPT`, `ISO_15118_20_AC_BPT`, `ISO_15118_20_DC_BPT`, `Other` | ISO 15118-20 | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.ratedApparentPower` | QuantitativeValue (`kVA`, `MVA`) | SunSpec DER 702 / IEC 61970-302 | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.maxReactivePower` | QuantitativeValue (`kVAR`, `MVAR`) | SunSpec DER 702 / IEC 61970-302 | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.minReactivePower` | QuantitativeValue (`kVAR`, `MVAR`) | SunSpec DER 702 / IEC 61970-302 | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.rideThroughCategory` | `CategoryI`, `CategoryII`, `CategoryIII` | IEEE 1547-2018 | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.operatingMode` | `GridFollowing`, `GridForming`, `Standby` | CIM (PowerElectronicsConnection.inverterMode) | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.voltVarEnabled` | boolean (`true`, `false`) | IEEE 2030.5 | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.freqDroopEnabled` | boolean (`true`, `false`) | IEEE 1547-2018 / SunSpec 711 | Optional |
+| Inverter | `credentialSubject.customerProfile.energyResources[].attributes.enterServiceRampTimeSec` | number (minimum 0) | SunSpec DER 703 | Optional |
+| Controllable load | `credentialSubject.customerProfile.energyResources[].attributes.controlProtocol` | `OpenADR_2.0b`, `OCPP_2.0.1`, `SunSpec_Modbus`, `EEBus`, `Modbus`, `Other` | DR protocol metadata | Optional |
+| Controllable load | `credentialSubject.customerProfile.energyResources[].attributes.loadCategory` | `Heating`, `Cooling`, `WaterHeating`, `Lighting`, `EV`, `Industrial`, `Other` | CIM ConformLoad classification | Optional |
+| Network resource | `credentialSubject.customerProfile.energyResources[].attributes.nominalVoltage` | QuantitativeValue (`V`, `kV`) | CIM (BaseVoltage.nominalVoltage) | Optional |
+| Network resource | `credentialSubject.customerProfile.energyResources[].attributes.zone` | text | Utility topology metadata | Optional |
+| Network resource | `credentialSubject.customerProfile.energyResources[].attributes.substationId` | text | Utility topology metadata | Optional |
+| Network resource | `credentialSubject.customerProfile.energyResources[].attributes.feederCode` | text | Utility topology metadata | Optional |
+
+Standards caveat: ElectricityCredential v1.2 annotates `dcArrayCapacity` with `IS 16221` / `IEC 61727`; §6 and Annexure A cite `IS 14286` (= `IEC 61215`) for PV module rating. These references are not interchangeable.
+
+### 8.5 Tariff and Sanctioned-load Profile
+
+| Field path | Type / allowed values | Standard / basis | Status |
+|---|---|---|---|
+| `credentialSubject.customerProfile.consumptionProfiles` | list of ConsumptionProfile | MeterServiceProfile v1.1 | Optional |
+| `credentialSubject.customerProfile.consumptionProfiles[].meterId` | text | CIM UsagePoint linkage | Conditional — required in each ConsumptionProfile item |
+| `credentialSubject.customerProfile.consumptionProfiles[].sanctionedLoad` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | CIM UsagePoint service limit metadata | Conditional — required in each ConsumptionProfile item |
+| `credentialSubject.customerProfile.consumptionProfiles[].tariffCategoryCode` | text | CIM UsagePoint.serviceCategory | Conditional — required in each ConsumptionProfile item |
+| `credentialSubject.customerProfile.consumptionProfiles[].sanctionedExportLoad` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | Utility export policy metadata | Optional |
+| `credentialSubject.customerProfile.consumptionProfiles[].contractMaxDemand` | QuantitativeValue `{value, unit}`; unit ∈ W, kW, MW | CIM contract demand metadata | Optional |
+| `credentialSubject.customerProfile.consumptionProfiles[].billingCycleDay` | integer (1–31) | Billing profile metadata | Optional |
+| `credentialSubject.customerProfile.consumptionProfiles[].connectionType` | `Single-phase`, `Three-phase` | CIM UsagePoint.phaseCode | Optional |
+| `credentialSubject.customerProfile.consumptionProfiles[].premisesType` | `Residential`, `Commercial`, `Industrial`, `Agricultural` | CIM ServiceLocation premises class | Optional |
+| `credentialSubject.customerProfile.consumptionProfiles[].paymentMode` | `POSTPAID`, `PREPAID` | CIM AmiBillingReadyKind | Optional |
+| `credentialSubject.customerProfile.consumptionProfiles[].serviceStatus` | `active`, `suspended`, `closed` | CIM UsagePoint.status | Optional |
+
+Use the corresponding `METER` `EnergyResource` `id` as `meterId`; JSON Schema does not enforce the match.
+
+## 9. Schedule II — Separate MeterData v0.6 Reference
+
+Schedule II is not part of the Consumer Energy Passport; the Passport remains the single ElectricityCredential in Schedule I. MeterData is exchanged separately for meter, billing, event, and alarm data. For this profile, carry the Passport meter's `energyResources[].id` in `meterRefs` with scheme: `DID`; `METER_SERIAL` may also be carried as an alias. The schemas do not enforce the match, so exchange validation must.
+
+### 9.1 Identification and Linkage
+
+| Field path | Type / allowed values | Standard / basis | Status |
+|---|---|---|---|
+| `profileType` | one of `CUSTOMER`, `INTERVAL`, `DAILY`, `MONTHLY`, `BILL_DETAILS`, `INSTANTANEOUS`, `EVENT`, `ALARM`, `DESCRIPTOR` | `EnergyData.oneOf` profile dispatch | Required |
+| `meterRefs` | list of Identifier | IS 15959 / v0.6 base requirement | Required for INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM; not required for CUSTOMER or DESCRIPTOR |
+| `meterRefs[].scheme` | enum including `METER_SERIAL`, `METER_BADGE`, `MRID`, `OBIS`, `SHORT_CODE`, `CONSUMER_NUMBER`, `SERVICE_DELIVERY_POINT`, `DID`, `ORG`, `OTHER` | IES identifier scheme enum | Conditional — required per Identifier item |
+| `meterRefs[].value` | text | IES identifier value | Conditional — required per Identifier item |
+| `customerRefs` | list of Identifier | Customer linkage metadata | Optional |
+| `serviceDeliveryPointRefs` | list of Identifier | Service delivery point linkage | Optional |
+| `payloadDescriptorSetRef` | text | Descriptor set reference for compact matrix mode | Optional |
+
+### 9.2 MeterData Profile Shapes
+
+| Profile | `profileType` const | Required fields |
+|---|---|---|
+| Customer profile | `CUSTOMER` | `profileType`, `customer`, `serviceDeliveryPoints`, `meters`, `associations` |
+| Descriptor profile | `DESCRIPTOR` | `profileType`, `id`, `payloadDescriptorSets` |
+| Interval profile | `INTERVAL` | `profileType`, `meterRefs`, `intervalPeriod` |
+| Daily profile | `DAILY` | `profileType`, `meterRefs`, `intervalPeriod` |
+| Monthly profile | `MONTHLY` | `profileType`, `meterRefs`, `timePeriod`, `readings` |
+| Bill details profile | `BILL_DETAILS` | `profileType`, `meterRefs`, `timePeriod`, `amountDue` |
+| Instantaneous profile | `INSTANTANEOUS` | `profileType`, `meterRefs`, `timestamp`, `readings` |
+| Event profile | `EVENT` | `profileType`, `meterRefs`, `timePeriod`, `events` |
+| Alarm profile | `ALARM` | `profileType`, `meterRefs`, `timestamp`, `alarms` |
+
+### 9.3 Readings, Intervals, and Descriptors
+
+| Field path | Type / allowed values | Standard / basis | Status |
+|---|---|---|---|
+| `intervalPeriod` | object (`start`, `duration`) | ISO 8601 duration semantics | Required for `INTERVAL` and `DAILY` |
+| `intervalPeriod.start` | date-time | ISO 8601 | Required where `intervalPeriod` is present |
+| `intervalPeriod.duration` | duration | ISO 8601 | Required where `intervalPeriod` is present |
+| `intervals` | list of Interval | compact sequence interval rows | Optional |
+| `intervals[].id` | integer | Compact sequence row index | Conditional — required in each Interval item |
+| `intervals[].intervalPeriod` | object (`start`, `duration`) | ISO 8601 and per-interval overrides | Optional |
+| `intervals[].payloads` | list of number/string/boolean | compact sequence cell values by descriptor index | Optional |
+| `intervals[].overrides` | list of Override | interval-specific overrides | Optional |
+| `readings` | list of Reading | inline reading alternatives | Conditional — required for `MONTHLY` and `INSTANTANEOUS`; optional for `INTERVAL`, `DAILY`, `BILL_DETAILS` |
+| `readings[].readingType` | text | Reading metadata | Conditional — required in each Reading item |
+| `readings[].value` | number | Numeric measured value | Conditional — required in each Reading item |
+| `readings[].openingValue` | number | USAGE-mode usage provenance | Optional |
+| `readings[].closingValue` | number | USAGE-mode usage provenance | Optional |
+| `readings[].occurredAt` | date-time | Event timing | Optional |
+| `readings[].integrationPeriod` | duration | Usage mode period | Optional |
+| `readings[].timePeriod` | TimePeriod (`start`, `duration`) | Usage mode period | Optional |
+| `readings[].changeMethod` | text | Change-method metadata | Optional |
+| `readings[].failCode` | text | Failure-code metadata | Optional |
+| `readings[].validationStatus` | `VALID`, `ESTIMATED`, `MANUAL`, `SUSPECT`, `REJECTED` | Validation state | Optional |
+| `readings[].source` | `METER`, `HES`, `ESTIMATED`, `MANUAL`, `IMPORT`, `MDM_COMPUTED`, `CIS_COMPUTED` | provenance source | Optional |
+| `payloadDescriptorSets` | list of PayloadDescriptorSet | descriptor dictionary | Required for DESCRIPTOR |
+| `payloadDescriptorSets[].name` | text | Descriptor label | Conditional — required in each descriptor set |
+| `payloadDescriptorSets[].payloadDescriptors` | list of PayloadDescriptor | descriptor detail list | Conditional — required in each descriptor set |
+| `payloadDescriptorSets[].payloadDescriptors[].readingType` | text | Descriptor key | Conditional — required in each payload descriptor |
+| `payloadDescriptorSets[].payloadDescriptors[].name` | text | Optional descriptor label | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].category` | text | Optional descriptor category | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].touZone` | integer 0-8 | Optional TOU zone | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].obis` | text | Optional OBIS mapping | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].unit` | `kWh`, `kVAh`, `kvarh`, `kW`, `kvar`, `kVA`, `V`, `A`, `Hz`, `PF`, `NONE`, `INR`, `USD` | Optional unit annotation | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].flowDirection` | `IMPORT`, `EXPORT`, `NONE` | Flow direction metadata | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].reportedMode` | `READING`, `USAGE` | Reporting mode metadata | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].multiplier` | number (default 1) | Optional scaling | Optional |
+| `payloadDescriptorSets[].payloadDescriptors[].accuracy` | number | Optional precision metadata | Optional |
+
+### 9.4 Canonical Electrical Registers (IES Codes)
+
+The examples below reproduce the profiles and supported modes assigned in IES codes.json.
+
+| OBIS / short label | Unit | Profiles | Supported modes | Standard / source | Notes |
+|---|---|---|---|---|---|
+| `1.0.1.8.0.255` / `kWh imp` | kWh | `DAILY`, `MONTHLY`, `INSTANTANEOUS` | `READING`, `USAGE` | IS 15959 Part 1 Table 22; Part 2 Table A14; Part 3 Table 1 | Cumulative energy import |
+| `1.0.2.8.0.255` / `kWh exp` | kWh | `DAILY`, `MONTHLY`, `INSTANTANEOUS` | `READING`, `USAGE` | IS 15959 Part 2 Table A1 | Cumulative energy export |
+| `1.0.9.8.0.255` / `kVAh imp` | kVAh | `DAILY`, `MONTHLY` | `READING`, `USAGE` | IS 15959 Part 2 Table A1 | Cumulative apparent import |
+| `1.0.10.8.0.255` / `kVAh exp` | kVAh | `DAILY`, `MONTHLY` | `READING`, `USAGE` | IS 15959 Part 2 Table A1 | Cumulative apparent export |
+| `1.0.1.29.0.255` / `kWh imp block` | kWh | `INTERVAL` | `USAGE` | IS 15959 Part 2 Table A15; Part 3 Table 2 | Block incremental import |
+| `1.0.2.29.0.255` / `kWh exp block` | kWh | `INTERVAL` | `USAGE` | IS 15959 Part 2 Table A15; Part 3 Table 2 | Block incremental export |
+| `1.0.1.6.0.255` / `MD kW` | kW | `DAILY`, `MONTHLY`, `INSTANTANEOUS` | `USAGE` | IS 15959 Part 1 Table 29; Part 2 Table A14; Part 3 Table 1 | Max demand with peak timestamp |
+| `1.0.9.6.0.255` / `MD kVA` | kVA | `MONTHLY` | `USAGE` | IS 15959 Part 2 Table A1 | Max apparent demand (peak) |
+| `1.0.1.7.0.255` / `P_Import` | kW | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A1 | Active import power |
+| `1.0.2.7.0.255` / `P_Export` | kW | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A1 | Active export power |
+| `1.0.3.7.0.255` / `Q_Lag` | kvar | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A1 | Reactive power lag |
+| `1.0.9.7.0.255` / `S_Total` | kVA | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A1 | Apparent power total |
+| `1.0.13.7.0.255` / `PF_3P` | — | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A1 | Power factor |
+| `1.0.14.7.0.255` / `Freq` | Hz | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A1 | Grid frequency |
+| `1.0.32.7.0.255` / `V_R` | V | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A14; Part 3 Table 1 | Voltage (R-phase) |
+| `1.0.31.7.0.255` / `I_R` | A | `INSTANTANEOUS` | `READING` | IS 15959 Part 2 Table A1 | Current (R-phase) |
+
+### 9.5 Events and Alarms
+
+| Field path | Type / allowed values | Profile | Status |
+|---|---|---|---|
+| `events` | list of `MeterEvent` | `EVENT` | Required for EVENT |
+| `events[].timestamp` | date-time | `EVENT` | Conditional — required in each MeterEvent item |
+| `events[].eventId` | integer | `EVENT` | Conditional — required in each MeterEvent item |
+| `events[].eventName` | text | `EVENT` | Optional |
+| `events[].phase` | `NONE`, `R`, `Y`, `B`, `ABC` | `EVENT` | Optional |
+| `events[].sequence` | integer | `EVENT` | Optional |
+| `events[].magnitude` | number | `EVENT` | Optional |
+| `events[].duration` | duration | `EVENT` | Optional |
+| `alarms` | list of `MeterAlarm` | `ALARM` | Required for ALARM |
+| `alarms[].timestamp` | date-time | `ALARM` | Conditional — required in each MeterAlarm item |
+| `alarms[].alarmId` | integer | `ALARM` | Conditional — required in each MeterAlarm item |
+| `alarms[].alarmName` | text | `ALARM` | Optional |
+| `alarms[].status` | `ACTIVE`, `CLEARED` | `ALARM` | Conditional — required in each MeterAlarm item |
+| `alarms[].severity` | `CRITICAL`, `WARNING`, `INFO` | `ALARM` | Optional |
 
 ## 10. How It Fits Together
 
