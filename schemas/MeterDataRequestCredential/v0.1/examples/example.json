@@ -1,0 +1,64 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld",
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/context.jsonld"
+  ],
+  "id": "urn:uuid:f7a8b9c0-d1e2-4f56-a789-012345678901",
+  "type": ["VerifiableCredential", "MeterDataRequestCredential"],
+  "issuer": {
+    "id": "did:web:discom.example",
+    "name": "DISCOM – Electricity Distribution Company Ltd",
+    "licenseNumber": "SERC-DISCOM-2025-001"
+  },
+  "validFrom": "2026-04-01T00:00:00Z",
+  "validUntil": "2026-04-30T23:59:59Z",
+  "credentialStatus": {
+    "id": "https://dedi.global/dedi/query/did:web:discom.example/vc-revocation-registry",
+    "type": "dediregistry",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:discom.example/vc-revocation-registry"
+  },
+  "credentialSubject": {
+    "id": "did:web:ies.discom.example:discom:IN-KA-DISCOM",
+      "meterDataRequest": {
+        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
+        "@type": "MeterDataRequest",
+        "resources": ["did:web:ies.discom.example:feeder:IN-KA-BLR-ZONE-A"],
+        "scope": "ResourceAndChildren",
+        "from": "2026-01-01T00:00:00Z",
+        "duration": "P3M",
+        "maxRecordsShared": 10000,
+        "capabilitiesRequested": {
+          "profiles": [
+            { "profileType": "CustomerProfile" },
+            { 
+              "profileType": "IntervalProfile",
+              "readings": [
+                { "value": "kWh imp block", "mode": "USAGE" }
+              ]
+            },
+            { 
+              "profileType": "DailyProfile",
+              "readings": [
+                { "value": "kWh imp", "mode": "READING" }
+              ]
+            },
+            { 
+              "profileType": "MonthlyProfile",
+              "readings": [
+                { "value": "kWh imp", "mode": "USAGE" }
+              ]
+            }
+          ]
+        }
+      }
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2026-04-01T00:00:00Z",
+    "verificationMethod": "did:web:discom.example#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld",
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld"
+  ],
+  "id": "urn:uuid:c1d2e3f4-0003-0000-0000-aabbccddeeff",
+  "type": ["VerifiableCredential", "MeterDataCredential"],
+  "issuer": {
+    "id": "did:web:amisp-discom.example",
+    "name": "DISCOM AMISP – Smart Metering Data Platform",
+    "licenseNumber": "SERC-AMISP-2025-007"
+  },
+  "validFrom": "2026-04-01T00:00:00Z",
+  "validUntil": "2027-04-01T00:00:00Z",
+  "credentialStatus": {
+    "id": "https://dedi.global/dedi/query/did:web:amisp-discom.example/vc-revocation-registry",
+    "type": "dediregistry",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:amisp-discom.example/vc-revocation-registry"
+  },
+  "credentialSubject": {
+    "id": "did:web:discom.example:consumers:RR-1234",
+    "meterData": {
+      "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
+      "@type": "MonthlyProfile",
+      "profileType": "MONTHLY",
+      "meterRefs": [{"scheme": "DID", "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321"}],
+      "serviceDeliveryPointRefs": [{"scheme": "DID", "value": "did:web:discom.example:connections:SDP-BLR-A-12345"}],
+      "timePeriod": {"start": "2026-01-01T00:00:00+05:30", "duration": "P1M"},
+      "readings": [
+        {"readingType": "kWh imp", "value": 487.3, "openingValue": 12345.6, "closingValue": 12832.9, "validationStatus": "VALID", "source": "METER"},
+        {"readingType": "kWh exp", "value": 62.1, "openingValue": 890.2, "closingValue": 952.3, "validationStatus": "VALID", "source": "METER"},
+        {"readingType": "kVAh imp", "value": 512.0, "validationStatus": "VALID", "source": "METER"}
+      ],
+      "touBuckets": [
+        {"zone": 1, "readings": [{"readingType": "kWh imp", "value": 195.2}]},
+        {"zone": 2, "readings": [{"readingType": "kWh imp", "value": 179.8}]},
+        {"zone": 3, "readings": [{"readingType": "kWh imp", "value": 112.3}]}
+      ]
+    }
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2026-04-01T00:00:00Z",
+    "verificationMethod": "did:web:amisp-discom.example#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
+  }
+}

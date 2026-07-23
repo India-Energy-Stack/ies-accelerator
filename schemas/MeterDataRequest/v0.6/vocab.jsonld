@@ -1,0 +1,192 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "schema": "https://schema.org/"
+    },
+    "@graph": [
+        {
+            "@id": "ies:MeterDataRequest",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Request",
+            "rdfs:comment": "Root payload can be a MeterDataRequest, a MeterDataAuthorisation, or a MeterDataCapabilities document."
+        },
+        {
+            "@id": "ies:MeterDataRequestObject",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Request Object",
+            "rdfs:comment": "Request parameters for selecting smart meter telemetry and profiles."
+        },
+        {
+            "@id": "ies:MeterDataAuthorisation",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Authorisation",
+            "rdfs:comment": "Attestation details authorizing an entity to access specific capabilities."
+        },
+        {
+            "@id": "ies:MeterDataCapabilities",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Meter Data Capabilities",
+            "rdfs:comment": "Capabilities of a meter data provider, detailing supported profiles, values, scopes, and durations."
+        },
+        {
+            "@id": "ies:ProfileCapability",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Profile Capability",
+            "rdfs:comment": "Declares capabilities for a specific profile class."
+        },
+        {
+            "@id": "ies:ValueCapability",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Value Capability",
+            "rdfs:comment": "Declares capabilities for a specific register/reading within a profile."
+        },
+        {
+            "@id": "ies:consumers",
+            "@type": "rdf:Property",
+            "rdfs:label": "consumers",
+            "rdfs:comment": "List of consumer URIs/DIDs for whom the data is requested (optional)."
+        },
+        {
+            "@id": "ies:resources",
+            "@type": "rdf:Property",
+            "rdfs:label": "resources",
+            "rdfs:comment": "List of resource URIs/DIDs (e.g. meter DIDs, service point IDs) to query (optional)."
+        },
+        {
+            "@id": "ies:scope",
+            "@type": "rdf:Property",
+            "rdfs:label": "scope",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:from",
+            "@type": "rdf:Property",
+            "rdfs:label": "from",
+            "rdfs:comment": "ISO 8601 UTC date-time indicating the start time of the requested data window."
+        },
+        {
+            "@id": "ies:duration",
+            "@type": "rdf:Property",
+            "rdfs:label": "duration",
+            "rdfs:comment": "ISO 8601 duration string representing the length of the requested data window (e.g., PT15M, P1D, P30D)."
+        },
+        {
+            "@id": "ies:consumerConsent",
+            "@type": "rdf:Property",
+            "rdfs:label": "consumer Consent",
+            "rdfs:comment": "Consent references/receipts proving authorization (optional)."
+        },
+        {
+            "@id": "ies:authorisation",
+            "@type": "rdf:Property",
+            "rdfs:label": "authorisation",
+            "rdfs:comment": "Inline authorization object or URI reference to it."
+        },
+        {
+            "@id": "ies:capabilitiesRequested",
+            "@type": "rdf:Property",
+            "rdfs:label": "capabilities Requested",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:maxRecordsShared",
+            "@type": "rdf:Property",
+            "rdfs:label": "max Records Shared",
+            "rdfs:comment": "Maximum number of records that should be shared or returned in a single batch/page."
+        },
+        {
+            "@id": "ies:grantor",
+            "@type": "rdf:Property",
+            "rdfs:label": "grantor",
+            "rdfs:comment": "URI/DID of the entity authorizing access."
+        },
+        {
+            "@id": "ies:grantee",
+            "@type": "rdf:Property",
+            "rdfs:label": "grantee",
+            "rdfs:comment": "URI/DID of the authorized entity."
+        },
+        {
+            "@id": "ies:purpose",
+            "@type": "rdf:Property",
+            "rdfs:label": "purpose",
+            "rdfs:comment": "Reason/purpose for data access."
+        },
+        {
+            "@id": "ies:validFrom",
+            "@type": "rdf:Property",
+            "rdfs:label": "valid From",
+            "rdfs:comment": "ISO 8601 UTC date-time indicating when the authorization becomes valid."
+        },
+        {
+            "@id": "ies:validUntil",
+            "@type": "rdf:Property",
+            "rdfs:label": "valid Until",
+            "rdfs:comment": "ISO 8601 UTC date-time indicating when the authorization expires."
+        },
+        {
+            "@id": "ies:capabilities",
+            "@type": "rdf:Property",
+            "rdfs:label": "capabilities",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:profiles",
+            "@type": "rdf:Property",
+            "rdfs:label": "profiles",
+            "rdfs:comment": "List of profiles and their specific values/modes."
+        },
+        {
+            "@id": "ies:supportedScopes",
+            "@type": "rdf:Property",
+            "rdfs:label": "supported Scopes",
+            "rdfs:comment": "Hierarchical scopes supported by the query processor."
+        },
+        {
+            "@id": "ies:maxHistoryDuration",
+            "@type": "rdf:Property",
+            "rdfs:label": "max History Duration",
+            "rdfs:comment": "Maximum length of historical data window supported by the provider."
+        },
+        {
+            "@id": "ies:profileType",
+            "@type": "rdf:Property",
+            "rdfs:label": "profile Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:readings",
+            "@type": "rdf:Property",
+            "rdfs:label": "readings",
+            "rdfs:comment": "Granular capabilities for specific registers and metrics. If omitted, all readings under this profile are supported."
+        },
+        {
+            "@id": "ies:value",
+            "@type": "rdf:Property",
+            "rdfs:label": "value",
+            "rdfs:comment": "The OBIS code (e.g. 1.0.1.8.0.255) or short code (e.g. kWh imp) representing the register."
+        },
+        {
+            "@id": "ies:mode",
+            "@type": "rdf:Property",
+            "rdfs:label": "mode",
+            "rdfs:comment": "The telemetry mode (READING, USAGE) supported or requested for this register."
+        },
+        {
+            "@id": "ies:multiplier",
+            "@type": "rdf:Property",
+            "rdfs:label": "multiplier",
+            "rdfs:comment": "Optional decimal multiplier scaling factor (e.g., 0.001 or 1000)."
+        },
+        {
+            "@id": "ies:accuracy",
+            "@type": "rdf:Property",
+            "rdfs:label": "accuracy",
+            "rdfs:comment": "Optional accuracy class or precision value."
+        }
+    ]
+}

@@ -1,0 +1,2380 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "deg": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+        "CustomerProfile": {
+            "@id": "ies:CustomerProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "timeZone": {
+                    "@id": "ies:timeZone",
+                    "@type": "xsd:string"
+                },
+                "customerDetails": {
+                    "@id": "ies:customerDetails",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "customer": {
+                    "@id": "ies:customer",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "ies:id",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "@id"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        },
+                        "consumerCategory": {
+                            "@id": "ies:consumerCategory",
+                            "@type": "xsd:string"
+                        },
+                        "sanctionedLoadKw": {
+                            "@id": "ies:sanctionedLoadKw",
+                            "@type": "xsd:decimal"
+                        },
+                        "billingCycleDay": {
+                            "@id": "ies:billingCycleDay",
+                            "@type": "xsd:integer"
+                        },
+                        "paymentMode": {
+                            "@id": "ies:paymentMode",
+                            "@type": "xsd:string"
+                        },
+                        "connectionType": {
+                            "@id": "ies:connectionType",
+                            "@type": "xsd:string"
+                        },
+                        "contractMaxDemandKw": {
+                            "@id": "ies:contractMaxDemandKw",
+                            "@type": "xsd:decimal"
+                        },
+                        "tariffCategoryCode": {
+                            "@id": "ies:tariffCategoryCode",
+                            "@type": "xsd:string"
+                        },
+                        "sanctionedExportLoadKw": {
+                            "@id": "ies:sanctionedExportLoadKw",
+                            "@type": "xsd:decimal"
+                        }
+                    }
+                },
+                "serviceDeliveryPoints": {
+                    "@id": "ies:serviceDeliveryPoints",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "ies:id",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "@id"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "address": {
+                            "@id": "ies:address",
+                            "@type": "@id"
+                        },
+                        "geo": {
+                            "@id": "ies:geo",
+                            "@type": "@id"
+                        }
+                    }
+                },
+                "meters": {
+                    "@id": "ies:meters",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "ies:id",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "@id"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "make": {
+                            "@id": "ies:make",
+                            "@type": "xsd:string"
+                        },
+                        "model": {
+                            "@id": "ies:model",
+                            "@type": "xsd:string"
+                        },
+                        "meterType": {
+                            "@id": "ies:meterType",
+                            "@type": "@id"
+                        },
+                        "meterCategory": {
+                            "@id": "ies:meterCategory",
+                            "@type": "@id"
+                        },
+                        "serviceKind": {
+                            "@id": "ies:serviceKind",
+                            "@type": "@id"
+                        }
+                    }
+                },
+                "associations": {
+                    "@id": "ies:associations",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "serviceDeliveryPointRefs": {
+                            "@id": "ies:serviceDeliveryPointRefs",
+                            "@type": "@id"
+                        },
+                        "meterRefs": {
+                            "@id": "ies:meterRefs",
+                            "@type": "@id"
+                        },
+                        "parentResources": {
+                            "@id": "ies:parentResources",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "scheme": {
+                                    "@id": "ies:scheme",
+                                    "@type": "@id"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:string"
+                                },
+                                "namespace": {
+                                    "@id": "ies:namespace",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "telemetryProvider": {
+                            "@id": "ies:telemetryProvider",
+                            "@type": "xsd:string"
+                        },
+                        "commissioningDate": {
+                            "@id": "ies:commissioningDate",
+                            "@type": "xsd:dateTime"
+                        },
+                        "generationCapacityKw": {
+                            "@id": "ies:generationCapacityKw",
+                            "@type": "xsd:decimal"
+                        },
+                        "storageCapacityKw": {
+                            "@id": "ies:storageCapacityKw",
+                            "@type": "xsd:decimal"
+                        }
+                    }
+                }
+            }
+        },
+        "BaseProfile": {
+            "@id": "ies:BaseProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "IntervalProfile": {
+            "@id": "ies:IntervalProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
+                "compactSequenceRef": {
+                    "@id": "ies:compactSequenceRef",
+                    "@type": "xsd:string"
+                },
+                "intervalPeriod": {
+                    "@id": "ies:intervalPeriod",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "start": {
+                            "@id": "ies:start",
+                            "@type": "xsd:dateTime"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "intervals": {
+                    "@id": "ies:intervals",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "ies:id",
+                            "@type": "xsd:integer"
+                        },
+                        "intervalPeriod": {
+                            "@id": "ies:intervalPeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "payloads": {
+                            "@id": "ies:payloads",
+                            "@type": "@id",
+                            "@container": "@set"
+                        },
+                        "readings": {
+                            "@id": "ies:readings",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "readingType": {
+                                    "@id": "ies:readingType",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:decimal"
+                                },
+                                "openingValue": {
+                                    "@id": "ies:openingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "closingValue": {
+                                    "@id": "ies:closingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "integrationPeriod": {
+                                    "@id": "ies:integrationPeriod",
+                                    "@type": "xsd:string"
+                                },
+                                "timePeriod": {
+                                    "@id": "ies:timePeriod",
+                                    "@type": "@id",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "start": {
+                                            "@id": "ies:start",
+                                            "@type": "xsd:dateTime"
+                                        },
+                                        "duration": {
+                                            "@id": "ies:duration",
+                                            "@type": "xsd:string"
+                                        }
+                                    }
+                                },
+                                "occurredAt": {
+                                    "@id": "ies:occurredAt",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "validationStatus": {
+                                    "@id": "ies:validationStatus",
+                                    "@type": "@id"
+                                },
+                                "source": {
+                                    "@id": "ies:source",
+                                    "@type": "@id"
+                                },
+                                "changeMethod": {
+                                    "@id": "ies:changeMethod",
+                                    "@type": "xsd:string"
+                                },
+                                "failCode": {
+                                    "@id": "ies:failCode",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "overrides": {
+                            "@id": "ies:overrides",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "descriptorIndex": {
+                                    "@id": "ies:descriptorIndex",
+                                    "@type": "xsd:integer"
+                                },
+                                "occurredAt": {
+                                    "@id": "ies:occurredAt",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "zone": {
+                                    "@id": "ies:zone",
+                                    "@type": "xsd:integer"
+                                },
+                                "validationStatus": {
+                                    "@id": "ies:validationStatus",
+                                    "@type": "@id"
+                                },
+                                "source": {
+                                    "@id": "ies:source",
+                                    "@type": "@id"
+                                },
+                                "changeMethod": {
+                                    "@id": "ies:changeMethod",
+                                    "@type": "xsd:string"
+                                },
+                                "failCode": {
+                                    "@id": "ies:failCode",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "timePeriod": {
+                            "@id": "ies:timePeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "DailyProfile": {
+            "@id": "ies:DailyProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
+                "compactSequenceRef": {
+                    "@id": "ies:compactSequenceRef",
+                    "@type": "xsd:string"
+                },
+                "intervalPeriod": {
+                    "@id": "ies:intervalPeriod",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "start": {
+                            "@id": "ies:start",
+                            "@type": "xsd:dateTime"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "intervals": {
+                    "@id": "ies:intervals",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "id": {
+                            "@id": "ies:id",
+                            "@type": "xsd:integer"
+                        },
+                        "intervalPeriod": {
+                            "@id": "ies:intervalPeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "payloads": {
+                            "@id": "ies:payloads",
+                            "@type": "@id",
+                            "@container": "@set"
+                        },
+                        "readings": {
+                            "@id": "ies:readings",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "readingType": {
+                                    "@id": "ies:readingType",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:decimal"
+                                },
+                                "openingValue": {
+                                    "@id": "ies:openingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "closingValue": {
+                                    "@id": "ies:closingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "integrationPeriod": {
+                                    "@id": "ies:integrationPeriod",
+                                    "@type": "xsd:string"
+                                },
+                                "timePeriod": {
+                                    "@id": "ies:timePeriod",
+                                    "@type": "@id",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "start": {
+                                            "@id": "ies:start",
+                                            "@type": "xsd:dateTime"
+                                        },
+                                        "duration": {
+                                            "@id": "ies:duration",
+                                            "@type": "xsd:string"
+                                        }
+                                    }
+                                },
+                                "occurredAt": {
+                                    "@id": "ies:occurredAt",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "validationStatus": {
+                                    "@id": "ies:validationStatus",
+                                    "@type": "@id"
+                                },
+                                "source": {
+                                    "@id": "ies:source",
+                                    "@type": "@id"
+                                },
+                                "changeMethod": {
+                                    "@id": "ies:changeMethod",
+                                    "@type": "xsd:string"
+                                },
+                                "failCode": {
+                                    "@id": "ies:failCode",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "overrides": {
+                            "@id": "ies:overrides",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "descriptorIndex": {
+                                    "@id": "ies:descriptorIndex",
+                                    "@type": "xsd:integer"
+                                },
+                                "occurredAt": {
+                                    "@id": "ies:occurredAt",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "zone": {
+                                    "@id": "ies:zone",
+                                    "@type": "xsd:integer"
+                                },
+                                "validationStatus": {
+                                    "@id": "ies:validationStatus",
+                                    "@type": "@id"
+                                },
+                                "source": {
+                                    "@id": "ies:source",
+                                    "@type": "@id"
+                                },
+                                "changeMethod": {
+                                    "@id": "ies:changeMethod",
+                                    "@type": "xsd:string"
+                                },
+                                "failCode": {
+                                    "@id": "ies:failCode",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "timePeriod": {
+                            "@id": "ies:timePeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "MonthlyProfile": {
+            "@id": "ies:MonthlyProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
+                "timePeriod": {
+                    "@id": "ies:timePeriod",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "start": {
+                            "@id": "ies:start",
+                            "@type": "xsd:dateTime"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "timePeriod": {
+                            "@id": "ies:timePeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "touBuckets": {
+                    "@id": "ies:touBuckets",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "zone": {
+                            "@id": "ies:zone",
+                            "@type": "xsd:integer"
+                        },
+                        "readings": {
+                            "@id": "ies:readings",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "readingType": {
+                                    "@id": "ies:readingType",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:decimal"
+                                },
+                                "openingValue": {
+                                    "@id": "ies:openingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "closingValue": {
+                                    "@id": "ies:closingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "integrationPeriod": {
+                                    "@id": "ies:integrationPeriod",
+                                    "@type": "xsd:string"
+                                },
+                                "timePeriod": {
+                                    "@id": "ies:timePeriod",
+                                    "@type": "@id",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "start": {
+                                            "@id": "ies:start",
+                                            "@type": "xsd:dateTime"
+                                        },
+                                        "duration": {
+                                            "@id": "ies:duration",
+                                            "@type": "xsd:string"
+                                        }
+                                    }
+                                },
+                                "occurredAt": {
+                                    "@id": "ies:occurredAt",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "validationStatus": {
+                                    "@id": "ies:validationStatus",
+                                    "@type": "@id"
+                                },
+                                "source": {
+                                    "@id": "ies:source",
+                                    "@type": "@id"
+                                },
+                                "changeMethod": {
+                                    "@id": "ies:changeMethod",
+                                    "@type": "xsd:string"
+                                },
+                                "failCode": {
+                                    "@id": "ies:failCode",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "BillDetails": {
+            "@id": "ies:BillDetails",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
+                "timePeriod": {
+                    "@id": "ies:timePeriod",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "start": {
+                            "@id": "ies:start",
+                            "@type": "xsd:dateTime"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "timePeriod": {
+                            "@id": "ies:timePeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "touBuckets": {
+                    "@id": "ies:touBuckets",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "zone": {
+                            "@id": "ies:zone",
+                            "@type": "xsd:integer"
+                        },
+                        "readings": {
+                            "@id": "ies:readings",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "readingType": {
+                                    "@id": "ies:readingType",
+                                    "@type": "xsd:string"
+                                },
+                                "value": {
+                                    "@id": "ies:value",
+                                    "@type": "xsd:decimal"
+                                },
+                                "openingValue": {
+                                    "@id": "ies:openingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "closingValue": {
+                                    "@id": "ies:closingValue",
+                                    "@type": "xsd:decimal"
+                                },
+                                "integrationPeriod": {
+                                    "@id": "ies:integrationPeriod",
+                                    "@type": "xsd:string"
+                                },
+                                "timePeriod": {
+                                    "@id": "ies:timePeriod",
+                                    "@type": "@id",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "start": {
+                                            "@id": "ies:start",
+                                            "@type": "xsd:dateTime"
+                                        },
+                                        "duration": {
+                                            "@id": "ies:duration",
+                                            "@type": "xsd:string"
+                                        }
+                                    }
+                                },
+                                "occurredAt": {
+                                    "@id": "ies:occurredAt",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "validationStatus": {
+                                    "@id": "ies:validationStatus",
+                                    "@type": "@id"
+                                },
+                                "source": {
+                                    "@id": "ies:source",
+                                    "@type": "@id"
+                                },
+                                "changeMethod": {
+                                    "@id": "ies:changeMethod",
+                                    "@type": "xsd:string"
+                                },
+                                "failCode": {
+                                    "@id": "ies:failCode",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "billNumber": {
+                    "@id": "ies:billNumber",
+                    "@type": "xsd:string"
+                },
+                "billDate": {
+                    "@id": "ies:billDate",
+                    "@type": "xsd:date"
+                },
+                "dueDate": {
+                    "@id": "ies:dueDate",
+                    "@type": "xsd:date"
+                },
+                "currency": {
+                    "@id": "ies:currency",
+                    "@type": "xsd:string"
+                },
+                "amountDue": {
+                    "@id": "ies:amountDue",
+                    "@type": "xsd:decimal"
+                },
+                "energyCharges": {
+                    "@id": "ies:energyCharges",
+                    "@type": "xsd:decimal"
+                },
+                "fixedCharges": {
+                    "@id": "ies:fixedCharges",
+                    "@type": "xsd:decimal"
+                },
+                "otherCharges": {
+                    "@id": "ies:otherCharges",
+                    "@type": "xsd:decimal"
+                },
+                "prepaidBalance": {
+                    "@id": "ies:prepaidBalance",
+                    "@type": "xsd:decimal"
+                },
+                "paymentStatus": {
+                    "@id": "ies:paymentStatus",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "InstantaneousProfile": {
+            "@id": "ies:InstantaneousProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
+                "timestamp": {
+                    "@id": "ies:timestamp",
+                    "@type": "xsd:dateTime"
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "timePeriod": {
+                            "@id": "ies:timePeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "AlarmProfile": {
+            "@id": "ies:AlarmProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
+                "timestamp": {
+                    "@id": "ies:timestamp",
+                    "@type": "xsd:dateTime"
+                },
+                "alarms": {
+                    "@id": "ies:alarms",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "timestamp": {
+                            "@id": "ies:timestamp",
+                            "@type": "xsd:dateTime"
+                        },
+                        "alarmId": {
+                            "@id": "ies:alarmId",
+                            "@type": "xsd:integer"
+                        },
+                        "alarmName": {
+                            "@id": "ies:alarmName",
+                            "@type": "xsd:string"
+                        },
+                        "status": {
+                            "@id": "ies:status",
+                            "@type": "xsd:string"
+                        },
+                        "severity": {
+                            "@id": "ies:severity",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "EventProfile": {
+            "@id": "ies:EventProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "customerRefs": {
+                    "@id": "ies:customerRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "payloadDescriptorSetRef": {
+                    "@id": "ies:payloadDescriptorSetRef",
+                    "@type": "xsd:string"
+                },
+                "timePeriod": {
+                    "@id": "ies:timePeriod",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "start": {
+                            "@id": "ies:start",
+                            "@type": "xsd:dateTime"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "events": {
+                    "@id": "ies:events",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "timestamp": {
+                            "@id": "ies:timestamp",
+                            "@type": "xsd:dateTime"
+                        },
+                        "eventId": {
+                            "@id": "ies:eventId",
+                            "@type": "xsd:integer"
+                        },
+                        "eventName": {
+                            "@id": "ies:eventName",
+                            "@type": "xsd:string"
+                        },
+                        "phase": {
+                            "@id": "ies:phase",
+                            "@type": "@id"
+                        },
+                        "sequence": {
+                            "@id": "ies:sequence",
+                            "@type": "xsd:integer"
+                        },
+                        "magnitude": {
+                            "@id": "ies:magnitude",
+                            "@type": "xsd:decimal"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "Identifier": {
+            "@id": "ies:Identifier",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "scheme": {
+                    "@id": "ies:scheme",
+                    "@type": "@id"
+                },
+                "value": {
+                    "@id": "ies:value",
+                    "@type": "xsd:string"
+                },
+                "namespace": {
+                    "@id": "ies:namespace",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "TimePeriod": {
+            "@id": "ies:TimePeriod",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "start": {
+                    "@id": "ies:start",
+                    "@type": "xsd:dateTime"
+                },
+                "duration": {
+                    "@id": "ies:duration",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "ReadingDefinition": {
+            "@id": "ies:ReadingDefinition",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "readingType": {
+                    "@id": "ies:readingType",
+                    "@type": "xsd:string"
+                },
+                "supportedModes": {
+                    "@id": "ies:supportedModes",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "defaultMode": {
+                    "@id": "ies:defaultMode",
+                    "@type": "@id"
+                },
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
+                },
+                "shortLabel": {
+                    "@id": "ies:shortLabel",
+                    "@type": "xsd:string"
+                },
+                "unit": {
+                    "@id": "ies:unit",
+                    "@type": "@id"
+                },
+                "phase": {
+                    "@id": "ies:phase",
+                    "@type": "@id"
+                },
+                "flowDirection": {
+                    "@id": "ies:flowDirection",
+                    "@type": "xsd:string"
+                },
+                "accumulationBehaviour": {
+                    "@id": "ies:accumulationBehaviour",
+                    "@type": "@id"
+                },
+                "touZone": {
+                    "@id": "ies:touZone",
+                    "@type": "xsd:integer"
+                }
+            }
+        },
+        "PayloadDescriptorSet": {
+            "@id": "ies:PayloadDescriptorSet",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
+                },
+                "payloadDescriptors": {
+                    "@id": "ies:payloadDescriptors",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "obis": {
+                            "@id": "ies:obis",
+                            "@type": "xsd:string"
+                        },
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        },
+                        "unit": {
+                            "@id": "ies:unit",
+                            "@type": "@id"
+                        },
+                        "flowDirection": {
+                            "@id": "ies:flowDirection",
+                            "@type": "xsd:string"
+                        },
+                        "category": {
+                            "@id": "ies:category",
+                            "@type": "xsd:string"
+                        },
+                        "reportedMode": {
+                            "@id": "ies:reportedMode",
+                            "@type": "@id"
+                        },
+                        "touZone": {
+                            "@id": "ies:touZone",
+                            "@type": "xsd:integer"
+                        },
+                        "multiplier": {
+                            "@id": "ies:multiplier",
+                            "@type": "xsd:decimal"
+                        },
+                        "accuracy": {
+                            "@id": "ies:accuracy",
+                            "@type": "xsd:decimal"
+                        }
+                    }
+                },
+                "compactSequences": {
+                    "@id": "ies:compactSequences",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        },
+                        "sequenceItems": {
+                            "@id": "ies:sequenceItems",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "readingType": {
+                                    "@id": "ies:readingType",
+                                    "@type": "xsd:string"
+                                },
+                                "attribute": {
+                                    "@id": "ies:attribute",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "CompactSequence": {
+            "@id": "ies:CompactSequence",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
+                },
+                "sequenceItems": {
+                    "@id": "ies:sequenceItems",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "attribute": {
+                            "@id": "ies:attribute",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "SequenceItem": {
+            "@id": "ies:SequenceItem",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "readingType": {
+                    "@id": "ies:readingType",
+                    "@type": "xsd:string"
+                },
+                "attribute": {
+                    "@id": "ies:attribute",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "PayloadDescriptor": {
+            "@id": "ies:PayloadDescriptor",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "readingType": {
+                    "@id": "ies:readingType",
+                    "@type": "xsd:string"
+                },
+                "obis": {
+                    "@id": "ies:obis",
+                    "@type": "xsd:string"
+                },
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
+                },
+                "unit": {
+                    "@id": "ies:unit",
+                    "@type": "@id"
+                },
+                "flowDirection": {
+                    "@id": "ies:flowDirection",
+                    "@type": "xsd:string"
+                },
+                "category": {
+                    "@id": "ies:category",
+                    "@type": "xsd:string"
+                },
+                "reportedMode": {
+                    "@id": "ies:reportedMode",
+                    "@type": "@id"
+                },
+                "touZone": {
+                    "@id": "ies:touZone",
+                    "@type": "xsd:integer"
+                },
+                "multiplier": {
+                    "@id": "ies:multiplier",
+                    "@type": "xsd:decimal"
+                },
+                "accuracy": {
+                    "@id": "ies:accuracy",
+                    "@type": "xsd:decimal"
+                }
+            }
+        },
+        "IntervalPeriod": {
+            "@id": "ies:IntervalPeriod",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "start": {
+                    "@id": "ies:start",
+                    "@type": "xsd:dateTime"
+                },
+                "duration": {
+                    "@id": "ies:duration",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "Interval": {
+            "@id": "ies:Interval",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "xsd:integer"
+                },
+                "intervalPeriod": {
+                    "@id": "ies:intervalPeriod",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "start": {
+                            "@id": "ies:start",
+                            "@type": "xsd:dateTime"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "payloads": {
+                    "@id": "ies:payloads",
+                    "@type": "@id",
+                    "@container": "@set"
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "timePeriod": {
+                            "@id": "ies:timePeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "overrides": {
+                    "@id": "ies:overrides",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "descriptorIndex": {
+                            "@id": "ies:descriptorIndex",
+                            "@type": "xsd:integer"
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "zone": {
+                            "@id": "ies:zone",
+                            "@type": "xsd:integer"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "Override": {
+            "@id": "ies:Override",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "descriptorIndex": {
+                    "@id": "ies:descriptorIndex",
+                    "@type": "xsd:integer"
+                },
+                "occurredAt": {
+                    "@id": "ies:occurredAt",
+                    "@type": "xsd:dateTime"
+                },
+                "zone": {
+                    "@id": "ies:zone",
+                    "@type": "xsd:integer"
+                },
+                "validationStatus": {
+                    "@id": "ies:validationStatus",
+                    "@type": "@id"
+                },
+                "source": {
+                    "@id": "ies:source",
+                    "@type": "@id"
+                },
+                "changeMethod": {
+                    "@id": "ies:changeMethod",
+                    "@type": "xsd:string"
+                },
+                "failCode": {
+                    "@id": "ies:failCode",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "Reading": {
+            "@id": "ies:Reading",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "readingType": {
+                    "@id": "ies:readingType",
+                    "@type": "xsd:string"
+                },
+                "value": {
+                    "@id": "ies:value",
+                    "@type": "xsd:decimal"
+                },
+                "openingValue": {
+                    "@id": "ies:openingValue",
+                    "@type": "xsd:decimal"
+                },
+                "closingValue": {
+                    "@id": "ies:closingValue",
+                    "@type": "xsd:decimal"
+                },
+                "integrationPeriod": {
+                    "@id": "ies:integrationPeriod",
+                    "@type": "xsd:string"
+                },
+                "timePeriod": {
+                    "@id": "ies:timePeriod",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "start": {
+                            "@id": "ies:start",
+                            "@type": "xsd:dateTime"
+                        },
+                        "duration": {
+                            "@id": "ies:duration",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "occurredAt": {
+                    "@id": "ies:occurredAt",
+                    "@type": "xsd:dateTime"
+                },
+                "validationStatus": {
+                    "@id": "ies:validationStatus",
+                    "@type": "@id"
+                },
+                "source": {
+                    "@id": "ies:source",
+                    "@type": "@id"
+                },
+                "changeMethod": {
+                    "@id": "ies:changeMethod",
+                    "@type": "xsd:string"
+                },
+                "failCode": {
+                    "@id": "ies:failCode",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "TouBucket": {
+            "@id": "ies:TouBucket",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "zone": {
+                    "@id": "ies:zone",
+                    "@type": "xsd:integer"
+                },
+                "readings": {
+                    "@id": "ies:readings",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "readingType": {
+                            "@id": "ies:readingType",
+                            "@type": "xsd:string"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:decimal"
+                        },
+                        "openingValue": {
+                            "@id": "ies:openingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "closingValue": {
+                            "@id": "ies:closingValue",
+                            "@type": "xsd:decimal"
+                        },
+                        "integrationPeriod": {
+                            "@id": "ies:integrationPeriod",
+                            "@type": "xsd:string"
+                        },
+                        "timePeriod": {
+                            "@id": "ies:timePeriod",
+                            "@type": "@id",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "start": {
+                                    "@id": "ies:start",
+                                    "@type": "xsd:dateTime"
+                                },
+                                "duration": {
+                                    "@id": "ies:duration",
+                                    "@type": "xsd:string"
+                                }
+                            }
+                        },
+                        "occurredAt": {
+                            "@id": "ies:occurredAt",
+                            "@type": "xsd:dateTime"
+                        },
+                        "validationStatus": {
+                            "@id": "ies:validationStatus",
+                            "@type": "@id"
+                        },
+                        "source": {
+                            "@id": "ies:source",
+                            "@type": "@id"
+                        },
+                        "changeMethod": {
+                            "@id": "ies:changeMethod",
+                            "@type": "xsd:string"
+                        },
+                        "failCode": {
+                            "@id": "ies:failCode",
+                            "@type": "xsd:string"
+                        }
+                    }
+                }
+            }
+        },
+        "Customer": {
+            "@id": "ies:Customer",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "@id"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
+                },
+                "consumerCategory": {
+                    "@id": "ies:consumerCategory",
+                    "@type": "xsd:string"
+                },
+                "sanctionedLoadKw": {
+                    "@id": "ies:sanctionedLoadKw",
+                    "@type": "xsd:decimal"
+                },
+                "billingCycleDay": {
+                    "@id": "ies:billingCycleDay",
+                    "@type": "xsd:integer"
+                },
+                "paymentMode": {
+                    "@id": "ies:paymentMode",
+                    "@type": "xsd:string"
+                },
+                "connectionType": {
+                    "@id": "ies:connectionType",
+                    "@type": "xsd:string"
+                },
+                "contractMaxDemandKw": {
+                    "@id": "ies:contractMaxDemandKw",
+                    "@type": "xsd:decimal"
+                },
+                "tariffCategoryCode": {
+                    "@id": "ies:tariffCategoryCode",
+                    "@type": "xsd:string"
+                },
+                "sanctionedExportLoadKw": {
+                    "@id": "ies:sanctionedExportLoadKw",
+                    "@type": "xsd:decimal"
+                }
+            }
+        },
+        "ServiceDeliveryPoint": {
+            "@id": "ies:ServiceDeliveryPoint",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "@id"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "address": {
+                    "@id": "ies:address",
+                    "@type": "@id"
+                },
+                "geo": {
+                    "@id": "ies:geo",
+                    "@type": "@id"
+                }
+            }
+        },
+        "Meter": {
+            "@id": "ies:Meter",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "@id",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "@id"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "make": {
+                    "@id": "ies:make",
+                    "@type": "xsd:string"
+                },
+                "model": {
+                    "@id": "ies:model",
+                    "@type": "xsd:string"
+                },
+                "meterType": {
+                    "@id": "ies:meterType",
+                    "@type": "@id"
+                },
+                "meterCategory": {
+                    "@id": "ies:meterCategory",
+                    "@type": "@id"
+                },
+                "serviceKind": {
+                    "@id": "ies:serviceKind",
+                    "@type": "@id"
+                }
+            }
+        },
+        "Association": {
+            "@id": "ies:Association",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "serviceDeliveryPointRefs": {
+                    "@id": "ies:serviceDeliveryPointRefs",
+                    "@type": "@id"
+                },
+                "meterRefs": {
+                    "@id": "ies:meterRefs",
+                    "@type": "@id"
+                },
+                "parentResources": {
+                    "@id": "ies:parentResources",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "scheme": {
+                            "@id": "ies:scheme",
+                            "@type": "@id"
+                        },
+                        "value": {
+                            "@id": "ies:value",
+                            "@type": "xsd:string"
+                        },
+                        "namespace": {
+                            "@id": "ies:namespace",
+                            "@type": "xsd:string"
+                        }
+                    }
+                },
+                "telemetryProvider": {
+                    "@id": "ies:telemetryProvider",
+                    "@type": "xsd:string"
+                },
+                "commissioningDate": {
+                    "@id": "ies:commissioningDate",
+                    "@type": "xsd:dateTime"
+                },
+                "generationCapacityKw": {
+                    "@id": "ies:generationCapacityKw",
+                    "@type": "xsd:decimal"
+                },
+                "storageCapacityKw": {
+                    "@id": "ies:storageCapacityKw",
+                    "@type": "xsd:decimal"
+                }
+            }
+        },
+        "MeterEvent": {
+            "@id": "ies:MeterEvent",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "timestamp": {
+                    "@id": "ies:timestamp",
+                    "@type": "xsd:dateTime"
+                },
+                "eventId": {
+                    "@id": "ies:eventId",
+                    "@type": "xsd:integer"
+                },
+                "eventName": {
+                    "@id": "ies:eventName",
+                    "@type": "xsd:string"
+                },
+                "phase": {
+                    "@id": "ies:phase",
+                    "@type": "@id"
+                },
+                "sequence": {
+                    "@id": "ies:sequence",
+                    "@type": "xsd:integer"
+                },
+                "magnitude": {
+                    "@id": "ies:magnitude",
+                    "@type": "xsd:decimal"
+                },
+                "duration": {
+                    "@id": "ies:duration",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "MeterAlarm": {
+            "@id": "ies:MeterAlarm",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "timestamp": {
+                    "@id": "ies:timestamp",
+                    "@type": "xsd:dateTime"
+                },
+                "alarmId": {
+                    "@id": "ies:alarmId",
+                    "@type": "xsd:integer"
+                },
+                "alarmName": {
+                    "@id": "ies:alarmName",
+                    "@type": "xsd:string"
+                },
+                "status": {
+                    "@id": "ies:status",
+                    "@type": "xsd:string"
+                },
+                "severity": {
+                    "@id": "ies:severity",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "PayloadDescriptorProfile": {
+            "@id": "ies:PayloadDescriptorProfile",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "profileType": {
+                    "@id": "ies:profileType",
+                    "@type": "xsd:string"
+                },
+                "id": {
+                    "@id": "ies:id",
+                    "@type": "xsd:string"
+                },
+                "payloadDescriptorSets": {
+                    "@id": "ies:payloadDescriptorSets",
+                    "@type": "@id",
+                    "@container": "@set",
+                    "@context": {
+                        "@version": 1.1,
+                        "@protected": true,
+                        "name": {
+                            "@id": "schema:name",
+                            "@type": "xsd:string"
+                        },
+                        "payloadDescriptors": {
+                            "@id": "ies:payloadDescriptors",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "readingType": {
+                                    "@id": "ies:readingType",
+                                    "@type": "xsd:string"
+                                },
+                                "obis": {
+                                    "@id": "ies:obis",
+                                    "@type": "xsd:string"
+                                },
+                                "name": {
+                                    "@id": "schema:name",
+                                    "@type": "xsd:string"
+                                },
+                                "unit": {
+                                    "@id": "ies:unit",
+                                    "@type": "@id"
+                                },
+                                "flowDirection": {
+                                    "@id": "ies:flowDirection",
+                                    "@type": "xsd:string"
+                                },
+                                "category": {
+                                    "@id": "ies:category",
+                                    "@type": "xsd:string"
+                                },
+                                "reportedMode": {
+                                    "@id": "ies:reportedMode",
+                                    "@type": "@id"
+                                },
+                                "touZone": {
+                                    "@id": "ies:touZone",
+                                    "@type": "xsd:integer"
+                                },
+                                "multiplier": {
+                                    "@id": "ies:multiplier",
+                                    "@type": "xsd:decimal"
+                                },
+                                "accuracy": {
+                                    "@id": "ies:accuracy",
+                                    "@type": "xsd:decimal"
+                                }
+                            }
+                        },
+                        "compactSequences": {
+                            "@id": "ies:compactSequences",
+                            "@type": "@id",
+                            "@container": "@set",
+                            "@context": {
+                                "@version": 1.1,
+                                "@protected": true,
+                                "name": {
+                                    "@id": "schema:name",
+                                    "@type": "xsd:string"
+                                },
+                                "sequenceItems": {
+                                    "@id": "ies:sequenceItems",
+                                    "@type": "@id",
+                                    "@container": "@set",
+                                    "@context": {
+                                        "@version": 1.1,
+                                        "@protected": true,
+                                        "readingType": {
+                                            "@id": "ies:readingType",
+                                            "@type": "xsd:string"
+                                        },
+                                        "attribute": {
+                                            "@id": "ies:attribute",
+                                            "@type": "xsd:string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "CustomerDetails": {
+            "@id": "ies:CustomerDetails",
+            "@context": {
+                "@version": 1.1,
+                "@protected": true,
+                "name": {
+                    "@id": "schema:name",
+                    "@type": "xsd:string"
+                }
+            }
+        }
+    }
+}

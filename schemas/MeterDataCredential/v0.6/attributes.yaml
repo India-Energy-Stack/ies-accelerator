@@ -1,0 +1,74 @@
+openapi: 3.1.1
+info:
+  title: "MeterDataCredential"
+  version: "0.6.0"
+  description: >
+    W3C Verifiable Credential (VC Data Model 2.0) that wraps a MeterData v0.6 payload.
+    Issued by a data provider (e.g., AMISP, MDM, DISCOM) to attest the authenticity
+    and provenance of delivered smart meter telemetry.
+
+    MeterDataCredential is a subclass of EnergyCredential (which is a subclass of
+    beckn:Credential). The common VC envelope — issuer (with licenseNumber),
+    validFrom/validUntil, credentialStatus (DeDi registry), and proof — is
+    inherited from EnergyCredential.
+
+    Used in Beckn on_status flows: the provider attaches this credential in
+    dataPayload, cryptographically binding the delivered meter data to the
+    provider's identity and the originating MeterDataRequest.
+
+jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
+servers:
+  - url: "https://india-energy-stack.github.io/ies-accelerator/schemas"
+    description: "Canonical schema registry"
+paths: {}
+components:
+  schemas:
+    MeterDataCredential:
+      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json"
+      title: "MeterDataCredential"
+      description: >
+        W3C Verifiable Credential wrapping a MeterData v0.6 payload. Subclass of
+        EnergyCredential. Issued by a data provider (e.g., AMISP, MDM, DISCOM)
+        to attest the authenticity and provenance of delivered smart meter telemetry.
+      type: object
+      additionalProperties: true
+      x-tags:
+        - credential
+        - verifiable-credential
+        - metering
+        - ies
+      x-jsonld:
+        "@context": ./context.jsonld
+        "@type": MeterDataCredential
+      allOf:
+        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+      properties:
+        credentialSubject:
+          $ref: "#/components/schemas/MeterDataCredentialSubject"
+          description: >
+            The subject of the credential: the consumer or asset entity whose
+            meter data is attested, plus the MeterData payload.
+          x-jsonld:
+            "@id": "deg:credentialSubject"
+
+    MeterDataCredentialSubject:
+      type: object
+      description: >
+        The subject of the credential: the consumer or asset entity whose
+        meter data is attested.
+      required:
+        - meterData
+      properties:
+        id:
+          type: string
+          format: uri
+          description: DID of the consumer or asset entity whose meter data is being delivered.
+          x-jsonld:
+            "@id": "@id"
+        meterData:
+          $ref: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml#/components/schemas/MeterData"
+          description: >
+            The attested meter data payload. May be a single EnergyData profile
+            or an array of profiles per MeterData v0.6.
+          x-jsonld:
+            "@id": "ies:meterData"

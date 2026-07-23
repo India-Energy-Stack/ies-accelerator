@@ -1,0 +1,73 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "deg": "https://schema.beckn.io/deg/",
+        "energyCred": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@graph": [
+        {
+            "@id": "deg:ElectricityCredential",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Electricity Credential",
+            "rdfs:comment": "W3C Verifiable Credential issued per meter by electricity distribution utilities. v1.1: customerProfile holds non-PII identity (customerNumber, idRef, energyResources[], consumptionProfiles[]); customerDetails holds PII.",
+            "rdfs:subClassOf": { "@id": "energyCred:EnergyCredential" }
+        },
+        {
+            "@id": "deg:customerProfile",
+            "@type": "rdf:Property",
+            "rdfs:label": "Customer Profile",
+            "rdfs:comment": "Non-PII utility customer identity: customerNumber, optional idRef, energyResources array, and consumptionProfiles array."
+        },
+        {
+            "@id": "deg:customerDetails",
+            "@type": "rdf:Property",
+            "rdfs:label": "Customer Details",
+            "rdfs:comment": "PII: full name, installation address, service connection date."
+        },
+        {
+            "@id": "deg:energyResources",
+            "@type": "rdf:Property",
+            "rdfs:label": "Energy Resources",
+            "rdfs:comment": "Array of EnergyResource/v2.0 entries. Covers all topologies: multiple meters, multiple premises, DERs linked via parentResources[]."
+        },
+        {
+            "@id": "deg:ConsumptionProfile",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Consumption Profile",
+            "rdfs:comment": "Tariff and load characteristics for one meter connection. Linked to a METER entry in energyResources[] via meterId."
+        },
+        {
+            "@id": "deg:consumptionProfiles",
+            "@type": "rdf:Property",
+            "rdfs:label": "Consumption Profiles",
+            "rdfs:comment": "Array of ConsumptionProfile entries — one per meter connection with tariff data."
+        },
+        {
+            "@id": "deg:meterId",
+            "@type": "rdf:Property",
+            "rdfs:label": "Meter ID",
+            "rdfs:comment": "Meter serial number. Matches resourceId of the corresponding METER entry in energyResources[].",
+            "rdfs:domain": { "@id": "deg:ConsumptionProfile" },
+            "rdfs:range": "xsd:string"
+        },
+        {
+            "@id": "deg:sanctionedLoadKw",
+            "@type": "rdf:Property",
+            "rdfs:label": "Sanctioned Load (kW)",
+            "rdfs:comment": "Utility-approved maximum electrical load in kilowatts.",
+            "rdfs:domain": { "@id": "deg:ConsumptionProfile" },
+            "rdfs:range": "xsd:decimal"
+        },
+        {
+            "@id": "deg:tariffCategoryCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "Tariff Category Code",
+            "rdfs:comment": "Billing/tariff category code assigned by the utility.",
+            "rdfs:domain": { "@id": "deg:ConsumptionProfile" },
+            "rdfs:range": "xsd:string"
+        }
+    ]
+}

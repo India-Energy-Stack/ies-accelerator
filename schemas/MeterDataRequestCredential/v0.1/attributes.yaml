@@ -1,0 +1,79 @@
+openapi: 3.1.1
+info:
+  title: "MeterDataRequestCredential"
+  version: "0.1.0"
+  description: >
+    W3C Verifiable Credential (VC Data Model 2.0) that wraps a MeterDataRequest.
+    Issued by a data requester (e.g., DISCOM, third-party aggregator) to prove
+    authorisation for requesting smart meter telemetry from a data provider
+    (e.g., AMISP, MDM system). The credential binds the requester's identity
+    to a scoped, time-bounded query expressed as a MeterDataRequest.
+
+    MeterDataRequestCredential is a subclass of EnergyCredential (which is a
+    subclass of beckn:Credential). The common VC envelope — issuer (with
+    licenseNumber), validFrom/validUntil, credentialStatus (DeDi registry),
+    and proof — is inherited from EnergyCredential.
+
+    Used in Beckn confirm flows: the seeker attaches this credential in
+    commitmentAttributes.ies:meterDataRequest, satisfying a provider policy
+    that requires a credential-backed, verifiable request before fulfilling
+    data delivery.
+
+jsonSchemaDialect: "https://json-schema.org/draft/2020-12/schema"
+servers:
+  - url: "https://india-energy-stack.github.io/ies-accelerator/schemas"
+    description: "Canonical schema registry"
+paths: {}
+components:
+  schemas:
+    MeterDataRequestCredential:
+      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json"
+      title: "MeterDataRequestCredential"
+      description: >
+        W3C Verifiable Credential wrapping a MeterDataRequest. Subclass of
+        EnergyCredential. Issued by the data requester (e.g., DISCOM) to prove
+        authorisation to request smart meter telemetry from a provider.
+      type: object
+      additionalProperties: true
+      x-tags:
+        - credential
+        - verifiable-credential
+        - metering
+        - ies
+      x-jsonld:
+        "@context": ./context.jsonld
+        "@type": MeterDataRequestCredential
+      allOf:
+        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+      properties:
+        credentialSubject:
+          $ref: "#/components/schemas/MeterDataRequestCredentialSubject"
+          description: >
+            The subject of the credential: the requesting entity and the
+            specific MeterDataRequest they are authorised to make.
+          x-jsonld:
+            "@id": "deg:credentialSubject"
+
+    MeterDataRequestCredentialSubject:
+      type: object
+      description: >
+        The subject of the credential: the requesting entity and the
+        specific MeterDataRequest they are authorised to make.
+      required:
+        - meterDataRequest
+      properties:
+        id:
+          type: string
+          format: uri
+          description: DID of the requesting entity (e.g., the DISCOM).
+          x-jsonld:
+            "@id": "@id"
+        meterDataRequest:
+          $ref: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/attributes.yaml#/components/schemas/MeterDataRequest"
+          description: >
+            The scoped, time-bounded data request. Specifies the meter
+            resources, hierarchical scope, time window, and profile types
+            being requested. The provider validates this against its
+            capability profile before fulfilling delivery.
+          x-jsonld:
+            "@id": "ies:meterDataRequest"
