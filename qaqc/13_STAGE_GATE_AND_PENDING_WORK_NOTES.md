@@ -20,11 +20,11 @@
 - **Shipped example semantic parity:** generic validator pass for selected shipped examples still reports failures (e.g., `schemas/MeterData/v0.6` `CustomerMapping.json`; MeterDataCredential examples).
 - **JSON-LD QA wiring:** `python -B scripts/check_jsonld.py` still fails due to missing `pyld` module; dependency/manifests and CI gate are still unresolved.
 - **PDF package closure:** `verify_pdf.py --pdf` and `--public-root` checks fail in current workspace state because required build/public artifacts are absent in local state.
-- **Owner decisions pending:** all `OD-E1`…`OD-E8` decisions remain unrecorded (no `qaqc/11_OWNER_DECISION_LEDGER.md`), so package closure cannot advance.
+- **Owner decisions pending:** `OD-E1`…`OD-E8` now recorded in `qaqc/11_OWNER_DECISION_LEDGER.md` but all remain in `PROPOSED` state and need owner decisions before package closures can proceed.
 - **Schema/protocol consistency gap in CEP docs remains:** Consumer Energy Passport schedule content still contains contradictions to EC v1.2/MeterData shape and identifier model (`did:web` vs `did:dedi` contradictions, non-MeterData shape in Schedule II).
 
 ## Pending QA/QC work (next actions)
-1. Add/record owner decision ledger entries (`OD-E1`…`OD-E8`) per package dependency in `qaqc/` before attempting gate closure.
+1. Resolve all `OD-E1`…`OD-E8` decisions in `qaqc/11_OWNER_DECISION_LEDGER.md` and move each to at least `DECIDED` before package-level closure.
 2. Finalize CEP schedule semantic alignment:
    - Either map all Schedule fields to EC v1.2 canonical shape (`consumerProfile`/`energyResources`/`consumptionProfiles`) or mark as clearly distinct/proposed profile with explicit scope disclaimer.
    - Resolve `did:` method contradiction (`did:web` policy vs `did:dedi` field requirements).
@@ -34,6 +34,11 @@
    - `scripts/verify_pdf.py --pdf ...` and `--public-root ...` with reproducible build/public artifacts.
 4. Continue package sequencing through Fable-approved order, with one production lane at a time unless disjoint allowlists are confirmed.
 5. Keep 0QA/QC duplication/logic drift audit updated after each meaningful schema or schedule-doc edit.
+
+## Newer execution artifacts added in this pass
+
+- `qaqc/11_OWNER_DECISION_LEDGER.md` (authoritative OD-E registry, all entries in `PROPOSED` state).
+- `qaqc/14_RELEASE_RECOVERY_EXECUTION_PLAN.md` (phase-by-phase control tracker based on the v0.6 Release-Recovery Plan).
 
 ## Evidence pointers added/updated by this pass
 - `qaqc/12_CURRENT_STATE_RECONCILIATION.md` (active long-form control record; still valid as historical execution baseline).
