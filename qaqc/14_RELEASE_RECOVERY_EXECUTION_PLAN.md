@@ -9,7 +9,7 @@ migration accounting, decision traceability, and reproducible publication eviden
 Current branch is:
 
 - `qaqc/cep-schedule-i-ii-v0-6`
-- `HEAD 32f613fe4703a7cb7b86f689a9cc9971ae883131`
+- `HEAD 53955c515a956bb13524e9a99fb6a092decad7cc`
 - Working tree: clean
 
 ## Plan status (current)
@@ -17,7 +17,7 @@ Current branch is:
 | Phase | Status | Gate condition | Evidence/checkpoint |
 |---|---|---|---|
 | Phase 0 — Baseline | **In-progress** | Branch/HEAD/working tree recorded and tied to review | `qaqc/14_RELEASE_RECOVERY_EXECUTION_PLAN.md`, `qaqc/11_OWNER_DECISION_LEDGER.md` |
-| Phase 1 — Owner decisions | **Started** | `qaqc/11_OWNER_DECISION_LEDGER.md` exists and all OD-E entries recorded | `qaqc/11_OWNER_DECISION_LEDGER.md` |
+| Phase 1 — Owner decisions | **Complete** | `qaqc/11_OWNER_DECISION_LEDGER.md` exists and all OD-E entries are `DECIDED` | `qaqc/11_OWNER_DECISION_LEDGER.md` |
 | Phase 2 — Migration policy redesign | **Not started** | OD-E and schema tooling owners define new equivalence contract | Not yet edited |
 | Phase 3 — MDR v0.6 example consistency | **Not started** | `OD-E3`/schema owner closure | Existing shipped-shape mismatch remains |
 | Phase 4 — CEP Schedule I model | **Not started** | CEP model decision + mapping validation | File currently mixed-model and needs normative mapping |
@@ -32,7 +32,7 @@ Current branch is:
 ## Phase 0 evidence (recorded in this action)
 
 - `git rev-parse --abbrev-ref HEAD` → `qaqc/cep-schedule-i-ii-v0-6`
-- `git rev-parse HEAD` → `32f613fe4703a7cb7b86f689a9cc9971ae883131`
+- `git rev-parse HEAD` → `53955c515a956bb13524e9a99fb6a092decad7cc`
 - `git status --short` → clean
 - `git log --oneline -n 8` confirms this branch head and history lineage
 
@@ -43,8 +43,13 @@ All eight owner decision rows are now formally present in:
 - `qaqc/11_OWNER_DECISION_LEDGER.md`
 
 Each row includes state, owner, rationale, affected files, required work, and
-verification path. At present, all entries are in `PROPOSED` state and are waiting
-for owner decisions.
+verification path. All OD-E entries are now `DECIDED`.
+
+Additional owner authorizations are also recorded:
+
+- `AUTH-WP-2B`
+- `AUTH-WP-6`
+- `DIR-MIGRATION-V06`
 
 ## Clarification against current plan intent
 
@@ -56,11 +61,12 @@ for owner decisions.
 
 ## Next recommended action order
 
-1. Route each `OD-E` owner decision to completion in `qaqc/11_OWNER_DECISION_LEDGER.md`.
+1. Implement `AUTH-WP-2B` (MDR shipped-example correction).
 2. Re-design migration QA in `scripts/verify_v05_v06_equivalence.py` and add
-   `schemas/MeterData/v0.6/MIGRATION_FROM_V0.5.md`.
+   `schemas/MeterData/v0.6/MIGRATION_FROM_V0.5.md` (`DIR-MIGRATION-V06`).
 3. Execute CEP Schedule I and II alignment (Model decision + mapping + examples + validation).
-4. Implement deterministic generation manifest and CI checks.
-5. Restore JSON-LD execution path and wire into QA/CI.
-6. Complete publication artifact generation and verification.
-7. Run a single independent final regression and report `PASS/FAIL/BLOCKED` with exact command evidence.
+4. Execute `AUTH-WP-6` and associated schema metadata correction after `WP-P1.2` is accepted.
+5. Implement deterministic generation manifest and CI checks.
+6. Restore JSON-LD execution path and wire into QA/CI.
+7. Complete publication artifact generation and verification.
+8. Run a single independent final regression and report `PASS/FAIL/BLOCKED` with exact command evidence.
