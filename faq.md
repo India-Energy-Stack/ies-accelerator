@@ -42,7 +42,7 @@ The consumer can prove a single fact, for example that the sanctioned load is ab
 
 ### 10. Is IES live, or still on paper?
 
-It is live. The sandbox is running, and four pilot DISCOMs are building in it now.
+It is live. The sandbox is running, and four pilot DISCOMs in four States have each built an IES adapter and demonstrated a first set of live use cases in the 30-day DISCOM Challenge.
 
 ### 11. Some functions can already be done within a single DISCOM. Why is IES needed?
 

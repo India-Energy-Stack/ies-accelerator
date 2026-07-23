@@ -10,7 +10,7 @@
 
 ## The problem
 
-Power utilities in India have added many digital tools at the consumer end: smart meters, rooftop solar, electric-vehicle charging and demand-side measures. Each of these produces useful data. But the data stays locked inside separate systems: the DISCOM's own software, the metering agency's portal (operated by the Advanced Metering Infrastructure Service Provider, or [AMISP](glossary.md#amisp)), and each vendor's database, in formats that other systems cannot read. Each time two systems must share data, a fresh connection has to be built by hand. Rules are issued and checked on paper. Consumers cannot use their own consumption records. India has spent heavily on digital tools, but not on a common way for those tools to work together.
+Power utilities in India have added many digital tools at the consumer end: smart meters, rooftop solar, electric-vehicle charging and demand-side measures. Each of these produces useful data. But the data stays locked inside separate systems: the [DISCOM](glossary.md#discom)'s own software, the metering agency's portal (operated by the Advanced Metering Infrastructure Service Provider, or [AMISP](glossary.md#amisp)), and each vendor's database, in formats that other systems cannot read. Each time two systems must share data, a fresh connection has to be built by hand. Rules are issued and checked on paper. Consumers cannot use their own consumption records. India has spent heavily on digital tools, but not on a common way for those tools to work together.
 
 The cost of this fragmentation is real, and it is borne across the sector. A single DISCOM often runs several metering systems supplied by different firms and spends years making them work together, because none was built to a common standard. System operators, regulators and technology providers face the same difficulty in their own systems. The same effort is repeated across the country.
 
@@ -18,7 +18,7 @@ The cost of this fragmentation is real, and it is borne across the sector. A sin
 
 ## What IES is
 
-The India Energy Stack (IES) is a common set of specifications for sharing data across the power sector. It works the way UPI works for banking. UPI holds no money of its own. Money stays in the customer's bank, and UPI is only the shared set of rules that lets any bank's app pay any other bank's customer, without a separate arrangement for each pair. IES works the same way, for energy data rather than money. The data stays in the systems that already hold it, and IES specs ensure that any system can exchange data with any other, without a separate arrangement for each pair.
+The India Energy Stack (IES) is a common set of specifications for sharing data across the power sector. It works the way UPI (Unified Payments Interface) works for banking. UPI holds no money of its own. Money stays in the customer's bank, and UPI is only the shared set of rules that lets any bank's app pay any other bank's customer, without a separate arrangement for each pair. IES works the same way, for energy data rather than money. The data stays in the systems that already hold it, and IES specs ensure that any system can exchange data with any other, without a separate arrangement for each pair.
 
 The sector already has rules and standards for what data to report and how it is structured. IES does not replace any of them. It makes the same data machine-readable, common across the sector, and verifiable, so any two systems can exchange and act on it directly.
 

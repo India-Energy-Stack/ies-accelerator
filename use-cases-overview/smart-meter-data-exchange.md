@@ -28,7 +28,7 @@ Four things, and only these four:
 | Records | Detail | Source |
 |---|---|---|
 | The contract | How a request is discovered and agreed | Beckn protocol |
-| Consent & scope | How consent, scope and duration are recorded | MeterDataRequest / MeterDataRequestCredential v0.6 |
+| Consent & scope | How consent, scope and duration are recorded | MeterDataRequest v0.6 / MeterDataRequestCredential v0.1 |
 | The data shape | The MeterData wire format | MeterData v0.6 (DLMS-COSEM / IS 15959) |
 | Receipts & audit | Proof of what was exchanged | Beckn protocol; W3C VC |
 
@@ -96,7 +96,7 @@ No Verifiable Credential by default. Each exchange produces: a **signed Beckn co
 
 For Indian-terminology mapping, see **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)**.
 
-## 9. Schedule II — Reportee Templates (optional)
+## 9. Schedule II — Report Templates (optional)
 
 | Wrapping / dependency | Detail |
 |---|---|
