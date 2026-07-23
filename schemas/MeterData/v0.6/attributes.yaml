@@ -288,8 +288,11 @@ components:
     Identifier:
       type: object
       title: Identifier
-      description: Canonical {scheme, value} reference. Used for customer/meter/SDP/OBIS
-        references.
+      description: |
+        Canonical {scheme, value} reference. Used for customer/meter/SDP/OBIS references.
+        When the value is a Decentralized Identifier (DID) string, prefer the typed
+        DID schemes (METER_DID, CONSUMER_DID, SDP_DID, ASSET_DID, ORG_DID) over the
+        generic DID scheme so the entity type is explicit on the wire.
       required:
       - scheme
       - value
@@ -709,6 +712,12 @@ components:
           - INFO
     IdentifierScheme:
       type: string
+      description: |
+        Identifier scheme. The typed DID schemes (METER_DID, CONSUMER_DID, SDP_DID,
+        ASSET_DID, ORG_DID) are preferred when the value is a DID string, because
+        they make the entity type explicit. The generic DID scheme is retained for
+        backward compatibility and for cases where the entity type is unknown or
+        deliberately abstract.
       enum:
       - METER_SERIAL
       - METER_BADGE
@@ -717,6 +726,11 @@ components:
       - SHORT_CODE
       - CONSUMER_NUMBER
       - SERVICE_DELIVERY_POINT
+      - METER_DID
+      - CONSUMER_DID
+      - SDP_DID
+      - ASSET_DID
+      - ORG_DID
       - DID
       - ORG
       - OTHER

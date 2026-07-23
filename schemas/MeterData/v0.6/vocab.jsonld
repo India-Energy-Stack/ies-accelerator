@@ -78,7 +78,7 @@
             "@id": "ies:Identifier",
             "@type": "rdfs:Class",
             "rdfs:label": "Identifier",
-            "rdfs:comment": "Canonical {scheme, value} reference. Used for customer/meter/SDP/OBIS references."
+            "rdfs:comment": "Canonical {scheme, value} reference. Used for customer/meter/SDP/OBIS references.\nWhen the value is a Decentralized Identifier (DID) string, prefer the typed\nDID schemes (METER_DID, CONSUMER_DID, SDP_DID, ASSET_DID, ORG_DID) over the\ngeneric DID scheme so the entity type is explicit on the wire."
         },
         {
             "@id": "ies:TimePeriod",
