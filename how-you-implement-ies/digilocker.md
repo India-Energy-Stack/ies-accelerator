@@ -28,7 +28,7 @@ Consumer                 DigiLocker              Your Endpoint           IES
    │                         │   (XML, HMAC signed)   │                    │
    │                         │                        │── /issue ─────────>│
    │                         │                        │<─ signed VC ───────│
-   │                         │                        │── /credentials/{id}│
+   │                         │                        │── /package ───────>│
    │                         │                        │<─ PDF ─────────────│
    │                         │<── PullURIResponse ────│                    │
    │                         │   (XML + base64 PDF    │                    │
@@ -60,6 +60,20 @@ Go to [https://apisetu.gov.in](https://apisetu.gov.in) and register as a documen
 
 > If your DISCOM already issues electricity bills (ELBIL) on DigiLocker, contact NeGD to add the `NYCER` and `MPLTR` document types to your existing account. Do not re-register.
 
+Alongside the DocTypes, register your **credential issuer** with NeGD so DigiLocker can resolve and trust it. NeGD asks for a small block:
+
+```json
+{
+  "credential_type": "UtilityElectricityCredential",
+  "issuer_did": "did:web:www.discom.example:energystack",
+  "resource_schema": []
+}
+```
+
+The `issuer_did` is the one from [Step 2](#step-2-stand-up-opencred-and-your-issuer-did) — it may live on your own domain, or in a DigiLocker-hosted issuer namespace (e.g. `did:web:vc.dl6.in:issuers:in.gov.<state>electricity`) if NeGD hosts it for you.
+
+> **Keep the org id consistent across registration and every URI.** The org segment of each Pull URI (`in.gov.<orgId>-<DocType>-<consumerNo>`, e.g. `in.gov.com.discom-NYCER-100000012345`) must equal the `issuer_id` / `orgId` you registered on API Setu. A URI whose org segment doesn't match the registered issuer fails at DigiLocker with an *org id / issuer id mismatch* — the response is accepted but its document data is rejected, which is easy to misread as a payload problem.
+
 ### Step 2 — Stand Up OpenCred and Your Issuer DID
 
 Follow [Setup Register — keypair and did.json](setup-register.md#id-1.2-generate-your-credential-signing-keypair) and [Issue Credentials — run OpenCred](issue-credentials.md#id-2.3-run-opencred-in-did-web-mode) end-to-end. By the time you reach this page you should have:
@@ -69,6 +83,8 @@ Follow [Setup Register — keypair and did.json](setup-register.md#id-1.2-genera
 - (Optional, recommended) DeDi configured for revocation
 
 Save your issuer DID — it goes into every `POST /v1/credentials/issue` call.
+
+> **Gotcha — the DID host must serve `did.json` *without* a redirect.** A `did:web` DID resolves by fetching `https://<host>/<path>/did.json`. If that host 301-redirects — e.g. `https://discom.example/energystack/did.json` → `https://www.discom.example/energystack/did.json` — lenient verifiers follow the redirect, but strict resolvers (OpenCred among them) reject it, and a consumer's credential then fails to verify. Name the **canonical host that answers directly** in your DID: if `www.` is where `did.json` is served, the issuer DID is `did:web:www.discom.example:energystack`, not `did:web:discom.example:energystack`. Confirm with `curl -sSL -o /dev/null -w '%{http_code} %{url_effective}\n' https://<host>/<path>/did.json` — a `200` with an unchanged URL, not a `301`.
 
 ### Step 3 — Register the Pull URI Endpoints on API Setu
 
@@ -202,16 +218,16 @@ The rendered certificate (`DocContent`) should also show this in human-readable 
 
 ### Step 4 — Call OpenCred to Issue the Credential
 
-This step differs by DocType — see [Issuing NYCER (v1.2)](issue-credentials.md#id-2.6-issue-your-first-credential) and [Issuing the Digest (MPLTR)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC; both can ask OpenCred to render the PDF via `packageFormats: ["pdf"]`.
+This step differs by DocType — see [Issuing NYCER (v1.2)](issue-credentials.md#id-2.6-issue-your-first-credential) and [Issuing the Digest (MPLTR)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC, then render the PDF with a **separate** `POST /v1/credentials/package` call (see [Step 5](#step-5-package-the-pdf-and-vc-for-the-response)).
 
 ### Step 5 — Package the PDF and VC for the response
 
-OpenCred can render the PDF for you when you pass `packageFormats: ["pdf"]`. The PDF carries the signed credential payload in its info dictionary and embeds a scannable QR — DigiLocker stores the PDF, and verifiers can later re-extract the credential from the PDF itself.
+Rendering the PDF is a **separate call** — `POST /v1/credentials/package` with `formats: ["pdf"]` (the DocType handlers in Step 4 make it). An inline `packageFormats` field on the *issue* body is silently ignored, so this call is not optional — see [Issue Credentials §2.10](issue-credentials.md#id-2.10-package-the-credential-as-a-pdf-qr-code). The PDF carries the signed credential payload in its info dictionary and embeds a scannable QR — DigiLocker stores the PDF, and verifiers can later re-extract the credential from the PDF itself.
 
 ```python
 import base64, json
 
-# pdf_bytes came back from the OpenCred response in Step 4
+# pdf_bytes came back from the /v1/credentials/package call in Step 4
 pdf_b64 = base64.b64encode(pdf_bytes).decode()
 vc_b64  = base64.b64encode(json.dumps(vc_json).encode()).decode()
 ```
@@ -256,7 +272,7 @@ def build_pulluri_response(ts, txn, doc_type, uri, issued_to, valid_from, valid_
 6. Branch on DocType:
      NYCER → build v1.2 credentialSubject (energyResources[])
      MPLTR → build MeterData v0.6 payload for the requested period
-7. POST /v1/credentials/issue with packageFormats=["pdf"] → signed VC + PDF
+7. POST /v1/credentials/issue → signed VC; then POST /v1/credentials/package (formats=["pdf"]) → PDF
 8. Base64-encode PDF and VC
 9. Return PullURIResponse XML with Status=1 and the DocType-appropriate URI
 ```
@@ -334,7 +350,7 @@ credential_response = requests.post(
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
     json={
         "issuerDid":  ISSUER_DID,                # e.g. "did:web:ies.discom.example"
-        "schemaId":   "electricity/v1.2",
+        "schemaId":   "ies/electricity-credential/v1.2",
         "additionalTypes": ["ElectricityCredential"],
         "proofFormat": "vc-jwt",
         "validFrom":  datetime.now(IST).isoformat(),
@@ -387,11 +403,24 @@ credential_response = requests.post(
             },
         },
         "revocationRegistryUrl": DEDI_REVOCATION_URL,
-        "packageFormats": ["pdf"],
     }
 ).json()
 
 vc_json = credential_response["credential"]
+
+# Render the PDF with a SEPARATE packaging call. Packaging is a distinct
+# rendering step, not part of issue — an inline `packageFormats` field on the
+# issue body is silently ignored (see Issue Credentials §2.10). Package the
+# credential as issued, proof intact, so the QR embedded in the PDF stays
+# independently verifiable.
+package_response = requests.post(
+    "http://opencred:3100/v1/credentials/package",
+    headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
+    json={"credential": vc_json, "formats": ["pdf"]},
+).json()
+pdf_bytes = base64.b64decode(
+    next(o for o in package_response["outputs"] if o["format"] == "pdf")["data"]
+)
 
 # Inject the schema-required issuer object before delivery — OpenCred returns
 # issuer as the DID string, but the ElectricityCredential schema requires the
@@ -405,11 +434,6 @@ vc_json["issuer"] = {
         "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:discom
     },
 }
-
-pdf_bytes = base64.b64decode(
-    next(p for p in credential_response.get("packagedOutputs", [])
-         if p["format"] == "pdf")["contentBase64"]
-)
 ```
 
 The URI for NYCER stays keyed on the consumer number — a refresh overwrites the last, which is correct for a slow-changing connection credential:
@@ -597,7 +621,7 @@ credential_response = requests.post(
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
     json={
         "issuerDid":  ISSUER_DID,
-        "schemaId":   "meterdata/v0.6",
+        "schemaId":   "ies/meter-data-credential/v0.6",
         "additionalTypes": ["MeterDataCredential"],
         "proofFormat": "vc-jwt",
         "validFrom":  datetime.now(IST).isoformat(),
@@ -612,11 +636,21 @@ credential_response = requests.post(
             # binding into DocContent only (see Step 6 below).
         },
         "revocationRegistryUrl": DEDI_REVOCATION_URL,
-        "packageFormats": ["pdf"],
     }
 ).json()
 
 vc_json = credential_response["credential"]
+
+# Render the PDF with a separate packaging call (same pattern as NYCER, and
+# Issue Credentials §2.10) — package the credential as issued, proof intact.
+package_response = requests.post(
+    "http://opencred:3100/v1/credentials/package",
+    headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
+    json={"credential": vc_json, "formats": ["pdf"]},
+).json()
+pdf_bytes = base64.b64decode(
+    next(o for o in package_response["outputs"] if o["format"] == "pdf")["data"]
+)
 
 # Inject the schema-required issuer object (with licenseNumber) — same pattern as NYCER.
 vc_json["issuer"] = {
@@ -624,11 +658,6 @@ vc_json["issuer"] = {
     "name": ISSUER_NAME,
     "licenseNumber": DISCOM_LICENSE_NUMBER,      # e.g. "SERC-DISCOM-2025-007"
 }
-
-pdf_bytes = base64.b64decode(
-    next(p for p in credential_response.get("packagedOutputs", [])
-         if p["format"] == "pdf")["contentBase64"]
-)
 
 # 4. Period-keyed URI — this is the one structural difference from NYCER
 uri = f"in.gov.discom-MPLTR-{consumer.consumer_number}-{window.uri_period}"
