@@ -30,7 +30,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 _A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
 
-### ElectricityCredential v1.2
+**ElectricityCredential v1.2**
 
 | Field | Type | Description |
 |---|---|---|
@@ -43,7 +43,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`credentialSubject`** \* | object | — |
 | `proof` | object | — |
 
-### CustomerDetails
+**CustomerDetails**
 
 | Field | Type | Description |
 |---|---|---|
@@ -52,14 +52,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`installationAddress`** \* | Location | **Based on** GeoJSON RFC 7946; schema.org PostalAddress; CIM (IEC 61968-1 ServiceLocation). Physical location of the metered installation. geo (GeoJSON Point, coordinates [longitude, latitude]) is required; address (schema.org PostalAddress fields) is optional. |
 | **`serviceConnectionDate`** \* | date-time | **Based on** CIM (IEC 61968-1 ServiceLocation activation date). Date and time the service connection was activated, with timezone offset (ISO 8601). |
 
-### Location
+**Location**
 
 | Field | Type | Description |
 |---|---|---|
 | **`geo`** \* | GeoJSONGeometry | — |
 | `address` | Address | — |
 
-### GeoJSONGeometry
+**GeoJSONGeometry**
 
 | Field | Type | Description |
 |---|---|---|
@@ -68,7 +68,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `geometries` | list of GeoJSONGeometry | Member geometries when `type` is **GeometryCollection**. |
 | **`type`** \* | `Point` / `LineString` / `Polygon` / `MultiPoint` / `MultiLineString` / `MultiPolygon` / `GeometryCollection` | — |
 
-### Address
+**Address**
 
 | Field | Type | Description |
 |---|---|---|
@@ -79,7 +79,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `postalCode` | text | Postal/ZIP code. |
 | `streetAddress` | text | Street address (building name/number and street). |
 
-### CustomerProfile
+**CustomerProfile**
 
 | Field | Type | Description |
 |---|---|---|
@@ -88,14 +88,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`energyResources`** \* | list of EnergyResource | All physical energy assets for this account. Each entry is discriminated by 'type' into one of seven composable kinds. |
 | `consumptionProfiles` | list of ConsumptionProfile | Tariff and load characteristics per meter connection. Each entry links to a METER via meterId. |
 
-### IdRef
+**IdRef**
 
 | Field | Type | Description |
 |---|---|---|
 | **`issuedBy`** \* | uri | DID or URI of the issuing authority. |
 | **`subjectId`** \* | text | Subject identifier in authority-domain:id-value format. |
 
-### EnergyResourceMeter
+**EnergyResourceMeter**
 
 | Field | Type | Description |
 |---|---|---|
@@ -105,7 +105,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceMeterAttributes | — |
 
-### EnergyResourceCommon
+**EnergyResourceCommon**
 
 | Field | Type | Description |
 |---|---|---|
@@ -115,7 +115,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceCommonAttributes | Attribute bag. Inherits EnergyResourceCommonAttributes via allOf plus kind-specific fields. |
 
-### EnergyResourceCommonAttributes
+**EnergyResourceCommonAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -131,14 +131,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `inspection` | object | **Based on** IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018). Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events. |
 | `aggregator` | object | **Based on** IEEE 2030.5; IEC 61850-7-420 (DER control roles). Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. |
 
-### QVPower
+**QVPower**
 
 | Field | Type | Description |
 |---|---|---|
 | **`value`** \* | number | — |
 | **`unit`** \* | `W` / `kW` / `MW` | — |
 
-### EnergyResourceMeterAttributes
+**EnergyResourceMeterAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -161,7 +161,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `communicationTechnology` | `PLC` / `RF_Mesh` / `GPRS` / `NB-IoT` / `LoRa` / `ZigBee` / `Other` | Last-mile physical-layer communication technology. |
 | `applicationProtocol` | `DLMS_COSEM` / `ANSI_C12_18` / `IEC_61850` / `Modbus` / `Other` | Application-layer protocol for meter data. DLMS_COSEM: IEC 62056, mandatory for India AMI per BIS IS 16444. ANSI_C12_18: North American. Orthogonal to communicationTechnology (physical layer). |
 
-### EnergyResourceGenerator
+**EnergyResourceGenerator**
 
 | Field | Type | Description |
 |---|---|---|
@@ -171,7 +171,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceGeneratorAttributes | — |
 
-### EnergyResourceGeneratorAttributes
+**EnergyResourceGeneratorAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -190,7 +190,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `efficiency` | number | Conversion efficiency as a percentage (0–100). Most relevant for FUEL_CELL and CHP resources. |
 | `dcArrayCapacity` | QVPower (`W` / `kW` / `MW`) | **Based on** IS 16221 (PV module qualification); IEC 61727 (PV grid interface). DC-side nameplate capacity of a photovoltaic array at Standard Test Conditions (industry term: "kWp"). For PV systems this is typically larger than the AC-side maxExport because of inverter clipping and DC-to-AC ratios. Relevant for SOLAR_PV resources. The unit is the standard QUDT power alias kW — the STC/peak semantic is documented here, not encoded in the unit string. |
 
-### EnergyResourceStorage
+**EnergyResourceStorage**
 
 | Field | Type | Description |
 |---|---|---|
@@ -200,7 +200,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceStorageAttributes | — |
 
-### EnergyResourceStorageAttributes
+**EnergyResourceStorageAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -220,14 +220,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `stateOfHealthPct` | number | Battery state-of-health as a percentage (0–100). |
 | `roundTripEfficiencyPct` | number | **Based on** IEC 62933-2-1 (performance test method). AC-to-AC round-trip efficiency as a percentage (0–100): the fraction of energy returned to the grid relative to energy drawn during a full charge/discharge cycle. Distinct from stateOfHealthPct (cumulative life indicator) and from inverter conversion efficiency. |
 
-### QVEnergy
+**QVEnergy**
 
 | Field | Type | Description |
 |---|---|---|
 | **`value`** \* | number | — |
 | **`unit`** \* | `kWh` / `MWh` | — |
 
-### EnergyResourceEVCharger
+**EnergyResourceEVCharger**
 
 | Field | Type | Description |
 |---|---|---|
@@ -237,7 +237,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceEVChargerAttributes | — |
 
-### EnergyResourceEVChargerAttributes
+**EnergyResourceEVChargerAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -256,7 +256,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `controlProtocol` | `OCPP_1.6` / `OCPP_2.0.1` / `OCPP_2.1` / `ISO_15118_2` / `ISO_15118_20` / `Other` | EVSE control and smart-charging protocol. |
 | `v2xProtocol` | `CHAdeMO_V2G` / `CCS_BPT` / `ISO_15118_20_AC_BPT` / `ISO_15118_20_DC_BPT` / `Other` | Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources. |
 
-### EnergyResourceInverter
+**EnergyResourceInverter**
 
 | Field | Type | Description |
 |---|---|---|
@@ -266,7 +266,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceInverterAttributes | — |
 
-### EnergyResourceInverterAttributes
+**EnergyResourceInverterAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -290,21 +290,21 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `freqDroopEnabled` | yes / no | **Based on** IEEE 1547-2018; SunSpec DER Model 711. Frequency-Watt droop active. |
 | `enterServiceRampTimeSec` | number | **Based on** SunSpec DER Model 703 (ESRmpTms). Seconds to ramp from 0 to rated power after reconnection. |
 
-### QVApparentPower
+**QVApparentPower**
 
 | Field | Type | Description |
 |---|---|---|
 | **`value`** \* | number | — |
 | **`unit`** \* | `kVA` / `MVA` | — |
 
-### QVReactivePower
+**QVReactivePower**
 
 | Field | Type | Description |
 |---|---|---|
 | **`value`** \* | number | — |
 | **`unit`** \* | `kVAR` / `MVAR` | — |
 
-### EnergyResourceLoad
+**EnergyResourceLoad**
 
 | Field | Type | Description |
 |---|---|---|
@@ -314,7 +314,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceLoadAttributes | — |
 
-### EnergyResourceLoadAttributes
+**EnergyResourceLoadAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -332,7 +332,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `controlProtocol` | `OpenADR_2.0b` / `OCPP_2.0.1` / `SunSpec_Modbus` / `EEBus` / `Modbus` / `Other` | Demand-response / control protocol supported by this load device. |
 | `loadCategory` | `Heating` / `Cooling` / `WaterHeating` / `Lighting` / `EV` / `Industrial` / `Other` | **Based on** CIM (IEC 61970-301 ConformLoad classification). Functional category of this load. |
 
-### EnergyResourceNetwork
+**EnergyResourceNetwork**
 
 | Field | Type | Description |
 |---|---|---|
@@ -342,7 +342,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentResources` | list of text | Upward topology — ids of parent resources. |
 | `attributes` | EnergyResourceNetworkAttributes | — |
 
-### EnergyResourceNetworkAttributes
+**EnergyResourceNetworkAttributes**
 
 | Field | Type | Description |
 |---|---|---|
@@ -362,14 +362,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `substationId` | text | Parent substation identifier per utility records. |
 | `feederCode` | text | Feeder code per utility records. Relevant for FEEDER and DT resources. |
 
-### QVVoltage
+**QVVoltage**
 
 | Field | Type | Description |
 |---|---|---|
 | **`value`** \* | number | — |
 | **`unit`** \* | `V` / `kV` | — |
 
-### ConsumptionProfile
+**ConsumptionProfile**
 
 | Field | Type | Description |
 |---|---|---|

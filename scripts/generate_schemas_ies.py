@@ -106,31 +106,26 @@ def _h(s: str) -> str:
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-# Self-contained card styling for the catalog (docsify has no CSS build step).
-CARD_CSS = """<style>
-.schema-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:1rem 0 2rem;}
-.schema-card{display:flex;flex-direction:column;gap:7px;padding:16px 18px;border:1px solid #e3e6ea;border-radius:10px;background:#fff;text-decoration:none!important;transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease;}
-.schema-card:hover{border-color:#42b983;box-shadow:0 4px 14px rgba(0,0,0,.08);transform:translateY(-2px);}
-.schema-card__name{font-weight:600;font-size:1.02rem;color:#2c3e50;word-break:break-word;}
-.schema-card__ver{align-self:flex-start;font-size:.72rem;font-weight:600;color:#279a6c;background:rgba(66,185,131,.12);border-radius:999px;padding:2px 9px;}
-.schema-card__desc{font-size:.82rem;line-height:1.45;color:#6b7280;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-</style>"""
-
-
-def card_grid(families: list[str]) -> str:
-    """A grid of clickable boxes — one per family — linking to its term page."""
-    cards = ['<div class="schema-cards">']
+def cards_table(families: list[str]) -> str:
+    """A grid of clickable cards — one per family — using GitBook's native
+    ``<table data-view="cards">`` block. GitBook renders it as a responsive card
+    grid (name → version → description, whole card links to the family page); any
+    other renderer degrades it to a plain table, so it never breaks."""
+    head = ('<table data-view="cards"><thead><tr>'
+            '<th></th><th></th><th></th>'
+            '<th data-hidden data-card-target data-type="content-ref"></th>'
+            '</tr></thead><tbody>')
+    rows = [head]
     for f in families:
         info = parse_readme(f)
         latest = versions_of(f)[0]
-        cards.append(f'<a class="schema-card" href="#/schemas-ies/{f}">')
-        cards.append(f'<span class="schema-card__name">{_h(f)}</span>')
-        cards.append(f'<span class="schema-card__ver">{_h(latest)}</span>')
-        if info["tagline"]:
-            cards.append(f'<span class="schema-card__desc">{_h(info["tagline"])}</span>')
-        cards.append('</a>')
-    cards.append('</div>')
-    return "\n".join(cards)
+        desc = _h(info["tagline"] or "")
+        rows.append(
+            f'<tr><td><strong>{f}</strong></td><td>{_h(latest)}</td><td>{desc}</td>'
+            f'<td><a href="{f}.md">{f}.md</a></td></tr>'
+        )
+    rows.append("</tbody></table>")
+    return "\n".join(rows)
 
 
 def version_key(v: str) -> tuple:
@@ -273,7 +268,7 @@ def family_page(family: str) -> str:
           "_A field name in **bold** with a trailing **\\*** is required; all others are optional. "
           "**Type** shows units for QuantitativeValue models. Where a field derives from a standard, "
           "its description begins with **Based on** and the standard reference._", ""]
-    L += [field_tables(latest_schema, bold_label=False), ""]
+    L += [field_tables(latest_schema, bold_label=True), ""]
 
     # Previous versions
     L += ["---", "", "## Previous versions", ""]
@@ -300,18 +295,16 @@ def catalog_page() -> str:
         AUTOGEN, "",
         "# IES Schemas",
         "",
-        CARD_CSS,
-        "",
         "> **The developer catalog of every IES schema.** Pick a schema below — each has its own page "
         "with the current field reference, the canonical file URLs, and every previous version. "
-        "Use the search box (top-left) to find a schema or field across all of them.",
+        "Use the search box (top) to find a schema or field across all of them.",
         "",
     ]
     for cat in CATEGORY_ORDER:
         fams = [f for f, m in FAMILIES.items() if m["category"] == cat]
         if not fams:
             continue
-        L += [f"## {cat}", "", CATEGORY_BLURB[cat], "", card_grid(fams), ""]
+        L += [f"## {cat}", "", CATEGORY_BLURB[cat], "", cards_table(fams), ""]
 
     L += [
         "## External — DEG schemas IES uses",

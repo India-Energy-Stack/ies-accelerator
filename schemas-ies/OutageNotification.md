@@ -32,7 +32,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 _A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
 
-### OutageNotification Payload
+**OutageNotification Payload**
 
 | Field | Type | Description |
 |---|---|---|
@@ -60,7 +60,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `provenance` | OutageProvenance | — |
 | `extensions` | object | Namespaced DISCOM-specific fields, e.g. { "discom": { "breakdownId": "6357257", "downType": "FEEDER" } }. |
 
-### OutageCause
+**OutageCause**
 
 | Field | Type | Description |
 |---|---|---|
@@ -71,7 +71,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `codeNamespace` | text | Authority/vendor that defines `code` (e.g. the OMS vendor or DISCOM). |
 | `text` | text | Free-text reason; may be localized (e.g. Hindi). |
 
-### OutageAsset
+**OutageAsset**
 
 | Field | Type | Description |
 |---|---|---|
@@ -83,7 +83,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `parentRef` | Identifier | Parent asset (e.g. a feeder's substation, a DT's feeder). |
 | `geo` | GeoJSONGeometry | **Based on** GeoJSON (RFC 7946), WGS84. Optional inline geometry (WGS84): Point (substation/DT), LineString (feeder route), Polygon (service area). |
 
-### OutageNetworkContext
+**OutageNetworkContext**
 
 | Field | Type | Description |
 |---|---|---|
@@ -95,7 +95,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `substation` | Identifier | — |
 | `district` | text | — |
 
-### OutageAffectedArea
+**OutageAffectedArea**
 
 | Field | Type | Description |
 |---|---|---|
@@ -103,7 +103,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `adminAreas` | list of text | Named localities / wards / villages. |
 | `geo` | GeoJSONGeometry | **Based on** GeoJSON (RFC 7946); CAP area. Polygon/MultiPolygon service area, or Point/circle (CAP). WGS84. |
 
-### OutageImpact
+**OutageImpact**
 
 | Field | Type | Description |
 |---|---|---|
@@ -111,7 +111,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `deEnergized` | list of Identifier | **Based on** CIM (IEC 61968-3 UsagePoint). Optional SDP/UsagePoint refs (authenticated tier). |
 | `energized` | list of Identifier | **Based on** CIM (IEC 61968-3 UsagePoint). Optional points confirmed still energized. |
 
-### OutageTiming
+**OutageTiming**
 
 | Field | Type | Description |
 |---|---|---|
@@ -120,7 +120,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `actualRestoration` | date-time | Set when status=RESTORED; feeds IEEE 1366 indices. |
 | `slaTargetMinutes` | integer | SLA target, e.g. 240 (4 hrs). |
 
-### OutageResponse
+**OutageResponse**
 
 | Field | Type | Description |
 |---|---|---|
@@ -128,7 +128,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `resourceStatus` | text | e.g. PENDING, RESOURCE_ALLOCATED, IN_PROGRESS. |
 | `complaintCount` | integer | Linked consumer complaints (OMS "No. of Complaints"). |
 
-### OutagePublicInfo
+**OutagePublicInfo**
 
 | Field | Type | Description |
 |---|---|---|
@@ -137,7 +137,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `description` | text | — |
 | `instruction` | text | What the consumer should do. |
 
-### OutageProvenance
+**OutageProvenance**
 
 | Field | Type | Description |
 |---|---|---|
@@ -147,7 +147,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `signal` | OutageSignal | — |
 | `alarmRefs` | list of OutageAlarmRef | References into MeterData AlarmProfile records. |
 
-### OutageSignal
+**OutageSignal**
 
 | Field | Type | Description |
 |---|---|---|
@@ -156,7 +156,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `diPort` | text | Digital-input port on the substation meter that carried the signal. |
 | `rawCode` | text | Vendor-native status code as received (e.g. FEEDER_STATUS=102), for traceability. |
 
-### OutageAlarmRef
+**OutageAlarmRef**
 
 | Field | Type | Description |
 |---|---|---|
@@ -164,7 +164,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `alarmId` | integer | — |
 | `timestamp` | date-time | — |
 
-### Party
+**Party**
 
 | Field | Type | Description |
 |---|---|---|
@@ -172,7 +172,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `name` | text | — |
 | `contact` | text | Phone/email/URL for queries (e.g. 1912). |
 
-### Identifier
+**Identifier**
 
 | Field | Type | Description |
 |---|---|---|
@@ -180,7 +180,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`value`** \* | text | — |
 | `namespace` | text | — |
 
-### TimePeriod
+**TimePeriod**
 
 | Field | Type | Description |
 |---|---|---|

@@ -30,7 +30,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 _A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
 
-### MeterDataRequest
+**MeterDataRequest**
 
 | Field | Type | Description |
 |---|---|---|
@@ -44,7 +44,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`capabilitiesRequested`** \* | MeterDataCapabilities | — |
 | `maxRecordsShared` | integer | Maximum number of records that should be shared or returned in a single batch/page. |
 
-### MeterDataAuthorisation
+**MeterDataAuthorisation**
 
 | Field | Type | Description |
 |---|---|---|
@@ -55,7 +55,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`validUntil`** \* | date-time | ISO 8601 UTC date-time indicating when the authorization expires. |
 | **`capabilities`** \* | MeterDataCapabilities | — |
 
-### MeterDataCapabilities
+**MeterDataCapabilities**
 
 | Field | Type | Description |
 |---|---|---|
@@ -63,14 +63,14 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `supportedScopes` | list of `ResourceOnly` / `ResourceAndChildren` / `ChildrenOnly` | Hierarchical scopes supported by the query processor. |
 | `maxHistoryDuration` | duration | Maximum length of historical data window supported by the provider. |
 
-### ProfileCapability
+**ProfileCapability**
 
 | Field | Type | Description |
 |---|---|---|
 | **`profileType`** \* | `CustomerProfile` / `IntervalProfile` / `DailyProfile` / `MonthlyProfile` / `BillDetails` / `InstantaneousProfile` / `EventProfile` / `AlarmProfile` | — |
 | `readings` | list of ValueCapability | Granular capabilities for specific registers and metrics. If omitted, all readings under this profile are supported. |
 
-### ValueCapability
+**ValueCapability**
 
 | Field | Type | Description |
 |---|---|---|

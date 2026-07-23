@@ -30,7 +30,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 _A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Where a field derives from a standard, its description begins with **Based on** and the standard reference._
 
-### ArrFiling
+**ArrFiling**
 
 | Field | Type | Description |
 |---|---|---|
@@ -52,7 +52,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `notes` | list of text | Footnotes, regulatory order references, and explanatory notes. |
 | **`fiscalYears`** \* | list of ArrFiscalYear | — |
 
-### ArrFiscalYear
+**ArrFiscalYear**
 
 | Field | Type | Description |
 |---|---|---|
@@ -61,7 +61,7 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`amountBasis`** \* | `AUDITED` / `APPROVED` / `PROPOSED` / `TRUED_UP` / `NOT_FILED` | AUDITED - actual costs verified by auditors APPROVED - amounts approved by the SERC in a tariff order PROPOSED - amounts requested by the DISCOM, pending SERC approval TRUED_UP - reconciled amounts after comparing actuals to approved NOT_FILED - placeholder year in a control period, no data yet |
 | **`lineItems`** \* | list of ArrLineItem | — |
 
-### ArrLineItem
+**ArrLineItem**
 
 | Field | Type | Description |
 |---|---|---|
