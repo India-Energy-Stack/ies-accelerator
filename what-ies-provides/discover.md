@@ -40,7 +40,7 @@ There is no central broker: the network operator curates the membership list, bu
 
 | Phase | BAP — the consumer side ([Beckn Application Platform](../glossary.md#bap)) calls | BPP — the provider side ([Beckn Provider Platform](../glossary.md#bpp)) responds | When you need it |
 |---|---|---|---|
-| Discovery | `discover` | `on_discover` | Consumer doesn't yet know which provider to contract with |
+| Discovery | `search` | `on_search` | Consumer doesn't yet know which provider to contract with |
 | Negotiation | `select` / `init` | `on_select` / `on_init` | Terms need agreeing before commitment |
 | Commitment | `confirm` | `on_confirm` | **The minimal flow** — payload can be delivered inline here |
 | Delivery | `status` | `on_status` | Payload prepared asynchronously, or paged across messages |
