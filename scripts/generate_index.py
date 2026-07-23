@@ -2,12 +2,13 @@ import os
 import re
 
 def slugify(text):
-    slug = text.lower()
-    slug = re.sub(r'<[^>]+>', '', slug)
-    slug = re.sub(r'[^\w\s-]', '', slug)
-    slug = re.sub(r'[\s_]+', '-', slug)
-    slug = slug.strip('-')
-    return slug
+    text = text.lower()
+    text = re.sub(r"[`*'’‘\"“”]", "", text)
+    text = re.sub(r"[^a-z0-9._-]+", "-", text)
+    text = re.sub(r"-+", "-", text).strip("-")
+    if text and text[0].isdigit():
+        text = "id-" + text
+    return text
 
 def parse_headings(filepath):
     headings = []
