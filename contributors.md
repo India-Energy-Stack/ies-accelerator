@@ -8,7 +8,7 @@ The India Energy Stack is a collaborative effort across the power sector. This p
 
 ## Pilot DISCOMs — 30-day Challenge
 
-The first organisations to build an IES adapter and demonstrate live use cases:
+The first organisations to build an IES adapter and demonstrate use cases, in the completed 30-day DISCOM Challenge (see [Status](STATUS.md) for current status):
 
 | DISCOM | Location |
 |---|---|

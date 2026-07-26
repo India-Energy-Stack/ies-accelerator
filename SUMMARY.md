@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Home](README.md)
+* [Status](STATUS.md)
 * [Glossary](glossary.md)
 * [FAQ](faq.md)
 * [Download PDF](download-pdf.md)
@@ -82,6 +83,15 @@
 * [DISCOM Regulatory Filing (WIP)](use-cases/discom-regulatory-filing/README.md)
 * [Policy as Code (WIP)](use-cases/tariff-intelligence/README.md)
 * [P2P Energy Transaction](use-cases/p2p-energy-trading/README.md)
+
+## Pathways
+
+* [Overview](pathways/README.md)
+* [Authority / Regulator Pathway](pathways/authority.md)
+* [Utility Pathway](pathways/utility.md)
+* [Technology Service Provider Pathway](pathways/tsp.md)
+* [Researcher / Analyst Pathway](pathways/researcher.md)
+* [Secretariat Pathway](pathways/secretariat.md)
 
 ## Contributors
 

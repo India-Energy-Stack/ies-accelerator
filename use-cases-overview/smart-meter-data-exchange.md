@@ -7,7 +7,7 @@
 | Field | Value |
 |---|---|
 | Document | IES/SMDX-PROFILE/0.6 |
-| Status | Live in pilot |
+| Status | Piloted — see [Status](../STATUS.md) |
 | Applicability | All AMISPs, DISCOMs and SERCs |
 | This version | Built on MeterData v0.6, MeterDataRequest v0.6 and (optional) MeterDataRequestCredential v0.1 over Beckn. |
 

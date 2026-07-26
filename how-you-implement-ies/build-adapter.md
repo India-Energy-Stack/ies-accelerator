@@ -109,6 +109,8 @@ python3 scripts/validate_schema.py \
 
 The repo ships this validator and a `make validate` target. Examples to validate against live in `schemas/<family>/<version>/examples/`.
 
+This proves repository-local structural conformance against the schema shown above — see [Conformance Checklist — What this checklist proves](conformance.md#what-this-checklist-proves-and-what-it-doesnt) for exactly what it does and doesn't establish before you call a use case done.
+
 ### Task 4 — Wire into your engine (ONIX and/or OpenCred)
 
 **Beckn-network use cases — wire into ONIX.** ONIX delivers a typed Beckn message to a handler endpoint you register. The handler does Tasks 1–3 in real time:

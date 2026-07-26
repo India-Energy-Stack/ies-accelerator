@@ -73,7 +73,7 @@ Use-case-specific items on top of base credential issuance.
 
 - [ ] `credentialSubject.id` = wallet DID; `schemaId` = `ies/meter-data-credential/v0.6`
 - [ ] `validUntil` short — 24h for loan portals, up to 7d for less time-sensitive flows
-- [ ] Schema validation passes against [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md)
+- [ ] Schema validation passes against [MeterDataCredential v0.6](../../schemas/MeterDataCredential/v0.6/README.md) — this is repository-local structural validation; see [Conformance Checklist — What this checklist proves](../../how-you-implement-ies/conformance.md#what-this-checklist-proves-and-what-it-doesnt) for what it does and doesn't establish
 
 **Step 4 — wallet delivery.**
 

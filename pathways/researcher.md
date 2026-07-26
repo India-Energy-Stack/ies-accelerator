@@ -41,14 +41,14 @@ Before reading a single schema file, get a correct mental model of what IES is (
 <summary><b>Step 1.2: Locate the GitBook and the Sandbox</b></summary>
 
 ### 💡 Phase Advice
-> There is no account to create and no install step for reading. The specifications have been published on this GitBook, and the sandbox is working — both are simply there to read and, in the sandbox's case, to observe.
+> There is no account to create and no install step for reading. The specifications have been published on this GitBook and are there to read. The sandbox was used by the four pilot DISCOMs during the completed 30-day Challenge (see [Status](../STATUS.md) for current status) — its documented outcomes are there to study.
 
 ### 📋 Prework Required
 * None. This step is purely orientation — bookmark the two entry points below.
 
 ### Execution Guidance
 1. **The GitBook** — this repository itself (`ies-accelerator`) is the canonical, rendered specification set. Start from [What IES Provides](../what-ies-provides/README.md), which indexes Register, Discover, Exchange and the Schemas.
-2. **The sandbox** — the pilot environment referenced in [Pilots and Status](../README.md#pilots-and-status), used by the four pilot DISCOMs to demonstrate live use cases (see Phase 3 below for the documented outcomes).
+2. **The sandbox** — the pilot environment referenced in [Pilots and Status](../README.md#pilots-and-status), used by the four pilot DISCOMs during the 30-day Challenge to demonstrate use cases (see Phase 3 below for the documented outcomes, and [Status](../STATUS.md) for current status).
 3. Confirm you can navigate from [What IES Provides](../what-ies-provides/README.md) down into a schema family folder (e.g. `schemas/MeterData/`) so that Phase 2 is a matter of reading, not searching.
 
 ### References & Anchors
@@ -137,8 +137,8 @@ If your research makes a claim about how a schema behaves, verify it empirically
 
 ### Execution Guidance
 1. Read [Pilots and Status](../README.md#pilots-and-status) for the outcomes table covering the four pilot DISCOMs, spread across four States, that built their IES adapters during the 30-day Challenge.
-2. Cross-reference the "Use cases demonstrated" table against the four capabilities shown live: **DER Visibility**, **Consumer Energy Passport**, **Consumer Meter Digest**, and **Smart Meter Data Exchange** — each row also states the "Before IES" baseline, useful if your analysis is a before/after comparison.
-3. Note the "What 'live in pilot' means" section, which defines exactly what evidentiary bar each demonstration had to clear (adapter running, `did:web` identity resolvable, subscriber record in the network registry, issued credential or completed exchange, independently verified by a counterparty) — useful if you need to characterise the rigour of the pilot claims in your own writing.
+2. Cross-reference the "Use cases demonstrated" table against the four capabilities demonstrated: **DER Visibility**, **Consumer Energy Passport**, **Consumer Meter Digest**, and **Smart Meter Data Exchange** — each row also states the "Before IES" baseline, useful if your analysis is a before/after comparison.
+3. Note the evidentiary bar set out in [Status — What "demonstrated in pilot" meant](../STATUS.md), which defines exactly what each demonstration had to clear (adapter running, `did:web` identity resolvable, subscriber record in the network registry, issued credential or completed exchange, independently verified by a counterparty) — useful if you need to characterise the rigour of the pilot claims in your own writing.
 
 ### References & Anchors
 * [Pilots and Status](../README.md#pilots-and-status)

@@ -6,10 +6,10 @@ Read one of these before the [Use Case Implementation Guide](../use-cases/README
 
 | Use case | What it is | Status |
 |---|---|---|
-| **[Consumer Energy Passport](consumer-energy-passport.md)** | Holder-bound ElectricityCredential v1.2 — a consumer's verifiable proof of their connection and assets | Live in pilot |
-| **[Consumer Meter Digest](consumer-meter-digest.md)** | Holder-bound MeterDataCredential v0.6 — a consumer's own meter readings, on demand | Live in pilot |
-| **[Smart Meter Data Exchange](smart-meter-data-exchange.md)** | Bulk, audit-trailed MeterData v0.6 exchange between AMISP, DISCOM, SERC and consented third parties | Live in pilot |
-| **[DER Visibility](der-visibility.md)** | Grid-side, PII-free ElectricityCredential v1.2 issuance — per-feeder DER visibility for operators and aggregators | Live in pilot |
+| **[Consumer Energy Passport](consumer-energy-passport.md)** | Holder-bound ElectricityCredential v1.2 — a consumer's verifiable proof of their connection and assets | Piloted ([Status](../STATUS.md)) |
+| **[Consumer Meter Digest](consumer-meter-digest.md)** | Holder-bound MeterDataCredential v0.6 — a consumer's own meter readings, on demand | Piloted ([Status](../STATUS.md)) |
+| **[Smart Meter Data Exchange](smart-meter-data-exchange.md)** | Bulk, audit-trailed MeterData v0.6 exchange between AMISP, DISCOM, SERC and consented third parties | Piloted ([Status](../STATUS.md)) |
+| **[DER Visibility](der-visibility.md)** | Per-consumer ElectricityCredential v1.2 today; a grid-side, PII-free per-feeder aggregate is an illustrative future profile, not yet its own schema | Piloted ([Status](../STATUS.md)) |
 | **[DISCOM Regulatory Filing](discom-regulatory-filing.md)** | Structured ArrFiling v0.5 — ARR, true-up and compliance filings from DISCOM to SERC | 🚧 WIP |
 | **[Policy as Code](tariff-intelligence.md)** | Tariff orders and other authority policy published once, as code (flagship sub-use-case: Tariff Intelligence) | 🚧 WIP |
 | **[P2P Energy Transaction](p2p-energy-trading.md)** | Two prosumers on different DISCOMs execute a direct, signed energy trade over Beckn — regulated Ledger Providers, signed-Rego settlement, no central exchange | In progress |

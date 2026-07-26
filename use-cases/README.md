@@ -6,16 +6,16 @@ Every guide follows the same **IES Documentation Template** (eleven numbered sec
 
 ---
 
-## Live in pilot
+## Piloted in the 30-day Challenge
 
-These four use cases were [demonstrated by the four pilot DISCOMs](../README.md#pilots-and-status) in the 30-day Challenge.
+These four use cases were [demonstrated by the four pilot DISCOMs](../README.md#pilots-and-status) in the 30-day Challenge — a completed, historical outcome; see **[Status](../STATUS.md)** for current status.
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
 | **[Consumer Energy Passport](consumer-energy-passport/README.md)** | DISCOM | Consumer (held in DigiLocker) | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) (holder-bound) |
 | **[Consumer Meter Digest](consumer-meter-digest/README.md)** | DISCOM | Consumer (held in DigiLocker) | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) (holder-bound) |
 | **[Smart Meter Data Exchange](smart-meter-data-exchange/README.md)** | AMISP / DISCOM | DISCOM / SERC / consented third party | [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) |
-| **[DER Visibility](der-visibility/README.md)** | DISCOM | Grid operator, aggregator | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) energyResources |
+| **[DER Visibility](der-visibility/README.md)** | DISCOM | Grid operator, aggregator | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) energyResources, per consumer today; a PII-free per-feeder aggregate is an illustrative future profile, not yet its own schema |
 
 ## Work in progress (WIP)
 

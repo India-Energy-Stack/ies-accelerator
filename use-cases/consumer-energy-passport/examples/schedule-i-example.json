@@ -1,0 +1,157 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beckn.io/ElectricityCredential/v1.2/context.jsonld"
+  ],
+  "id": "urn:uuid:8f14e45f-ceea-4c9c-8b1d-1a2b3c4d5e6f",
+  "type": ["VerifiableCredential", "ElectricityCredential"],
+  "issuer": {
+    "id": "did:web:ies.discom.example",
+    "name": "Example Uttar Pradesh Distribution Company Limited",
+    "idRef": {"issuedBy": "did:web:ies.serc.example", "subjectId": "serc.example:DISCOM-REG-0042"}
+  },
+  "validFrom": "2024-06-01T00:00:00+05:30",
+  "validUntil": "2026-06-01T00:00:00+05:30",
+  "credentialStatus": {
+    "id": "https://dedi.global/dedi/lookup/ies.discom.example/vc-revocation-registry/8f14e45f-ceea-4c9c-8b1d-1a2b3c4d5e6f",
+    "type": "dediregistry",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/query/ies.discom.example/vc-revocation-registry"
+  },
+  "credentialSubject": {
+    "id": "did:key:z6MkjVQ8r4f3rPuYJDCJvQPHkfvxamHqLpJoxrCJZs4L7T3Y",
+    "customerProfile": {
+      "customerNumber": "1102004567",
+      "idRef": {"issuedBy": "did:web:digilocker.gov.in", "subjectId": "digilocker.gov.in:XXXXXXXX1234"},
+      "energyResources": [
+        {
+          "id": "did:web:ies.discom.example:assets:meter:NM-44091234",
+          "type": "METER",
+          "attributes": {
+            "meterCapability": "AMI",
+            "energyDirection": "Bidirectional",
+            "make": "Genus Power",
+            "model": "Saksham-3P-AMI",
+            "serialNumber": "NM-44091234",
+            "commissioningDate": "2024-06-01T00:00:00+05:30",
+            "location": {"geo": {"type": "Point", "coordinates": [77.7064, 29.0588]}}
+          },
+          "parentResources": ["did:web:ies.discom.example:assets:dt:DT-11KV-F02-452"]
+        },
+        {
+          "id": "did:web:ies.discom.example:assets:meter:GM-44091234",
+          "type": "METER",
+          "attributes": {
+            "meterCapability": "AMI",
+            "energyDirection": "Reverse",
+            "make": "Genus Power",
+            "model": "Saksham-1P-AMI",
+            "serialNumber": "GM-44091234",
+            "commissioningDate": "2024-06-01T00:00:00+05:30"
+          },
+          "parentResources": ["did:web:ies.discom.example:assets:meter:NM-44091234"]
+        },
+        {
+          "id": "did:web:ies.discom.example:assets:inverter:INV-5KVA-2244",
+          "type": "INVERTER",
+          "attributes": {
+            "make": "SMA Solar Technology",
+            "model": "Sunny-Boy-5.0",
+            "serialNumber": "SB5-2244",
+            "ratedApparentPower": {"value": 5, "unit": "kVA"},
+            "maxExport": {"value": 5, "unit": "kW"},
+            "commissioningDate": "2024-06-05T00:00:00+05:30",
+            "inspection": {"date": "2024-06-04", "result": "pass", "inspectorId": "INSP-UP-118"}
+          },
+          "parentResources": ["did:web:ies.discom.example:assets:meter:NM-44091234"]
+        },
+        {
+          "id": "did:web:ies.discom.example:assets:solar:DER-SOLAR-2244",
+          "type": "SOLAR_PV",
+          "attributes": {
+            "make": "Waaree Energies",
+            "model": "WSM-540",
+            "serialNumber": "WSM540-2244-01",
+            "dcArrayCapacity": {"value": 5.94, "unit": "kW"},
+            "maxExport": {"value": 5, "unit": "kW"},
+            "commissioningDate": "2024-06-05T00:00:00+05:30",
+            "inspection": {"date": "2024-06-04", "result": "pass", "inspectorId": "INSP-UP-118"}
+          },
+          "parentResources": ["did:web:ies.discom.example:assets:inverter:INV-5KVA-2244"]
+        },
+        {
+          "id": "did:web:ies.discom.example:assets:bess:BESS-2244",
+          "type": "BESS",
+          "attributes": {
+            "make": "Luminous Power Technologies",
+            "model": "Li-ON-6000",
+            "serialNumber": "LI6000-2244-01",
+            "storageCapacity": {"value": 6, "unit": "kWh"},
+            "maxExport": {"value": 3, "unit": "kW"},
+            "maxImport": {"value": 3, "unit": "kW"},
+            "storageType": "LithiumIon",
+            "roundTripEfficiencyPct": 92,
+            "stateOfHealthPct": 99,
+            "commissioningDate": "2024-06-05T00:00:00+05:30",
+            "aggregator": {"id": "did:web:flexaggregator.example", "name": "Example Flex Aggregator", "controllable": true, "enrolledOn": "2024-07-01"}
+          },
+          "parentResources": ["did:web:ies.discom.example:assets:inverter:INV-5KVA-2244"]
+        },
+        {
+          "id": "did:web:ies.discom.example:assets:ev-charger:EVC-2244",
+          "type": "EV_CHARGER",
+          "attributes": {
+            "make": "Exicom Power Solutions",
+            "model": "Harmony-AC-7.4",
+            "serialNumber": "EXH74-2244-01",
+            "maxImport": {"value": 7.4, "unit": "kW"},
+            "connectorType": "Type2",
+            "controlProtocol": "OCPP_1.6",
+            "commissioningDate": "2024-08-01T00:00:00+05:30",
+            "aggregator": {"id": "did:web:flexaggregator.example", "name": "Example Flex Aggregator", "controllable": false}
+          },
+          "parentResources": ["did:web:ies.discom.example:assets:meter:NM-44091234"]
+        },
+        {
+          "id": "did:web:ies.discom.example:assets:dt:DT-11KV-F02-452",
+          "type": "DT",
+          "attributes": {
+            "nominalVoltage": {"value": 11, "unit": "kV"},
+            "feederCode": "F02",
+            "substationId": "SS-11KV-12",
+            "zone": "Meerut-North"
+          }
+        }
+      ],
+      "consumptionProfiles": [
+        {
+          "meterId": "did:web:ies.discom.example:assets:meter:NM-44091234",
+          "sanctionedLoad": {"value": 5, "unit": "kW"},
+          "sanctionedExportLoad": {"value": 5, "unit": "kW"},
+          "contractMaxDemand": {"value": 4, "unit": "kW"},
+          "billingCycleDay": 5,
+          "tariffCategoryCode": "LT1A",
+          "premisesType": "Residential",
+          "connectionType": "Single-phase",
+          "paymentMode": "POSTPAID",
+          "serviceStatus": "active"
+        }
+      ]
+    },
+    "customerDetails": {
+      "fullName": "Asha Verma",
+      "installationAddress": {
+        "geo": {"type": "Point", "coordinates": [77.7064, 29.0588]},
+        "address": {"streetAddress": "14 Civil Lines", "addressLocality": "Meerut", "addressRegion": "Uttar Pradesh", "postalCode": "250001", "addressCountry": "IN"}
+      },
+      "serviceConnectionDate": "2024-06-01T00:00:00+05:30"
+    }
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2024-06-01T00:00:00+05:30",
+    "verificationMethod": "did:web:ies.discom.example#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT-illustrative-proof-value-only"
+  }
+}
