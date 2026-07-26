@@ -1,14 +1,16 @@
 name: Build & publish PDF
 
-# Publish the whole site to the gh-pages branch on every merge to main: a
-# mirror of the repo tree (so all schema/context URLs keep resolving) plus the
-# freshly built implementation-guide PDF (schema content included as an
-# appendix at the end — see scripts/build_pdf.py). GitHub Pages serves
-# gh-pages at the same per-repo URL, so existing paths are unchanged, e.g.:
+# Build and stage the site for every pull request. On merge to main, publish
+# the staged tree to gh-pages: public documentation and normative schema assets
+# plus the freshly built implementation-guide PDF (schema content included as
+# an appendix at the end — see scripts/build_pdf.py). GitHub Pages serves the
+# same per-repo URLs, e.g.:
 #   https://india-energy-stack.github.io/ies-accelerator/schemas/.../context.jsonld
 #   https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
     # Republish when served content (docs, schema artifacts) or tooling changes.
@@ -26,21 +28,24 @@ on:
 
 # Avoid overlapping publishes if two merges land close together.
 concurrency:
-  group: build-pdf
-  cancel-in-progress: true
+  group: build-pdf-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 # No write permission needed for GITHUB_TOKEN: the org disables write for it,
 # so we publish using an SSH deploy key (secrets.ACTIONS_DEPLOY_KEY) instead.
 
 env:
   TECTONIC_VERSION: "0.15.0"
+  TECTONIC_SHA256: "875fbbc9ab48560d7776088c608e0beee49197b57ab4a2f6c5385b2c661c842f"
+  MERMAID_CLI_VERSION: "11.16.0"
 
 jobs:
   build-and-publish:
+    name: PDF and staged-publication preview
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Install pandoc and fonts
         # fonts-dejavu provides "DejaVu Sans Mono" for the PDF's monofont
@@ -50,7 +55,7 @@ jobs:
 
       - name: Cache tectonic binary
         id: cache-tectonic
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.local/bin/tectonic
           key: tectonic-${{ env.TECTONIC_VERSION }}-linux-x86_64
@@ -60,14 +65,20 @@ jobs:
         run: |
           mkdir -p "$HOME/.local/bin"
           url="https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-          curl -fsSL "$url" | tar -xz -C "$HOME/.local/bin" tectonic
+          archive="$RUNNER_TEMP/tectonic-${TECTONIC_VERSION}.tar.gz"
+          curl -fsSL "$url" -o "$archive"
+          echo "${TECTONIC_SHA256}  $archive" | sha256sum -c -
+          tar -xzf "$archive" -C "$HOME/.local/bin" tectonic
           chmod +x "$HOME/.local/bin/tectonic"
 
       - name: Add tectonic to PATH
         run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Install mermaid-cli
-        run: npm install -g @mermaid-js/mermaid-cli
+        run: npm install -g "@mermaid-js/mermaid-cli@${MERMAID_CLI_VERSION}"
+
+      - name: Derive reproducible build timestamp
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
 
       - name: Build PDF
         env:
@@ -81,6 +92,22 @@ jobs:
       - name: Verify PDF
         run: python3 -B scripts/verify_pdf.py --pdf build/ies_accelerator.pdf
 
+      - name: Record build provenance
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          {
+            echo "build_sha=${GITHUB_SHA}"
+            echo "event_name=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "pr_head_sha=${PR_HEAD_SHA}"
+            echo "pr_base_sha=${PR_BASE_SHA}"
+            echo "source_date_epoch=${SOURCE_DATE_EPOCH}"
+            echo "tectonic=${TECTONIC_VERSION} sha256=${TECTONIC_SHA256}"
+            echo "mermaid_cli=${MERMAID_CLI_VERSION}"
+          } > build/publication-provenance.txt
+
       - name: Stage site
         run: |
           mkdir -p public
@@ -91,6 +118,8 @@ jobs:
             --exclude='.github/' \
             --exclude='build/' \
             --exclude='public/' \
+            --exclude='qaqc/' \
+            --exclude='index.md' \
             ./ public/
           # Add the freshly built PDF (published as ies-report.pdf) and a root
           # landing page.
@@ -129,8 +158,26 @@ jobs:
           [ -s public/ies-report.pdf ] || { echo "::error::public/ies-report.pdf missing or empty"; exit 1; }
           cmp -s build/ies_accelerator.pdf public/ies-report.pdf || { echo "::error::build/ies_accelerator.pdf and public/ies-report.pdf differ"; exit 1; }
 
+          python3 -B scripts/verify_publication.py \
+            --public-root public \
+            --combined-md build/ies_combined.md \
+            --manifest build/public-manifest.txt
+          python3 -B scripts/verify_publication.py --self-test
+
+      - name: Upload pull-request publication preview evidence
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: v0.6-publication-preview-${{ github.sha }}
+          path: |
+            build/ies_accelerator.pdf
+            build/public-manifest.txt
+            build/publication-provenance.txt
+          if-no-files-found: error
+
       - name: Publish to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./public
