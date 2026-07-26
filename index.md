@@ -169,6 +169,7 @@ These documents provide a general introduction, terminology definitions, and lay
       <li><a href="SUMMARY.md#how-you-implement-ies">How you implement IES</a></li>
       <li><a href="SUMMARY.md#use-case-overviews">Use Case Overviews</a></li>
       <li><a href="SUMMARY.md#use-case-implementation-guides">Use Case Implementation Guides</a></li>
+      <li><a href="SUMMARY.md#pathways">Pathways</a></li>
       <li><a href="SUMMARY.md#contributors">Contributors</a>
     </li>
     </ul>
@@ -989,20 +990,20 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-7.-the-record">7. The Record</a></li>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.-schedule-i-consumer-energy-passport-static-record">8. Schedule I --- Consumer Energy Passport (Static Record)</a>      <ul>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.1-consumer-and-licensee">8.1 Consumer and Licensee</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.1-holder-issuer-and-customer-identity">8.1 Holder, Issuer and Customer Identity</a></li>
         <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.2-service-connection-and-metering">8.2 Service Connection and Metering</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.3-energy-assets-one-entry-per-der">8.3 Energy Assets (one entry per DER)</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.4-asset-type-details-within-der-.profile-where-the-type-applies">8.4 Asset-type details (within der[].profile, where the type applies)</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.5-controllable-assets-separate-list-for-devices-an-aggregator-can-control">8.5 Controllable Assets (separate list, for devices an aggregator can control)</a>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.3-energy-resources-common-fields-every-entry-in-energyresources-any-type">8.3 Energy Resources — Common Fields (every entry in `energyResources[]`, any type)</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.4-energy-resource-type-discriminators-and-type-specific-attributes">8.4 Energy-Resource Type Discriminators and Type-Specific Attributes</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.5-aggregator-enrolment-and-controllability-informative">8.5 Aggregator Enrolment and Controllability (informative)</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.6-concepts-not-represented-in-electricitycredential-v1.2">8.6 Concepts Not Represented in ElectricityCredential v1.2</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.7-example-and-validation">8.7 Example and Validation</a>
       </li>
       </ul>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.-schedule-ii-der-telemetry-live-record">9. Schedule II --- DER Telemetry (Live Record)</a>      <ul>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.1-one-record-per-inverter-per-interval">9.1 One record per inverter, per interval</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.2-identification">9.2 Identification</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.3-electrical-measurements">9.3 Electrical measurements</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.4-environmental-where-a-weather-sensor-is-fitted">9.4 Environmental (where a weather sensor is fitted)</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.5-asset-type-measurements">9.5 Asset-type measurements</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.6-transmission-and-security-mnre-m2m">9.6 Transmission and security (MNRE M2M)</a>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.1-native-meterdata-v0.6-mapping-electrical-subset">9.1 Native MeterData v0.6 Mapping — Electrical Subset</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.2-explicitly-informative-extensions-not-native-meterdata-v0.6-fields">9.2 Explicitly Informative Extensions (not native MeterData v0.6 fields)</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.3-transport-and-security-out-of-band-mnre-m2m-framework">9.3 Transport and Security (out-of-band — MNRE M2M framework)</a></li>
+        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.4-example-and-validation">9.4 Example and Validation</a>
       </li>
       </ul>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
@@ -1030,7 +1031,12 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-7.-the-record">7. The Record</a></li>
-      <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a>      <ul>
+        <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.1-credential-envelope-and-holder-binding">8.1 Credential Envelope and Holder Binding</a></li>
+        <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.2-digest-profiles-and-time-windows">8.2 Digest Profiles and Time Windows</a></li>
+        <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.3-meter-descriptor-reading-and-quality-fields">8.3 Meter, Descriptor, Reading and Quality Fields</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-9.-schedule-ii">9. Schedule II</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
@@ -1057,7 +1063,14 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-7.-the-record">7. The Record</a></li>
-      <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.-schedule-i-static-fields-of-the-data-exchange">8. Schedule I — Static Fields of the Data Exchange</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.-schedule-i-static-fields-of-the-data-exchange">8. Schedule I — Static Fields of the Data Exchange</a>      <ul>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.1-meterdatarequest-v0.6-query-and-scope">8.1 MeterDataRequest v0.6 — Query and Scope</a></li>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.2-capabilities-and-authorisation">8.2 Capabilities and Authorisation</a></li>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.3-meterdata-v0.6-response-profiles">8.3 MeterData v0.6 — Response Profiles</a></li>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.4-shared-response-fields-and-compact-data">8.4 Shared Response Fields and Compact Data</a></li>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.5-optional-meterdatarequestcredential-v0.1">8.5 Optional MeterDataRequestCredential v0.1</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-9.-schedule-ii-report-templates-optional">9. Schedule II — Report Templates (optional)</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
@@ -1084,7 +1097,11 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/der-visibility.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="use-cases-overview/der-visibility.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/der-visibility.md#id-7.-the-record">7. The Record</a></li>
-      <li><a href="use-cases-overview/der-visibility.md#id-8.-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#id-8.-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a>      <ul>
+        <li><a href="use-cases-overview/der-visibility.md#id-8.1-executable-today-per-consumer-electricitycredential-v1.2">8.1 Executable Today — Per-consumer ElectricityCredential v1.2</a></li>
+        <li><a href="use-cases-overview/der-visibility.md#id-8.2-illustrative-future-pii-free-per-locus-aggregate">8.2 Illustrative Future — PII-free Per-locus Aggregate</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/der-visibility.md#id-9.-schedule-ii">9. Schedule II</a></li>
       <li><a href="use-cases-overview/der-visibility.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/der-visibility.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
@@ -1111,7 +1128,12 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/discom-regulatory-filing.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="use-cases-overview/discom-regulatory-filing.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/discom-regulatory-filing.md#id-7.-the-records">7. The Records</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.-schedule-i-static-fields-of-the-filing">8. Schedule I — Static Fields of the Filing</a></li>
+      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.-schedule-i-static-fields-of-the-filing">8. Schedule I — Static Fields of the Filing</a>      <ul>
+        <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.1-filing-identity-and-control-period">8.1 Filing Identity and Control Period</a></li>
+        <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.2-fiscal-year-classification">8.2 Fiscal-year Classification</a></li>
+        <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.3-arr-line-items">8.3 ARR Line Items</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/discom-regulatory-filing.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
       <li><a href="use-cases-overview/discom-regulatory-filing.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/discom-regulatory-filing.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
@@ -1138,7 +1160,14 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-7.-the-records">7. The Records</a></li>
-      <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a>      <ul>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.1-contract-roles-and-policy">8.1 Contract Roles and Policy</a></li>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.2-offer-customer-and-order-item">8.2 Offer, Customer and Order Item</a></li>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.3-per-interval-negotiation-and-allocation-beckntimeseries">8.3 Per-interval Negotiation and Allocation (`BecknTimeSeries`)</a></li>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.4-settlement-revenue-flow">8.4 Settlement Revenue Flow</a></li>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.5-resource-and-meter-actual-binding">8.5 Resource and Meter-actual Binding</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-10.-how-it-fits-together">10. How It Fits Together</a>      <ul>
         <li><a href="use-cases-overview/p2p-energy-trading.md#the-six-phases">The six phases</a>
@@ -1171,7 +1200,13 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/tariff-intelligence.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
       <li><a href="use-cases-overview/tariff-intelligence.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
       <li><a href="use-cases-overview/tariff-intelligence.md#id-7.-the-record">7. The Record</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-8.-schedule-i-static-fields-of-the-policy">8. Schedule I — Static Fields of the Policy</a></li>
+      <li><a href="use-cases-overview/tariff-intelligence.md#id-8.-schedule-i-static-fields-of-the-policy">8. Schedule I — Static Fields of the Policy</a>      <ul>
+        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.1-policy-identity-type-and-applicability">8.1 Policy Identity, Type and Applicability</a></li>
+        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.2-tariff-energy-slabs">8.2 Tariff Energy Slabs</a></li>
+        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.3-time-of-day-surcharges-and-discounts">8.3 Time-of-day Surcharges and Discounts</a></li>
+        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.4-fields-not-present-in-the-current-upstream-policy-object">8.4 Fields Not Present in the Current Upstream Policy Object</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/tariff-intelligence.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
       <li><a href="use-cases-overview/tariff-intelligence.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/tariff-intelligence.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
@@ -1198,7 +1233,7 @@ Practical deployment and mapping implementations for specific grid business proc
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="use-cases/README.md#use-case-implementation-guides">Use Case Implementation Guides</a>    <ul>
-      <li><a href="use-cases/README.md#live-in-pilot">Live in pilot</a></li>
+      <li><a href="use-cases/README.md#piloted-in-the-30-day-challenge">Piloted in the 30-day Challenge</a></li>
       <li><a href="use-cases/README.md#work-in-progress-wip">Work in progress (WIP)</a></li>
       <li><a href="use-cases/README.md#in-progress">In progress</a></li>
       <li><a href="use-cases/README.md#how-each-guide-is-organised">How each guide is organised</a></li>
@@ -1438,4 +1473,3 @@ Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute
   </li>
   </ul>
   </details>
-

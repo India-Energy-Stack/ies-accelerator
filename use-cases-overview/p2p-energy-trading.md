@@ -100,18 +100,87 @@ If the use case needs a holder-bound credential — e.g. a prosumer carrying a c
 
 ## 8. Schedule I — Static Fields of the Exchange
 
-The full, authoritative field tables are in the schemas:
+Schedule I is a use-case profile table over DEG's externally governed schema family, canonical at [schema.beckn.io](https://schema.beckn.io) and mirrored in [External Schemas — Energy Trading](../schemas/external/README.md#energy-trading-p2p). Because these fields are not maintained in this repository, the schema-qualified names below identify the upstream contract rather than local JSON-Schema paths. **Upstream Requires** follows the mirrored v2.0 field tables; **P2P Guidance** is informative use-case guidance.
 
-| Reference | What it covers |
-|---|---|
-| [External Schemas — Energy Trading](../schemas/external/README.md#energy-trading-p2p) | Six tables: `P2PTrade`, `EnergyTradeOffer`, `EnergyCustomer`, `EnergyOrderItem`, `RevenueFlow`, `DEGContract` (+ the shared `BecknTimeSeries` and `EnergyResource`; `DiscomLedgerProvider` is defined only at schema.beckn.io). |
-| [MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) | The underlying meter-data sub-transaction shape (referenced indirectly — the trade-side meter quantities ride as `BecknTimeSeries` payloadTypes, not as a `MeterData` profile). |
+### 8.1 Contract Roles and Policy
+
+| **Upstream Field** | **Type / Allowed Value** | **Upstream Requires** | **P2P Guidance** *(informative)* |
+|---|---|---|---|
+| `P2PTrade` | EnergyContract subclass | Inherits its fields; defines no additional fields in the mirrored table | Contract body identifying the P2P trade profile |
+| `DEGContract.roles[]` | array of role objects | Required | Carry the participant-binding roles used by the trade |
+| `DEGContract.roles[].role` | text | Required per role | Network policy expects buyer, seller, buyer-DISCOM and seller-DISCOM roles |
+| `DEGContract.roles[].participantId` | text or `null` | Key required per role; value may be null before binding | Bind to the registered subscriber/compound participant ID at select/init |
+| `DEGContract.policy` | policy object | Required | Points to the signed Rego contract policy in force |
+| `DEGContract.policy.url` / `.queryPath` | URI / text | Both required | Resolve only from the configured trusted DeDi policy prefixes |
+| `DEGContract.revenueFlows[]` | array of signed role/value/currency rows | Optional legacy shape | Wave-2 settlement uses the `RevenueFlow` consideration shape in §8.4 instead |
+| inherited `Contract.participants[]` | Beckn/DEG participant objects | Defined by the parent Contract schema | Carry participant attributes such as meter and utility identity; consult the canonical parent schema |
+
+### 8.2 Offer, Customer and Order Item
+
+| **Upstream Field** | **Type** | **Upstream Requires** | **P2P Guidance** *(informative)* |
+|---|---|---|---|
+| `EnergyTradeOffer.validityWindow` | time period | Optional | Expire the offer before its earliest delivery interval |
+| `EnergyTradeOffer.contractAttributes` | JSON-LD object | Optional | At catalog publication, declare known roles and the contract-policy terms |
+| `EnergyTradeOffer.contractAttributes.@type` | text | Required when the object is used | Normally `DEGContract` |
+| `EnergyTradeOffer.commitmentAttributes` | `BecknTimeSeries` JSON-LD object | Optional | Carries seller price/available-quantity columns and their descriptor contract |
+| `EnergyTradeOffer.commitmentAttributes.@type` | constant `TimeSeries` | Required when the object is used | Use the BecknTimeSeries v1.0 context |
+| `EnergyCustomer.meterId` | text (`der://meter/{id}` in the upstream description) | Required | Pins the represented buyer or seller to a meter |
+| `EnergyCustomer.sanctionedLoad` | number (kW) | Optional | Use only where network/contract policy evaluates the approved load |
+| `EnergyCustomer.utilityCustomerId` / `.utilityId` | text / text | Optional | Utility account and service-territory binding; minimise disclosure outside regulated participants |
+| `EnergyCustomer.platformUrl` | base URI | Optional | Base address for cascade sub-transactions |
+| `EnergyOrderItem.providerAttributes` | object | Required | Carries the `EnergyCustomer` identity for the order item |
+| `EnergyOrderItem.fulfillmentAttributes` | object | Optional | Populate only in status/update responses for delivery tracking |
+
+### 8.3 Per-interval Negotiation and Allocation (`BecknTimeSeries`)
+
+| **Upstream Field / Payload Type** | **Type** | **Upstream Requires** | **Writer / Role in the Trade** *(informative)* |
+|---|---|---|---|
+| `intervalPeriod` | ISO 8601 start + duration | Required | Defines the delivery slots |
+| `payloadDescriptors[]` | event/report payload descriptors | Required | Declares every column's type, unit/currency and responsible writer |
+| `intervals[]` | interval rows | Required | Carries the typed values for each slot |
+| `resourceName` / `clientName` | text / text | Optional | Identifies the source resource and reporting participant |
+| `PRICE_PER_KWH` | event payload, INR | Profile-required at offer/confirm | Seller platform |
+| `AVAILABLE_QTY` | event payload, kWh | Profile-required in the published offer | Seller platform |
+| `REQUESTED_QTY` | event payload, kWh | Profile-required after buyer selection | Buyer platform |
+| `BUYER_DISCOM_ALLOC` / `BUYER_DISCOM_STATUS` | report payloads | Required by the reconciliation profile when buyer allocation is reported | Buyer DISCOM |
+| `SELLER_DISCOM_ALLOC` / `SELLER_DISCOM_STATUS` | report payloads | Required by the reconciliation profile when seller allocation is reported | Seller DISCOM |
+| `FINAL_ALLOC` | report payload, kWh | Required by the settled profile | Seller DISCOM; network policy enforces `FINAL_ALLOC ≤ min(buyer allocation, seller allocation)` |
+
+Every `payloadType` used in an interval must be declared by the profile's descriptor contract. The full schema uses OpenADR's open-string payload convention; the governed P2P names above are profile constraints enforced by the network/contract policies, not a closed enum in base `BecknTimeSeries`.
+
+### 8.4 Settlement Revenue Flow
+
+| **Upstream Field** | **Type** | **Upstream Requires** | **P2P Guidance** *(informative)* |
+|---|---|---|---|
+| `consideration[].considerationAttributes.@type` | constant `RevenueFlow` in this profile | Required by the P2P settlement profile | Store policy output in the `auto-settlement-flows` consideration entry |
+| `RevenueFlow.revenueFlows[]` | array of role/value/currency objects | Required | Contract-policy output must balance to zero across rows |
+| `revenueFlows[].role` | text | Required | Names the buyer/seller platform or DISCOM role |
+| `revenueFlows[].value` | signed number | Required | Positive receives; negative pays |
+| `revenueFlows[].currency` | ISO 4217 code | Required | Use `INR` for this profile |
+| `revenueFlows[].description` | text | Optional | Explain energy, wheeling, platform or shortfall components |
+
+### 8.5 Resource and Meter-actual Binding
+
+| **Record Surface** | **Shape** | **Contract Status** | **P2P Treatment** |
+|---|---|---|---|
+| Offered energy resource | `EnergyResource` discriminated union | Upstream shared schema | Minimal P2P use is stable `id` + `type`; add attributes only when policy needs them |
+| Trade-side meter identity | `EnergyCustomer.meterId` | Required upstream field | Identifies the prosumer endpoint used by the trade |
+| Daily injected/consumed actuals | `BecknTimeSeries` report payload types | Governed by the P2P reconciliation profile | Supplied by each DISCOM to its LP inside the contract-status flow |
+| MeterData v0.6 | Separate IES telemetry schema | **Not embedded as a MeterData profile in this trade contract** | A DISCOM may derive actuals from its MeterData system, but the trade-side wire shape remains BecknTimeSeries |
+| Ledger-provider binding | `DiscomLedgerProvider` upstream schema | Defined only at schema.beckn.io | Associates a regulated ledger endpoint with its DISCOM/utility ID |
 
 ## 9. Schedule II — Report Templates
 
-| Wrapping / dependency | Detail |
-|---|---|
-| Not applicable | No populated downstream template. The closest analogues are the **per-DISCOM monthly bill** (which excludes the traded volume and includes wheeling charges) and the **TP-internal book of trades** — both derived from the signed contract + allocation records, not separate IES schemas. |
+Schedule II contains derived operational views; none is a separate populated IES schema.
+
+| **Derived View** | **Schedule I Sources** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Per-DISCOM monthly bill adjustment | settled `FINAL_ALLOC`, revenue-flow rows and the applicable policy | Derived | Exclude traded volume/include charges according to the signed policy and local billing rules |
+| Trading-platform book of trades | confirmed contracts plus allocation/status history | Derived | Preserve contract and interval identifiers so every row traces to signed evidence |
+| Ledger reconciliation statement | both LP copies, DISCOM allocation series and final allocation | Derived | Differences are exceptions; do not overwrite either signed source |
+| Prosumer statement | price, requested/final quantity and applicable charges | Presentation only | May be rendered for the consumer; the signed contract and revenue flow remain authoritative |
+| Network performance report | trade counts, delivery ratios and policy failures | Derived aggregate | Must not expose raw customer identifiers or meter data |
+| Holder-bound credit/energy credential | Consumer Energy Passport or Consumer Meter Digest | Separate schema/use case | Do not repurpose the P2P contract as a wallet credential |
 
 ## 10. How It Fits Together
 

@@ -88,19 +88,97 @@ No Verifiable Credential by default. Each exchange produces: a **signed Beckn co
 
 ## 8. Schedule I — Static Fields of the Data Exchange
 
-| Reference | What it is |
-|---|---|
-| **[MeterData v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** | The payload (eight compact profiles) |
-| **[MeterDataRequest v0.6 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6)** | The query shape |
-| **[MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** | The optional authorisation VC |
+Schedule I tabulates the three contracts used by this exchange: [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) selects scope and capabilities, [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) carries the response, and the optional [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) makes a request portable and verifiable. **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
+
+### 8.1 MeterDataRequest v0.6 — Query and Scope
+
+| **Normative Path** | **Type / Allowed Value** | **Schema Requires** | **Standard** *(informative)* | **SMDX Guidance** *(informative)* |
+|---|---|---|---|---|
+| `consumers[]` | array of URI / DID | Optional | DID Core; DPDP consent scope | Use only for consumer-scoped requests |
+| `resources[]` | array of resource URI / DID | Optional | IES identifiers | Use for meters, service points, feeders or other registered resources |
+| `scope` | `ResourceOnly`, `ResourceAndChildren`, `ChildrenOnly` | Optional | MeterDataRequest v0.6 | State the hierarchy rule explicitly for feeder/DT requests |
+| `from` | date-time | Required | ISO 8601 | Start of the requested data window |
+| `duration` | duration | Required | ISO 8601 | Requested window length; the provider still enforces its advertised maximum |
+| `consumerConsent[]` | array of consent references | Optional | DPDP accountability | Required by policy when the request exposes consumer-linked data |
+| `authorisation` | inline `MeterDataAuthorisation` or URI | Optional | MeterDataRequest v0.6 | Bind the requester, purpose, validity and allowed capabilities |
+| `capabilitiesRequested` | `MeterDataCapabilities` object | Required | MeterDataRequest v0.6 | Request only profiles/registers the provider advertises |
+| `maxRecordsShared` | integer ≥ 1 | Optional | MeterDataRequest v0.6 | Use as a batch/page cap, not as a substitute for the time window |
+
+### 8.2 Capabilities and Authorisation
+
+| **Normative Path** | **Type / Allowed Value** | **Schema Requires** | **SMDX Guidance** *(informative)* |
+|---|---|---|---|
+| `capabilitiesRequested.profiles[]` | array of `ProfileCapability` | Required | Enumerate each requested telemetry profile |
+| `profiles[].profileType` | `CustomerProfile`, `IntervalProfile`, `DailyProfile`, `MonthlyProfile`, `BillDetails`, `InstantaneousProfile`, `EventProfile`, `AlarmProfile` | Required per entry | `DESCRIPTOR` is not requestable; it accompanies the response when compact data needs a dictionary |
+| `profiles[].readings[]` | array of `ValueCapability` | Optional | Omit to request all supported registers in that profile; otherwise list only required registers |
+| `readings[].value` | OBIS code or governed short code | Required per value capability | Prefer the canonical code published by the provider |
+| `readings[].mode` | `READING` or `USAGE` | Optional | Match the physical meaning of the register and response descriptor |
+| `readings[].multiplier` / `.accuracy` | number / number | Optional | Request only when scaling or accuracy is material |
+| `capabilitiesRequested.supportedScopes[]` | array of scope enums | Optional | Relevant in a provider capability advertisement; the request must stay within it |
+| `capabilitiesRequested.maxHistoryDuration` | ISO 8601 duration | Optional | Provider-advertised history ceiling |
+| `authorisation.grantor` / `.grantee` / `.purpose` | URI / URI / text | All required in an inline authorisation | Identify who granted access, who receives it, and why |
+| `authorisation.validFrom` / `.validUntil` | date-time / date-time | Both required | Reject expired or not-yet-valid grants |
+| `authorisation.capabilities` | `MeterDataCapabilities` | Required | Must cover the requested profile, scope and registers |
+
+### 8.3 MeterData v0.6 — Response Profiles
+
+MeterData has **nine total record shapes**: one shared `DESCRIPTOR` dictionary plus the eight requestable telemetry profiles below.
+
+| **`profileType`** | **Schema-required Payload Fields** | **Purpose in this Use Case** | **Standards / Basis** *(informative)* |
+|---|---|---|---|
+| `DESCRIPTOR` | `id`, `payloadDescriptorSets[]` | Defines reading types, units, modes and compact sequences used by response profiles; not directly requestable | MeterData v0.6; IS 15959 / OBIS |
+| `CUSTOMER` | `customer`, `serviceDeliveryPoints[]`, `meters[]`, `associations[]` | Slow-changing customer, connection, meter and topology metadata | CIM (IEC 61968-9) |
+| `INTERVAL` | `meterRefs[]`, `intervalPeriod`; data in `intervals[]` or `readings[]` | 15- or 30-minute load survey | IS 15959 / DLMS-COSEM |
+| `DAILY` | `meterRefs[]`, `intervalPeriod`; data in `intervals[]` or `readings[]` | Daily accumulated survey | IS 15959 / DLMS-COSEM |
+| `MONTHLY` | `meterRefs[]`, `timePeriod`, `readings[]`; optional `touBuckets[]` | Billing-reset and ToU history | IS 15959; SERC tariff periods |
+| `BILL_DETAILS` | `meterRefs[]`, `timePeriod`, `amountDue`; optional readings, charges and payment fields | Utility-computed billing outcome | Utility billing / CIS |
+| `INSTANTANEOUS` | `meterRefs[]`, `timestamp`, `readings[]` | Real-time V/A/P/Q and related snapshot values | IS 15959 / DLMS-COSEM |
+| `EVENT` | `meterRefs[]`, `timePeriod`, `events[]` | Diagnostic and tamper events | IS 15959 event allocation |
+| `ALARM` | `meterRefs[]`, `timestamp`, `alarms[]` | Active or cleared alert state | MeterData v0.6 |
+
+### 8.4 Shared Response Fields and Compact Data
+
+| **Normative Path** | **Type / Allowed Value** | **Schema Requires** | **SMDX Guidance** *(informative)* |
+|---|---|---|---|
+| `meterRefs[]` | `Identifier` `{scheme, value, namespace?}` | Required on all seven non-customer telemetry profiles | Bind every series to its source meter(s) |
+| `customerRefs[]` / `serviceDeliveryPointRefs[]` | arrays of `Identifier` | Optional | Include only at the authorised disclosure level |
+| `payloadDescriptorSetRef` / `compactSequenceRef` | text references | Optional | Resolve against the accompanying `DESCRIPTOR` profile |
+| `payloadDescriptorSets[].payloadDescriptors[]` | descriptor objects | Required inside each descriptor set | Declare `readingType`; add OBIS, unit, flow direction and `reportedMode` where known |
+| `intervals[].id` | integer | Required per interval | Strictly increasing within a profile |
+| `intervals[].payloads[]` | compact primitive array | Optional | Arity and order must match the referenced compact sequence |
+| `intervals[].readings[]` / profile `readings[]` | array of `Reading` | Optional except where the profile requires it | Each reading requires `readingType` and numeric `value` |
+| `readings[].validationStatus` / `.source` | governed enums | Optional | Preserve estimation, rejection and source provenance from HES/MDM |
+| `events[].timestamp` / `.eventId` | date-time / integer | Both required per event | Use the IS 15959 event allocation where applicable |
+| `alarms[].timestamp` / `.alarmId` / `.status` | date-time / integer / `ACTIVE` or `CLEARED` | All required per alarm | Keep alarm lifecycle state explicit |
+
+### 8.5 Optional MeterDataRequestCredential v0.1
+
+| **Normative Path** | **Type** | **Schema Requires** | **SMDX Guidance** *(informative)* |
+|---|---|---|---|
+| `@context` / `type` | W3C credential context / type array | Required by the externally referenced W3C Credential branch | Include the W3C, EnergyCredential and MeterDataRequestCredential contexts and the concrete credential type |
+| `id` | credential URI / URN | Optional; permitted by the open credential envelope | Assign a unique request-credential identifier |
+| `issuer` | EnergyCredential issuer object | Optional at the EnergyCredential root; if present, `id`, `name` and `licenseNumber` are required | Mandatory for a portable authorisation; identify the issuing requester/authority |
+| `validFrom` / `validUntil` / `credentialStatus` / `proof` | credential envelope fields | Not required at the wrapper root; nested status/proof requirements apply if those objects are present | Apply the validity, revocation and signature rules required by the exchange policy |
+| `credentialSubject.id` | requester URI / DID | Optional when `credentialSubject` is present | Identify the authorised requesting entity |
+| `credentialSubject.meterDataRequest` | MeterDataRequest v0.6 payload | Required inside `credentialSubject`; the wrapper does not currently require `credentialSubject` itself | Carry the exact scoped, time-bounded request being authorised |
+
+As with MeterDataCredential, repository-local structural validation stubs the external EnergyCredential reference. A provider must enforce the complete credential envelope and exchange-policy requirements separately.
 
 For Indian-terminology mapping, see **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)**.
 
 ## 9. Schedule II — Report Templates (optional)
 
-| Wrapping / dependency | Detail |
-|---|---|
-| Derived reports (optional) | Several deployments produce derived reports from the raw stream — feeder-aggregated profiles, anonymised responses, billing summaries — documented as example payloads, not separate schemas. See [`MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples). |
+Schedule II contains optional derived views, not additional IES schemas.
+
+| **Derived View** | **Schedule I Inputs** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Feeder-aggregated profile | Meter/SDP topology plus interval, daily or monthly profiles | Derived; no separate schema | Aggregate only within the authorised scope and retain source profile references |
+| Anonymised response | Any requested profile after identifier/PII transformation | Derived; examples only | Record the anonymisation method and never imply that a transformed identifier is the original meter ID |
+| Billing summary | `MONTHLY` and/or `BILL_DETAILS` profiles | Native source profiles; rendered summary is derived | Preserve the signed/raw response as the audit source |
+| Data-quality dashboard | `validationStatus`, `source`, missing interval IDs and cadence | Derived; no `dataQuality` summary object in MeterData v0.6 | Compute rates and exceptions downstream |
+| Exchange receipt | Beckn contract, signed response and acknowledgement | Protocol evidence, not a MeterData report | Retain with the request/response identifiers for DPDP and dispute audit |
+
+Example payloads for these response patterns are under [`MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples).
 
 ## 10. How It Fits Together
 

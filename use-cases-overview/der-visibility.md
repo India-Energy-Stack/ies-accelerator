@@ -65,17 +65,54 @@ Identical to [Consumer Energy Passport §6](consumer-energy-passport.md#id-6.-wh
 
 ## 8. Schedule I — Static Fields of the Credential
 
-*Illustrative (§1) — describes the future aggregate, not a validated EC v1.2 payload. For the executable per-consumer record, see the reference below.*
+Schedule I separates the executable per-consumer contract from the illustrative future aggregate. Rows in §8.1 are real ElectricityCredential v1.2 paths. Rows in §8.2 are **conceptual mappings, not normative JSON paths**: no current schema permits a PII-free multi-consumer locus subject, and no canonical aggregate example exists.
 
-| Reference | What it covers |
-|---|---|
-| [Consumer Energy Passport §8](consumer-energy-passport.md#id-8.-schedule-i-consumer-energy-passport-static-record) → **[ElectricityCredential v1.2 — Field reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2#field-reference)** | The aggregate would carry `energyResources[]` (GENERATOR, STORAGE, EV_CHARGER, INVERTER, LOAD, NETWORK, METER) with the parent / sub-resource links, plus `consumptionProfiles[]` where sanctioned-load / export-limit context is needed. No `customerDetails`, no customer numbers. |
+### 8.1 Executable Today — Per-consumer ElectricityCredential v1.2
+
+| **Record Surface** | **Normative EC v1.2 Path** | **Schema Requires** | **DER Visibility Treatment** |
+|---|---|---|---|
+| Issuer | `issuer.id` / `issuer.name` | Both required | The DISCOM is the credential issuer |
+| Consumer subject | `credentialSubject.customerProfile` | Required | One credential covers one consumer connection only |
+| Customer number | `credentialSubject.customerProfile.customerNumber` | Required | Prevents this schema from representing a PII-free multi-consumer aggregate |
+| Energy resources | `credentialSubject.customerProfile.energyResources[]` | Required, minimum one | Carries meters, DER, inverters and network resources; see [Passport §8.3–8.4](consumer-energy-passport.md#id-8.3-energy-resources-common-fields-every-entry-in-energyresources-any-type) |
+| Topology | `energyResources[].parentResources[]` / `.subResources[]` | Optional | Links DER → inverter → meter → DT/feeder where known |
+| Capacity and controls | `energyResources[].attributes` | Optional | Carries rated/import/export limits, inspection, location and aggregator enrolment |
+| Connection/load context | `credentialSubject.customerProfile.consumptionProfiles[]` | Optional array; required fields apply per entry | Links tariff/load/export facts to the relevant meter |
+| Consumer PII | `credentialSubject.customerDetails` | Optional | Do not disclose to a grid operator unless separately authorised |
+| Executable example | [`schedule-i-example.json`](../use-cases/consumer-energy-passport/examples/schedule-i-example.json) | Validated fixture | Use for the current per-connection ingestion path |
+
+### 8.2 Illustrative Future — PII-free Per-locus Aggregate
+
+The following table is a design inventory for a separately governed subject contract. It deliberately does not claim validation against ElectricityCredential v1.2.
+
+| **Conceptual Field** *(not a current schema path)* | **Expected Shape** | **Reused Building Block / Basis** | **Status and Guidance** |
+|---|---|---|---|
+| Locus subject | feeder, substation or licensee DID/URI | `credentialSubject.id`; IES identifier patterns | Required by the future profile; the locus replaces the consumer as subject |
+| Issuing licensee | issuer DID/URI and name | EC v1.2 `issuer` | Required; issuer remains the DISCOM |
+| `energyResources[]` | array of typed resources | EC v1.2 `EnergyResource` union | Required; include only resources inside the stated locus |
+| `energyResources[].id` / `.type` | stable resource identifier / governed discriminator | EC v1.2 common resource fields | Required per resource |
+| `energyResources[].parentResources[]` / `.subResources[]` | arrays of resource identifiers or permitted inline children | EC v1.2 topology | Use to express DER → inverter → meter → DT/feeder relationships |
+| `energyResources[].attributes.ratedPower` / `.maxExport` / `.maxImport` | unit-bearing quantities | EC v1.2 common attributes | Populate where capacity is known and material to operations |
+| `energyResources[].attributes.inspection` | date, result and inspector reference | EC v1.2 inspection object | Optional commissioning/status evidence |
+| `energyResources[].attributes.aggregator` | id, name, controllable flag, enrolment date | EC v1.2 aggregator object | Optional; records enrolment without duplicating the resource |
+| `consumptionProfiles[]` | per-meter load/tariff context | EC v1.2 `ConsumptionProfile` | Include only where sanctioned-load/export-limit context is needed |
+| `consumptionProfiles[].meterId` | resource identifier | EC v1.2 meter link | Required per included consumption profile |
+| `consumptionProfiles[].sanctionedLoad` / `.sanctionedExportLoad` | unit-bearing quantities | EC v1.2 load fields | Operational context, not measured telemetry |
+| Consumer identity | no `customerNumber`; no `customerDetails` | Privacy boundary in §1–2 | Must be absent from the future aggregate |
+| Refresh/version metadata | separately governed | No current EC v1.2 aggregate field set | Open design item; must be specified before an executable fixture is published |
 
 ## 9. Schedule II
 
-| Wrapping / dependency | Detail |
-|---|---|
-| Not applicable | The record is the report — a typical rate-of-DER-growth report or feeder-loading study is computed by the grid operator from a time series of these records, not a separate schema. |
+Schedule II contains downstream operational views, not a separate schema or populated template.
+
+| **Operational View** | **Schedule I Inputs** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Connected DER inventory | `energyResources[]` grouped by type and locus | Derived | Count and capacity totals are computed from the source records |
+| DER growth over time | successive inventory snapshots | Derived | Compare versioned snapshots; do not present one credential as a time series |
+| Feeder/DT loading study | resource topology, sanctioned load/export limits, separately obtained MeterData telemetry | Derived | Static Schedule I facts do not substitute for measured load profiles |
+| Controllability register | per-resource aggregator and controllable attributes | Derived | Preserve the underlying resource identifier and enrolment evidence |
+| Exception list | missing topology, inspection or capacity fields | Derived | Report absence as an evidence gap, not as zero capacity |
+| Future signed aggregate | conceptual §8.2 record | **Not currently executable** | Requires an approved schema/credential-subject contract and canonical fixture before publication |
 
 ## 10. How It Fits Together
 
