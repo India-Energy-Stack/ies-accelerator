@@ -48,7 +48,10 @@ try:
         for file in files:
             if file == "schema.json":
                 schema_path = os.path.join(root, file)
-                rel_path = os.path.relpath(schema_path, base_dir)
+                # ``relpath`` uses backslashes on Windows.  A filesystem path
+                # embedded directly in a URL then becomes a different registry
+                # key and local cross-schema references cannot resolve.
+                rel_path = os.path.relpath(schema_path, base_dir).replace("\\", "/")
                 url = f"https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/{rel_path}"
                 url_github_io = f"https://india-energy-stack.github.io/ies-accelerator/schemas/{rel_path}"
                 try:
@@ -147,7 +150,7 @@ def main():
         files = sorted(os.listdir(target_path))
         for filename in files:
             if filename.endswith(".json"):
-                if filename in ["IES codes.json", "CustomerMapping.json", "MeterCategories.json"]:
+                if filename in ["IES codes.json", "MeterCategories.json"]:
                     print(f"ℹ️ Skipping {filename} (lookup/mapping metadata)")
                     continue
                     

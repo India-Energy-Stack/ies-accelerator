@@ -9,7 +9,11 @@ This section answers the practical questions an implementer asks:
 3. *"My system has a domain object IES doesn't yet cover. How do I propose a new schema?"* — the **proposal flow** below.
 4. *"Who owns these schemas, who can change them, and when?"* — **Stewardship**.
 
-Every schema stands on its own: a complete, self-describing data shape (JSON Schema + JSON-LD context + RDF vocabulary + worked examples) that is valid wherever the payload travels — over the IES Beckn network, through a wallet such as DigiLocker, on a web portal, or as a plain signed file. IES recommends the [Beckn data-exchange flow](../what-ies-provides/discover.md) for organisation-to-organisation (B2B) exchange; consumer-facing (B2C) delivery can use any channel the issuer already runs.
+Every schema version publishes a self-contained bundle: JSON Schema, JSON-LD
+context, RDF vocabulary, and worked examples. Structural and semantic validity
+is established only by the validators applicable to that family/version;
+publication of a context file does not by itself establish complete JSON-LD
+conformance. IES recommends the [Beckn data-exchange flow](../what-ies-provides/discover.md) for organisation-to-organisation (B2B) exchange; consumer-facing (B2C) delivery can use any channel the issuer already runs.
 
 ---
 
@@ -78,7 +82,25 @@ A change is **non-breaking** (additive, optional fields, new enum values) if it 
 
 The schema files are served by GitHub Pages at stable URLs of the form `https://india-energy-stack.github.io/ies-accelerator/schemas/...`. This matters beyond documentation: JSON-LD `@context` URLs inside credentials must **resolve at runtime** for verifiers to validate, so the canonical URLs cannot depend on a third-party host. DISCOMs running air-gapped can sync this directory once and verify credentials without outbound HTTPS.
 
-Families whose source of truth is upstream (e.g. `beckn/DEG` for ElectricityCredential) are mirrored **verbatim** — the files are never edited in place, each family's `README.md` names the upstream source and version, and upstream is authoritative if a discrepancy is found (open an issue so the mirror can be refreshed).
+Families whose source of truth is upstream (e.g. `beckn/DEG` for
+ElectricityCredential) are intended to be mirrored verbatim. Synchronization is
+not established by that label alone: `scripts/verify_ec_mirror.py` compares the
+local ElectricityCredential v1.2 directory with an immutable upstream revision,
+and any mismatch is a release blocker. Contract files are not edited in place to
+make the check green; a refresh requires a separately reviewed upstream-sync
+change.
+
+JSON-LD execution scope is machine-readable in
+`scripts/jsonld_conformance_scope.json` and enforced by
+`scripts/run_jsonld_checks.py`. As of 2026-07-26, all eleven published schema
+versions are exercised: `MeterDataRequest/v0.6` is an enforced pass and ten
+pre-existing context/example failures are explicitly reason-matched and deferred
+under the v0.6 schema freeze. This is evidence that JSON-LD runs; it is not a
+claim of repository-wide JSON-LD conformance.
+
+The reproducible QA environment is installed from `requirements-qaqc.lock`
+with hash verification. `requirements-qaqc.txt` remains the concise, directly
+pinned input used to regenerate that lock.
 
 ---
 

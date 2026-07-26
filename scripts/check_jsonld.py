@@ -8,11 +8,9 @@ without fetching any remote URLs.  Three checks are run:
 1. Context syntax — context.jsonld must parse as valid JSON and contain a
    well-formed "@context" key.
 
-2. IRI collisions — two different property paths inside context.jsonld that
-   map to the same @id IRI.  Semantically valid JSON-LD (aliases are allowed),
-   but almost always a mistake: e.g. assetId → deg:assetId in one block and
-   assetId → deg:storageAssetId in another, meaning a SPARQL query for one
-   would silently miss the other.
+2. IRI alias collisions — differently named terms inside context.jsonld that
+   map to the same @id IRI. Reuse of the same leaf name in nested scoped
+   contexts is intentional and is not reported as a collision.
 
 3. Unmapped terms — properties present in the example JSON that have no @id
    entry in context.jsonld.  These properties are invisible to any RDF/SPARQL
@@ -38,7 +36,14 @@ import json
 import sys
 from pathlib import Path
 
-import pyld.jsonld as jsonld
+try:
+    import pyld.jsonld as jsonld
+except ImportError:
+    print(
+        "ERROR: PyLD is required for JSON-LD checks; install requirements-qaqc.txt",
+        file=sys.stderr,
+    )
+    sys.exit(2)
 
 # ---------------------------------------------------------------------------
 # Terminal colours
@@ -47,6 +52,8 @@ OK   = "✅"
 WARN = "⚠️ "
 ERR  = "❌"
 INFO = "ℹ️ "
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_BASE = "https://india-energy-stack.github.io/ies-accelerator/"
 
 
 # ---------------------------------------------------------------------------
@@ -141,31 +148,36 @@ def _leaf_names(paths: set) -> set:
 
 
 # ---------------------------------------------------------------------------
-# pyld document loader — stubs out ALL remote URLs
+# pyld document loader — serves only the exact local context
 # ---------------------------------------------------------------------------
 
 def _local_only_loader(schema_dir: Path):
     """
     Return a pyld document loader that:
-    - Loads context.jsonld from the schema directory by filename match.
+    - Loads this schema directory's exact context URI or published URL.
     - Returns an empty @context for every other URL (no network calls).
 
     This lets us expand examples against the LOCAL context only, without
     remote contexts (W3C credentials, schema.org) interfering.
     """
     _EMPTY = {"@context": {}}
+    context_path = (schema_dir / "context.jsonld").resolve()
+    try:
+        relative = context_path.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        relative = None
+    local_urls = {context_path.as_uri()}
+    if relative:
+        local_urls.add(f"{PUBLIC_BASE}{relative}")
 
     def loader(url, options=None):
-        # Try to serve the file from the local schema directory
-        for candidate in [
-            schema_dir / Path(url).name,
-        ]:
-            if candidate.exists():
-                doc = _load_json(candidate)
-                return {"contentType": "application/ld+json",
-                        "contextUrl": None,
-                        "document": doc,
-                        "documentUrl": url}
+        # Never substitute a same-named context from another schema/version.
+        if url.split("#", 1)[0] in local_urls:
+            doc = _load_json(context_path)
+            return {"contentType": "application/ld+json",
+                    "contextUrl": None,
+                    "document": doc,
+                    "documentUrl": url}
         # Stub everything else — no network requests
         return {"contentType": "application/ld+json",
                 "contextUrl": None,
@@ -235,12 +247,15 @@ def check_schema_dir(schema_dir: Path) -> bool:
         if iri and not iri.startswith("@"):
             iri_to_terms.setdefault(iri, []).append(term)
 
-    collisions = {iri: terms for iri, terms in iri_to_terms.items()
-                  if len(terms) > 1}
+    collisions = {
+        iri: terms
+        for iri, terms in iri_to_terms.items()
+        if len({term.rsplit(".", 1)[-1] for term in terms}) > 1
+    }
 
     if collisions:
         print(f"\n{WARN} IRI collisions ({len(collisions)}) — "
-              f"different paths share the same @id:")
+              f"differently named terms share the same @id:")
         for iri, terms in sorted(collisions.items()):
             print(f"    {iri}")
             for t in sorted(terms):
@@ -304,9 +319,8 @@ def check_schema_dir(schema_dir: Path) -> bool:
                 # Truncate very long pyld error details
                 if len(msg) > 200:
                     msg = msg[:200] + " …"
-                print(f"    {WARN} pyld expansion warning: {msg}")
-                # Expansion warnings don't fail the check — context syntax
-                # issues are caught by other means.
+                print(f"    {ERR} pyld expansion failed: {msg}")
+                all_ok = False
 
         # ── 4. Orphaned context terms ─────────────────────────────────────
         # Context leaf names that never appeared in any example

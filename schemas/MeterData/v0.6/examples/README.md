@@ -9,7 +9,6 @@
 - [Billing_MeterChange.json](./Billing_MeterChange.json)
 - [Billing_MonthlyProfile.json](./Billing_MonthlyProfile.json)
 - [CustomerBillingSummary.json](./CustomerBillingSummary.json)
-- [CustomerMapping.json](./CustomerMapping.json)
 - [CustomerProfile.json](./CustomerProfile.json)
 - [DailyProfile.json](./DailyProfile.json)
 - [DailyProfile_Elaborated.json](./DailyProfile_Elaborated.json)

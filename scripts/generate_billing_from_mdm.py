@@ -2,8 +2,9 @@ import json
 import os
 
 def generate_billing():
-    base_dir = "schemas/MeterData/v0.6/examples"
-    mdm_path = os.path.join(base_dir, "MDM_MonthlyProfile.json")
+    schema_dir = "schemas/MeterData/v0.6"
+    examples_dir = os.path.join(schema_dir, "examples")
+    mdm_path = os.path.join(examples_dir, "MDM_MonthlyProfile.json")
     
     with open(mdm_path, "r") as f:
         mdm_data = json.load(f)
@@ -37,8 +38,8 @@ def generate_billing():
             import copy
             profiles.append(copy.deepcopy(item))
             
-    # 2. Load Customer Database from the externalized example file
-    mapping_path = os.path.join(base_dir, "CustomerMapping.json")
+    # 2. Load support data kept outside the schema-validated payload examples.
+    mapping_path = os.path.join(schema_dir, "support", "CustomerMapping.json")
     with open(mapping_path, "r") as f:
         customer_db = json.load(f)
             
@@ -82,7 +83,7 @@ def generate_billing():
         
         billing_data.append(p)
         
-    out_path = os.path.join(base_dir, "Billing_MonthlyProfile.json")
+    out_path = os.path.join(examples_dir, "Billing_MonthlyProfile.json")
     with open(out_path, "w") as f:
         json.dump(billing_data, f, indent=2)
         

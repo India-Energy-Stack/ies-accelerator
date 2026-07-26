@@ -1,0 +1,56 @@
+{
+  "schemas/ArrFiling/v0.5": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "invalid scoped context",
+    "reason": "The committed context has a pre-existing scoped-context expansion defect; contract edits are outside the v0.6 launch freeze."
+  },
+  "schemas/ElectricityCredential/v1.0": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "Unmapped terms",
+    "reason": "The historical credential context does not map every credential/example term; it is not changed by this launch candidate."
+  },
+  "schemas/ElectricityCredential/v1.1": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "Unmapped terms",
+    "reason": "The historical credential context does not map every credential/example term; it is not changed by this launch candidate."
+  },
+  "schemas/ElectricityCredential/v1.2": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "Unmapped terms",
+    "reason": "The frozen upstream mirror currently fails local-context coverage and cannot be repaired within the schema freeze."
+  },
+  "schemas/MeterData/v0.5": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "_mdOccurredAt",
+    "reason": "The historical v0.5 examples contain unmapped compatibility fields; v0.5 contract edits are outside this launch candidate."
+  },
+  "schemas/MeterData/v0.6": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "addressLine",
+    "reason": "The committed normative context does not cover every example field; the approved freeze forbids context changes in this candidate."
+  },
+  "schemas/MeterDataCredential/v0.6": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "Unmapped terms",
+    "reason": "Credential-wrapper and nested MeterData contexts require a later contract-authorized JSON-LD reconciliation."
+  },
+  "schemas/MeterDataRequest/v0.5": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "supportedModes",
+    "reason": "The historical v0.5 request context omits a committed example term; v0.5 contract edits are outside this launch candidate."
+  },
+  "schemas/MeterDataRequest/v0.6": {
+    "status": "enforced-pass",
+    "reason": "The v0.6 request context and all committed examples must pass local JSON-LD coverage and expansion."
+  },
+  "schemas/MeterDataRequestCredential/v0.1": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "capabilitiesRequested",
+    "reason": "The credential wrapper depends on unmapped credential and request terms requiring a later contract-authorized reconciliation."
+  },
+  "schemas/OutageNotification/v0.1": {
+    "status": "deferred-fail",
+    "expectedDiagnostic": "downType",
+    "reason": "The historical context has unmapped example terms and scoped-context expansion defects outside the v0.6 launch freeze."
+  }
+}

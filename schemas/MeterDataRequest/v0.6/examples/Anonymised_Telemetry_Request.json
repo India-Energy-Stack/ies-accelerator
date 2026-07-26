@@ -14,8 +14,8 @@
       {
         "profileType": "IntervalProfile",
         "readings": [
-          { "value": "kWh imp", "mode": "USAGE" },
-          { "value": "kWh exp", "mode": "USAGE" }
+          { "value": "kWh imp block", "mode": "USAGE" },
+          { "value": "kWh exp block", "mode": "USAGE" }
         ]
       }
     ]
