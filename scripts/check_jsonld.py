@@ -32,6 +32,7 @@ Usage
                                    schemas/MeterData/v0.6
 """
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -63,6 +64,23 @@ PUBLIC_BASE = "https://india-energy-stack.github.io/ies-accelerator/"
 def _load_json(path: Path) -> dict:
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def _canonical_json_hash(value) -> str:
+    canonical = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def _expansion_error_issue(filename: str, error: Exception, context_doc: dict, example_doc) -> str:
+    error_type = str(getattr(error, "type", type(error).__name__))
+    error_code = str(getattr(error, "code", "unknown"))
+    details = getattr(error, "details", {})
+    term = details.get("term", "") if isinstance(details, dict) else ""
+    return (
+        f"expansion-error:{filename}:{type(error).__name__}:{error_type}:{error_code}:"
+        f"term={term}:context-sha256={_canonical_json_hash(context_doc)}:"
+        f"example-sha256={_canonical_json_hash(example_doc)}"
+    )
 
 
 def _flatten_context(ctx, prefix: str = "", result: dict | None = None) -> dict:
@@ -323,7 +341,7 @@ def check_schema_dir(schema_dir: Path, issues: list[str] | None = None) -> bool:
                     print(f"    {OK} All terms expand to IRIs under local context")
             except Exception as e:
                 msg = str(e)
-                issues.append(f"expansion-error:{ex_path.name}:{type(e).__name__}")
+                issues.append(_expansion_error_issue(ex_path.name, e, context_doc, doc))
                 # Truncate very long pyld error details
                 if len(msg) > 200:
                     msg = msg[:200] + " …"

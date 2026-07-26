@@ -11,6 +11,9 @@ on:
     branches: [main]
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 # Keep preview runs isolated by event and pull request/ref.
 concurrency:
   group: build-pdf-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
@@ -20,6 +23,7 @@ env:
   TECTONIC_VERSION: "0.15.0"
   TECTONIC_SHA256: "875fbbc9ab48560d7776088c608e0beee49197b57ab4a2f6c5385b2c661c842f"
   MERMAID_CLI_VERSION: "11.16.0"
+  NODE_VERSION: "24.18.0"
 
 jobs:
   build-and-publish:
@@ -56,6 +60,11 @@ jobs:
       - name: Add tectonic to PATH
         run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
       - name: Install mermaid-cli
         run: npm install -g "@mermaid-js/mermaid-cli@${MERMAID_CLI_VERSION}"
 
@@ -87,64 +96,12 @@ jobs:
             echo "pr_base_sha=${PR_BASE_SHA}"
             echo "source_date_epoch=${SOURCE_DATE_EPOCH}"
             echo "tectonic=${TECTONIC_VERSION} sha256=${TECTONIC_SHA256}"
+            echo "node=$(node --version) npm=$(npm --version)"
             echo "mermaid_cli=${MERMAID_CLI_VERSION}"
           } > build/publication-provenance.txt
 
-      - name: Stage site
-        run: |
-          mkdir -p public
-          # Mirror everything main currently serves so all existing URLs (schema
-          # JSON/JSON-LD/YAML contexts, docs, etc.) keep resolving from gh-pages.
-          rsync -a \
-            --exclude='.git/' \
-            --exclude='.github/' \
-            --exclude='build/' \
-            --exclude='public/' \
-            --exclude='qaqc/' \
-            --exclude='index.md' \
-            ./ public/
-          # Add the freshly built PDF (published as ies-report.pdf) and a root
-          # landing page.
-          cp build/ies_accelerator.pdf public/ies-report.pdf
-          # Serve files literally (no Jekyll); .nojekyll is mirrored from root,
-          # but ensure it exists.
-          touch public/.nojekyll
-          cat > public/index.html <<'HTML'
-          <!doctype html>
-          <meta charset="utf-8">
-          <title>IES Accelerator Implementation Guide</title>
-          <meta http-equiv="refresh" content="0; url=ies-report.pdf">
-          <p><a href="ies-report.pdf">IES Accelerator Implementation Guide (PDF)</a></p>
-          HTML
-
-      - name: Verify publish dir is complete
-        # Guard against a complete-but-wrong tree: every tracked schema artifact
-        # and the PDF must be present before we replace gh-pages. If anything is
-        # missing the job fails here and the publish step is skipped, leaving
-        # the live site untouched.
-        run: |
-          missing=0
-          while IFS= read -r f; do
-            if [ ! -f "public/$f" ]; then echo "MISSING: $f"; missing=1; fi
-          done < <(git ls-files schemas/)
-          [ -f public/ies-report.pdf ] || { echo "MISSING: ies-report.pdf"; missing=1; }
-          if [ "$missing" -ne 0 ]; then
-            echo "::error::publish dir incomplete; aborting before replacing gh-pages"
-            exit 1
-          fi
-          echo "publish dir complete ($(git ls-files schemas/ | wc -l) schema files + PDF)"
-
-          python3 -B scripts/verify_pdf.py --public-root public
-
-          [ -s build/ies_accelerator.pdf ] || { echo "::error::build/ies_accelerator.pdf missing or empty"; exit 1; }
-          [ -s public/ies-report.pdf ] || { echo "::error::public/ies-report.pdf missing or empty"; exit 1; }
-          cmp -s build/ies_accelerator.pdf public/ies-report.pdf || { echo "::error::build/ies_accelerator.pdf and public/ies-report.pdf differ"; exit 1; }
-
-          python3 -B scripts/verify_publication.py \
-            --public-root public \
-            --combined-md build/ies_combined.md \
-            --manifest build/public-manifest.txt
-          python3 -B scripts/verify_publication.py --self-test
+      - name: Stage and verify publication
+        run: bash scripts/stage_publication.sh
 
       - name: Upload pull-request publication preview evidence
         if: github.event_name == 'pull_request'

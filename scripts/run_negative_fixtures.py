@@ -131,8 +131,8 @@ def run_payload_fixture(python: str, fixture_path: Path) -> bool:
 
 def run_jsonld_scope_drift_fixture(python: str, fixture_path: Path) -> bool:
     fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
-    relative = fixture.get("relativePath")
-    if not isinstance(relative, str):
+    targets = fixture.get("targets")
+    if not isinstance(targets, list) or not targets:
         print(f"FAIL: invalid JSON-LD drift fixture: {fixture_path}", file=sys.stderr)
         return False
 
@@ -144,15 +144,19 @@ def run_jsonld_scope_drift_fixture(python: str, fixture_path: Path) -> bool:
         for name in ("check_jsonld.py", "run_jsonld_checks.py", "jsonld_conformance_scope.json"):
             shutil.copy2(ROOT / "scripts" / name, isolated_scripts / name)
 
-        target = (isolated_root / relative).resolve()
         try:
-            target.relative_to(isolated_root)
-            document = json.loads(target.read_text(encoding="utf-8"))
-            apply_mutations(document, fixture["mutations"])
+            for target_fixture in targets:
+                target = (isolated_root / target_fixture["relativePath"]).resolve()
+                target.relative_to(isolated_root)
+                document = json.loads(target.read_text(encoding="utf-8"))
+                apply_mutations(document, target_fixture["mutations"])
+                target.write_text(
+                    json.dumps(document, indent=2, ensure_ascii=False) + "\n",
+                    encoding="utf-8",
+                )
         except (KeyError, TypeError, ValueError, OSError, json.JSONDecodeError) as error:
             print(f"FAIL: invalid JSON-LD drift fixture {fixture_path}: {error}", file=sys.stderr)
             return False
-        target.write_text(json.dumps(document, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         return run_expected(
             (
                 python,
@@ -264,7 +268,7 @@ def main() -> int:
     failures = sum(not run_expected(*check) for check in checks)
     failures += not run_payload_fixture(python, fixtures / "cep_schedule_i_missing_customer_number.json")
     failures += not run_payload_fixture(python, fixtures / "cep_schedule_ii_unknown_reading_type.json")
-    failures += not run_jsonld_scope_drift_fixture(python, fixtures / "jsonld_new_unmapped_term.json")
+    failures += not run_jsonld_scope_drift_fixture(python, fixtures / "jsonld_masked_expansion_drift.json")
     failures += not run_mirror_drift_fixture(python, fixtures / "ec_mirror_drift.json")
     if failures:
         return 1

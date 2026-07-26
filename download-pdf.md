@@ -14,7 +14,7 @@ The appendix is placed last and behind a clear divider chapter on purpose: the d
 
 ## How it's kept current
 
-Rebuilt automatically by a GitHub Actions workflow ([`build-pdf.yml`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/workflows/build-pdf.yml)) on every merge to `main`. There's no separate "publish" step — whatever is live on this GitBook is what the PDF reflects, usually within a couple of minutes.
+Pull requests build and verify a staged PDF and public-site preview through [`build-pdf.yml`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/workflows/build-pdf.yml). After an accepted change lands on `main`, the separate main-only [`publish-pages.yml`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/workflows/publish-pages.yml) workflow rebuilds the same source, repeats the publication checks, and deploys the verified PDF and public files to GitHub Pages. GitBook and the PDF are sourced from the repository, but each hosted surface still requires its own post-publication verification.
 
 ## Building it yourself
 
@@ -26,4 +26,4 @@ npx -y @mermaid-js/mermaid-cli --version   # confirms mmdc is available for diag
 bash scripts/build_pdf.sh
 ```
 
-This produces `build/ies_accelerator.pdf` — the same document the GitHub Actions workflow builds and publishes as [`ies-report.pdf`](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf).
+This produces `build/ies_accelerator.pdf` — the document the GitHub Actions preview validates and the main-only publication workflow deploys as [`ies-report.pdf`](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf).
