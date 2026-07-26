@@ -101,6 +101,16 @@ jobs:
       - name: Stage and verify publication
         run: bash scripts/stage_publication.sh
 
+      - name: Upload build evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: v0.6-publication-build-evidence-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            build/ies_accelerator.pdf
+            build/public-manifest.txt
+            build/publication-provenance.txt
+          if-no-files-found: error
+
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
         with:
