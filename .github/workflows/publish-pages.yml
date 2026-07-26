@@ -1,20 +1,31 @@
-name: Build PDF & publication preview
+name: Publish verified PDF & Pages
 
-# Build and stage the site for every pull request without access to deployment
-# credentials. The separate publish-pages.yml workflow rebuilds and publishes
-# only after trusted code lands on main. GitHub Pages serves URLs such as:
-#   https://india-energy-stack.github.io/ies-accelerator/schemas/.../context.jsonld
-#   https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf
+# Deployment credentials are available only to this trusted post-merge path.
+# Pull requests use build-pdf.yml to build and verify the same staged tree
+# without referencing the deploy key.
 
 on:
-  pull_request:
+  push:
     branches: [main]
-  workflow_dispatch: {}
+    paths:
+      - "**/*.md"
+      - "**/*.json"
+      - "**/*.jsonld"
+      - "**/*.yaml"
+      - "**/*.yml"
+      - "scripts/build_pdf.py"
+      - "scripts/build_pdf.sh"
+      - "scripts/verify_pdf.py"
+      - "scripts/verify_publication.py"
+      - ".github/workflows/build-pdf.yml"
+      - ".github/workflows/publish-pages.yml"
 
-# Keep preview runs isolated by event and pull request/ref.
+permissions:
+  contents: read
+
 concurrency:
-  group: build-pdf-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: publish-pages-main
+  cancel-in-progress: false
 
 env:
   TECTONIC_VERSION: "0.15.0"
@@ -22,17 +33,14 @@ env:
   MERMAID_CLI_VERSION: "11.16.0"
 
 jobs:
-  build-and-publish:
-    name: PDF and staged-publication preview
+  publish:
+    name: Publish verified PDF and site
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout exact main commit
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
       - name: Install pandoc and fonts
-        # fonts-dejavu provides "DejaVu Sans Mono" for the PDF's monofont
-        # (the script defaults to macOS-only "Menlo", overridden below).
-        # poppler-utils (pdfinfo/pdftotext) backs scripts/verify_pdf.py's PDF SMOKE checks.
         run: sudo apt-get update && sudo apt-get install -y pandoc fonts-dejavu poppler-utils
 
       - name: Cache tectonic binary
@@ -64,10 +72,7 @@ jobs:
 
       - name: Build PDF
         env:
-          # Use the runner's preinstalled Chrome so puppeteer doesn't download
-          # Chromium. build_pdf.sh writes a puppeteer.json from this var.
           PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
-          # Menlo (the script default) is macOS-only; use a font present on the runner.
           MONOFONT: "DejaVu Sans Mono"
         run: bash scripts/build_pdf.sh
 
@@ -75,16 +80,11 @@ jobs:
         run: python3 -B scripts/verify_pdf.py --pdf build/ies_accelerator.pdf
 
       - name: Record build provenance
-        env:
-          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           {
             echo "build_sha=${GITHUB_SHA}"
             echo "event_name=${GITHUB_EVENT_NAME}"
             echo "ref=${GITHUB_REF}"
-            echo "pr_head_sha=${PR_HEAD_SHA}"
-            echo "pr_base_sha=${PR_BASE_SHA}"
             echo "source_date_epoch=${SOURCE_DATE_EPOCH}"
             echo "tectonic=${TECTONIC_VERSION} sha256=${TECTONIC_SHA256}"
             echo "mermaid_cli=${MERMAID_CLI_VERSION}"
@@ -93,8 +93,6 @@ jobs:
       - name: Stage site
         run: |
           mkdir -p public
-          # Mirror everything main currently serves so all existing URLs (schema
-          # JSON/JSON-LD/YAML contexts, docs, etc.) keep resolving from gh-pages.
           rsync -a \
             --exclude='.git/' \
             --exclude='.github/' \
@@ -103,11 +101,7 @@ jobs:
             --exclude='qaqc/' \
             --exclude='index.md' \
             ./ public/
-          # Add the freshly built PDF (published as ies-report.pdf) and a root
-          # landing page.
           cp build/ies_accelerator.pdf public/ies-report.pdf
-          # Serve files literally (no Jekyll); .nojekyll is mirrored from root,
-          # but ensure it exists.
           touch public/.nojekyll
           cat > public/index.html <<'HTML'
           <!doctype html>
@@ -118,10 +112,6 @@ jobs:
           HTML
 
       - name: Verify publish dir is complete
-        # Guard against a complete-but-wrong tree: every tracked schema artifact
-        # and the PDF must be present before we replace gh-pages. If anything is
-        # missing the job fails here and the publish step is skipped, leaving
-        # the live site untouched.
         run: |
           missing=0
           while IFS= read -r f; do
@@ -146,13 +136,10 @@ jobs:
             --manifest build/public-manifest.txt
           python3 -B scripts/verify_publication.py --self-test
 
-      - name: Upload pull-request publication preview evidence
-        if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
         with:
-          name: v0.6-publication-preview-${{ github.sha }}
-          path: |
-            build/ies_accelerator.pdf
-            build/public-manifest.txt
-            build/publication-provenance.txt
-          if-no-files-found: error
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          force_orphan: true

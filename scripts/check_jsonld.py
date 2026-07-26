@@ -215,8 +215,10 @@ def _collect_unmapped_after_expansion(node, plain: set | None = None) -> set:
 # Per-schema checks
 # ---------------------------------------------------------------------------
 
-def check_schema_dir(schema_dir: Path) -> bool:
+def check_schema_dir(schema_dir: Path, issues: list[str] | None = None) -> bool:
     """Run all checks for one schema version directory. Returns True if clean."""
+    if issues is None:
+        issues = []
     print(f"\n{'='*64}")
     print(f"  {schema_dir}")
     print(f"{'='*64}")
@@ -233,6 +235,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
         context_doc = _load_json(context_path)
     except Exception as e:
         print(f"\n{ERR} context.jsonld JSON parse error: {e}")
+        issues.append(f"context-parse-error:{type(e).__name__}")
         return False
 
     raw_ctx = context_doc.get("@context", context_doc)
@@ -257,6 +260,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
         print(f"\n{WARN} IRI collisions ({len(collisions)}) — "
               f"differently named terms share the same @id:")
         for iri, terms in sorted(collisions.items()):
+            issues.append(f"iri-collision:{iri}:{','.join(sorted(terms))}")
             print(f"    {iri}")
             for t in sorted(terms):
                 print(f"      · {t}")
@@ -281,6 +285,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
                 doc = _load_json(ex_path)
             except Exception as e:
                 print(f"    {ERR} JSON parse error: {e}")
+                issues.append(f"example-parse-error:{ex_path.name}:{type(e).__name__}")
                 all_ok = False
                 continue
 
@@ -291,6 +296,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
             # Terms in this example that have no @id in the context
             unmapped = leaves - ctx_leaf_names - _SKIP_KEYS
             if unmapped:
+                issues.append(f"unmapped:{ex_path.name}:{','.join(sorted(unmapped))}")
                 print(f"    {WARN} Unmapped terms (not in context.jsonld): "
                       f"{sorted(unmapped)}")
                 all_ok = False
@@ -309,6 +315,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
                 )
                 still_plain = _collect_unmapped_after_expansion(expanded) - _SKIP_KEYS
                 if still_plain:
+                    issues.append(f"unexpanded:{ex_path.name}:{','.join(sorted(still_plain))}")
                     print(f"    {WARN} Terms not expanded to IRIs by local context: "
                           f"{sorted(still_plain)}")
                     all_ok = False
@@ -316,6 +323,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
                     print(f"    {OK} All terms expand to IRIs under local context")
             except Exception as e:
                 msg = str(e)
+                issues.append(f"expansion-error:{ex_path.name}:{type(e).__name__}")
                 # Truncate very long pyld error details
                 if len(msg) > 200:
                     msg = msg[:200] + " …"
@@ -352,15 +360,18 @@ def main():
         sys.exit(1)
 
     overall_ok = True
+    issues: list[str] = []
     for arg in sys.argv[1:]:
         path = Path(arg)
         if not path.is_dir():
             print(f"{ERR} Not a directory: {arg}")
+            issues.append(f"not-a-directory:{path.as_posix()}")
             overall_ok = False
             continue
-        if not check_schema_dir(path):
+        if not check_schema_dir(path, issues):
             overall_ok = False
 
+    print(f"JSONLD_ISSUES_JSON={json.dumps(sorted(issues), separators=(',', ':'))}")
     print()
     if overall_ok:
         print(f"{OK} All checks passed.")

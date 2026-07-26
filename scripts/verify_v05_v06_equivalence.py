@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 V5_DIR = ROOT / "schemas" / "MeterData" / "v0.5" / "examples"
 V6_DIR = ROOT / "schemas" / "MeterData" / "v0.6" / "examples"
 OBIS_MAPPING_PATH = ROOT / "schemas" / "MeterData" / "v0.6" / "IES codes.json"
+TEMPORAL_KEYS = {"occurredAt", "_mdOccurredAt", "timestamp", "capturedAt"}
 
 PROFILE_TYPE_MAP = {"BILLING": "BILL_DETAILS"}
 CRITICAL_KEYS = {
@@ -416,7 +417,7 @@ def extract_timestamps(profile: dict, descriptors: dict[str, dict]) -> set[objec
     def visit(node):
         if isinstance(node, dict):
             for key, value in node.items():
-                if key in {"occurredAt", "_mdOccurredAt", "timestamp", "capturedAt"}:
+                if key in TEMPORAL_KEYS:
                     timestamps.add(normalize_timestamp(value))
                 visit(value)
         elif isinstance(node, list):
@@ -436,6 +437,51 @@ def extract_timestamps(profile: dict, descriptors: dict[str, dict]) -> set[objec
             if index < len(payloads):
                 timestamps.add(normalize_timestamp(payloads[index]))
     return timestamps
+
+
+def extract_row_timestamp_associations(
+    profile: dict,
+    descriptors: dict[str, dict],
+) -> list[tuple[object, tuple[object, ...]]]:
+    """Return timestamps grouped by the interval row that carries them."""
+    associations: list[tuple[object, tuple[object, ...]]] = []
+    sequence_items = compact_sequence_items(profile, descriptors)
+    temporal_indexes = [
+        index
+        for index, item in enumerate(sequence_items)
+        if item.get("attribute") in TEMPORAL_KEYS
+    ]
+
+    def direct_timestamps(node) -> list[object]:
+        values: list[object] = []
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if key in TEMPORAL_KEYS:
+                    values.append(normalize_timestamp(value))
+                elif isinstance(value, (dict, list)):
+                    values.extend(direct_timestamps(value))
+        elif isinstance(node, list):
+            for value in node:
+                values.extend(direct_timestamps(value))
+        return values
+
+    def add_rows(rows: list[dict], *, compact: bool) -> None:
+        for position, row in enumerate(rows):
+            timestamps = direct_timestamps(row)
+            if compact:
+                payloads = row.get("payloads", [])
+                timestamps.extend(
+                    normalize_timestamp(payloads[index])
+                    for index in temporal_indexes
+                    if index < len(payloads)
+                )
+            if timestamps:
+                associations.append((row.get("id", position), tuple(timestamps)))
+
+    for block in profile.get("intervalBlocks", []):
+        add_rows(block.get("intervals", []), compact=False)
+    add_rows(profile.get("intervals", []), compact=True)
+    return associations
 
 
 def extract_schedules(profile: dict) -> list[tuple[object, object, tuple[object, ...]]]:
@@ -482,6 +528,14 @@ def compare_temporal_association(
         errors.append(
             f"timestamps changed: v0.5={sorted(source_timestamps)}, "
             f"v0.6={sorted(target_timestamps)}"
+        )
+
+    source_row_timestamps = extract_row_timestamp_associations(source, {})
+    target_row_timestamps = extract_row_timestamp_associations(target, target_descriptors)
+    if source_row_timestamps and source_row_timestamps != target_row_timestamps:
+        errors.append(
+            f"row timestamp associations changed: "
+            f"v0.5={source_row_timestamps}, v0.6={target_row_timestamps}"
         )
     return errors
 

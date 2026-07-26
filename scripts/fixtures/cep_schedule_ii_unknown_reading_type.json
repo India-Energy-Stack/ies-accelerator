@@ -1,0 +1,15 @@
+{
+  "source": "use-cases/consumer-energy-passport/examples/schedule-ii-example.json",
+  "mutations": [
+    {
+      "operation": "replace",
+      "pointer": "/1/readings/0/readingType",
+      "value": "UNKNOWN_CEP_READING"
+    }
+  ],
+  "validator": {
+    "kind": "semantic",
+    "script": "schemas/MeterData/v0.6/validation/validator.py"
+  },
+  "expectedDiagnostic": "could not be resolved"
+}

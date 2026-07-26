@@ -32,5 +32,8 @@ questions:
 Any new v0.5 example must be added to this disposition contract before the
 migration check will pass. Missing targets, unexplained target additions, lost
 or reassigned telemetry, changed timestamps, unapproved corrected values, and
-invalid v0.6 examples all return a non-zero exit. Committed CLI fixtures under
-`scripts/fixtures/` exercise each of those rejection paths.
+invalid v0.6 examples all return a non-zero exit. The committed migration CLI
+fixtures under `scripts/fixtures/` currently exercise missing disposition,
+approved-value drift, direct timestamp drift, row/timestamp reassignment, and
+meter-identity association drift; the positive gate exercises target coverage,
+addition accounting, telemetry preservation, and current-version validity.

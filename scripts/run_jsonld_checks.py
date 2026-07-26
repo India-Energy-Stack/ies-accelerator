@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "scripts" / "jsonld_conformance_scope.json"
 CHECKER = ROOT / "scripts" / "check_jsonld.py"
+ISSUES_PREFIX = "JSONLD_ISSUES_JSON="
 
 
 def discover_contexts() -> set[str]:
@@ -19,6 +20,19 @@ def discover_contexts() -> set[str]:
         path.parent.relative_to(ROOT).as_posix()
         for path in (ROOT / "schemas").glob("*/*/context.jsonld")
     }
+
+
+def parse_issues(output: str) -> list[str] | None:
+    summaries = [line[len(ISSUES_PREFIX):] for line in output.splitlines() if line.startswith(ISSUES_PREFIX)]
+    if len(summaries) != 1:
+        return None
+    try:
+        issues = json.loads(summaries[0])
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(issues, list) or not all(isinstance(issue, str) for issue in issues):
+        return None
+    return issues
 
 
 def main() -> int:
@@ -53,25 +67,35 @@ def main() -> int:
             encoding="utf-8",
         )
         output = completed.stdout + completed.stderr
+        observed_issues = parse_issues(output)
+        if observed_issues is None:
+            failures.append(f"{relative}: checker did not emit one valid issue summary\n{output}")
+            continue
         if status == "enforced-pass":
             enforced += 1
-            if completed.returncode != 0:
+            if completed.returncode != 0 or observed_issues:
                 failures.append(
-                    f"{relative}: enforced JSON-LD check exited {completed.returncode}\n{output}"
+                    f"{relative}: enforced JSON-LD check exited {completed.returncode} "
+                    f"with issues {observed_issues}\n{output}"
                 )
             else:
                 print(f"ENFORCED PASS: {relative}")
             continue
 
         deferred += 1
-        expected = entry.get("expectedDiagnostic")
-        if completed.returncode != 1 or not isinstance(expected, str) or expected not in output:
+        expected = entry.get("expectedIssues")
+        if (
+            completed.returncode != 1
+            or not isinstance(expected, list)
+            or not all(isinstance(issue, str) for issue in expected)
+            or observed_issues != sorted(expected)
+        ):
             failures.append(
-                f"{relative}: deferred check must exit 1 for {expected!r}; "
-                f"got {completed.returncode}\n{output}"
+                f"{relative}: deferred check must exit 1 with exact issues {expected!r}; "
+                f"got {completed.returncode} with {observed_issues!r}\n{output}"
             )
         else:
-            print(f"DEFERRED (observed {expected!r}): {relative} -- {reason}")
+            print(f"DEFERRED ({len(observed_issues)} exact issue(s)): {relative} -- {reason}")
 
     if failures:
         print("FAIL: JSON-LD conformance scope is not satisfied:", file=sys.stderr)
