@@ -5,7 +5,7 @@ ifeq ($(shell python3 -c "import yaml, jsonschema" >/dev/null 2>&1 && echo ok ||
   $(error Error: Required Python packages (PyYAML, jsonschema) are missing. Please activate your virtual environment or install them: pip install pyyaml jsonschema)
 endif
 
-.PHONY: all clean build validate index test external schemas-ies
+.PHONY: all clean build validate index test external schemas-ies qa jsonld mirror migration navigation negative-fixtures
 
 # Local checkout that holds the external schema sources
 # (override: make external SCHEMA_REPO=/path/to/DEG)
@@ -16,6 +16,29 @@ test:
 	@$(MAKE) -C schemas/MeterData/v0.6/validation test
 	@echo "Running MeterDataRequest v0.6 validator tests..."
 	@$(MAKE) -C schemas/MeterDataRequest/v0.6/validation test
+
+# Cross-platform release checks. Install the exact Python environment first:
+#   python3 -m pip install --require-hashes -r requirements-qaqc.lock
+qa: test jsonld mirror migration navigation negative-fixtures
+	@python3 -X utf8 -B scripts/run_schema_checks.py
+	@python3 -X utf8 -B scripts/validate_links.py
+	@python3 -X utf8 -B scripts/generate_field_tables.py --all --check
+	@python3 -X utf8 -B scripts/generate_schemas_ies.py --check
+
+jsonld:
+	@python3 -X utf8 -B scripts/run_jsonld_checks.py
+
+mirror:
+	@python3 -X utf8 -B scripts/verify_ec_mirror.py
+
+migration:
+	@python3 -X utf8 -B scripts/verify_v05_v06_equivalence.py
+
+navigation:
+	@python3 -X utf8 -B scripts/check_navigation.py
+
+negative-fixtures:
+	@python3 -X utf8 -B scripts/run_negative_fixtures.py
 
 # Find all directories under schemas/ that contain attributes.yaml, excluding ElectricityCredential
 ALL_SCHEMA_DIRS := $(dir $(shell find schemas -name attributes.yaml))

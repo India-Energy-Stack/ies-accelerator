@@ -2,12 +2,13 @@ import os
 import re
 
 def slugify(text):
-    slug = text.lower()
-    slug = re.sub(r'<[^>]+>', '', slug)
-    slug = re.sub(r'[^\w\s-]', '', slug)
-    slug = re.sub(r'[\s_]+', '-', slug)
-    slug = slug.strip('-')
-    return slug
+    text = text.lower()
+    text = re.sub(r"[`*'’‘\"“”]", "", text)
+    text = re.sub(r"[^a-z0-9._-]+", "-", text)
+    text = re.sub(r"-+", "-", text).strip("-")
+    if text and text[0].isdigit():
+        text = "id-" + text
+    return text
 
 def parse_headings(filepath):
     headings = []
@@ -115,6 +116,7 @@ def main():
             ("use-cases-overview/smart-meter-data-exchange.md", "Smart Meter Data Exchange — overview."),
             ("use-cases-overview/der-visibility.md", "DER Visibility — overview."),
             ("use-cases-overview/discom-regulatory-filing.md", "DISCOM Regulatory Filing — overview."),
+            ("use-cases-overview/p2p-energy-trading.md", "P2P Energy Trading — overview."),
             ("use-cases-overview/tariff-intelligence.md", "Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).")
         ],
         "schemas": [

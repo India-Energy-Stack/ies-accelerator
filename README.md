@@ -1,6 +1,6 @@
 # India Energy Stack — Accelerator
 
-**IES: the why, what and how.** The India Energy Stack in plain words — the problem, the idea, how it works, what it is not, what it changes for the sector, and where it is already live. This page is the starting point; the rest of the GitBook turns it into specifications, implementation steps and worked use cases.
+**IES: the why, what and how.** The India Energy Stack in plain words — the problem, the idea, how it works, what it is not, what it changes for the sector, and its pilot record. This page is the starting point; the rest of the GitBook turns it into specifications, implementation steps and worked use cases. For whether any of this is running today, see **[Status](STATUS.md)**.
 
 {% hint style="info" %}
 📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
@@ -102,7 +102,7 @@ Taken together, these specifications produce the following practical outcomes:
 
 ## Pilots and status
 
-IES is already running in a test environment. The specifications have been published on this GitBook, and the sandbox is working. Four pilot DISCOMs in four States undertook a 30-day challenge, in which each built its IES adapter and demonstrated a first set of live use cases.
+The specifications have been published on this GitBook. Four pilot DISCOMs in four States completed a 30-day DISCOM Challenge, in which each built its IES adapter and demonstrated a first set of use cases against the IES specifications and the pilot sandbox. This is a completed, historical outcome — it does not mean the sandbox or any pilot is running today. For what current repository evidence does and does not support, see **[Status](STATUS.md)** (as of 2026-07-26).
 
 ### The 30-day DISCOM Challenge
 

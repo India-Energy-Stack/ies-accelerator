@@ -224,6 +224,8 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
 
 A subscriber record alone does not put you on a network. Each IES network is a curated registry operated by the IES network operator (the [NFO](../glossary.md#nfo) — currently REC / IES Secretariat under the `indiaenergystack.in` namespace). To join, the NFO writes a **reference entry** pointing at your subscriber record; your identity stays self-owned, nothing is copied.
 
+This section describes the documented application process. Whether the Secretariat and these network registries are currently staffed and reachable is not something this repository can verify on its own — check **[Status](../STATUS.md)** before treating it as a live pipeline.
+
 The networks you can apply to:
 
 | Network registry | Env | Purpose |

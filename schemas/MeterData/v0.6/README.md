@@ -121,7 +121,11 @@ Billing and CIS examples enrich technical meter data with `customerRefs`, Tou bu
 * [`CustomerProfile.json`](./examples/CustomerProfile.json): Linking meters, service delivery points, and customers.
 * [`BillDetails.json`](./examples/BillDetails.json): Computed monetary bill with due dates and calculated consumption.
 * [`CustomerBillingSummary.json`](./examples/CustomerBillingSummary.json): Historic billing trends for a consumer dashboard.
-* [`CustomerMapping.json`](./examples/CustomerMapping.json): Mapping of meter serial numbers to commercial customer accounts.
+
+Support data used by the example-generation utility is deliberately kept out
+of the schema-validated payload directory:
+
+* [`support/CustomerMapping.json`](./support/CustomerMapping.json): illustrative mapping of meter serial numbers to commercial customer accounts used by `scripts/generate_billing_from_mdm.py`; it is not a `MeterData` payload.
 
 ### Highlighted Examples
 * **Meter Swap Mid-Cycle**: [`Billing_MeterChange.json`](./examples/Billing_MeterChange.json) demonstrates how to handle a meter replacement in the middle of a billing period by chaining multiple monthly profiles under different meter serials.

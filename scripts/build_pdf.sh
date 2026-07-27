@@ -74,7 +74,7 @@ pandoc "$COMBINED_MD" \
     -V header-includes='\usepackage{graphicx}' \
     --metadata title="IES Accelerator Implementation Guide" \
     --metadata author="India Energy Stack" \
-    --metadata date="$(date +%Y-%m-%d)" \
+    --metadata date="$(git -C "$REPO_ROOT" show -s --format=%cs HEAD)" \
     --resource-path="$REPO_ROOT" \
     2> "$BUILD_DIR/pandoc.log" || {
         echo "error: pandoc failed; see $BUILD_DIR/pandoc.log" >&2

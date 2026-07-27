@@ -6,7 +6,7 @@ def run_validator(filepath):
     # Runs the validator script against a file and returns (exit_code, output)
     val_script = os.path.join(os.path.dirname(__file__), "validator.py")
     res = subprocess.run(
-        [sys.executable, val_script, filepath],
+        [sys.executable, "-X", "utf8", "-B", val_script, filepath],
         capture_output=True,
         text=True
     )
@@ -17,11 +17,11 @@ def main():
     
     tests = [
         {"file": "valid_interval_profile.json", "expected_pass": True},
-        {"file": "invalid_profile_type_mismatch.json", "expected_pass": False},
-        {"file": "invalid_cumulative_decrease.json", "expected_pass": False},
-        {"file": "invalid_math_consistency.json", "expected_pass": False},
-        {"file": "invalid_missing_descriptor.json", "expected_pass": False},
-        {"file": "invalid_missing_descriptor_ref.json", "expected_pass": False}
+        {"file": "invalid_profile_type_mismatch.json", "expected_pass": False, "expected_text": "is not permitted in INTERVAL profile shape"},
+        {"file": "invalid_cumulative_decrease.json", "expected_pass": False, "expected_text": "CUMULATIVE mode value"},
+        {"file": "invalid_math_consistency.json", "expected_pass": False, "expected_text": "Usage math inconsistency"},
+        {"file": "invalid_missing_descriptor.json", "expected_pass": False, "expected_text": "must be present in the payload"},
+        {"file": "invalid_missing_descriptor_ref.json", "expected_pass": False, "expected_text": "'payloadDescriptorSetRef' is required"}
     ]
     
     success = True
@@ -37,10 +37,13 @@ def main():
         code, out = run_validator(filepath)
         passed = (code == 0)
         
-        if passed == test["expected_pass"]:
+        reason_matched = test.get("expected_text") is None or test["expected_text"] in out
+        if passed == test["expected_pass"] and reason_matched:
             print(f"✅ Test '{test['file']}' behaved as expected (passed: {passed})")
         else:
             print(f"❌ Test '{test['file']}' FAILED: expected pass: {test['expected_pass']}, got code {code}")
+            if not reason_matched:
+                print(f"❌ Expected diagnostic was absent: {test['expected_text']!r}")
             print(f"--- Output: ---\n{out}\n----------------")
             success = False
             

@@ -1,0 +1,120 @@
+name: Publish verified PDF & Pages
+
+# Deployment credentials are available only to this trusted post-merge path.
+# Pull requests use build-pdf.yml to build and verify the same staged tree
+# without referencing the deploy key.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.md"
+      - "**/*.json"
+      - "**/*.jsonld"
+      - "**/*.yaml"
+      - "**/*.yml"
+      - "scripts/build_pdf.py"
+      - "scripts/build_pdf.sh"
+      - "scripts/stage_publication.sh"
+      - "scripts/verify_pdf.py"
+      - "scripts/verify_publication.py"
+      - ".github/workflows/build-pdf.yml"
+      - ".github/workflows/publish-pages.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-pages-main
+  cancel-in-progress: false
+
+env:
+  TECTONIC_VERSION: "0.15.0"
+  TECTONIC_SHA256: "875fbbc9ab48560d7776088c608e0beee49197b57ab4a2f6c5385b2c661c842f"
+  MERMAID_CLI_VERSION: "11.16.0"
+  NODE_VERSION: "24.18.0"
+
+jobs:
+  publish:
+    name: Publish verified PDF and site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact main commit
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+      - name: Install pandoc and fonts
+        run: sudo apt-get update && sudo apt-get install -y pandoc fonts-dejavu poppler-utils
+
+      - name: Cache tectonic binary
+        id: cache-tectonic
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: ~/.local/bin/tectonic
+          key: tectonic-${{ env.TECTONIC_VERSION }}-linux-x86_64
+
+      - name: Install tectonic
+        if: steps.cache-tectonic.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          url="https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          archive="$RUNNER_TEMP/tectonic-${TECTONIC_VERSION}.tar.gz"
+          curl -fsSL "$url" -o "$archive"
+          echo "${TECTONIC_SHA256}  $archive" | sha256sum -c -
+          tar -xzf "$archive" -C "$HOME/.local/bin" tectonic
+          chmod +x "$HOME/.local/bin/tectonic"
+
+      - name: Add tectonic to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install mermaid-cli
+        run: npm install -g "@mermaid-js/mermaid-cli@${MERMAID_CLI_VERSION}"
+
+      - name: Derive reproducible build timestamp
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+
+      - name: Build PDF
+        env:
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
+          MONOFONT: "DejaVu Sans Mono"
+        run: bash scripts/build_pdf.sh
+
+      - name: Verify PDF
+        run: python3 -B scripts/verify_pdf.py --pdf build/ies_accelerator.pdf
+
+      - name: Record build provenance
+        run: |
+          {
+            echo "build_sha=${GITHUB_SHA}"
+            echo "event_name=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "source_date_epoch=${SOURCE_DATE_EPOCH}"
+            echo "tectonic=${TECTONIC_VERSION} sha256=${TECTONIC_SHA256}"
+            echo "node=$(node --version) npm=$(npm --version)"
+            echo "mermaid_cli=${MERMAID_CLI_VERSION}"
+          } > build/publication-provenance.txt
+
+      - name: Stage and verify publication
+        run: bash scripts/stage_publication.sh
+
+      - name: Upload build evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: v0.6-publication-build-evidence-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: |
+            build/ies_accelerator.pdf
+            build/public-manifest.txt
+            build/publication-provenance.txt
+          if-no-files-found: error
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          force_orphan: true

@@ -8,11 +8,9 @@ without fetching any remote URLs.  Three checks are run:
 1. Context syntax — context.jsonld must parse as valid JSON and contain a
    well-formed "@context" key.
 
-2. IRI collisions — two different property paths inside context.jsonld that
-   map to the same @id IRI.  Semantically valid JSON-LD (aliases are allowed),
-   but almost always a mistake: e.g. assetId → deg:assetId in one block and
-   assetId → deg:storageAssetId in another, meaning a SPARQL query for one
-   would silently miss the other.
+2. IRI alias collisions — differently named terms inside context.jsonld that
+   map to the same @id IRI. Reuse of the same leaf name in nested scoped
+   contexts is intentional and is not reported as a collision.
 
 3. Unmapped terms — properties present in the example JSON that have no @id
    entry in context.jsonld.  These properties are invisible to any RDF/SPARQL
@@ -34,11 +32,19 @@ Usage
                                    schemas/MeterData/v0.6
 """
 
+import hashlib
 import json
 import sys
 from pathlib import Path
 
-import pyld.jsonld as jsonld
+try:
+    import pyld.jsonld as jsonld
+except ImportError:
+    print(
+        "ERROR: PyLD is required for JSON-LD checks; install requirements-qaqc.txt",
+        file=sys.stderr,
+    )
+    sys.exit(2)
 
 # ---------------------------------------------------------------------------
 # Terminal colours
@@ -47,6 +53,8 @@ OK   = "✅"
 WARN = "⚠️ "
 ERR  = "❌"
 INFO = "ℹ️ "
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_BASE = "https://india-energy-stack.github.io/ies-accelerator/"
 
 
 # ---------------------------------------------------------------------------
@@ -56,6 +64,23 @@ INFO = "ℹ️ "
 def _load_json(path: Path) -> dict:
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def _canonical_json_hash(value) -> str:
+    canonical = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def _expansion_error_issue(filename: str, error: Exception, context_doc: dict, example_doc) -> str:
+    error_type = str(getattr(error, "type", type(error).__name__))
+    error_code = str(getattr(error, "code", "unknown"))
+    details = getattr(error, "details", {})
+    term = details.get("term", "") if isinstance(details, dict) else ""
+    return (
+        f"expansion-error:{filename}:{type(error).__name__}:{error_type}:{error_code}:"
+        f"term={term}:context-sha256={_canonical_json_hash(context_doc)}:"
+        f"example-sha256={_canonical_json_hash(example_doc)}"
+    )
 
 
 def _flatten_context(ctx, prefix: str = "", result: dict | None = None) -> dict:
@@ -141,31 +166,36 @@ def _leaf_names(paths: set) -> set:
 
 
 # ---------------------------------------------------------------------------
-# pyld document loader — stubs out ALL remote URLs
+# pyld document loader — serves only the exact local context
 # ---------------------------------------------------------------------------
 
 def _local_only_loader(schema_dir: Path):
     """
     Return a pyld document loader that:
-    - Loads context.jsonld from the schema directory by filename match.
+    - Loads this schema directory's exact context URI or published URL.
     - Returns an empty @context for every other URL (no network calls).
 
     This lets us expand examples against the LOCAL context only, without
     remote contexts (W3C credentials, schema.org) interfering.
     """
     _EMPTY = {"@context": {}}
+    context_path = (schema_dir / "context.jsonld").resolve()
+    try:
+        relative = context_path.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        relative = None
+    local_urls = {context_path.as_uri()}
+    if relative:
+        local_urls.add(f"{PUBLIC_BASE}{relative}")
 
     def loader(url, options=None):
-        # Try to serve the file from the local schema directory
-        for candidate in [
-            schema_dir / Path(url).name,
-        ]:
-            if candidate.exists():
-                doc = _load_json(candidate)
-                return {"contentType": "application/ld+json",
-                        "contextUrl": None,
-                        "document": doc,
-                        "documentUrl": url}
+        # Never substitute a same-named context from another schema/version.
+        if url.split("#", 1)[0] in local_urls:
+            doc = _load_json(context_path)
+            return {"contentType": "application/ld+json",
+                    "contextUrl": None,
+                    "document": doc,
+                    "documentUrl": url}
         # Stub everything else — no network requests
         return {"contentType": "application/ld+json",
                 "contextUrl": None,
@@ -203,8 +233,10 @@ def _collect_unmapped_after_expansion(node, plain: set | None = None) -> set:
 # Per-schema checks
 # ---------------------------------------------------------------------------
 
-def check_schema_dir(schema_dir: Path) -> bool:
+def check_schema_dir(schema_dir: Path, issues: list[str] | None = None) -> bool:
     """Run all checks for one schema version directory. Returns True if clean."""
+    if issues is None:
+        issues = []
     print(f"\n{'='*64}")
     print(f"  {schema_dir}")
     print(f"{'='*64}")
@@ -221,6 +253,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
         context_doc = _load_json(context_path)
     except Exception as e:
         print(f"\n{ERR} context.jsonld JSON parse error: {e}")
+        issues.append(f"context-parse-error:{type(e).__name__}")
         return False
 
     raw_ctx = context_doc.get("@context", context_doc)
@@ -235,13 +268,17 @@ def check_schema_dir(schema_dir: Path) -> bool:
         if iri and not iri.startswith("@"):
             iri_to_terms.setdefault(iri, []).append(term)
 
-    collisions = {iri: terms for iri, terms in iri_to_terms.items()
-                  if len(terms) > 1}
+    collisions = {
+        iri: terms
+        for iri, terms in iri_to_terms.items()
+        if len({term.rsplit(".", 1)[-1] for term in terms}) > 1
+    }
 
     if collisions:
         print(f"\n{WARN} IRI collisions ({len(collisions)}) — "
-              f"different paths share the same @id:")
+              f"differently named terms share the same @id:")
         for iri, terms in sorted(collisions.items()):
+            issues.append(f"iri-collision:{iri}:{','.join(sorted(terms))}")
             print(f"    {iri}")
             for t in sorted(terms):
                 print(f"      · {t}")
@@ -266,6 +303,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
                 doc = _load_json(ex_path)
             except Exception as e:
                 print(f"    {ERR} JSON parse error: {e}")
+                issues.append(f"example-parse-error:{ex_path.name}:{type(e).__name__}")
                 all_ok = False
                 continue
 
@@ -276,6 +314,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
             # Terms in this example that have no @id in the context
             unmapped = leaves - ctx_leaf_names - _SKIP_KEYS
             if unmapped:
+                issues.append(f"unmapped:{ex_path.name}:{','.join(sorted(unmapped))}")
                 print(f"    {WARN} Unmapped terms (not in context.jsonld): "
                       f"{sorted(unmapped)}")
                 all_ok = False
@@ -294,6 +333,7 @@ def check_schema_dir(schema_dir: Path) -> bool:
                 )
                 still_plain = _collect_unmapped_after_expansion(expanded) - _SKIP_KEYS
                 if still_plain:
+                    issues.append(f"unexpanded:{ex_path.name}:{','.join(sorted(still_plain))}")
                     print(f"    {WARN} Terms not expanded to IRIs by local context: "
                           f"{sorted(still_plain)}")
                     all_ok = False
@@ -301,12 +341,12 @@ def check_schema_dir(schema_dir: Path) -> bool:
                     print(f"    {OK} All terms expand to IRIs under local context")
             except Exception as e:
                 msg = str(e)
+                issues.append(_expansion_error_issue(ex_path.name, e, context_doc, doc))
                 # Truncate very long pyld error details
                 if len(msg) > 200:
                     msg = msg[:200] + " …"
-                print(f"    {WARN} pyld expansion warning: {msg}")
-                # Expansion warnings don't fail the check — context syntax
-                # issues are caught by other means.
+                print(f"    {ERR} pyld expansion failed: {msg}")
+                all_ok = False
 
         # ── 4. Orphaned context terms ─────────────────────────────────────
         # Context leaf names that never appeared in any example
@@ -338,15 +378,18 @@ def main():
         sys.exit(1)
 
     overall_ok = True
+    issues: list[str] = []
     for arg in sys.argv[1:]:
         path = Path(arg)
         if not path.is_dir():
             print(f"{ERR} Not a directory: {arg}")
+            issues.append(f"not-a-directory:{path.as_posix()}")
             overall_ok = False
             continue
-        if not check_schema_dir(path):
+        if not check_schema_dir(path, issues):
             overall_ok = False
 
+    print(f"JSONLD_ISSUES_JSON={json.dumps(sorted(issues), separators=(',', ':'))}")
     print()
     if overall_ok:
         print(f"{OK} All checks passed.")

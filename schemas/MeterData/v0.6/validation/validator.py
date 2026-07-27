@@ -353,7 +353,7 @@ def main():
     files_to_validate = []
     if os.path.isdir(target_path):
         for filename in sorted(os.listdir(target_path)):
-            if filename.endswith(".json") and filename not in ["IES codes.json", "MeterCategories.json", "CustomerMapping.json"]:
+            if filename.endswith(".json") and filename not in ["IES codes.json", "MeterCategories.json"]:
                 files_to_validate.append(os.path.join(target_path, filename))
     else:
         files_to_validate.append(target_path)

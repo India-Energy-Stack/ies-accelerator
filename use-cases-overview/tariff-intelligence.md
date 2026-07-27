@@ -45,7 +45,7 @@ The rest of this page details the **Tariff Intelligence** sub-use-case — the f
 | Validity window | `samplingInterval` as an ISO 8601 recurrence (e.g. `R/2026-04-10T00:00:00Z/P1M`) | IES_Policy (ISO 8601) |
 | Energy slabs | For a tariff, `energySlabs[]` — progressive tiers `{ id, start, end, price }` | IES_Policy |
 | Surcharge tariffs | For a tariff, `surchargeTariffs[]` — time-of-day adjustments `{ id, recurrence, interval, value, unit }` | IES_Policy |
-| Issuer & proof | The issuer block and cryptographic proof | IES_Policy (W3C VC) |
+| Publisher & signature | Publisher identity and cryptographic proof are carried by the signed publication/exchange envelope; they are not fields in the current upstream `IES_Policy` source | Beckn signing / DID resolution |
 
 ## 3. How Each Item is Identified
 
@@ -54,9 +54,9 @@ The rest of this page details the **Tariff Intelligence** sub-use-case — the f
 | Publisher (SERC / DISCOM) | `did:web` on owned domain | `did:web:ies.serc.example` |
 | Policy (stable handle) | `policyID` — issuer-minted | `RES-T1` |
 | Policy (version) | `id` — URN, unique per version | `urn:ies:policy:serc:RES-T1:2026-04` |
-| Prior version this amends | `replaces` link | `urn:ies:policy:serc:RES-T1:2025-04` |
+| Prior version this amends | No current `IES_Policy` field; publication metadata may carry the predecessor ID | `urn:ies:policy:serc:RES-T1:2025-04` |
 
-A new amendment is a new `id` with the same `policyID`; downstream systems reference by `policyID` and pin the version on `id`.
+A new amendment is a new `id` with the same `policyID`; downstream systems reference by `policyID`, pin the version on `id`, and retain any predecessor relationship as publication metadata until the upstream schema governs one.
 
 ## 4. Definitions
 
@@ -83,21 +83,72 @@ The shape carrying a tariff or any policy is an IES specification — `IES_Polic
 
 ## 7. The Record
 
-One signed artefact per policy — addressable by `policyID`, pinned by `id`, signed by the issuer's `did:web`. Verification is fully offline. Amendment publishes a new signed object — same `policyID`, new `id`, a `replaces` link. A policy may also ride inline inside a private data exchange, e.g. attached to a BPP catalogue offer to set the terms of consuming it.
+Each policy version is a separate payload, addressable by `policyID` and pinned by `id`. The current upstream `IES_Policy` source defines neither an issuer/proof block nor a `replaces` field. Authenticity comes from the signed publication or exchange envelope. An amendment keeps the same `policyID` but receives a new `id` and modification timestamp. Any explicit predecessor link remains delivery metadata until the upstream schema governs one. A policy may also ride inline inside a private data exchange, for example as terms attached to a BPP catalogue offer.
 
 ## 8. Schedule I — Static Fields of the Policy
 
-| Reference | What it covers |
-|---|---|
-| [`IES_Policy` / `IES_Program` / `EnergySlab` / `SurchargeTariff`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/attributes.yaml) | Field tables defined upstream. |
+Schedule I reflects the current upstream [`IES_Policy` / `IES_Program` / `EnergySlab` / `SurchargeTariff`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/attributes.yaml) source on the DEG `ies-specs` branch. These are **upstream WIP fields, not a locally frozen IES schema**. **Upstream Requires** follows that source; the policy guidance is informative. Once an approved schema moves to `schemas/Tariff/v0.x/`, its generated field reference supersedes this table.
 
-Once the schema moves to `schemas/Tariff/v0.x/` in this repo, the generated field reference becomes canonical.
+### 8.1 Policy Identity, Type and Applicability
+
+| **Upstream Field** | **Type / Allowed Value** | **Upstream Requires** | **Policy Guidance** *(informative)* |
+|---|---|---|---|
+| `id` | OpenADR object ID | Required on `IES_Policy` | Unique identifier for this policy version |
+| `createdDateTime` | date-time | Required on `IES_Policy` | Creation timestamp |
+| `modificationDateTime` | date-time | Required on `IES_Policy` | Changes with each published version |
+| `objectType` | constant `POLICY` | Required through `IES_PolicyRequest` | Identifies the object family |
+| `@context` | context URI text | Optional | Use the context published with the upstream policy family |
+| `programID` | OpenADR object ID | Required | Links the policy to its governing programme |
+| `policyID` | text | Required | Stable handle retained across amendments |
+| `policyName` | text | Optional | Human-readable authority title |
+| `policyType` | `TARIFF` or `DISPATCH_GUIDE` | Required | These are the only values in the current upstream enum; other sub-use-cases remain draft until the schema expands |
+| `samplingInterval` | ISO 8601 recurrence text | Optional | Defines recurring evaluation/application cadence |
+| `targets` | OpenADR programme targets | Optional | Narrows applicability to the intended participant/resource segment |
+
+### 8.2 Tariff Energy Slabs
+
+| **Upstream Field** | **Type** | **Upstream Requires** | **Tariff Guidance** *(informative)* |
+|---|---|---|---|
+| `energySlabs[]` | array of `EnergySlab` | Optional on the policy | Populate for a `TARIFF` policy using progressive energy tiers |
+| `energySlabs[].id` | text | Required per slab | Stable slab identifier within the policy version |
+| `energySlabs[].start` | number (kWh, inclusive) | Required per slab | Lower bound of the tier |
+| `energySlabs[].end` | number or `null` (kWh, exclusive) | Optional | `null` represents an unbounded final tier |
+| `energySlabs[].price` | number | Required per slab | Base energy price; the upstream field currently has no separate currency/unit property |
+
+### 8.3 Time-of-day Surcharges and Discounts
+
+| **Upstream Field** | **Type / Allowed Value** | **Upstream Requires** | **Tariff Guidance** *(informative)* |
+|---|---|---|---|
+| `surchargeTariffs[]` | array of `SurchargeTariff` | Optional on the policy | Populate for recurring ToD adjustments |
+| `surchargeTariffs[].id` | text | Required per entry | Stable adjustment identifier |
+| `surchargeTariffs[].recurrence` | ISO 8601 duration | Required per entry | Recurrence cadence, e.g. `P1D` |
+| `surchargeTariffs[].interval` | relative interval object | Required per entry | Time-of-day window for the adjustment |
+| `interval.start` / `.duration` | ISO 8601 local-time text / duration | Both required | Defines the start and width of the ToD window |
+| `surchargeTariffs[].value` | number | Required per entry | Signed adjustment value |
+| `surchargeTariffs[].unit` | `PERCENT` or `INR_PER_KWH` | Optional; default `PERCENT` | Makes percentage versus absolute adjustment explicit |
+
+### 8.4 Fields Not Present in the Current Upstream Policy Object
+
+| **Concept Used by This Page** | **Current Upstream Status** | **Treatment** |
+|---|---|---|
+| Publisher / issuer DID | No `issuer` field in `IES_Policy` | Resolve the signer from the signed publication/exchange envelope |
+| Cryptographic `proof` | No W3C VC proof block in `IES_Policy` | Verify the Beckn/catalogue or dataset-envelope signature; do not insert an ungoverned proof field |
+| Prior-version `replaces` link | No such field in the current source | Carry as publication metadata until a governed upstream field exists |
+| Currency for `EnergySlab.price` | No slab-level currency/unit field | The profile assumes the authority's tariff context; a future schema should make currency explicit |
+| First-class local `Tariff/v0.x` schema | Not yet present | Keep this page WIP and do not claim local schema validation |
 
 ## 9. Schedule II — Report Templates
 
-| Wrapping / dependency | Detail |
-|---|---|
-| Not applicable | A tariff is consumed by computation, not templating. The closest analogue is a derived rate card (a flattened slab × ToD view), produced by a billing implementation for display, not a separate schema. |
+A policy is consumed by computation. Schedule II lists derived views, not additional schema objects.
+
+| **Derived View** | **Schedule I Inputs** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Flattened rate card | `energySlabs[]` × applicable `surchargeTariffs[]` | Derived | Render for humans; retain the exact policy `id` and `policyID` used |
+| Bill-calculation trace | usage quantities, selected slab and ToD adjustment | Derived | Explain each applied rule and preserve the input MeterData reference |
+| Consumer tariff comparison | multiple policy versions/categories | Derived | Compare only policies with compatible targets, units and effective periods |
+| Billing-engine configuration | policy fields transformed to implementation rules | Derived deployment artefact | Version and test against the source policy; it is not the authority's signed record |
+| Amendment history | same `policyID`, successive `id`/timestamps | Derived until a predecessor field is governed | Never overwrite the prior signed publication |
+| Non-tariff policy view | `DISPATCH_GUIDE` or a future governed `policyType` | Depends on upstream enum | Do not encode draft policy types as if the current schema accepts them |
 
 ## 10. How It Fits Together
 

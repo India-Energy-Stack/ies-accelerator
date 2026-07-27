@@ -12,7 +12,7 @@ Work top to bottom. Set up only the rails your use cases need (see the two-rails
 - [ ] **Step 2 — [Issue Credentials](issue-credentials.md)** *(B2C credential use cases)*: run OpenCred; issue, verify and revoke W3C Verifiable Credentials.
 - [ ] **Step 3 — [Setup Exchange](setup-exchange.md)** *(B2B data-exchange use cases)*: run the ONIX Beckn adapter and complete a signed round-trip on the IES network.
 - [ ] **Step 4 — [Build your Internal-facing Adapter](build-adapter.md)**: map your internal systems to the IES schemas, feeding OpenCred and/or ONIX.
-- [ ] **Step 5 — [Conformance Checklist](conformance.md)**: run the conformance suite end-to-end and sign off as IES-ready.
+- [ ] **Step 5 — [Conformance Checklist](conformance.md)**: run the conformance checks end-to-end and sign off against them — see that page for exactly what a self-run sign-off does and doesn't prove.
 - [ ] **Ship a use case.** Pick your first from the **[Use Case Implementation Guides](../use-cases/README.md)**.
 
 The rest of this page expands each step.
@@ -23,7 +23,7 @@ The rest of this page expands each step.
 | **2. Issue Credentials** *(B2C — credential use cases)* | [Issue Credentials](issue-credentials.md) | ½ day | A running OpenCred signing service: issue, verify, revoke W3C Verifiable Credentials |
 | **3. Setup Exchange** *(B2B — data-exchange use cases)* | [Setup Exchange](setup-exchange.md) | 1–2 days | A running Beckn adapter (ONIX) exchanging signed messages on the IES network |
 | **4. Build your Internal-facing Adapter(s)** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | Small mapping layers between your internal systems and the IES schemas — feeding OpenCred and/or ONIX |
-| **5. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A signed-off, IES-ready interface, end-to-end |
+| **5. Conformance Check** | [Conformance Checklist](conformance.md) | 1 day | A self-run conformance sign-off, end-to-end — scope explained on that page |
 
 Steps 2 and 3 are the two independent rails, and you only set up the ones your use cases need:
 
@@ -83,8 +83,10 @@ A credentials-only DISCOM can ship its first use case with just steps 1, 2, 4, 5
 │  • Issue → verify → revoke        │   │  • Run ONIX sandbox; confirm →    │
 │  • Deliver via DigiLocker / any   │   │    on_confirm round-trip          │
 │    channel                        │   │  • Swap in your identity;         │
-│  → Output: production credential  │   │    set allowedNetworkIDs          │
-│    issuance                       │   │  → Output: live on IES network    │
+│  → Output: issue/verify/revoke    │   │    set allowedNetworkIDs          │
+│    working end-to-end             │   │  → Output: signed round-trip on   │
+│                                    │   │    sandbox/testnet (network       │
+│                                    │   │    membership needs §1.7 below)   │
 └───────────────────────────────────┘   └───────────────────────────────────┘
                     │                                     │
                     └──────────────────┬──────────────────┘
@@ -100,8 +102,9 @@ A credentials-only DISCOM can ship its first use case with just steps 1, 2, 4, 5
                                        ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  Step 5 — Conformance Check                                                 │
-│  • Run the conformance suite end-to-end; sign off                           │
-│  → Output: your organisation is IES-ready                                   │
+│  • Run the conformance checks end-to-end; sign off                          │
+│  → Output: conformance checklist signed off (see that page for what this    │
+│    does and doesn't prove)                                                  │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 

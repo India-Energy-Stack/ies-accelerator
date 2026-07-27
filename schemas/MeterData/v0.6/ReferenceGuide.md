@@ -6,7 +6,7 @@ This reference guide details the profiles, canonical register mappings, telemetr
 
 ## 1. Profiles & Core Definitions
 
-The standard organizes data exchanges into eight distinct profile shapes. Each profile serves a specific architectural role:
+The standard organizes data exchanges into eight profile shapes spanning customer metadata, cadence-based and instantaneous readings, billing details, events, and alarms, plus a shared, non-requestable ninth shape — the `PayloadDescriptorProfile`/`DESCRIPTOR` dictionary that defines column layout, units and OBIS codes for the dense numeric payloads where applicable. Each profile serves a specific architectural role:
 
 ### A. Customer Profile (`CUSTOMER`)
 * **Role**: Captures slow-changing customer metadata, physical service delivery points, and physical meter details.

@@ -1,0 +1,91 @@
+{
+  "schemas/ArrFiling/v0.5": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "expansion-error:arr_filings.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=ArrFiling:context-sha256=8fe7a6fd152461ea70ad6efde07ef8cc839debe882113a636d075c8dcd14286e:example-sha256=cc793bbd9f99fb8898a0d2d519bed70180bc83aec5c10f86465e4d343659fd62"
+    ],
+    "reason": "The committed context has a pre-existing scoped-context expansion defect; contract edits are outside the v0.6 launch freeze."
+  },
+  "schemas/ElectricityCredential/v1.0": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:example.json:consumerNumber,created,credentialSubject,issuer,licenseNumber,proof,proofPurpose,proofValue,validFrom,validUntil,verificationMethod"
+    ],
+    "reason": "The historical credential context does not map every credential/example term; it is not changed by this launch candidate."
+  },
+  "schemas/ElectricityCredential/v1.1": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:example-parallel-metering.json:_comment,created,credentialSubject,issuer,name,proof,proofPurpose,proofValue,validFrom,validUntil,verificationMethod",
+      "unmapped:example-submetering.json:_comment,created,credentialSubject,issuer,name,proof,proofPurpose,proofValue,validFrom,validUntil,verificationMethod",
+      "unmapped:example.json:created,credentialSubject,issuer,name,proof,proofPurpose,proofValue,validFrom,validUntil,verificationMethod"
+    ],
+    "reason": "The historical credential context does not map every credential/example term; it is not changed by this launch candidate."
+  },
+  "schemas/ElectricityCredential/v1.2": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:example-parallel-metering.json:_comment,address,addressCountry,addressLocality,addressRegion,careOf,commissioningDate,connectionType,contractMaxDemand,coordinates,created,credentialSubject,energyDirection,fullName,geo,id,installationAddress,issuer,location,make,maxExport,meterCapability,meterId,model,name,parentResources,postalCode,premisesType,proof,proofPurpose,proofValue,relationship,sanctionedLoad,serviceConnectionDate,streetAddress,tariffCategoryCode,type,unit,validFrom,validUntil,value,verificationMethod",
+      "unmapped:example-submetering.json:_comment,address,addressCountry,addressLocality,addressRegion,careOf,commissioningDate,connectionType,contractMaxDemand,coordinates,created,credentialSubject,energyDirection,fullName,geo,id,installationAddress,issuer,location,make,maxExport,meterCapability,meterId,model,name,parentResources,postalCode,premisesType,proof,proofPurpose,proofValue,relationship,sanctionedLoad,serviceConnectionDate,streetAddress,tariffCategoryCode,type,unit,validFrom,validUntil,value,verificationMethod",
+      "unmapped:example.json:address,addressCountry,addressLocality,addressRegion,aggregator,careOf,commissioningDate,connectionType,contractMaxDemand,controllable,coordinates,created,credentialSubject,date,dcArrayCapacity,energyDirection,enrolledOn,fullName,geo,id,inspection,inspectorId,installationAddress,issuer,location,make,maxExport,maxImport,meterCapability,meterId,model,name,parentResources,postalCode,premisesType,proof,proofPurpose,proofValue,relationship,result,roundTripEfficiencyPct,sanctionedLoad,serialNumber,serviceConnectionDate,serviceStatus,stateOfHealthPct,storageCapacity,storageType,streetAddress,tariffCategoryCode,type,unit,validFrom,validUntil,value,verificationMethod"
+    ],
+    "reason": "The frozen upstream mirror currently fails local-context coverage and cannot be repaired within the schema freeze."
+  },
+  "schemas/MeterData/v0.5": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:DailyProfile.json:_label,_mdOccurredAt",
+      "unmapped:IntervalProfile.json:readingPurpose"
+    ],
+    "reason": "The historical v0.5 examples contain unmapped compatibility fields; v0.5 contract edits are outside this launch candidate."
+  },
+  "schemas/MeterData/v0.6": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:Anonymised_Topology_Example.json:addressLine,city,latitude,longitude,manufacturer,modelNumber,postalCode",
+      "unmapped:CustomerProfile.json:addressLine,city,latitude,longitude,manufacturer,modelNumber,postalCode",
+      "unmapped:MultiMeterBulkDataset.json:addressLine,city,latitude,longitude,manufacturer,modelNumber,postalCode",
+      "unmapped:MultiMeterBulkDatasetShortCodes.json:addressLine,city,latitude,longitude,manufacturer,modelNumber,postalCode",
+      "unmapped:MultiMeterBulkDatasetShortCodes_Elaborated.json:addressLine,city,latitude,longitude,manufacturer,modelNumber,postalCode",
+      "unmapped:MultiMeterBulkDataset_Elaborated.json:addressLine,city,latitude,longitude,manufacturer,modelNumber,postalCode"
+    ],
+    "reason": "The committed normative context does not cover every example field; the approved freeze forbids context changes in this candidate."
+  },
+  "schemas/MeterDataCredential/v0.6": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:example-customer-profile.json:address,addressCountry,addressLocality,associations,billingCycleDay,commissioningDate,connectionType,consumerCategory,contractMaxDemandKw,coordinates,created,credentialStatus,customer,customerRefs,geo,issuer,licenseNumber,make,meterCategory,meterRefs,meterType,meters,model,name,parentResources,paymentMode,postalCode,profileType,proof,proofPurpose,proofValue,sanctionedExportLoadKw,sanctionedLoadKw,scheme,serviceDeliveryPointRefs,serviceDeliveryPoints,serviceKind,statusListCredential,statusPurpose,streetAddress,tariffCategoryCode,timeZone,validFrom,validUntil,value,verificationMethod",
+      "unmapped:example-interval-profile.json:compactSequenceRef,compactSequences,created,credentialStatus,duration,flowDirection,intervalPeriod,intervals,issuer,licenseNumber,meterRefs,name,obis,payloadDescriptorSetRef,payloadDescriptorSets,payloadDescriptors,payloads,profileType,proof,proofPurpose,proofValue,readingType,reportedMode,scheme,sequenceItems,serviceDeliveryPointRefs,start,statusListCredential,statusPurpose,unit,validFrom,validUntil,value,verificationMethod",
+      "unmapped:example-monthly-profile.json:closingValue,created,credentialStatus,duration,issuer,licenseNumber,meterRefs,name,openingValue,profileType,proof,proofPurpose,proofValue,readingType,readings,scheme,serviceDeliveryPointRefs,source,start,statusListCredential,statusPurpose,timePeriod,touBuckets,validFrom,validUntil,validationStatus,value,verificationMethod,zone"
+    ],
+    "reason": "Credential-wrapper and nested MeterData contexts require a later contract-authorized JSON-LD reconciliation."
+  },
+  "schemas/MeterDataRequest/v0.5": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:MeterDataRequest_Modes.json:supportedModes"
+    ],
+    "reason": "The historical v0.5 request context omits a committed example term; v0.5 contract edits are outside this launch candidate."
+  },
+  "schemas/MeterDataRequest/v0.6": {
+    "status": "enforced-pass",
+    "reason": "The v0.6 request context and all committed examples must pass local JSON-LD coverage and expansion."
+  },
+  "schemas/MeterDataRequestCredential/v0.1": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:example.json:capabilitiesRequested,created,credentialStatus,duration,from,issuer,licenseNumber,maxRecordsShared,mode,name,profileType,profiles,proof,proofPurpose,proofValue,readings,resources,scope,statusListCredential,statusPurpose,validFrom,validUntil,value,verificationMethod"
+    ],
+    "reason": "The credential wrapper depends on unmapped credential and request terms requiring a later contract-authorized reconciliation."
+  },
+  "schemas/OutageNotification/v0.1": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "expansion-error:discom_planned_shutdown.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=OutageNotification:context-sha256=e67fa3d1db8117418fcbf7c1cfb43229efef01fc480ccb1c414a61b10a195296:example-sha256=389074e1774b1b8139122a801057b262b9bf00b37f9fb557bf00a23a03045954",
+      "expansion-error:outage_notifications.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=OutageNotification:context-sha256=e67fa3d1db8117418fcbf7c1cfb43229efef01fc480ccb1c414a61b10a195296:example-sha256=a906d233241f111ec1509b69ebfc42d459fb8b63f487bac6735040ef292e8066",
+      "unmapped:discom_planned_shutdown.json:downType,groupId",
+      "unmapped:outage_notifications.json:breakdownId,coordinates,downType"
+    ],
+    "reason": "The historical context has unmapped example terms and scoped-context expansion defects outside the v0.6 launch freeze."
+  }
+}

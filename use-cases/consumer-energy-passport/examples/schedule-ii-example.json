@@ -1,0 +1,204 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-CEP-SCHEDULE-II",
+    "payloadDescriptorSets": [
+      {
+        "name": "CEPInstantaneousSet",
+        "payloadDescriptors": [
+          {
+            "name": "Voltage R-phase",
+            "readingType": "V_R",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.32.7.0.255"
+          },
+          {
+            "name": "Voltage Y-phase",
+            "readingType": "V_Y",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.52.7.0.255"
+          },
+          {
+            "name": "Voltage B-phase",
+            "readingType": "V_B",
+            "unit": "V",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "voltage",
+            "obis": "1.0.72.7.0.255"
+          },
+          {
+            "name": "Current R-phase",
+            "readingType": "I_R",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.31.7.0.255"
+          },
+          {
+            "name": "Current Y-phase",
+            "readingType": "I_Y",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.51.7.0.255"
+          },
+          {
+            "name": "Current B-phase",
+            "readingType": "I_B",
+            "unit": "A",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "current",
+            "obis": "1.0.71.7.0.255"
+          },
+          {
+            "name": "Power factor 3-phase",
+            "readingType": "PF_3P",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.13.7.0.255"
+          },
+          {
+            "name": "Frequency",
+            "readingType": "Freq",
+            "unit": "Hz",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.14.7.0.255"
+          },
+          {
+            "name": "Active power import",
+            "readingType": "P_Import",
+            "unit": "kW",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.1.7.0.255"
+          },
+          {
+            "name": "Reactive power lag",
+            "readingType": "Q_Lag",
+            "unit": "kvar",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.3.7.0.255"
+          },
+          {
+            "name": "Apparent power",
+            "readingType": "S_Total",
+            "unit": "kVA",
+            "flowDirection": "NONE",
+            "reportedMode": "READING",
+            "category": "power",
+            "obis": "1.0.9.7.0.255"
+          },
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyCumulative",
+            "obis": "1.0.1.8.0.255"
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "READING",
+            "category": "energyCumulative",
+            "obis": "1.0.2.8.0.255"
+          }
+        ]
+      },
+      {
+        "name": "CEPIntervalSet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - block incremental (kWh)",
+            "readingType": "kWh imp block",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.29.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Active energy export - block incremental (kWh)",
+            "readingType": "kWh exp block",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.2.29.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          }
+        ],
+        "compactSequences": [
+          {
+            "name": "CEPIntervalEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp block", "attribute": "value" },
+              { "readingType": "kWh exp block", "attribute": "value" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "InstantaneousProfile",
+    "profileType": "INSTANTANEOUS",
+    "meterRefs": [
+      { "value": "did:web:ies.discom.example:assets:inverter:INV-5KVA-2244", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "CEPInstantaneousSet",
+    "timestamp": "2026-05-11T14:32:00+05:30",
+    "readings": [
+      { "readingType": "V_R", "value": 231.4 },
+      { "readingType": "V_Y", "value": 230.9 },
+      { "readingType": "V_B", "value": 231.8 },
+      { "readingType": "I_R", "value": 6.1 },
+      { "readingType": "I_Y", "value": 6.0 },
+      { "readingType": "I_B", "value": 6.2 },
+      { "readingType": "PF_3P", "value": 0.98 },
+      { "readingType": "Freq", "value": 50.01 },
+      { "readingType": "P_Import", "value": 0.0 },
+      { "readingType": "Q_Lag", "value": 0.2 },
+      { "readingType": "S_Total", "value": 4.3 },
+      { "readingType": "kWh imp", "value": 0.0 },
+      { "readingType": "kWh exp", "value": 842.6 }
+    ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "meterRefs": [
+      { "value": "did:web:ies.discom.example:assets:inverter:INV-5KVA-2244", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "CEPIntervalSet",
+    "intervalPeriod": { "start": "2026-05-11T14:00:00+05:30", "duration": "PT15M" },
+    "compactSequenceRef": "CEPIntervalEnergySeq",
+    "intervals": [
+      { "id": 0, "payloads": [0.0, 1.12] },
+      { "id": 1, "payloads": [0.0, 1.08] },
+      { "id": 2, "payloads": [0.0, 0.95] },
+      { "id": 3, "payloads": [0.0, 0.88] }
+    ]
+  }
+]

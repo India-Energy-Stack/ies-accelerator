@@ -48,7 +48,10 @@ try:
         for file in files:
             if file == "schema.json":
                 schema_path = os.path.join(root, file)
-                rel_path = os.path.relpath(schema_path, base_dir)
+                # ``relpath`` uses backslashes on Windows.  A filesystem path
+                # embedded directly in a URL then becomes a different registry
+                # key and local cross-schema references cannot resolve.
+                rel_path = os.path.relpath(schema_path, base_dir).replace("\\", "/")
                 url = f"https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/{rel_path}"
                 url_github_io = f"https://india-energy-stack.github.io/ies-accelerator/schemas/{rel_path}"
                 try:
@@ -97,14 +100,14 @@ def validate_json_file(schema, filepath):
                     print(f"    Message: {error.message}")
                     err_msg.append(f"Path '{path_str}': {error.message}")
         if all_ok:
-            print(f"✅ {os.path.basename(filepath)}: 100% compliant (validated {len(data)} items).")
+            print(f"✅ {os.path.basename(filepath)}: passes repository-local structural validation ({len(data)} items).")
             return True, []
         else:
             return False, err_msg
     else:
         errors = sorted(validator.iter_errors(data), key=lambda e: e.path)
         if not errors:
-            print(f"✅ {os.path.basename(filepath)}: 100% compliant.")
+            print(f"✅ {os.path.basename(filepath)}: passes repository-local structural validation.")
             return True, []
         else:
             print(f"❌ {os.path.basename(filepath)}: Failed validation.")
@@ -133,6 +136,7 @@ def main():
         sys.exit(1)
         
     print(f"Loading schema from {schema_path}...")
+    print("Scope: repository-local structural validation; external schema references use permissive local stubs.")
     try:
         with open(schema_path, "r", encoding="utf-8") as f:
             schema = json.load(f)
@@ -147,7 +151,7 @@ def main():
         files = sorted(os.listdir(target_path))
         for filename in files:
             if filename.endswith(".json"):
-                if filename in ["IES codes.json", "CustomerMapping.json", "MeterCategories.json"]:
+                if filename in ["IES codes.json", "MeterCategories.json"]:
                     print(f"ℹ️ Skipping {filename} (lookup/mapping metadata)")
                     continue
                     
@@ -161,10 +165,10 @@ def main():
             success = False
             
     if not success:
-        print("\n❌ Verification Failed! Some JSON payloads are non-compliant.")
+        print("\n❌ Verification Failed! Some JSON payloads do not pass repository-local validation.")
         sys.exit(1)
         
-    print("\n✅ Verification Successful! All payloads are 100% compliant.")
+    print("\n✅ Verification Successful! All payloads pass the repository-local validation scope.")
     sys.exit(0)
 
 if __name__ == "__main__":
