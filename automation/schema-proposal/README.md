@@ -34,15 +34,16 @@ the script reads answers by question title (`Code.gs` → `Q`):
 | Organization | Short answer | Yes |
 | Contact email | Short answer | Yes |
 | Contact mobile number | Short answer | No |
-| Use case the proposed schema supports | Multiple choice / Dropdown | Yes |
+| Use case the proposed schema supports | Short answer | Yes |
 | Schema | Paragraph | Yes |
 | Standards the schema is based on | Paragraph | No |
 | Any additional material | Paragraph | No |
 | GitHub username (optional) | Short answer | No |
 
-For "Use case…", use these options: Consumer Energy Passport, Consumer Meter Digest,
-Smart Meter Data Exchange, DER Visibility, DISCOM Regulatory Filing, Policy as Code,
-P2P Energy Transaction, Other / New use case.
+"Use case…" is a free-text short answer so proposers can name an existing use case
+(Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange, DER
+Visibility, DISCOM Regulatory Filing, Policy as Code, P2P Energy Transaction) or describe
+a new one.
 
 ## One-time setup
 

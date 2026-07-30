@@ -14,6 +14,6 @@ The form opens in a new tab. Optionally include your GitHub username and we'll t
 the tracking issue so you can follow the discussion.
 {% endhint %}
 
-### 👉 [Propose a Schema](https://propose-a-schema-form.invalid)
+### 👉 [Propose a Schema](https://forms.gle/ESVk4PDcfEerPo6f7)
 
 Not sure which use case yours fits? Browse the [Use Cases](use-cases/README.md) section first.
