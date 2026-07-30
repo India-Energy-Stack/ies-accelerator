@@ -62,9 +62,10 @@ P2P Energy Transaction, Other / New use case.
 6. **Test**: submit the form once. Confirm a public issue appears in the repo with the
    `schema-proposal` label, and that email/mobile are **absent** from the issue but
    **present** in the responses sheet.
-7. **Publish the form URL**: copy the form's public link and paste it in two places —
+7. **Publish the form URL**: copy the form's public link and replace the placeholder
+   `https://propose-a-schema-form.invalid` in two places —
    - `propose-a-schema.md` (the GitBook page link), and
-   - `.github/ISSUE_TEMPLATE/config.yml` (`REPLACE_WITH_FORM_URL`).
+   - `.github/ISSUE_TEMPLATE/config.yml`.
 
 ## Notes
 
