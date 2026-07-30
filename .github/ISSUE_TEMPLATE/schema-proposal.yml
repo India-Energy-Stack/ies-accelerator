@@ -1,0 +1,77 @@
+name: Propose a new schema
+description: Propose a new schema for the IES ecosystem. Your answers become a tracked proposal issue.
+title: "[Schema proposal] <schema name>"
+labels: ["schema-proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a schema for the IES ecosystem. Fill in the fields below and click
+        **Submit new issue** — your answers are captured as a tracked proposal our working group reviews.
+        Fields marked *(required)* must be completed.
+  - type: input
+    id: name
+    attributes:
+      label: Your name
+      placeholder: Jane Doe
+    validations:
+      required: true
+  - type: input
+    id: organization
+    attributes:
+      label: Organization you represent
+      placeholder: Acme Utility / Regulator / University
+    validations:
+      required: true
+  - type: input
+    id: email
+    attributes:
+      label: Email address
+      placeholder: you@example.org
+    validations:
+      required: true
+  - type: input
+    id: mobile
+    attributes:
+      label: Mobile number
+      placeholder: "+91 ..."
+    validations:
+      required: false
+  - type: dropdown
+    id: use_case
+    attributes:
+      label: Which use case does this schema contribute to?
+      options:
+        - Consumer Energy Passport
+        - Consumer Meter Digest
+        - Smart Meter Data Exchange
+        - DER Visibility
+        - DISCOM Regulatory Filing
+        - Policy as Code
+        - P2P Energy Transaction
+        - Other / New use case (describe below)
+    validations:
+      required: true
+  - type: input
+    id: schema_name
+    attributes:
+      label: Proposed schema name
+      placeholder: e.g. RooftopSolarInstallation
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What does this schema capture, and why?
+      description: The problem it solves and how it fits the selected use case.
+      placeholder: Captures rooftop solar installation attributes needed for DER onboarding ...
+    validations:
+      required: true
+  - type: textarea
+    id: schema
+    attributes:
+      label: The proposed schema
+      description: Paste the schema definition (YAML or JSON) or a link to it. Attributes, types, examples all welcome.
+      render: yaml
+    validations:
+      required: true
