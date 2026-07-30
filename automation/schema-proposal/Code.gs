@@ -25,6 +25,7 @@ const Q = {
   email: 'Contact email', // captured privately, NOT posted to the public issue
   mobile: 'Contact mobile number', // captured privately, NOT posted to the public issue
   useCase: 'Use case the proposed schema supports',
+  description: 'Description and background',
   schema: 'Schema',
   standards: 'Standards the schema is based on',
   additional: 'Any additional material',
@@ -41,6 +42,7 @@ function onFormSubmit(e) {
   const name = answer(Q.name);
   const org = answer(Q.organization);
   const useCase = answer(Q.useCase);
+  const description = answer(Q.description);
   const schema = answer(Q.schema);
   const standards = answer(Q.standards);
   const additional = answer(Q.additional);
@@ -54,6 +56,9 @@ function onFormSubmit(e) {
     githubUser ? '**GitHub:** @' + githubUser : '',
     '',
     '**Use case:** ' + (useCase || '—'),
+    '',
+    '### Description and background',
+    description || '—',
     '',
     '### Schema',
     '```yaml',
@@ -127,4 +132,33 @@ function createIssue(title, body, labels) {
     throw new Error('GitHub API error ' + code + ': ' + response.getContentText());
   }
   return JSON.parse(response.getContentText());
+}
+
+/**
+ * Manual diagnostic — run this from the editor (select `selfTest` → Run) to check the
+ * GitHub side in isolation, without submitting the form. It creates a real test issue.
+ * On success the created issue URL is logged (Executions tab); on failure the exact
+ * GitHub API error is thrown. Delete the test issue afterwards.
+ */
+function selfTest() {
+  const issue = createIssue(
+    '[Schema proposal] SELF-TEST — please delete',
+    'Diagnostic issue created by selfTest() to verify token + repo access. Safe to close.',
+    [ISSUE_LABEL]
+  );
+  console.log('OK — created ' + issue.html_url);
+}
+
+/**
+ * Same as selfTest but WITHOUT the label, to isolate a 422 "label does not exist" error.
+ * If this succeeds but selfTest() fails, create the `schema-proposal` label in the repo
+ * (or remove ISSUE_LABEL from onFormSubmit).
+ */
+function selfTestNoLabel() {
+  const issue = createIssue(
+    '[Schema proposal] SELF-TEST (no label) — please delete',
+    'Diagnostic issue created by selfTestNoLabel(). Safe to close.',
+    []
+  );
+  console.log('OK — created ' + issue.html_url);
 }
