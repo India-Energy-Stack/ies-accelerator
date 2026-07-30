@@ -1,10 +1,14 @@
 /**
  * Propose-a-Schema intake → public GitHub issue.
  *
- * Bound to the Google Sheet that receives the "Propose a Schema" form responses.
- * On each submission it files a PUBLIC issue in the ies-accelerator repo containing
- * only the non-sensitive fields. Contact email and mobile are intentionally NOT
- * included in the issue — they remain only in this private responses spreadsheet.
+ * Bound to the Google FORM (not a spreadsheet). On each submission it files a
+ * PUBLIC issue in the ies-accelerator repo containing only the non-sensitive
+ * fields. Contact email and mobile are intentionally NOT included in the issue.
+ *
+ * Issue creation depends ONLY on the form submission — it does not require a
+ * linked Google Sheet. You may still link a responses sheet for your own
+ * records; Google populates it independently, as a separate parallel copy that
+ * plays no part in this flow.
  *
  * Setup lives in README.md next to this file.
  */
@@ -28,13 +32,11 @@ const Q = {
 };
 
 /**
- * Trigger entry point. Install as an "On form submit" trigger (see README).
+ * Trigger entry point. Install as a form "On form submit" trigger (see README).
  */
 function onFormSubmit(e) {
-  const answer = (title) => {
-    const cell = e.namedValues && e.namedValues[title];
-    return (cell && cell[0] ? String(cell[0]) : '').trim();
-  };
+  const values = readFormResponse(e);
+  const answer = (title) => (values[title] || '').trim();
 
   const name = answer(Q.name);
   const org = answer(Q.organization);
@@ -70,6 +72,32 @@ function onFormSubmit(e) {
   ].join('\n');
 
   createIssue(title, body, [ISSUE_LABEL]);
+}
+
+/**
+ * Build a { questionTitle: answer } map from a FORM-bound submit event.
+ * Reads directly from the submitted FormResponse, so it needs no spreadsheet.
+ * Multi-select answers (arrays) are joined into a comma-separated string.
+ */
+function readFormResponse(e) {
+  const map = {};
+  if (!e || !e.response || typeof e.response.getItemResponses !== 'function') {
+    throw new Error(
+      'No form response on the event — install this as a FORM "On form submit" ' +
+      'trigger (event source: From form), not a spreadsheet trigger.'
+    );
+  }
+  const itemResponses = e.response.getItemResponses();
+  for (let i = 0; i < itemResponses.length; i++) {
+    const item = itemResponses[i];
+    const title = item.getItem().getTitle();
+    let value = item.getResponse();
+    if (Array.isArray(value)) {
+      value = value.join(', ');
+    }
+    map[title] = value == null ? '' : String(value);
+  }
+  return map;
 }
 
 /**

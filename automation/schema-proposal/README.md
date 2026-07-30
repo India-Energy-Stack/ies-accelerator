@@ -1,18 +1,20 @@
 # Propose-a-Schema intake automation
 
-Community members propose schemas through a **private Google Form**. Every field lands
-in a private Google Sheet only the secretariat can see. On each submission, a Google
-Apps Script (`Code.gs`) files a **public GitHub issue** in `India-Energy-Stack/ies-accelerator`
-containing only the non-sensitive fields.
+Community members propose schemas through a **private Google Form**. A form-bound Google
+Apps Script (`Code.gs`) fires on each submission and files a **public GitHub issue** in
+`India-Energy-Stack/ies-accelerator` containing only the non-sensitive fields.
 
-**Contact email and mobile stay private** — they live only in the responses sheet and are
-never written to the public issue.
+Issue creation is triggered **directly by the form submission** — it does not depend on a
+spreadsheet. Optionally link a responses Google Sheet for your own records; Google fills
+it independently, as a separate parallel copy that plays no part in issue creation.
+
+**Contact email and mobile stay private** — they are never written to the public issue
+(they exist only in the form's own responses, and the optional sheet if you link one).
 
 ```
-Proposer → Google Form → private Sheet ──(Apps Script)──► public GitHub issue
-                              │                              (no email / mobile)
-                         email + mobile
-                        stay here, private
+                    ┌─(Apps Script, form-bound)─► public GitHub issue (no email / mobile)
+Proposer → Google Form
+                    └─(optional, parallel)──────► responses Google Sheet (private records)
 ```
 
 ## Who authors the issues?
@@ -47,10 +49,10 @@ a new one.
 
 ## One-time setup
 
-1. **Create the form** with the questions above (Google Forms). In the form's **Responses**
-   tab, click the Sheets icon to create/link a responses spreadsheet.
-2. **Open the script**: from that spreadsheet, `Extensions → Apps Script`. Paste the
-   contents of `Code.gs` into the project (replace the default `Code.gs`).
+1. **Create the form** with the questions above (Google Forms).
+2. **Open the script**: in the **form** editor, click the **⋮ (More)** menu at the top
+   right → **Apps Script**. This creates a project bound to the form. Paste the contents
+   of `Code.gs` into it (replace the default `Code.gs`).
 3. **Create a GitHub token** (do this yourself; never share or paste it into chat):
    GitHub → Settings → Developer settings → **Fine-grained personal access token**,
    scoped to the `ies-accelerator` repo, with **Issues: Read and write**. Generate it
@@ -58,12 +60,14 @@ a new one.
 4. **Store the token**: in Apps Script, `Project Settings → Script properties → Add`,
    name `GITHUB_TOKEN`, value = the token. (Storing it here keeps it out of the code.)
 5. **Install the trigger**: Apps Script `Triggers` (clock icon) → `Add trigger` →
-   function `onFormSubmit`, event source **From spreadsheet**, event type **On form submit**.
+   function `onFormSubmit`, event source **From form**, event type **On form submit**.
    Authorize when prompted.
 6. **Test**: submit the form once. Confirm a public issue appears in the repo with the
-   `schema-proposal` label, and that email/mobile are **absent** from the issue but
-   **present** in the responses sheet.
-7. **Publish the form URL**: copy the form's public link and replace the placeholder
+   `schema-proposal` label and that email/mobile are **absent** from it.
+7. **(Optional) Link a records sheet**: in the form's **Responses** tab, click the Sheets
+   icon to mirror submissions to a private spreadsheet. This is independent of the issue
+   flow — issues are created whether or not a sheet is linked.
+8. **Publish the form URL**: copy the form's public link and replace the placeholder
    `https://propose-a-schema-form.invalid` in two places —
    - `propose-a-schema.md` (the GitBook page link), and
    - `.github/ISSUE_TEMPLATE/config.yml`.
