@@ -1,4 +1,4 @@
-name: Propose New Schema
+name: Propose a Schema
 description: Propose a new schema for the IES ecosystem. Your answers become a tracked proposal issue.
 title: "[Schema proposal] "
 labels: ["schema-proposal"]

@@ -1,4 +1,4 @@
-# Propose New Schema
+# Propose a Schema
 
 The IES ecosystem grows through community-proposed schemas. If you're working on a data
 model that a use case needs, propose it here — tell us who you are, which use case it
@@ -12,6 +12,6 @@ and any additional material) are captured as a tracked proposal issue our workin
 You'll need a free GitHub account to submit. The form opens in a new tab.
 {% endhint %}
 
-### 👉 [Propose New Schema](https://github.com/India-Energy-Stack/ies-accelerator/issues/new?template=schema-proposal.yml)
+### 👉 [Propose a Schema](https://github.com/India-Energy-Stack/ies-accelerator/issues/new?template=schema-proposal.yml)
 
 Not sure which use case yours fits? Browse the [Use Cases](use-cases/README.md) section first.

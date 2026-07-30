@@ -4,7 +4,7 @@
 * [Status](STATUS.md)
 * [Glossary](glossary.md)
 * [FAQ](faq.md)
-* [Propose New Schema](propose-new-schema.md)
+* [Propose a Schema](propose-a-schema.md)
 * [Download PDF](download-pdf.md)
 
 ## What IES Provides
