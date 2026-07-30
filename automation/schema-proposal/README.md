@@ -37,6 +37,7 @@ the script reads answers by question title (`Code.gs` → `Q`):
 | Contact email | Short answer | Yes |
 | Contact mobile number | Short answer | No |
 | Use case the proposed schema supports | Short answer | Yes |
+| Description and background | Paragraph | No |
 | Schema | Paragraph | Yes |
 | Standards the schema is based on | Paragraph | No |
 | Any additional material | Paragraph | No |

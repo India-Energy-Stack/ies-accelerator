@@ -16,4 +16,9 @@ the tracking issue so you can follow the discussion.
 
 ### 👉 [Propose a Schema](https://forms.gle/ESVk4PDcfEerPo6f7)
 
+After submitting, your proposal is posted to the
+[GitHub Issue Tracker](https://github.com/India-Energy-Stack/ies-accelerator/issues) —
+you should see an issue populated with your request, where the community reviews and
+discusses it.
+
 Not sure which use case yours fits? Browse the [Use Cases](use-cases/README.md) section first.
