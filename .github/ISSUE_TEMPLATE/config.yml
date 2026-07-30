@@ -1,0 +1,9 @@
+# Schema proposals are collected via a private form (contact details stay private).
+# The "Propose a Schema" link below routes people to that form instead of a public
+# issue, so email / mobile are never exposed. A public tracking issue is created
+# automatically by the form's Apps Script — see automation/schema-proposal/.
+blank_issues_enabled: true
+contact_links:
+  - name: Propose a Schema
+    url: REPLACE_WITH_FORM_URL
+    about: Propose a new schema for the IES ecosystem. Contact details stay private.
