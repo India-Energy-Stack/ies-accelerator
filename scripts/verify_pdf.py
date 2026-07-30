@@ -72,6 +72,9 @@ DIVIDER_ENTRY_PATH = "build/appendix_divider.md"
 
 # Own copy — not imported from build_pdf. See module docstring.
 SCHEMA_PATH_PREFIXES = ("what-ies-provides/schemas-overview/", "schemas/")
+# Own copy — not imported from build_pdf. See module docstring. Docs-site-only
+# pages the PDF build skips (e.g. web-form intake pages).
+EXCLUDE_FROM_PDF = frozenset({"propose-a-schema.md"})
 # Own copy — not imported from build_pdf. See module docstring.
 VERSION_RE = re.compile(r"^v\d+(\.\d+)*$", re.IGNORECASE)
 # Strict grammar: exactly "* [title](path)" with even-space indentation and
@@ -118,6 +121,8 @@ def parse_summary_strict(text: str) -> list[tuple[int, str, str]]:
             raise VerifyError(f"SUMMARY.md:{lineno}: odd-space indentation: {line!r}")
         depth = len(indent) // 2
         if not path.endswith(".md"):
+            continue
+        if path in EXCLUDE_FROM_PDF:
             continue
         entries.append((depth, title, path))
     return entries
