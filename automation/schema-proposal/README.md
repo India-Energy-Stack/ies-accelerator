@@ -4,6 +4,11 @@ Community members propose schemas through a **private Google Form**. A form-boun
 Apps Script (`Code.gs`) fires on each submission and files a **public GitHub issue** in
 `India-Energy-Stack/ies-accelerator` containing only the non-sensitive fields.
 
+> **The form is rendered inline in GitBook** by the ContentKit block in
+> [`../schema-proposal-block/`](../schema-proposal-block/README.md), which submits into
+> this same form — so this pipeline is unchanged by it. If you edit the form's questions,
+> update that block's `entry.<id>` map too.
+
 Issue creation is triggered **directly by the form submission** — it does not depend on a
 spreadsheet. Optionally link a responses Google Sheet for your own records; Google fills
 it independently, as a separate parallel copy that plays no part in issue creation.
@@ -37,7 +42,7 @@ the script reads answers by question title (`Code.gs` → `Q`):
 | Contact email | Short answer | Yes |
 | Contact mobile number | Short answer | No |
 | Use case the proposed schema supports | Short answer | Yes |
-| Description and background | Paragraph | No |
+| Description and background | Paragraph | Yes |
 | Schema | Paragraph | Yes |
 | Standards the schema is based on | Paragraph | No |
 | Any additional material | Paragraph | No |
@@ -47,6 +52,17 @@ the script reads answers by question title (`Code.gs` → `Q`):
 (Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange, DER
 Visibility, DISCOM Regulatory Filing, Policy as Code, P2P Energy Transaction) or describe
 a new one.
+
+### Watch for stray spaces in question titles
+
+A leading or trailing space in a question title is invisible in the Forms UI but changes
+the key the script matches on. The answer still reaches Google — it just matches nothing
+in `Q`, so that field silently vanishes from the issue while everything else looks fine.
+This bit us once: "Description and background&nbsp;" (trailing space) dropped every
+description from every issue until it was found.
+
+`readFormResponse` now trims incoming titles, so this can't recur. Keep the trim if you
+rewrite that function.
 
 ## One-time setup
 

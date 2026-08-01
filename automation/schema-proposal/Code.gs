@@ -95,7 +95,10 @@ function readFormResponse(e) {
   const itemResponses = e.response.getItemResponses();
   for (let i = 0; i < itemResponses.length; i++) {
     const item = itemResponses[i];
-    const title = item.getItem().getTitle();
+    // Trimmed: question titles are edited by hand in the Forms UI, where a stray
+    // leading/trailing space is invisible but would silently break the lookup in Q
+    // — the answer arrives, matches nothing, and drops out of the issue.
+    const title = item.getItem().getTitle().trim();
     let value = item.getResponse();
     if (Array.isArray(value)) {
       value = value.join(', ');
