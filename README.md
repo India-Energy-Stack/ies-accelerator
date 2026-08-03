@@ -143,12 +143,12 @@ The questions utilities, regulators and vendors ask most — *does IES replace m
 | Standard | Role in IES |
 |---|---|
 | [W3C Decentralized Identifiers (DIDs)](https://www.w3.org/TR/did-core/) | The **Register** layer — cryptographic identity for issuers, holders, verifiers, assets and datasets |
-| [Beckn Protocol v2.0](https://github.com/beckn/protocol-specifications-v2) | The **Discover** layer — peer-to-peer discovery, contracting, consent, audit |
-| [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/) | The durable-record half of **Exchange** — signed, machine-verifiable credentials |
-| [DLMS-COSEM / IS 15959](https://en.wikipedia.org/wiki/IEC_62056) | The meter-data half of **Exchange** — smart-meter wire protocol used in RDSS AMI deployments |
-| [IEC 61968 / CIM / MultiSpeak](https://en.wikipedia.org/wiki/IEC_61968) | The asset-data-model half of **Exchange** — HES↔MDMS interoperability standards |
-| [IEEE 2030.5 / IEEE 1547](https://standards.ieee.org/ieee/2030.5/5897/) | The DER / flexibility half of **Exchange** — solar, storage, EV charging |
-| [OpenADR 3.1.0](https://www.openadr.org) | The demand-response half of **Exchange** — DR events and flexibility reporting |
+| [Beckn Protocol v2.0](https://github.com/beckn/protocol-specifications-v2) | The **Exchange** layer — peer-to-peer discovery, negotiation, contracting, consent, payload delivery and signed audit. Discovery is one stage of Beckn, not the whole of it |
+| [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/) | The durable-record standard within **Exchange** — signed, machine-verifiable credentials |
+| [DLMS-COSEM / IS 15959](https://en.wikipedia.org/wiki/IEC_62056) | The meter-data standard within **Exchange** — smart-meter wire protocol used in RDSS AMI deployments |
+| [IEC 61968 / CIM / MultiSpeak](https://en.wikipedia.org/wiki/IEC_61968) | The asset-data-model standard within **Exchange** — HES↔MDMS interoperability standards |
+| [IEEE 2030.5 / IEEE 1547](https://standards.ieee.org/ieee/2030.5/5897/) | The DER / flexibility standard within **Exchange** — solar, storage, EV charging |
+| [OpenADR 3.1.0](https://www.openadr.org) | The demand-response standard within **Exchange** — DR events and flexibility reporting |
 | [DigiLocker](https://digilocker.gov.in) | India's national digital document wallet — consumer-facing credential store |
 
 ---
