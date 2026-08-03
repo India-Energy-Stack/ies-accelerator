@@ -158,12 +158,17 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                 <vstack>
                     {state.error ? <text style="bold">{state.error}</text> : <text> </text>}
 
+                    {/* Required fields carry a trailing asterisk and optional ones say so
+                        outright, because ContentKit gives no built-in required marker —
+                        without it the only signal is the error after a failed submit. */}
+                    <text style="italic">Fields marked * are required.</text>
+
                     <input
-                        label="Name"
+                        label="Name *"
                         element={<textinput state="name" placeholder="Your full name" />}
                     />
                     <input
-                        label="Organization"
+                        label="Organization *"
                         element={
                             <textinput
                                 state="organization"
@@ -172,7 +177,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="Contact email"
+                        label="Contact email *"
                         hint="Kept private — shared only with the IES secretariat."
                         element={
                             <textinput
@@ -183,12 +188,12 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="Contact mobile number"
-                        hint="Optional. Kept private — shared only with the IES secretariat."
+                        label="Contact mobile number (optional)"
+                        hint="Kept private — shared only with the IES secretariat."
                         element={<textinput state="mobile" placeholder="+91 …" />}
                     />
                     <input
-                        label="Use case the proposed schema supports"
+                        label="Use case the proposed schema supports *"
                         hint="Name an existing use case, or describe a new one."
                         element={
                             <textinput
@@ -198,7 +203,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="Description and background"
+                        label="Description and background *"
                         element={
                             <textinput
                                 state="description"
@@ -208,7 +213,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="Schema"
+                        label="Schema *"
                         element={
                             <textinput
                                 state="schema"
@@ -218,8 +223,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="Standards the schema is based on"
-                        hint="Optional."
+                        label="Standards the schema is based on (optional)"
                         element={
                             <textinput
                                 state="standards"
@@ -229,8 +233,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="Any additional material"
-                        hint="Optional."
+                        label="Any additional material (optional)"
                         element={
                             <textinput
                                 state="additional"
@@ -240,8 +243,8 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="GitHub username"
-                        hint="Optional — we'll tag you on the tracking issue so you can follow the discussion."
+                        label="GitHub username (optional)"
+                        hint="We'll tag you on the tracking issue so you can follow the discussion."
                         element={<textinput state="github" placeholder="octocat" />}
                     />
 
