@@ -201,6 +201,25 @@ function selfTest() {
 }
 
 /**
+ * Manual diagnostic for the mail relay — put your own address in TEST_MAIL_TO below,
+ * then select `selfTestMail` → Run. Sends one thank-you mail and creates NO issue, so
+ * it is the cheap way to check NOTIFY_URL / NOTIFY_SECRET and the Office 365 login.
+ *
+ * A 401 means the secret here and the one in Vercel disagree. A 502 means the relay
+ * reached Office 365 and the send itself failed — check whether SMTP AUTH is enabled
+ * on the mailbox.
+ */
+const TEST_MAIL_TO = '';
+
+function selfTestMail() {
+  if (!TEST_MAIL_TO) {
+    throw new Error('Set TEST_MAIL_TO at the top of this function first.');
+  }
+  notifySubmitter(TEST_MAIL_TO, 'Test Proposer', 'https://github.com/India-Energy-Stack/ies-accelerator/issues');
+  console.log('OK — relay accepted the request; check ' + TEST_MAIL_TO);
+}
+
+/**
  * Same as selfTest but WITHOUT the label, to isolate a 422 "label does not exist" error.
  * If this succeeds but selfTest() fails, create the `schema-proposal` label in the repo
  * (or remove ISSUE_LABEL from onFormSubmit).
