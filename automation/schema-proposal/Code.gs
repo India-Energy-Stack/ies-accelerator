@@ -76,7 +76,55 @@ function onFormSubmit(e) {
       'details are held privately by the IES secretariat and are not shown here._',
   ].join('\n');
 
-  createIssue(title, body, [ISSUE_LABEL]);
+  const issue = createIssue(title, body, [ISSUE_LABEL]);
+
+  // Deliberately after the issue and deliberately swallowed: a mail outage must
+  // never cost us the proposal. Worst case the issue exists and nobody was
+  // thanked, which is recoverable; a throw here would lose the submission.
+  try {
+    notifySubmitter(answer(Q.email), name, issue && issue.html_url);
+  } catch (err) {
+    console.error('Thank-you mail failed (issue was still filed): ' + err);
+  }
+}
+
+/**
+ * Ask the relay to send the "thanks for contributing" mail.
+ *
+ * Apps Script cannot open SMTP connections (no raw sockets), so it cannot talk to
+ * smtp.office365.com directly. Instead it makes one HTTPS call to a small Node
+ * function that holds the mailbox credentials and does the actual sending — see
+ * the ies-proxy Vercel project, api/notify.js.
+ *
+ * NOTIFY_URL and NOTIFY_SECRET live in Script Properties alongside GITHUB_TOKEN.
+ * The secret is what stops anyone who finds the endpoint from sending mail as REC.
+ * If either is unset, notification is simply skipped — issue creation is unaffected.
+ */
+function notifySubmitter(email, name, issueUrl) {
+  if (!email) {
+    return;
+  }
+
+  const props = PropertiesService.getScriptProperties();
+  const url = props.getProperty('NOTIFY_URL');
+  const secret = props.getProperty('NOTIFY_SECRET');
+  if (!url || !secret) {
+    console.log('NOTIFY_URL/NOTIFY_SECRET unset — skipping thank-you mail.');
+    return;
+  }
+
+  const response = UrlFetchApp.fetch(url, {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + secret },
+    payload: JSON.stringify({ email: email, name: name, issueUrl: issueUrl || '' }),
+    muteHttpExceptions: true,
+  });
+
+  const code = response.getResponseCode();
+  if (code < 200 || code >= 300) {
+    throw new Error('Notify relay error ' + code + ': ' + response.getContentText());
+  }
 }
 
 /**
