@@ -60,10 +60,10 @@ DEG_GUIDES = "https://github.com/beckn/DEG/tree/main/docs/implementation-guides/
 OUT_FILE = "README.md"  # single merged page under schemas/external/
 
 # The same page is also published inside the developer-facing schemas-ies/
-# section — since the schemas/ section is hidden from GitBook (see the note in
-# SUMMARY.md), this copy is the one readers actually reach. Generated from the
-# same source rather than copied by hand so the two cannot drift; the only
-# difference is link depth (schemas/external/README.md is two levels down,
+# section, so a reader working through the IES schema catalog finds the
+# external (beckn-published) schemas without leaving the section. Generated
+# from the same source rather than copied by hand so the two cannot drift; the
+# only difference is link depth (schemas/external/README.md is two levels down,
 # schemas-ies/external.md is one).
 MIRROR_DIR = os.path.join(ROOT, "schemas-ies")
 MIRROR_FILE = "external.md"

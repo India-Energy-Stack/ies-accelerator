@@ -38,9 +38,9 @@ SCHEMA_PATH_PREFIXES = ("what-ies-provides/schemas-overview/", "schemas/")
 # needs twice). Skipped entirely by the PDF build; they still render on GitBook.
 #
 # schemas-ies/external.md is a generated mirror of schemas/external/README.md.
-# GitBook needs it because the schemas/ section is hidden there (see SUMMARY.md),
-# but the PDF still carries the original in its appendix — printing both would
-# repeat the whole external field reference.
+# Both are listed in SUMMARY.md so the page is reachable from either schema
+# section on the site, but the PDF appendix already carries the original —
+# printing both would repeat the whole external field reference.
 EXCLUDE_FROM_PDF = frozenset({"propose-a-schema.md", "schemas-ies/external.md"})
 
 APPENDIX_TITLE = "Appendix — Schemas Reference"
