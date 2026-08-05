@@ -23,6 +23,23 @@
   * [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
   * [OutageNotification](what-ies-provides/schemas-overview/outage-notification.md)
 
+<!-- HIDDEN FROM GITBOOK — do not un-comment without reading this note.
+
+GitBook publishes exactly what SUMMARY.md lists, so commenting this section
+out removes it from the site navigation while every file stays in the repo
+(and on GitHub Pages, where the canonical schema URLs are served). The
+developer-facing "IES Schemas" section below is what readers browse instead.
+
+The PDF build is deliberately unaffected: scripts/build_pdf.py — and the
+independent grammar in scripts/verify_pdf.py — match entries line by line and
+do not track HTML comments, so the printed guide keeps its full schema
+appendix. Teaching either parser about comments would silently drop those
+chapters from the PDF.
+
+Known consequence: in-book relative links to schemas/… (from pathways/,
+use-cases/, what-ies-provides/ and schemas-ies/) now point at pages GitBook
+does not publish, and will 404 on the site until they are repointed.
+
 ## Schemas
 
 * [ElectricityCredential](schemas/ElectricityCredential/README.md)
@@ -41,6 +58,10 @@
   * [v0.1](schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](schemas/external/README.md)
 
+(end of hidden Schemas section — this closing line must not begin with a
+bullet character, or the strict SUMMARY grammar in scripts/verify_pdf.py
+rejects it) -->
+
 ## IES Schemas (developer)
 
 * [All schemas](schemas-ies/README.md)
@@ -51,6 +72,7 @@
 * [MeterDataRequestCredential](schemas-ies/MeterDataRequestCredential.md)
 * [ArrFiling](schemas-ies/ArrFiling.md)
 * [OutageNotification](schemas-ies/OutageNotification.md)
+* [External Schemas](schemas-ies/external.md)
 
 ## How you implement IES
 
