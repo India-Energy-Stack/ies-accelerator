@@ -34,9 +34,14 @@ APPENDIX_DIVIDER_MD = BUILD / "appendix_divider.md"
 SCHEMA_PATH_PREFIXES = ("what-ies-provides/schemas-overview/", "schemas/")
 
 # Pages that exist for the live docs site only and make no sense in a static,
-# offline PDF (e.g. "go fill in this web form" intake pages). Skipped entirely
-# by the PDF build; they still render on GitBook.
-EXCLUDE_FROM_PDF = frozenset({"propose-a-schema.md"})
+# offline PDF (e.g. "go fill in this web form" intake pages, or a page the site
+# needs twice). Skipped entirely by the PDF build; they still render on GitBook.
+#
+# schemas-ies/external.md is a generated mirror of schemas/external/README.md.
+# GitBook needs it because the schemas/ section is hidden there (see SUMMARY.md),
+# but the PDF still carries the original in its appendix — printing both would
+# repeat the whole external field reference.
+EXCLUDE_FROM_PDF = frozenset({"propose-a-schema.md", "schemas-ies/external.md"})
 
 APPENDIX_TITLE = "Appendix — Schemas Reference"
 APPENDIX_INTRO = f"""# {APPENDIX_TITLE}

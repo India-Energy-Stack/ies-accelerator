@@ -21,6 +21,10 @@
   * [ArrFiling](/what-ies-provides/schemas-overview/arr-filing.md)
   * [OutageNotification](/what-ies-provides/schemas-overview/outage-notification.md)
 
+<!-- HIDDEN — mirrors the commented-out section in SUMMARY.md; see the note
+     there. Kept in step with SUMMARY.md so scripts/check_navigation.py still
+     sees one identical ordered page set across both files.
+
 ## Schemas
 
 * [ElectricityCredential](/schemas/ElectricityCredential/README.md)
@@ -39,6 +43,8 @@
   * [v0.1](/schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](/schemas/external/README.md)
 
+(end of hidden Schemas section) -->
+
 ## IES Schemas (developer)
 
 * [All schemas](/schemas-ies/README.md)
@@ -49,6 +55,7 @@
 * [MeterDataRequestCredential](/schemas-ies/MeterDataRequestCredential.md)
 * [ArrFiling](/schemas-ies/ArrFiling.md)
 * [OutageNotification](/schemas-ies/OutageNotification.md)
+* [External Schemas](/schemas-ies/external.md)
 
 ## How you implement IES
 
