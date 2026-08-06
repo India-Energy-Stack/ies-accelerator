@@ -1,3 +1,9 @@
+---
+layout:
+  title:
+    visible: false
+---
+
 # India Energy Stack — Accelerator
 
 ![India Energy Stack and the Ministry of Power](.gitbook/assets/ies-mop.png)
