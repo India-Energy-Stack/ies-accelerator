@@ -1,5 +1,13 @@
 # India Energy Stack — Accelerator
 
+![India Energy Stack and the Ministry of Power](.gitbook/assets/ies-mop.png)
+
+![REC and FSR Global](.gitbook/assets/rec-fsr.png)
+
+The India Energy Stack is an initiative of the **Ministry of Power**, Government of India. **REC** is the nodal agency, and **FSR Global** is the knowledge partner.
+
+---
+
 **IES: the why, what and how.** The India Energy Stack in plain words — the problem, the idea, how it works, what it is not, what it changes for the sector, and its pilot record. This page is the starting point; the rest of the GitBook turns it into specifications, implementation steps and worked use cases. For whether any of this is running today, see **[Status](STATUS.md)**.
 
 {% hint style="info" %}
