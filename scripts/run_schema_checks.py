@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS = ROOT / "schemas"
 CEP_EXAMPLES = ROOT / "use-cases" / "consumer-energy-passport" / "examples"
+DERV_EXAMPLES = ROOT / "use-cases" / "der-visibility" / "examples"
 
 
 def run(command: tuple[str, ...]) -> bool:
@@ -58,7 +59,7 @@ def main() -> int:
                 "-B",
                 validator,
                 str(SCHEMAS / "MeterData" / "v0.6" / "schema.json"),
-                str(CEP_EXAMPLES / "schedule-ii-example.json"),
+                str(DERV_EXAMPLES / "schedule-ii-example.json"),
             ),
             (
                 sys.executable,
@@ -66,7 +67,7 @@ def main() -> int:
                 "utf8",
                 "-B",
                 str(SCHEMAS / "MeterData" / "v0.6" / "validation" / "validator.py"),
-                str(CEP_EXAMPLES / "schedule-ii-example.json"),
+                str(DERV_EXAMPLES / "schedule-ii-example.json"),
             ),
             (
                 sys.executable,

@@ -38,22 +38,17 @@ These guides are still being finalised and may change.
 
 ## How each guide is organised
 
-Every page follows the **IES Documentation Template** — eleven sections plus the use-case-specific extras:
+Each guide is a build sequence, not a specification. It runs:
 
-1. **Scope and Purpose** — the problem, in plain words
-2. **What It Records / Covers** — what is captured
-3. **How Each Item is Identified** — DIDs, identifier patterns
-4. **Definitions** — terms and acronyms
-5. **Basis of Standards** — the standards this use case follows (BIS → CEA → IEC → IEEE precedence)
-6. **Where Indian Standards Do Not Yet Exist** — gaps and the international standards used
-7. **The Record(s)** — the artefacts produced
-8. **Schedule I — Static Fields** — field reference (links to the schema for the full table)
-9. **Schedule II — Report Templates** — where applicable
-10. **How It Fits Together** — diagram or short narrative
-11. **Points for Confirmation** — open decisions
-- **Schemas Used in This Use Case** (use-case-specific extra)
-- **Value Unlock** (use-case-specific extra)
-- **Setup steps (Register → Discover → Exchange)** + **Checklist** + **Dev kits**
+1. **Scenario** — the situation the use case answers
+2. **How it differs from** the neighbouring use case, where they could be confused
+3. **Actors and roles** — who does what
+4. **Building blocks used** — the schemas and network pieces you will need
+5. **Setup: Register → Discover → Exchange** — the steps, in order
+6. **Checklist** — what "done" looks like
+7. **Open items** and **References**
+
+The numbered eleven-section **IES Documentation Template** — including the field-level **Schedule I** (static fields exchanged) and **Schedule II** (live fields exchanged) — belongs to the matching [Use Case Overview](../use-cases-overview/README.md), not to these guides. Read the overview for *what* the record contains; read the guide for *how* to build it.
 
 ---
 

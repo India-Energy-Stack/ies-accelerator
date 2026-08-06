@@ -267,7 +267,7 @@ def main() -> int:
     )
     failures = sum(not run_expected(*check) for check in checks)
     failures += not run_payload_fixture(python, fixtures / "cep_schedule_i_missing_customer_number.json")
-    failures += not run_payload_fixture(python, fixtures / "cep_schedule_ii_unknown_reading_type.json")
+    failures += not run_payload_fixture(python, fixtures / "derv_schedule_ii_unknown_reading_type.json")
     failures += not run_jsonld_scope_drift_fixture(python, fixtures / "jsonld_masked_expansion_drift.json")
     failures += not run_mirror_drift_fixture(python, fixtures / "ec_mirror_drift.json")
     if failures:

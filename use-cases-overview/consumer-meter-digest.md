@@ -106,7 +106,9 @@ Repository-local structural validation uses a permissive stub for the external E
 | `credentialSubject.meterData[].readings[]` | array of `Reading` | Required on `MONTHLY`; optional on `INTERVAL` / `DAILY` | MeterData v0.6 | Use explicit readings where the compact descriptor/sequence form is not used |
 | `credentialSubject.meterData[].touBuckets[]` | time-of-use buckets | Optional on `MONTHLY` | SERC tariff order; MeterData v0.6 | Populate only when the requested digest includes ToU segmentation |
 
-### 8.3 Meter, Descriptor, Reading and Quality Fields
+### 8.3 Meter and Descriptor Fields
+
+The identity of the metering point and the dictionary that gives the readings meaning. Both are fixed for the digest; the readings themselves are in [Schedule II](#id-9.-schedule-ii-meter-readings-live-record).
 
 | **Normative Path** | **Type / Allowed Value** | **Schema Requires** | **Standard** *(informative)* | **CMD Guidance** *(informative)* |
 |---|---|---|---|---|
@@ -116,23 +118,22 @@ Repository-local structural validation uses a permissive stub for the external E
 | `payloadDescriptorSetRef` / `compactSequenceRef` | text references | Optional | MeterData v0.6 | References must resolve to the accompanying `DESCRIPTOR` profile when compact payloads are used |
 | `payloadDescriptorSets[].payloadDescriptors[].readingType` | text / governed short code | Required per descriptor | IS 15959 / OBIS | Declare every reading type carried by the compact sequence |
 | `payloadDescriptors[].obis` / `.unit` / `.reportedMode` | OBIS text / unit enum / `READING` or `USAGE` | Optional | IEC 62056; IS 15959 | Use canonical OBIS and mode metadata where available |
+
+## 9. Schedule II — Meter Readings (Live Record)
+
+Schedule II is the **live half** of the digest — the measured values themselves. They are the reason the credential exists; everything in Schedule I describes which meter they came from, over what window, and under whose binding.
+
+A digest is a *snapshot*: once issued, the readings inside one credential no longer change. The fields are still live-class — a new reading arrives every block at the meter — and a later digest carries later values.
+
+### 9.1 Reading and Quality Fields
+
+| **Normative Path** | **Type / Allowed Value** | **Schema Requires** | **Standard** *(informative)* | **CMD Guidance** *(informative)* |
+|---|---|---|---|---|
 | `readings[].readingType` / `.value` | text / number | Both required per reading | IS 15959 / OBIS | Use the descriptor set's canonical reading type |
 | `readings[].openingValue` / `.closingValue` | number | Optional; semantic rules apply to `USAGE` | MeterData v0.6 | Include together when the digest needs auditable block-delta arithmetic |
 | `readings[].occurredAt` / `.timePeriod` | date-time / period object | Optional | ISO 8601 | Use the field appropriate to point-in-time or period data |
 | `readings[].validationStatus` | `VALID`, `ESTIMATED`, `MANUAL`, `SUSPECT`, `REJECTED` | Optional | MeterData v0.6 | Populate so the verifier can distinguish measured and estimated values |
 | `readings[].source` | `METER`, `HES`, `ESTIMATED`, `MANUAL`, `IMPORT`, `MDM_COMPUTED`, `CIS_COMPUTED` | Optional | MeterData v0.6 | Populate when provenance affects verifier decisions |
-
-## 9. Schedule II
-
-Schedule II does not define a second populated credential or report schema. It records the boundary between the signed digest and downstream analytics.
-
-| **Derived View** | **Source in Schedule I** | **Schema Status** | **Treatment** |
-|---|---|---|---|
-| Period total | `readings[]` or compact `intervals[].payloads[]` for the requested window | Not a MeterDataCredential / MeterData v0.6 field | Compute downstream and label the method and source period |
-| Peak demand | Demand readings plus `occurredAt` / interval position | Not a schema field | Compute downstream; retain the source reading and timestamp for audit |
-| Time-of-use breakdown | `touBuckets[]` or interval readings joined to tariff periods | `touBuckets[]` is native for `MONTHLY`; a rendered summary is derived | Keep native buckets in the signed payload; render labels and totals downstream |
-| Missing-interval count | Expected cadence versus received interval IDs | Not a schema field | Compute downstream; do not insert a synthetic `dataQuality` object into the credential |
-| Verifier-facing PDF / dashboard | Any of the above | Presentation only | May accompany the credential, but the signed JSON remains the authoritative record |
 
 ## 10. How It Fits Together
 
@@ -185,3 +186,15 @@ The consumer proves actual consumption history, DISCOM-signed, verifiable in sec
 ## Annexure C — JSON Schema
 
 Canonical: `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/` — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json), [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld), [`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/vocab.jsonld). The payload schema: [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6).
+
+## Annexure D — Derived Views
+
+Computed downstream by the recipient from the Schedules above. None is a field of MeterDataCredential v0.6, and none is exchanged.
+
+| **Derived View** | **Source** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Period total | `readings[]` or compact `intervals[].payloads[]` for the requested window | Not a MeterDataCredential / MeterData v0.6 field | Compute downstream and label the method and source period |
+| Peak demand | Demand readings plus `occurredAt` / interval position | Not a schema field | Compute downstream; retain the source reading and timestamp for audit |
+| Time-of-use breakdown | `touBuckets[]` or interval readings joined to tariff periods | `touBuckets[]` is native for `MONTHLY`; a rendered summary is derived | Keep native buckets in the signed payload; render labels and totals downstream |
+| Missing-interval count | Expected cadence versus received interval IDs | Not a schema field | Compute downstream; do not insert a synthetic `dataQuality` object into the credential |
+| Verifier-facing PDF / dashboard | Any of the above | Presentation only | May accompany the credential, but the signed JSON remains the authoritative record |

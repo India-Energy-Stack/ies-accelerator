@@ -137,18 +137,13 @@ Schedule I reflects the current upstream [`IES_Policy` / `IES_Program` / `Energy
 | Currency for `EnergySlab.price` | No slab-level currency/unit field | The profile assumes the authority's tariff context; a future schema should make currency explicit |
 | First-class local `Tariff/v0.x` schema | Not yet present | Keep this page WIP and do not claim local schema validation |
 
-## 9. Schedule II — Report Templates
+## 9. Schedule II
 
-A policy is consumed by computation. Schedule II lists derived views, not additional schema objects.
+**Not applicable.** A published policy is fixed at publication. Slabs, surcharges and applicability in Schedule I change only by amendment, which is issued as a new policy object with its own `id`. Nothing in this use case keeps arriving after issuance, so there is no live half to map.
 
-| **Derived View** | **Schedule I Inputs** | **Schema Status** | **Treatment** |
-|---|---|---|---|
-| Flattened rate card | `energySlabs[]` × applicable `surchargeTariffs[]` | Derived | Render for humans; retain the exact policy `id` and `policyID` used |
-| Bill-calculation trace | usage quantities, selected slab and ToD adjustment | Derived | Explain each applied rule and preserve the input MeterData reference |
-| Consumer tariff comparison | multiple policy versions/categories | Derived | Compare only policies with compatible targets, units and effective periods |
-| Billing-engine configuration | policy fields transformed to implementation rules | Derived deployment artefact | Version and test against the source policy; it is not the authority's signed record |
-| Amendment history | same `policyID`, successive `id`/timestamps | Derived until a predecessor field is governed | Never overwrite the prior signed publication |
-| Non-tariff policy view | `DISPATCH_GUIDE` or a future governed `policyType` | Depends on upstream enum | Do not encode draft policy types as if the current schema accepts them |
+`samplingInterval` does not make a policy live: it declares how often the rule should be **re-evaluated** by a consumer of the policy, not that the policy's own values are still changing.
+
+Views computed by applying a policy — flattened rate cards, bill simulations, comparisons — are in [Annexure D](#annexure-d-derived-views).
 
 ## 10. How It Fits Together
 
@@ -201,3 +196,16 @@ Mumbai Residential, KA LT2 Industrial ToD, dispatch-guide variants: **[`devkits/
 ## Annexure C — JSON Schema
 
 While the schema lives upstream: **[`beckn/DEG ies-specs core/attributes.yaml`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/attributes.yaml)** (source), [`context.jsonld`](https://github.com/beckn/DEG/blob/ies-specs/specification/external/schema/ies/core/context.jsonld) (canonical). Once moved: `https://india-energy-stack.github.io/ies-accelerator/schemas/Tariff/v0.x/`.
+
+## Annexure D — Derived Views
+
+Computed downstream by applying the policy. None is an additional schema object, and none is exchanged as part of the policy.
+
+| **Derived View** | **Inputs** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Flattened rate card | `energySlabs[]` × applicable `surchargeTariffs[]` | Derived | Render for humans; retain the exact policy `id` and `policyID` used |
+| Bill-calculation trace | usage quantities, selected slab and ToD adjustment | Derived | Explain each applied rule and preserve the input MeterData reference |
+| Consumer tariff comparison | multiple policy versions/categories | Derived | Compare only policies with compatible targets, units and effective periods |
+| Billing-engine configuration | policy fields transformed to implementation rules | Derived deployment artefact | Version and test against the source policy; it is not the authority's signed record |
+| Amendment history | same `policyID`, successive `id`/timestamps | Derived until a predecessor field is governed | Never overwrite the prior signed publication |
+| Non-tariff policy view | `DISPATCH_GUIDE` or a future governed `policyType` | Depends on upstream enum | Do not encode draft policy types as if the current schema accepts them |

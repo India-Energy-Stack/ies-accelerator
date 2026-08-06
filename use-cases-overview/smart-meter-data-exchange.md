@@ -88,7 +88,7 @@ No Verifiable Credential by default. Each exchange produces: a **signed Beckn co
 
 ## 8. Schedule I — Static Fields of the Data Exchange
 
-Schedule I tabulates the three contracts used by this exchange: [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) selects scope and capabilities, [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) carries the response, and the optional [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) makes a request portable and verifiable. **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
+Schedule I tabulates the static contracts that frame this exchange: [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) selects scope and capabilities, and the optional [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) makes a request portable and verifiable. The [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) response itself is the live half — see [Schedule II](#id-9.-schedule-ii-meter-readings-live-record). **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
 
 ### 8.1 MeterDataRequest v0.6 — Query and Scope
 
@@ -120,7 +120,28 @@ Schedule I tabulates the three contracts used by this exchange: [MeterDataReques
 | `authorisation.validFrom` / `.validUntil` | date-time / date-time | Both required | Reject expired or not-yet-valid grants |
 | `authorisation.capabilities` | `MeterDataCapabilities` | Required | Must cover the requested profile, scope and registers |
 
-### 8.3 MeterData v0.6 — Response Profiles
+### 8.3 Optional MeterDataRequestCredential v0.1
+
+| **Normative Path** | **Type** | **Schema Requires** | **SMDX Guidance** *(informative)* |
+|---|---|---|---|
+| `@context` / `type` | W3C credential context / type array | Required by the externally referenced W3C Credential branch | Include the W3C, EnergyCredential and MeterDataRequestCredential contexts and the concrete credential type |
+| `id` | credential URI / URN | Optional; permitted by the open credential envelope | Assign a unique request-credential identifier |
+| `issuer` | EnergyCredential issuer object | Optional at the EnergyCredential root; if present, `id`, `name` and `licenseNumber` are required | Mandatory for a portable authorisation; identify the issuing requester/authority |
+| `validFrom` / `validUntil` / `credentialStatus` / `proof` | credential envelope fields | Not required at the wrapper root; nested status/proof requirements apply if those objects are present | Apply the validity, revocation and signature rules required by the exchange policy |
+| `credentialSubject.id` | requester URI / DID | Optional when `credentialSubject` is present | Identify the authorised requesting entity |
+| `credentialSubject.meterDataRequest` | MeterDataRequest v0.6 payload | Required inside `credentialSubject`; the wrapper does not currently require `credentialSubject` itself | Carry the exact scoped, time-bounded request being authorised |
+
+As with MeterDataCredential, repository-local structural validation stubs the external EnergyCredential reference. A provider must enforce the complete credential envelope and exchange-policy requirements separately.
+
+For Indian-terminology mapping, see **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)**.
+
+## 9. Schedule II — Meter Readings (Live Record)
+
+Schedule II is the **live half** of this exchange — the fields that keep arriving after the request is agreed, as against the static request, authorisation and credential contracts of Schedule I. Every field below is carried in the [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) response.
+
+Scope is set in Schedule I and enforced here: a response carries only the profiles and period the authorisation in §8.2 permits.
+
+### 9.1 MeterData v0.6 — Response Profiles
 
 MeterData has **nine total record shapes**: one shared `DESCRIPTOR` dictionary plus the eight requestable telemetry profiles below.
 
@@ -136,7 +157,7 @@ MeterData has **nine total record shapes**: one shared `DESCRIPTOR` dictionary p
 | `EVENT` | `meterRefs[]`, `timePeriod`, `events[]` | Diagnostic and tamper events | IS 15959 event allocation |
 | `ALARM` | `meterRefs[]`, `timestamp`, `alarms[]` | Active or cleared alert state | MeterData v0.6 |
 
-### 8.4 Shared Response Fields and Compact Data
+### 9.2 Shared Response Fields and Compact Data
 
 | **Normative Path** | **Type / Allowed Value** | **Schema Requires** | **SMDX Guidance** *(informative)* |
 |---|---|---|---|
@@ -150,35 +171,6 @@ MeterData has **nine total record shapes**: one shared `DESCRIPTOR` dictionary p
 | `readings[].validationStatus` / `.source` | governed enums | Optional | Preserve estimation, rejection and source provenance from HES/MDM |
 | `events[].timestamp` / `.eventId` | date-time / integer | Both required per event | Use the IS 15959 event allocation where applicable |
 | `alarms[].timestamp` / `.alarmId` / `.status` | date-time / integer / `ACTIVE` or `CLEARED` | All required per alarm | Keep alarm lifecycle state explicit |
-
-### 8.5 Optional MeterDataRequestCredential v0.1
-
-| **Normative Path** | **Type** | **Schema Requires** | **SMDX Guidance** *(informative)* |
-|---|---|---|---|
-| `@context` / `type` | W3C credential context / type array | Required by the externally referenced W3C Credential branch | Include the W3C, EnergyCredential and MeterDataRequestCredential contexts and the concrete credential type |
-| `id` | credential URI / URN | Optional; permitted by the open credential envelope | Assign a unique request-credential identifier |
-| `issuer` | EnergyCredential issuer object | Optional at the EnergyCredential root; if present, `id`, `name` and `licenseNumber` are required | Mandatory for a portable authorisation; identify the issuing requester/authority |
-| `validFrom` / `validUntil` / `credentialStatus` / `proof` | credential envelope fields | Not required at the wrapper root; nested status/proof requirements apply if those objects are present | Apply the validity, revocation and signature rules required by the exchange policy |
-| `credentialSubject.id` | requester URI / DID | Optional when `credentialSubject` is present | Identify the authorised requesting entity |
-| `credentialSubject.meterDataRequest` | MeterDataRequest v0.6 payload | Required inside `credentialSubject`; the wrapper does not currently require `credentialSubject` itself | Carry the exact scoped, time-bounded request being authorised |
-
-As with MeterDataCredential, repository-local structural validation stubs the external EnergyCredential reference. A provider must enforce the complete credential envelope and exchange-policy requirements separately.
-
-For Indian-terminology mapping, see **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-data-model.md)**.
-
-## 9. Schedule II — Report Templates (optional)
-
-Schedule II contains optional derived views, not additional IES schemas.
-
-| **Derived View** | **Schedule I Inputs** | **Schema Status** | **Treatment** |
-|---|---|---|---|
-| Feeder-aggregated profile | Meter/SDP topology plus interval, daily or monthly profiles | Derived; no separate schema | Aggregate only within the authorised scope and retain source profile references |
-| Anonymised response | Any requested profile after identifier/PII transformation | Derived; examples only | Record the anonymisation method and never imply that a transformed identifier is the original meter ID |
-| Billing summary | `MONTHLY` and/or `BILL_DETAILS` profiles | Native source profiles; rendered summary is derived | Preserve the signed/raw response as the audit source |
-| Data-quality dashboard | `validationStatus`, `source`, missing interval IDs and cadence | Derived; no `dataQuality` summary object in MeterData v0.6 | Compute rates and exceptions downstream |
-| Exchange receipt | Beckn contract, signed response and acknowledgement | Protocol evidence, not a MeterData report | Retain with the request/response identifiers for DPDP and dispute audit |
-
-Example payloads for these response patterns are under [`MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples).
 
 ## 10. How It Fits Together
 
@@ -227,8 +219,22 @@ With IES: DISCOM ── one MeterData v0.6 over Beckn ──► AMISP-1 / AMISP-
 
 ## Annexure B — Example Payloads
 
-26 examples covering every profile shape and derived reports at **[`schemas/MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples)** — highlights: `CustomerProfile.json`, `IntervalProfile.json`, `DailyProfile.json` / `MonthlyProfile.json`, `MultiMeterBulkDataset*.json`, `EventProfile.json` / `AlarmProfile.json`, `AggregatedFeeder.json`.
+25 example payloads covering every profile shape and derived reports at **[`schemas/MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples)** — highlights: `CustomerProfile.json`, `IntervalProfile.json`, `DailyProfile.json` / `MonthlyProfile.json`, `MultiMeterBulkDataset*.json`, `EventProfile.json` / `AlarmProfile.json`, `AggregatedFeeder.json`.
 
 ## Annexure C — JSON Schema
 
 Canonical: `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/` — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json), [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld), [`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/vocab.jsonld), [`IES codes.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/IES%20codes.json) (OBIS registry).
+
+## Annexure D — Derived Views
+
+Computed downstream by the recipient. None is an exchanged record or an additional IES schema.
+
+| **Derived View** | **Inputs** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Feeder-aggregated profile | Meter/SDP topology plus interval, daily or monthly profiles | Derived; no separate schema | Aggregate only within the authorised scope and retain source profile references |
+| Anonymised response | Any requested profile after identifier/PII transformation | Derived; examples only | Record the anonymisation method and never imply that a transformed identifier is the original meter ID |
+| Billing summary | `MONTHLY` and/or `BILL_DETAILS` profiles | Native source profiles; rendered summary is derived | Preserve the signed/raw response as the audit source |
+| Data-quality dashboard | `validationStatus`, `source`, missing interval IDs and cadence | Derived; no `dataQuality` summary object in MeterData v0.6 | Compute rates and exceptions downstream |
+| Exchange receipt | Beckn contract, signed response and acknowledgement | Protocol evidence, not a MeterData report | Retain with the request/response identifiers for DPDP and dispute audit |
+
+Example payloads for these response patterns are under [`MeterData/v0.6/examples/`](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples).

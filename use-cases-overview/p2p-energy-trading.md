@@ -131,7 +131,13 @@ Schedule I is a use-case profile table over DEG's externally governed schema fam
 | `EnergyOrderItem.providerAttributes` | object | Required | Carries the `EnergyCustomer` identity for the order item |
 | `EnergyOrderItem.fulfillmentAttributes` | object | Optional | Populate only in status/update responses for delivery tracking |
 
-### 8.3 Per-interval Negotiation and Allocation (`BecknTimeSeries`)
+## 9. Schedule II — Trade Actuals and Settlement (Live Record)
+
+Schedule II is the **live half** of a P2P trade — the per-interval values that keep arriving once the contract in Schedule I is agreed. Schedule I fixes who is trading, under which policy, on what terms; Schedule II carries what was actually offered, allocated, delivered and settled, slot by slot.
+
+The wire shape is `BecknTimeSeries`, not MeterData v0.6 — see §9.3.
+
+### 9.1 Per-interval Negotiation and Allocation (`BecknTimeSeries`)
 
 | **Upstream Field / Payload Type** | **Type** | **Upstream Requires** | **Writer / Role in the Trade** *(informative)* |
 |---|---|---|---|
@@ -148,7 +154,7 @@ Schedule I is a use-case profile table over DEG's externally governed schema fam
 
 Every `payloadType` used in an interval must be declared by the profile's descriptor contract. The full schema uses OpenADR's open-string payload convention; the governed P2P names above are profile constraints enforced by the network/contract policies, not a closed enum in base `BecknTimeSeries`.
 
-### 8.4 Settlement Revenue Flow
+### 9.2 Settlement Revenue Flow
 
 | **Upstream Field** | **Type** | **Upstream Requires** | **P2P Guidance** *(informative)* |
 |---|---|---|---|
@@ -159,7 +165,7 @@ Every `payloadType` used in an interval must be declared by the profile's descri
 | `revenueFlows[].currency` | ISO 4217 code | Required | Use `INR` for this profile |
 | `revenueFlows[].description` | text | Optional | Explain energy, wheeling, platform or shortfall components |
 
-### 8.5 Resource and Meter-actual Binding
+### 9.3 Resource and Meter-actual Binding
 
 | **Record Surface** | **Shape** | **Contract Status** | **P2P Treatment** |
 |---|---|---|---|
@@ -168,19 +174,6 @@ Every `payloadType` used in an interval must be declared by the profile's descri
 | Daily injected/consumed actuals | `BecknTimeSeries` report payload types | Governed by the P2P reconciliation profile | Supplied by each DISCOM to its LP inside the contract-status flow |
 | MeterData v0.6 | Separate IES telemetry schema | **Not embedded as a MeterData profile in this trade contract** | A DISCOM may derive actuals from its MeterData system, but the trade-side wire shape remains BecknTimeSeries |
 | Ledger-provider binding | `DiscomLedgerProvider` upstream schema | Defined only at schema.beckn.io | Associates a regulated ledger endpoint with its DISCOM/utility ID |
-
-## 9. Schedule II — Report Templates
-
-Schedule II contains derived operational views; none is a separate populated IES schema.
-
-| **Derived View** | **Schedule I Sources** | **Schema Status** | **Treatment** |
-|---|---|---|---|
-| Per-DISCOM monthly bill adjustment | settled `FINAL_ALLOC`, revenue-flow rows and the applicable policy | Derived | Exclude traded volume/include charges according to the signed policy and local billing rules |
-| Trading-platform book of trades | confirmed contracts plus allocation/status history | Derived | Preserve contract and interval identifiers so every row traces to signed evidence |
-| Ledger reconciliation statement | both LP copies, DISCOM allocation series and final allocation | Derived | Differences are exceptions; do not overwrite either signed source |
-| Prosumer statement | price, requested/final quantity and applicable charges | Presentation only | May be rendered for the consumer; the signed contract and revenue flow remain authoritative |
-| Network performance report | trade counts, delivery ratios and policy failures | Derived aggregate | Must not expose raw customer identifiers or meter data |
-| Holder-bound credit/energy credential | Consumer Energy Passport or Consumer Meter Digest | Separate schema/use case | Do not repurpose the P2P contract as a wallet credential |
 
 ## 10. How It Fits Together
 
@@ -271,3 +264,16 @@ Canonical references at **[schema.beckn.io](https://schema.beckn.io)**:
 - **[BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)**
 
 A consolidated field reference for the trade schemas (except `DiscomLedgerProvider` and `EnergyTradeDelivery`, defined only at schema.beckn.io) is in **[External Schemas — Energy Trading](../schemas/external/README.md#energy-trading-p2p)**.
+
+## Annexure D — Derived Views
+
+Computed downstream from the Schedules above. None is exchanged, and none is a separate populated IES schema.
+
+| **Derived View** | **Sources** | **Schema Status** | **Treatment** |
+|---|---|---|---|
+| Per-DISCOM monthly bill adjustment | settled `FINAL_ALLOC`, revenue-flow rows and the applicable policy | Derived | Exclude traded volume/include charges according to the signed policy and local billing rules |
+| Trading-platform book of trades | confirmed contracts plus allocation/status history | Derived | Preserve contract and interval identifiers so every row traces to signed evidence |
+| Ledger reconciliation statement | both LP copies, DISCOM allocation series and final allocation | Derived | Differences are exceptions; do not overwrite either signed source |
+| Prosumer statement | price, requested/final quantity and applicable charges | Presentation only | May be rendered for the consumer; the signed contract and revenue flow remain authoritative |
+| Network performance report | trade counts, delivery ratios and policy failures | Derived aggregate | Must not expose raw customer identifiers or meter data |
+| Holder-bound credit/energy credential | Consumer Energy Passport or Consumer Meter Digest | Separate schema/use case | Do not repurpose the P2P contract as a wallet credential |
