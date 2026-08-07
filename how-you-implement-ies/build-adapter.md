@@ -66,7 +66,7 @@ The pilot DISCOMs each picked one use case to ship first, then layered the rest 
 | **[Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md)** | HES / MDM | [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) | Solves a tangible AMISP-DISCOM pain; mostly DataOps work |
 | **[Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md)** | MDM (read path) | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) | Builds on the Passport adapter; small extra surface |
 | **[DER Visibility](../use-cases/der-visibility/README.md)** | DER / inverter registration database | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) energyResources | If rooftop / EV registrations are your priority |
-| **[DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md)** | Regulatory affairs / finance | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) | If you have an ARR due |
+| **[DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md)** | Regulatory affairs / finance | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) | If you have an ARR due |
 
 ---
 

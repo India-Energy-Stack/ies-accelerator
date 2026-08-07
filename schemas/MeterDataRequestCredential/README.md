@@ -1,5 +1,7 @@
 # MeterDataRequestCredential
 
+> ⚠️ **DRAFT — subject to change.** Early draft family (v0.1) published for technical review; field names, structure and interpretation are not final. Do not depend on it for production integrations yet.
+
 *A W3C Verifiable Credential a data requester attaches to a Beckn request to prove it is authorised to ask for smart-meter telemetry.*
 
 **Status:** Draft for technical review (current: **v0.1**) · **Issued by** the requester (a DISCOM, or a third-party aggregator/TSP) · **Consumed by** the data provider (AMISP or MDM system)

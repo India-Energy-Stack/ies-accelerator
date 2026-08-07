@@ -1115,33 +1115,33 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
   </li>
   </ul>
   </details>
-* **[discom-regulatory-filing.md](use-cases-overview/discom-regulatory-filing.md)**
+* **[discom-regulatory-filing.md](draft/use-cases-overview/discom-regulatory-filing.md)**
   - *Summary*: DISCOM Regulatory Filing — overview.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases-overview/discom-regulatory-filing.md#discom-regulatory-filing">DISCOM Regulatory Filing</a>    <ul>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-1.-scope-and-purpose">1. Scope and Purpose</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-2.-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-3.-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-4.-definitions">4. Definitions</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-7.-the-records">7. The Records</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.-schedule-i-static-fields-of-the-filing">8. Schedule I — Static Fields of the Filing</a>      <ul>
-        <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.1-filing-identity-and-control-period">8.1 Filing Identity and Control Period</a></li>
-        <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.2-fiscal-year-classification">8.2 Fiscal-year Classification</a></li>
-        <li><a href="use-cases-overview/discom-regulatory-filing.md#id-8.3-arr-line-items">8.3 ARR Line Items</a>
+    <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#discom-regulatory-filing">DISCOM Regulatory Filing</a>    <ul>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-1.-scope-and-purpose">1. Scope and Purpose</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-2.-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-3.-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-4.-definitions">4. Definitions</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-7.-the-records">7. The Records</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-8.-schedule-i-static-fields-of-the-filing">8. Schedule I — Static Fields of the Filing</a>      <ul>
+        <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-8.1-filing-identity-and-control-period">8.1 Filing Identity and Control Period</a></li>
+        <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-8.2-fiscal-year-classification">8.2 Fiscal-year Classification</a></li>
+        <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-8.3-arr-line-items">8.3 ARR Line Items</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#value-unlock">Value Unlock</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases-overview/discom-regulatory-filing.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#value-unlock">Value Unlock</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
     </li>
     </ul>
   </li>
@@ -1184,37 +1184,37 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
   </li>
   </ul>
   </details>
-* **[tariff-intelligence.md](use-cases-overview/tariff-intelligence.md)**
+* **[tariff-intelligence.md](draft/use-cases-overview/tariff-intelligence.md)**
   - *Summary*: Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases-overview/tariff-intelligence.md#policy-as-code">Policy as Code</a>    <ul>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-1.-scope-and-purpose">1. Scope and Purpose</a>      <ul>
-        <li><a href="use-cases-overview/tariff-intelligence.md#sub-use-cases">Sub-use-cases</a>
+    <li><a href="draft/use-cases-overview/tariff-intelligence.md#policy-as-code">Policy as Code</a>    <ul>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-1.-scope-and-purpose">1. Scope and Purpose</a>      <ul>
+        <li><a href="draft/use-cases-overview/tariff-intelligence.md#sub-use-cases">Sub-use-cases</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-2.-what-it-records-covers">2. What It Records / Covers</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified">3. How Each Item is Identified</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-4.-definitions">4. Definitions</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-7.-the-record">7. The Record</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-8.-schedule-i-static-fields-of-the-policy">8. Schedule I — Static Fields of the Policy</a>      <ul>
-        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.1-policy-identity-type-and-applicability">8.1 Policy Identity, Type and Applicability</a></li>
-        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.2-tariff-energy-slabs">8.2 Tariff Energy Slabs</a></li>
-        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.3-time-of-day-surcharges-and-discounts">8.3 Time-of-day Surcharges and Discounts</a></li>
-        <li><a href="use-cases-overview/tariff-intelligence.md#id-8.4-fields-not-present-in-the-current-upstream-policy-object">8.4 Fields Not Present in the Current Upstream Policy Object</a>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-2.-what-it-records-covers">2. What It Records / Covers</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified">3. How Each Item is Identified</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-4.-definitions">4. Definitions</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-5.-basis-of-standards">5. Basis of Standards</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-6.-where-indian-standards-do-not-yet-exist">6. Where Indian Standards Do Not Yet Exist</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-7.-the-record">7. The Record</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-8.-schedule-i-static-fields-of-the-policy">8. Schedule I — Static Fields of the Policy</a>      <ul>
+        <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-8.1-policy-identity-type-and-applicability">8.1 Policy Identity, Type and Applicability</a></li>
+        <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-8.2-tariff-energy-slabs">8.2 Tariff Energy Slabs</a></li>
+        <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-8.3-time-of-day-surcharges-and-discounts">8.3 Time-of-day Surcharges and Discounts</a></li>
+        <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-8.4-fields-not-present-in-the-current-upstream-policy-object">8.4 Fields Not Present in the Current Upstream Policy Object</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#value-unlock">Value Unlock</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases-overview/tariff-intelligence.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#value-unlock">Value Unlock</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
     </li>
     </ul>
   </li>
@@ -1365,51 +1365,51 @@ Practical deployment and mapping implementations for specific grid business proc
   </li>
   </ul>
   </details>
-* **[README.md](use-cases/discom-regulatory-filing/README.md)**
+* **[README.md](draft/use-cases/discom-regulatory-filing/README.md)**
   - *Summary*: Publishing ARR datasets to State Electricity Regulatory Commissions.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/discom-regulatory-filing/README.md#discom-regulatory-filing">DISCOM Regulatory Filing</a>    <ul>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#scenario">Scenario</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#actors-and-roles">Actors and Roles</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#building-blocks-used">Building Blocks Used</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#the-dataset-arrfiling-v0.5">The Dataset — `ArrFiling v0.5`</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#id-1.-register-both-parties">1. Register — both parties</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#id-2.-discover-stand-up-the-data-exchange-adapters">2. Discover — stand up the data-exchange adapters</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#id-3.-exchange-catalogue-and-submit">3. Exchange — catalogue and submit</a></li>
-        <li><a href="use-cases/discom-regulatory-filing/README.md#id-4.-optional-open-the-filing-for-public-consumption">4. (Optional) Open the filing for public consumption</a>
+    <li><a href="draft/use-cases/discom-regulatory-filing/README.md#discom-regulatory-filing">DISCOM Regulatory Filing</a>    <ul>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#scenario">Scenario</a></li>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#actors-and-roles">Actors and Roles</a></li>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#building-blocks-used">Building Blocks Used</a></li>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#the-dataset-arrfiling-v0.5">The Dataset — `ArrFiling v0.5`</a></li>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
+        <li><a href="draft/use-cases/discom-regulatory-filing/README.md#id-1.-register-both-parties">1. Register — both parties</a></li>
+        <li><a href="draft/use-cases/discom-regulatory-filing/README.md#id-2.-discover-stand-up-the-data-exchange-adapters">2. Discover — stand up the data-exchange adapters</a></li>
+        <li><a href="draft/use-cases/discom-regulatory-filing/README.md#id-3.-exchange-catalogue-and-submit">3. Exchange — catalogue and submit</a></li>
+        <li><a href="draft/use-cases/discom-regulatory-filing/README.md#id-4.-optional-open-the-filing-for-public-consumption">4. (Optional) Open the filing for public consumption</a>
       </li>
       </ul>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#why-this-matters">Why This Matters</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#open-items">Open Items</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#checklist">Checklist</a></li>
-      <li><a href="use-cases/discom-regulatory-filing/README.md#references">References</a>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#why-this-matters">Why This Matters</a></li>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#open-items">Open Items</a></li>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#checklist">Checklist</a></li>
+      <li><a href="draft/use-cases/discom-regulatory-filing/README.md#references">References</a>
     </li>
     </ul>
   </li>
   </ul>
   </details>
-* **[README.md](use-cases/tariff-intelligence/README.md)**
+* **[README.md](draft/use-cases/tariff-intelligence/README.md)**
   - *Summary*: Policy as Code — publishing authority policy (tariff rate structures and telescopic schedules, dispatch guides, and more) as signed IES policies.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="use-cases/tariff-intelligence/README.md#policy-as-code">Policy as Code</a>    <ul>
-      <li><a href="use-cases/tariff-intelligence/README.md#scenario">Scenario</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#actors-and-roles">Actors and Roles</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#building-blocks-used">Building Blocks Used</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#the-dataset-ies_policy">The Dataset — `IES_Policy`</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
-        <li><a href="use-cases/tariff-intelligence/README.md#id-1.-register-publisher-identity">1. Register — publisher identity</a></li>
-        <li><a href="use-cases/tariff-intelligence/README.md#id-2.-discover-publish-via-the-data-exchange">2. Discover — publish via the data exchange</a></li>
-        <li><a href="use-cases/tariff-intelligence/README.md#id-3.-exchange-author-sign-evaluate">3. Exchange — author, sign, evaluate</a>
+    <li><a href="draft/use-cases/tariff-intelligence/README.md#policy-as-code">Policy as Code</a>    <ul>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#scenario">Scenario</a></li>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#actors-and-roles">Actors and Roles</a></li>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#building-blocks-used">Building Blocks Used</a></li>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#the-dataset-ies_policy">The Dataset — `IES_Policy`</a></li>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a>      <ul>
+        <li><a href="draft/use-cases/tariff-intelligence/README.md#id-1.-register-publisher-identity">1. Register — publisher identity</a></li>
+        <li><a href="draft/use-cases/tariff-intelligence/README.md#id-2.-discover-publish-via-the-data-exchange">2. Discover — publish via the data exchange</a></li>
+        <li><a href="draft/use-cases/tariff-intelligence/README.md#id-3.-exchange-author-sign-evaluate">3. Exchange — author, sign, evaluate</a>
       </li>
       </ul>
-      <li><a href="use-cases/tariff-intelligence/README.md#checklist">Checklist</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#open-items">Open Items</a></li>
-      <li><a href="use-cases/tariff-intelligence/README.md#references">References</a>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#checklist">Checklist</a></li>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#open-items">Open Items</a></li>
+      <li><a href="draft/use-cases/tariff-intelligence/README.md#references">References</a>
     </li>
     </ul>
   </li>

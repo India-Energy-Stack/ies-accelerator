@@ -23,8 +23,8 @@ These guides are still being finalised and may change.
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|
-| **[DISCOM Regulatory Filing](discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) |
-| **[Policy as Code](tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
+| **[DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md)** | DISCOM | SERC | [ArrFiling v0.5](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5) |
+| **[Policy as Code](../draft/use-cases/tariff-intelligence/README.md)** | SERC | DISCOMs, applications | (tariff schema — in progress) |
 
 ## In progress
 

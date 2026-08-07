@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Independently verify build_pdf.py's output.
 
-Checks, by default, that every SUMMARY.md source referenced by the build is
-safe and present, and that build/ies_combined.md is *exactly* what an
-independent reconstruction of SUMMARY.md would produce. Two optional checks
+Checks, by default, that every SUMMARY.print.md source referenced by the
+build is safe and present, and that build/ies_combined.md is *exactly* what
+an independent reconstruction of SUMMARY.print.md (the curated print
+manifest — see build_pdf.py's module docstring) would produce. Two optional checks
 add PDF and staged-site verification:
 
     --pdf PATH          SMOKE-check a built PDF (title, page floor, nontrivial
@@ -12,7 +13,7 @@ add PDF and staged-site verification:
     --public-root PATH  Verify a staged public/ mirror contains every real
                          SUMMARY source, byte-identical to the repo copy.
 
-Independence boundary: this script re-implements its own SUMMARY.md grammar,
+Independence boundary: this script re-implements its own manifest grammar,
 version-filtering policy, schema prefix split / depth-shift policy, path
 safety checks, and its own ROOT/BUILD location from scratch. The oracle
 content used for every comparison below (the reconstructed combined
@@ -65,13 +66,13 @@ assert producer.BUILD == BUILD, (
     f"producer BUILD diverges from independently-derived BUILD: {producer.BUILD} != {BUILD}"
 )
 
-SUMMARY_PATH = ROOT / "SUMMARY.md"
+SUMMARY_PATH = ROOT / "SUMMARY.print.md"
 COMBINED_MD = BUILD / "ies_combined.md"
 APPENDIX_DIVIDER_MD = BUILD / "appendix_divider.md"
 DIVIDER_ENTRY_PATH = "build/appendix_divider.md"
 
 # Own copy — not imported from build_pdf. See module docstring.
-SCHEMA_PATH_PREFIXES = ("what-ies-provides/schemas-overview/", "schemas/")
+SCHEMA_PATH_PREFIXES = ("schemas/",)
 # Own copy — not imported from build_pdf. See module docstring. Docs-site-only
 # pages the PDF build skips (web-form intake pages, and the schemas-ies mirror
 # of the External Schemas page, which the PDF appendix already carries once).
@@ -100,7 +101,7 @@ def is_schema_entry(path: str) -> bool:
 
 
 def parse_summary_strict(text: str) -> list[tuple[int, str, str]]:
-    """Own anchored SUMMARY.md grammar.
+    """Own anchored print-manifest grammar.
 
     Any line that, after stripping leading spaces/tabs, begins with '*', '-'
     or '+' must be an exact canonical '* [title](path)' entry with even-space
@@ -114,12 +115,12 @@ def parse_summary_strict(text: str) -> list[tuple[int, str, str]]:
         m = CANONICAL_ENTRY_RE.match(line)
         if not m:
             raise VerifyError(
-                f"SUMMARY.md:{lineno}: malformed list entry, expected "
+                f"SUMMARY.print.md:{lineno}: malformed list entry, expected "
                 f"'* [title](path)' with even-space indent: {line!r}"
             )
         indent, title, path = m.groups()
         if len(indent) % 2 != 0:
-            raise VerifyError(f"SUMMARY.md:{lineno}: odd-space indentation: {line!r}")
+            raise VerifyError(f"SUMMARY.print.md:{lineno}: odd-space indentation: {line!r}")
         depth = len(indent) // 2
         if not path.endswith(".md"):
             continue
@@ -311,7 +312,7 @@ def verify_pdf_smoke(pdf_path: pathlib.Path, depth0_count: int, combined_char_co
     if len(titles) != 1:
         raise VerifyError(f"SMOKE: expected exactly one PDF Title, got {titles!r}")
     title = titles[0]
-    if title != "IES Accelerator Implementation Guide":
+    if title != "India Energy Stack (IES) — Technical Documentation":
         raise VerifyError(f"SMOKE: PDF Title mismatch: got {title!r}")
 
     pages_values = info.get("Pages", [])
