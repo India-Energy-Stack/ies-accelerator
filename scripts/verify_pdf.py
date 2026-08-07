@@ -73,6 +73,9 @@ DIVIDER_ENTRY_PATH = "build/appendix_divider.md"
 
 # Own copy — not imported from build_pdf. See module docstring.
 SCHEMA_PATH_PREFIXES = ("schemas/",)
+# Own copy — not imported from build_pdf. See module docstring. Pages printed
+# at the very end, after the schemas appendix, regardless of manifest order.
+BACK_MATTER_PATHS = ("glossary.md", "faq.md")
 # Own copy — not imported from build_pdf. See module docstring. Docs-site-only
 # pages the PDF build skips (web-form intake pages, and the schemas-ies mirror
 # of the External Schemas page, which the PDF appendix already carries once).
@@ -219,6 +222,7 @@ def reconstruct_combined(
     main_entries: list[tuple[int, str, str]],
     divider_entry: tuple[int, str, str],
     schema_entries: list[tuple[int, str, str]],
+    back_entries: list[tuple[int, str, str]],
     mmdc: str | None,
 ) -> tuple[str, int]:
     out_lines: list[str] = []
@@ -233,7 +237,7 @@ def reconstruct_combined(
     out_lines.extend(_render_block(d_depth, d_title, APPENDIX_INTRO, mmdc))
     block_count += 1
 
-    for depth, title, path in schema_entries:
+    for depth, title, path in schema_entries + back_entries:
         resolved = resolve_safe_path(path, ROOT, label="SUMMARY source")
         out_lines.extend(_render_block(depth, title, resolved.read_text(), mmdc))
         block_count += 1
@@ -380,17 +384,22 @@ def main() -> int:
                 "divergence: independent version-filter != producer.filter_latest_versions()"
             )
 
-        main_entries = [e for e in entries if not is_schema_entry(e[2])]
+        main_entries = [
+            e
+            for e in entries
+            if not is_schema_entry(e[2]) and e[2] not in BACK_MATTER_PATHS
+        ]
         schema_entries = shift_depth_to_strict(
             [e for e in entries if is_schema_entry(e[2])], target_min=1
         )
+        back_entries = [e for e in entries if e[2] in BACK_MATTER_PATHS]
         divider_entry = (0, APPENDIX_TITLE, DIVIDER_ENTRY_PATH)
 
         # Path safety, independently repeated for every real SUMMARY source.
         # The synthetic divider isn't parsed from SUMMARY.md and is exempt
         # only from public mirroring (see verify_public_mirror).
         errors: list[str] = []
-        for _, _, path in main_entries + schema_entries:
+        for _, _, path in main_entries + schema_entries + back_entries:
             try:
                 resolve_safe_path(path, ROOT, label="SUMMARY source")
             except VerifyError as exc:
@@ -413,7 +422,7 @@ def main() -> int:
 
         mmdc = shutil.which("mmdc")
         expected_text, block_count = reconstruct_combined(
-            main_entries, divider_entry, schema_entries, mmdc
+            main_entries, divider_entry, schema_entries, back_entries, mmdc
         )
         actual_text = COMBINED_MD.read_text()
 
@@ -428,12 +437,14 @@ def main() -> int:
         print(f"OK -- {block_count} source block(s) reconstructed exactly")
 
         if args.public_root:
-            real_entries = main_entries + schema_entries
+            real_entries = main_entries + schema_entries + back_entries
             verify_public_mirror(args.public_root, real_entries)
 
         if args.pdf:
             depth0_count = sum(
-                1 for depth, _, _ in main_entries + [divider_entry] + schema_entries if depth == 0
+                1
+                for depth, _, _ in main_entries + [divider_entry] + schema_entries + back_entries
+                if depth == 0
             )
             verify_pdf_smoke(args.pdf, depth0_count, len(expected_text))
 

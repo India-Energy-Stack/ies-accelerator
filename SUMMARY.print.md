@@ -17,8 +17,7 @@
   are pulled into the trailing "Appendix — Schemas Reference". -->
 
 * [Home](README.md)
-* [Glossary](glossary.md)
-* [FAQ](faq.md)
+* [Reference Material](print/reference-material.md)
 
 ## What IES Provides
 
@@ -55,3 +54,11 @@
 * [OutageNotification (Draft)](schemas/OutageNotification/README.md)
   * [v0.1](schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](schemas/external/README.md)
+
+## Back matter
+
+<!-- Printed after the schemas appendix (BACK_MATTER_PATHS in build_pdf.py);
+  the "Reference Material" page after Home points readers here. -->
+
+* [Glossary](glossary.md)
+* [FAQ](faq.md)

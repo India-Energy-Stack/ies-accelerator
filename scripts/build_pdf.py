@@ -50,6 +50,12 @@ SCHEMA_PATH_PREFIXES = ("schemas/",)
 # printing both would repeat the whole external field reference.
 EXCLUDE_FROM_PDF = frozenset({"propose-a-schema.md", "schemas-ies/external.md"})
 
+# Back-matter pages: printed at the very end of the document, after the
+# schemas appendix, regardless of their position in the print manifest.
+# The narrative chapters read straight through; these are flip-to references
+# (a pointer page early in the document tells the reader where they are).
+BACK_MATTER_PATHS = ("glossary.md", "faq.md")
+
 APPENDIX_TITLE = "Appendix — Schemas Reference"
 APPENDIX_INTRO = f"""# {APPENDIX_TITLE}
 
@@ -356,13 +362,16 @@ def main() -> int:
         if dropped:
             print(f"Including latest version only — dropped {dropped} older version page(s). Use --all-versions to include all.")
 
-    main_entries = [e for e in entries if not is_schema_entry(e[2])]
+    main_entries = [
+        e for e in entries if not is_schema_entry(e[2]) and e[2] not in BACK_MATTER_PATHS
+    ]
     schema_entries = shift_depth_to([e for e in entries if is_schema_entry(e[2])], target_min=1)
+    back_entries = [e for e in entries if e[2] in BACK_MATTER_PATHS]
 
     APPENDIX_DIVIDER_MD.write_text(APPENDIX_INTRO)
     appendix_divider_entry = (0, APPENDIX_TITLE, APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix())
 
-    combined_entries = main_entries + [appendix_divider_entry] + schema_entries
+    combined_entries = main_entries + [appendix_divider_entry] + schema_entries + back_entries
 
     errors: list[str] = []
     for _, _, path in combined_entries:

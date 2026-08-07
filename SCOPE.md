@@ -6,16 +6,16 @@
 
 The PDF is built from **`SUMMARY.print.md`** — a curated print manifest consumed by `scripts/build_pdf.py` and independently re-verified by `scripts/verify_pdf.py`. The GitBook navigation (`SUMMARY.md`, via `.gitbook.yaml`) is unchanged in behaviour and continues to publish the full documentation. PDF title: **"India Energy Stack (IES) — Technical Documentation"**.
 
-**Current build: 126 pages** (target ~100–150).
+**Current build: 127 pages** (target ~100–150).
 
 ## In the PDF
 
 1. Home
-2. Glossary
-3. FAQ
-4. **What IES Provides** — Overview, Register, Discover, Exchange, Verifiable Credentials, **Security** (new page), Schemas Overview (landing page)
-5. **Use Case Overviews** — finalised (Piloted) only: Overview, Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange, DER Visibility
-6. **Appendix — Schemas Reference** — every schema family from `schemas/` at its latest version, plus External Schemas
+2. Reference Material (print-only pointer page: Glossary and FAQ are at the end)
+3. **What IES Provides** — Overview, Register, Discover, Exchange, Verifiable Credentials, **Security** (new page), Schemas Overview (landing page)
+4. **Use Case Overviews** — finalised (Piloted) only: Overview, Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange, DER Visibility
+5. **Appendix — Schemas Reference** — every schema family from `schemas/` at its latest version, plus External Schemas
+6. **Back matter** — Glossary, FAQ (printed after the appendix; `BACK_MATTER_PATHS` in `scripts/build_pdf.py`)
 
 ## Out of the PDF (unchanged in the GitBook)
 
