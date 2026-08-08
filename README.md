@@ -12,13 +12,15 @@ layout:
 
 The India Energy Stack is an initiative of the **Ministry of Power**, Government of India. **REC** is the nodal agency, and **FSR Global** is the knowledge partner.
 
+<!-- PDF:SKIP:START -->
 ---
 
 **IES: the why, what and how.** The India Energy Stack in plain words — the problem, the idea, how it works, what it is not, what it changes for the sector, and its pilot record. This page is the starting point; the rest of the GitBook turns it into specifications, implementation steps and worked use cases. For whether any of this is running today, see **[Status](STATUS.md)**.
 
 {% hint style="info" %}
-📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
+📄 **Printable version:** download the deliverable subset of this guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
 {% endhint %}
+<!-- PDF:SKIP:END -->
 
 ---
 
@@ -63,7 +65,7 @@ IES tells any two systems in the power sector how to share data with each other.
 
 - **(a) [Register](what-ies-provides/register.md) (verifiable digital identity).** Every participant gets a digital identity and is listed in a shared directory. This is done once. Uses [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/), for example.
 - **(b) [Discover](what-ies-provides/discover.md) (interaction protocol).** Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement is needed. Uses the [Beckn protocol](https://github.com/beckn/protocol-specifications-v2), for example.
-- **(c) [Exchange](what-ies-provides/exchange.md) (schema, taxonomy and verifiable credentials).** Data moves using agreed field names and structure, following the public standard for that domain: DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response. Where the use case needs a durable record, the exchange also produces a verifiable credential, such as a [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](glossary.md#digilocker) and can share it with any bank, regulator, or scheme administrator without returning to the issuer.
+- **(c) [Exchange](what-ies-provides/exchange.md) (schema, taxonomy and verifiable credentials).** Data moves over the same signed [Beckn](glossary.md#beckn) channel that Discover established, using agreed field names and structure, following the public standard for that domain: DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response. Where the use case needs a durable record, the exchange also produces a verifiable credential, such as a [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](glossary.md#digilocker) and can share it with any bank, regulator, or scheme administrator without returning to the issuer.
 
 IES selects the right open standard for each step and publishes a specification that builds on it. **IES does not write new standards.** Build to the IES specifications once, and a system can connect to any other IES-ready system without fresh integration work.
 
@@ -93,7 +95,7 @@ When the India Energy Stack is used, for example the following becomes possible:
 
 - **For consumers.** A consumer's energy history becomes portable and verifiable. It can be used to obtain a green loan, claim a subsidy or sign up for a service, without repeated paperwork or calls to the DISCOM. Certificates issued by a DISCOM are of direct use to banks, housing finance companies, scheme administrators and service providers who need verified energy data. When consumers can prove their energy history, demand for those certificates flows back through the DISCOM.
 - **For the grid.** Every distributed energy resource, for example a rooftop solar unit or a small battery, is given a verified identity when it is first connected. Operators obtain reliable visibility of these resources ([DER Visibility](use-cases/der-visibility/README.md)), and connection across DISCOMs, AMISPs and aggregators (firms that pool many small resources) happens without a separate arrangement for each pair.
-- **For regulators.** Filings reach the regulator already signed and in a single, consistent format ([DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)). Tariff orders become computable ([Policy as Code](use-cases/tariff-intelligence/README.md)). Regulators move from reading PDF documents to monitoring data directly.
+- **For regulators.** Filings reach the regulator already signed and in a single, consistent format ([DISCOM Regulatory Filing](draft/use-cases/discom-regulatory-filing/README.md)). Tariff orders become computable ([Policy as Code](draft/use-cases/tariff-intelligence/README.md)). Regulators move from reading PDF documents to monitoring data directly.
 - **For markets.** Demand-side flexibility, [peer-to-peer energy transaction](use-cases/p2p-energy-trading/README.md) (consumers buying and selling power directly) and open access (a large consumer buying power from a supplier other than the local DISCOM) become workable in practice, without a separate agreement between every pair of participants.
 
 ---

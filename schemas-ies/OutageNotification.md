@@ -17,7 +17,7 @@ layout:
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification` |
 | **Latest version** | **v0.1** |
 | **All versions** | v0.1 |
-| **Status** | Draft (current: **v0.1**) · **Issued by** DISCOMs (or their OMS / MDMS / SCADA / RTDAS) · **Consumed by** outage-map feeds, subscribed consumers, mass-alerting networks, reliability reporting |
+| **Status** | Work in progress (current: **v0.1**) · **Issued by** DISCOMs (or their OMS / MDMS / SCADA / RTDAS) · **Consumed by** outage-map feeds, subscribed consumers, mass-alerting networks, reliability reporting |
 | **Category** | Data Exchange payloads |
 | **Used in** | — no IES use-case guide yet |
 

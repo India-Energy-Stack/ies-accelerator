@@ -117,7 +117,7 @@ One filled-in ElectricityCredential v1.2 showing every identifier in place:
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://schema.beckn.io/ElectricityCredential/v1.2/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/context.jsonld"
   ],
   "id": "urn:uuid:b2c3d4e5-0000-0000-0000-aabbccdd0001",
   "type": ["VerifiableCredential", "ElectricityCredential"],

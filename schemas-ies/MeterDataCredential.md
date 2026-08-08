@@ -15,7 +15,7 @@ layout:
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential` |
 | **Latest version** | **v0.6** |
 | **All versions** | v0.6 |
-| **Status** | Draft for technical review (current: **v0.6**, aligned with MeterData v0.6) · **Issued by** data providers (AMISPs, MDM systems, or a DISCOM in that role) · **Consumed by** DISCOMs, consumers' wallets, and downstream verifiers |
+| **Status** | Stable — In Pilot (current: **v0.6**, aligned with MeterData v0.6) · **Issued by** data providers (AMISPs, MDM systems, or a DISCOM in that role) · **Consumed by** DISCOMs, consumers' wallets, and downstream verifiers |
 | **Category** | Verifiable Credentials |
 | **Used in** | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) |
 

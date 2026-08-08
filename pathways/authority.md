@@ -74,7 +74,7 @@ Follow the same namespace-claim procedure documented for network participants ge
 
 ## Phase 2: Receive Regulatory Filings Machine-Readably
 
-Move from reading DISCOM regulatory filings as PDFs to monitoring them directly as signed, structured data. This is the [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) use case from the regulator's side of the exchange.
+Move from reading DISCOM regulatory filings as PDFs to monitoring them directly as signed, structured data. This is the [DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md) use case from the regulator's side of the exchange.
 
 <details>
 <summary><b>Step 2.1: Understand the ArrFiling Schema</b></summary>
@@ -89,9 +89,9 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 4. **Verify the DISCOM's signature**: the filing is signed with the filer's `did:web`; resolve that DID to confirm the filing is authentic before ingesting it into your analysis pipeline.
 
 ### References & Anchors
-* [DISCOM Regulatory Filing — use case overview](../use-cases/discom-regulatory-filing/README.md)
-* [DISCOM Regulatory Filing — What It Records / Covers](../use-cases-overview/discom-regulatory-filing.md#id-2.-what-it-records-covers)
-* [DISCOM Regulatory Filing — How Each Item is Identified](../use-cases-overview/discom-regulatory-filing.md#id-3.-how-each-item-is-identified)
+* [DISCOM Regulatory Filing — use case overview](../draft/use-cases/discom-regulatory-filing/README.md)
+* [DISCOM Regulatory Filing — What It Records / Covers](../draft/use-cases-overview/discom-regulatory-filing.md#id-2.-what-it-records-covers)
+* [DISCOM Regulatory Filing — How Each Item is Identified](../draft/use-cases-overview/discom-regulatory-filing.md#id-3.-how-each-item-is-identified)
 * [ArrFiling family page](../schemas/ArrFiling/README.md)
 * [ArrFiling Schema Reference (v0.5)](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ArrFiling Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
@@ -114,8 +114,8 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 3. Where a pre-agreed bilateral subscription exists, filings can be received directly without a separate discovery step per submission.
 
 ### References & Anchors
-* [DISCOM Regulatory Filing — Setup: Register → Discover → Exchange](../use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange)
-* [DISCOM Regulatory Filing — Value Unlock](../use-cases-overview/discom-regulatory-filing.md#value-unlock)
+* [DISCOM Regulatory Filing — Setup: Register → Discover → Exchange](../draft/use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange)
+* [DISCOM Regulatory Filing — Value Unlock](../draft/use-cases-overview/discom-regulatory-filing.md#value-unlock)
 * [Registries — reference allow-lists](../what-ies-provides/register.md#the-directory-dedi)
 </details>
 
@@ -123,7 +123,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 
 ## Phase 3: Publish Tariff Orders as Policy-as-Code
 
-Move from issuing tariff orders as PDFs to publishing them as computable objects that DISCOM billing systems, consumer apps, and smart meters can consume directly. This is the [Policy as Code](../use-cases/tariff-intelligence/README.md) use case (its flagship Tariff Intelligence sub-use-case), currently in progress.
+Move from issuing tariff orders as PDFs to publishing them as computable objects that DISCOM billing systems, consumer apps, and smart meters can consume directly. This is the [Policy as Code](../draft/use-cases/tariff-intelligence/README.md) use case (its flagship Tariff Intelligence sub-use-case), currently in progress.
 
 <details>
 <summary><b>Step 3.1: Publish Tariff Structures as Signed, Machine-Readable Policy</b></summary>
@@ -142,11 +142,11 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 5. **Confirm parity with the underlying order**: have regulatory affairs staff confirm the published policy-as-code object matches the tariff order's stated rates before publication.
 
 ### References & Anchors
-* [Policy as Code — use case overview](../use-cases/tariff-intelligence/README.md)
-* [Policy as Code — What It Records / Covers](../use-cases-overview/tariff-intelligence.md#id-2.-what-it-records-covers)
-* [Policy as Code — How Each Item is Identified](../use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified)
-* [Policy as Code — Setup: Register → Discover → Exchange](../use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
-* [Policy as Code — Value Unlock](../use-cases-overview/tariff-intelligence.md#value-unlock)
+* [Policy as Code — use case overview](../draft/use-cases/tariff-intelligence/README.md)
+* [Policy as Code — What It Records / Covers](../draft/use-cases-overview/tariff-intelligence.md#id-2.-what-it-records-covers)
+* [Policy as Code — How Each Item is Identified](../draft/use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified)
+* [Policy as Code — Setup: Register → Discover → Exchange](../draft/use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
+* [Policy as Code — Value Unlock](../draft/use-cases-overview/tariff-intelligence.md#value-unlock)
 * [Schemas — Schema map (`IES_Policy`, in progress)](../schemas/README.md#data-exchange-payloads)
 </details>
 

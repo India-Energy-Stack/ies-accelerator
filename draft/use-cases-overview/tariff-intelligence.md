@@ -1,6 +1,6 @@
 # Policy as Code
 
-*Any authority policy — tariff orders, time-of-day surcharges, dispatch guides, deviation penalties, and data-exchange rules — published once, as signed machine-readable code by the issuing authority, and consumed directly by billing systems, consumer apps, smart meters and analytics agents over [IES Data Exchange](../what-ies-provides/discover.md).*
+*Any authority policy — tariff orders, time-of-day surcharges, dispatch guides, deviation penalties, and data-exchange rules — published once, as signed machine-readable code by the issuing authority, and consumed directly by billing systems, consumer apps, smart meters and analytics agents over [IES Data Exchange](../../what-ies-provides/discover.md).*
 
 {% hint style="warning" %}
 🚧 **Work in progress.** This section is still being finalised and may change before sign-off.

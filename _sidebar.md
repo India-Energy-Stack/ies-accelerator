@@ -12,6 +12,7 @@
 * [Discover](/what-ies-provides/discover.md)
 * [Exchange](/what-ies-provides/exchange.md)
 * [Verifiable Credentials](/what-ies-provides/energy-credentials/README.md)
+* [Security](/what-ies-provides/security.md)
 * [Schemas Overview](/what-ies-provides/schemas-overview/README.md)
   * [ElectricityCredential](/what-ies-provides/schemas-overview/electricity-credential.md)
   * [MeterData](/what-ies-provides/schemas-overview/meter-data.md)
@@ -19,7 +20,7 @@
   * [MeterDataRequest](/what-ies-provides/schemas-overview/meter-data-request.md)
   * [MeterDataRequestCredential](/what-ies-provides/schemas-overview/meter-data-request-credential.md)
   * [ArrFiling](/what-ies-provides/schemas-overview/arr-filing.md)
-  * [OutageNotification](/what-ies-provides/schemas-overview/outage-notification.md)
+  * [OutageNotification (WIP)](/what-ies-provides/schemas-overview/outage-notification.md)
 
 ## Schemas
 
@@ -33,9 +34,9 @@
   * [v0.6](/schemas/MeterDataRequest/v0.6/README.md)
 * [MeterDataRequestCredential](/schemas/MeterDataRequestCredential/README.md)
   * [v0.1](/schemas/MeterDataRequestCredential/v0.1/README.md)
-* [ArrFiling](/schemas/ArrFiling/README.md)
+* [ArrFiling (WIP)](/schemas/ArrFiling/README.md)
   * [v0.5](/schemas/ArrFiling/v0.5/README.md)
-* [OutageNotification](/schemas/OutageNotification/README.md)
+* [OutageNotification (WIP)](/schemas/OutageNotification/README.md)
   * [v0.1](/schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](/schemas/external/README.md)
 
@@ -68,8 +69,6 @@
 * [Consumer Meter Digest](/use-cases-overview/consumer-meter-digest.md)
 * [Smart Meter Data Exchange](/use-cases-overview/smart-meter-data-exchange.md)
 * [DER Visibility](/use-cases-overview/der-visibility.md)
-* [DISCOM Regulatory Filing (WIP)](/use-cases-overview/discom-regulatory-filing.md)
-* [Policy as Code (WIP)](/use-cases-overview/tariff-intelligence.md)
 * [P2P Energy Transaction](/use-cases-overview/p2p-energy-trading.md)
 
 ## Use Case Implementation Guides
@@ -80,8 +79,6 @@
 * [Smart Meter Data Exchange](/use-cases/smart-meter-data-exchange/README.md)
   * [IES Meter Data Model](/use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
 * [DER Visibility](/use-cases/der-visibility/README.md)
-* [DISCOM Regulatory Filing (WIP)](/use-cases/discom-regulatory-filing/README.md)
-* [Policy as Code (WIP)](/use-cases/tariff-intelligence/README.md)
 * [P2P Energy Transaction](/use-cases/p2p-energy-trading/README.md)
 
 ## Pathways
@@ -92,6 +89,14 @@
 * [Technology Service Provider Pathway](/pathways/tsp.md)
 * [Researcher / Analyst Pathway](/pathways/researcher.md)
 * [Secretariat Pathway](/pathways/secretariat.md)
+
+## Draft (Work in Progress)
+
+* [About this section](/draft/README.md)
+* [DISCOM Regulatory Filing (WIP)](/draft/use-cases-overview/discom-regulatory-filing.md)
+  * [Implementation Guide (WIP)](/draft/use-cases/discom-regulatory-filing/README.md)
+* [Policy as Code (WIP)](/draft/use-cases-overview/tariff-intelligence.md)
+  * [Implementation Guide (WIP)](/draft/use-cases/tariff-intelligence/README.md)
 
 ## Contributors
 

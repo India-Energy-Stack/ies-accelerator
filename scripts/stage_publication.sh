@@ -21,9 +21,9 @@ touch public/.nojekyll
 cat > public/index.html <<'HTML'
 <!doctype html>
 <meta charset="utf-8">
-<title>IES Accelerator Implementation Guide</title>
+<title>India Energy Stack (IES) — Technical Documentation</title>
 <meta http-equiv="refresh" content="0; url=ies-report.pdf">
-<p><a href="ies-report.pdf">IES Accelerator Implementation Guide (PDF)</a></p>
+<p><a href="ies-report.pdf">India Energy Stack (IES) — Technical Documentation (PDF)</a></p>
 HTML
 
 missing=0

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Build a single printed-book PDF of the IES Accelerator implementation guide.
-# All schema content (Schemas Overview + Taxonomy field reference) is moved
-# to a clearly divided "Appendix — Schemas Reference" chapter at the end,
-# instead of interleaved with the narrative in SUMMARY.md order — see
-# scripts/build_pdf.py.
+# Build the deliverable IES documentation PDF from the curated print
+# manifest SUMMARY.print.md (NOT the full GitBook nav in SUMMARY.md) — see
+# scripts/build_pdf.py. The schemas/ field reference is moved to a clearly
+# divided "Appendix — Schemas Reference" chapter at the end, instead of
+# interleaved with the narrative in manifest order.
 #
 # Requirements:
 #   - pandoc       (brew install pandoc)
@@ -101,7 +101,7 @@ pandoc "$COMBINED_MD" \
     -V header-includes='\let\IESorigtexttt\texttt\renewcommand{\texttt}[1]{\IESorigtexttt{\hyphenchar\font=-1\relax #1}}' \
     -V header-includes='\usepackage{fvextra}\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},breaklines,breakanywhere,breakafter=/}\RecustomVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakanywhere,breakafter=/}' \
     -V header-includes='\setlength{\emergencystretch}{6em}' \
-    --metadata title="IES Accelerator Implementation Guide" \
+    --metadata title="India Energy Stack (IES) — Technical Documentation" \
     --metadata author="India Energy Stack" \
     --metadata date="$(git -C "$REPO_ROOT" show -s --format=%cs HEAD)" \
     --resource-path="$REPO_ROOT" \

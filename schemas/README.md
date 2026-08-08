@@ -39,9 +39,9 @@ Structured, non-credential payload schemas.
 |---|---|---|---|
 | [MeterData](MeterData/README.md) | Smart-meter telemetry (8 compact profiles: CUSTOMER, INTERVAL, DAILY, MONTHLY, BILL_DETAILS, INSTANTANEOUS, EVENT, ALARM) | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) (payload) | **[v0.6](MeterData/v0.6/README.md)** |
 | [MeterDataRequest](MeterDataRequest/README.md) | Query / capabilities / authorisation shapes for meter-data requests | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) | **[v0.6](MeterDataRequest/v0.6/README.md)** |
-| [ArrFiling](ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) | **[v0.5](ArrFiling/v0.5/README.md)** |
+| [ArrFiling](ArrFiling/README.md) | Aggregate Revenue Requirement filings — DISCOM to SERC | [DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md) | **[v0.5](ArrFiling/v0.5/README.md)** |
 | [OutageNotification](OutageNotification/README.md) | Planned + unplanned outage notices — pull feed (outage map) and push alert (CAP). **WIP** | — no IES use-case guide yet | **[v0.1](OutageNotification/v0.1/README.md)** |
-| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Policy as Code](../use-cases/tariff-intelligence/README.md) | in progress |
+| `IES_Policy` *(upstream)* | Tariffs and policy-as-code | [Policy as Code](../draft/use-cases/tariff-intelligence/README.md) | in progress |
 
 ### External — DEG schemas IES uses
 
@@ -60,7 +60,7 @@ Each schema is a self-contained record: it validates, signs and verifies the sam
 
 - **MeterData** and **MeterDataRequest** are exchanged over Beckn in B2B flows (the [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) use case), with the optional **MeterDataRequestCredential** attached at `confirm` to prove the right to ask. Consumer-facing delivery of the same payloads can happen over any channel.
 - **ElectricityCredential** and **MeterDataCredential** are credentials the holder keeps and any verifier checks offline against the issuer's published key. They are issued and delivered through the credential rails — DigiLocker, a wallet, a DISCOM portal.
-- **ArrFiling** is delivered DISCOM-to-SERC over Beckn in the [DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md) use case.
+- **ArrFiling** is delivered DISCOM-to-SERC over Beckn in the [DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md) use case.
 - **OutageNotification** is published as a web / outage-map pull feed and a CAP-shaped push alert.
 
 Each family page carries the per-schema detail.

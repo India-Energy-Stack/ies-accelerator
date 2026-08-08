@@ -6,12 +6,12 @@ Read one of these before the auto-generated field reference in [Schemas](../../s
 
 | Schema | What it is | Status |
 |---|---|---|
-| **[ElectricityCredential v1.2](electricity-credential.md)** | W3C Verifiable Credential — a consumer connection's static facts and the energy resources behind the meter | Stable |
-| **[MeterData v0.6](meter-data.md)** | Compact telemetry payload — 8 telemetry profile shapes (plus a shared descriptor object) for smart-meter readings, events and alarms | Stable |
-| **[MeterDataCredential v0.6](meter-data-credential.md)** | W3C Verifiable Credential wrapping a MeterData payload to attest its provenance | Draft for technical review |
-| **[MeterDataRequest v0.6](meter-data-request.md)** | Query and authorisation payload for asking a provider for telemetry | Draft for technical review |
-| **[MeterDataRequestCredential v0.1](meter-data-request-credential.md)** | W3C Verifiable Credential wrapping a MeterDataRequest to prove the requester's authorisation | Draft for technical review |
-| **[ArrFiling v0.5](arr-filing.md)** | Structured Aggregate Revenue Requirement filing — DISCOM to SERC | Draft for technical review |
+| **[ElectricityCredential v1.2](electricity-credential.md)** | W3C Verifiable Credential — a consumer connection's static facts and the energy resources behind the meter | Stable — In Pilot |
+| **[MeterData v0.6](meter-data.md)** | Compact telemetry payload — 8 telemetry profile shapes (plus a shared descriptor object) for smart-meter readings, events and alarms | Stable — In Pilot |
+| **[MeterDataCredential v0.6](meter-data-credential.md)** | W3C Verifiable Credential wrapping a MeterData payload to attest its provenance | Stable — In Pilot |
+| **[MeterDataRequest v0.6](meter-data-request.md)** | Query and authorisation payload for asking a provider for telemetry | Stable — In Pilot |
+| **[MeterDataRequestCredential v0.1](meter-data-request-credential.md)** | W3C Verifiable Credential wrapping a MeterDataRequest to prove the requester's authorisation | Stable — In Pilot |
+| **[ArrFiling v0.5](arr-filing.md)** | Structured Aggregate Revenue Requirement filing — DISCOM to SERC | **Work in progress** |
 | **[OutageNotification v0.1](outage-notification.md)** | Planned/unplanned outage record — pull feed + CAP-aligned push | **Work in progress** |
 
 The full field-level reference for each of these families lives in the **[Schemas](../../schemas/README.md)** section (directly below this one in the navigation), which is the canonical home of the machine-readable files (`schema.json`, `context.jsonld`, examples).

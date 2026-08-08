@@ -24,7 +24,7 @@ paths: {}
 components:
   schemas:
     ElectricityCredential:
-      $id: https://schema.beckn.io/ElectricityCredential/v1.0
+      $id: https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0
       title: ElectricityCredential
       description: >
         Unified W3C Verifiable Credential issued per meter by electricity
