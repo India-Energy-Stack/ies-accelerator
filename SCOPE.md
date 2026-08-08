@@ -6,14 +6,14 @@
 
 The PDF is built from **`SUMMARY.print.md`** — a curated print manifest consumed by `scripts/build_pdf.py` and independently re-verified by `scripts/verify_pdf.py`. The GitBook navigation (`SUMMARY.md`, via `.gitbook.yaml`) is unchanged in behaviour and continues to publish the full documentation. PDF title: **"India Energy Stack (IES) — Technical Documentation"**.
 
-**Current build: 127 pages** (target ~100–150).
+**Current build: 138 pages** (target ~100–150).
 
 ## In the PDF
 
 1. Home
 2. Reference Material (print-only pointer page: Glossary and FAQ are at the end)
 3. **What IES Provides** — Overview, Register, Discover, Exchange, Verifiable Credentials, **Security** (new page), Schemas Overview (landing page)
-4. **Use Case Overviews** — finalised (Piloted) only: Overview, Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange, DER Visibility
+4. **Use Case Overviews** — finalised (Piloted) only: Overview, Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange, DER Visibility, P2P Energy Transaction (its "Current deployment" block and implementation-guide pointers are PDF-skipped)
 5. **Appendix — Schemas Reference** — every schema family from `schemas/` at its latest version, plus External Schemas
 6. **Back matter** — Glossary, FAQ (printed after the appendix; `BACK_MATTER_PATHS` in `scripts/build_pdf.py`)
 
@@ -23,7 +23,7 @@ The PDF is built from **`SUMMARY.print.md`** — a curated print manifest consum
 - **Use Case Implementation Guides** (`use-cases/`) — developer builds
 - **IES Schemas (developer)** (`schemas-ies/`) — generated developer mirror of the appendix
 - **Schemas Overview per-family subpages** — deep-dive pages duplicating appendix field detail; the landing page prints, the families print in full in the appendix
-- **P2P Energy Transaction** (overview + guide) — Piloted (per the use-case status), kept out of the print scope pending explicit confirmation
+- **P2P Energy Transaction implementation guide** (`use-cases/p2p-energy-trading/`) — developer build; the overview is in the PDF
 - **Status, Pathways, Propose a Schema, Download PDF, Contributors** — site-only / self-referential pages
 
 ## Moved to `draft/` (excluded from the PDF, labelled WIP in the GitBook)
