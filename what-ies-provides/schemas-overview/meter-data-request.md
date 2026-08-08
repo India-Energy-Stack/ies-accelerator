@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Document | IES/MDR/0.6 |
-| Status | Draft for technical review — v0.6 is a from-scratch redesign of v0.5 (see version history below), not yet marked stable |
+| Status | Stable — In Pilot — v0.6 is a from-scratch redesign of v0.5 (see version history below) |
 | Applicability | DISCOMs and AMISPs (as providers/grantors); AMISPs, TSPs and other authorised third parties (as requesters/grantees) |
 | This version | Covers the three composable request-layer models — MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest — defined in [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) |
 
@@ -127,7 +127,7 @@ The schema's own semantic validator (`validation/validator.py`, sharing core log
 
 ## 11. Points for Confirmation
 
-1. This schema's status is Draft for technical review — the split into three composable models (MeterDataCapabilities / MeterDataAuthorisation / MeterDataRequest) is a structural break from v0.5's single flat request object and has not yet been marked stable.
+1. The split into three composable models (MeterDataCapabilities / MeterDataAuthorisation / MeterDataRequest) is a structural break from v0.5's single flat request object; confirm downstream consumers have migrated off the v0.5 shape.
 2. The relationship between an inline `MeterDataAuthorisation` object and a URI reference to one (both are valid for the `authorisation` field) needs a documented convention for when each form is expected — notably, both shipped examples (`Request_Example.json`, `Anonymised_Telemetry_Request.json`) use the URI form exclusively, so the inline-object path is currently unexercised by any real example, particularly for audit and revocation checking.
 3. `ValueCapability.value` accepts either a raw OBIS code or a human-readable short code, but every shipped example uses only the short-code form — worth confirming whether the OBIS form is expected to appear in production traffic or is effectively vestigial for this schema.
 4. The semantic checks that actually give `ValueCapability.value` + `mode` + `profileType` their meaning — resolvability against the `MeterData` family's `IES codes.json`, profile-membership, and mode-support — live entirely in an external validator script and a sibling schema's code table, not in `schema.json` itself; worth confirming whether that dependency should be declared explicitly (e.g. as a schema reference or `x-standard` annotation) rather than left implicit in a validation script.

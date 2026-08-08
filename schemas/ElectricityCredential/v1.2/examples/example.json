@@ -1,7 +1,7 @@
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "https://schema.beckn.io/ElectricityCredential/v1.2/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/context.jsonld"
   ],
   "id": "urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456",
   "type": ["VerifiableCredential", "ElectricityCredential"],

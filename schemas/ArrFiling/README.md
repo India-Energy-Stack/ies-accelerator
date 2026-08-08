@@ -2,7 +2,7 @@
 
 *A structured, machine-readable version of the Aggregate Revenue Requirement (ARR) filing a distribution licensee submits to its state electricity regulator.*
 
-**Status:** Draft for technical review (current: **v0.5**) · **Filed by** DISCOMs · **Received by** SERCs / Joint Electricity Regulatory Commissions
+**Status:** Work in progress (current: **v0.5**) · **Filed by** DISCOMs · **Received by** SERCs / Joint Electricity Regulatory Commissions
 
 ## What it records
 
@@ -26,7 +26,7 @@ Each state's own **SERC tariff regulations** define the filing forms; ArrFiling'
 
 ## How it fits together
 
-The payload of the **[DISCOM Regulatory Filing](../../use-cases/discom-regulatory-filing/README.md)** use case: the DISCOM (as provider) delivers the filing as a signed, schema-validated payload over the IES Beckn network to the SERC (as consumer), which ingests it directly instead of a PDF. Supporting workbooks ride as separate signed datasets linked by `filingId`.
+The payload of the **[DISCOM Regulatory Filing](../../draft/use-cases/discom-regulatory-filing/README.md)** use case: the DISCOM (as provider) delivers the filing as a signed, schema-validated payload over the IES Beckn network to the SERC (as consumer), which ingests it directly instead of a PDF. Supporting workbooks ride as separate signed datasets linked by `filingId`.
 
 ## Open points
 

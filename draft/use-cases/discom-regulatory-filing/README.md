@@ -2,7 +2,7 @@
 
 **In a hurry?** Jump to the [Checklist](#checklist). For the standards basis and full field schedule, see the **[Overview](../../use-cases-overview/discom-regulatory-filing.md)**.
 
-**A DISCOM submits its Aggregate Revenue Requirement (ARR), tariff petition, true-up, or other compliance filing to a State Electricity Regulatory Commission (SERC) as a structured, signed, machine-verifiable [ArrFiling v0.5](../../schemas/ArrFiling/v0.5/README.md) object.**
+**A DISCOM submits its Aggregate Revenue Requirement (ARR), tariff petition, true-up, or other compliance filing to a State Electricity Regulatory Commission (SERC) as a structured, signed, machine-verifiable [ArrFiling v0.5](../../../schemas/ArrFiling/v0.5/README.md) object.**
 
 {% hint style="warning" %}
 🚧 **Work in progress.** This guide is still being finalised and may change before sign-off.
@@ -36,15 +36,15 @@ Unlike Smart Meter Data Exchange, here the **DISCOM is the BPP** (data provider)
 
 | Block | Role in this use case |
 |---|---|
-| [Identifiers](../../what-ies-provides/register.md) | The DISCOM and SERC each have a `did:web` identity. The filing carries identifiers for the filing (`filingId`), each fiscal year, and each cost line item. |
-| [Registries](../../what-ies-provides/register.md#the-directory-dedi) | For Beckn message-signature verification: DISCOM and SERC subscriber records resolved via DeDi. The [IES DISCOMs](../../what-ies-provides/register.md#the-directory-dedi) and [Regulators reference registries](../../what-ies-provides/register.md#the-directory-dedi) provide the Beckn network trust boundary. |
-| [Data Exchange](../../what-ies-provides/discover.md) | Carries the `ArrFiling` payload from BPP (DISCOM) to BAP (SERC), with the same `confirm` / `on_confirm` / `status` / `on_status` lifecycle as the meter-data flow. |
+| [Identifiers](../../../what-ies-provides/register.md) | The DISCOM and SERC each have a `did:web` identity. The filing carries identifiers for the filing (`filingId`), each fiscal year, and each cost line item. |
+| [Registries](../../../what-ies-provides/register.md#the-directory-dedi) | For Beckn message-signature verification: DISCOM and SERC subscriber records resolved via DeDi. The [IES DISCOMs](../../../what-ies-provides/register.md#the-directory-dedi) and [Regulators reference registries](../../../what-ies-provides/register.md#the-directory-dedi) provide the Beckn network trust boundary. |
+| [Data Exchange](../../../what-ies-provides/discover.md) | Carries the `ArrFiling` payload from BPP (DISCOM) to BAP (SERC), with the same `confirm` / `on_confirm` / `status` / `on_status` lifecycle as the meter-data flow. |
 
 ---
 
 ## The Dataset — `ArrFiling v0.5`
 
-The [`ArrFiling`](../../schemas/ArrFiling/v0.5/README.md) schema carries structured cost data for one or more fiscal years. Root fields: `filingId`, `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`), `licensee`, `regulatoryCommission`, `controlPeriodStart` / `controlPeriodEnd`, `currency`, `unitScale` (`CRORE` / `LAKH` / `ABSOLUTE`), `status`, and `fiscalYears[]`.
+The [`ArrFiling`](../../../schemas/ArrFiling/v0.5/README.md) schema carries structured cost data for one or more fiscal years. Root fields: `filingId`, `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`), `licensee`, `regulatoryCommission`, `controlPeriodStart` / `controlPeriodEnd`, `currency`, `unitScale` (`CRORE` / `LAKH` / `ABSOLUTE`), `status`, and `fiscalYears[]`.
 
 Each fiscal year (`ArrFiscalYear`) carries `yearType` (`BASE_YEAR` / `CONTROL_PERIOD` / `HISTORICAL`), `amountBasis` (`AUDITED` / `APPROVED` / `PROPOSED` / `TRUED_UP` / `NOT_FILED`), and `lineItems[]`. Each line item (`ArrLineItem`) carries `lineItemId`, `category` (`VARIABLE` / `FIXED` / `INCOME` / `SUB_TOTAL` / `ARR` / `ADJUSTMENT`), `subCategory` (e.g. `POWER_PURCHASE`, `NETWORK_COST`, `O_AND_M`, `DEPRECIATION`), `head`, `amount`, and a `formReference` back to the source regulatory form.
 
@@ -82,13 +82,13 @@ The `category` / `subCategory` enums follow the standard ARR cost categories mos
 
 ### 1. Register — both parties
 
-- DISCOM in the [IES DISCOMs reference registry](../../what-ies-provides/register.md#the-directory-dedi); SERC in the [Regulators reference registry](../../what-ies-provides/register.md#the-directory-dedi) → **[Setup Register](../../how-you-implement-ies/setup-register.md)**.
+- DISCOM in the [IES DISCOMs reference registry](../../../what-ies-provides/register.md#the-directory-dedi); SERC in the [Regulators reference registry](../../../what-ies-provides/register.md#the-directory-dedi) → **[Setup Register](../../../how-you-implement-ies/setup-register.md)**.
 - Mint a single canonical `filingId` per submission (typical pattern: `<COMMISSION>/ARR/<DISCOM>/<TYPE>/<FY-range>`). The same `filingId` should appear on any resubmissions — versioning lives on the data-exchange envelope, not the ID.
 - If the filing responds to a specific tariff order, reference the `policyID` of that order (see [Policy as Code](../tariff-intelligence/README.md)).
 
 ### 2. Discover — stand up the data-exchange adapters
 
-The DISCOM runs a BPP adapter; the SERC runs a BAP adapter → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**.
+The DISCOM runs a BPP adapter; the SERC runs a BAP adapter → **[Setup Exchange](../../../how-you-implement-ies/setup-exchange.md)**.
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -139,7 +139,7 @@ For the DISCOM (filing) and the SERC (receiving). Role: ☐ DISCOM ☐ SERC ☐ 
 
 **4. Generate a sample filing as structured data.**
 
-- [ ] One prior-year filing converted to `ArrFiling` and schema-validated against [`schema.json`](../../schemas/ArrFiling/v0.5/schema.json)
+- [ ] One prior-year filing converted to `ArrFiling` and schema-validated against [`schema.json`](../../../schemas/ArrFiling/v0.5/schema.json)
 - [ ] Line-item parity confirmed against the source PDF
 
 **5. Stand up the data-exchange adapters** — prove on the devkit first.
@@ -165,9 +165,9 @@ For the DISCOM (filing) and the SERC (receiving). Role: ☐ DISCOM ☐ SERC ☐ 
 
 ## References
 
-- [`ArrFiling v0.5` schema](../../schemas/ArrFiling/v0.5/README.md)
-- [Example payload](../../schemas/ArrFiling/v0.5/examples/arr_filings.json)
+- [`ArrFiling v0.5` schema](../../../schemas/ArrFiling/v0.5/README.md)
+- [Example payload](../../../schemas/ArrFiling/v0.5/examples/arr_filings.json)
 - [Overview — DISCOM Regulatory Filing](../../use-cases-overview/discom-regulatory-filing.md) — standards basis, definitions, full field schedule
-- [Data Exchange chapter](../../what-ies-provides/discover.md)
-- [Registries and Directories](../../what-ies-provides/register.md#the-directory-dedi)
-- [Identifiers and Addressing](../../what-ies-provides/register.md)
+- [Data Exchange chapter](../../../what-ies-provides/discover.md)
+- [Registries and Directories](../../../what-ies-provides/register.md#the-directory-dedi)
+- [Identifiers and Addressing](../../../what-ies-provides/register.md)

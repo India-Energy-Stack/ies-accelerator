@@ -1,0 +1,27 @@
+# Renders the Propose-a-Schema form natively inside GitBook.
+#
+# `name` must be globally unique across all GitBook integrations — if `gitbook publish`
+# reports the name is taken, change it here and re-publish.
+# `organization` must be the IES GitBook organization id or subdomain; fill it in before
+# publishing (see README.md).
+name: ies-schema-proposal
+title: IES — Propose a Schema
+# Max 100 characters — the API rejects anything longer.
+description: >-
+  Collects schema proposals inline and forwards them to the IES intake form.
+organization: xhnsCPd3n4lWXhGUNO4s
+visibility: private
+script: ./src/index.tsx
+scopes: []
+blocks:
+  - id: schema-proposal
+    title: Propose a Schema
+    description: An inline form for proposing a new IES schema.
+    # Lets the block be referenced from Git-synced Markdown as a fenced code block:
+    #     ```schema-proposal
+    #     ```
+    markdown:
+      codeblock: schema-proposal
+      # Required by the manifest schema; names the prop the fence body maps to.
+      # The block ignores it — the fence is always empty.
+      body: content

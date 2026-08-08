@@ -80,7 +80,7 @@ FAMILIES: dict[str, dict] = {
     },
     "ArrFiling": {
         "category": "Data Exchange payloads",
-        "used": "[DISCOM Regulatory Filing](../use-cases/discom-regulatory-filing/README.md)",
+        "used": "[DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md)",
     },
     "OutageNotification": {
         "category": "Data Exchange payloads",

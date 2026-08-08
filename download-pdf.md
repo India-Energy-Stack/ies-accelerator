@@ -1,6 +1,6 @@
 # Download PDF
 
-The entire GitBook — every chapter, every use-case guide, every schema overview — is also published as a single printable PDF.
+The deliverable subset of this GitBook — the narrative chapters and the full schemas reference — is published as a single printable PDF.
 
 **[⬇ Download ies-report.pdf](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf)**
 
@@ -8,9 +8,11 @@ The entire GitBook — every chapter, every use-case guide, every schema overvie
 
 ## What's in it
 
-Built from the same source as this GitBook, in the same order as the left-hand navigation: Home, Glossary, FAQ, What IES Provides (Register → Discover → Exchange → Verifiable Credentials → Schemas Overview), How you implement IES, Use Case Overviews, Use Case Implementation Guides, and Contributors — followed by an **Appendix — Schemas Reference** at the end, covering the field reference for every schema family.
+The PDF is built from a curated print manifest ([`SUMMARY.print.md`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/SUMMARY.print.md)), not from the full left-hand navigation: Home, Glossary, FAQ, What IES Provides (Register → Discover → Exchange → Verifiable Credentials → Security → Schemas Overview), the finalised Use Case Overviews — followed by an **Appendix — Schemas Reference** at the end, covering the field reference for every schema family.
 
-The appendix is placed last and behind a clear divider chapter on purpose: the document is long, and the schema field-reference tables are lookup material, not narrative reading. Putting them at the end keeps the front of the PDF a clean, linear read, while still shipping the complete schema reference inside the same file.
+The appendix is placed last and behind a clear divider chapter on purpose: the schema field-reference tables are lookup material, not narrative reading. Putting them at the end keeps the front of the PDF a clean, linear read, while still shipping the complete schema reference inside the same file.
+
+Developer material — How you implement IES, the Use Case Implementation Guides, and the developer schema catalog — plus site-only pages (Status, Pathways, Propose a Schema, Contributors, this page) and anything marked WIP or Draft stay in this GitBook and are deliberately not part of the printed PDF.
 
 ## How it's kept current
 

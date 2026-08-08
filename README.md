@@ -1,10 +1,26 @@
+---
+layout:
+  title:
+    visible: false
+---
+
 # India Energy Stack — Accelerator
+
+![India Energy Stack and the Ministry of Power](.gitbook/assets/ies-mop.png)
+
+![REC and FSR Global](.gitbook/assets/rec-fsr.png)
+
+The India Energy Stack is an initiative of the **Ministry of Power**, Government of India. **REC** is the nodal agency, and **FSR Global** is the knowledge partner.
+
+<!-- PDF:SKIP:START -->
+---
 
 **IES: the why, what and how.** The India Energy Stack in plain words — the problem, the idea, how it works, what it is not, what it changes for the sector, and its pilot record. This page is the starting point; the rest of the GitBook turns it into specifications, implementation steps and worked use cases. For whether any of this is running today, see **[Status](STATUS.md)**.
 
 {% hint style="info" %}
-📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
+📄 **Printable version:** download the deliverable subset of this guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
 {% endhint %}
+<!-- PDF:SKIP:END -->
 
 ---
 
@@ -49,7 +65,7 @@ IES tells any two systems in the power sector how to share data with each other.
 
 - **(a) [Register](what-ies-provides/register.md) (verifiable digital identity).** Every participant gets a digital identity and is listed in a shared directory. This is done once. Uses [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/), for example.
 - **(b) [Discover](what-ies-provides/discover.md) (interaction protocol).** Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement is needed. Uses the [Beckn protocol](https://github.com/beckn/protocol-specifications-v2), for example.
-- **(c) [Exchange](what-ies-provides/exchange.md) (schema, taxonomy and verifiable credentials).** Data moves using agreed field names and structure, following the public standard for that domain: DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response. Where the use case needs a durable record, the exchange also produces a verifiable credential, such as a [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](glossary.md#digilocker) and can share it with any bank, regulator, or scheme administrator without returning to the issuer.
+- **(c) [Exchange](what-ies-provides/exchange.md) (schema, taxonomy and verifiable credentials).** Data moves over the same signed [Beckn](glossary.md#beckn) channel that Discover established, using agreed field names and structure, following the public standard for that domain: DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response. Where the use case needs a durable record, the exchange also produces a verifiable credential, such as a [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](glossary.md#digilocker) and can share it with any bank, regulator, or scheme administrator without returning to the issuer.
 
 IES selects the right open standard for each step and publishes a specification that builds on it. **IES does not write new standards.** Build to the IES specifications once, and a system can connect to any other IES-ready system without fresh integration work.
 
@@ -79,7 +95,7 @@ When the India Energy Stack is used, for example the following becomes possible:
 
 - **For consumers.** A consumer's energy history becomes portable and verifiable. It can be used to obtain a green loan, claim a subsidy or sign up for a service, without repeated paperwork or calls to the DISCOM. Certificates issued by a DISCOM are of direct use to banks, housing finance companies, scheme administrators and service providers who need verified energy data. When consumers can prove their energy history, demand for those certificates flows back through the DISCOM.
 - **For the grid.** Every distributed energy resource, for example a rooftop solar unit or a small battery, is given a verified identity when it is first connected. Operators obtain reliable visibility of these resources ([DER Visibility](use-cases/der-visibility/README.md)), and connection across DISCOMs, AMISPs and aggregators (firms that pool many small resources) happens without a separate arrangement for each pair.
-- **For regulators.** Filings reach the regulator already signed and in a single, consistent format ([DISCOM Regulatory Filing](use-cases/discom-regulatory-filing/README.md)). Tariff orders become computable ([Policy as Code](use-cases/tariff-intelligence/README.md)). Regulators move from reading PDF documents to monitoring data directly.
+- **For regulators.** Filings reach the regulator already signed and in a single, consistent format ([DISCOM Regulatory Filing](draft/use-cases/discom-regulatory-filing/README.md)). Tariff orders become computable ([Policy as Code](draft/use-cases/tariff-intelligence/README.md)). Regulators move from reading PDF documents to monitoring data directly.
 - **For markets.** Demand-side flexibility, [peer-to-peer energy transaction](use-cases/p2p-energy-trading/README.md) (consumers buying and selling power directly) and open access (a large consumer buying power from a supplier other than the local DISCOM) become workable in practice, without a separate agreement between every pair of participants.
 
 ---
@@ -143,12 +159,12 @@ The questions utilities, regulators and vendors ask most — *does IES replace m
 | Standard | Role in IES |
 |---|---|
 | [W3C Decentralized Identifiers (DIDs)](https://www.w3.org/TR/did-core/) | The **Register** layer — cryptographic identity for issuers, holders, verifiers, assets and datasets |
-| [Beckn Protocol v2.0](https://github.com/beckn/protocol-specifications-v2) | The **Discover** layer — peer-to-peer discovery, contracting, consent, audit |
-| [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/) | The durable-record half of **Exchange** — signed, machine-verifiable credentials |
-| [DLMS-COSEM / IS 15959](https://en.wikipedia.org/wiki/IEC_62056) | The meter-data half of **Exchange** — smart-meter wire protocol used in RDSS AMI deployments |
-| [IEC 61968 / CIM / MultiSpeak](https://en.wikipedia.org/wiki/IEC_61968) | The asset-data-model half of **Exchange** — HES↔MDMS interoperability standards |
-| [IEEE 2030.5 / IEEE 1547](https://standards.ieee.org/ieee/2030.5/5897/) | The DER / flexibility half of **Exchange** — solar, storage, EV charging |
-| [OpenADR 3.1.0](https://www.openadr.org) | The demand-response half of **Exchange** — DR events and flexibility reporting |
+| [Beckn Protocol v2.0](https://github.com/beckn/protocol-specifications-v2) | The **Exchange** layer — peer-to-peer discovery, negotiation, contracting, consent, payload delivery and signed audit. Discovery is one stage of Beckn, not the whole of it |
+| [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/) | The durable-record standard within **Exchange** — signed, machine-verifiable credentials |
+| [DLMS-COSEM / IS 15959](https://en.wikipedia.org/wiki/IEC_62056) | The meter-data standard within **Exchange** — smart-meter wire protocol used in RDSS AMI deployments |
+| [IEC 61968 / CIM / MultiSpeak](https://en.wikipedia.org/wiki/IEC_61968) | The asset-data-model standard within **Exchange** — HES↔MDMS interoperability standards |
+| [IEEE 2030.5 / IEEE 1547](https://standards.ieee.org/ieee/2030.5/5897/) | The DER / flexibility standard within **Exchange** — solar, storage, EV charging |
+| [OpenADR 3.1.0](https://www.openadr.org) | The demand-response standard within **Exchange** — DR events and flexibility reporting |
 | [DigiLocker](https://digilocker.gov.in) | India's national digital document wallet — consumer-facing credential store |
 
 ---

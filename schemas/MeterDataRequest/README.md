@@ -2,7 +2,7 @@
 
 *The query, capability and authorisation shapes a party uses to ask for smart-meter telemetry — not the telemetry itself.*
 
-**Status:** Draft for technical review (current: **v0.6**) · **Published by** providers (DISCOMs, AMISPs) · **Used by** requesters (DISCOMs, TSPs, consented third parties)
+**Status:** Stable — In Pilot (current: **v0.6**) · **Published by** providers (DISCOMs, AMISPs) · **Used by** requesters (DISCOMs, TSPs, consented third parties)
 
 ## What it records
 

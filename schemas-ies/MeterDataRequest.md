@@ -15,7 +15,7 @@ layout:
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest` |
 | **Latest version** | **v0.6** |
 | **All versions** | v0.6, v0.5 |
-| **Status** | Draft for technical review (current: **v0.6**) · **Published by** providers (DISCOMs, AMISPs) · **Used by** requesters (DISCOMs, TSPs, consented third parties) |
+| **Status** | Stable — In Pilot (current: **v0.6**) · **Published by** providers (DISCOMs, AMISPs) · **Used by** requesters (DISCOMs, TSPs, consented third parties) |
 | **Category** | Data Exchange payloads |
 | **Used in** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) |
 

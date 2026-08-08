@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
-"""Walk SUMMARY.md and build a single combined Markdown ready for pandoc.
+"""Walk SUMMARY.print.md and build a single combined Markdown ready for pandoc.
+
+The PDF is built from SUMMARY.print.md — a curated print manifest in the
+same grammar as SUMMARY.md — NOT from the GitBook navigation itself. The
+GitBook (driven by SUMMARY.md via .gitbook.yaml) carries the full
+documentation; the print manifest defines the deliverable subset that is
+exported and published as the submission PDF. A page listed only in
+SUMMARY.md renders on the site but is not printed.
 
 - Strips GitBook `{% hint %}` wrappers (keeps inner content).
 - Substitutes emoji / math glyphs that the default LaTeX font cannot render.
 - Renders ```mermaid``` fenced blocks to PNG via mermaid-cli (`mmdc`) and
   replaces the block with a markdown image reference. If `mmdc` is not on
   PATH the block is left as a code block (and a warning is printed).
-- Moves all schema content (Schemas Overview + Taxonomy) to a clearly
-  divided appendix at the end, instead of interleaving it with the
-  narrative in SUMMARY.md order.
+- Moves the schemas/ field reference to a clearly divided appendix at the
+  end, instead of interleaving it with the narrative in manifest order.
 """
 from __future__ import annotations
 
@@ -21,25 +27,43 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SUMMARY = ROOT / "SUMMARY.md"
+SUMMARY = ROOT / "SUMMARY.print.md"
 BUILD = ROOT / "build"
 MERMAID_DIR = BUILD / "mermaid"
 OUT_MD = BUILD / "ies_combined.md"
 APPENDIX_DIVIDER_MD = BUILD / "appendix_divider.md"
 
-# Path prefixes that make up the schemas appendix (the prose "Schemas
-# Overview" walkthroughs plus the auto-generated Taxonomy field-reference
-# tables). Everything else stays in narrative SUMMARY.md order; these are
-# pulled out and appended at the end, behind a clear divider chapter.
-SCHEMA_PATH_PREFIXES = ("what-ies-provides/schemas-overview/", "schemas/")
+# Path prefixes that make up the schemas appendix (the auto-generated
+# field-reference tables under schemas/). Everything else — including the
+# prose Schemas Overview pages, which read as narrative — stays in
+# manifest order; these are pulled out and appended at the end, behind a
+# clear divider chapter.
+SCHEMA_PATH_PREFIXES = ("schemas/",)
+
+# Pages that exist for the live docs site only and make no sense in a static,
+# offline PDF (e.g. "go fill in this web form" intake pages, or a page the site
+# needs twice). Skipped entirely by the PDF build; they still render on GitBook.
+#
+# schemas-ies/external.md is a generated mirror of schemas/external/README.md.
+# Both are listed in SUMMARY.md so the page is reachable from either schema
+# section on the site, but the PDF appendix already carries the original —
+# printing both would repeat the whole external field reference.
+EXCLUDE_FROM_PDF = frozenset({"propose-a-schema.md", "schemas-ies/external.md"})
+
+# Back-matter pages: printed at the very end of the document, after the
+# schemas appendix, regardless of their position in the print manifest.
+# The narrative chapters read straight through; these are flip-to references
+# (a pointer page early in the document tells the reader where they are).
+BACK_MATTER_PATHS = ("glossary.md", "faq.md")
 
 APPENDIX_TITLE = "Appendix — Schemas Reference"
 APPENDIX_INTRO = f"""# {APPENDIX_TITLE}
 
-Plain-language overviews of each IES schema family (Schemas Overview) and the
-auto-generated field-reference tables for every current schema version
-(Taxonomy). This appendix mirrors the same content published on GitBook under
-**What IES Provides → Schemas Overview** and the **Taxonomy** chapter.
+The field reference for each IES schema family, at its current version:
+structure, attribute tables, and worked examples. This appendix mirrors the
+same content published on GitBook under **Schemas**; plain-language
+walkthroughs of each family appear earlier, under **What IES Provides →
+Schemas Overview**.
 """
 
 
@@ -145,6 +169,8 @@ def parse_summary() -> list[tuple[int, str, str]]:
             continue
         indent, title, path = m.groups()
         if not path.endswith(".md"):
+            continue
+        if path in EXCLUDE_FROM_PDF:
             continue
         depth = len(indent) // 2
         entries.append((depth, title, path))
@@ -256,7 +282,16 @@ def shift_headings(body: str, levels: int) -> str:
     return "\n".join(out)
 
 
+# Content between these markers is omitted from the PDF while still
+# rendering on GitBook (HTML comments are invisible there). For prose that
+# only makes sense on the live site — e.g. "download this guide as a PDF".
+PDF_SKIP_RE = re.compile(
+    r"<!--\s*PDF:SKIP:START\s*-->.*?<!--\s*PDF:SKIP:END\s*-->\n?", re.DOTALL
+)
+
+
 def preprocess(text: str, mmdc: str | None, no_generate: bool = False) -> str:
+    text = PDF_SKIP_RE.sub("", text)
     text = re.sub(r"\{%\s*hint\s+style=\"[^\"]*\"\s*%\}", "", text)
     text = re.sub(r"\{%\s*endhint\s*%\}", "", text)
     for ch, sub in GLYPH_FALLBACKS.items():
@@ -336,13 +371,16 @@ def main() -> int:
         if dropped:
             print(f"Including latest version only — dropped {dropped} older version page(s). Use --all-versions to include all.")
 
-    main_entries = [e for e in entries if not is_schema_entry(e[2])]
+    main_entries = [
+        e for e in entries if not is_schema_entry(e[2]) and e[2] not in BACK_MATTER_PATHS
+    ]
     schema_entries = shift_depth_to([e for e in entries if is_schema_entry(e[2])], target_min=1)
+    back_entries = [e for e in entries if e[2] in BACK_MATTER_PATHS]
 
     APPENDIX_DIVIDER_MD.write_text(APPENDIX_INTRO)
     appendix_divider_entry = (0, APPENDIX_TITLE, APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix())
 
-    combined_entries = main_entries + [appendix_divider_entry] + schema_entries
+    combined_entries = main_entries + [appendix_divider_entry] + schema_entries + back_entries
 
     errors: list[str] = []
     for _, _, path in combined_entries:

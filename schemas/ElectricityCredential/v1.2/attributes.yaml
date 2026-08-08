@@ -47,7 +47,7 @@ components:
   schemas:
 
     ElectricityCredential:
-      $id: https://schema.beckn.io/ElectricityCredential/v1.2
+      $id: https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2
       title: ElectricityCredential
       type: object
       additionalProperties: true

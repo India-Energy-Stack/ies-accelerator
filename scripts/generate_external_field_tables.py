@@ -59,6 +59,15 @@ DEG_GUIDES = "https://github.com/beckn/DEG/tree/main/docs/implementation-guides/
 
 OUT_FILE = "README.md"  # single merged page under schemas/external/
 
+# The same page is also published inside the developer-facing schemas-ies/
+# section, so a reader working through the IES schema catalog finds the
+# external (beckn-published) schemas without leaving the section. Generated
+# from the same source rather than copied by hand so the two cannot drift; the
+# only difference is link depth (schemas/external/README.md is two levels down,
+# schemas-ies/external.md is one).
+MIRROR_DIR = os.path.join(ROOT, "schemas-ies")
+MIRROR_FILE = "external.md"
+
 # ---------------------------------------------------------------------------
 # Schemas to document, grouped by domain into one section each on a single page.
 # Shared item / contract / settlement primitives (EnergyResource, DEGContract,
@@ -405,6 +414,16 @@ def build_page(repo: str) -> str:
     return "\n".join(parts).rstrip() + "\n"
 
 
+def mirror_page(content: str) -> str:
+    """Re-point the page's relative links for the shallower schemas-ies/ copy.
+
+    schemas/external/README.md sits two directories below the repo root and
+    reaches the rest of the book with ``../../``; schemas-ies/external.md sits
+    one below and needs ``../``. Absolute (http) links are untouched.
+    """
+    return re.sub(r"\]\(\.\./\.\./", "](../", content)
+
+
 def write_or_check(path: str, content: str, check: bool) -> bool:
     current = ""
     if os.path.exists(path):
@@ -436,7 +455,9 @@ def main() -> int:
     if not os.path.isdir(os.path.join(repo, "specification", "schema")):
         ap.error(f"schema sources not found at {repo} (pass --schema-repo or set SCHEMA_REPO)")
 
-    ok = write_or_check(os.path.join(OUT_DIR, OUT_FILE), build_page(repo), args.check)
+    page = build_page(repo)
+    ok = write_or_check(os.path.join(OUT_DIR, OUT_FILE), page, args.check)
+    ok = write_or_check(os.path.join(MIRROR_DIR, MIRROR_FILE), mirror_page(page), args.check) and ok
     # Remove the superseded per-domain pages from the earlier multi-page layout.
     for stale in ("energy-trading.md", "demand-flex.md"):
         p = os.path.join(OUT_DIR, stale)
