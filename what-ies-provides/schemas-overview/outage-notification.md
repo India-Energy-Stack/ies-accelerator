@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Document | IES/ON/0.1 |
-| Status | Draft for technical review — the schema's own README and `attributes.yaml` `info.description` both mark it **"WORK IN PROGRESS — subject to change."** It is an early draft published for discussion; field names, enums and the SD/BD/RS interpretation are not final and may change without notice. Do not depend on it for production integrations yet. |
+| Status | Work in progress — the schema's own README and `attributes.yaml` `info.description` both mark it **"WORK IN PROGRESS — subject to change."** It is an early draft published for discussion; field names, enums and the SD/BD/RS interpretation are not final and may change without notice. Do not depend on it for production integrations yet. |
 | Applicability | Issued by a distribution licensee (DISCOM), or a system acting on its behalf (an OMS, MDMS, SCADA, or a real-time data-acquisition system such as the DISCOM's RTDAS); consumed by outage-map/website feeds, subscribed consumers, mass-alerting networks, and downstream reliability reporting |
 | This version | v0.1 covers the outage notice itself — class, cause, affected assets and area, timing, impact, response, public-facing text, and provenance back to the detecting smart-meter signal — defined in the companion JSON Schema file [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/schema.json). It is grounded directly in a real DISCOM system of record (an Outage Management System, `discom.example` in the examples) and a published public artifact (a DISCOM's "Detail of Planned Shutdown" PDF), not designed in the abstract. |
 

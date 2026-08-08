@@ -6,7 +6,7 @@ The specifications — a broad view of the technology stack, organised by the th
 |---|---|
 | **[Register](register.md)** | Verifiable digital identity (W3C DIDs) and the shared directory (DeDi) — the two identities a participant sets up, identifier patterns, and the registries IES uses. |
 | **[Discover](discover.md)** | Beckn-protocol interaction — how two registered organisations find each other, agree terms and sign, without a bilateral arrangement. |
-| **[Exchange](exchange.md)** | How data moves once discovered: the schemas, and where B2C verifiable credentials fit. |
+| **[Exchange](exchange.md)** | How data moves once discovered — B2B payloads carried over the same signed Beckn channel, the schemas that shape them, and where B2C verifiable credentials fit. |
 | **[Verifiable Credentials](energy-credentials/README.md)** | The B2C rail — credential lifecycle, the variants IES uses, the trust model, and DigiLocker delivery. No Beckn network involved. |
 | **[Security](security.md)** | The security posture in three parts — security as a first-class design concern, how IES builds on the sector's existing security standards, and the software-layer guarantees IES adds. |
 | **[Schemas Overview](schemas-overview/README.md)** | One plain-language page per schema family — what it is, who issues it, which standards it follows — the *why* before the field-level reference. |

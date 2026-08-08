@@ -20,9 +20,9 @@
   * [MeterData](what-ies-provides/schemas-overview/meter-data.md)
   * [MeterDataCredential](what-ies-provides/schemas-overview/meter-data-credential.md)
   * [MeterDataRequest](what-ies-provides/schemas-overview/meter-data-request.md)
-  * [MeterDataRequestCredential (Draft)](what-ies-provides/schemas-overview/meter-data-request-credential.md)
+  * [MeterDataRequestCredential](what-ies-provides/schemas-overview/meter-data-request-credential.md)
   * [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
-  * [OutageNotification (Draft)](what-ies-provides/schemas-overview/outage-notification.md)
+  * [OutageNotification (WIP)](what-ies-provides/schemas-overview/outage-notification.md)
 
 ## Schemas
 
@@ -34,11 +34,11 @@
   * [v0.6](schemas/MeterDataCredential/v0.6/README.md)
 * [MeterDataRequest](schemas/MeterDataRequest/README.md)
   * [v0.6](schemas/MeterDataRequest/v0.6/README.md)
-* [MeterDataRequestCredential (Draft)](schemas/MeterDataRequestCredential/README.md)
+* [MeterDataRequestCredential](schemas/MeterDataRequestCredential/README.md)
   * [v0.1](schemas/MeterDataRequestCredential/v0.1/README.md)
-* [ArrFiling](schemas/ArrFiling/README.md)
+* [ArrFiling (WIP)](schemas/ArrFiling/README.md)
   * [v0.5](schemas/ArrFiling/v0.5/README.md)
-* [OutageNotification (Draft)](schemas/OutageNotification/README.md)
+* [OutageNotification (WIP)](schemas/OutageNotification/README.md)
   * [v0.1](schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](schemas/external/README.md)
 

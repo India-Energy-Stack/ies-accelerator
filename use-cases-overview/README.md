@@ -12,7 +12,7 @@ Read one of these before the [Use Case Implementation Guide](../use-cases/README
 | **[DER Visibility](der-visibility.md)** | Per-consumer ElectricityCredential v1.2 today; a grid-side, PII-free per-feeder aggregate is an illustrative future profile, not yet its own schema | Piloted ([Status](../STATUS.md)) |
 | **[DISCOM Regulatory Filing](../draft/use-cases-overview/discom-regulatory-filing.md)** | Structured ArrFiling v0.5 — ARR, true-up and compliance filings from DISCOM to SERC | 🚧 WIP |
 | **[Policy as Code](../draft/use-cases-overview/tariff-intelligence.md)** | Tariff orders and other authority policy published once, as code (flagship sub-use-case: Tariff Intelligence) | 🚧 WIP |
-| **[P2P Energy Transaction](p2p-energy-trading.md)** | Two prosumers on different DISCOMs execute a direct, signed energy trade over Beckn — regulated Ledger Providers, signed-Rego settlement, no central exchange | In progress |
+| **[P2P Energy Transaction](p2p-energy-trading.md)** | Two prosumers on different DISCOMs execute a direct, signed energy trade over Beckn — regulated Ledger Providers, signed-Rego settlement, no central exchange | Piloted ([Status](../STATUS.md)) |
 
 ---
 

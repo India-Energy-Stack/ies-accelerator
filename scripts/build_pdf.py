@@ -282,7 +282,16 @@ def shift_headings(body: str, levels: int) -> str:
     return "\n".join(out)
 
 
+# Content between these markers is omitted from the PDF while still
+# rendering on GitBook (HTML comments are invisible there). For prose that
+# only makes sense on the live site — e.g. "download this guide as a PDF".
+PDF_SKIP_RE = re.compile(
+    r"<!--\s*PDF:SKIP:START\s*-->.*?<!--\s*PDF:SKIP:END\s*-->\n?", re.DOTALL
+)
+
+
 def preprocess(text: str, mmdc: str | None, no_generate: bool = False) -> str:
+    text = PDF_SKIP_RE.sub("", text)
     text = re.sub(r"\{%\s*hint\s+style=\"[^\"]*\"\s*%\}", "", text)
     text = re.sub(r"\{%\s*endhint\s*%\}", "", text)
     for ch, sub in GLYPH_FALLBACKS.items():

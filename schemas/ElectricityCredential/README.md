@@ -4,7 +4,7 @@
 
 > **Mirror.** This directory is a verbatim mirror of the Beckn DEG [`ElectricityCredential`](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential) specification. Upstream is authoritative; open an issue if you find a discrepancy.
 
-**Status:** Stable (current: **v1.2**) · **Issued by** DISCOMs · **Consumed by** consumers (holder-bound), grid operators and aggregators (bearer), banks / subsidy portals / DER marketplaces (as verifiers)
+**Status:** Stable — In Pilot (current: **v1.2**) · **Issued by** DISCOMs · **Consumed by** consumers (holder-bound), grid operators and aggregators (bearer), banks / subsidy portals / DER marketplaces (as verifiers)
 
 ## What it records
 

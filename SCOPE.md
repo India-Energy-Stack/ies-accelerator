@@ -23,7 +23,7 @@ The PDF is built from **`SUMMARY.print.md`** — a curated print manifest consum
 - **Use Case Implementation Guides** (`use-cases/`) — developer builds
 - **IES Schemas (developer)** (`schemas-ies/`) — generated developer mirror of the appendix
 - **Schemas Overview per-family subpages** — deep-dive pages duplicating appendix field detail; the landing page prints, the families print in full in the appendix
-- **P2P Energy Transaction** (overview + guide) — status "In progress", not finalised
+- **P2P Energy Transaction** (overview + guide) — Piloted (per the use-case status), kept out of the print scope pending explicit confirmation
 - **Status, Pathways, Propose a Schema, Download PDF, Contributors** — site-only / self-referential pages
 
 ## Moved to `draft/` (excluded from the PDF, labelled WIP in the GitBook)
@@ -33,12 +33,11 @@ The PDF is built from **`SUMMARY.print.md`** — a curated print manifest consum
 
 Both now sit under a **Draft (Work in Progress)** section of the GitBook navigation, behind [`draft/README.md`](draft/README.md), which states that nothing in the section is part of the deliverable.
 
-## WIP / Draft flags applied
+## Schema statuses
 
-- **MeterDataRequestCredential v0.1** — "(Draft)" in navigation titles; ⚠️ DRAFT banner added to `schemas/MeterDataRequestCredential/README.md` and `v0.1/README.md`
-- **OutageNotification v0.1** — "(Draft)" in navigation titles; already carried ⚠️ WORK IN PROGRESS banners on both pages
-- **ArrFiling v0.5** — remains in the appendix at its existing "Draft for technical review" status (its field reference is complete); its parent use case is in `draft/`
-- Use Case Overviews table labels DISCOM Regulatory Filing and Policy as Code 🚧 WIP and P2P Energy Transaction "In progress"
+- **Stable — In Pilot**: ElectricityCredential v1.2, MeterData v0.6, MeterDataCredential v0.6, MeterDataRequest v0.6, MeterDataRequestCredential v0.1
+- **Work in progress** (nav titles carry "(WIP)"): ArrFiling v0.5, OutageNotification v0.1 — both remain in the appendix; OutageNotification keeps its ⚠️ page banners
+- Use Case Overviews table labels DISCOM Regulatory Filing and Policy as Code 🚧 WIP; the six other use cases are Piloted (per each page's Status row)
 
 ## Media scrub
 

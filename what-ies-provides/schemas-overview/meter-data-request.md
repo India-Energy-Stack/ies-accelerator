@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Document | IES/MDR/0.6 |
-| Status | Draft for technical review — v0.6 is a from-scratch redesign of v0.5 (see version history below), not yet marked stable |
+| Status | Stable — In Pilot — v0.6 is a from-scratch redesign of v0.5 (see version history below) |
 | Applicability | DISCOMs and AMISPs (as providers/grantors); AMISPs, TSPs and other authorised third parties (as requesters/grantees) |
 | This version | Covers the three composable request-layer models — MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest — defined in [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) |
 

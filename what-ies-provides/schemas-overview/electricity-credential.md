@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Document | IES/EC/1.2 |
-| Status | Stable (mirrored verbatim from upstream `beckn/DEG`; v1.2 is the current version, v1.1 and v1.0 are previous/deprecated) |
+| Status | Stable — In Pilot (mirrored verbatim from upstream `beckn/DEG`; v1.2 is the current version, v1.1 and v1.0 are previous/deprecated) |
 | Applicability | Issued by distribution licensees (DISCOMs); consumed by consumers (holder-bound variant), grid operators and aggregators (bearer variant), banks, subsidy portals and DER marketplaces (as verifiers) |
 | This version | v1.2 replaces every power/energy/voltage scalar field with a `QuantitativeValue {value, unit}` pair and introduces the composable `energyResources[]` hierarchy of seven discriminated kinds, documented in [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json) |
 

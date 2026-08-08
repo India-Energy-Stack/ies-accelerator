@@ -3,7 +3,7 @@
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.org/",
     "https://schema.beckn.io/Location/2.0/context.jsonld",
-    "https://schema.beckn.io/ElectricityCredential/v1.0/context.jsonld",
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/context.jsonld",
     "https://schema.beckn.io/EnergyCustomerProfile/v1.0/context.jsonld",
     "https://schema.beckn.io/ConsumptionProfileCredential/v2.0/context.jsonld",
     "https://schema.beckn.io/GenerationProfileCredential/v2.0/context.jsonld",

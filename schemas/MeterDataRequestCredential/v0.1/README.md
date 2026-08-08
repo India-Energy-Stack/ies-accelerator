@@ -2,8 +2,6 @@
 
 # MeterDataRequestCredential v0.1
 
-> ⚠️ **DRAFT — subject to change.** This is an early draft (v0.1) published for technical review. Field names, structure and interpretation are not final and may change without notice before a stable release. Do not depend on it for production integrations yet.
-
 A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.6/) to prove a data requester's authorisation for accessing smart meter telemetry.
 
 ---

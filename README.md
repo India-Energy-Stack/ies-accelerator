@@ -12,13 +12,15 @@ layout:
 
 The India Energy Stack is an initiative of the **Ministry of Power**, Government of India. **REC** is the nodal agency, and **FSR Global** is the knowledge partner.
 
+<!-- PDF:SKIP:START -->
 ---
 
 **IES: the why, what and how.** The India Energy Stack in plain words — the problem, the idea, how it works, what it is not, what it changes for the sector, and its pilot record. This page is the starting point; the rest of the GitBook turns it into specifications, implementation steps and worked use cases. For whether any of this is running today, see **[Status](STATUS.md)**.
 
 {% hint style="info" %}
-📄 **Printable version:** download this entire guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
+📄 **Printable version:** download the deliverable subset of this guide as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf). Schema reference material is included as an appendix at the end. Regenerated automatically whenever the docs change — see [Download PDF](download-pdf.md).
 {% endhint %}
+<!-- PDF:SKIP:END -->
 
 ---
 
@@ -63,7 +65,7 @@ IES tells any two systems in the power sector how to share data with each other.
 
 - **(a) [Register](what-ies-provides/register.md) (verifiable digital identity).** Every participant gets a digital identity and is listed in a shared directory. This is done once. Uses [W3C Decentralised Identifiers](https://www.w3.org/TR/did-core/), for example.
 - **(b) [Discover](what-ies-provides/discover.md) (interaction protocol).** Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. No bilateral arrangement is needed. Uses the [Beckn protocol](https://github.com/beckn/protocol-specifications-v2), for example.
-- **(c) [Exchange](what-ies-provides/exchange.md) (schema, taxonomy and verifiable credentials).** Data moves using agreed field names and structure, following the public standard for that domain: DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response. Where the use case needs a durable record, the exchange also produces a verifiable credential, such as a [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](glossary.md#digilocker) and can share it with any bank, regulator, or scheme administrator without returning to the issuer.
+- **(c) [Exchange](what-ies-provides/exchange.md) (schema, taxonomy and verifiable credentials).** Data moves over the same signed [Beckn](glossary.md#beckn) channel that Discover established, using agreed field names and structure, following the public standard for that domain: DLMS/COSEM for meter data, IEEE 2030.5 for solar and storage, OpenADR for demand response. Where the use case needs a durable record, the exchange also produces a verifiable credential, such as a [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md), a [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md), or a DER Commissioning Record. The holder keeps it in [DigiLocker](glossary.md#digilocker) and can share it with any bank, regulator, or scheme administrator without returning to the issuer.
 
 IES selects the right open standard for each step and publishes a specification that builds on it. **IES does not write new standards.** Build to the IES specifications once, and a system can connect to any other IES-ready system without fresh integration work.
 

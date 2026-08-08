@@ -10,12 +10,14 @@ layout:
 
 *A structured, machine-readable version of the Aggregate Revenue Requirement (ARR) filing a distribution licensee submits to its state electricity regulator.*
 
+> ⚠️ **Work in progress — subject to change.** Field names, enums and interpretation are not final. Do not depend on it for production integrations yet.
+
 | | |
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling` |
 | **Latest version** | **v0.5** |
 | **All versions** | v0.5 |
-| **Status** | Draft for technical review (current: **v0.5**) · **Filed by** DISCOMs · **Received by** SERCs / Joint Electricity Regulatory Commissions |
+| **Status** | Work in progress (current: **v0.5**) · **Filed by** DISCOMs · **Received by** SERCs / Joint Electricity Regulatory Commissions |
 | **Category** | Data Exchange payloads |
 | **Used in** | [DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md) |
 

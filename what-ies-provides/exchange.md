@@ -13,7 +13,7 @@ Once two parties have [Registered](register.md) and [Discovered](discover.md) ea
 
 Exchange happens over two kinds of rail, and a use case picks whichever fits:
 
-- **B2B data exchange** — structured payloads moving between organisations, after the parties are **Registered** and have **[Discovered](discover.md)** each other. IES recommends the Beckn protocol here for its built-in discovery, consent, contract and audit trail.
+- **B2B data exchange** — structured payloads moving between organisations, after the parties are **Registered** and have **[Discovered](discover.md)** each other. IES uses the Beckn protocol here — the same signed channel carries discovery, consent, contract, payload delivery and the audit trail.
 - **Credential flows** — issued with [OpenCred](../glossary.md#opencred) and verified offline against the issuer's published key, credentials stand on their own and **do not require a Beckn network**. Consumer-facing (B2C) delivery happens over DigiLocker, a web portal, or any channel the issuer already runs.
 
 ---
@@ -67,7 +67,7 @@ The schema canonical references — JSON Schema, JSON-LD context, RDF vocabulary
 |---|---|
 | Step 1 — [Register](register.md) | Identity + directory |
 | Step 2 — [Discover](discover.md) | Beckn-protocol interaction |
-| Step 3 — Exchange *(this page)* | — |
+| Step 3 — Exchange *(this page)* | Signed Beckn payload delivery — schemas + credentials |
 
 To set up the Part-2 mapping hands-on: **[Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)**.
 

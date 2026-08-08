@@ -15,7 +15,7 @@ layout:
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential` |
 | **Latest version** | **v1.2** |
 | **All versions** | v1.2, v1.1, v1.0 |
-| **Status** | Stable (current: **v1.2**) · **Issued by** DISCOMs · **Consumed by** consumers (holder-bound), grid operators and aggregators (bearer), banks / subsidy portals / DER marketplaces (as verifiers) |
+| **Status** | Stable — In Pilot (current: **v1.2**) · **Issued by** DISCOMs · **Consumed by** consumers (holder-bound), grid operators and aggregators (bearer), banks / subsidy portals / DER marketplaces (as verifiers) |
 | **Category** | Verifiable Credentials |
 | **Used in** | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) |
 
