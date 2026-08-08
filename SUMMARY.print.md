@@ -36,6 +36,7 @@
 * [Consumer Meter Digest](use-cases-overview/consumer-meter-digest.md)
 * [Smart Meter Data Exchange](use-cases-overview/smart-meter-data-exchange.md)
 * [DER Visibility](use-cases-overview/der-visibility.md)
+* [P2P Energy Transaction](use-cases-overview/p2p-energy-trading.md)
 
 ## Appendix — Schemas Reference
 

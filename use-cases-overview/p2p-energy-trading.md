@@ -11,9 +11,11 @@
 | **Applicability** | Trading platforms, regulated Ledger Providers, DISCOMs |
 | **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.beckn.io](https://schema.beckn.io)) over Beckn, with signed Rego policies governing the network and contract rules. Mirrored in [External Schemas — Energy Trading](../schemas/external/README.md). |
 
+<!-- PDF:SKIP:START -->
 > **Current deployment.** The architecture supports one Ledger Provider per DISCOM, but to start with **all trading platforms connect to a single Ledger Provider**, hosted at `ies-p2p-energy-ledger.beckn.io` — the two LPs in the diagrams below collapse into one (the intra-DISCOM topology; same protocol, fewer hops). The network namespaces are `indiaenergystack.in/test-ies-p2p-trading-network` (test) and `indiaenergystack.in/ies-p2p-trading-network` (production).
 
 > **Where to go next.** This page is the *why* and the *what*. For the step-by-step build — what each actor does per phase, the ONIX config, the ledger interfaces, the payload snapshots and the setup checklist — read the **[Implementation Guide](../use-cases/p2p-energy-trading/README.md)**.
+<!-- PDF:SKIP:END -->
 
 ---
 
@@ -186,7 +188,9 @@ Schedule II contains derived operational views; none is a separate populated IES
 
 Everything buyer-side mirrors everything seller-side: a buyer prosumer and their trading platform (BAP) on one side, a seller prosumer and their trading platform (BPP) on the other, the two platforms meeting over the `select / init / confirm / status` leg. Each DISCOM is represented by one regulated Ledger Provider, and each LP pulls metered actuals daily from its own DISCOM as the input to allocation. The two LPs — one per DISCOM — never speak to each other directly; the two TPs are the only liaison between them. No central exchange. Discovery goes through the network's Discovery service: the SellerTP lists offers via `publish-catalog`, the BuyerTP queries with `discover`.
 
+<!-- PDF:SKIP:START -->
 > **The block-topology diagram and the full six-phase sequence diagram** (with the automated ONIX legs shaded) live in the **[Implementation Guide → What each actor does, per phase](../use-cases/p2p-energy-trading/README.md#what-each-actor-does-per-phase)** — placed there so a developer has the topology, the wire sequence and the per-actor build steps in one place.
+<!-- PDF:SKIP:END -->
 
 ### The six phases
 
