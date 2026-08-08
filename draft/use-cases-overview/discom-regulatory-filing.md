@@ -122,19 +122,13 @@ Schedule I is a field-and-status view over the real [ArrFiling v0.5](https://ind
 | `lineItems[].componentOf` | parent `lineItemId` | Optional | IES roll-up mapping | Links a component row to its subtotal |
 | `lineItems[].formula` | human-readable expression | Optional | Filing computation | Use on subtotal/ARR rows to disclose the roll-up; consumers must not treat it as executable code |
 
-## 9. Schedule II — Report Templates
+## 9. Schedule II
 
-ArrFiling is itself the report; Schedule II records the transport and related-artifact boundary.
+**Not applicable.** A regulatory filing is complete when it is filed. Every field in Schedule I — including the per-year amounts in `fiscalYears[]` — is fixed at submission and changes only through a revised or trued-up filing, which is a new record with its own `filingId`. Nothing in this use case keeps arriving after issuance, so there is no live half to map.
 
-| **Related Artefact / Relationship** | **Inside ArrFiling v0.5?** | **How it is Bound** | **Status / Treatment** |
-|---|---|---|---|
-| Structured filing | Yes | `filingId` plus the Schedule I fields | Authoritative machine-readable payload |
-| Signed Beckn contract | No | Exchange transaction identifiers and parties | Transport/audit envelope; ArrFiling defines no VC wrapper or `proof` field |
-| Signed exchange receipt | No | Beckn request/response transaction | Evidence that the SERC received the payload, not evidence of approval |
-| Supporting workbook or dataset | No | Operationally linked by `filingId`; row-level `formReference` may name the source form | Separate signed dataset or signed URL; no attachment field exists in ArrFiling v0.5 |
-| Prior-year filing / true-up source | No explicit cross-filing field | Stable `lineItemId` values and filing metadata support comparison | A future explicit relationship field requires schema governance |
-| Tariff order / Policy as Code record | No `policyID` field in ArrFiling v0.5 | May be cited in `notes[]` or exchange metadata | Reference is informative until a governed cross-schema field exists |
-| Public-disclosure copy | Same ArrFiling payload | SERC republishes through its own channel/BPP | Publication does not turn the payload into a holder-bound credential |
+Year-tagged data is not live data: `fiscalYear` and `amountBasis` say which period an amount describes, not that the amount is still being measured.
+
+Artefacts that travel alongside the filing, and their binding, are in [Annexure D](#annexure-d-related-artefacts-and-derived-views).
 
 ## 10. How It Fits Together
 
@@ -184,3 +178,17 @@ The DISCOM is the **BPP**; the SERC is the **BAP** — the inverse of Smart Mete
 ## Annexure C — JSON Schema
 
 Canonical: `https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/` — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json) (Draft 2020-12), [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/context.jsonld), [`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/vocab.jsonld).
+
+## Annexure D — Related Artefacts and Derived Views
+
+Artefacts bound to the filing, and views computed from it downstream. None is a field of ArrFiling v0.5.
+
+| **Related Artefact / Relationship** | **Inside ArrFiling v0.5?** | **How it is Bound** | **Status / Treatment** |
+|---|---|---|---|
+| Structured filing | Yes | `filingId` plus the Schedule I fields | Authoritative machine-readable payload |
+| Signed Beckn contract | No | Exchange transaction identifiers and parties | Transport/audit envelope; ArrFiling defines no VC wrapper or `proof` field |
+| Signed exchange receipt | No | Beckn request/response transaction | Evidence that the SERC received the payload, not evidence of approval |
+| Supporting workbook or dataset | No | Operationally linked by `filingId`; row-level `formReference` may name the source form | Separate signed dataset or signed URL; no attachment field exists in ArrFiling v0.5 |
+| Prior-year filing / true-up source | No explicit cross-filing field | Stable `lineItemId` values and filing metadata support comparison | A future explicit relationship field requires schema governance |
+| Tariff order / Policy as Code record | No `policyID` field in ArrFiling v0.5 | May be cited in `notes[]` or exchange metadata | Reference is informative until a governed cross-schema field exists |
+| Public-disclosure copy | Same ArrFiling payload | SERC republishes through its own channel/BPP | Publication does not turn the payload into a holder-bound credential |

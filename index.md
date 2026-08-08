@@ -970,6 +970,10 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
   <ul>
     <li><a href="use-cases-overview/README.md#use-case-overviews">Use Case Overviews</a>    <ul>
       <li><a href="use-cases-overview/README.md#how-each-page-is-organised">How each page is organised</a></li>
+      <li><a href="use-cases-overview/README.md#the-rule-for-schedule-i-and-schedule-ii">The rule for Schedule I and Schedule II</a>      <ul>
+        <li><a href="use-cases-overview/README.md#how-this-differs-from-the-schema-overviews">How this differs from the schema overviews</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/README.md#where-this-fits">Where this fits</a>
     </li>
     </ul>
@@ -999,13 +1003,7 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
         <li><a href="use-cases-overview/consumer-energy-passport.md#id-8.7-example-and-validation">8.7 Example and Validation</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.-schedule-ii-der-telemetry-live-record">9. Schedule II --- DER Telemetry (Live Record)</a>      <ul>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.1-native-meterdata-v0.6-mapping-electrical-subset">9.1 Native MeterData v0.6 Mapping — Electrical Subset</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.2-explicitly-informative-extensions-not-native-meterdata-v0.6-fields">9.2 Explicitly Informative Extensions (not native MeterData v0.6 fields)</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.3-transport-and-security-out-of-band-mnre-m2m-framework">9.3 Transport and Security (out-of-band — MNRE M2M framework)</a></li>
-        <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.4-example-and-validation">9.4 Example and Validation</a>
-      </li>
-      </ul>
+      <li><a href="use-cases-overview/consumer-energy-passport.md#id-9.-schedule-ii">9. Schedule II</a></li>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/consumer-energy-passport.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
       <li><a href="use-cases-overview/consumer-energy-passport.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
@@ -1034,17 +1032,21 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.-schedule-i-static-fields-of-the-credential">8. Schedule I — Static Fields of the Credential</a>      <ul>
         <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.1-credential-envelope-and-holder-binding">8.1 Credential Envelope and Holder Binding</a></li>
         <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.2-digest-profiles-and-time-windows">8.2 Digest Profiles and Time Windows</a></li>
-        <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.3-meter-descriptor-reading-and-quality-fields">8.3 Meter, Descriptor, Reading and Quality Fields</a>
+        <li><a href="use-cases-overview/consumer-meter-digest.md#id-8.3-meter-and-descriptor-fields">8.3 Meter and Descriptor Fields</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/consumer-meter-digest.md#id-9.-schedule-ii">9. Schedule II</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#id-9.-schedule-ii-meter-readings-live-record">9. Schedule II — Meter Readings (Live Record)</a>      <ul>
+        <li><a href="use-cases-overview/consumer-meter-digest.md#id-9.1-reading-and-quality-fields">9.1 Reading and Quality Fields</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#value-unlock">Value Unlock</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
       <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
-      <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-c-json-schema">Annexure C — JSON Schema</a></li>
+      <li><a href="use-cases-overview/consumer-meter-digest.md#annexure-d-derived-views">Annexure D — Derived Views</a>
     </li>
     </ul>
   </li>
@@ -1066,19 +1068,22 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.-schedule-i-static-fields-of-the-data-exchange">8. Schedule I — Static Fields of the Data Exchange</a>      <ul>
         <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.1-meterdatarequest-v0.6-query-and-scope">8.1 MeterDataRequest v0.6 — Query and Scope</a></li>
         <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.2-capabilities-and-authorisation">8.2 Capabilities and Authorisation</a></li>
-        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.3-meterdata-v0.6-response-profiles">8.3 MeterData v0.6 — Response Profiles</a></li>
-        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.4-shared-response-fields-and-compact-data">8.4 Shared Response Fields and Compact Data</a></li>
-        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.5-optional-meterdatarequestcredential-v0.1">8.5 Optional MeterDataRequestCredential v0.1</a>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.3-optional-meterdatarequestcredential-v0.1">8.3 Optional MeterDataRequestCredential v0.1</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-9.-schedule-ii-report-templates-optional">9. Schedule II — Report Templates (optional)</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-9.-schedule-ii-meter-readings-live-record">9. Schedule II — Meter Readings (Live Record)</a>      <ul>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-9.1-meterdata-v0.6-response-profiles">9.1 MeterData v0.6 — Response Profiles</a></li>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-9.2-shared-response-fields-and-compact-data">9.2 Shared Response Fields and Compact Data</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#value-unlock">Value Unlock</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-c-json-schema">Annexure C — JSON Schema</a></li>
+      <li><a href="use-cases-overview/smart-meter-data-exchange.md#annexure-d-derived-views">Annexure D — Derived Views</a>
     </li>
     </ul>
   </li>
@@ -1102,14 +1107,24 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
         <li><a href="use-cases-overview/der-visibility.md#id-8.2-illustrative-future-pii-free-per-locus-aggregate">8.2 Illustrative Future — PII-free Per-locus Aggregate</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/der-visibility.md#id-9.-schedule-ii">9. Schedule II</a></li>
-      <li><a href="use-cases-overview/der-visibility.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#id-9.-schedule-ii-der-telemetry-live-record">9. Schedule II — DER Telemetry (Live Record)</a>      <ul>
+        <li><a href="use-cases-overview/der-visibility.md#id-9.1-native-meterdata-v0.6-mapping-electrical-subset">9.1 Native MeterData v0.6 Mapping — Electrical Subset</a></li>
+        <li><a href="use-cases-overview/der-visibility.md#id-9.2-explicitly-informative-extensions-not-native-meterdata-v0.6-fields">9.2 Explicitly Informative Extensions (not native MeterData v0.6 fields)</a></li>
+        <li><a href="use-cases-overview/der-visibility.md#id-9.3-transport-and-security-out-of-band-mnre-m2m-framework">9.3 Transport and Security (out-of-band — MNRE M2M framework)</a></li>
+        <li><a href="use-cases-overview/der-visibility.md#id-9.4-example-and-validation">9.4 Example and Validation</a>
+      </li>
+      </ul>
+      <li><a href="use-cases-overview/der-visibility.md#id-10.-how-it-fits-together">10. How It Fits Together</a>      <ul>
+        <li><a href="use-cases-overview/der-visibility.md#id-10.1-where-each-schedules-data-comes-from">10.1 Where each Schedule's data comes from</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/der-visibility.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
       <li><a href="use-cases-overview/der-visibility.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
       <li><a href="use-cases-overview/der-visibility.md#value-unlock">Value Unlock</a></li>
       <li><a href="use-cases-overview/der-visibility.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
       <li><a href="use-cases-overview/der-visibility.md#annexure-b-example-payload">Annexure B — Example Payload</a></li>
-      <li><a href="use-cases-overview/der-visibility.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases-overview/der-visibility.md#annexure-c-json-schema">Annexure C — JSON Schema</a></li>
+      <li><a href="use-cases-overview/der-visibility.md#annexure-d-derived-views">Annexure D — Derived Views</a>
     </li>
     </ul>
   </li>
@@ -1134,14 +1149,15 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
         <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-8.3-arr-line-items">8.3 ARR Line Items</a>
       </li>
       </ul>
-      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-9.-schedule-ii">9. Schedule II</a></li>
       <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
       <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
       <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#value-unlock">Value Unlock</a></li>
       <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
       <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-c-json-schema">Annexure C — JSON Schema</a></li>
+      <li><a href="draft/use-cases-overview/discom-regulatory-filing.md#annexure-d-related-artefacts-and-derived-views">Annexure D — Related Artefacts and Derived Views</a>
     </li>
     </ul>
   </li>
@@ -1162,13 +1178,15 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-7.-the-records">7. The Records</a></li>
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.-schedule-i-static-fields-of-the-exchange">8. Schedule I — Static Fields of the Exchange</a>      <ul>
         <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.1-contract-roles-and-policy">8.1 Contract Roles and Policy</a></li>
-        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.2-offer-customer-and-order-item">8.2 Offer, Customer and Order Item</a></li>
-        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.3-per-interval-negotiation-and-allocation-beckntimeseries">8.3 Per-interval Negotiation and Allocation (`BecknTimeSeries`)</a></li>
-        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.4-settlement-revenue-flow">8.4 Settlement Revenue Flow</a></li>
-        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.5-resource-and-meter-actual-binding">8.5 Resource and Meter-actual Binding</a>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-8.2-offer-customer-and-order-item">8.2 Offer, Customer and Order Item</a>
       </li>
       </ul>
-      <li><a href="use-cases-overview/p2p-energy-trading.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#id-9.-schedule-ii-trade-actuals-and-settlement-live-record">9. Schedule II — Trade Actuals and Settlement (Live Record)</a>      <ul>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-9.1-per-interval-negotiation-and-allocation-beckntimeseries">9.1 Per-interval Negotiation and Allocation (`BecknTimeSeries`)</a></li>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-9.2-settlement-revenue-flow">9.2 Settlement Revenue Flow</a></li>
+        <li><a href="use-cases-overview/p2p-energy-trading.md#id-9.3-resource-and-meter-actual-binding">9.3 Resource and Meter-actual Binding</a>
+      </li>
+      </ul>
       <li><a href="use-cases-overview/p2p-energy-trading.md#id-10.-how-it-fits-together">10. How It Fits Together</a>      <ul>
         <li><a href="use-cases-overview/p2p-energy-trading.md#the-six-phases">The six phases</a>
       </li>
@@ -1178,7 +1196,8 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/p2p-energy-trading.md#value-unlock">Value Unlock</a></li>
       <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
       <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-c-json-schema">Annexure C — JSON Schema</a></li>
+      <li><a href="use-cases-overview/p2p-energy-trading.md#annexure-d-derived-views">Annexure D — Derived Views</a>
     </li>
     </ul>
   </li>
@@ -1207,14 +1226,15 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
         <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-8.4-fields-not-present-in-the-current-upstream-policy-object">8.4 Fields Not Present in the Current Upstream Policy Object</a>
       </li>
       </ul>
-      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-9.-schedule-ii-report-templates">9. Schedule II — Report Templates</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-9.-schedule-ii">9. Schedule II</a></li>
       <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-10.-how-it-fits-together">10. How It Fits Together</a></li>
       <li><a href="draft/use-cases-overview/tariff-intelligence.md#id-11.-points-for-confirmation">11. Points for Confirmation</a></li>
       <li><a href="draft/use-cases-overview/tariff-intelligence.md#schemas-used-in-this-use-case">Schemas Used in This Use Case</a></li>
       <li><a href="draft/use-cases-overview/tariff-intelligence.md#value-unlock">Value Unlock</a></li>
       <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-a-standards-referenced">Annexure A — Standards Referenced</a></li>
       <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-b-example-payloads">Annexure B — Example Payloads</a></li>
-      <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-c-json-schema">Annexure C — JSON Schema</a>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-c-json-schema">Annexure C — JSON Schema</a></li>
+      <li><a href="draft/use-cases-overview/tariff-intelligence.md#annexure-d-derived-views">Annexure D — Derived Views</a>
     </li>
     </ul>
   </li>

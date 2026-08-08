@@ -1,10 +1,10 @@
 {
-  "source": "use-cases/consumer-energy-passport/examples/schedule-ii-example.json",
+  "source": "use-cases/der-visibility/examples/schedule-ii-example.json",
   "mutations": [
     {
       "operation": "replace",
       "pointer": "/1/readings/0/readingType",
-      "value": "UNKNOWN_CEP_READING"
+      "value": "UNKNOWN_DERV_READING"
     }
   ],
   "validator": {

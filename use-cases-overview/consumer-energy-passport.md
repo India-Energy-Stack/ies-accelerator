@@ -164,7 +164,7 @@ EC v1.2 has no separate array for "devices an aggregator can control." Any `ener
 | `controllableAssets[]` (separate array) / `.linkedDerDid` | Not represented as a separate array — see §8.5. |
 | EV charger `operator` | Not represented — no operator field on `EnergyResourceEVChargerAttributes`. |
 | `consumer.customerReference` — a separate consumer-facing reference distinct from the billing number | Not represented. `customerProfile.customerNumber` (the utility CA number) is the only customer-identity field; there is no second `customerReference` field. |
-| `der[].profile.identity.imei` / `.m2mSimId` — device-level cellular/M2M identity metadata on a DER | Not represented as schema fields on any `EnergyResource` kind. `m2mSimId` is documented in Schedule II (§9.2) as an out-of-band MeterData transport concept, not a Schedule I / EC v1.2 field. |
+| `der[].profile.identity.imei` / `.m2mSimId` — device-level cellular/M2M identity metadata on a DER | Not represented as schema fields on any `EnergyResource` kind. `m2mSimId` is an out-of-band MeterData transport concept, documented in [DER Visibility §9.2](der-visibility.md#id-9.2-explicitly-informative-extensions-not-native-meterdata-v0.6-fields) — not a Schedule I / EC v1.2 field. |
 | `der[].profile.battery.chargePower` / `.dischargePower` — dedicated battery charge/discharge-power telemetry fields | Not represented as named fields. A BESS resource's charge/discharge limits are carried on the common `attributes.maxImport` (charge) / `.maxExport` (discharge) fields inherited from `EnergyResourceCommonAttributes` — there are no BESS-specific `chargePower`/`dischargePower` fields. |
 
 ### 8.7 Example and Validation
@@ -177,68 +177,18 @@ Validate it structurally against ElectricityCredential v1.2:
 python -X utf8 -B scripts/validate_schema.py schemas/ElectricityCredential/v1.2/schema.json use-cases/consumer-energy-passport/examples/schedule-i-example.json
 ```
 
-## 9. Schedule II --- DER Telemetry (Live Record)
+## 9. Schedule II
 
-Schedule II is a hybrid mapping over [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6): a native electrical subset that validates directly against the schema and its semantic validator, plus explicitly informative extensions for concepts MeterData v0.6 does not carry natively, plus out-of-band transport/security requirements. **The complete Schedule II record does not validate natively as MeterData v0.6** — only the canonical subset in §9.1 does (see §9.4).
+**Not applicable.** The Consumer Energy Passport carries no time-dependent data. Every field in Schedule I is fixed at issuance and changes only on re-issuance after a material change, so there is no live half to map.
 
-### 9.1 Native MeterData v0.6 Mapping — Electrical Subset
+Live data that references this credential is exchanged separately, under its own use case:
 
-MeterData v0.6 profiles are per-meter. `meterRefs` (an `Identifier` with `scheme: "DID"`) references the metering point — here the inverter's `energyResources[].id` from Schedule I. Semantic validation (`validator.py`) applies different rules to `reportedMode: READING` descriptors (cumulative, per-timestamp values — no `openingValue`/`closingValue`, and cumulative values must not decrease across a series) versus `reportedMode: USAGE` descriptors (block-incremental values, where `closingValue - openingValue` must match the reported `value`). The canonical fixture keeps these in separate profile objects accordingly: **INSTANTANEOUS** for READING-mode snapshots, **INTERVAL** for USAGE-mode block energy.
-
-| **CEP Concept** | **Native `readingType`** | **OBIS** | **Unit** | **`reportedMode` / profile** | **Standard** *(informative)* |
-|---|---|---|---|---|---|
-| Voltage, R/Y/B phase | `V_R` / `V_Y` / `V_B` | 1.0.32.7.0.255 / 1.0.52.7.0.255 / 1.0.72.7.0.255 | V | READING — INSTANTANEOUS | IEC 61724-1; IEC 61850 |
-| Current, R/Y/B phase | `I_R` / `I_Y` / `I_B` | 1.0.31.7.0.255 / 1.0.51.7.0.255 / 1.0.71.7.0.255 | A | READING — INSTANTANEOUS | IEC 61850 |
-| Power factor (3-phase) | `PF_3P` | 1.0.13.7.0.255 | ratio (no unit code) | READING — INSTANTANEOUS | IEC 61850 |
-| Frequency | `Freq` | 1.0.14.7.0.255 | Hz | READING — INSTANTANEOUS | IEEE 1547; IEC 61850 |
-| Active power import | `P_Import` | 1.0.1.7.0.255 | kW | READING — INSTANTANEOUS | IEC 61724-1; IEC 61850 |
-| Reactive power (lag) | `Q_Lag` | 1.0.3.7.0.255 | kvar | READING — INSTANTANEOUS | IEEE 1547; IEC 61850 |
-| Apparent power | `S_Total` | 1.0.9.7.0.255 | kVA | READING — INSTANTANEOUS | IEC 61850 |
-| Active energy import — cumulative | `kWh imp` | 1.0.1.8.0.255 | kWh | READING — INSTANTANEOUS | IEC 61724-1; OBIS (IS 15959) |
-| Active energy export — cumulative *(accepted in lieu of a generation meter)* | `kWh exp` | 1.0.2.8.0.255 | kWh | READING — INSTANTANEOUS | IEC 61724-1; OBIS (IS 15959) |
-| Active energy import — block incremental | `kWh imp block` | 1.0.1.29.0.255 | kWh | USAGE — INTERVAL | IEC 61724-1; OBIS |
-| Active energy export — block incremental | `kWh exp block` | 1.0.2.29.0.255 | kWh | USAGE — INTERVAL | IEC 61724-1; OBIS |
-
-### 9.2 Explicitly Informative Extensions (not native MeterData v0.6 fields)
-
-| **Concept** | **Why it is informative, not native** | **Suggested treatment** |
+| Live record | Where it is specified | How it links back |
 |---|---|---|
-| Harmonic distortion *(at 11 kV and above)* | `%` is not in MeterData v0.6's `UnitOfMeasure` enum | Report out-of-band, or as an unvalidated custom descriptor with no `unit` set; standard remains IEEE 519-2014 (CEA-referenced) |
-| DC voltage / current / power | MeterData v0.6 has no AC/DC discriminator field; `PayloadDescriptor.category` is a free string, not a governed enum | If reported, use a custom `category` (e.g. `"dc"`) on a V/A/kW-unit descriptor — this is a convention, not a defined native concept |
-| Inverter state / fault code | Status/alarm codes are not a `Reading.value` (number). Binary fault conditions partially overlap the native `AlarmProfile`/`MeterAlarm` shape (`status`: ACTIVE/CLEARED, `severity`), but a general inverter operating-state code has no native field | Use `AlarmProfile` for binary fault conditions; treat richer state codes as an extension |
-| Irradiance (plane of array), module/ambient temperature | `W/m²` and `°C` are not in the `UnitOfMeasure` enum | Report out-of-band or as an unvalidated custom descriptor |
-| Battery state of charge / state of health | `%` is not in the `UnitOfMeasure` enum | Report out-of-band |
-| EV session ID, connector status | String values, not `Reading.value` (number). Charging power and energy delivered *are* representable as native kW/kWh readings | Session/connector metadata stays out-of-band or in the CEP static record's DER/aggregator attributes |
-| `m2mSimId`, `tlsCertFingerprint` (device security certificate) | No device-credential fields exist in MeterData v0.6 | Out-of-band (see §9.3) |
+| The consumer's own meter readings | [Consumer Meter Digest — Schedule II](consumer-meter-digest.md#id-9.-schedule-ii-meter-readings-live-record) | `meterRefs` carries the net meter's `energyResources[].id` from Schedule I |
+| Telemetry from behind-the-meter DER (inverter, PV, battery) | [DER Visibility — Schedule II](der-visibility.md#id-9.-schedule-ii-der-telemetry-live-record) | `meterRefs` carries the inverter's `energyResources[].id` from Schedule I |
 
-### 9.3 Transport and Security (out-of-band — MNRE M2M framework)
-
-| **Requirement** | **Standard** |
-|---|---|
-| Transport: MQTT to the national MNRE M2M platform | MNRE M2M |
-| Device identity: `m2mSimId` | MNRE M2M |
-| Transport security: TLS, with device certificate fingerprint | MNRE (TLS; IEC 62443 guidance) |
-| Data residency: held in India | MNRE M2M |
-
-These are transport/security requirements on the channel carrying MeterData v0.6 payloads, not fields inside the payload itself.
-
-### 9.4 Example and Validation
-
-Executable canonical-subset fixture: [`schedule-ii-example.json`](../use-cases/consumer-energy-passport/examples/schedule-ii-example.json) — one `DESCRIPTOR` profile plus one `INSTANTANEOUS` and one `INTERVAL` profile, covering the §9.1 electrical subset only.
-
-Validate structurally against MeterData v0.6:
-
-```
-python -X utf8 -B scripts/validate_schema.py schemas/MeterData/v0.6/schema.json use-cases/consumer-energy-passport/examples/schedule-ii-example.json
-```
-
-Validate semantics:
-
-```
-python -X utf8 -B schemas/MeterData/v0.6/validation/validator.py use-cases/consumer-energy-passport/examples/schedule-ii-example.json
-```
-
-This fixture exercises OBIS-to-readingType resolution against the canonical descriptor set, mode/profile matching (each `readingType`'s `reportedMode` and permitted profile shape), allowed-attribute type checks on each interval payload, interval-id monotonicity (strictly increasing `id` within a profile), and compact-sequence arity (payload count per interval matching the referenced sequence's item count). It does **not** exercise cumulative non-decrease (its `INTERVAL` profile carries USAGE-mode block-incremental values, not READING-mode cumulative ones) or opening/closing math (no reading in this fixture carries `openingValue`/`closingValue`).
+Neither is carried inside the Passport, and neither is required to read it.
 
 ## 10. How It Fits Together
 
@@ -264,7 +214,9 @@ Generation is measured at the net meter, a generation meter, or the inverter's o
 
 ## Schemas Used in This Use Case
 
-A single schema — **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** (W3C VC). No additional schemas. Live readings use [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) separately — see [Consumer Meter Digest](consumer-meter-digest.md).
+A single schema — **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** (W3C VC). No additional schemas: Schedule I is the whole record and there is no Schedule II (§9).
+
+Live readings that reference this credential use [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) under their own use case — the consumer's own meter via [Consumer Meter Digest](consumer-meter-digest.md), behind-the-meter DER via [DER Visibility](der-visibility.md).
 
 ## Value Unlock
 
