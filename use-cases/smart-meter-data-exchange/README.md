@@ -1,6 +1,6 @@
 # Smart Meter Data Exchange
 
-**A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a state regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/discover.md), carrying the [MeterData](../../schemas-ies/MeterData.md) payload (currently `v0.6`).**
+**A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a state regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/exchange.md), carrying the [MeterData](../../schemas-ies/MeterData.md) payload (currently `v0.6`).**
 
 You replace bespoke FTP drops, proprietary MDMS APIs, and CSV email attachments with one signed, schema-validated flow. The same surface area works AMISP→DISCOM, DISCOM→SERC, and DISCOM→consented-third-party.
 
@@ -16,7 +16,7 @@ This use case is a thin composition over four existing building blocks. The setu
 |---|---|---|
 | A name and a signing key your counterparties can verify | [Identifiers & Addressing](../../what-ies-provides/register.md), [Registries](../../what-ies-provides/register.md#the-directory-dedi) | A DeDi namespace under your control and your current public key published into it. A formal `did:web` document is **not** required for this use case; the namespace + key are enough for Beckn signing and verification. |
 | A trust boundary — "who can transact on this network" | [Registries — IES networks today](../../what-ies-provides/register.md#the-ies-networks-today) | Your subscriber record referenced in the IES network registry |
-| The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../what-ies-provides/discover.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
+| The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../what-ies-provides/exchange.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
 | (Optional) Cryptographic proof that the requester is authorised | [MeterDataRequestCredential](../../schemas-ies/MeterDataRequestCredential.md) | A signed credential the seeker attaches at `confirm`; provider verifies offline |
 
 ---

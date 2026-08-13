@@ -236,7 +236,7 @@ A consolidated field reference is in **[External Schemas — Energy Trading](../
 | Standard | Scope |
 |---|---|
 | CERC Innovation Sandbox Order, 2023 | Regulatory umbrella for peer-to-peer trade pilots |
-| Beckn Protocol v2 | Discovery, contracting, status, signed audit |
+| Beckn Protocol v2 | Discovery, contracting, payload delivery, status, signed audit |
 | DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family | The payload schema family on the wire |
 | OPA / Rego (CNCF) | Policy-as-code format for network and settlement bundles |
 | IS 16444 (Parts 1, 2) | AC smart meter — specification (for trade-side meter quantities) |

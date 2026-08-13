@@ -229,5 +229,5 @@ Everything on this page turns into action in **[Setting up Register](../how-you-
 | Step | Page |
 |---|---|
 | Step 1 — Register *(this page)* | — |
-| Step 2 — [Discover](discover.md) | Beckn-protocol interaction |
-| Step 3 — [Exchange](exchange.md) | The schemas and verifiable credentials |
+| Step 2 — [Discover](discover.md) | Beckn-protocol interaction — look up, negotiate, contract |
+| Step 3 — [Exchange](exchange.md) | Signed Beckn payload delivery — schemas + verifiable credentials |

@@ -6,10 +6,6 @@ layout:
 
 # Getting Started
 
-![India Energy Stack and the Ministry of Power](.gitbook/assets/ies-mop.png)
-
-![REC and FSR Global](.gitbook/assets/rec-fsr.png)
-
 The **India Energy Stack (IES)** is an initiative of the **Ministry of Power**, Government of India, to build unified digital rails for the power sector — a common set of open specifications that lets any two systems in the sector share verified energy data without bespoke, pair-by-pair integration. **REC** is the nodal agency and **FSR Global** is the knowledge partner.
 
 IES works the way UPI works for payments: it holds no data of its own. Data stays in the systems that already hold it — DISCOM software, metering platforms, vendor databases — and IES specifies how those systems identify each other, find each other, and exchange data in a common, verifiable form.
@@ -22,7 +18,7 @@ Every IES interaction follows the same three steps:
 
 - **Register** — every participant gets a verifiable digital identity (a [W3C DID](https://www.w3.org/TR/did-core/)) and a listing in a shared directory (DeDi). Done once.
 - **Discover** — before an exchange, the two systems look each other up, verify each other, and agree terms over the [Beckn protocol](https://github.com/beckn/protocol-specifications-v2). No bilateral arrangement needed.
-- **Exchange** — data moves over the signed channel that Discover established, shaped by published [IES schemas](schemas-ies/README.md) built on open standards (DLMS/COSEM for meter data, IEEE 2030.5 for DER, OpenADR for demand response). Where a durable record is needed, the exchange produces a [W3C Verifiable Credential](https://www.w3.org/TR/vc-data-model/) the holder keeps — in DigiLocker, for consumers.
+- **Exchange** — data moves over the same signed Beckn channel that Discover established, shaped by published [IES schemas](schemas-ies/README.md) built on open standards (DLMS/COSEM for meter data, IEEE 2030.5 for DER, OpenADR for demand response). Where a durable record is needed, the exchange produces a [W3C Verifiable Credential](https://www.w3.org/TR/vc-data-model/) the holder keeps — in DigiLocker, for consumers.
 
 The specifications cover five building blocks: **Register**, **Discover**, **Exchange**, **Verifiable Credentials**, and the **Security** posture that runs through all of them. IES selects the right open standard for each and publishes a specification that builds on it — IES does not write new standards, and it is not a platform, a database, or a product.
 

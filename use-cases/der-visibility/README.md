@@ -40,7 +40,7 @@ Unlike the Passport, the DER Visibility record is **published, not held** — co
 |---|---|
 | [Identifiers](../../what-ies-provides/register.md) | Same `did:web` as the Passport; subject set to a feeder / substation / licensee DID instead of a consumer DID |
 | [Energy Credentials](../../what-ies-provides/energy-credentials/README.md) | Same signing / verification / revocation pipeline used for any ElectricityCredential v1.2 building block |
-| [Data Exchange](../../what-ies-provides/discover.md) | BPP catalogue entries published per locus; grid operators and aggregators consume as BAPs |
+| [Data Exchange](../../what-ies-provides/exchange.md) | BPP catalogue entries published per locus; grid operators and aggregators consume as BAPs |
 
 ---
 

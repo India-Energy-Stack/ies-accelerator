@@ -1,6 +1,6 @@
 # Smart Meter Data Exchange
 
-*A standard, audit-trailed way to move smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties. Discovery and contracting run over Beckn (the IES [Discover](../what-ies-provides/discover.md) layer); the payload on the wire is [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) v0.6. Integrate once, and the same request/response pattern works against every adopting DISCOM.*
+*A standard, audit-trailed way to move smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties. Discovery, contracting and payload delivery all run over Beckn — the rail behind the IES [Discover](../what-ies-provides/discover.md) and [Exchange](../what-ies-provides/exchange.md) steps; the payload on the wire is [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) v0.6. Integrate once, and the same request/response pattern works against every adopting DISCOM.*
 
 **[Implementation Guide →](../use-cases/smart-meter-data-exchange/README.md)**
 
@@ -19,7 +19,7 @@
 
 The stakeholders are the DISCOM (data fiduciary), the AMISP (data processor) and any authorised third party. Today every DISCOM-AMISP pair builds a bespoke integration — a one-time dump, then incremental files over FTP, or a project-specific API — negotiated and built from scratch each time.
 
-This document defines **Smart Meter Data Exchange** — a one-to-many, standard data shape (MeterData v0.6) carried over a one-to-many discovery and contracting layer (Beckn). A TSP integrates once and the same pattern works across DISCOMs. IES standardises **the interface where parties exchange data** — it does not change how any party stores or moves data internally.
+This document defines **Smart Meter Data Exchange** — a one-to-many, standard data shape (MeterData v0.6) carried over a one-to-many discovery, contracting and exchange layer (Beckn). A TSP integrates once and the same pattern works across DISCOMs. IES standardises **the interface where parties exchange data** — it does not change how any party stores or moves data internally.
 
 ## 2. What It Records / Covers
 
@@ -27,7 +27,7 @@ Four things, and only these four:
 
 | Records | Detail | Source |
 |---|---|---|
-| The contract | How a request is discovered and agreed | Beckn protocol |
+| The contract | How a request is discovered, agreed and carried | Beckn protocol |
 | Consent & scope | How consent, scope and duration are recorded | MeterDataRequest v0.6 / MeterDataRequestCredential v0.1 |
 | The data shape | The MeterData wire format | MeterData v0.6 (DLMS-COSEM / IS 15959) |
 | Receipts & audit | Proof of what was exchanged | Beckn protocol; W3C VC |
@@ -80,7 +80,7 @@ Fixed IES order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE*
 
 ## 6. Where Indian Standards Do Not Yet Exist
 
-The compact-profile **JSON shape** is an IES specification — no predating Indian or international standard. Beckn (discovery/contracting) is also an IES choice. Event codes follow **IS 15959** allocations directly.
+The compact-profile **JSON shape** is an IES specification — no predating Indian or international standard. Beckn (discovery, contracting and payload delivery) is also an IES choice. Event codes follow **IS 15959** allocations directly.
 
 ## 7. The Record
 

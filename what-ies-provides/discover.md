@@ -2,7 +2,7 @@
 
 > **The second of the three IES steps — Register, Discover, Exchange.** Interaction protocol. Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.*
 
-Once participants are [Registered](register.md) (Step 1), they need a way to **find each other, negotiate terms, and produce a signed audit trail** of what was agreed — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2)** for this.
+Once participants are [Registered](register.md) (Step 1), they need a way to **find each other, negotiate terms, and produce a signed audit trail** of what was agreed — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2)** for this — and the same signed Beckn channel then carries the [Exchange](exchange.md) payloads, so Beckn is the rail for both steps, with Discover as its look-up-and-contract stage.
 
 Discover belongs to the **data exchange** capability — B2B exchange of structured datasets between registered organisations. The other IES capability, **[Verifiable Credentials](energy-credentials/README.md)**, does not need this step: a credential is issued and verified against the issuer's published key, with no Beckn network involved.
 
@@ -72,6 +72,6 @@ These three are covered by **[Setting up Register §1.5–1.7](../how-you-implem
 |---|---|
 | Step 1 — [Register](register.md) | Identity + directory |
 | Step 2 — Discover *(this page)* | — |
-| Step 3 — [Exchange](exchange.md) | Schemas + verifiable credentials |
+| Step 3 — [Exchange](exchange.md) | Signed Beckn payload delivery — schemas + verifiable credentials |
 
 To register on Beckn hands-on: **[Setting up Register §1.5–1.7](../how-you-implement-ies/setup-register.md)**. To run the adapter and exchange data: **[Setting up Discover & Exchange](../how-you-implement-ies/setup-exchange.md)**.

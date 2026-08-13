@@ -40,7 +40,7 @@ Granularity options today: `DAILY`, `MONTHLY`, or `INTERVAL` (15-minute data, ex
 |---|---|
 | [Identifiers and Addressing](../../what-ies-provides/register.md) | DISCOM's `did:web`; consumer's wallet `did:key`; meter and connection DIDs that anchor the Digest |
 | [Energy Credentials](../../what-ies-provides/energy-credentials/README.md) | Issuance, signing, verification, revocation — including the [Consumer Meter Digest variant](../../what-ies-provides/energy-credentials/README.md#credential-variants) under "Credential variants" |
-| [Data Exchange](../../what-ies-provides/discover.md) | If the consumer-pull endpoint is fronted by your BPP over Beckn, the BAP/BPP machinery is the same as [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) — only the trigger (consumer, not DISCOM) and the `validUntil` differ |
+| [Data Exchange](../../what-ies-provides/exchange.md) | If the consumer-pull endpoint is fronted by your BPP over Beckn, the BAP/BPP machinery is the same as [Smart Meter Data Exchange](../smart-meter-data-exchange/README.md) — only the trigger (consumer, not DISCOM) and the `validUntil` differ |
 | [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) | The dominant delivery channel into the consumer's wallet |
 
 ## Setup: Register → Discover → Exchange
