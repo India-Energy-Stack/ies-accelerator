@@ -13,13 +13,13 @@
 ## Schemas Overview
 
 * [Schemas Overview](what-ies-provides/schemas-overview/README.md)
-* [ElectricityCredential](what-ies-provides/schemas-overview/electricity-credential.md)
-* [MeterData](what-ies-provides/schemas-overview/meter-data.md)
-* [MeterDataCredential](what-ies-provides/schemas-overview/meter-data-credential.md)
-* [MeterDataRequest](what-ies-provides/schemas-overview/meter-data-request.md)
-* [MeterDataRequestCredential](what-ies-provides/schemas-overview/meter-data-request-credential.md)
-* [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
-* [OutageNotification (WIP)](what-ies-provides/schemas-overview/outage-notification.md)
+  * [ElectricityCredential](what-ies-provides/schemas-overview/electricity-credential.md)
+  * [MeterData](what-ies-provides/schemas-overview/meter-data.md)
+  * [MeterDataCredential](what-ies-provides/schemas-overview/meter-data-credential.md)
+  * [MeterDataRequest](what-ies-provides/schemas-overview/meter-data-request.md)
+  * [MeterDataRequestCredential](what-ies-provides/schemas-overview/meter-data-request-credential.md)
+  * [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
+  * [OutageNotification (WIP)](what-ies-provides/schemas-overview/outage-notification.md)
 
 ## Use Case Overviews
 

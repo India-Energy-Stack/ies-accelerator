@@ -133,6 +133,80 @@ def parse_summary_strict(text: str) -> list[tuple[int, str, str]]:
     return entries
 
 
+GROUP_HEADING_RE = re.compile(r"^## (.+?)\s*$")
+
+
+def parse_summary_grouped_strict(
+    text: str,
+) -> list[tuple[str | None, list[tuple[int, str, str]]]]:
+    """Own grouped grammar: '## Group' headings split the manifest into
+    segments; entries validated by the same strict rules as
+    parse_summary_strict."""
+    segments: list[tuple[str | None, list[tuple[int, str, str]]]] = [(None, [])]
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        g = GROUP_HEADING_RE.match(line)
+        if g:
+            segments.append((g.group(1), []))
+            continue
+        stripped = line.lstrip(" \t")
+        if not stripped or stripped[0] not in "*+-":
+            continue
+        m = CANONICAL_ENTRY_RE.match(line)
+        if not m:
+            raise VerifyError(
+                f"SUMMARY.print.md:{lineno}: malformed list entry, expected "
+                f"'* [title](path)' with even-space indent: {line!r}"
+            )
+        indent, title, path = m.groups()
+        if len(indent) % 2 != 0:
+            raise VerifyError(f"SUMMARY.print.md:{lineno}: odd-space indentation: {line!r}")
+        if not path.endswith(".md"):
+            continue
+        if path in EXCLUDE_FROM_PDF:
+            continue
+        segments[-1][1].append((len(indent) // 2, title, path))
+    return [(gt, e) for gt, e in segments if e]
+
+
+def group_stub_entry_path(title: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    return f"build/section_{slug}.md"
+
+
+def grouped_entries_strict(
+    segments: list[tuple[str | None, list[tuple[int, str, str]]]],
+) -> tuple[list[tuple[int, str, str]], dict[str, str]]:
+    """Own copy of the producer's grouped-assembly policy: each manifest
+    group is a top-level chapter; a landing page (first entry, depth 0, same
+    title) becomes the chapter and keeps its own subtree's depths; other
+    groups get a synthetic stub chapter and every entry shifts one level
+    down. Returns (entries, synthetic_path -> expected content)."""
+    final: list[tuple[int, str, str]] = []
+    synthetic: dict[str, str] = {}
+    for gtitle, entries in segments:
+        entries = filter_latest_versions_strict(entries)
+        if gtitle is None:
+            final.extend(entries)
+            continue
+        if gtitle.startswith("Appendix"):
+            synthetic[DIVIDER_ENTRY_PATH] = APPENDIX_INTRO
+            final.append((0, gtitle, DIVIDER_ENTRY_PATH))
+            final.extend((d + 1, t, p) for d, t, p in entries)
+        elif entries and entries[0][0] == 0 and entries[0][1] == gtitle:
+            final.append(entries[0])
+            in_landing_subtree = True
+            for d, t, p in entries[1:]:
+                if d == 0:
+                    in_landing_subtree = False
+                final.append((d, t, p) if in_landing_subtree else (d + 1, t, p))
+        else:
+            stub = group_stub_entry_path(gtitle)
+            synthetic[stub] = ""
+            final.append((0, gtitle, stub))
+            final.extend((d + 1, t, p) for d, t, p in entries)
+    return final, synthetic
+
+
 def filter_latest_versions_strict(
     entries: list[tuple[int, str, str]],
 ) -> list[tuple[int, str, str]]:
@@ -219,29 +293,20 @@ def _render_block(depth: int, title: str, raw_text: str, mmdc: str | None) -> li
 
 
 def reconstruct_combined(
-    main_entries: list[tuple[int, str, str]],
-    divider_entry: tuple[int, str, str],
-    schema_entries: list[tuple[int, str, str]],
-    back_entries: list[tuple[int, str, str]],
+    entries: list[tuple[int, str, str]],
+    synthetic: dict[str, str],
     mmdc: str | None,
 ) -> tuple[str, int]:
     out_lines: list[str] = []
     block_count = 0
-
-    for depth, title, path in main_entries:
-        resolved = resolve_safe_path(path, ROOT, label="SUMMARY source")
-        out_lines.extend(_render_block(depth, title, resolved.read_text(), mmdc))
+    for depth, title, path in entries:
+        if path in synthetic:
+            raw = synthetic[path]
+        else:
+            resolved = resolve_safe_path(path, ROOT, label="SUMMARY source")
+            raw = resolved.read_text()
+        out_lines.extend(_render_block(depth, title, raw, mmdc))
         block_count += 1
-
-    d_depth, d_title, _ = divider_entry
-    out_lines.extend(_render_block(d_depth, d_title, APPENDIX_INTRO, mmdc))
-    block_count += 1
-
-    for depth, title, path in schema_entries + back_entries:
-        resolved = resolve_safe_path(path, ROOT, label="SUMMARY source")
-        out_lines.extend(_render_block(depth, title, resolved.read_text(), mmdc))
-        block_count += 1
-
     return "\n".join(out_lines), block_count
 
 
@@ -384,22 +449,21 @@ def main() -> int:
                 "divergence: independent version-filter != producer.filter_latest_versions()"
             )
 
-        main_entries = [
-            e
-            for e in entries
-            if not is_schema_entry(e[2]) and e[2] not in BACK_MATTER_PATHS
-        ]
-        schema_entries = shift_depth_to_strict(
-            [e for e in entries if is_schema_entry(e[2])], target_min=1
-        )
-        back_entries = [e for e in entries if e[2] in BACK_MATTER_PATHS]
-        divider_entry = (0, APPENDIX_TITLE, DIVIDER_ENTRY_PATH)
+        segments = parse_summary_grouped_strict(SUMMARY_PATH.read_text())
+        combined_entries, synthetic = grouped_entries_strict(segments)
+        producer_combined = producer.grouped_entries(False)
+        if combined_entries != producer_combined:
+            raise VerifyError(
+                "divergence: independent grouped assembly != producer.grouped_entries()"
+            )
+
+        real_entries = [e for e in combined_entries if e[2] not in synthetic]
 
         # Path safety, independently repeated for every real SUMMARY source.
-        # The synthetic divider isn't parsed from SUMMARY.md and is exempt
+        # Synthetic chapter stubs aren't parsed from SUMMARY.md and are exempt
         # only from public mirroring (see verify_public_mirror).
         errors: list[str] = []
-        for _, _, path in main_entries + schema_entries + back_entries:
+        for _, _, path in real_entries:
             try:
                 resolve_safe_path(path, ROOT, label="SUMMARY source")
             except VerifyError as exc:
@@ -410,19 +474,21 @@ def main() -> int:
                 print(f"  {err}", file=sys.stderr)
             return 1
 
-        if not APPENDIX_DIVIDER_MD.is_file():
-            raise VerifyError(f"missing {APPENDIX_DIVIDER_MD}")
-        if APPENDIX_DIVIDER_MD.read_text() != APPENDIX_INTRO:
-            raise VerifyError(
-                f"{APPENDIX_DIVIDER_MD} does not match APPENDIX_INTRO"
-            )
+        for stub_path, expected_content in synthetic.items():
+            stub_file = ROOT / stub_path
+            if not stub_file.is_file():
+                raise VerifyError(f"missing synthetic chapter stub: {stub_file}")
+            if stub_file.read_text() != expected_content:
+                raise VerifyError(
+                    f"{stub_file} does not match its expected synthetic content"
+                )
 
         if not COMBINED_MD.is_file():
             raise VerifyError(f"missing combined markdown: {COMBINED_MD}")
 
         mmdc = shutil.which("mmdc")
         expected_text, block_count = reconstruct_combined(
-            main_entries, divider_entry, schema_entries, back_entries, mmdc
+            combined_entries, synthetic, mmdc
         )
         actual_text = COMBINED_MD.read_text()
 
@@ -437,15 +503,10 @@ def main() -> int:
         print(f"OK -- {block_count} source block(s) reconstructed exactly")
 
         if args.public_root:
-            real_entries = main_entries + schema_entries + back_entries
             verify_public_mirror(args.public_root, real_entries)
 
         if args.pdf:
-            depth0_count = sum(
-                1
-                for depth, _, _ in main_entries + [divider_entry] + schema_entries + back_entries
-                if depth == 0
-            )
+            depth0_count = sum(1 for depth, _, _ in combined_entries if depth == 0)
             verify_pdf_smoke(args.pdf, depth0_count, len(expected_text))
 
     except VerifyError as exc:
