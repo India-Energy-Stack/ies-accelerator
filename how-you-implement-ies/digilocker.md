@@ -72,7 +72,7 @@ Alongside the DocTypes, register your **credential issuer** with NeGD so DigiLoc
 
 The `issuer_did` is the one from [Step 2](#step-2-stand-up-opencred-and-your-issuer-did) — it may live on your own domain, or in a DigiLocker-hosted issuer namespace (e.g. `did:web:vc.dl6.in:issuers:in.gov.<state>electricity`) if NeGD hosts it for you.
 
-> **Keep the org id consistent across registration and every URI.** The org segment of each Pull URI (`in.gov.<orgId>-<DocType>-<consumerNo>`, e.g. `in.gov.com.discom-NYCER-100000012345`) must equal the `issuer_id` / `orgId` you registered on API Setu. A URI whose org segment doesn't match the registered issuer fails at DigiLocker with an *org id / issuer id mismatch* — the response is accepted but its document data is rejected, which is easy to misread as a payload problem.
+> **Keep the org id consistent across registration and every URI.** The org segment of each Pull URI (`in.gov.<orgId>-<DocType>-<consumerNo>`, e.g. `in.gov.discom-NYCER-100000012345`) must equal the `issuer_id` / `orgId` you registered on API Setu. A URI whose org segment doesn't match the registered issuer fails at DigiLocker with an *org id / issuer id mismatch* — the response is accepted but its document data is rejected, which is easy to misread as a payload problem.
 
 ### Step 2 — Stand Up OpenCred and Your Issuer DID
 
@@ -395,11 +395,15 @@ credential_response = requests.post(
             "customerDetails": {
                 "fullName": consumer.full_name,
                 "installationAddress": {
-                    "address":   consumer.address_line,
-                    "city":      {"name": consumer.city,  "code": consumer.city_code},
-                    "state":     {"name": consumer.state, "code": consumer.state_code},
-                    "country":   {"name": "India",        "code": "IN"},
-                    "area_code": consumer.pincode,
+                    "geo": {"type": "Point",
+                            "coordinates": [consumer.longitude, consumer.latitude]},
+                    "address": {
+                        "streetAddress":   consumer.address_line,
+                        "addressLocality": consumer.city,
+                        "addressRegion":   consumer.state,
+                        "postalCode":      consumer.pincode,
+                        "addressCountry":  "IN",
+                    },
                 },
                 "serviceConnectionDate": consumer.connection_date.isoformat(),
             },
@@ -432,8 +436,8 @@ vc_json["issuer"] = {
     "id":   ISSUER_DID,
     "name": ISSUER_NAME,
     "idRef": {
-        "issuedBy":  IES_REGISTRY_DID,         # namespace DID of india-energy-stack on dedi.global
-        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. india-energy-stack:discom
+        "issuedBy":  IES_REGISTRY_DID,         # DID of the indiaenergystack.in namespace on dedi.global
+        "subjectId": IES_REGISTRY_SUBJECT_ID,  # e.g. indiaenergystack.in:discom
     },
 }
 ```
@@ -764,5 +768,5 @@ Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential o
 - [Consumer Meter Digest — use-case guide](../use-cases/consumer-meter-digest/README.md)
 - [Electricity Credential — schema reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 - [OpenCred Documentation](https://opencred.gitbook.io/docs) — credential service API reference
-- [API Setu DigiLocker Partner Portal](https://partners.digitallocker.gov.in)
-- [DigiLocker Technical Specification v1.0.5](https://partners.digitallocker.gov.in/assets/img/Digital%20Locker%20Technical%20Specification%20v1%200%205.pdf)
+- [API Setu](https://apisetu.gov.in) — DigiLocker issuer registration and partner documentation
+- DigiLocker Technical Specification v1.0.5 (the former partner-portal download, `partners.digitallocker.gov.in`, is offline; obtain the current spec through your API Setu / NeGD contact)

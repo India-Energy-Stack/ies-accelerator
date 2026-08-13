@@ -51,7 +51,7 @@ cd DEG/devkits/data-exchange/install
 docker compose up -d
 ```
 
-This brings up two ONIX adapters (`onix-bap`, `onix-bpp`), two sandbox stand-in apps (`sandbox-bap`, `sandbox-bpp`), a Caddy router, and Redis — pre-wired with placeholder identities so you can test end-to-end on your laptop before plugging in your own. What each container does is in [Appendix C — Architecture](#appendix-c-architecture-at-a-glance).
+This brings up two ONIX adapters (`onix-bap`, `onix-bpp`), two sandbox stand-in apps (`sandbox-bap`, `sandbox-bpp`), a Caddy router, and a Redis per side — pre-wired with placeholder identities so you can test end-to-end on your laptop before plugging in your own. What each container does is in [Appendix C — Architecture](#appendix-c-architecture-at-a-glance).
 
 Verify the services:
 

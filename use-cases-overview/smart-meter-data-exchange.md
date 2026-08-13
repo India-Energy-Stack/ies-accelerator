@@ -1,6 +1,6 @@
 # Smart Meter Data Exchange
 
-*A standard, audit-trailed way to move smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties. Discovery, contracting and payload delivery all run over Beckn — the rail behind the IES [Discover](../what-ies-provides/discover.md) and [Exchange](../what-ies-provides/exchange.md) steps; the payload on the wire is [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) v0.6. Integrate once, and the same request/response pattern works against every adopting DISCOM.*
+*A standard, audit-trailed way to move smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties. Discovery, contracting and payload delivery all run over Beckn — the rail behind the IES [Discover](../what-ies-provides/discover.md) and [Exchange](../what-ies-provides/exchange.md) steps; the payload on the wire is [MeterData](../schemas/MeterData/v0.6/README.md) v0.6. Integrate once, and the same request/response pattern works against every adopting DISCOM.*
 
 **[Implementation Guide →](../use-cases/smart-meter-data-exchange/README.md)**
 
@@ -84,11 +84,11 @@ The compact-profile **JSON shape** is an IES specification — no predating Indi
 
 ## 7. The Record
 
-No Verifiable Credential by default. Each exchange produces: a **signed Beckn contract** (discovery, scope, parties, time-bound authorisation), a **signed MeterData v0.6 payload** (inline or signed-URL), and a **signed receipt**. Together: a verifiable audit trail for DPDP accountability and dispute resolution. For a durable, holder-bound record, wrap in **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)** — see [Consumer Meter Digest](consumer-meter-digest.md).
+No Verifiable Credential by default. Each exchange produces: a **signed Beckn contract** (discovery, scope, parties, time-bound authorisation), a **signed MeterData v0.6 payload** (inline or signed-URL), and a **signed receipt**. Together: a verifiable audit trail for DPDP accountability and dispute resolution. For a durable, holder-bound record, wrap in **[MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md)** — see [Consumer Meter Digest](consumer-meter-digest.md).
 
 ## 8. Schedule I — Static Fields of the Data Exchange
 
-Schedule I tabulates the static contracts that frame this exchange: [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) selects scope and capabilities, and the optional [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) makes a request portable and verifiable. The [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) response itself is the live half — see [Schedule II](#id-9.-schedule-ii-meter-readings-live-record). **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
+Schedule I tabulates the static contracts that frame this exchange: [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) selects scope and capabilities, and the optional [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) makes a request portable and verifiable. The [MeterData v0.6](../schemas/MeterData/v0.6/README.md) response itself is the live half — see [Schedule II](#id-9.-schedule-ii-meter-readings-live-record). **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
 
 ### 8.1 MeterDataRequest v0.6 — Query and Scope
 
@@ -137,7 +137,7 @@ For Indian-terminology mapping, see **[IES Meter Data Model](../use-cases/smart-
 
 ## 9. Schedule II — Meter Readings (Live Record)
 
-Schedule II is the **live half** of this exchange — the fields that keep arriving after the request is agreed, as against the static request, authorisation and credential contracts of Schedule I. Every field below is carried in the [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) response.
+Schedule II is the **live half** of this exchange — the fields that keep arriving after the request is agreed, as against the static request, authorisation and credential contracts of Schedule I. Every field below is carried in the [MeterData v0.6](../schemas/MeterData/v0.6/README.md) response.
 
 Scope is set in Schedule I and enforced here: a response carries only the profiles and period the authorisation in §8.2 permits.
 
@@ -193,9 +193,9 @@ With IES: DISCOM ── one MeterData v0.6 over Beckn ──► AMISP-1 / AMISP-
 
 | Schema | Role |
 |---|---|
-| [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) | The payload — eight compact profiles |
-| [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) | The query / capabilities shape |
-| [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) *(optional)* | Seeker authorisation VC |
+| [MeterData v0.6](../schemas/MeterData/v0.6/README.md) | The payload — eight compact profiles |
+| [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) | The query / capabilities shape |
+| [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) *(optional)* | Seeker authorisation VC |
 
 ## Value Unlock
 

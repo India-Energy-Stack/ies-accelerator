@@ -409,7 +409,7 @@ None of the four steps require permission from a platform owner. For a guided fi
 - **Network policy** — [`p2p-trading-ies-wave2-networkpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-networkpolicy.rego)
 - **Contract policy** — [`p2p-trading-ies-wave2-contractpolicy.rego`](https://github.com/beckn/DEG/blob/main/specification/policies/p2p-trading-ies-wave2-contractpolicy.rego)
 - **Inter-DISCOM specification** — [Beckn DEG full spec](https://github.com/beckn/DEG/blob/main/docs/implementation-guides/v2/P2P_Trading/Inter_energy_retailer_P2P_trading.md)
-- **IES architecture note** — [ies-docs inter-DISCOM P2P trading](https://github.com/India-Energy-Stack/ies-docs/blob/main/implementation-guides/p2p_energy_exchange/%20Inter%20discom%20P2P%20trading.md)
+- **IES architecture note** — "Inter-DISCOM P2P trading" in the ies-docs repository (repository has since been archived and made private; ask the IES Secretariat for access)
 - **NFH fabric onboarding** — [Join the network](https://docs.nfh.global/build/join-the-network) · [Getting started with Fabric](https://docs.nfh.global/build/getting-started-with-fabric)
 - **Sample bill worksheet** — [Google Sheet](https://docs.google.com/spreadsheets/d/104Qg0tBysjDqN3UKw-_mL5lwMnipwUO6h-1E8jDPw4Y/edit?gid=1170589686#gid=1170589686)
 
@@ -418,6 +418,6 @@ None of the four steps require permission from a platform owner. For a guided fi
 ## References
 
 - **[Overview — P2P Energy Transaction](../../use-cases-overview/p2p-energy-trading.md)** — standards basis, definitions, full field schedule, the six-phase walkthrough, and Points for Confirmation
-- **[External Schemas — Energy Trading](../../schemas/external/README.md#energy-trading-p2p)** — consolidated field reference
+- **[External Schemas — Energy Trading](../../schemas-ies/external.md#energy-trading-p2p)** — consolidated field reference
 - Canonical schemas at **[schema.beckn.io](https://schema.beckn.io)** — [P2PTrade/v2.0](https://schema.beckn.io/P2PTrade/v2.0) · [DEGContract/v2.0](https://schema.beckn.io/DEGContract/v2.0) · [EnergyTradeOffer/v2.0](https://schema.beckn.io/EnergyTradeOffer/v2.0) · [EnergyTradeDelivery/v2.0](https://schema.beckn.io/EnergyTradeDelivery/v2.0) · [DiscomLedgerProvider/v2.0](https://schema.beckn.io/DiscomLedgerProvider/v2.0) · [BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)
-- **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** *(optional)* — seller's attestation backing the offer
+- **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** *(optional)* — seller's attestation backing the offer

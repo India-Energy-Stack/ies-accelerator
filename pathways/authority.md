@@ -36,13 +36,13 @@ In this phase, the regulator establishes its own institutional cryptographic ide
 <summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../what-ies-provides/register.md#two-identities-youll-set-up-and-why))</b></summary>
 
 ### 💡 Phase Advice
-> A regulator sets up its `did:web` exactly like a DISCOM does — there is no separate identity mechanism for authorities. Coordinate with your IT/DNS office early; the worked example used throughout the IES documentation is `did:web:ies.serc.example`, a regulator identity hosted on the regulator's own domain.
+> A regulator sets up its `did:web` exactly like a DISCOM does — there is no separate identity mechanism for authorities. Coordinate with your IT/DNS office early; the regulator example in the IES identifier patterns is `did:web:ies.serc.example`, an identity hosted on the regulator's own domain.
 
 ### 📋 Prework Required
 * Confirm that your IT/DNS office has write-access to a domain or subdomain (e.g. `ies.serc.example`) to host the verification path.
 
 ### Execution Guidance
-A [`did:web`](../what-ies-provides/register.md#two-identities-youll-set-up-and-why) identifier leverages your existing DNS and SSL infrastructure to publish your public keys — the same "Org identity" flow documented for DISCOMs applies to regulators.
+A [`did:web`](../what-ies-provides/register.md#two-identities-youll-set-up-and-why) identifier uses your existing DNS and SSL infrastructure to publish your public keys — the same "Org identity" flow documented for DISCOMs applies to regulators.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g. `ies.serc.example`.
 2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path `https://ies.serc.example/.well-known/did.json`, following the same steps a DISCOM follows in [Setup Register](../how-you-implement-ies/setup-register.md).
 3. **This `did:web` becomes your citable identity**: once published, this is the identifier DISCOMs reference (e.g. as `issuer.idRef` in a credential, or as the recipient in an `ArrFiling`) and the identity your own signatures on published tariff policies resolve back to.
@@ -50,7 +50,7 @@ A [`did:web`](../what-ies-provides/register.md#two-identities-youll-set-up-and-w
 ### References & Anchors
 * [Identifiers and Addressing — Org identity for credentials and data-exchange payloads](../what-ies-provides/register.md#two-identities-youll-set-up-and-why)
 * [Identifiers and Addressing — ID patterns you'll use day one](../what-ies-provides/register.md#identifier-patterns) (`did:web:ies.serc.example` as the regulator pattern)
-* [Setup Register — step-by-step identity walkthrough](../how-you-implement-ies/setup-register.md) (`did:web:ies.serc.example` worked example)
+* [Setup Register — step-by-step identity walkthrough](../how-you-implement-ies/setup-register.md) (written for a DISCOM domain; substitute your own)
 * [Register overview](../what-ies-provides/register.md)
 </details>
 
@@ -81,8 +81,8 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 > An `ArrFiling` arrives already signed by the DISCOM's `did:web`, in a single consistent machine-readable format — there is no PDF or Excel workbook to re-key. This changes the regulator's task from *reading a document* to *monitoring data*.
 
 ### Execution Guidance
-1. **Review the filing identity fields**: every filing carries `filingId`, `licensee`, `regulatoryCommission`, `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`), `controlPeriodStart`/`controlPeriodEnd`, `currency`, and `unitScale`.
-2. **Understand `amountBasis`**: each fiscal year inside a filing (`fiscalYears[]`) is tagged `AUDITED`, `APPROVED`, `PROPOSED`, or `TRUED_UP` — this tells your staff exactly what stage of the regulatory process each set of numbers represents.
+1. **Review the filing identity fields**: every filing carries `filingId`, `licensee`, `regulatoryCommission`, `currency`, and `unitScale`; most also carry `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`) and `controlPeriodStart`/`controlPeriodEnd`.
+2. **Understand `amountBasis`**: each fiscal year inside a filing (`fiscalYears[]`) is tagged `AUDITED`, `APPROVED`, `PROPOSED`, `TRUED_UP`, or `NOT_FILED` — this tells your staff exactly what stage of the regulatory process each set of numbers represents.
 3. **Understand line items**: per-year `lineItems[]` carry `category` (`VARIABLE` / `FIXED` / `INCOME` / `SUB_TOTAL` / `ARR` / `ADJUSTMENT`), `subCategory`, `head`, `particulars`, `amount`, and `formReference` — mapped to the same regulatory form headings your staff already work with.
 4. **Verify the DISCOM's signature**: the filing is signed with the filer's `did:web`; resolve that DID to confirm the filing is authentic before ingesting it into your analysis pipeline.
 
@@ -107,7 +107,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 * List your SERC in the `ies-regulators-reference-registry` (see [Register — The IES networks today](../what-ies-provides/register.md#the-ies-networks-today)) so DISCOMs can resolve you for subscription and delivery.
 
 ### Execution Guidance
-1. Confirm the DISCOM's catalogue entry for each filing (`filingType`, `policyContext` — the tariff order it answers, `accessMethod`) resolves correctly on your side.
+1. Confirm the DISCOM's catalogue entry for each filing (`category`, `policyContext` — the tariff order it answers, `accessMethod`) resolves correctly on your side.
 2. Archive each incoming signed envelope as your non-repudiable record of submission.
 3. Where a pre-agreed bilateral subscription exists, filings can be received directly without a separate discovery step per submission.
 
@@ -134,7 +134,7 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 
 ### Execution Guidance
 1. **Author the policy**: represent slab billing as `energySlabs[]` (progressive consumption tiers, each with `start`/`end`/`price`), and time-of-day or deviation adjustments as `surchargeTariffs[]` (`recurrence`, `interval`, `value`, `unit`).
-2. **Assign stable identifiers**: give the policy a stable `policyID` (survives amendments) and a per-version `id` URN; amendments are published as a new `id` with the same `policyID` and an explicit `replaces` link back to the prior version.
+2. **Assign stable identifiers**: give the policy a stable `policyID` (survives amendments) and a per-version `id`; amendments are published as a new `id` with the same `policyID` and an explicit `replaces` link back to the prior version.
 3. **Sign the policy**: sign with your `did:web` from Phase 1, exactly as a DISCOM signs an `ArrFiling` or credential.
 4. **Publish for discovery**: expose one catalogue entry per policy so DISCOMs, billing systems, and apps can subscribe and ingest directly rather than parsing a PDF order.
 5. **Confirm parity with the underlying order**: have regulatory affairs staff confirm the published policy-as-code object matches the tariff order's stated rates before publication.

@@ -32,7 +32,7 @@ An organisation on IES needs up to **two** identifier setups. They exist for dif
 | | (a) Org identity | (b) Beckn network identity |
 |---|---|---|
 | **Proves** | *"This credential / payload was issued by us"* — content-level trust | *"This Beckn message was sent by us, and we belong to this network"* — transport-level trust |
-| **Identifier** | `did:web:<your-domain>` | Your `subscriber_id` (typically your domain) in a DeDi subscriber record |
+| **Identifier** | `did:web:<your-domain>` | Your `subscriber_id` (your `did:web` — the same string as the org identity) in a DeDi subscriber record |
 | **Key** | EC P-256 (credential signing) | Ed25519 (Beckn message signing) |
 | **Published in** | `did.json` at `https://<your-domain>/.well-known/did.json` | Your DeDi namespace (`beckn_subscriber` registry), plus an NFO-side network reference |
 | **Verified by** | Credential verifiers — banks, regulators, marketplaces, wallets | Other Beckn nodes on the network |

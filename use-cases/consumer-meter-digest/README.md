@@ -142,7 +142,7 @@ The JSON-LD that travels in `VcContent` for a twelve-month `MONTHLY`-profile Dig
     "licenseNumber": "SERC-DISCOM-2025-007"
   },
   "validFrom": "2026-05-15T10:00:00+05:30",
-  "validUntil": "2027-05-15T10:00:00+05:30",
+  "validUntil": "2026-05-22T10:00:00+05:30",
   "credentialStatus": {
     "id": "https://dedi.global/dedi/query/did:web:ies.discom.example/vc-revocation-registry",
     "type": "dediregistry",

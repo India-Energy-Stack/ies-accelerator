@@ -2,25 +2,25 @@
 
 Before the field-by-field technical reference, each IES schema gets one plain-language page here — what it is, who issues it, what standards it follows, and where it still has open questions. This is the same **IES Documentation Template** already used for every use-case guide (sections 1–7 in plain language, a condensed Schedule I/II, Annexures A–C), applied to the schema itself rather than to a use case built on top of it.
 
-Read one of these before the auto-generated field reference in [Schemas](../../schemas/README.md) if you want the *why* before the *what*.
+Read one of these before the field reference in [Schemas](../../schemas-ies/README.md) if you want the *why* before the *what*.
 
 | Schema | What it is | Status |
 |---|---|---|
 | **[ElectricityCredential v1.2](electricity-credential.md)** | W3C Verifiable Credential — a consumer connection's static facts and the energy resources behind the meter | Stable — In Pilot |
-| **[MeterData v0.6](meter-data.md)** | Compact telemetry payload — 8 telemetry profile shapes (plus a shared descriptor object) for smart-meter readings, events and alarms | Stable — In Pilot |
+| **[MeterData v0.6](meter-data.md)** | Compact telemetry payload — nine record shapes (eight telemetry profiles plus a shared descriptor object) for smart-meter readings, events and alarms | Stable — In Pilot |
 | **[MeterDataCredential v0.6](meter-data-credential.md)** | W3C Verifiable Credential wrapping a MeterData payload to attest its provenance | Stable — In Pilot |
 | **[MeterDataRequest v0.6](meter-data-request.md)** | Query and authorisation payload for asking a provider for telemetry | Stable — In Pilot |
 | **[MeterDataRequestCredential v0.1](meter-data-request-credential.md)** | W3C Verifiable Credential wrapping a MeterDataRequest to prove the requester's authorisation | Stable — In Pilot |
 | **[ArrFiling v0.5](arr-filing.md)** | Structured Aggregate Revenue Requirement filing — DISCOM to SERC | **Work in progress** |
 | **[OutageNotification v0.1](outage-notification.md)** | Planned/unplanned outage record — pull feed + CAP-aligned push | **Work in progress** |
 
-The full field-level reference for each of these families lives in the **[Schemas](../../schemas/README.md)** section (directly below this one in the navigation), which is the canonical home of the machine-readable files (`schema.json`, `context.jsonld`, examples).
+The full field-level reference for each of these families lives in the **[Schemas](../../schemas-ies/README.md)** section (directly below this one in the navigation), which also carries the canonical URLs of the machine-readable files (`schema.json`, `context.jsonld`, examples).
 
 ---
 
 ## Where the P2P and flexibility schemas live (external)
 
-Some IES use cases build on schemas that IES does **not** publish itself — they are maintained upstream in the **Digital Energy Grid (DEG)** project, canonical at [schema.beckn.io](https://schema.beckn.io). If you are looking for the schemas behind **[P2P Energy Transaction](../../use-cases/p2p-energy-trading/README.md)** (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, …) or demand-side flexibility (`DemandFlexNeed`, `DemandFlexBuyOffer`, …), you will not find them among the families above — they are mirrored, with a field reference, in **[External Schemas](../../schemas/external/README.md)** under the [Schemas](../../schemas/README.md) section. The pages above cover only the schema families IES itself stewards.
+Some IES use cases build on schemas that IES does **not** publish itself — they are maintained upstream in the **Digital Energy Grid (DEG)** project, canonical at [schema.beckn.io](https://schema.beckn.io). If you are looking for the schemas behind **[P2P Energy Transaction](../../use-cases/p2p-energy-trading/README.md)** (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, …) or demand-side flexibility (`DemandFlexNeed`, `DemandFlexBuyOffer`, …), you will not find them among the families above — they are mirrored, with a field reference, in **[External Schemas](../../schemas-ies/external.md)** under the [Schemas](../../schemas-ies/README.md) section. The pages above cover only the schema families IES itself stewards.
 
 ---
 
@@ -45,4 +45,4 @@ Every page follows the same eleven numbered sections as a use-case guide, minus 
 
 ## Where this fits
 
-This page sits under **[Exchange](../exchange.md)**, alongside the [Schemas](../../schemas/README.md) reference (the master schema map and the auto-generated technical reference).
+This section sits directly above the **[Schemas](../../schemas-ies/README.md)** developer catalog in the navigation — the field references and canonical file URLs these pages introduce. The Exchange building block these schemas travel over is covered in **[Exchange in depth](../exchange.md)** under Concepts.

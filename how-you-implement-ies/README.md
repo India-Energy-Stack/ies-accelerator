@@ -16,9 +16,9 @@ Two more pieces slot in between, depending on what you're building:
 | Setup | Page | Time | What you get |
 |---|---|---|---|
 | **Register** *(everyone)* | [Setting up Register](setup-register.md) | 1–2 days | A verifiable `did:web`, a verified DeDi namespace — plus, for Beckn participants, a published subscriber record and an IES network reference |
-| **Credentials** *(B2C use cases)* | [Issuing Credentials](issue-credentials.md) | ½ day | A running OpenCred signing service: issue, verify, revoke W3C Verifiable Credentials |
 | **Exchange** *(B2B use cases)* | [Setting up Discover & Exchange](setup-exchange.md) | 1–2 days | A running Beckn adapter (ONIX) exchanging signed messages on the IES network |
-| **Adapter** | [Build your Internal-facing Adapter](build-adapter.md) | 1–4 weeks | Small mapping layers between your internal systems and the IES schemas |
+| **Credentials** *(B2C use cases)* | [Issuing Credentials](issue-credentials.md) | ½ day | A running OpenCred signing service: issue, verify, revoke W3C Verifiable Credentials |
+| **Adapter** | [Build your Internal-facing Adapter](build-adapter.md) | 1–3 weeks | Small mapping layers between your internal systems and the IES schemas |
 | **Conformance** | [Conformance Checklist](conformance.md) | 1 day | A self-run conformance sign-off, end-to-end — scope explained on that page |
 
 ---

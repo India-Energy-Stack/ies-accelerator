@@ -94,9 +94,9 @@ A signed VC carried at Beckn `confirm` time by a seeker (typically a DISCOM) whe
 |---|---|---|---|---|
 | Bearer ElectricityCredential | `ElectricityCredential/v1.2` | absent | years | DISCOM |
 | Consumer Energy Passport | `ElectricityCredential/v1.2` | wallet `did:key` (+ `customerProfile.idRef`) | years | DISCOM |
-| B2B MeterDataCredential | `MeterDataCredential/v0.6` | absent | hours to days | AMISP / MDM |
+| B2B MeterDataCredential | `MeterDataCredential/v0.6` | absent | days to a year | AMISP / MDM |
 | Consumer Meter Digest | `MeterDataCredential/v0.6` | wallet `did:key` | hours to days | DISCOM (on consumer demand) |
-| Meter-data request | `MeterDataRequestCredential/v0.1` | absent | minutes (per Beckn message) | Seeker (typically DISCOM) |
+| Meter-data request | `MeterDataRequestCredential/v0.1` | absent | weeks to months (the authorised request window) | Seeker (typically DISCOM) |
 
 ---
 
@@ -112,7 +112,7 @@ Full patterns, presentation-time flows, and the adopter checklist: **[Issuing Cr
 
 DigiLocker is the dominant consumer wallet in India. Once issued, an ElectricityCredential or MeterDataCredential can be delivered into a consumer's DigiLocker via a Pull URI, and any verifier reading from DigiLocker inherits DigiLocker's Aadhaar-mediated identity binding.
 
-Walkthrough (Pull URI shape, callback flow, signature pinning, common failure modes): **[DigiLocker delivery](../../how-you-implement-ies/digilocker.md)**.
+Walkthrough (Pull URI endpoint, DocType registration, HMAC verification, issuing both DocTypes): **[DigiLocker delivery](../../how-you-implement-ies/digilocker.md)**.
 
 ---
 
@@ -164,6 +164,6 @@ A **Decentralized Identifier (DID)** is a globally unique string that resolves t
 - [Register & Identifiers in depth](../register.md) — DIDs, identifier patterns, DeDi, holder identifiers
 - [Issuing Credentials](../../how-you-implement-ies/issue-credentials.md) — the operational walkthrough: run OpenCred, issue, verify, revoke
 - [IES Schemas](../../schemas-ies/README.md) — canonical schema mirrors for ElectricityCredential, MeterData(Credential), MeterDataRequest(Credential)
-- [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) — Pull URI, callback, signature pinning
+- [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) — Pull URI endpoint, HMAC verification, both DocTypes
 - [Use cases — Consumer Energy Passport](../../use-cases/consumer-energy-passport/README.md), [Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md), [Smart Meter Data Exchange](../../use-cases/smart-meter-data-exchange/README.md)
 - [OpenCred upstream documentation](https://opencred.gitbook.io/docs)

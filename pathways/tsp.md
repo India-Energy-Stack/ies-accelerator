@@ -100,7 +100,7 @@ An AMISP typically maps its HES/MDM output into the **MeterData v0.6 compact pro
 | `BILL_DETAILS` | Computed billing details — amount, due date, payment status |
 | `INSTANTANEOUS` | Real-time snapshot of voltages, currents, powers |
 | `EVENT` | IS 15959 diagnostic codes and tamper events |
-| `ALARM` | Active alerts — tamper, low prepayment credit, voltage sag, overload |
+| `ALARM` | Active alerts — tamper, low prepayment balance, voltage sag, power threshold exceeded |
 
 1. **Map fields**: map each profile to its HES/MDM export field (DLMS-COSEM registers, IEC 61968-9 interval data, etc.) — this table *is* your Part-2 spec.
 2. **Respond to `MeterDataRequest`**: your BPP handler must return only the requested resources, profiles, and time window.
@@ -130,7 +130,7 @@ A DER/EV-charger/inverter OEM populates the relevant kind in `energyResources[]`
 
 1. Each entry is discriminated by `type` into one of these kinds, with a typed `attributes` bag per device class.
 2. Power/capacity fields use `QuantitativeValue { value, unit }` with short unit aliases (`kW`, `kWh`, `kVA`, `kVAR`, `kV`, `MW`, `MWh`, `MVA`, `MVAR`, `V`, `W`).
-3. Compose the identifier as a `did:web` path under the **issuing DISCOM's** domain (e.g. `did:web:<discom-domain>:assets:meter:<manufacturer-code>_<serial-number>`), preserving serial numbers verbatim.
+3. Compose the identifier as a `did:web` path under the **issuing DISCOM's** domain (e.g. `did:web:<discom-domain>:assets:meter:<meter-serial-no>`), preserving serial numbers verbatim — see [Identifier patterns](../what-ies-provides/register.md#identifier-patterns).
 4. The credential is signed by the DISCOM, or by whoever is the actual issuer if you operate signing infrastructure on their behalf — see Phase 3.
 
 ### References & Anchors

@@ -145,7 +145,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
             \"addressLocality\": \"Bengaluru\",
             \"addressRegion\": \"Karnataka\",
             \"postalCode\": \"560038\",
-            \"addressCountry\": \"IND\"
+            \"addressCountry\": \"IN\"
           }
         },
         \"serviceConnectionDate\": \"2018-07-15T00:00:00+05:30\"
@@ -192,7 +192,7 @@ For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.pro
 
 ## 2.8 — Revoke
 
-OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue (as the [variant examples](#issue-the-credential-variants) below do); the default issue in §2.6 omits it.
+OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue — the §2.6 issue and the [variant examples](#issue-the-credential-variants) below all do; drop that line and the credential cannot be revoked.
 
 > **Two URL shapes, on purpose.** `revocationRegistryUrl` at issue points at the *registry* (`…/dedi/query/<namespace>/vc-revocation-registry`); a verifier checking one credential reads the *record* (`…/dedi/lookup/<namespace>/vc-revocation-registry/<hash>`). `query` addresses the whole registry, `lookup` a single record inside it — not a typo.
 
@@ -358,7 +358,7 @@ The flip side: a wallet or a counterparty hands you a signed credential. What to
 2. **Resolve `issuer.id`** over HTTPS — fetch `https://<issuer-domain>/.well-known/did.json` and extract the `verificationMethod` public key.
 3. **Verify the credential's `proof`** signature against that key. If it fails, stop — the credential is forged or corrupted.
 4. **(Optional) Check `issuer.idRef`** if present. Resolve `issuer.idRef.issuedBy` (the regulator's `did:web`) and confirm the regulator vouches for this DISCOM under the cited `subjectId`. This is the licensing leg of the trust chain; skip when `idRef` is absent.
-5. **Check revocation.** GET the URL in `credentialStatus.id` — typically `https://api.dedi.global/dedi/lookup/<discom>/vc-revocation-registry/<credential-id>`. A `404` (or `status: not_revoked`) means valid; a record with `status: revoked` means rejected.
+5. **Check revocation.** GET the URL in `credentialStatus.id` — typically `https://api.dedi.global/dedi/lookup/<discom>/vc-revocation-registry/<credential-hash>`. A `404` (or `status: not_revoked`) means valid; a record with `status: revoked` means rejected.
 6. **Check the validity window.** Confirm `validFrom <= now <= validUntil`.
 7. **(Holder-bound credentials only)** Challenge the presenter to prove control of `credentialSubject.id` — see [Appendix — Holder binding](#appendix-binding-the-credential-to-a-holder-identity).
 

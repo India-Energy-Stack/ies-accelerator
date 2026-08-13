@@ -32,7 +32,7 @@ Under the IES operator namespace (verified against `indiaenergystack.in`), initi
 2. **`ies-regulators-reference-registry`**: regulator allow-list (SERCs, CERC, etc.).
 3. **`ies-service-providers-reference-registry`**: recognised service providers.
 4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): prod/test Beckn network membership registries. The same pattern applies to the other IES networks (`ies-p2p-trading-network`, `ies-der-integration-network`).
-5. **`ies-schemas`**: canonical, versioned IES schemas (see Phase 5).
+5. **`ies-schemas`** (operational, not part of the registry set documented in [Register](../what-ies-provides/register.md#the-ies-networks-today)): a DeDi mirror of the published schema versions (see Phase 5).
 
 ### References & Anchors
 * [Register — The IES networks today](../what-ies-provides/register.md#the-ies-networks-today)
@@ -46,7 +46,7 @@ Under the IES operator namespace (verified against `indiaenergystack.in`), initi
 > Restrict namespace-key write access via multi-sig validation or HSM storage.
 
 ### Execution Guidance
-1. Secure the namespace controller key for the IES operator namespace (namespace ID `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`).
+1. Secure the namespace controller key for the IES operator namespace. Operationally, the hosted DeDi runtime addresses this namespace by an assigned namespace ID (`did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`) — this value is runtime-assigned rather than published in this reference, so confirm it against the live `indiaenergystack.in` namespace before relying on it.
 2. Log key access and restrict admin roles.
 
 ### References & Anchors
@@ -69,7 +69,7 @@ When a registration package arrives via [IES.Secretariat@fsrglobal.org](mailto:I
 * **Public Verification Key**: NIST P-256 public key in JWK format.
 * **Service Areas**: List of state/regional codes (e.g. `["DL"]`).
 * **Beckn & OpenCred Endpoints**: Target HTTPS service URLs for their integrations.
-* **Digital Signature Certificate (DSC)**: (Optional) `x5c` certificate chain if they anchor in CSCA.
+* **Digital Signature Certificate (DSC)**: optional, and beyond the documented [§1.7 application list](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network) — some applicants include an `x5c` certificate chain when their keys anchor in a CA hierarchy.
 
 ### References & Anchors
 * [Before you build — getting-started checklist](../how-you-implement-ies/README.md)
@@ -106,10 +106,10 @@ In this phase, you whitelist the verified participant inside the authoritative n
 
 ### Execution Guidance
 Append the verified participant's metadata to the reference registry:
-1. Compile the verified record payload per the registry schema (`id`, `did`, `legalName`, `publicKeys`, `serviceAreas`, `endpoints`, `status: "active"`).
+1. Compile the verified record payload per the registry schema (`id`, `did`, `legalName`, `publicKeys`, `serviceAreas`, `endpoints`), and publish the record in the `live` state (DeDi records carry explicit `live` / `inactive` / `draft` states).
 2. Sign with the namespace controller key and write to:
    `indiaenergystack.in/ies-discoms-reference-registry/<discom-id>`
-3. Confirm the entry resolves publicly:
+3. Confirm the entry resolves publicly over the DeDi read API (the hosted runtime addresses the namespace by the runtime-assigned namespace ID from Step 1.2, URL-encoded, rather than the `indiaenergystack.in` label):
    ```bash
    curl https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/ies-discoms-reference-registry/<discom-id>
    ```
@@ -146,7 +146,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 
 ### Execution Guidance
 1. **Handle Key Compromises**: on report, revoke the participant's subscriber reference in `ies-data-sharing-network`.
-2. **Handle Suspension**: on violation or termination, mark the reference status `suspended` or `inactive`.
+2. **Handle Suspension**: on violation or termination, set the reference record's state to `inactive` (the documented DeDi record states are `live` / `inactive` / `draft`).
 
 ### References & Anchors
 * [Register — The registries IES uses, by role](../what-ies-provides/register.md#the-registries-ies-uses-by-role)
@@ -170,15 +170,15 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 In this phase, you manage the publication, versioning, and migration of canonical schemas.
 
 <details>
-<summary><b>Step 5.1: Publish and Version Schemas on `ies-schemas`</b></summary>
+<summary><b>Step 5.1: Publish and Version Schemas</b></summary>
 
 ### Execution Guidance
-1. For approved telemetry shapes (e.g. `MeterData` v0.6), compile the Draft 2020-12 JSON Schema and JSON-LD contexts.
-2. Publish to the canonical registry under:
-   `indiaenergystack.in/ies-schemas/<domain>/<version>`
-3. Maintain mappings and docs for anchored, tamper-proof schema resolution.
+1. For approved schema shapes (e.g. `MeterData` v0.6), compile the Draft 2020-12 JSON Schema and JSON-LD contexts from `attributes.yaml`.
+2. Publish to the canonical hosting path — this repository's `schemas/<Family>/<version>/` folder, served at `india-energy-stack.github.io/ies-accelerator/schemas/...` — following the versioning rules in [How versions work](../schemas-ies/README.md#how-versions-work).
+3. Optionally mirror published versions into the `ies-schemas` DeDi registry under `indiaenergystack.in` (Step 1.1) so schema versions resolve through the same directory as everything else; the GitHub Pages path above remains canonical.
 
 ### References & Anchors
+* [Schemas catalog — How versions work](../schemas-ies/README.md#how-versions-work)
 * [Register — The registries IES uses, by role](../what-ies-provides/register.md#the-registries-ies-uses-by-role)
 </details>
 

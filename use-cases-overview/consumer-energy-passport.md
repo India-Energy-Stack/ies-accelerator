@@ -1,6 +1,6 @@
 # Consumer Energy Passport
 
-*A DISCOM-issued, wallet-held proof of what sits behind a consumer's meter. The Passport is the IES [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) issued holder-bound to the consumer's wallet as a W3C Verifiable Credential: the connection, its tariff and sanctioned load, and every meter, solar array, battery and EV charger behind it. A bank, subsidy portal or marketplace verifies it offline against the issuer's published key — no DISCOM letter.*
+*A DISCOM-issued, wallet-held proof of what sits behind a consumer's meter. The Passport is the IES [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) issued holder-bound to the consumer's wallet as a W3C Verifiable Credential: the connection, its tariff and sanctioned load, and every meter, solar array, battery and EV charger behind it. A bank, subsidy portal or marketplace verifies it offline against the issuer's published key — no DISCOM letter.*
 
 **[Implementation Guide →](../use-cases/consumer-energy-passport/README.md)**
 
@@ -29,7 +29,7 @@ This document defines the **Consumer Energy Passport** — the holder-bound issu
 | Distribution transformer | Where known | ElectricityCredential v1.2 (`energyResources[]`, network equipment) |
 | Energy resources behind the meter | Solar, battery, EV charger, inverter, controllable load — with capacity, inspection status and equipment details | ElectricityCredential v1.2 (`energyResources[]`) |
 
-It records identity, capacity and status — **not live readings**, which are the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, linked by asset identifier (see [Consumer Meter Digest](consumer-meter-digest.md)).
+It records identity, capacity and status — **not live readings**, which are the [MeterData](../schemas/MeterData/v0.6/README.md) record, linked by asset identifier (see [Consumer Meter Digest](consumer-meter-digest.md)).
 
 ## 3. How Each Item is Identified
 
@@ -74,7 +74,7 @@ Fixed order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE**, r
 
 ## 7. The Record
 
-One record: a static Verifiable Credential, changed only on commissioning, capacity change or ownership transfer, and re-issued (with revocation of the old) on material change. It is holder-bound — the consumer holds it in DigiLocker or a DID wallet and discloses fields selectively. Live interval data is a separate [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, linked by identifier.
+One record: a static Verifiable Credential, changed only on commissioning, capacity change or ownership transfer, and re-issued (with revocation of the old) on material change. It is holder-bound — the consumer holds it in DigiLocker or a DID wallet and discloses fields selectively. Live interval data is a separate [MeterData](../schemas/MeterData/v0.6/README.md) record, linked by identifier.
 
 ## 8. Schedule I --- Consumer Energy Passport (Static Record)
 
@@ -214,9 +214,9 @@ Generation is measured at the net meter, a generation meter, or the inverter's o
 
 ## Schemas Used in This Use Case
 
-A single schema — **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** (W3C VC). No additional schemas: Schedule I is the whole record and there is no Schedule II (§9).
+A single schema — **[ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md)** (W3C VC). No additional schemas: Schedule I is the whole record and there is no Schedule II (§9).
 
-Live readings that reference this credential use [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) under their own use case — the consumer's own meter via [Consumer Meter Digest](consumer-meter-digest.md), behind-the-meter DER via [DER Visibility](der-visibility.md).
+Live readings that reference this credential use [MeterData v0.6](../schemas/MeterData/v0.6/README.md) under their own use case — the consumer's own meter via [Consumer Meter Digest](consumer-meter-digest.md), behind-the-meter DER via [DER Visibility](der-visibility.md).
 
 ## Value Unlock
 
@@ -252,7 +252,7 @@ The consumer gets a portable, tamper-evident proof of their connection and asset
 
 ## Annexure B — Example Payload
 
-A single-phase LT-Domestic connection with a 5 kW PV array on a 5 kVA inverter and a 6 kWh aggregator-enrolled battery, fed from one DT. Holder-bound; identifiers illustrative.
+A single-phase residential connection (5 kW sanctioned load) with a 3.6 kWp PV array, a small wind turbine and two batteries — one a 10 kWh aggregator-enrolled BESS — all parented to the net meter, which hangs off its feeder. Holder-bound; identifiers illustrative.
 
 - **[`examples/example.json`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/ElectricityCredential/v1.2/examples/example.json)**
 - **[`example-submetering.json`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/ElectricityCredential/v1.2/examples/example-submetering.json)** — building main meter + tenant sub-meters + rooftop solar

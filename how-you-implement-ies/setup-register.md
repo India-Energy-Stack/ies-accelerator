@@ -1,6 +1,6 @@
 # Setting up Register
 
-> **The first setup every participant completes.** Get your organisation a verifiable digital identity, list it in the shared directory, and — if your use cases need a Beckn network — publish your network identity too. *Done once.* Takes less than 30 minutes.
+> **The first setup every participant completes.** Get your organisation a verifiable digital identity, list it in the shared directory, and — if your use cases need a Beckn network — publish your network identity too. *Done once.* Hands-on work is under 30 minutes; allow 1–2 days elapsed for DNS verification and (for Beckn participants) the network reference.
 
 The concepts behind every artefact on this page — DIDs, DeDi, namespaces, subscriber records — are in **[Register & Identifiers in depth](../what-ies-provides/register.md)**. This page is the do-guide.
 
@@ -198,7 +198,7 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
    | Field | What to fill | Example |
    |---|---|---|
    | `subscriber_id` | Your **`did:web`** — the same org identity you published in §1.3. Using the DID (not a bare hostname) keeps your Beckn identity and your credential identity the same string. | `did:web:ies.discom.example` |
-   | `subscriber_url` | Your Beckn ONIX receiver endpoint | `https://ies.discom.example/bpp/beckn` |
+   | `subscriber_url` | Your Beckn ONIX receiver endpoint | `https://ies.discom.example/bpp/receiver` |
    | `type` | Your role on the network | `BAP` (consumer) or `BPP` (provider) |
    | `signing_public_key` | The Ed25519 public key from §1.5, Base64, no header/footer | `eyAeqGFtAuks...` |
    | `encryption_public_key` | *(Optional)* encryption public key | `lCI84I0Q0U0w...` |
@@ -265,7 +265,7 @@ Membership in the test network does **not** imply membership in prod; each is re
 
 If you operate a network rather than joining one, create a registry under your namespace with the built-in **`beckn_subscriber_reference`** tag — one registry per network you facilitate (typically separate `test-` and prod variants). The `network_id` becomes `<your-domain>/<registry-name>`. You curate membership by writing reference records that point at participant-owned subscriber records — you never copy participant data.
 
-The NFO operational details (network manifest, policies, key rotation) are in the NFH docs: [setting up the network environment](https://docs.nfh.global/beckn/creating-an-open-network/setting-up-the-network-environment) and [configuring network policies](https://docs.nfh.global/beckn/creating-an-open-network/configuring-network-policies).
+The NFO operational details (network manifest, policies, key rotation) are in the NFH docs: [setting up the network environment](https://docs.nfh.global/build/creating-a-network/environment) and [configuring network policies](https://docs.nfh.global/build/creating-a-network/network-policies).
 
 ---
 
@@ -299,4 +299,4 @@ Beckn participants additionally:
 - [ ] Fabric lookup URL returns your record
 - [ ] IES Secretariat emailed; reference entry written into the network registry you applied for
 
-When your role's boxes are ticked, registration is done. Credential issuers: continue to **[Issuing Credentials](issue-credentials.md)**. Beckn participants: continue to **[Setting up Discover & Exchange](setup-exchange.md)**.
+When your role's boxes are ticked, registration is done. Beckn participants: continue to **[Setting up Discover & Exchange](setup-exchange.md)**. Credential issuers: continue to **[Issuing Credentials](issue-credentials.md)**.
