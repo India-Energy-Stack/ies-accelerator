@@ -236,16 +236,16 @@ This block handles digital attestations of connections, billing summaries, and c
   <ul>
     <li><a href="how-you-implement-ies/issue-credentials.md#issuing-credentials">Issuing Credentials</a>    <ul>
       <li><a href="how-you-implement-ies/issue-credentials.md#before-you-start">Before you start</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.1-pull-the-opencred-image">2.1 — Pull the OpenCred image</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.2-generate-the-opencred-api-token">2.2 — Generate the OpenCred API token</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.3-run-opencred-in-did-web-mode">2.3 — Run OpenCred in `did:web` mode</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.4-confirm-your-dedi-namespace-is-live">2.4 — Confirm your DeDi namespace is live</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.5-confirm-the-issuer-did-opencred-reports">2.5 — Confirm the issuer DID OpenCred reports</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential">2.6 — Issue your first credential</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.7-verify">2.7 — Verify</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.8-revoke">2.8 — Revoke</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.9-smoke-test">2.9 — Smoke test</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-2.10-package-the-credential-as-a-pdf-qr-code">2.10 — Package the credential as a PDF / QR code</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.1-pull-the-opencred-image">2.1 — Pull the OpenCred image</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.2-generate-the-opencred-api-token">2.2 — Generate the OpenCred API token</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.3-run-opencred-in-did-web-mode">2.3 — Run OpenCred in `did:web` mode</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.4-confirm-your-dedi-namespace-is-live">2.4 — Confirm your DeDi namespace is live</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.5-confirm-the-issuer-did-opencred-reports">2.5 — Confirm the issuer DID OpenCred reports</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.6-issue-your-first-credential">2.6 — Issue your first credential</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.7-verify">2.7 — Verify</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.8-revoke">2.8 — Revoke</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.9-smoke-test">2.9 — Smoke test</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.10-package-the-credential-as-a-pdf-qr-code">2.10 — Package the credential as a PDF / QR code</a></li>
       <li><a href="how-you-implement-ies/issue-credentials.md#issue-the-credential-variants">Issue the credential variants</a>      <ul>
         <li><a href="how-you-implement-ies/issue-credentials.md#meterdatacredential-v0.6-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
         <li><a href="how-you-implement-ies/issue-credentials.md#meterdatarequestcredential-v0.1-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a>
@@ -420,13 +420,13 @@ This block governs data discovery, consent, and the transfer of telemetry and re
     <li><a href="how-you-implement-ies/setup-exchange.md#setting-up-discover-exchange">Setting up Discover & Exchange</a>    <ul>
       <li><a href="how-you-implement-ies/setup-exchange.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
       <li><a href="how-you-implement-ies/setup-exchange.md#before-you-start">Before you start</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox">3.1 — Deploy the local sandbox</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-3.2-run-your-first-exchange">3.2 — Run your first exchange</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-3.3-swap-in-your-real-identity">3.3 — Swap in your real identity</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-3.4-go-over-the-public-internet-ngrok">3.4 — Go over the public internet (ngrok)</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-3.5-two-registries-two-onix-deployments">3.5 — Two registries, two ONIX deployments</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-3.6-make-the-sandbox-your-own">3.6 — Make the sandbox your own</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-3.7-test-the-end-to-end-loop">3.7 — Test the end-to-end loop</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.1-deploy-the-local-sandbox">3.1 — Deploy the local sandbox</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.2-run-your-first-exchange">3.2 — Run your first exchange</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.3-swap-in-your-real-identity">3.3 — Swap in your real identity</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.4-go-over-the-public-internet-ngrok">3.4 — Go over the public internet (ngrok)</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.5-two-registries-two-onix-deployments">3.5 — Two registries, two ONIX deployments</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.6-make-the-sandbox-your-own">3.6 — Make the sandbox your own</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.7-test-the-end-to-end-loop">3.7 — Test the end-to-end loop</a></li>
       <li><a href="how-you-implement-ies/setup-exchange.md#checklist">Checklist</a>
     </li>
     </ul>

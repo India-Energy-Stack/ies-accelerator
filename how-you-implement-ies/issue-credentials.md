@@ -26,14 +26,14 @@ On this machine:
 
 ---
 
-## 2.1 — Pull the OpenCred image
+## 3.1 — Pull the OpenCred image
 
 ```bash
 docker pull ghcr.io/nfh-trust-labs/opencred/opencred-server:latest
 docker tag  ghcr.io/nfh-trust-labs/opencred/opencred-server:latest opencred:bootcamp
 ```
 
-## 2.2 — Generate the OpenCred API token
+## 3.2 — Generate the OpenCred API token
 
 This token is the only auth on OpenCred's HTTP API — whoever holds it can issue credentials in your name. Generate and save it:
 
@@ -42,7 +42,7 @@ export OPENCRED_API_KEY="$(openssl rand -base64 32)"
 echo "Save this: $OPENCRED_API_KEY"
 ```
 
-## 2.3 — Run OpenCred in `did:web` mode
+## 3.3 — Run OpenCred in `did:web` mode
 
 First set the two DeDi variables (in addition to `OPENCRED_ISSUER_DOMAIN` from Setting up Register §1.1 — re-export it if this is a fresh shell):
 
@@ -54,7 +54,7 @@ export OPENCRED_DEDI_API_KEY="paste-your-dedi-api-key-here"
 - **`OPENCRED_DEDI_NAMESPACE`** — the **domain** your DeDi namespace is linked to and verified with (the same domain you domain-verified in [Setting up Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain)) — *not* a free-text namespace name. Set it to that domain, so that `https://api.dedi.global/dedi/lookup/<namespace-domain>` resolves.
 - **`OPENCRED_DEDI_API_KEY`** — the key you created in the DeDi UI at [publish.dedi.global](https://publish.dedi.global) (avatar in the top-right corner → **Manage API key**).
 
-The `OPENCRED_DEDI_*` variables connect the container to DeDi at startup. That is what enables **revocation** (§2.8) and lets OpenCred auto-create the four registries it needs in your namespace on first boot.
+The `OPENCRED_DEDI_*` variables connect the container to DeDi at startup. That is what enables **revocation** (§3.8) and lets OpenCred auto-create the four registries it needs in your namespace on first boot.
 
 Now start the container:
 
@@ -85,14 +85,14 @@ Expected: the JSON includes `"signingKeyLoaded": true`. If it is `false`, see [T
 
 > **Want offline-verifiable identity instead?** Drop `OPENCRED_ISSUER_DID_METHOD` and `OPENCRED_ISSUER_DOMAIN` and OpenCred runs in `did:key` mode by default. The same key, the same API — only the `did:` string the container reports changes. This is the right choice for first-deploy testing, demos, and consumer wallets. You can also drop the four `OPENCRED_DEDI_*` variables while testing — the container still issues and verifies, but revocation stays disabled until you add them back.
 
-## 2.4 — Confirm your DeDi namespace is live
+## 3.4 — Confirm your DeDi namespace is live
 
 Credential **revocation** rides on your DeDi namespace, so before issuing anything, confirm the namespace side is in order. Two checks, both in a browser:
 
 1. **Is the namespace verified?** Open [explore.dedi.global](https://explore.dedi.global) and search for your namespace. Only verified namespaces show up in explore results — if yours appears, it is verified. (In [publish.dedi.global](https://publish.dedi.global), where you log in and manage the namespace, verification shows as a green **verified** label.) Namespace not in explore? The DNS TXT record hasn't propagated or wasn't added; revisit [Setting up Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
-2. **Did OpenCred create its registries?** Log in at [publish.dedi.global](https://publish.dedi.global) and open your namespace. Can you see the four registries OpenCred auto-created on first boot — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`? If they are there, revocation is wired up and you're ready to issue. If not, the container couldn't reach DeDi — check `docker logs opencred` and re-check the `OPENCRED_DEDI_*` values from §2.3 (a wrong API key or namespace name is the usual cause).
+2. **Did OpenCred create its registries?** Log in at [publish.dedi.global](https://publish.dedi.global) and open your namespace. Can you see the four registries OpenCred auto-created on first boot — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`? If they are there, revocation is wired up and you're ready to issue. If not, the container couldn't reach DeDi — check `docker logs opencred` and re-check the `OPENCRED_DEDI_*` values from §3.3 (a wrong API key or namespace name is the usual cause).
 
-## 2.5 — Confirm the issuer DID OpenCred reports
+## 3.5 — Confirm the issuer DID OpenCred reports
 
 ```bash
 export ISSUER_DID="$(curl -s http://localhost:3100/v1/keys \
@@ -102,7 +102,7 @@ echo "$ISSUER_DID"
 
 Expected: your DID, e.g. `did:web:ies.yourdiscom.in`. If you ran the container in `did:key` mode (for early dev), this prints `did:key:z…` instead — the rest of the flow is identical, only the issuer string changes.
 
-## 2.6 — Issue your first credential
+## 3.6 — Issue your first credential
 
 Default: **bearer-style** (no `credentialSubject.id`) — anyone holding the JSON is treated as the subject. This mirrors the [OpenCred bootcamp](https://opencred.gitbook.io/docs/bootcamp/local-docker). For consumer-facing flows where the presenter must be the legitimate subject, bind to a holder identifier — see [Appendix — Holder binding](#appendix-binding-the-credential-to-a-holder-identity).
 
@@ -170,13 +170,13 @@ Four things worth noting:
   }
   ```
 
-  You pass the **`query`** (whole-registry) URL at issue; OpenCred writes back the **`lookup`** (per-credential record) URL into `credentialStatus.id` — the [two URL shapes are deliberate](#id-2.8-revoke). The stamping happens at issue and needs no live DeDi connection; the actual revocation write in §2.8 does, so make sure the `OPENCRED_DEDI_*` variables from §2.3 are set before you rely on it.
+  You pass the **`query`** (whole-registry) URL at issue; OpenCred writes back the **`lookup`** (per-credential record) URL into `credentialStatus.id` — the [two URL shapes are deliberate](#id-3.8-revoke). The stamping happens at issue and needs no live DeDi connection; the actual revocation write in §3.8 does, so make sure the `OPENCRED_DEDI_*` variables from §3.3 are set before you rely on it.
 
   **To issue *without* revocation** — bearer-style, no `credentialStatus`, e.g. for `did:key` demos or throwaway testing — drop the `revocationRegistryUrl` line from the request body. The credential then can't be revoked, which is fine for those cases but not for anything a verifier will trust in production.
 
 > **The credential is W3C VC Data Model 2.0** — its `@context` is `https://www.w3.org/ns/credentials/v2` (single context, no `credentials/v1`). Point third parties at a **VC-2.0-aware verifier**. Libraries still pinned to VC Data Model 1.1 reject the `v2` context outright (e.g. an error like `@context is missing default context "https://www.w3.org/2018/credentials/v1"`) even though the signature is valid. This is a verifier-version mismatch, not a defect in the credential: do **not** add the `credentials/v1` context to "fix" it — a v2 credential must not carry the v1 context. If you must interoperate with a v1.1-only consumer, issue that consumer a separate v1.1 credential rather than downgrading the v2 one.
 
-## 2.7 — Verify
+## 3.7 — Verify
 
 ```bash
 jq -n --arg c "$(jq -r '.credential.proof.jwt' credential.json)" '{credential: $c}' | \
@@ -190,9 +190,9 @@ Expected: the response includes `"valid": true`.
 
 For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.proof.jwt`), not the JSON envelope. For `data-integrity` proofs, send the full credential JSON. What a *third-party* verifier checks — signature, licensing assertion, revocation, validity window — is walked through in [Verify a credential you received](#verify-a-credential-you-received-the-verifiers-walkthrough) below.
 
-## 2.8 — Revoke
+## 3.8 — Revoke
 
-OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue — the §2.6 issue and the [variant examples](#issue-the-credential-variants) below all do; drop that line and the credential cannot be revoked.
+OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue — the §3.6 issue and the [variant examples](#issue-the-credential-variants) below all do; drop that line and the credential cannot be revoked.
 
 > **Two URL shapes, on purpose.** `revocationRegistryUrl` at issue points at the *registry* (`…/dedi/query/<namespace>/vc-revocation-registry`); a verifier checking one credential reads the *record* (`…/dedi/lookup/<namespace>/vc-revocation-registry/<hash>`). `query` addresses the whole registry, `lookup` a single record inside it — not a typo.
 
@@ -226,9 +226,9 @@ curl -s http://localhost:3100/v1/credentials/revocation-status \
 
 Expected: the status response reports the credential as revoked, with the reason you supplied.
 
-Revocation works here because the container was started with the `OPENCRED_DEDI_*` variables in §2.3 — if you dropped them for early testing, add them back and restart before trying this section. See [OpenCred Revocation](https://opencred.gitbook.io/docs/concepts/revocation) for the conceptual model.
+Revocation works here because the container was started with the `OPENCRED_DEDI_*` variables in §3.3 — if you dropped them for early testing, add them back and restart before trying this section. See [OpenCred Revocation](https://opencred.gitbook.io/docs/concepts/revocation) for the conceptual model.
 
-## 2.9 — Smoke test
+## 3.9 — Smoke test
 
 A passing integration test should:
 
@@ -242,11 +242,11 @@ A passing integration test should:
 
 Run on every release. It exercises every leg of the trust chain.
 
-## 2.10 — Package the credential as a PDF / QR code
+## 3.10 — Package the credential as a PDF / QR code
 
 A signed VC is a JSON blob — fine for machine-to-machine, awkward to hand to a consumer. OpenCred renders the same credential into a printable **PDF certificate** with an embedded **QR code**, so a DISCOM can email or DigiLocker-share a document a person can actually read, and a field verifier can scan the QR to recover the credential verbatim. This mirrors the [OpenCred bootcamp — Package the credential as a PDF / QR code](https://opencred.gitbook.io/docs/bootcamp/local-docker#id-6c.-package-the-credential-as-a-pdf-qr-code).
 
-Packaging is a **rendering** step, not a signing step — no signature is added or checked. The integrity guarantee stays in the credential you issued in §2.6, which is preserved byte-for-byte inside the QR and the JSON output.
+Packaging is a **rendering** step, not a signing step — no signature is added or checked. The integrity guarantee stays in the credential you issued in §3.6, which is preserved byte-for-byte inside the QR and the JSON output.
 
 ```bash
 curl -s http://localhost:3100/v1/credentials/package \
@@ -289,7 +289,7 @@ The walkthrough above issued an ElectricityCredential. The other two IES credent
 
 ### MeterDataCredential v0.6 — telemetry signing
 
-The `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (§2.8):
+The `schemaId` is the OpenCred registry id **`ies/meter-data-credential/v0.6`**, and `credentialSubject.meterData` carries the `MeterData` payload (a profile object or array — see the [v0.6 examples](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)). Pass `revocationRegistryUrl` so the credential carries a `credentialStatus` verifiers can check (§3.8):
 
 ```bash
 curl -s http://localhost:3100/v1/credentials/issue \
@@ -473,7 +473,7 @@ A stolen credential JSON does not pass step 5: the attacker doesn't have the wal
 
 This is the model OpenID for Verifiable Presentations (OID4VP), DIDComm, and most W3C wallet ecosystems implement.
 
-**Wallet rotation.** A wallet `did:key` cannot rotate (rotating means a new DID). If a consumer's wallet is lost or compromised, they generate a new `did:key` and you re-issue the credential bound to it. The old credential is revoked through your DeDi revocation registry (§2.8).
+**Wallet rotation.** A wallet `did:key` cannot rotate (rotating means a new DID). If a consumer's wallet is lost or compromised, they generate a new `did:key` and you re-issue the credential bound to it. The old credential is revoked through your DeDi revocation registry (§3.8).
 
 ### Pattern 2 — Phone-number URI (out-of-band, when there is no wallet)
 
@@ -556,7 +556,7 @@ Patterns are not exclusive, and Pattern 4 composes with the others: a Passport c
 - [ ] Namespace visible on `explore.dedi.global`; four OpenCred registries visible in `publish.dedi.global`
 - [ ] `ISSUER_DID` matches your published `did:web`
 - [ ] One credential issued, verified (`valid: true`), revoked, and re-checked as revoked
-- [ ] Smoke test (§2.9) scripted into your release pipeline
+- [ ] Smoke test (§3.9) scripted into your release pipeline
 - [ ] For consumer-facing credentials: identity-proofing procedure in place before any holder binding
 
 When all boxes are ticked, you can issue production credentials: each one is schema-valid and independently verifiable by anyone who resolves your `did:web` — there is no separate credential-issuer certification step, because verification is bilateral rather than centrally gated. That is a narrower claim than full JSON-LD or external-schema conformance; see [Conformance — What this checklist proves](conformance.md#what-this-checklist-proves-and-what-it-doesnt) for the boundary. To feed OpenCred from your CIS / MDM automatically, continue to **[Build your Internal-facing Adapter](build-adapter.md)**. To exchange data over a Beckn network as well, do **[Setting up Register §1.5–1.7](setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)** then **[Setting up Discover & Exchange](setup-exchange.md)**.
