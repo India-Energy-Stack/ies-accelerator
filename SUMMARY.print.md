@@ -9,8 +9,8 @@
 
   Scope policy (technical-reference refactor, Aug 2026): the PDF mirrors the
   refactored GitBook — the technical reference a reader needs to understand
-  and build on IES. Site-only pages (Propose a Schema) and draft/ content are
-  deliberately NOT listed here. Entries under schemas/ are pulled into the
+  and build on IES. Site-only pages (Propose a Schema, Pathways) and draft/ content
+  are deliberately NOT listed here. Entries under schemas/ are pulled into the
   trailing "Appendix — Schemas Reference". -->
 
 * [Getting Started](README.md)
@@ -42,15 +42,6 @@
   * [IES Meter Data Model](use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
 * [DER Visibility](use-cases/der-visibility/README.md)
 * [P2P Energy Transaction](use-cases/p2p-energy-trading/README.md)
-
-## Pathways
-
-* [Overview](pathways/README.md)
-* [Authority / Regulator Pathway](pathways/authority.md)
-* [Utility Pathway](pathways/utility.md)
-* [Technology Service Provider Pathway](pathways/tsp.md)
-* [Researcher / Analyst Pathway](pathways/researcher.md)
-* [Secretariat Pathway](pathways/secretariat.md)
 
 ## Concepts
 
