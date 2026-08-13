@@ -1,13 +1,11 @@
 # DER Visibility
 
-*A DISCOM's view of every distributed energy resource behind its meters — what is connected (Schedule I, [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)) and what it is doing now (Schedule II, [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)). Both halves are executable today at the per-consumer / per-DER level; the grid-side per-locus **aggregate** of Schedule I remains an illustrative future profile — see §1 and §8.2.*
+*A DISCOM's view of every distributed energy resource (DER) behind its meters, in two halves: what is connected (Schedule I, [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md)) and what it is doing now (Schedule II, [MeterData v0.6](../schemas/MeterData/v0.6/README.md)). Both halves are executable today at the per-consumer / per-DER level; the grid-side per-locus **aggregate** of Schedule I remains an illustrative future profile — see §1 and §8.2.*
 
 **[Implementation Guide →](../use-cases/der-visibility/README.md)**
 
 | Field | Value |
 |---|---|
-| Document | IES/DERV-PROFILE/1.2 |
-| Status | Piloted — see [Status](../STATUS.md) |
 | Applicability | All distribution licensees |
 | This version | Executable today: the per-consumer ElectricityCredential v1.2 (Energy Passport). Illustrative, future: a grid-side, PII-free per-locus profile conceptually reusing `energyResources[]` + `consumptionProfiles[]` (the building blocks of ElectricityCredential v1.2), with the network locus — not a consumer — as subject; see §1. |
 
@@ -123,7 +121,7 @@ The following table is a design inventory for a separately governed subject cont
 
 Schedule II is the **live half** of DER Visibility — the time-dependent fields exchanged for this use case, as against the static asset facts in Schedule I. Where Schedule I records what is connected and how big it is, Schedule II records what it is doing now.
 
-It is a hybrid mapping over [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6): a native electrical subset that validates directly against the schema and its semantic validator, plus explicitly informative extensions for concepts MeterData v0.6 does not carry natively, plus out-of-band transport and security requirements. **The complete Schedule II record does not validate natively as MeterData v0.6** — only the canonical subset in §9.1 does (see §9.4).
+It is a hybrid mapping over [MeterData v0.6](../schemas/MeterData/v0.6/README.md): a native electrical subset that validates directly against the schema and its semantic validator, plus explicitly informative extensions for concepts MeterData v0.6 does not carry natively, plus out-of-band transport and security requirements. **The complete Schedule II record does not validate natively as MeterData v0.6** — only the canonical subset in §9.1 does (see §9.4).
 
 Two things distinguish Schedule II from the rest of this use case:
 
@@ -233,9 +231,9 @@ DER Visibility is therefore not a single-schema use case. ElectricityCredential 
 
 Two schemas, one per Schedule:
 
-**Schedule I (static) — [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2).** Executable today, issued per consumer as the [Energy Passport](consumer-energy-passport.md) — see the validated [Schedule I example](../use-cases/consumer-energy-passport/examples/schedule-i-example.json).
+**Schedule I (static) — [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md).** Executable today, issued per consumer as the [Energy Passport](consumer-energy-passport.md) — see the validated [Schedule I example](../use-cases/consumer-energy-passport/examples/schedule-i-example.json).
 
-**Schedule II (live) — [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6).** Executable today, per DER — see the validated [Schedule II example](../use-cases/der-visibility/examples/schedule-ii-example.json). The canonical electrical subset (§9.1) validates natively; the extensions in §9.2 and the transport requirements in §9.3 do not and are marked informative.
+**Schedule II (live) — [MeterData v0.6](../schemas/MeterData/v0.6/README.md).** Executable today, per DER — see the validated [Schedule II example](../use-cases/der-visibility/examples/schedule-ii-example.json). The canonical electrical subset (§9.1) validates natively; the extensions in §9.2 and the transport requirements in §9.3 do not and are marked informative.
 
 **Illustrative, future:** a per-locus aggregate of the Schedule I register that would conceptually reuse the `EnergyResource` and `ConsumptionProfile` structures ElectricityCredential composes. It is not itself an EC v1.2 payload and has no schema of its own yet; formalising one is tracked in §11.4.
 

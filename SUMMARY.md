@@ -1,20 +1,10 @@
 # Table of contents
 
-* [Home](README.md)
-* [Status](STATUS.md)
-* [Glossary](glossary.md)
-* [FAQ](faq.md)
+* [Getting Started](README.md)
 * [Propose a Schema](propose-a-schema.md)
-* [Download PDF](download-pdf.md)
 
-## What IES Provides
+## Schemas Overview
 
-* [Overview](what-ies-provides/README.md)
-* [Register](what-ies-provides/register.md)
-* [Discover](what-ies-provides/discover.md)
-* [Exchange](what-ies-provides/exchange.md)
-* [Verifiable Credentials](what-ies-provides/energy-credentials/README.md)
-* [Security](what-ies-provides/security.md)
 * [Schemas Overview](what-ies-provides/schemas-overview/README.md)
   * [ElectricityCredential](what-ies-provides/schemas-overview/electricity-credential.md)
   * [MeterData](what-ies-provides/schemas-overview/meter-data.md)
@@ -26,47 +16,30 @@
 
 ## Schemas
 
-* [ElectricityCredential](schemas/ElectricityCredential/README.md)
-  * [v1.2](schemas/ElectricityCredential/v1.2/README.md)
-* [MeterData](schemas/MeterData/README.md)
-  * [v0.6](schemas/MeterData/v0.6/README.md)
-* [MeterDataCredential](schemas/MeterDataCredential/README.md)
-  * [v0.6](schemas/MeterDataCredential/v0.6/README.md)
-* [MeterDataRequest](schemas/MeterDataRequest/README.md)
-  * [v0.6](schemas/MeterDataRequest/v0.6/README.md)
-* [MeterDataRequestCredential](schemas/MeterDataRequestCredential/README.md)
-  * [v0.1](schemas/MeterDataRequestCredential/v0.1/README.md)
-* [ArrFiling (WIP)](schemas/ArrFiling/README.md)
-  * [v0.5](schemas/ArrFiling/v0.5/README.md)
-* [OutageNotification (WIP)](schemas/OutageNotification/README.md)
-  * [v0.1](schemas/OutageNotification/v0.1/README.md)
-* [External Schemas](schemas/external/README.md)
-
-## IES Schemas (developer)
-
-* [All schemas](schemas-ies/README.md)
+* [All Schemas](schemas-ies/README.md)
 * [ElectricityCredential](schemas-ies/ElectricityCredential.md)
+  * [v1.2](schemas/ElectricityCredential/v1.2/README.md)
+  * [v1.1](schemas/ElectricityCredential/v1.1/README.md)
+  * [v1.0](schemas/ElectricityCredential/v1.0/README.md)
 * [MeterData](schemas-ies/MeterData.md)
+  * [v0.6](schemas/MeterData/v0.6/README.md)
+  * [v0.5](schemas/MeterData/v0.5/README.md)
 * [MeterDataCredential](schemas-ies/MeterDataCredential.md)
+  * [v0.6](schemas/MeterDataCredential/v0.6/README.md)
 * [MeterDataRequest](schemas-ies/MeterDataRequest.md)
+  * [v0.6](schemas/MeterDataRequest/v0.6/README.md)
+  * [v0.5](schemas/MeterDataRequest/v0.5/README.md)
 * [MeterDataRequestCredential](schemas-ies/MeterDataRequestCredential.md)
-* [ArrFiling](schemas-ies/ArrFiling.md)
-* [OutageNotification](schemas-ies/OutageNotification.md)
+  * [v0.1](schemas/MeterDataRequestCredential/v0.1/README.md)
+* [ArrFiling (WIP)](schemas-ies/ArrFiling.md)
+  * [v0.5](schemas/ArrFiling/v0.5/README.md)
+* [OutageNotification (WIP)](schemas-ies/OutageNotification.md)
+  * [v0.1](schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](schemas-ies/external.md)
-
-## How you implement IES
-
-* [Overview](how-you-implement-ies/README.md)
-* [Setup Register](how-you-implement-ies/setup-register.md)
-* [Issue Credentials](how-you-implement-ies/issue-credentials.md)
-  * [DigiLocker delivery](how-you-implement-ies/digilocker.md)
-* [Setup Exchange](how-you-implement-ies/setup-exchange.md)
-* [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md)
-* [Conformance Checklist](how-you-implement-ies/conformance.md)
+  * [Field reference](schemas/external/README.md)
 
 ## Use Case Overviews
 
-* [Overview](use-cases-overview/README.md)
 * [Consumer Energy Passport](use-cases-overview/consumer-energy-passport.md)
 * [Consumer Meter Digest](use-cases-overview/consumer-meter-digest.md)
 * [Smart Meter Data Exchange](use-cases-overview/smart-meter-data-exchange.md)
@@ -75,7 +48,6 @@
 
 ## Use Case Implementation Guides
 
-* [Overview](use-cases/README.md)
 * [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md)
 * [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md)
 * [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
@@ -100,6 +72,17 @@
 * [Policy as Code (WIP)](draft/use-cases-overview/tariff-intelligence.md)
   * [Implementation Guide (WIP)](draft/use-cases/tariff-intelligence/README.md)
 
-## Contributors
+## Concepts
 
-* [Contributors](contributors.md)
+* [Before you build](how-you-implement-ies/README.md)
+* [Setting up Register](how-you-implement-ies/setup-register.md)
+  * [Register & Identifiers in depth](what-ies-provides/register.md)
+* [Setting up Discover & Exchange](how-you-implement-ies/setup-exchange.md)
+  * [Discover in depth](what-ies-provides/discover.md)
+  * [Exchange in depth](what-ies-provides/exchange.md)
+* [Issuing Credentials](how-you-implement-ies/issue-credentials.md)
+  * [Verifiable Credentials in depth](what-ies-provides/energy-credentials/README.md)
+  * [DigiLocker delivery](how-you-implement-ies/digilocker.md)
+* [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md)
+* [Security Model](what-ies-provides/security.md)
+* [Conformance Checklist](how-you-implement-ies/conformance.md)

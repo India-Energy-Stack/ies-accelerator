@@ -115,9 +115,9 @@ def main():
             ("use-cases-overview/consumer-meter-digest.md", "Consumer Meter Digest — overview."),
             ("use-cases-overview/smart-meter-data-exchange.md", "Smart Meter Data Exchange — overview."),
             ("use-cases-overview/der-visibility.md", "DER Visibility — overview."),
-            ("use-cases-overview/discom-regulatory-filing.md", "DISCOM Regulatory Filing — overview."),
+            ("draft/use-cases-overview/discom-regulatory-filing.md", "DISCOM Regulatory Filing — overview (draft, WIP)."),
             ("use-cases-overview/p2p-energy-trading.md", "P2P Energy Trading — overview."),
-            ("use-cases-overview/tariff-intelligence.md", "Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).")
+            ("draft/use-cases-overview/tariff-intelligence.md", "Policy as Code — overview (draft, WIP; flagship sub-use-case: Tariff Intelligence).")
         ],
         "schemas": [
             ("schemas/README.md", "Schemas — master schema map, plain-language overviews, standards precedence, versioning, and the proposal flow for new schemas."),
@@ -136,13 +136,11 @@ def main():
             ("use-cases/smart-meter-data-exchange/README.md", "Implementer guide: AMISP/DISCOM/SERC/third-party telemetry exchange over IES Data Exchange, carrying the MeterData schema; includes the optional MeterDataRequestCredential consent flow."),
             ("use-cases/smart-meter-data-exchange/ies-meter-data-model.md", "Reference: Indian smart-metering terminology (OBIS, IS 15959 profiles and event IDs, CIM master data) mapped to the MeterData schema, with the IS 15959 deep-reference appendix."),
             ("use-cases/der-visibility/README.md", "Grid-side issuance of ElectricityCredential v1.2 — per-feeder view of every DER behind a DISCOM's meters."),
-            ("use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions."),
-            ("use-cases/tariff-intelligence/README.md", "Policy as Code — publishing authority policy (tariff rate structures and telescopic schedules, dispatch guides, and more) as signed IES policies."),
+            ("draft/use-cases/discom-regulatory-filing/README.md", "Publishing ARR datasets to State Electricity Regulatory Commissions (draft, WIP)."),
+            ("draft/use-cases/tariff-intelligence/README.md", "Policy as Code — publishing authority policy as signed IES policies (draft, WIP)."),
             ("use-cases/p2p-energy-trading/README.md", "Inter-DISCOM prosumer-to-prosumer energy trade carried as a signed DEGContract over IES Data Exchange; network rules and the seller-DISCOM contract policy enforced as signed Rego, hosted on DeDi.")
         ],
-        "contributors": [
-            ("contributors.md", "Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.")
-        ]
+        "contributors": []
     }
     
     content = """# India Energy Stack (IES) Documentation Index

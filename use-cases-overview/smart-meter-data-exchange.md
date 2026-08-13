@@ -1,13 +1,11 @@
 # Smart Meter Data Exchange
 
-*A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../what-ies-provides/discover.md), carrying the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) payload.*
+*A standard, audit-trailed way to move smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties. Discovery, contracting and payload delivery all run over Beckn — the rail behind the IES [Discover](../what-ies-provides/discover.md) and [Exchange](../what-ies-provides/exchange.md) steps; the payload on the wire is [MeterData](../schemas/MeterData/v0.6/README.md) v0.6. Integrate once, and the same request/response pattern works against every adopting DISCOM.*
 
 **[Implementation Guide →](../use-cases/smart-meter-data-exchange/README.md)**
 
 | Field | Value |
 |---|---|
-| Document | IES/SMDX-PROFILE/0.6 |
-| Status | Piloted — see [Status](../STATUS.md) |
 | Applicability | All AMISPs, DISCOMs and SERCs |
 | This version | Built on MeterData v0.6, MeterDataRequest v0.6 and (optional) MeterDataRequestCredential v0.1 over Beckn. |
 
@@ -19,7 +17,7 @@
 
 The stakeholders are the DISCOM (data fiduciary), the AMISP (data processor) and any authorised third party. Today every DISCOM-AMISP pair builds a bespoke integration — a one-time dump, then incremental files over FTP, or a project-specific API — negotiated and built from scratch each time.
 
-This document defines **Smart Meter Data Exchange** — a one-to-many, standard data shape (MeterData v0.6) carried over a one-to-many discovery and contracting layer (Beckn). A TSP integrates once and the same pattern works across DISCOMs. IES standardises **the interface where parties exchange data** — it does not change how any party stores or moves data internally.
+This document defines **Smart Meter Data Exchange** — a one-to-many, standard data shape (MeterData v0.6) carried over a one-to-many discovery, contracting and exchange layer (Beckn). A TSP integrates once and the same pattern works across DISCOMs. IES standardises **the interface where parties exchange data** — it does not change how any party stores or moves data internally.
 
 ## 2. What It Records / Covers
 
@@ -27,7 +25,7 @@ Four things, and only these four:
 
 | Records | Detail | Source |
 |---|---|---|
-| The contract | How a request is discovered and agreed | Beckn protocol |
+| The contract | How a request is discovered, agreed and carried | Beckn protocol |
 | Consent & scope | How consent, scope and duration are recorded | MeterDataRequest v0.6 / MeterDataRequestCredential v0.1 |
 | The data shape | The MeterData wire format | MeterData v0.6 (DLMS-COSEM / IS 15959) |
 | Receipts & audit | Proof of what was exchanged | Beckn protocol; W3C VC |
@@ -68,7 +66,7 @@ Eight MeterData v0.6 compact profiles cover every cadence:
 
 ## 5. Basis of Standards
 
-See [Schemas — Standards precedence](../schemas/README.md#standards-precedence) for the fixed IES order of preference.
+Fixed IES order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE**.
 
 | Standard | Role here |
 |---|---|
@@ -80,15 +78,15 @@ See [Schemas — Standards precedence](../schemas/README.md#standards-precedence
 
 ## 6. Where Indian Standards Do Not Yet Exist
 
-The compact-profile **JSON shape** is an IES specification — no predating Indian or international standard. Beckn (discovery/contracting) is also an IES choice. Event codes follow **IS 15959** allocations directly.
+The compact-profile **JSON shape** is an IES specification — no predating Indian or international standard. Beckn (discovery, contracting and payload delivery) is also an IES choice. Event codes follow **IS 15959** allocations directly.
 
 ## 7. The Record
 
-No Verifiable Credential by default. Each exchange produces: a **signed Beckn contract** (discovery, scope, parties, time-bound authorisation), a **signed MeterData v0.6 payload** (inline or signed-URL), and a **signed receipt**. Together: a verifiable audit trail for DPDP accountability and dispute resolution. For a durable, holder-bound record, wrap in **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)** — see [Consumer Meter Digest](consumer-meter-digest.md).
+No Verifiable Credential by default. Each exchange produces: a **signed Beckn contract** (discovery, scope, parties, time-bound authorisation), a **signed MeterData v0.6 payload** (inline or signed-URL), and a **signed receipt**. Together: a verifiable audit trail for DPDP accountability and dispute resolution. For a durable, holder-bound record, wrap in **[MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md)** — see [Consumer Meter Digest](consumer-meter-digest.md).
 
 ## 8. Schedule I — Static Fields of the Data Exchange
 
-Schedule I tabulates the static contracts that frame this exchange: [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) selects scope and capabilities, and the optional [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) makes a request portable and verifiable. The [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) response itself is the live half — see [Schedule II](#id-9.-schedule-ii-meter-readings-live-record). **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
+Schedule I tabulates the static contracts that frame this exchange: [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) selects scope and capabilities, and the optional [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) makes a request portable and verifiable. The [MeterData v0.6](../schemas/MeterData/v0.6/README.md) response itself is the live half — see [Schedule II](#id-9.-schedule-ii-meter-readings-live-record). **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
 
 ### 8.1 MeterDataRequest v0.6 — Query and Scope
 
@@ -137,7 +135,7 @@ For Indian-terminology mapping, see **[IES Meter Data Model](../use-cases/smart-
 
 ## 9. Schedule II — Meter Readings (Live Record)
 
-Schedule II is the **live half** of this exchange — the fields that keep arriving after the request is agreed, as against the static request, authorisation and credential contracts of Schedule I. Every field below is carried in the [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) response.
+Schedule II is the **live half** of this exchange — the fields that keep arriving after the request is agreed, as against the static request, authorisation and credential contracts of Schedule I. Every field below is carried in the [MeterData v0.6](../schemas/MeterData/v0.6/README.md) response.
 
 Scope is set in Schedule I and enforced here: a response carries only the profiles and period the authorisation in §8.2 permits.
 
@@ -193,13 +191,13 @@ With IES: DISCOM ── one MeterData v0.6 over Beckn ──► AMISP-1 / AMISP-
 
 | Schema | Role |
 |---|---|
-| [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) | The payload — eight compact profiles |
-| [MeterDataRequest v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6) | The query / capabilities shape |
-| [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) *(optional)* | Seeker authorisation VC |
+| [MeterData v0.6](../schemas/MeterData/v0.6/README.md) | The payload — eight compact profiles |
+| [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) | The query / capabilities shape |
+| [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) *(optional)* | Seeker authorisation VC |
 
 ## Value Unlock
 
-**DISCOMs/AMISPs** — one interface replaces bespoke pair-by-pair integration; months become days. **Regulators/analytics** — one consistent format with a verifiable audit trail; comparable analysis across DISCOMs. **Consumers** — consented third parties reading meter data on standard rails unlocks green loans, automated solar quotes and demand-shift offers.
+**DISCOMs/AMISPs** — one interface replaces bespoke pair-by-pair integration. **Regulators/analytics** — one consistent format with a verifiable audit trail, so analysis is comparable across DISCOMs. **Consumers** — consented third parties can read meter data on standard rails, the basis for services like green loans, solar quotes and demand-shift offers.
 
 ---
 

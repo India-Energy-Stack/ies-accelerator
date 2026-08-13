@@ -14,12 +14,11 @@ layout:
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential` |
 | **Latest version** | **v1.2** |
-| **All versions** | v1.2, v1.1, v1.0 |
 | **Status** | Stable — In Pilot (current: **v1.2**) · **Issued by** DISCOMs · **Consumed by** consumers (holder-bound), grid operators and aggregators (bearer), banks / subsidy portals / DER marketplaces (as verifiers) |
 | **Category** | Verifiable Credentials |
 | **Used in** | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) |
 
-See the full family notes — inheritance, standards basis, design rationale — in [ElectricityCredential (schemas)](../schemas/ElectricityCredential/README.md).
+What this schema is for, in plain language — standards basis, design rationale, open points: [ElectricityCredential (Schemas Overview)](../what-ies-provides/schemas-overview/electricity-credential.md).
 
 ## Developer resources — v1.2 (current)
 
@@ -34,7 +33,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v1.2 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the per-version pages (see **Versions** below) carry the full text, standards basis and notes._
 
 **ElectricityCredential v1.2**
 
@@ -391,202 +390,12 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `serviceStatus` | `active` / `suspended` / `closed` | Lifecycle state of the service connection (the UsagePoint), not of the meter device itself. 'active' = currently energised and billable; 'suspended' = temporarily disconnected (non-payment, inspection, fault) with the contract still on record; 'closed' = permanently terminated. |
 
 
----
+## Versions
 
-## Previous versions
+Every published version stays reachable at its canonical URL — clients pin a version explicitly. Click a version for its full field reference.
 
-> Older versions stay published and reachable at their canonical URLs. Clients pin a version explicitly.
-
-<details>
-<summary><b>v1.1</b> — field reference &amp; files</summary>
-
-[Field reference (README)](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/README.md) · in this book: [ElectricityCredential v1.1](../schemas/ElectricityCredential/v1.1/README.md)
-
-| Resource | URL | Notes |
-|---|---|---|
-| Field reference (README) | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/README.md](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/README.md) | human-readable field reference for this version |
-| `attributes.yaml` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/attributes.yaml) | OpenAPI 3.1 source of truth |
-| `schema.json` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/schema.json) | compiled JSON Schema (Draft 2020-12) — validate against this |
-| `context.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/context.jsonld) | JSON-LD context for semantic resolution |
-| `vocab.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/vocab.jsonld) | RDF vocabulary with standards alignments |
-| `examples/` | [https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.1/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.1/examples) | worked payloads |
-
-**ElectricityCredential v1.1**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | uri | — |
-| **`type`** \* | list of text | — |
-| **`issuer`** \* | object | — |
-| **`validFrom`** \* | date-time | — |
-| `validUntil` | date-time | — |
-| `credentialStatus` | object | — |
-| **`credentialSubject`** \* | object | — |
-| `proof` | object | — |
-
-**IdRef**
-
-| Field | Type | Description |
-|---|---|---|
-| **`issuedBy`** \* | uri | — |
-| **`subjectId`** \* | text | — |
-
-**CustomerProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`customerNumber`** \* | text | — |
-| `idRef` | IdRef | — |
-| **`energyResources`** \* | list of EnergyResource | — |
-| `consumptionProfiles` | list of ConsumptionProfile | — |
-
-**ConsumptionProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`meterId`** \* | text | — |
-| **`sanctionedLoadKw`** \* | number | — |
-| `contractMaxDemandKw` | number | — |
-| `sanctionedExportLoadKw` | number | Sanctioned/approved grid export limit in kW. |
-| **`tariffCategoryCode`** \* | text | — |
-| `premisesType` | `Residential` / `Commercial` / `Industrial` / `Agricultural` | — |
-| `connectionType` | `Single-phase` / `Three-phase` | — |
-| `paymentMode` | `PREPAID` / `POSTPAID` | Indicates if the connection is prepaid or postpaid. |
-| `billingCycleDay` | integer | Day of month on which the billing cycle resets. |
-
-**CustomerDetails**
-
-| Field | Type | Description |
-|---|---|---|
-| **`fullName`** \* | text | — |
-| **`installationAddress`** \* | Location | — |
-| **`serviceConnectionDate`** \* | date-time | — |
-
-**EnergyResource**
-
-| Field | Type | Description |
-|---|---|---|
-| `id` | text | — |
-| `type` | `METER` / `DT` / `BUS` / `FEEDER` / `SOLAR` / `SOLAR_PV` / `WIND` / `HYDRO` / `BIOGAS` / `CHP` / `FUEL_CELL` / `BATTERY` / `BESS` / `EV_CHARGER` / `EV_V2G` / `SMART_HVAC` / `SMART_WATER_HEATER` / `CONTROLLABLE_LOAD` / `MICROGRID` | — |
-| `attributes` | object | All non-topological attributes. |
-| `subResources` | list of text or EnergyResource | — |
-| `parentResources` | list of text | — |
-
-**Location**
-
-| Field | Type | Description |
-|---|---|---|
-| **`geo`** \* | GeoJSONGeometry | — |
-| `address` | Address | — |
-
-**Address**
-
-| Field | Type | Description |
-|---|---|---|
-| `streetAddress` | text | Building name/number and street. |
-| `extendedAddress` | text | Apt, suite, floor, or C/O. |
-| `addressLocality` | text | City or locality. |
-| `addressRegion` | text | State, region or province. |
-| `addressCountry` | text | ISO 3166-1 alpha-2 country code. |
-| `postalCode` | text | Postal or ZIP code. |
-
-**GeoJSONGeometry**
-
-| Field | Type | Description |
-|---|---|---|
-| **`type`** \* | `Point` / `LineString` / `Polygon` / `MultiPoint` / `MultiLineString` / `MultiPolygon` / `GeometryCollection` | — |
-| `coordinates` | list of — | Coordinates per RFC 7946. |
-| `geometries` | list of GeoJSONGeometry | Member geometries when type is GeometryCollection. |
-| `bbox` | list of number | Bounding box [west, south, east, north] in degrees. |
-
-
-</details>
-
-<details>
-<summary><b>v1.0</b> — field reference &amp; files</summary>
-
-[Field reference (README)](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/README.md) · in this book: [ElectricityCredential v1.0](../schemas/ElectricityCredential/v1.0/README.md)
-
-| Resource | URL | Notes |
-|---|---|---|
-| Field reference (README) | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/README.md](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/README.md) | human-readable field reference for this version |
-| `attributes.yaml` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/attributes.yaml) | OpenAPI 3.1 source of truth |
-| `schema.json` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/schema.json) | compiled JSON Schema (Draft 2020-12) — validate against this |
-| `context.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/context.jsonld) | JSON-LD context for semantic resolution |
-| `vocab.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/vocab.jsonld) | RDF vocabulary with standards alignments |
-| `examples/` | [https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.0/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.0/examples) | worked payloads |
-
-**ElectricityCredential Schema**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | uri | Unique identifier for the credential in URN UUID format |
-| **`type`** \* | list of text | — |
-| **`issuer`** \* | object | — |
-| **`validFrom`** \* | date-time | Date and time from which the credential is valid (W3C VC Data Model 2.0) |
-| `validUntil` | date-time | Date and time until which the credential is valid (W3C VC Data Model 2.0) |
-| `credentialStatus` | object | Revocation status information for the credential |
-| **`credentialSubject`** \* | object | Subject with profile sections: customerProfile (required), customerDetails, consumptionProfiles, generationProfiles, storageProfiles. |
-| `proof` | object | — |
-
-**CustomerProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`customerNumber`** \* | text | Full customer account number assigned by the utility |
-| **`meterNumber`** \* | text | Unique meter serial number |
-| **`meterType`** \* | `AMR` / `AMI` / `Electromechanical` / `Forward` / `Reverse` / `Bidirectional` / `Prepaid` / `NetMeter` / `Other` | Type of electricity meter installed. |
-| `idRef` | object | Reference to an identity issued by an external authority |
-
-**CustomerDetails**
-
-| Field | Type | Description |
-|---|---|---|
-| **`fullName`** \* | text | Full name of the customer as per ID proof |
-| **`installationAddress`** \* | object | The physical location of the installation. |
-| **`serviceConnectionDate`** \* | date-time | Date and time when the electricity connection was activated (with timezone offset) |
-
-**ConsumptionProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | uri | DID of the customer/credential subject (links to customer) |
-| **`consumerNumber`** \* | text | Full consumer account number assigned by the utility |
-| **`fullName`** \* | text | Consumer name |
-| **`premisesType`** \* | `Residential` / `Commercial` / `Industrial` / `Agricultural` | Type of premises for the electricity connection |
-| **`connectionType`** \* | `Single-phase` / `Three-phase` | Type of electrical connection |
-| **`sanctionedLoadKW`** \* | number | Sanctioned/approved electrical load in kilowatts (kW) |
-| **`tariffCategoryCode`** \* | text | Billing/tariff category code assigned by the utility |
-| `meterNumber` | text | Meter serial number (optional, for linking to specific meter) |
-
-**GenerationProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | uri | DID of the customer/credential subject (links to customer) |
-| **`consumerNumber`** \* | text | Consumer account number assigned by the utility |
-| `fullName` | text | Consumer name (optional) |
-| `meterNumber` | text | Meter serial number associated with this generation asset (optional) |
-| `assetId` | text | Unique identifier for the generation asset |
-| **`generationType`** \* | `Solar` / `Wind` / `MicroHydro` / `Other` | Type of distributed energy generation |
-| **`capacityKW`** \* | number | Installed generation capacity in kilowatts (kW) |
-| **`commissioningDate`** \* | date | Date when the generation system was activated |
-| `manufacturer` | text | Equipment manufacturer |
-| `modelNumber` | text | Equipment model number |
-
-**StorageProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | uri | DID of the customer/credential subject (links to customer) |
-| **`consumerNumber`** \* | text | Consumer account number assigned by the utility |
-| `fullName` | text | Consumer name (optional) |
-| `meterNumber` | text | Meter serial number associated with this storage asset (optional) |
-| `assetId` | text | Unique identifier for the storage asset |
-| **`storageCapacityKWh`** \* | number | Battery storage capacity in kilowatt-hours (kWh) |
-| **`powerRatingKW`** \* | number | Battery charge/discharge power rating in kilowatts (kW) |
-| **`commissioningDate`** \* | date | Date when the storage system was activated |
-| `storageType` | `LithiumIon` / `LeadAcid` / `FlowBattery` / `Other` | Type of battery storage technology |
-
-
-</details>
+| Version | Status | Notes | Files |
+|---|---|---|---|
+| [v1.2](../schemas/ElectricityCredential/v1.2/README.md) | **Current** | Composable EnergyResource kinds (7 typed discriminants); directional power fields; EV charger kind | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.2/examples) |
+| [v1.1](../schemas/ElectricityCredential/v1.1/README.md) | Previous | Unified `energyResources[]`, multi-meter topology support | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.1/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.1/examples) |
+| [v1.0](../schemas/ElectricityCredential/v1.0/README.md) | Deprecated | Separate consumption/generation/storage profile arrays | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ElectricityCredential/v1.0/examples) |

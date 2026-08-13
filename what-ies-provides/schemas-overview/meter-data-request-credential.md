@@ -4,8 +4,6 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/MDRC/0.1 |
-| Status | Stable — In Pilot (v0.1, dated 2026-05-26 per the schema changelog) |
 | Applicability | Issued by a data requester (e.g. a DISCOM, or a third-party aggregator such as a Technical Service Provider) that attaches it in `commitmentAttributes.ies:meterDataRequest` at Beckn `confirm`; consumed by the metering data provider (e.g. an AMISP or MDM system) that receives it |
 | This version | Defines the credential envelope and its one substantive field, `credentialSubject`, whose `meterDataRequest` property wraps a `MeterDataRequest` object from the separate **MeterDataRequest v0.6** schema family, as specified in [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) |
 
@@ -113,7 +111,7 @@ MeterDataRequestCredential is the optional authorisation attachment on the reque
 
 ## 11. Points for Confirmation
 
-1. The schema's own changelog records v0.1 (2026-05-26) as an initial draft; confirmation of stable status is still outstanding.
+1. The schema's own changelog records v0.1 (2026-05-26) only as "Initial draft", while the family README lists it as Stable — In Pilot; the changelog has not been updated to reflect the later status.
 2. This credential is optional in the Smart Meter Data Exchange use case -- when a provider's offer policy requires it versus when a request may proceed without it is a per-provider policy decision that this document does not resolve.
 3. The `consumerConsent` field is typed as a plain string array (not `format: uri`), unlike `consumers` and `resources` which are DIDs -- the schema does not specify whether consent entries must be DIDs, opaque receipt hashes, or some other format, leaving consent-evidence interoperability between DISCOMs and TSPs undefined at the schema level.
 4. `authorisation` may be an inline `MeterDataAuthorisation` object or a bare URI reference to one; the schema does not specify how a provider is expected to dereference and independently verify a URI-referenced authorisation (e.g. whether it must itself be signed, or how staleness/revocation of that referenced grant is checked), which matters once a TSP-style delegation chain (DISCOM → TSP) is involved rather than a direct DISCOM-to-provider request.

@@ -1,8 +1,8 @@
 # Discover
 
-> **Step 2 of the three IES steps.** Interaction protocol. Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.*
+> **The second of the three IES steps — Register, Discover, Exchange.** Interaction protocol. Before every exchange, both systems look each other up, confirm the other is genuine, and agree on what will be exchanged and on what terms. *No bilateral arrangement is needed.*
 
-Once participants are [Registered](register.md) (Step 1), they need a way to **find each other, negotiate terms, and produce a signed audit trail** of what was agreed — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2)** for this.
+Once participants are [Registered](register.md) (Step 1), they need a way to **find each other, negotiate terms, and produce a signed audit trail** of what was agreed — without anyone phoning anyone. IES uses the open **[Beckn Protocol v2](https://github.com/beckn/protocol-specifications-v2)** for this — and the same signed Beckn channel then carries the [Exchange](exchange.md) payloads, so Beckn is the rail for both steps, with Discover as its look-up-and-contract stage.
 
 Discover belongs to the **data exchange** capability — B2B exchange of structured datasets between registered organisations. The other IES capability, **[Verifiable Credentials](energy-credentials/README.md)**, does not need this step: a credential is issued and verified against the issuer's published key, with no Beckn network involved.
 
@@ -10,7 +10,7 @@ Discover belongs to the **data exchange** capability — B2B exchange of structu
 
 ## Two rails, two kinds of trust
 
-| | **B2B data exchange** (this page + [Exchange](exchange.md)) | **B2C credentials** ([Issue Credentials](../how-you-implement-ies/issue-credentials.md)) |
+| | **B2B data exchange** (this page + [Exchange](exchange.md)) | **B2C credentials** ([Issuing Credentials](../how-you-implement-ies/issue-credentials.md)) |
 |---|---|---|
 | **What moves** | Structured datasets — meter telemetry, regulatory filings, tariff data, trade offers | Signed attestations — a consumer's connection record, a meter digest |
 | **Between whom** | Two **registered organisations** that know who they are transacting with | An issuer and **any third party** — a bank, a marketplace, a housing society — that the issuer has never met |
@@ -38,19 +38,19 @@ There is no central broker: the network operator curates the membership list, bu
 
 ### The lifecycle at a glance
 
-| Phase | BAP — the consumer side ([Beckn Application Platform](../glossary.md#bap)) calls | BPP — the provider side ([Beckn Provider Platform](../glossary.md#bpp)) responds | When you need it |
+| Phase | BAP — the consumer side (Beckn Application Platform) calls | BPP — the provider side (Beckn Provider Platform) responds | When you need it |
 |---|---|---|---|
-| Discovery | `search` | `on_search` | Consumer doesn't yet know which provider to contract with |
+| Discovery | `discover` | `on_discover` | Consumer doesn't yet know which provider to contract with |
 | Negotiation | `select` / `init` | `on_select` / `on_init` | Terms need agreeing before commitment |
 | Commitment | `confirm` | `on_confirm` | **The minimal flow** — payload can be delivered inline here |
 | Delivery | `status` | `on_status` | Payload prepared asynchronously, or paged across messages |
 | Post-fulfilment | `update` | `on_update` | Amendments, credential rotation |
 
-**Minimal viable exchange:** `confirm` → `on_confirm`, with the dataset embedded in the callback. Everything else is optional; each [use-case guide](../use-cases/README.md) lists which actions it actually exercises. Small datasets ride **inline** in the message (the IES default — end-to-end verifiable); large ones hand off to an established channel (signed URL, MQTT, Kafka, SFTP) agreed inside the same contract, so every exchange gets the same signed-audit story. Wire-level detail — message envelope, correlation rules, pagination, `accessMethod` values — is in the [Setup Exchange appendices](../how-you-implement-ies/setup-exchange.md#appendices).
+**Minimal viable exchange:** `confirm` → `on_confirm`, with the dataset embedded in the callback. Everything else is optional; each use-case implementation guide lists which actions it actually exercises. Small datasets ride **inline** in the message (the IES default — end-to-end verifiable); large ones hand off to an established channel (signed URL, MQTT, Kafka, SFTP) agreed inside the same contract, so every exchange gets the same signed-audit story. Wire-level detail — message envelope, correlation rules, pagination, `accessMethod` values — is in the [Setting up Discover & Exchange appendices](../how-you-implement-ies/setup-exchange.md#appendices).
 
 ## The IES networks
 
-IES currently operates three Beckn networks (each with a `test-` twin for onboarding and certification) under the `indiaenergystack.in` namespace: **data sharing**, **P2P trading**, and **DER integration**. Membership is per-network and per-environment; the adapter rejects messages from outside the configured boundary. The registry mechanics are in [Register — The directory: DeDi](register.md#the-directory-dedi); how to get listed is [Setup Register §1.7](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network).
+IES currently operates three Beckn networks (each with a `test-` twin for onboarding and certification) under the `indiaenergystack.in` namespace: **data sharing**, **P2P trading**, and **DER integration**. Membership is per-network and per-environment; the adapter rejects messages from outside the configured boundary. The registry mechanics are in [Register — The directory: DeDi](register.md#the-directory-dedi); how to get listed is [Setting up Register §1.7](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network).
 
 ---
 
@@ -62,7 +62,7 @@ For an IES participant, Discover means registering on Beckn and becoming findabl
 2. **Beckn subscriber record** — a small entry in your DeDi namespace declaring your callback URL, role (`BAP` / `BPP`), and Ed25519 message-signing public key. Other Beckn nodes look this up to verify your signatures.
 3. **Network reference** — the IES network operator (acting as Network Facilitator Organisation, NFO) writes a *reference* into the network registry pointing at your subscriber record. This is the membership boundary.
 
-These three are covered by **[How you implement IES → Setup Register §1.5–1.7](../how-you-implement-ies/setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)**. Standing up the adapter that actually runs an exchange against this registration — ONIX, the sandbox walkthrough, wire mechanics — is **[Setup Exchange](../how-you-implement-ies/setup-exchange.md)**.
+These three are covered by **[Setting up Register §1.5–1.7](../how-you-implement-ies/setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)**. Standing up the adapter that actually runs an exchange against this registration — ONIX, the sandbox walkthrough, wire mechanics — is **[Setting up Discover & Exchange](../how-you-implement-ies/setup-exchange.md)**.
 
 ---
 
@@ -72,6 +72,6 @@ These three are covered by **[How you implement IES → Setup Register §1.5–1
 |---|---|
 | Step 1 — [Register](register.md) | Identity + directory |
 | Step 2 — Discover *(this page)* | — |
-| Step 3 — [Exchange](exchange.md) | Schemas + verifiable credentials |
+| Step 3 — [Exchange](exchange.md) | Signed Beckn payload delivery — schemas + verifiable credentials |
 
-To register on Beckn hands-on: **[Setup Register §1.5–1.7](../how-you-implement-ies/setup-register.md)**. To run the adapter and exchange data: **[Setup Exchange](../how-you-implement-ies/setup-exchange.md)**.
+To register on Beckn hands-on: **[Setting up Register §1.5–1.7](../how-you-implement-ies/setup-register.md)**. To run the adapter and exchange data: **[Setting up Discover & Exchange](../how-you-implement-ies/setup-exchange.md)**.

@@ -1,22 +1,22 @@
 # Build your Internal-facing Adapter
 
-> **Step 4 of the implementation path.** Write the **Part-2 mapping** between your internal systems and the IES schemas. This is the only IES work where you write code — the rest is configuration. About 1–3 weeks for the first use case; subsequent use cases add only a few days each.
+> Write the **Part-2 mapping** between your internal systems and the IES schemas. This is the only IES work where you write code — the rest is configuration. About 1–3 weeks for the first use case; subsequent use cases add only a few days each.
 
-This is where the engines from Steps 2 and 3 get fed from your internal systems. Per-use-case adapter shapes are in **[Use Case Implementation Guides](../use-cases/README.md)**.
+This is where the engines — OpenCred and/or ONIX — get fed from your internal systems. Per-use-case adapter shapes are in the individual Use Case Implementation Guides, linked from the [table below](#pick-your-first-use-case).
 
 ---
 
 ## Before you start
 
-- Step 1 ([Setup Register](setup-register.md)) complete — your `did:web` resolves and your DeDi namespace is verified.
-- The engine your first use case needs is running: **OpenCred** for credential use cases ([Issue Credentials](issue-credentials.md)) and/or **ONIX** for data-exchange use cases ([Setup Exchange](setup-exchange.md)). You wire your mapping into whichever you set up.
+- [Setting up Register](setup-register.md) complete — your `did:web` resolves and your DeDi namespace is verified.
+- The engine your first use case needs is running: **OpenCred** for credential use cases ([Issuing Credentials](issue-credentials.md)) and/or **ONIX** for data-exchange use cases ([Setting up Discover & Exchange](setup-exchange.md)). You wire your mapping into whichever you set up.
 - Read access to the internal system that holds the data (CIS, MDM, HES, DERMS, ERP) and a developer who can write ~200–1,000 lines of glue code.
 
 ---
 
 ## What the adapter is
 
-The IES adapter has two parts: a ready-made **engine** and your **mapping**. There is one engine per capability — **ONIX** for use cases that run over a Beckn network ([Setup Exchange](setup-exchange.md)), **[OpenCred](../glossary.md#opencred)** for credential use cases ([Issue Credentials](issue-credentials.md)) — and you build an internal-facing mapping for each engine your use cases need.
+The IES adapter has two parts: a ready-made **engine** and your **mapping**. There is one engine per capability — **ONIX** for use cases that run over a Beckn network ([Setting up Discover & Exchange](setup-exchange.md)), **OpenCred** for credential use cases ([Issuing Credentials](issue-credentials.md)) — and you build an internal-facing mapping for each engine your use cases need.
 
 | Part | What it does | You build it? |
 |---|---|---|
@@ -124,7 +124,7 @@ This proves repository-local structural conformance against the schema shown abo
 
 The Beckn wiring (subscriber id, callback URL, route registration) is in ONIX config; the handler endpoint is your code.
 
-**Credential use cases — wire into OpenCred.** Your mapping assembles the credential subject from CIS / MDM data (Tasks 1–3) and POSTs it to OpenCred's `/v1/credentials/issue`; OpenCred signs with your key and returns the credential for delivery to the holder. The issue / verify / revoke walkthrough is in **[Issue Credentials](issue-credentials.md#id-2.6-issue-your-first-credential)**.
+**Credential use cases — wire into OpenCred.** Your mapping assembles the credential subject from CIS / MDM data (Tasks 1–3) and POSTs it to OpenCred's `/v1/credentials/issue`; OpenCred signs with your key and returns the credential for delivery to the holder. The issue / verify / revoke walkthrough is in **[Issuing Credentials](issue-credentials.md#id-2.6-issue-your-first-credential)**.
 
 ### Task 5 — Test end-to-end
 
@@ -160,6 +160,6 @@ For the first use case:
 - [ ] Mapping wired into its engine — BPP handler registered with ONIX (Beckn-network use case) or issuance feed calling OpenCred (credential-only use case)
 - [ ] One realistic record exchanged or issued end-to-end with a counterparty / verifier
 
-When all six are ticked, you have completed Step 4 for your first use case. Move on to **[Step 5 — Conformance Checklist](conformance.md)**, then publish.
+When all six are ticked, the adapter for your first use case is done. Move on to the **[Conformance Checklist](conformance.md)**, then publish.
 
-For the second and subsequent use cases, only Tasks 1–4 repeat. The sandbox test (Task 5) reruns quickly, and conformance (Step 5) and all the identity / network setup are reused.
+For the second and subsequent use cases, only Tasks 1–4 repeat. The sandbox test (Task 5) reruns quickly, and conformance and all the identity / network setup are reused.

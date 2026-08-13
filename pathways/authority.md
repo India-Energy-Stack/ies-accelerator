@@ -1,8 +1,6 @@
 # Authority / Regulator Pathway: Step-by-Step IES Integration Roadmap
 
-Welcome to the **Authority / Regulator Pathway**. This guide provides an actionable and structured roadmap for the Ministry of Power, the Central Electricity Authority (CEA), the Central and State Electricity Regulatory Commissions (CERC/SERC), the Forum of Regulators, and State Governments / Union Territory Administrations to adopt the capabilities of the India Energy Stack (IES).
-
-To keep this guide extremely clean and focused on regulatory progress, technical specifications are referenced via hyperlinks rather than repeated. Expand any step to find actionable guidelines, cross-team advice, and prework checkpoints.
+A roadmap for the Ministry of Power, the Central Electricity Authority (CEA), the Central and State Electricity Regulatory Commissions (CERC/SERC), the Forum of Regulators, and State Governments / Union Territory Administrations to adopt the India Energy Stack (IES). Technical specifications are linked, not repeated — expand any step for guidance and prework checkpoints.
 
 ---
 
@@ -19,7 +17,7 @@ flowchart TD
 
 ## Prework & Pre-Alignment Matrix
 
-Before commencing the integration pathway, we recommend aligning the following internal teams and offices. Setting up these channels early ensures a seamless deployment experience:
+Align these internal teams and offices before starting:
 
 | Department / Role | System / Resource Involved | Purpose in Pathway |
 |---|---|---|
@@ -38,13 +36,13 @@ In this phase, the regulator establishes its own institutional cryptographic ide
 <summary><b>Step 1.1: Establish Your Institutional Identity ([did:web](../what-ies-provides/register.md#two-identities-youll-set-up-and-why))</b></summary>
 
 ### 💡 Phase Advice
-> A regulator sets up its `did:web` exactly like a DISCOM does — there is no separate identity mechanism for authorities. Coordinate with your IT/DNS office early; the worked example used throughout the IES documentation is `did:web:ies.serc.example`, a regulator identity hosted on the regulator's own domain.
+> A regulator sets up its `did:web` exactly like a DISCOM does — there is no separate identity mechanism for authorities. Coordinate with your IT/DNS office early; the regulator example in the IES identifier patterns is `did:web:ies.serc.example`, an identity hosted on the regulator's own domain.
 
 ### 📋 Prework Required
 * Confirm that your IT/DNS office has write-access to a domain or subdomain (e.g. `ies.serc.example`) to host the verification path.
 
 ### Execution Guidance
-A [`did:web`](../what-ies-provides/register.md#two-identities-youll-set-up-and-why) identifier leverages your existing DNS and SSL infrastructure to publish your public keys — the same "Org identity" flow documented for DISCOMs applies to regulators.
+A [`did:web`](../what-ies-provides/register.md#two-identities-youll-set-up-and-why) identifier uses your existing DNS and SSL infrastructure to publish your public keys — the same "Org identity" flow documented for DISCOMs applies to regulators.
 1. **Assign a Dedicated Domain**: Allocate an institutional subdomain, e.g. `ies.serc.example`.
 2. **Expose the DID Document**: Host your verification keys in a standard `did.json` file served over HTTPS under the path `https://ies.serc.example/.well-known/did.json`, following the same steps a DISCOM follows in [Setup Register](../how-you-implement-ies/setup-register.md).
 3. **This `did:web` becomes your citable identity**: once published, this is the identifier DISCOMs reference (e.g. as `issuer.idRef` in a credential, or as the recipient in an `ArrFiling`) and the identity your own signatures on published tariff policies resolve back to.
@@ -52,7 +50,7 @@ A [`did:web`](../what-ies-provides/register.md#two-identities-youll-set-up-and-w
 ### References & Anchors
 * [Identifiers and Addressing — Org identity for credentials and data-exchange payloads](../what-ies-provides/register.md#two-identities-youll-set-up-and-why)
 * [Identifiers and Addressing — ID patterns you'll use day one](../what-ies-provides/register.md#identifier-patterns) (`did:web:ies.serc.example` as the regulator pattern)
-* [Setup Register — step-by-step identity walkthrough](../how-you-implement-ies/setup-register.md) (`did:web:ies.serc.example` worked example)
+* [Setup Register — step-by-step identity walkthrough](../how-you-implement-ies/setup-register.md) (written for a DISCOM domain; substitute your own)
 * [Register overview](../what-ies-provides/register.md)
 </details>
 
@@ -83,8 +81,8 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 > An `ArrFiling` arrives already signed by the DISCOM's `did:web`, in a single consistent machine-readable format — there is no PDF or Excel workbook to re-key. This changes the regulator's task from *reading a document* to *monitoring data*.
 
 ### Execution Guidance
-1. **Review the filing identity fields**: every filing carries `filingId`, `licensee`, `regulatoryCommission`, `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`), `controlPeriodStart`/`controlPeriodEnd`, `currency`, and `unitScale`.
-2. **Understand `amountBasis`**: each fiscal year inside a filing (`fiscalYears[]`) is tagged `AUDITED`, `APPROVED`, `PROPOSED`, or `TRUED_UP` — this tells your staff exactly what stage of the regulatory process each set of numbers represents.
+1. **Review the filing identity fields**: every filing carries `filingId`, `licensee`, `regulatoryCommission`, `currency`, and `unitScale`; most also carry `filingType` (`MYT` / `ANNUAL` / `TRUE_UP` / `REVISED`) and `controlPeriodStart`/`controlPeriodEnd`.
+2. **Understand `amountBasis`**: each fiscal year inside a filing (`fiscalYears[]`) is tagged `AUDITED`, `APPROVED`, `PROPOSED`, `TRUED_UP`, or `NOT_FILED` — this tells your staff exactly what stage of the regulatory process each set of numbers represents.
 3. **Understand line items**: per-year `lineItems[]` carry `category` (`VARIABLE` / `FIXED` / `INCOME` / `SUB_TOTAL` / `ARR` / `ADJUSTMENT`), `subCategory`, `head`, `particulars`, `amount`, and `formReference` — mapped to the same regulatory form headings your staff already work with.
 4. **Verify the DISCOM's signature**: the filing is signed with the filer's `did:web`; resolve that DID to confirm the filing is authentic before ingesting it into your analysis pipeline.
 
@@ -92,10 +90,10 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 * [DISCOM Regulatory Filing — use case overview](../draft/use-cases/discom-regulatory-filing/README.md)
 * [DISCOM Regulatory Filing — What It Records / Covers](../draft/use-cases-overview/discom-regulatory-filing.md#id-2.-what-it-records-covers)
 * [DISCOM Regulatory Filing — How Each Item is Identified](../draft/use-cases-overview/discom-regulatory-filing.md#id-3.-how-each-item-is-identified)
-* [ArrFiling family page](../schemas/ArrFiling/README.md)
+* [ArrFiling schema page](../schemas-ies/ArrFiling.md)
 * [ArrFiling Schema Reference (v0.5)](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ArrFiling Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
-* [Schemas — Schema map (ArrFiling entry)](../schemas/README.md#data-exchange-payloads)
+* [Schemas catalog — Data Exchange payloads (ArrFiling entry)](../schemas-ies/README.md#data-exchange-payloads)
 </details>
 
 <details>
@@ -106,17 +104,17 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 
 ### 📋 Prework Required
 * Complete [Register](../what-ies-provides/register.md) (Phase 1) so your `did:web` is resolvable, since DISCOMs will cite it as the filing's recipient.
-* List your SERC in the [IES Regulators reference registry](../what-ies-provides/register.md#the-directory-dedi) so DISCOMs can resolve you for subscription and delivery.
+* List your SERC in the `ies-regulators-reference-registry` (see [Register — The IES networks today](../what-ies-provides/register.md#the-ies-networks-today)) so DISCOMs can resolve you for subscription and delivery.
 
 ### Execution Guidance
-1. Confirm the DISCOM's catalogue entry for each filing (`filingType`, `policyContext` — the tariff order it answers, `accessMethod`) resolves correctly on your side.
+1. Confirm the DISCOM's catalogue entry for each filing (`category`, `policyContext` — the tariff order it answers, `accessMethod`) resolves correctly on your side.
 2. Archive each incoming signed envelope as your non-repudiable record of submission.
 3. Where a pre-agreed bilateral subscription exists, filings can be received directly without a separate discovery step per submission.
 
 ### References & Anchors
 * [DISCOM Regulatory Filing — Setup: Register → Discover → Exchange](../draft/use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange)
 * [DISCOM Regulatory Filing — Value Unlock](../draft/use-cases-overview/discom-regulatory-filing.md#value-unlock)
-* [Registries — reference allow-lists](../what-ies-provides/register.md#the-directory-dedi)
+* [Register — reference allow-lists](../what-ies-provides/register.md#the-ies-networks-today)
 </details>
 
 ---
@@ -136,7 +134,7 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 
 ### Execution Guidance
 1. **Author the policy**: represent slab billing as `energySlabs[]` (progressive consumption tiers, each with `start`/`end`/`price`), and time-of-day or deviation adjustments as `surchargeTariffs[]` (`recurrence`, `interval`, `value`, `unit`).
-2. **Assign stable identifiers**: give the policy a stable `policyID` (survives amendments) and a per-version `id` URN; amendments are published as a new `id` with the same `policyID` and an explicit `replaces` link back to the prior version.
+2. **Assign stable identifiers**: give the policy a stable `policyID` (survives amendments) and a per-version `id`; amendments are published as a new `id` with the same `policyID` and an explicit `replaces` link back to the prior version.
 3. **Sign the policy**: sign with your `did:web` from Phase 1, exactly as a DISCOM signs an `ArrFiling` or credential.
 4. **Publish for discovery**: expose one catalogue entry per policy so DISCOMs, billing systems, and apps can subscribe and ingest directly rather than parsing a PDF order.
 5. **Confirm parity with the underlying order**: have regulatory affairs staff confirm the published policy-as-code object matches the tariff order's stated rates before publication.
@@ -147,7 +145,6 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 * [Policy as Code — How Each Item is Identified](../draft/use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified)
 * [Policy as Code — Setup: Register → Discover → Exchange](../draft/use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
 * [Policy as Code — Value Unlock](../draft/use-cases-overview/tariff-intelligence.md#value-unlock)
-* [Schemas — Schema map (`IES_Policy`, in progress)](../schemas/README.md#data-exchange-payloads)
 </details>
 
 ---
@@ -167,12 +164,12 @@ When a proposal arrives, the review checks:
 1. **No existing overlap**: confirm no existing schema (with optional extension) already covers the proposed domain object.
 2. **Standards alignment**: confirm the proposal follows the IES standards precedence order — **Bureau of Indian Standards (IS) → CEA Regulations / Indian Electricity Grid Code (IEGC) → International Electrotechnical Commission (IEC) → Institute of Electrical and Electronics Engineers (IEEE)** — and that it documents any gap where no Indian standard yet exists.
 3. **Use-case fit**: confirm the proposal is grounded in a real use case, with example payloads.
-4. **Acceptance**: publish a versioned `v0.1` (new schema) or a new minor/major version (change to an existing schema), and add or update the entry in the schema map.
+4. **Acceptance**: publish a versioned `v0.1` (new schema) or a new minor/major version (change to an existing schema), and add or update the entry in the schema catalog.
 
 ### References & Anchors
-* [Schemas — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change)
-* [Schemas — Standards precedence](../schemas/README.md#standards-precedence)
-* [Schemas — Schema map](../schemas/README.md#schema-map)
+* [Propose a Schema — the submission flow](../propose-a-schema.md)
+* [Schemas Overview — page template, incl. Basis of Standards (BIS → CEA → IEC → IEEE)](../what-ies-provides/schemas-overview/README.md#how-each-page-is-organised)
+* [Schemas catalog](../schemas-ies/README.md)
 </details>
 
 <details>
@@ -184,12 +181,11 @@ When a proposal arrives, the review checks:
 ### Execution Guidance
 As the schema steward, the IES Cell is operationally responsible for:
 1. **Schema source of truth** — this repository, under `schemas/`.
-2. **Canonical hosting** — the published schema map at `india-energy-stack.github.io/ies-accelerator/schemas/...`.
+2. **Canonical hosting** — the published schema files at `india-energy-stack.github.io/ies-accelerator/schemas/...`.
 3. **Versioning policy** — semver-light (`v<major>.<minor>`), with non-breaking changes absorbed within a minor version and breaking changes triggering a new version.
-4. **Deprecation** — old versions stay queryable; the schema map and canonical URL flag the currently active version.
+4. **Deprecation** — old versions stay reachable; each schema's catalog page flags the currently active version.
 
 ### References & Anchors
-* [Schemas — Stewardship](../schemas/README.md#stewardship)
-* [Schemas — Versioning](../schemas/README.md#versioning)
-* [Schemas — Where this fits](../schemas/README.md#where-this-fits)
+* [Schemas catalog — How versions work](../schemas-ies/README.md#how-versions-work)
+* [Exchange — where the schemas fit in the IES spine](../what-ies-provides/exchange.md)
 </details>

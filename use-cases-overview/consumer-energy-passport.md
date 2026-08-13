@@ -1,13 +1,11 @@
 # Consumer Energy Passport
 
-*The IES [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2), issued holder-bound to a consumer's wallet (W3C Verifiable Credential).*
+*A DISCOM-issued, wallet-held proof of what sits behind a consumer's meter. The Passport is the IES [ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md) issued holder-bound to the consumer's wallet as a W3C Verifiable Credential: the connection, its tariff and sanctioned load, and every meter, solar array, battery and EV charger behind it. A bank, subsidy portal or marketplace verifies it offline against the issuer's published key — no DISCOM letter.*
 
 **[Implementation Guide →](../use-cases/consumer-energy-passport/README.md)**
 
 | Field | Value |
 |---|---|
-| Document | IES/CEP-PROFILE/1.2 |
-| Status | Piloted (four pilot DISCOMs) — see [Status](../STATUS.md) |
 | Applicability | All distribution licensees |
 | This version | Consumer Energy Passport *variant* of ElectricityCredential v1.2. Static credential only; live interval data uses MeterData, separately. |
 
@@ -15,7 +13,7 @@
 
 ## 1. Scope and Purpose
 
-The stakeholder is the distribution licensee (DISCOM) and the consumer it serves. As rooftop solar, batteries and EV charging grow behind consumers' meters, the licensee often cannot see what's connected, at what capacity, or where; and the consumer cannot prove their connection and assets to a bank, subsidy portal or marketplace without a manual DISCOM letter.
+The stakeholders are the distribution licensee (DISCOM) and the consumer it serves. As rooftop solar, batteries and EV charging grow behind consumers' meters, the licensee often cannot see what's connected, at what capacity, or where; and the consumer cannot prove their connection and assets to a bank, subsidy portal or marketplace without a manual DISCOM letter.
 
 This document defines the **Consumer Energy Passport** — the holder-bound issuance of the ElectricityCredential v1.2, carrying the static facts of a consumer's connection and the energy resources behind their meter. It does not define a new schema: ElectricityCredential v1.2 is the schema; the Passport profiles how it's shaped, issued and delivered when the consumer is the audience (`credentialSubject.id` = wallet DID; `customerProfile.idRef` = a government-ID reference).
 
@@ -29,11 +27,11 @@ This document defines the **Consumer Energy Passport** — the holder-bound issu
 | Distribution transformer | Where known | ElectricityCredential v1.2 (`energyResources[]`, network equipment) |
 | Energy resources behind the meter | Solar, battery, EV charger, inverter, controllable load — with capacity, inspection status and equipment details | ElectricityCredential v1.2 (`energyResources[]`) |
 
-It records identity, capacity and status — **not live readings**, which are the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, linked by asset identifier (see [Consumer Meter Digest](consumer-meter-digest.md)).
+It records identity, capacity and status — **not live readings**, which are the [MeterData](../schemas/MeterData/v0.6/README.md) record, linked by asset identifier (see [Consumer Meter Digest](consumer-meter-digest.md)).
 
 ## 3. How Each Item is Identified
 
-Every item — consumer, connection, each meter, each asset — carries a [DID](../glossary.md#did). Existing licensee numbers are reused as aliases inside identifiers.
+Every item — consumer, connection, each meter, each asset — carries a DID (Decentralized Identifier, W3C DID Core). Existing licensee numbers are reused as aliases inside identifiers.
 
 | Subject | Identifier method | Example |
 |---|---|---|
@@ -43,7 +41,7 @@ Every item — consumer, connection, each meter, each asset — carries a [DID](
 | Meter / inverter / DER / transformer | `did:web` under issuer domain | `did:web:ies.discom.example:assets:meter:NM-44091234` |
 | Existing CIS consumer number | Plain string, kept verbatim | `1102004567` → `customerProfile.customerNumber` |
 
-[DeDi](../glossary.md#dedi) is used only for Beckn subscriber registries and credential revocation — not as an identifier method for consumers, meters or assets.
+DeDi (Decentralised Directory) is used only for Beckn subscriber registries and credential revocation — not as an identifier method for consumers, meters or assets.
 
 ## 4. Definitions
 
@@ -74,7 +72,7 @@ Fixed order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE**, r
 
 ## 7. The Record
 
-One record: a static Verifiable Credential, changed only on commissioning, capacity change or ownership transfer, and re-issued (with revocation of the old) on material change. It is holder-bound — the consumer holds it in DigiLocker or a DID wallet and discloses fields selectively. Live interval data is a separate [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) record, linked by identifier.
+One record: a static Verifiable Credential, changed only on commissioning, capacity change or ownership transfer, and re-issued (with revocation of the old) on material change. It is holder-bound — the consumer holds it in DigiLocker or a DID wallet and discloses fields selectively. Live interval data is a separate [MeterData](../schemas/MeterData/v0.6/README.md) record, linked by identifier.
 
 ## 8. Schedule I --- Consumer Energy Passport (Static Record)
 
@@ -214,13 +212,13 @@ Generation is measured at the net meter, a generation meter, or the inverter's o
 
 ## Schemas Used in This Use Case
 
-A single schema — **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** (W3C VC). No additional schemas: Schedule I is the whole record and there is no Schedule II (§9).
+A single schema — **[ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md)** (W3C VC). No additional schemas: Schedule I is the whole record and there is no Schedule II (§9).
 
-Live readings that reference this credential use [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) under their own use case — the consumer's own meter via [Consumer Meter Digest](consumer-meter-digest.md), behind-the-meter DER via [DER Visibility](der-visibility.md).
+Live readings that reference this credential use [MeterData v0.6](../schemas/MeterData/v0.6/README.md) under their own use case — the consumer's own meter via [Consumer Meter Digest](consumer-meter-digest.md), behind-the-meter DER via [DER Visibility](der-visibility.md).
 
 ## Value Unlock
 
-The consumer gains a portable, tamper-evident proof of their connection and assets, verifiable offline by banks, subsidy portals and marketplaces in seconds — no DISCOM callback. The DISCOM cuts verification load and fraud and gets a clean asset register as a by-product. Regulators get a consistent, auditable asset record across licensees. Selective disclosure lets the consumer reveal only what a verifier needs.
+The consumer gets a portable, tamper-evident proof of their connection and assets that banks, subsidy portals and marketplaces verify offline — no DISCOM callback. The DISCOM cuts verification load and gets a clean asset register as a by-product. Regulators get a consistent, auditable asset record across licensees. Selective disclosure lets the consumer reveal only the fields a verifier needs.
 
 ---
 
@@ -252,7 +250,7 @@ The consumer gains a portable, tamper-evident proof of their connection and asse
 
 ## Annexure B — Example Payload
 
-A single-phase LT-Domestic connection with a 5 kW PV array on a 5 kVA inverter and a 6 kWh aggregator-enrolled battery, fed from one DT. Holder-bound; identifiers illustrative.
+A single-phase residential connection (5 kW sanctioned load) with a 3.6 kWp PV array, a small wind turbine and two batteries — one a 10 kWh aggregator-enrolled BESS — all parented to the net meter, which hangs off its feeder. Holder-bound; identifiers illustrative.
 
 - **[`examples/example.json`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/ElectricityCredential/v1.2/examples/example.json)**
 - **[`example-submetering.json`](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/ElectricityCredential/v1.2/examples/example-submetering.json)** — building main meter + tenant sub-meters + rooftop solar

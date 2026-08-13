@@ -1,15 +1,13 @@
 # Consumer Meter Digest
 
-*A [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) issued on consumer demand, holder-bound, carrying their own meter readings for a specified period (W3C Verifiable Credential).*
+*A consumer's own meter readings, DISCOM-signed and packaged for sharing. The Digest is a [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md) issued on consumer demand, holder-bound to their wallet (W3C Verifiable Credential), carrying readings for a specified period. A bank, installer or energy app verifies it offline instead of trusting an emailed PDF bill.*
 
 **[Implementation Guide →](../use-cases/consumer-meter-digest/README.md)**
 
 | Field | Value |
 |---|---|
-| Document | IES/CMD-PROFILE/0.6 |
-| Status | Piloted — see [Status](../STATUS.md) |
 | Applicability | All distribution licensees |
-| This version | Consumer Meter Digest *variant* of MeterDataCredential v0.6, holder-bound. Wraps [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) profiles. |
+| This version | Consumer Meter Digest *variant* of MeterDataCredential v0.6, holder-bound. Wraps [MeterData v0.6](../schemas/MeterData/v0.6/README.md) profiles. |
 
 ---
 
@@ -55,7 +53,7 @@ See **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-da
 
 ## 5. Basis of Standards
 
-See [Schemas — Standards precedence](../schemas/README.md#standards-precedence) for the fixed IES order of preference.
+Fixed IES order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE**.
 
 | Standard | Role here |
 |---|---|
@@ -73,7 +71,7 @@ One record: a Verifiable Credential wrapping a MeterData profile. Unlike the Pas
 
 ## 8. Schedule I — Static Fields of the Credential
 
-Schedule I is the Consumer Meter Digest profile view over the real [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) wrapper and its embedded [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) payload. **Normative Path** names an actual path in those schemas. **Schema Requires** records schema-requiredness; **CMD Guidance** is informative profile guidance and does not add constraints to either schema. The complete field references remain canonical for fields not listed here.
+Schedule I is the Consumer Meter Digest profile view over the real [MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md) wrapper and its embedded [MeterData v0.6](../schemas/MeterData/v0.6/README.md) payload. **Normative Path** names an actual path in those schemas. **Schema Requires** records schema-requiredness; **CMD Guidance** is informative profile guidance and does not add constraints to either schema. The complete field references remain canonical for fields not listed here.
 
 ### 8.1 Credential Envelope and Holder Binding
 
@@ -158,11 +156,11 @@ Consumer (wallet)                     DISCOM
 
 ## Schemas Used in This Use Case
 
-Holder-bound issuance of **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)**, wrapping a **[MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)** payload. Entitlement is typically proven by a [Consumer Energy Passport](consumer-energy-passport.md).
+Holder-bound issuance of **[MeterDataCredential v0.6](../schemas/MeterDataCredential/v0.6/README.md)**, wrapping a **[MeterData v0.6](../schemas/MeterData/v0.6/README.md)** payload. Entitlement is typically proven by a [Consumer Energy Passport](consumer-energy-passport.md).
 
 ## Value Unlock
 
-The consumer proves actual consumption history, DISCOM-signed, verifiable in seconds with no callback. The DISCOM cuts the steady drip of bill-verification calls and gains a clean, consented data-sharing surface — a much higher-trust input than emailed PDF bills.
+The consumer proves actual consumption history, DISCOM-signed, verifiable without a callback. The DISCOM cuts bill-verification calls and gains a clean, consented data-sharing surface — a higher-trust input than emailed PDF bills.
 
 ---
 
@@ -185,7 +183,7 @@ The consumer proves actual consumption history, DISCOM-signed, verifiable in sec
 
 ## Annexure C — JSON Schema
 
-Canonical: `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/` — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json), [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld), [`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/vocab.jsonld). The payload schema: [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6).
+Canonical: `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/` — [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json), [`context.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld), [`vocab.jsonld`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/vocab.jsonld). The payload schema: [MeterData v0.6](../schemas/MeterData/v0.6/README.md).
 
 ## Annexure D — Derived Views
 

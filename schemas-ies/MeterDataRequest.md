@@ -14,12 +14,11 @@ layout:
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest` |
 | **Latest version** | **v0.6** |
-| **All versions** | v0.6, v0.5 |
 | **Status** | Stable — In Pilot (current: **v0.6**) · **Published by** providers (DISCOMs, AMISPs) · **Used by** requesters (DISCOMs, TSPs, consented third parties) |
 | **Category** | Data Exchange payloads |
 | **Used in** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) |
 
-See the full family notes — inheritance, standards basis, design rationale — in [MeterDataRequest (schemas)](../schemas/MeterDataRequest/README.md).
+What this schema is for, in plain language — standards basis, design rationale, open points: [MeterDataRequest (Schemas Overview)](../what-ies-provides/schemas-overview/meter-data-request.md).
 
 ## Developer resources — v0.6 (current)
 
@@ -34,7 +33,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.6 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the per-version pages (see **Versions** below) carry the full text, standards basis and notes._
 
 **MeterDataRequest**
 
@@ -86,44 +85,11 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `accuracy` | number | Optional accuracy class or precision value. |
 
 
----
+## Versions
 
-## Previous versions
+Every published version stays reachable at its canonical URL — clients pin a version explicitly. Click a version for its full field reference.
 
-> Older versions stay published and reachable at their canonical URLs. Clients pin a version explicitly.
-
-<details>
-<summary><b>v0.5</b> — field reference &amp; files</summary>
-
-[Field reference (README)](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/README.md) · in this book: [MeterDataRequest v0.5](../schemas/MeterDataRequest/v0.5/README.md)
-
-| Resource | URL | Notes |
-|---|---|---|
-| Field reference (README) | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/README.md](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/README.md) | human-readable field reference for this version |
-| `attributes.yaml` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/attributes.yaml) | OpenAPI 3.1 source of truth |
-| `schema.json` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/schema.json) | compiled JSON Schema (Draft 2020-12) — validate against this |
-| `context.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/context.jsonld) | JSON-LD context for semantic resolution |
-| `vocab.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/vocab.jsonld) | RDF vocabulary with standards alignments |
-| `examples/` | [https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.5/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.5/examples) | worked payloads |
-
-**MeterDataRequest**
-
-| Field | Type | Description |
-|---|---|---|
-| **`resources`** \* | list of uri | List of resource identifiers (e.g., meter DIDs, service point IDs, or customer IDs) to query. |
-| **`scope`** \* | `ResourceOnly` / `ResourceAndChildren` / `ChildrenOnly` | Defines the hierarchical scope of the query relative to the target resources. |
-| **`from`** \* | date-time | ISO 8601 UTC date-time indicating the start time of the requested data window. |
-| **`duration`** \* | duration | ISO 8601 duration string representing the length of the requested data window (e.g., PT15M, P1D, P30D). |
-| `maxRecordsShared` | integer | Maximum number of records that should be shared or returned in a single batch/page. |
-| `includeDetails` | list of ProfileRequest | List of specific profile types and the data requested within them. |
-
-**ProfileRequest**
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | `CustomerProfile` / `IntervalProfile` / `DailyProfile` / `MonthlyProfile` / `BillDetails` / `InstantaneousProfile` / `EventProfile` / `AlarmProfile` | — |
-| `values` | list of text | List of requested reading/OBIS short codes or value names. |
-| `requestedMode` | `READING` / `USAGE` | The specific mode requested for these values. |
-
-
-</details>
+| Version | Status | Notes | Files |
+|---|---|---|---|
+| [v0.6](../schemas/MeterDataRequest/v0.6/README.md) | **Current** | Split into three composable models: MeterDataCapabilities, MeterDataAuthorisation, MeterDataRequest | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.6/examples) |
+| [v0.5](../schemas/MeterDataRequest/v0.5/README.md) | Previous | Single unified request schema | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.5/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.5/examples) |

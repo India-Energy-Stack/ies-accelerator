@@ -1,17 +1,12 @@
-# Print manifest — deliverable PDF scope
+# Word-deliverable manifest — .docx scope
 
 <!--
-  This file defines the PRINT SCOPE of the published PDF (ies-report.pdf),
-  consumed by scripts/build_pdf.py and independently re-parsed by
-  scripts/verify_pdf.py. It is NOT the GitBook navigation — that stays in
-  SUMMARY.md (see .gitbook.yaml). Same grammar as SUMMARY.md: canonical
-  starred title-plus-path list entries with even-space indentation.
-
-  Scope policy (technical-reference refactor, Aug 2026): the PDF mirrors the
-  refactored GitBook — the technical reference a reader needs to understand
-  and build on IES. Site-only pages (Propose a Schema, Pathways) and draft/ content
-  are deliberately NOT listed here. Entries under schemas/ are pulled into the
-  trailing "Appendix — Schemas Reference". -->
+  This file defines the scope of the Word (.docx) deliverable built by
+  scripts/build_docx.sh. Same grammar as SUMMARY.md / SUMMARY.print.md.
+  Scope: the full technical reference EXCLUDING Propose a Schema, Pathways
+  and draft/ content. Entries under schemas/ are pulled into the trailing
+  "Appendix — Schemas Reference". To regenerate the document after any
+  content change: bash scripts/build_docx.sh -->
 
 * [Getting Started](README.md)
 

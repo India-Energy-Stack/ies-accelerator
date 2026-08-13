@@ -16,12 +16,11 @@ layout:
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling` |
 | **Latest version** | **v0.5** |
-| **All versions** | v0.5 |
 | **Status** | Work in progress (current: **v0.5**) · **Filed by** DISCOMs · **Received by** SERCs / Joint Electricity Regulatory Commissions |
 | **Category** | Data Exchange payloads |
 | **Used in** | [DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md) |
 
-See the full family notes — inheritance, standards basis, design rationale — in [ArrFiling (schemas)](../schemas/ArrFiling/README.md).
+What this schema is for, in plain language — standards basis, design rationale, open points: [ArrFiling (Schemas Overview)](../what-ies-provides/schemas-overview/arr-filing.md).
 
 ## Developer resources — v0.5 (current)
 
@@ -36,7 +35,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.5 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the per-version pages (see **Versions** below) carry the full text, standards basis and notes._
 
 **ArrFiling**
 
@@ -85,8 +84,10 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `formula` | text | Human-readable computation formula expressed as references to other lineItemIds. |
 
 
----
+## Versions
 
-## Previous versions
+Every published version stays reachable at its canonical URL — clients pin a version explicitly. Click a version for its full field reference.
 
-_v0.5 is the first published version — no previous versions yet._
+| Version | Status | Notes | Files |
+|---|---|---|---|
+| [v0.5](../schemas/ArrFiling/v0.5/README.md) | **Current** | Three relational models: ArrFiling, ArrFiscalYear, ArrLineItem | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/ArrFiling/v0.5/examples) |

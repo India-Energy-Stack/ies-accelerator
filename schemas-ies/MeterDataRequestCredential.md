@@ -14,12 +14,11 @@ layout:
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential` |
 | **Latest version** | **v0.1** |
-| **All versions** | v0.1 |
 | **Status** | Stable — In Pilot (current: **v0.1**) · **Issued by** the requester (a DISCOM, or a third-party aggregator/TSP) · **Consumed by** the data provider (AMISP or MDM system) |
 | **Category** | Verifiable Credentials |
 | **Used in** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional consent proof) |
 
-See the full family notes — inheritance, standards basis, design rationale — in [MeterDataRequestCredential (schemas)](../schemas/MeterDataRequestCredential/README.md).
+What this schema is for, in plain language — standards basis, design rationale, open points: [MeterDataRequestCredential (Schemas Overview)](../what-ies-provides/schemas-overview/meter-data-request-credential.md).
 
 ## Developer resources — v0.1 (current)
 
@@ -34,7 +33,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.1 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the per-version pages (see **Versions** below) carry the full text, standards basis and notes._
 
 **MeterDataRequestCredential**
 
@@ -50,8 +49,10 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`meterDataRequest`** \* | schema.json | The scoped, time-bounded data request. |
 
 
----
+## Versions
 
-## Previous versions
+Every published version stays reachable at its canonical URL — clients pin a version explicitly. Click a version for its full field reference.
 
-_v0.1 is the first published version — no previous versions yet._
+| Version | Status | Notes | Files |
+|---|---|---|---|
+| [v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) | **Current** | Initial release; wraps MeterDataRequest v0.6 | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.1/examples) |

@@ -1,16 +1,16 @@
-# Issue Credentials
+# Issuing Credentials
 
-> **Step 2 of the implementation path — set up + operate.** Run the [OpenCred](../glossary.md#opencred) signing container and issue, verify, and revoke W3C Verifiable Credentials. This is the **B2C rail**: a credential is signed once by you and can then be trusted by *any* third party — a bank, a marketplace, a housing society — that resolves your `did:web`, and delivered over any channel (DigiLocker, web portal, email, SMS, chat). **No Beckn network is involved.** About half a day.
+> **The B2C rail — set up + operate.** Run the OpenCred signing container and issue, verify, and revoke W3C Verifiable Credentials. A credential is signed once by you and can then be trusted by *any* third party — a bank, a marketplace, a housing society — that resolves your `did:web`, and delivered over any channel (DigiLocker, web portal, email, SMS, chat). **No Beckn network is involved.** About half a day.
 
-The concepts — what a credential is, the trust model, the credential variants and when to use each — are in **[Energy Credentials](../what-ies-provides/energy-credentials/README.md)**. This page is the do-guide.
+The concepts — what a credential is, the trust model, the credential variants and when to use each — are in **[Verifiable Credentials in depth](../what-ies-provides/energy-credentials/README.md)**. This page is the do-guide.
 
-> **About the walkthrough.** The commands use **[OpenCred](../glossary.md#opencred)** — see the glossary for what it is, its W3C compliance, its DeDi integration, and release links. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
+> **About the walkthrough.** The commands use **[OpenCred](https://opencred.gitbook.io/docs)**, the reference credential-signing service — W3C VC 2.0 compliant, with built-in DeDi integration. Any W3C-compliant signing pipeline that publishes the same `did.json` and VC-2.0 proofs is a drop-in replacement.
 
 ---
 
 ## Before you start
 
-From **[Setup Register](setup-register.md)** you need §1.1–1.4 complete:
+From **[Setting up Register](setup-register.md)** you need §1.1–1.4 complete:
 
 - `OPENCRED_ISSUER_DOMAIN` exported, and `did.json` published and resolvable from outside (§1.1–1.3).
 - The EC P-256 signing key at `~/opencred/keys/issuer-key.pem` (§1.2).
@@ -22,7 +22,7 @@ On this machine:
 - *(Optional, recommended for licensed utilities)* your regulator's `did:web` and your licence identifier, to quote in `issuer.idRef`. Omit for pilots / non-regulated issuers.
 - **A payload schema in mind.** Default: [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2). For telemetry, [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6).
 
-> **No IES-side DISCOM-registry entry is required to issue credentials.** Verifiers fetch your `did.json` directly to check signatures. The IES network registries are the Beckn-side trust boundary — a separate concern ([Setup Register §1.7](setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)).
+> **No IES-side DISCOM-registry entry is required to issue credentials.** Verifiers fetch your `did.json` directly to check signatures. The IES network registries are the Beckn-side trust boundary — a separate concern ([Setting up Register §1.7](setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)).
 
 ---
 
@@ -44,14 +44,14 @@ echo "Save this: $OPENCRED_API_KEY"
 
 ## 2.3 — Run OpenCred in `did:web` mode
 
-First set the two DeDi variables (in addition to `OPENCRED_ISSUER_DOMAIN` from Setup Register §1.1 — re-export it if this is a fresh shell):
+First set the two DeDi variables (in addition to `OPENCRED_ISSUER_DOMAIN` from Setting up Register §1.1 — re-export it if this is a fresh shell):
 
 ```bash
 export OPENCRED_DEDI_NAMESPACE="discom.example"
 export OPENCRED_DEDI_API_KEY="paste-your-dedi-api-key-here"
 ```
 
-- **`OPENCRED_DEDI_NAMESPACE`** — the **domain** your DeDi namespace is linked to and verified with (the same domain you domain-verified in [Setup Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain)) — *not* a free-text namespace name. Set it to that domain, so that `https://api.dedi.global/dedi/lookup/<namespace-domain>` resolves.
+- **`OPENCRED_DEDI_NAMESPACE`** — the **domain** your DeDi namespace is linked to and verified with (the same domain you domain-verified in [Setting up Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain)) — *not* a free-text namespace name. Set it to that domain, so that `https://api.dedi.global/dedi/lookup/<namespace-domain>` resolves.
 - **`OPENCRED_DEDI_API_KEY`** — the key you created in the DeDi UI at [publish.dedi.global](https://publish.dedi.global) (avatar in the top-right corner → **Manage API key**).
 
 The `OPENCRED_DEDI_*` variables connect the container to DeDi at startup. That is what enables **revocation** (§2.8) and lets OpenCred auto-create the four registries it needs in your namespace on first boot.
@@ -89,7 +89,7 @@ Expected: the JSON includes `"signingKeyLoaded": true`. If it is `false`, see [T
 
 Credential **revocation** rides on your DeDi namespace, so before issuing anything, confirm the namespace side is in order. Two checks, both in a browser:
 
-1. **Is the namespace verified?** Open [explore.dedi.global](https://explore.dedi.global) and search for your namespace. Only verified namespaces show up in explore results — if yours appears, it is verified. (In [publish.dedi.global](https://publish.dedi.global), where you log in and manage the namespace, verification shows as a green **verified** label.) Namespace not in explore? The DNS TXT record hasn't propagated or wasn't added; revisit [Setup Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
+1. **Is the namespace verified?** Open [explore.dedi.global](https://explore.dedi.global) and search for your namespace. Only verified namespaces show up in explore results — if yours appears, it is verified. (In [publish.dedi.global](https://publish.dedi.global), where you log in and manage the namespace, verification shows as a green **verified** label.) Namespace not in explore? The DNS TXT record hasn't propagated or wasn't added; revisit [Setting up Register §1.4](setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain).
 2. **Did OpenCred create its registries?** Log in at [publish.dedi.global](https://publish.dedi.global) and open your namespace. Can you see the four registries OpenCred auto-created on first boot — `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`? If they are there, revocation is wired up and you're ready to issue. If not, the container couldn't reach DeDi — check `docker logs opencred` and re-check the `OPENCRED_DEDI_*` values from §2.3 (a wrong API key or namespace name is the usual cause).
 
 ## 2.5 — Confirm the issuer DID OpenCred reports
@@ -145,7 +145,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
             \"addressLocality\": \"Bengaluru\",
             \"addressRegion\": \"Karnataka\",
             \"postalCode\": \"560038\",
-            \"addressCountry\": \"IND\"
+            \"addressCountry\": \"IN\"
           }
         },
         \"serviceConnectionDate\": \"2018-07-15T00:00:00+05:30\"
@@ -156,7 +156,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
 
 Four things worth noting:
 
-- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:<your-domain>:assets:meter:<slno>` — the command above builds them from `$OPENCRED_ISSUER_DOMAIN`). Same pattern for transformers, feeders, substations — see [Register — Identifier patterns](../what-ies-provides/register.md#identifier-patterns). No per-asset `did.json` hosting required for the pragmatic case.
+- **Asset IDs are `did:web` under your own domain**, with colon-path segments (`did:web:<your-domain>:assets:meter:<slno>` — the command above builds them from `$OPENCRED_ISSUER_DOMAIN`). Same pattern for transformers, feeders, substations — see [Register & Identifiers — Identifier patterns](../what-ies-provides/register.md#identifier-patterns). No per-asset `did.json` hosting required for the pragmatic case.
 - **`issuer.idRef` is optional.** OpenCred fills `issuer` with the DID string only. Your integration service appends `name` and (if you have a regulator to cite) `idRef` on egress, then re-signs if your flow requires a single signed artefact.
 - **`credentialSubject.id` is absent here.** That's the bearer-style default. Set it to a wallet `did:key` or `tel:+91...` URI for holder-bound issuance — see [Appendix — Holder binding](#appendix-binding-the-credential-to-a-holder-identity).
 - **This credential is revocable — it carries a `credentialStatus`.** The `revocationRegistryUrl` line points OpenCred at your DeDi revocation registry (built from `$OPENCRED_DEDI_NAMESPACE`), so it stamps a `credentialStatus` block onto both the credential and its JWT payload:
@@ -192,7 +192,7 @@ For `vc-jwt`, the verify endpoint takes the compact JWS string (`.credential.pro
 
 ## 2.8 — Revoke
 
-OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue (as the [variant examples](#issue-the-credential-variants) below do); the default issue in §2.6 omits it.
+OpenCred publishes revocation as a hash entry into your DeDi revocation registry; the verifier reads `credentialStatus` and looks up the hash. DeDi stores **only revoked** hashes — the per-credential lookup returns `200` when revoked and `404` when not (record existence is the signal). For the credential to carry that `credentialStatus`, pass `revocationRegistryUrl` at issue — the §2.6 issue and the [variant examples](#issue-the-credential-variants) below all do; drop that line and the credential cannot be revoked.
 
 > **Two URL shapes, on purpose.** `revocationRegistryUrl` at issue points at the *registry* (`…/dedi/query/<namespace>/vc-revocation-registry`); a verifier checking one credential reads the *record* (`…/dedi/lookup/<namespace>/vc-revocation-registry/<hash>`). `query` addresses the whole registry, `lookup` a single record inside it — not a typo.
 
@@ -285,7 +285,7 @@ Expected: `certificate.pdf` is a two-page PDF — page 1 is the credential rende
 
 ## Issue the credential variants
 
-The walkthrough above issued an ElectricityCredential. The other two IES credentials use the same `POST /v1/credentials/issue` flow with different schemas — what each variant is *for* is described in [Energy Credentials — Credential variants](../what-ies-provides/energy-credentials/README.md#credential-variants).
+The walkthrough above issued an ElectricityCredential. The other two IES credentials use the same `POST /v1/credentials/issue` flow with different schemas — what each variant is *for* is described in [Verifiable Credentials — Credential variants](../what-ies-provides/energy-credentials/README.md#credential-variants).
 
 ### MeterDataCredential v0.6 — telemetry signing
 
@@ -358,7 +358,7 @@ The flip side: a wallet or a counterparty hands you a signed credential. What to
 2. **Resolve `issuer.id`** over HTTPS — fetch `https://<issuer-domain>/.well-known/did.json` and extract the `verificationMethod` public key.
 3. **Verify the credential's `proof`** signature against that key. If it fails, stop — the credential is forged or corrupted.
 4. **(Optional) Check `issuer.idRef`** if present. Resolve `issuer.idRef.issuedBy` (the regulator's `did:web`) and confirm the regulator vouches for this DISCOM under the cited `subjectId`. This is the licensing leg of the trust chain; skip when `idRef` is absent.
-5. **Check revocation.** GET the URL in `credentialStatus.id` — typically `https://api.dedi.global/dedi/lookup/<discom>/vc-revocation-registry/<credential-id>`. A `404` (or `status: not_revoked`) means valid; a record with `status: revoked` means rejected.
+5. **Check revocation.** GET the URL in `credentialStatus.id` — typically `https://api.dedi.global/dedi/lookup/<discom>/vc-revocation-registry/<credential-hash>`. A `404` (or `status: not_revoked`) means valid; a record with `status: revoked` means rejected.
 6. **Check the validity window.** Confirm `validFrom <= now <= validUntil`.
 7. **(Holder-bound credentials only)** Challenge the presenter to prove control of `credentialSubject.id` — see [Appendix — Holder binding](#appendix-binding-the-credential-to-a-holder-identity).
 
@@ -520,7 +520,7 @@ When the consumer has no wallet and you still want a **stable, resolvable subjec
 }
 ```
 
-This is the same `did:web` path grammar used for assets and connections ([Register — Identifier patterns](../what-ies-provides/register.md#identifier-patterns)), scoped to `consumers:<consumer-number>`. Its value: every credential you issue for that consumer carries the **same subject id**, so a verifier (or the consumer's own history) can correlate the Passport, a Meter Digest, and a re-issued Passport as being about one subject — without exposing a wallet key or a phone number.
+This is the same `did:web` path grammar used for assets and connections ([Register & Identifiers — Identifier patterns](../what-ies-provides/register.md#identifier-patterns)), scoped to `consumers:<consumer-number>`. Its value: every credential you issue for that consumer carries the **same subject id**, so a verifier (or the consumer's own history) can correlate the Passport, a Meter Digest, and a re-issued Passport as being about one subject — without exposing a wallet key or a phone number.
 
 **What it does and doesn't give you.** The DID resolves under *your* domain, so it is a stable name you control — not proof the *presenter* controls it. It does **not** replace holder proof-of-control: for presentation-time proof, layer Pattern 1 (a wallet `did:key` the consumer signs a VP with) or Pattern 2 (phone OTP) on top, or deliver via DigiLocker (Pattern 3). Use Pattern 4 as the default subject id for bearer/counter-issued Passports and DigiLocker-delivered Passports where the channel supplies the identity binding and you still want a durable, correlatable subject reference. It carries no PII — the consumer number is already inside `customerProfile.customerNumber`.
 
@@ -559,4 +559,4 @@ Patterns are not exclusive, and Pattern 4 composes with the others: a Passport c
 - [ ] Smoke test (§2.9) scripted into your release pipeline
 - [ ] For consumer-facing credentials: identity-proofing procedure in place before any holder binding
 
-When all boxes are ticked, you can issue production credentials: each one is schema-valid and independently verifiable by anyone who resolves your `did:web` — there is no separate credential-issuer certification step, because verification is bilateral rather than centrally gated. That is a narrower claim than full JSON-LD or external-schema conformance; see [Conformance — What this checklist proves](conformance.md#what-this-checklist-proves-and-what-it-doesnt) for the boundary. To feed OpenCred from your CIS / MDM automatically, continue to **[Build your Internal-facing Adapter](build-adapter.md)**. To exchange data over a Beckn network as well, do **[Setup Register §1.5–1.7](setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)** then **[Setup Exchange](setup-exchange.md)**.
+When all boxes are ticked, you can issue production credentials: each one is schema-valid and independently verifiable by anyone who resolves your `did:web` — there is no separate credential-issuer certification step, because verification is bilateral rather than centrally gated. That is a narrower claim than full JSON-LD or external-schema conformance; see [Conformance — What this checklist proves](conformance.md#what-this-checklist-proves-and-what-it-doesnt) for the boundary. To feed OpenCred from your CIS / MDM automatically, continue to **[Build your Internal-facing Adapter](build-adapter.md)**. To exchange data over a Beckn network as well, do **[Setting up Register §1.5–1.7](setup-register.md#id-1.5-beckn-participants-generate-your-beckn-signing-keypair)** then **[Setting up Discover & Exchange](setup-exchange.md)**.

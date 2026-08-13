@@ -11,4 +11,4 @@
 | [DISCOM Regulatory Filing (WIP) — Implementation Guide](use-cases/discom-regulatory-filing/README.md) | Draft developer build for the filing use case. |
 | [Policy as Code (WIP) — Implementation Guide](use-cases/tariff-intelligence/README.md) | Draft developer build for the policy-as-code use case. |
 
-The [ArrFiling schema family](../schemas/ArrFiling/README.md) referenced by the filing use case remains published under `schemas/` at **Work in progress** status.
+The [ArrFiling schema family](../schemas-ies/ArrFiling.md) referenced by the filing use case remains published under `schemas/` at **Work in progress** status.

@@ -4,10 +4,8 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/ARR/0.5 |
-| Status | Work in progress. The line-item `category`/`subCategory` enumeration is an IES superset still converging across State Electricity Regulatory Commissions (SERCs); it is expected to gain additions, not stabilise as final, in this version. |
 | Applicability | Issued (filed) by a distribution licensee (DISCOM); consumed by the State Electricity Regulatory Commission (SERC) or Joint Electricity Regulatory Commission that receives the filing. |
-| This version | Covers the ARR filing payload only — filing metadata, per-fiscal-year basis, and line items — defined in [ArrFiling v0.5 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json). |
+| This version | Covers the ARR filing payload only — filing metadata, per-fiscal-year basis, and line items — defined in [ArrFiling v0.5 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json). Work in progress: the line-item `category`/`subCategory` enumeration is an IES superset still converging across SERCs and is expected to gain additions in this version. |
 
 ## 1. Scope and Purpose
 
