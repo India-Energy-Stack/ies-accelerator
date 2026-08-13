@@ -93,7 +93,13 @@ Publish a BPP catalogue entry per locus (feeder / substation / licensee-wide), `
 
 ## Checklist
 
-*Tracks the future implementation path for the illustrative aggregate (see Scenario, above) — not applicable until its credential-subject shape is formalised.*
+**Step 0 — Prerequisites**
+
+- [ ] Register your organisation in the DeDi directory and create your `did:web` identity — see [Setting up Register](../../how-you-implement-ies/setup-register.md)
+- [ ] Stand up your Beckn ONIX adapter and connect it to the network — see [Setting up Discover & Exchange](../../how-you-implement-ies/setup-exchange.md)
+- [ ] Pass the basic conformance check — see [Conformance Checklist](../../how-you-implement-ies/conformance.md)
+
+*The items below track the future implementation path for the illustrative aggregate (see Scenario, above) — not applicable until its credential-subject shape is formalised.*
 
 - [ ] Same `did:web` as the Energy Passport confirmed working
 - [ ] Feeder / substation identifier convention confirmed (existing IDs wrapped in `did:web`)
@@ -113,7 +119,7 @@ Publish a BPP catalogue entry per locus (feeder / substation / licensee-wide), `
 
 ## Open Items
 
-- **Refresh cadence per locus** — weekly vs monthly vs on-material-change — to be tuned per pilot.
+- **Refresh cadence per locus** — weekly vs monthly vs on-material-change — to be tuned per deployment.
 - **Aggregator binding** — the exact field and credential proof an aggregator presents to claim a resource.
 - **Privacy review** — confirmation that the aggregated, PII-free issuance meets DPDP grid-side disclosure norms; `consumptionProfiles[]` entries are keyed by meter id (pseudonymous, not anonymous), so their inclusion belongs behind the authenticated tier where required.
 - **Aggregate record shape** — ElectricityCredential requires a single `customerProfile` with one customer number, so it cannot represent a PII-free, multi-consumer aggregate. The aggregate needs its own credential-subject shape, formalised upstream through separate governance; until then it remains an illustrative future profile with no canonical executable example.

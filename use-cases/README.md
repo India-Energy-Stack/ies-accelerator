@@ -2,13 +2,13 @@
 
 Each guide takes a real outcome and shows how to ship it on IES — what schemas it uses, what your adapter needs to do, who is involved, and what good looks like at the end.
 
-Every guide follows the same **IES Documentation Template** (eleven numbered sections + use-case extras), and every guide's **Setup** section is organised by the same **[Register → Discover → Exchange](../README.md#how-it-works-three-steps)** spine that runs through the whole GitBook. Once you have read one guide, you know where to look in any other.
+Every guide follows the same **IES Documentation Template** (eleven numbered sections + use-case extras), and every guide's **Setup** section is organised by the same **[Register → Discover → Exchange](../README.md)** spine that runs through the whole GitBook. Once you have read one guide, you know where to look in any other.
 
 ---
 
 ## Piloted in the 30-day Challenge
 
-These four use cases were [demonstrated by the four pilot DISCOMs](../README.md#pilots-and-status) in the 30-day Challenge — a completed, historical outcome; see **[Status](../STATUS.md)** for current status.
+These four use cases were [demonstrated by the four pilot DISCOMs](../README.md) in the 30-day Challenge — a completed, historical outcome; see **[Status](../STATUS.md)** for current status.
 
 | Use case | Issuer / Provider | Audience | Schema |
 |---|---|---|---|

@@ -8,7 +8,7 @@ layout:
 
 # IES Schemas
 
-> **The developer catalog of every IES schema.** Pick a schema below — each has its own page with the current field reference, the canonical file URLs, and every previous version. Use the search box (top) to find a schema or field across all of them.
+> One page per schema family: the current field reference, the canonical file URLs, and every published version. Use the search box (top) to find a schema or field across all of them.
 
 ## Verifiable Credentials
 
@@ -33,12 +33,12 @@ Structured, non-credential payloads exchanged over the network or published as f
 
 ## External — DEG schemas IES uses
 
-Schemas defined and published outside this repository, canonical at [schema.beckn.io](https://schema.beckn.io). Their field reference is mirrored in [External Schemas](../schemas/external/README.md).
+Schemas defined and published outside this repository, canonical at [schema.beckn.io](https://schema.beckn.io). Their field reference is mirrored in [External Schemas](external.md).
 
 ---
 
 ## How versions work
 
-Every schema lives at `schemas/<Family>/v<version>/` with its own `attributes.yaml` (source of truth), compiled `schema.json`, `context.jsonld`, `vocab.jsonld`, `examples/` and a generated `README.md` field reference. A **non-breaking** change (additive, optional fields, new enum values) is absorbed by the same minor version; a **breaking** change (rename, removal, type or semantics change) is published in a new sibling version, never overwriting the old one. Old versions stay reachable — see **Previous versions** on each page.
+Every schema lives at `schemas/<Family>/v<version>/` with its own `attributes.yaml` (source of truth), compiled `schema.json`, `context.jsonld`, `vocab.jsonld`, `examples/` and a generated `README.md` field reference. A **non-breaking** change (additive, optional fields, new enum values) is absorbed by the same minor version; a **breaking** change (rename, removal, type or semantics change) is published in a new sibling version, never overwriting the old one. Old versions stay reachable — see **Versions** on each page.
 
-To propose a new schema or a change, see the [proposal flow](../schemas/README.md#proposing-a-new-schema-or-a-change).
+To propose a new schema or a change, see the [proposal flow](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/README.md#proposing-a-new-schema-or-a-change).

@@ -13,27 +13,12 @@ These documents provide a general introduction, terminology definitions, and lay
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="README.md#india-energy-stack-accelerator">India Energy Stack — Accelerator</a>    <ul>
-      <li><a href="README.md#the-problem">The problem</a></li>
-      <li><a href="README.md#what-ies-is">What IES is</a></li>
-      <li><a href="README.md#what-ies-is-not">What IES is not</a></li>
-      <li><a href="README.md#how-it-works-three-steps">How it works — three steps</a></li>
-      <li><a href="README.md#what-you-change-in-your-own-systems">What you change in your own systems</a></li>
-      <li><a href="README.md#what-becomes-possible">What becomes possible</a></li>
-      <li><a href="README.md#what-ies-changes-for-the-sector">What IES changes for the sector</a></li>
-      <li><a href="README.md#pilots-and-status">Pilots and status</a>      <ul>
-        <li><a href="README.md#the-30-day-discom-challenge">The 30-day DISCOM Challenge</a></li>
-        <li><a href="README.md#use-cases-demonstrated">Use cases demonstrated</a></li>
-        <li><a href="README.md#the-next-phase">The next phase</a>
-      </li>
-      </ul>
-      <li><a href="README.md#common-questions">Common questions</a></li>
-      <li><a href="README.md#key-standards-and-protocols">Key standards and protocols</a></li>
-      <li><a href="README.md#get-in-touch">Get in touch</a>      <ul>
-        <li><a href="README.md#related-repositories">Related Repositories</a>
-      </li>
-      </ul>
-      <li><a href="README.md#where-to-go-next">Where to go next</a>
+    <li><a href="README.md#getting-started">Getting Started</a>    <ul>
+      <li><a href="README.md#how-ies-works-register-discover-exchange">How IES works — Register, Discover, Exchange</a></li>
+      <li><a href="README.md#what-this-gitbook-is">What this GitBook is</a></li>
+      <li><a href="README.md#before-you-build">Before you build</a></li>
+      <li><a href="README.md#the-full-story">The full story</a></li>
+      <li><a href="README.md#get-in-touch">Get in touch</a>
     </li>
     </ul>
   </li>
@@ -163,14 +148,13 @@ These documents provide a general introduction, terminology definitions, and lay
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
     <li><a href="SUMMARY.md#table-of-contents">Table of contents</a>    <ul>
-      <li><a href="SUMMARY.md#what-ies-provides">What IES Provides</a></li>
+      <li><a href="SUMMARY.md#schemas-overview">Schemas Overview</a></li>
       <li><a href="SUMMARY.md#schemas">Schemas</a></li>
-      <li><a href="SUMMARY.md#ies-schemas-developer">IES Schemas (developer)</a></li>
-      <li><a href="SUMMARY.md#how-you-implement-ies">How you implement IES</a></li>
       <li><a href="SUMMARY.md#use-case-overviews">Use Case Overviews</a></li>
       <li><a href="SUMMARY.md#use-case-implementation-guides">Use Case Implementation Guides</a></li>
       <li><a href="SUMMARY.md#pathways">Pathways</a></li>
-      <li><a href="SUMMARY.md#contributors">Contributors</a>
+      <li><a href="SUMMARY.md#draft-work-in-progress">Draft (Work in Progress)</a></li>
+      <li><a href="SUMMARY.md#concepts">Concepts</a>
     </li>
     </ul>
   </li>
@@ -189,7 +173,7 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/register.md#register">Register</a>    <ul>
+    <li><a href="what-ies-provides/register.md#register-identifiers">Register & Identifiers</a>    <ul>
       <li><a href="what-ies-provides/register.md#why-a-verifiable-identity-not-a-username">Why a verifiable identity, not a username</a></li>
       <li><a href="what-ies-provides/register.md#two-identities-youll-set-up-and-why">Two identities you'll set up (and why)</a></li>
       <li><a href="what-ies-provides/register.md#the-did-methods-ies-uses">The DID methods IES uses</a>      <ul>
@@ -218,7 +202,7 @@ This block defines the cryptographic identity of utilities, consumers, assets, a
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="how-you-implement-ies/setup-register.md#setup-register">Setup Register</a>    <ul>
+    <li><a href="how-you-implement-ies/setup-register.md#setting-up-register">Setting up Register</a>    <ul>
       <li><a href="how-you-implement-ies/setup-register.md#who-does-what">Who does what</a></li>
       <li><a href="how-you-implement-ies/setup-register.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
       <li><a href="how-you-implement-ies/setup-register.md#before-you-start">Before you start</a></li>
@@ -250,7 +234,7 @@ This block handles digital attestations of connections, billing summaries, and c
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="how-you-implement-ies/issue-credentials.md#issue-credentials">Issue Credentials</a>    <ul>
+    <li><a href="how-you-implement-ies/issue-credentials.md#issuing-credentials">Issuing Credentials</a>    <ul>
       <li><a href="how-you-implement-ies/issue-credentials.md#before-you-start">Before you start</a></li>
       <li><a href="how-you-implement-ies/issue-credentials.md#id-2.1-pull-the-opencred-image">2.1 — Pull the OpenCred image</a></li>
       <li><a href="how-you-implement-ies/issue-credentials.md#id-2.2-generate-the-opencred-api-token">2.2 — Generate the OpenCred API token</a></li>
@@ -336,7 +320,7 @@ This block handles digital attestations of connections, billing summaries, and c
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="how-you-implement-ies/digilocker.md#digilocker-integration-discom-guide">DigiLocker Integration — DISCOM Guide</a>    <ul>
+    <li><a href="how-you-implement-ies/digilocker.md#digilocker-delivery-discom-guide">DigiLocker Delivery — DISCOM Guide</a>    <ul>
       <li><a href="how-you-implement-ies/digilocker.md#what-digilocker-does">What DigiLocker Does</a></li>
       <li><a href="how-you-implement-ies/digilocker.md#flow-overview">Flow Overview</a></li>
       <li><a href="how-you-implement-ies/digilocker.md#phase-0-one-time-setup">Phase 0 — One-Time Setup</a>      <ul>
@@ -433,7 +417,7 @@ This block governs data discovery, consent, and the transfer of telemetry and re
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="how-you-implement-ies/setup-exchange.md#setup-exchange">Setup Exchange</a>    <ul>
+    <li><a href="how-you-implement-ies/setup-exchange.md#setting-up-discover-exchange">Setting up Discover & Exchange</a>    <ul>
       <li><a href="how-you-implement-ies/setup-exchange.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
       <li><a href="how-you-implement-ies/setup-exchange.md#before-you-start">Before you start</a></li>
       <li><a href="how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox">3.1 — Deploy the local sandbox</a></li>
@@ -1131,7 +1115,7 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
   </ul>
   </details>
 * **[discom-regulatory-filing.md](draft/use-cases-overview/discom-regulatory-filing.md)**
-  - *Summary*: DISCOM Regulatory Filing — overview.
+  - *Summary*: DISCOM Regulatory Filing — overview (draft, WIP).
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -1204,7 +1188,7 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
   </ul>
   </details>
 * **[tariff-intelligence.md](draft/use-cases-overview/tariff-intelligence.md)**
-  - *Summary*: Policy as Code — overview (flagship sub-use-case: Tariff Intelligence).
+  - *Summary*: Policy as Code — overview (draft, WIP; flagship sub-use-case: Tariff Intelligence).
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -1275,6 +1259,13 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/consumer-energy-passport/README.md#actors-and-flow">Actors and flow</a></li>
       <li><a href="use-cases/consumer-energy-passport/README.md#building-blocks">Building blocks</a></li>
       <li><a href="use-cases/consumer-energy-passport/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a></li>
+      <li><a href="use-cases/consumer-energy-passport/README.md#digilocker-integration-doctype-nycer">DigiLocker integration (DocType `NYCER`)</a>      <ul>
+        <li><a href="use-cases/consumer-energy-passport/README.md#endpoint">Endpoint</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#inbound-request-pullurirequest-nycer">Inbound request — `PullURIRequest` (NYCER)</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#identity-binding-the-digilocker-id">Identity binding — the DigiLocker ID</a></li>
+        <li><a href="use-cases/consumer-energy-passport/README.md#outbound-response-pulluriresponse">Outbound response — `PullURIResponse`</a>
+      </li>
+      </ul>
       <li><a href="use-cases/consumer-energy-passport/README.md#selective-disclosure">Selective disclosure</a></li>
       <li><a href="use-cases/consumer-energy-passport/README.md#checklist">Checklist</a></li>
       <li><a href="use-cases/consumer-energy-passport/README.md#references">References</a>
@@ -1294,6 +1285,14 @@ Practical deployment and mapping implementations for specific grid business proc
       <li><a href="use-cases/consumer-meter-digest/README.md#actors-and-flow">Actors and flow</a></li>
       <li><a href="use-cases/consumer-meter-digest/README.md#building-blocks">Building blocks</a></li>
       <li><a href="use-cases/consumer-meter-digest/README.md#setup-register-discover-exchange">Setup: Register → Discover → Exchange</a></li>
+      <li><a href="use-cases/consumer-meter-digest/README.md#digilocker-integration-doctype-mpltr">DigiLocker integration (DocType `MPLTR`)</a>      <ul>
+        <li><a href="use-cases/consumer-meter-digest/README.md#endpoint">Endpoint</a></li>
+        <li><a href="use-cases/consumer-meter-digest/README.md#inbound-request-pullurirequest-mpltr">Inbound request — `PullURIRequest` (MPLTR)</a></li>
+        <li><a href="use-cases/consumer-meter-digest/README.md#outbound-response-pulluriresponse">Outbound response — `PullURIResponse`</a></li>
+        <li><a href="use-cases/consumer-meter-digest/README.md#the-document-key-period-in-the-uri">The document key — period in the URI</a></li>
+        <li><a href="use-cases/consumer-meter-digest/README.md#the-vccontent-payload-example-twelve-month-statement">The `VcContent` payload — example twelve-month statement</a>
+      </li>
+      </ul>
       <li><a href="use-cases/consumer-meter-digest/README.md#checklist">Checklist</a></li>
       <li><a href="use-cases/consumer-meter-digest/README.md#references">References</a>
     </li>
@@ -1386,7 +1385,7 @@ Practical deployment and mapping implementations for specific grid business proc
   </ul>
   </details>
 * **[README.md](draft/use-cases/discom-regulatory-filing/README.md)**
-  - *Summary*: Publishing ARR datasets to State Electricity Regulatory Commissions.
+  - *Summary*: Publishing ARR datasets to State Electricity Regulatory Commissions (draft, WIP).
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -1412,7 +1411,7 @@ Practical deployment and mapping implementations for specific grid business proc
   </ul>
   </details>
 * **[README.md](draft/use-cases/tariff-intelligence/README.md)**
-  - *Summary*: Policy as Code — publishing authority policy (tariff rate structures and telescopic schedules, dispatch guides, and more) as signed IES policies.
+  - *Summary*: Policy as Code — publishing authority policy as signed IES policies (draft, WIP).
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
@@ -1478,18 +1477,3 @@ Practical deployment and mapping implementations for specific grid business proc
 
 Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.
 
-* **[contributors.md](contributors.md)**
-  - *Summary*: Acknowledgements — pilot DISCOMs, governance (IES Cell), and how to contribute.
-  <details>
-  <summary><b>Show Outline / Headings</b></summary>
-  <ul>
-    <li><a href="contributors.md#contributors">Contributors</a>    <ul>
-      <li><a href="contributors.md#pilot-discoms-30-day-challenge">Pilot DISCOMs — 30-day Challenge</a></li>
-      <li><a href="contributors.md#governance">Governance</a></li>
-      <li><a href="contributors.md#individual-contributors">Individual contributors</a></li>
-      <li><a href="contributors.md#how-to-contribute">How to contribute</a>
-    </li>
-    </ul>
-  </li>
-  </ul>
-  </details>

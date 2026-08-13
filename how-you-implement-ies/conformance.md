@@ -1,12 +1,12 @@
 # Conformance Checklist
 
-> **Step 5 of the implementation path.** Verify your interface is correct end-to-end and (for Beckn participants) submit for IES network membership in production. About 1 day.
+> **The final check before you publish.** Verify your interface is correct end-to-end and (for Beckn participants) submit for IES network membership in production. About 1 day.
 
 ## Before you start
 
-- Step 1 ([Setup Register](setup-register.md)) complete for your role.
-- The engine(s) your use cases need are running: [Issue Credentials](issue-credentials.md) (B2C) and/or [Setup Exchange](setup-exchange.md) (B2B).
-- At least one use case wired through [Build your Internal-facing Adapter](build-adapter.md) (Step 4).
+- [Setting up Register](setup-register.md) complete for your role.
+- The engine(s) your use cases need are running: [Issuing Credentials](issue-credentials.md) (B2C) and/or [Setting up Discover & Exchange](setup-exchange.md) (B2B).
+- At least one use case wired through [Build your Internal-facing Adapter](build-adapter.md).
 
 **Only the checks for the rails you actually use apply.** The checklist below is tagged: **[all]** applies to everyone, **[credential]** only to credential issuers (B2C), **[beckn]** only to Beckn-network participants (B2B). A credential-only issuer skips every **[beckn]** item and the production-network submission at the end; a pure data-exchange participant skips every **[credential]** item.
 
@@ -18,7 +18,7 @@ Every item below is either something you can run and check yourself, or a step i
 
 - **JSON-LD conformance** — that your `@context` resolves and the payload expands as valid JSON-LD, not merely valid JSON — is a separate check from JSON Schema validation and is not asserted by anything on this page.
 - **Beckn/network protocol interoperability** — a real `discover`/`confirm` round-trip against a live counterparty on a reachable network — is only as good as the sandbox peer you actually reach it against, and is distinct from schema validation.
-- **Certification and production participation** are a dated determination made by the IES Secretariat (see "Submitting for production" below), not something any local script or checklist item confers by itself. See **[Status](../STATUS.md)** for whether that process, the sandbox, or any IES network is currently reachable.
+- **Certification and production participation** are a dated determination made by the IES Secretariat (see "Submitting for production" below), not something any local script or checklist item confers by itself. Whether that process, the sandbox, or any IES network is currently reachable is not something this repository can verify — see where things stand on the [Getting Started](../README.md) page.
 
 Clearing every box below means your interface is well-formed and internally consistent by the checks this repository can run. It is not, on its own, proof of external-schema conformance, JSON-LD conformance, protocol interoperability, certification, or production readiness.
 
@@ -41,7 +41,7 @@ Clearing every box below means your interface is well-formed and internally cons
 
 ### At least one use case is wired and validates **[all]**
 
-- [ ] One [Use Case Guide](../use-cases/README.md) implemented end-to-end
+- [ ] One use-case implementation guide (e.g. [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) or [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md)) implemented end-to-end
 - [ ] Output validates against the canonical JSON Schema (`make validate` or `python3 scripts/validate_schema.py …`)
 - [ ] **[beckn]** At least one real record exchanged with a counterparty on the testnet, **or [credential]** at least one credential issued, verified, and revoked (the [§2.9 smoke test](issue-credentials.md#id-2.9-smoke-test))
 - [ ] Schema validation enforced on every outgoing payload
@@ -90,7 +90,7 @@ Treat a schema-validation pass as scoped to what this repository defines — see
 
 ### Beckn participants (B2B)
 
-Run the conformance suite that ships with the devkit you cloned in [Setup Exchange](setup-exchange.md#id-3.1-deploy-the-local-sandbox):
+Run the conformance suite that ships with the devkit you cloned in [Setting up Discover & Exchange](setup-exchange.md#id-3.1-deploy-the-local-sandbox):
 
 ```bash
 cd DEG/devkits/data-exchange/conformance
@@ -114,7 +114,7 @@ If all four pass, your issuance has cleared the B2C checks on this page: it is s
 
 ## Submitting for production **(Beckn participants only)**
 
-This is the documented network-membership process. Whether the IES Secretariat, the sandbox, and the production/test network registries referenced below are currently staffed and reachable is not something this repository can verify on its own — check **[Status](../STATUS.md)** before relying on this as a live, working pipeline.
+This is the documented network-membership process. Whether the IES Secretariat, the sandbox, and the production/test network registries referenced below are currently staffed and reachable is not something this repository can verify on its own — see where things stand on the [Getting Started](../README.md) page before relying on this as a live, working pipeline.
 
 When all the above pass on the sandbox / testnet:
 
@@ -122,12 +122,12 @@ When all the above pass on the sandbox / testnet:
 2. The Secretariat re-runs spot checks on your sandbox endpoints.
 3. The Secretariat writes a production reference entry pointing at your subscriber record.
 
-Once that reference entry is written, your subscriber record is queryable as in-network by any counterparty that looks it up, without a further bilateral arrangement — that is what "referenced into the network" means (see [Setup Register §1.7](setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)). That determination is made by the Secretariat; it is not something this checklist, `scripts/validate_schema.py`, or any other local script confers by itself, and it is a statement about network registration — not, on its own, a statement about JSON-LD conformance or protocol interoperability with every possible counterparty. (Credential-only issuers skip this step — there is no central network registry in the credential-only path; the B2C checks above are what make your issuances independently verifiable.)
+Once that reference entry is written, your subscriber record is queryable as in-network by any counterparty that looks it up, without a further bilateral arrangement — that is what "referenced into the network" means (see [Setting up Register §1.7](setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)). That determination is made by the Secretariat; it is not something this checklist, `scripts/validate_schema.py`, or any other local script confers by itself, and it is a statement about network registration — not, on its own, a statement about JSON-LD conformance or protocol interoperability with every possible counterparty. (Credential-only issuers skip this step — there is no central network registry in the credential-only path; the B2C checks above are what make your issuances independently verifiable.)
 
 ---
 
 ## After conformance
 
-- **Add new use cases** by repeating only Step 4 (Build your Internal-facing Adapter) for the new schema. Identity, engines, network membership and trust foundation are reused.
+- **Add new use cases** by repeating only [Build your Internal-facing Adapter](build-adapter.md) for the new schema. Identity, engines, network membership and trust foundation are reused.
 - **Stay current with schema versions.** New versions are announced via the [ies-accelerator repository](https://github.com/India-Energy-Stack/ies-accelerator); migration guides ship alongside.
-- **Contribute** — propose a new schema or a change to an existing one by raising a discussion on the repository. The [IES Cell](../faq.md#id-19.-who-adds-or-updates-the-specifications-and-standards) governance process handles ratification.
+- **Contribute** — propose a new schema or a change to an existing one by raising a discussion on the repository (see [Propose a Schema](../propose-a-schema.md)). The IES Cell governance process handles ratification.

@@ -1,19 +1,17 @@
 # P2P Energy Transaction
 
-*Two prosumers on different DISCOMs execute a direct, signed energy trade over the same Beckn wire that carries dataset exchanges — the payload is a contract and its fulfilment, not a dataset. Each DISCOM is represented in the protocol by a regulated **Ledger Provider**, and settlement is computed by signed Rego policy, with no central exchange.*
+*Two prosumers — consumers who can both inject and consume energy — on different DISCOMs execute a direct, signed energy trade over the same Beckn wire that carries IES dataset exchanges; the payload is a contract and its fulfilment, not a dataset. Each DISCOM is represented in the protocol by a regulated **Ledger Provider**, and settlement is computed by signed Rego policy, with no central exchange.*
 
 **[Implementation Guide →](../use-cases/p2p-energy-trading/README.md)**
 
 | | |
 |---|---|
 | **Document** | IES/P2PEX-PROFILE/2.0 |
-| **Status** | Piloted — see [Status](../STATUS.md) (schema stable in DEG wave-2 devkit) |
+| **Status** | Specified; schema stable in the DEG wave-2 devkit, under the CERC Innovation Sandbox order — see [Status summary](../README.md) |
 | **Applicability** | Trading platforms, regulated Ledger Providers, DISCOMs |
-| **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.beckn.io](https://schema.beckn.io)) over Beckn, with signed Rego policies governing the network and contract rules. Mirrored in [External Schemas — Energy Trading](../schemas/external/README.md). |
+| **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.beckn.io](https://schema.beckn.io)) over Beckn, with signed Rego policies governing the network and contract rules. Mirrored in [External Schemas — Energy Trading](../schemas-ies/external.md). |
 
-> **Current deployment.** The architecture supports one Ledger Provider per DISCOM, but to start with **all trading platforms connect to a single Ledger Provider**, hosted at `ies-p2p-energy-ledger.beckn.io` — the two LPs in the diagrams below collapse into one (the intra-DISCOM topology; same protocol, fewer hops). The network namespaces are `indiaenergystack.in/test-ies-p2p-trading-network` (test) and `indiaenergystack.in/ies-p2p-trading-network` (production).
-
-> **Where to go next.** This page is the *why* and the *what*. For the step-by-step build — what each actor does per phase, the ONIX config, the ledger interfaces, the payload snapshots and the setup checklist — read the **[Implementation Guide](../use-cases/p2p-energy-trading/README.md)**.
+> **Initial topology.** The architecture supports one Ledger Provider per DISCOM, but the starting configuration connects **all trading platforms to a single Ledger Provider** at `ies-p2p-energy-ledger.beckn.io` — the two LPs in the diagrams below collapse into one (the intra-DISCOM topology; same protocol, fewer hops). The network namespaces are `indiaenergystack.in/test-ies-p2p-trading-network` (test) and `indiaenergystack.in/ies-p2p-trading-network` (production).
 
 ---
 
@@ -100,7 +98,7 @@ If the use case needs a holder-bound credential — e.g. a prosumer carrying a c
 
 ## 8. Schedule I — Static Fields of the Exchange
 
-Schedule I is a use-case profile table over DEG's externally governed schema family, canonical at [schema.beckn.io](https://schema.beckn.io) and mirrored in [External Schemas — Energy Trading](../schemas/external/README.md#energy-trading-p2p). Because these fields are not maintained in this repository, the schema-qualified names below identify the upstream contract rather than local JSON-Schema paths. **Upstream Requires** follows the mirrored v2.0 field tables; **P2P Guidance** is informative use-case guidance.
+Schedule I is a use-case profile table over DEG's externally governed schema family, canonical at [schema.beckn.io](https://schema.beckn.io) and mirrored in [External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p). Because these fields are not maintained in this repository, the schema-qualified names below identify the upstream contract rather than local JSON-Schema paths. **Upstream Requires** follows the mirrored v2.0 field tables; **P2P Guidance** is informative use-case guidance.
 
 ### 8.1 Contract Roles and Policy
 
@@ -219,17 +217,17 @@ The cascade rules, the four ledger interfaces, and the payload snapshots that ma
 | **[BecknTimeSeries](https://schema.beckn.io/BecknTimeSeries/)** | Per-interval payload carrier — declares `payloadDescriptors` and `payloads[]` |
 | **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** *(optional)* | Seller's attestation of meter / sanctioned-load / DER details backing the offer |
 
-A consolidated field reference is in **[External Schemas — Energy Trading](../schemas/external/README.md#energy-trading-p2p)**.
+A consolidated field reference is in **[External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p)**.
 
 ## Value Unlock
 
-**For prosumers** — peer-to-peer trade becomes a real channel for distributed energy, with cryptographic settlement and no central exchange.
+**For prosumers** — a direct, signed channel for selling distributed energy, with no central exchange.
 
-**For trading platforms** — one integration; same protocol intra- and inter-DISCOM; allocation and settlement done by signed Rego, not custom code.
+**For trading platforms** — one integration; the same protocol intra- and inter-DISCOM; allocation and settlement computed by signed Rego, not custom code.
 
-**For DISCOMs** — wheeling charges and deviation penalties are the output of a signed function over a signed contract — not a bilateral spreadsheet. Visibility into peer-to-peer trade is a by-product, not a separate reporting effort.
+**For DISCOMs** — wheeling charges and deviation penalties are the output of a signed function over a signed contract, not a bilateral spreadsheet. Visibility into peer-to-peer trade is a by-product, not a separate reporting effort.
 
-**For regulators** — the network rules are themselves the regulation. A policy change is a new signed bundle on DeDi, picked up by every participant on next contract.
+**For regulators** — the network rules are the policy bundle itself. A policy change is a new signed bundle on DeDi, picked up by every participant on the next contract.
 
 ---
 
@@ -263,7 +261,7 @@ Canonical references at **[schema.beckn.io](https://schema.beckn.io)**:
 - **[DiscomLedgerProvider/v2.0](https://schema.beckn.io/DiscomLedgerProvider/v2.0)**
 - **[BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)**
 
-A consolidated field reference for the trade schemas (except `DiscomLedgerProvider` and `EnergyTradeDelivery`, defined only at schema.beckn.io) is in **[External Schemas — Energy Trading](../schemas/external/README.md#energy-trading-p2p)**.
+A consolidated field reference for the trade schemas (except `DiscomLedgerProvider` and `EnergyTradeDelivery`, defined only at schema.beckn.io) is in **[External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p)**.
 
 ## Annexure D — Derived Views
 

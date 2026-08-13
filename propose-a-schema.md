@@ -24,4 +24,4 @@ After submitting, your proposal is posted to the
 you should see an issue populated with your request, where the community reviews and
 discusses it.
 
-Not sure which use case yours fits? Browse the [Use Cases](use-cases/README.md) section first.
+Not sure which use case yours fits? Browse the [Use Case Overviews](use-cases-overview/consumer-energy-passport.md) section first.

@@ -1,4 +1,4 @@
-# Security
+# Security Model
 
 *How IES treats security: as a first-class design concern, layered on top of the power sector's existing operational-security standards, with software-layer guarantees — signed services, verifiable endpoints, cryptographic agility — that the specifications require of every participant.*
 

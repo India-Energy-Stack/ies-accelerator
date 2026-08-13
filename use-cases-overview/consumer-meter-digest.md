@@ -1,13 +1,13 @@
 # Consumer Meter Digest
 
-*A [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) issued on consumer demand, holder-bound, carrying their own meter readings for a specified period (W3C Verifiable Credential).*
+*A consumer's own meter readings, DISCOM-signed and packaged for sharing. The Digest is a [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) issued on consumer demand, holder-bound to their wallet (W3C Verifiable Credential), carrying readings for a specified period. A bank, installer or energy app verifies it offline instead of trusting an emailed PDF bill.*
 
 **[Implementation Guide →](../use-cases/consumer-meter-digest/README.md)**
 
 | Field | Value |
 |---|---|
 | Document | IES/CMD-PROFILE/0.6 |
-| Status | Piloted — see [Status](../STATUS.md) |
+| Status | Piloted (four pilot DISCOMs, completed 30-day DISCOM Challenge) — see [Status summary](../README.md) |
 | Applicability | All distribution licensees |
 | This version | Consumer Meter Digest *variant* of MeterDataCredential v0.6, holder-bound. Wraps [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) profiles. |
 
@@ -55,7 +55,7 @@ See **[IES Meter Data Model](../use-cases/smart-meter-data-exchange/ies-meter-da
 
 ## 5. Basis of Standards
 
-See [Schemas — Standards precedence](../schemas/README.md#standards-precedence) for the fixed IES order of preference.
+Fixed IES order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE**.
 
 | Standard | Role here |
 |---|---|
@@ -162,7 +162,7 @@ Holder-bound issuance of **[MeterDataCredential v0.6](https://india-energy-stack
 
 ## Value Unlock
 
-The consumer proves actual consumption history, DISCOM-signed, verifiable in seconds with no callback. The DISCOM cuts the steady drip of bill-verification calls and gains a clean, consented data-sharing surface — a much higher-trust input than emailed PDF bills.
+The consumer proves actual consumption history, DISCOM-signed, verifiable without a callback. The DISCOM cuts bill-verification calls and gains a clean, consented data-sharing surface — a higher-trust input than emailed PDF bills.
 
 ---
 

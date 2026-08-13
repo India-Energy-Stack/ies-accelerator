@@ -1,17 +1,17 @@
-# Register
+# Register & Identifiers
 
-> **Step 1 of the three IES steps.** Verifiable digital identity. Every participant gets a digital identity and is listed in a shared directory. *Done once.*
+> **The first of the three IES steps — Register, Discover, Exchange.** Verifiable digital identity. Every participant gets a digital identity and is listed in a shared directory, and every meter, asset, connection and dataset gets a stable identifier under the same root. *Done once.*
 
 Register is the foundation. Before any two systems can exchange data — and before any third party can trust a credential — both sides must be able to **name** each other and **prove** they are who they claim to be. IES does this with two cooperating pieces:
 
 | Piece | What it is | Standard |
 |---|---|---|
 | **Identifier** | A cryptographic name for an organisation, a regulator, a meter, a consumer, an asset, a credential or a dataset. | [W3C Decentralised Identifiers (DIDs)](https://www.w3.org/TR/did-core/) |
-| **Directory** | A public registry that lists records that go with those identifiers — signing keys, callback URLs, revocation status, network membership. | [DeDi](../glossary.md#dedi) (Decentralised Directory Protocol) |
+| **Directory** | A public registry that lists records that go with those identifiers — signing keys, callback URLs, revocation status, network membership. | DeDi (Decentralised Directory Protocol) |
 
 Anyone can resolve an IES identifier in milliseconds, with no callback to the publisher, and check that a signature matches the registered key.
 
-**Hands-on setup:** [Setup Register](../how-you-implement-ies/setup-register.md) — domain, keys, `did.json`, DeDi namespace, and (for Beckn participants) subscriber records, as numbered copy-pasteable steps.
+**Hands-on setup:** [Setting up Register](../how-you-implement-ies/setup-register.md) — domain, keys, `did.json`, DeDi namespace, and (for Beckn participants) subscriber records, as numbered copy-pasteable steps.
 
 ---
 
@@ -40,7 +40,7 @@ An organisation on IES needs up to **two** identifier setups. They exist for dif
 
 The (a) identity is the issuer string on every credential you sign, and the root that all the IDs you reference inside payloads — meter DIDs, transformer DIDs, connection DIDs — extend by adding path segments. Verifiers resolve only this one DID to check your signature; the asset DIDs ride inside the signed payload as stable references. **You do not need to be listed in any IES-side registry to issue credentials** — verifiers fetch your `did.json` directly; that is the only mandatory leg of the trust chain. If a regulator can vouch for your licence, cite them in the optional `issuer.idRef` and verifiers gain a second, licence-anchored leg.
 
-The (b) identity exists because Beckn is a **trust-bounded network**: a [Network Facilitator Organisation (NFO)](../glossary.md#nfo) curates who is on the network, and counterparties verify every message against that membership boundary — your own subscriber record (callback URL, role, Ed25519 public key) plus the NFO's reference entry that marks you in-network.
+The (b) identity exists because Beckn is a **trust-bounded network**: a Network Facilitator Organisation (NFO) curates who is on the network, and counterparties verify every message against that membership boundary — your own subscriber record (callback URL, role, Ed25519 public key) plus the NFO's reference entry that marks you in-network.
 
 Separate keys mean a compromise of one identity does not automatically compromise the other.
 
@@ -62,7 +62,7 @@ IES uses three standard W3C DID methods, all listed in the [W3C DID Spec Registr
 
 | Subject | Method | Why |
 |---|---|---|
-| DISCOM / regulator / [AMISP](../glossary.md#amisp) (issuer) | `did:web` | Trust roots in the domain and its existing TLS certificate; key rotation is one file replace; no new infrastructure beyond a static-file host |
+| DISCOM / regulator / AMISP (Advanced Metering Infrastructure Service Provider) — any issuer | `did:web` | Trust roots in the domain and its existing TLS certificate; key rotation is one file replace; no new infrastructure beyond a static-file host |
 | Consumer (holder) | `did:key` (or `did:jwk`) | Wallet-generated, no domain needed, verifies offline — the public key *is* the identifier |
 
 **`did:web`** is a URL in disguise: `did:web:ies.discom.example` resolves to `https://ies.discom.example/.well-known/did.json`, and path segments encode with colons:
@@ -105,7 +105,7 @@ Internal numbering — CIS account numbers, meter SLNOs, SAP codes — is preser
 
 Three notes that head off most confusion:
 
-- **You do not assign wallet DIDs.** The consumer's wallet (or DigiLocker) generates the `did:key` and sends it to you; you verify the consumer controls it, then include it verbatim. Binding patterns and the identity-proofing that must precede them: [Issue Credentials — Holder binding](../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity).
+- **You do not assign wallet DIDs.** The consumer's wallet (or DigiLocker) generates the `did:key` and sends it to you; you verify the consumer controls it, then include it verbatim. Binding patterns and the identity-proofing that must precede them: [Issuing Credentials — Holder binding](../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity).
 - **Asset DIDs are stable identifiers, not necessarily resolvable documents.** Trust on an asset DID inside a credential comes from the *issuer's* signature; the asset DID rides inside the signed payload as a stable reference. Three hosting patterns exist, in increasing effort: **pragmatic** (host only your top-level `did.json` — right for most internal assets), **programmatic** (one small service synthesises DID documents for any `assets/<class>/<id>` path — strict `did:web` compliance without per-asset files), **per-asset documents** (for high-value public assets other networks resolve independently). Start pragmatic.
 - **Replace any characters outside `[A-Za-z0-9._-]`** in path segments with `%xx` percent-encoding.
 
@@ -192,18 +192,18 @@ api.dedi.global
         └── <record-id>      ← a specific record — the resolvable end-point
 ```
 
-**Namespace + registry + record-id** uniquely address any record. The namespace is the unit of governance; the registry is the unit of schema; the record is the unit of data. Any record resolves over a public read API, and records never disappear silently — every update creates a version (queryable at a point in time), and registries and records carry explicit `live` / `inactive` / `draft` states. The exact endpoints and how to publish are in [Setup Register](../how-you-implement-ies/setup-register.md).
+**Namespace + registry + record-id** uniquely address any record. The namespace is the unit of governance; the registry is the unit of schema; the record is the unit of data. Any record resolves over a public read API, and records never disappear silently — every update creates a version (queryable at a point in time), and registries and records carry explicit `live` / `inactive` / `draft` states. The exact endpoints and how to publish are in [Setting up Register](../how-you-implement-ies/setup-register.md).
 
 ### The registries IES uses, by role
 
 | Role | Registries you operate | Registries operated for you |
 |---|---|---|
-| **DISCOM / issuer running [OpenCred](../glossary.md#opencred)** *(the reference credential-issuance service)* | `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry` — all four **auto-created by OpenCred on first boot** (tags `revocation`, `public_key`, custom ×2). That's everything credential issuance needs. | — |
+| **DISCOM / issuer running OpenCred** *(the reference credential-issuance service)* | `vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry` — all four **auto-created by OpenCred on first boot** (tags `revocation`, `public_key`, custom ×2). That's everything credential issuance needs. | — |
 | **Beckn network participant** (BAP / BPP, aggregator, AMISP, trading platform) | `subscribers-test` and `subscribers-prod` (tag `beckn_subscriber`) — your identity + Ed25519 key + callback URL per environment | The NFO writes a **reference entry** (tag `beckn_subscriber_reference`) marking you in-network |
 | **NFO** (network operator) | One `beckn_subscriber_reference` registry per network you facilitate — reference records pointing at participant-owned subscriber records; nothing copied | — |
 | **Verifier / wallet** | Nothing — read-only. Resolve the issuer's `did:web` for the key; check the issuer's `vc-revocation-registry` for revocation. | — |
 
-You do not create these four by hand — [Issue Credentials](../how-you-implement-ies/issue-credentials.md) covers running OpenCred and confirming the registries appeared.
+You do not create these four by hand — [Issuing Credentials](../how-you-implement-ies/issue-credentials.md) covers running OpenCred and confirming the registries appeared.
 
 ### The IES networks today
 
@@ -214,13 +214,13 @@ The IES network operator publishes its registries under the namespace `indiaener
 | **Beckn networks** (NFO-curated, prod + `test-` variants) | `ies-data-sharing-network`, `ies-p2p-trading-network`, `ies-der-integration-network` | The membership boundary for each IES Beckn network — energy data sharing, P2P trading, DER integration |
 | **Reference allow-lists** (industry coordination) | `ies-discoms-reference-registry`, `ies-regulators-reference-registry`, `ies-service-providers-reference-registry` | Curated lists of recognised DISCOMs, regulators (SERCs, CERC), and service providers, referenced into network registries to enforce a trust boundary |
 
-Membership in a test network does not imply membership in prod — each is referenced separately. Credential issuance requires **no entry in any of these** — they are the Beckn-side trust boundary only. How to apply for a listing (what to email the IES Secretariat, what they validate): **[Setup Register §1.7](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)**.
+Membership in a test network does not imply membership in prod — each is referenced separately. Credential issuance requires **no entry in any of these** — they are the Beckn-side trust boundary only. How to apply for a listing (what to email the IES Secretariat, what they validate): **[Setting up Register §1.7](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)**.
 
 ---
 
 ## Setup
 
-Everything on this page turns into action in **[Setup Register](../how-you-implement-ies/setup-register.md)**: domain → keypair → `did.json` → DeDi namespace (§1.1–1.4 for everyone), then subscriber records and network references for Beckn participants (§1.5–1.7) and network registries for NFOs (§1.8). From there: **[Issue Credentials](../how-you-implement-ies/issue-credentials.md)** (B2C rail) or **[Setup Exchange](../how-you-implement-ies/setup-exchange.md)** (B2B rail).
+Everything on this page turns into action in **[Setting up Register](../how-you-implement-ies/setup-register.md)**: domain → keypair → `did.json` → DeDi namespace (§1.1–1.4 for everyone), then subscriber records and network references for Beckn participants (§1.5–1.7) and network registries for NFOs (§1.8). From there: **[Issuing Credentials](../how-you-implement-ies/issue-credentials.md)** (B2C rail) or **[Setting up Discover & Exchange](../how-you-implement-ies/setup-exchange.md)** (B2B rail).
 
 ---
 

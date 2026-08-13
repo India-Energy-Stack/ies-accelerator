@@ -14,12 +14,11 @@ layout:
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData` |
 | **Latest version** | **v0.6** |
-| **All versions** | v0.6, v0.5 |
 | **Status** | Stable — In Pilot (current: **v0.6**) · **Issued by** AMISPs, HES/MDM systems, DISCOMs · **Consumed by** DISCOMs, regulators, TSPs and consented third parties |
 | **Category** | Data Exchange payloads |
 | **Used in** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) |
 
-See the full family notes — inheritance, standards basis, design rationale — in [MeterData (schemas)](../schemas/MeterData/README.md).
+What this schema is for, in plain language — standards basis, design rationale, open points: [MeterData (Schemas Overview)](../what-ies-provides/schemas-overview/meter-data.md).
 
 ## Developer resources — v0.6 (current)
 
@@ -34,7 +33,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.6 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the per-version pages (see **Versions** below) carry the full text, standards basis and notes._
 
 **CustomerProfile**
 
@@ -361,239 +360,11 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | `name` | text | Full name of the customer as per ID proof. |
 
 
----
+## Versions
 
-## Previous versions
+Every published version stays reachable at its canonical URL — clients pin a version explicitly. Click a version for its full field reference.
 
-> Older versions stay published and reachable at their canonical URLs. Clients pin a version explicitly.
-
-<details>
-<summary><b>v0.5</b> — field reference &amp; files</summary>
-
-[Field reference (README)](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/README.md) · in this book: [MeterData v0.5](../schemas/MeterData/v0.5/README.md)
-
-| Resource | URL | Notes |
-|---|---|---|
-| Field reference (README) | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/README.md](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/README.md) | human-readable field reference for this version |
-| `attributes.yaml` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/attributes.yaml) | OpenAPI 3.1 source of truth |
-| `schema.json` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/schema.json) | compiled JSON Schema (Draft 2020-12) — validate against this |
-| `context.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld) | JSON-LD context for semantic resolution |
-| `vocab.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/vocab.jsonld) | RDF vocabulary with standards alignments |
-| `examples/` | [https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.5/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.5/examples) | worked payloads |
-
-**CustomerProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | text | — |
-| **`customerRefs`** \* | IdentifierList | — |
-| `timeZone` | text | IANA time-zone, e.g. Asia/Kolkata. |
-| **`customer`** \* | Customer | — |
-| **`serviceDeliveryPoints`** \* | list of ServiceDeliveryPoint | — |
-| **`meters`** \* | list of Meter | — |
-| **`associations`** \* | list of Association | — |
-
-**IntervalProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | text | — |
-| **`customerRefs`** \* | IdentifierList | — |
-| **`meterRefs`** \* | IdentifierList | — |
-| `serviceDeliveryPointRefs` | IdentifierList | — |
-| `coveragePeriod` | TimeInterval | — |
-| **`intervalBlocks`** \* | list of IntervalBlock | — |
-
-**DailyProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | text | — |
-| **`customerRefs`** \* | IdentifierList | — |
-| **`meterRefs`** \* | IdentifierList | — |
-| `serviceDeliveryPointRefs` | IdentifierList | — |
-| `coveragePeriod` | TimeInterval | — |
-| **`intervalBlocks`** \* | list of IntervalBlock | — |
-
-**BillingProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | text | — |
-| **`customerRefs`** \* | IdentifierList | — |
-| **`meterRefs`** \* | IdentifierList | — |
-| **`billingPeriod`** \* | TimeInterval | — |
-| `billNumber` | text | — |
-| `billDate` | date | — |
-| `dueDate` | date | — |
-| `currency` | text | ISO 4217 (INR, USD, ...). |
-| `amountDue` | number | — |
-| **`totals`** \* | list of TotalsEntry | — |
-| `touBuckets` | list of TouBucket | — |
-
-**InstantaneousProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | text | — |
-| **`customerRefs`** \* | IdentifierList | — |
-| **`meterRefs`** \* | IdentifierList | — |
-| **`capturedAt`** \* | date-time | — |
-| **`values`** \* | list of InstantaneousValue | — |
-
-**EventProfile**
-
-| Field | Type | Description |
-|---|---|---|
-| **`profileType`** \* | text | — |
-| **`customerRefs`** \* | IdentifierList | — |
-| **`meterRefs`** \* | IdentifierList | — |
-| **`coveragePeriod`** \* | TimeInterval | — |
-| **`events`** \* | list of MeterEvent | — |
-
-**Identifier**
-
-| Field | Type | Description |
-|---|---|---|
-| **`scheme`** \* | `METER_SERIAL` / `METER_BADGE` / `MRID` / `OBIS` / `SHORT_CODE` / `CONSUMER_NUMBER` / `SERVICE_DELIVERY_POINT` / `DID` / `ORG` / `OTHER` | — |
-| **`value`** \* | text | — |
-| `namespace` | text | — |
-
-**TimeInterval**
-
-| Field | Type | Description |
-|---|---|---|
-| **`start`** \* | date-time | — |
-| **`end`** \* | date-time | — |
-
-**IntervalPeriod**
-
-| Field | Type | Description |
-|---|---|---|
-| **`start`** \* | date-time | — |
-| **`duration`** \* | duration | — |
-
-**IntervalBlock**
-
-| Field | Type | Description |
-|---|---|---|
-| **`intervalPeriod`** \* | IntervalPeriod | — |
-| **`intervalLength`** \* | duration | Per-row cadence, e.g. PT30M or P1D. |
-| **`payloadDescriptors`** \* | list of PayloadDescriptor | — |
-| **`intervals`** \* | list of IntervalRow | — |
-| `qualityOverrides` | list of QualityOverride | — |
-
-**PayloadDescriptor**
-
-| Field | Type | Description |
-|---|---|---|
-| **`readingTypeRef`** \* | Identifier | — |
-| `unit` | `kWh` / `kVAh` / `kvarh` / `kW` / `kvar` / `kVA` / `V` / `A` / `Hz` / `PF` / `NONE` / `INR` / `USD` | — |
-| `accumulationBehaviour` | `CUMULATIVE` / `DELTA` / `INSTANTANEOUS` / `SUMMATION` / `INDICATING` | — |
-| `phase` | `NONE` / `R` / `Y` / `B` / `ABC` | — |
-| `powerOfTenMultiplier` | integer | — |
-| `touZone` | integer | — |
-
-**IntervalRow**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | integer | — |
-| **`values`** \* | list of number | — |
-
-**QualityOverride**
-
-| Field | Type | Description |
-|---|---|---|
-| **`intervalId`** \* | integer | — |
-| `descriptorIndex` | integer | — |
-| **`validationStatus`** \* | `VALID` / `ESTIMATED` / `MANUAL` / `SUSPECT` / `REJECTED` | — |
-| `source` | `METER` / `HES` / `ESTIMATED` / `MANUAL` / `IMPORT` | — |
-| `changeMethod` | text | — |
-| `failCode` | text | — |
-
-**Customer**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | Identifier | — |
-| **`name`** \* | text | — |
-| `consumerCategory` | text | Utility tariff category (e.g., LT2A, NDS, HT). |
-| `sanctionedLoadKw` | number | — |
-| `billingCycleDay` | integer | — |
-
-**ServiceDeliveryPoint**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | Identifier | — |
-| `addressLine` | text | — |
-| `city` | text | — |
-| `postalCode` | text | — |
-| `latitude` | number | — |
-| `longitude` | number | — |
-
-**Meter**
-
-| Field | Type | Description |
-|---|---|---|
-| **`id`** \* | Identifier | — |
-| `manufacturer` | text | — |
-| `modelNumber` | text | — |
-| `meterCategory` | `A` / `B` / `C` / `D1` / `D2` / `D3` / `D4` | — |
-| `serviceKind` | `ELECTRICITY` / `GAS` / `WATER` / `HEAT` | — |
-
-**Association**
-
-| Field | Type | Description |
-|---|---|---|
-| **`serviceDeliveryPointRefs`** \* | IdentifierList | — |
-| **`meterRefs`** \* | IdentifierList | — |
-| `feederId` | Identifier | — |
-| `dtId` | Identifier | — |
-| `installedAt` | date-time | — |
-
-**TotalsEntry**
-
-| Field | Type | Description |
-|---|---|---|
-| **`readingTypeRef`** \* | Identifier | — |
-| **`value`** \* | number | — |
-| `openingValue` | number | — |
-| `closingValue` | number | — |
-| `occurredAt` | date-time | — |
-| `integrationPeriod` | duration | — |
-
-**TouBucket**
-
-| Field | Type | Description |
-|---|---|---|
-| **`zone`** \* | integer | — |
-| **`readingTypeRef`** \* | Identifier | — |
-| **`value`** \* | number | — |
-
-**InstantaneousValue**
-
-| Field | Type | Description |
-|---|---|---|
-| **`readingTypeRef`** \* | Identifier | — |
-| **`value`** \* | number | — |
-| `unit` | `kWh` / `kVAh` / `kvarh` / `kW` / `kvar` / `kVA` / `V` / `A` / `Hz` / `PF` / `NONE` / `INR` / `USD` | — |
-| `phase` | `NONE` / `R` / `Y` / `B` / `ABC` | — |
-| `accumulationBehaviour` | `CUMULATIVE` / `DELTA` / `INSTANTANEOUS` / `SUMMATION` / `INDICATING` | — |
-| `occurredAt` | date-time | — |
-
-**MeterEvent**
-
-| Field | Type | Description |
-|---|---|---|
-| **`timestamp`** \* | date-time | — |
-| **`eventId`** \* | integer | — |
-| `eventName` | text | — |
-| `phase` | `NONE` / `R` / `Y` / `B` / `ABC` | — |
-| `sequence` | integer | — |
-| `magnitude` | number | — |
-| `duration` | duration | — |
-
-
-</details>
+| Version | Status | Notes | Files |
+|---|---|---|---|
+| [v0.6](../schemas/MeterData/v0.6/README.md) | **Current** | Adds ALARM profile, anonymised topology, reading mode, split billing | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples) |
+| [v0.5](../schemas/MeterData/v0.5/README.md) | Previous | Six profiles: CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.5/examples) |

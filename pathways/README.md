@@ -1,35 +1,19 @@
 # IES Pathways
 
-**India Energy Stack (IES) Pathways** are step-by-step onboarding and integration roadmaps for specific energy sector participants — **utilities**, **regulators**, **AMISPs**, and **third-party service providers** — to adopt IES capabilities.
-
----
-
-## Why Pathways?
-
-IES introduces a rich set of standards (DIDs, DeDi Registries, W3C Verifiable Credentials, Beckn Protocols) that require coordination across IT, commercial, and operational divisions.
-
-A **Pathway** sequences these tasks logically, aligning business goals with engineering requirements — rather than leaving you to parse raw technical standards.
-
----
+A **Pathway** answers one question: *"I am a particular kind of organisation — what do I do, in what order, and where are the docs for each step?"* IES combines several standards (DIDs, DeDi registries, W3C Verifiable Credentials, the Beckn protocol), and adopting them touches IT, commercial, and operational teams at once. Each pathway sequences that work for one role, so you follow a roadmap instead of parsing raw specifications.
 
 ## Available Pathways
 
-Currently, the following pathways are available:
+| Pathway | Who is it for? | What it covers |
+|---|---|---|
+| **[Utility Pathway](utility.md)** | Electricity distribution utilities | Identity and registries, issuing Energy Passports, Smart Meter Data Exchange, verifiable bills, DER visibility, ARR publication. |
+| **[Secretariat Pathway](secretariat.md)** | IES Secretariat and network operators | Registry setup, verifying and whitelisting participants, Beckn network governance, schema publication and migration. |
+| **[Authority / Regulator Pathway](authority.md)** | Ministry of Power, CEA, CERC/SERC, Forum of Regulators, State Governments / UTs | Registering a regulator identity, receiving DISCOM ARR filings machine-readably, publishing tariff orders as policy-as-code, IES Cell governance duties. |
+| **[Technology Service Provider Pathway](tsp.md)** | AMISPs, meter/EV-charger/inverter OEMs, system integrators, analytics vendors | Building the DISCOM-specific adapter mapping, mapping product data into MeterData or ElectricityCredential, registering a distinct multi-DISCOM identity, conformance-testing once per product line. |
+| **[Researcher / Analyst Pathway](researcher.md)** | Academics, think-tanks, policy researchers, journalists, students | Read-only: orienting on Register/Discover/Exchange, exploring schemas and examples, reproducing validation and pilot outcomes, contributing a schema proposal. |
 
-| Pathway | Who is it for? | Capabilities Integrated | Description |
-|---|---|---|---|
-| **[Utility Pathway](utility.md)** | Electricity Distribution Utilities | Identifiers · Registries · Energy Credentials · Data Exchange · DER Visibility | Comprehensive roadmap to issue Energy Passports, execute Smart Meter Data Exchange, issue verifiable bills, and achieve DER visibility. |
-| **[Secretariat Pathway](secretariat.md)** | IES Secretariat & Operators | Identifiers · Registries · Network Governance · Schemas & Protocols | Detailed roadmap for registry setup, verifying and whitelisting participants, governing the Beckn network, and managing canonical schemas. |
-| **[Authority / Regulator Pathway](authority.md)** | Ministry of Power, CEA, CERC/SERC, Forum of Regulators, State Governments / UTs | Identifiers · Registries · Regulatory Filings · Policy as Code · Schema Governance | Roadmap to register a regulator identity, receive DISCOM ARR filings machine-readably, publish tariff orders as policy-as-code, and exercise IES Cell governance duties. |
-| **[Technology Service Provider Pathway](tsp.md)** | AMISPs, meter/EV-charger/inverter OEMs, system integrators, analytics vendors | Register/Discover/Exchange Spine · Adapter Mapping · MeterData & ElectricityCredential Schemas · Multi-DISCOM Identity | Vendor-side roadmap to build the DISCOM-specific adapter mapping, map product data into MeterData or ElectricityCredential schemas, register a distinct identity when serving multiple DISCOMs, and conformance-test once per product line. |
-| **[Researcher / Analyst Pathway](researcher.md)** | Academics, think-tanks, policy researchers, journalists, students | Schemas · Worked Examples · Pilot Outcomes | Read-only roadmap to orient on the Register/Discover/Exchange spine, explore published schemas and examples, reproduce validation and pilot outcomes, and contribute back a schema proposal. |
+## How to use a pathway
 
----
-
-## How to Use the Pathways
-
-Each pathway is divided into operational phases (e.g., *Preparation*, *Getting Started*, *Energy Passport*, etc.).
-
-* **Collapsible Sections**: Technical details sit in collapsible panels (`<details>`) — scan the high-level roadmap or dive into implementation specifics as needed.
-* **Checks and Prerequisites**: Use the inline checklists to assign tasks to your IT, Commercial, and Legal teams.
-* **Documentation Links**: Each step links directly to the relevant reference specifications, registries, and deployment guides.
+* Each pathway is divided into phases; technical detail sits in collapsible panels (`<details>`) — scan the roadmap, expand a step when you're ready to act on it.
+* Inline prework checklists tell you what to line up with your IT, commercial, and legal teams before each phase.
+* Every step links to the reference page — schema, registry, or setup guide — that carries the full specification.

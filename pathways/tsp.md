@@ -1,10 +1,8 @@
 # Technology Service Provider Pathway: Step-by-Step IES Integration Roadmap
 
-Welcome to the **Technology Service Provider (TSP) Pathway**. This guide is for **AMISPs (Advanced Metering Infrastructure Service Providers), meter / EV-charger / inverter OEMs, system integrators, and analytics vendors** — the organisations that typically **build the IES adapter on behalf of a DISCOM client**, or that build their own products and platforms which need to interoperate with many DISCOMs at once.
+This guide is for **AMISPs (Advanced Metering Infrastructure Service Providers), meter / EV-charger / inverter OEMs, system integrators, and analytics vendors** — the organisations that typically **build the IES adapter on behalf of a DISCOM client**, or whose products need to interoperate with many DISCOMs at once.
 
-This is a materially different vantage point from the **[Utility Pathway](utility.md)**, which is written from the DISCOM's own point of view. As a TSP, you are usually the one doing the hands-on integration work — writing the mapping code, wiring the handler, testing the payload — often for a client who owns the identity but not the engineering effort. And if your product serves more than one DISCOM, you may need an identity of your own, distinct from any single client, for the parts of the flow where you act as the signer or the network participant in your own right.
-
-To keep this guide focused on vendor decisions, technical specifications are referenced via hyperlinks rather than repeated. Expand any step to find actionable guidance, prework checkpoints, and the exact schema or spec you'll be mapping against.
+Unlike the **[Utility Pathway](utility.md)** (written from the DISCOM's point of view), you are usually the one writing the mapping code, wiring the handler, and testing the payload — for a client who owns the identity but not the engineering effort. And if your product serves more than one DISCOM, you may need an identity of your own for the parts of the flow where you sign or participate in your own right. Expand any step for guidance, prework checkpoints, and the exact schema you'll map against.
 
 ---
 
@@ -21,7 +19,7 @@ flowchart TD
 
 ## Prework & Pre-Alignment Matrix
 
-Before commencing the integration pathway, align the following internal roles. Because a TSP typically serves several DISCOM clients rather than one, these roles are usually organised **per product line**, not per client engagement:
+Align these internal roles before starting. Because a TSP typically serves several DISCOM clients, organise them **per product line**, not per client engagement:
 
 | Department / Role | System / Resource Involved | Purpose in Pathway |
 |---|---|---|
@@ -51,11 +49,11 @@ IES organises every interaction into three steps:
 Register and Discover usually belong to your DISCOM client. **Exchange — the Part-2 mapping — is your team's work.**
 
 ### References & Anchors
-* [What IES Provides — overview](../what-ies-provides/README.md)
+* [Getting Started — how IES works: Register, Discover, Exchange](../README.md#how-ies-works-register-discover-exchange)
 * [Register](../what-ies-provides/register.md)
 * [Discover](../what-ies-provides/discover.md)
 * [Exchange](../what-ies-provides/exchange.md)
-* [How you implement IES — overview](../how-you-implement-ies/README.md)
+* [Before you build — the Concepts overview](../how-you-implement-ies/README.md)
 </details>
 
 <details>
@@ -69,14 +67,13 @@ Register and Discover usually belong to your DISCOM client. **Exchange — the P
 * Confirm whether your client already has ONIX (Part 1) deployed, or whether that deployment is also in your scope.
 
 ### Execution Guidance
-1. **Part 1 — ONIX (ready-made).** Handles discovery, messaging, signing, and routing. You configure and deploy it, not build it.
-2. **Part 2 — your mapping (what you build).** "An organisation's technology vendor configures it for its systems and adds the translation between its data format and the IES format. Vendors build to one published standard, not a fresh custom integration each time." This is the connector work: mapping your (or your client's) data model into IES schema shapes.
+1. **Part 1 — the engine (ready-made).** One engine per capability: **ONIX** for Beckn-network use cases (discovery, messaging, signing, routing) and **OpenCred** for credential use cases (issue, verify, revoke). You configure and deploy these, not build them.
+2. **Part 2 — your mapping (what you build).** The translation between your (or your client's) data format and the IES schema shapes, feeding the engine. Vendors build to one published standard, not a fresh custom integration per client. For a single use case this is typically 200–1,000 lines of code.
 3. Scope your engagement around Part 2; treat Part 1 (if in scope) as a one-time infrastructure task, not ongoing cost.
 
 ### References & Anchors
-* [What IES Provides — overview](../what-ies-provides/README.md)
-* [How you implement IES — overview](../how-you-implement-ies/README.md)
-* [Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)
+* [Build your Internal-facing Adapter — what the adapter is](../how-you-implement-ies/build-adapter.md#what-the-adapter-is)
+* [Before you build — the Concepts overview](../how-you-implement-ies/README.md)
 </details>
 
 ---
@@ -110,9 +107,8 @@ An AMISP typically maps its HES/MDM output into the **MeterData v0.6 compact pro
 3. **Sign, where required**: wrap payloads needing provenance attestation in a **MeterDataCredential** rather than delivering them bare — see Step 2.2 and Phase 3.
 
 ### References & Anchors
-* [MeterData family page](../schemas/MeterData/README.md)
-* [MeterData Schema Reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
-* [MeterData v0.6 Reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
+* [MeterData schema page](../schemas-ies/MeterData.md)
+* [MeterData v0.6 Schema Reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)
 * [Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)
 </details>
 
@@ -138,9 +134,8 @@ A DER/EV-charger/inverter OEM populates the relevant kind in `energyResources[]`
 4. The credential is signed by the DISCOM, or by whoever is the actual issuer if you operate signing infrastructure on their behalf — see Phase 3.
 
 ### References & Anchors
-* [ElectricityCredential family page](../schemas/ElectricityCredential/README.md)
-* [ElectricityCredential Schema Reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
-* [ElectricityCredential v1.2 Reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
+* [ElectricityCredential schema page](../schemas-ies/ElectricityCredential.md)
+* [ElectricityCredential v1.2 Schema Reference](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)
 * [Build your Internal-facing Adapter](../how-you-implement-ies/build-adapter.md)
 </details>
 
@@ -162,7 +157,7 @@ If you operate a multi-DISCOM platform — for example, an AMISP running meterin
 ### Execution Guidance
 Each DISCOM client keeps its own `did:web` and identity. But a TSP acting as a **Beckn network participant in its own right** — e.g. publishing a catalogue or signing a `MeterDataCredential` as the **"provider"** — needs its **own `did:web` and Beckn subscriber registration**.
 
-The `MeterDataCredential` schema names **"AMISP, MDM system"** as the typical provider role, distinct from the DISCOM. If you sign as that provider, you — not your client — need the identity below.
+The `MeterDataCredential` schema names the issuer as a **data provider (e.g. AMISP, MDM, DISCOM)** — a role that can be distinct from the DISCOM. If you sign as that provider, you — not your client — need the identity below.
 
 1. Pick a domain your organisation controls (not a client's domain).
 2. Follow the same identity setup as any other participant: publish a `did.json`, generate a signing keypair, and claim your own DeDi namespace.
@@ -170,8 +165,8 @@ The `MeterDataCredential` schema names **"AMISP, MDM system"** as the typical pr
 
 ### References & Anchors
 * [Register](../what-ies-provides/register.md)
-* [Registries and Directories — As a Beckn Network Participant](../what-ies-provides/register.md#the-directory-dedi)
-* [MeterDataCredential family page](../schemas/MeterDataCredential/README.md)
+* [Register — The registries IES uses, by role](../what-ies-provides/register.md#the-registries-ies-uses-by-role)
+* [MeterDataCredential schema page](../schemas-ies/MeterDataCredential.md)
 </details>
 
 <details>
@@ -182,7 +177,7 @@ The `MeterDataCredential` schema names **"AMISP, MDM system"** as the typical pr
 
 ### Execution Guidance
 1. Follow **[Setup Register](../how-you-implement-ies/setup-register.md)** to publish `did.json`, generate a signing keypair, and claim a DeDi namespace.
-2. Create your own subscriber registries (`subscribers-test`, `subscribers-prod`) if participating directly as a provider — see **[Registries — As a Beckn Network Participant](../what-ies-provides/register.md#the-directory-dedi)**.
+2. Create your own subscriber registries (`subscribers-test`, `subscribers-prod`) if participating directly as a provider — see **[Setup Register §1.6](../how-you-implement-ies/setup-register.md#id-1.6-beckn-participants-publish-your-beckn-subscriber-record)**.
 3. Apply for an IES listing like any participant: send your identifier, DeDi namespace, and subscriber registry details to the Secretariat — see **[How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)**.
 
 ### References & Anchors

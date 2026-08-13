@@ -1,10 +1,10 @@
-# Setup Exchange
+# Setting up Discover & Exchange
 
-> **Step 3 of the implementation path — set up.** Stand up the [Beckn](../glossary.md#beckn) adapter — the ready-made "ONIX" reference software — run a local end-to-end exchange, then swap in your real identity and go live on the IES network. This is the **B2B rail**: structured datasets moving between registered organisations over a trust-bounded open network. About 1–2 days.
+> **The B2B rail.** Stand up the Beckn adapter — the ready-made "ONIX" reference software — run a local end-to-end exchange, then swap in your real identity and go live on the IES network. Structured datasets move between registered organisations over a trust-bounded open network. About 1–2 days.
 
-Registering on Beckn and being discoverable — your subscriber record, the network reference — is already done in **[Setup Register §1.5–1.7](setup-register.md)**. This page is what comes after: standing up the adapter that actually runs the exchange, and the wire-level mechanics of the data that moves across it (message envelope, pagination, schema validation). The concepts — why Beckn, what the network provides, the protocol lifecycle — are in **[What IES Provides → Discover](../what-ies-provides/discover.md)** and **[Exchange](../what-ies-provides/exchange.md)**. This page is the do-guide; the wire-level reference (message envelope, pagination, architecture) is in the [appendices](#appendices) below.
+Registering on Beckn and being discoverable — your subscriber record, the network reference — is already done in **[Setting up Register §1.5–1.7](setup-register.md)**. This page is what comes after: standing up the adapter that actually runs the exchange. The concepts — why Beckn, what the network provides, the protocol lifecycle — are in **[Discover in depth](../what-ies-provides/discover.md)** and **[Exchange in depth](../what-ies-provides/exchange.md)**; the wire-level reference (message envelope, pagination, architecture) is in the [appendices](#appendices) below.
 
-> **About the walkthrough.** The commands use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **[ONIX](../glossary.md#onix)** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
+> **About the walkthrough.** The commands use the [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — a ready-to-run Docker stack that bundles the **ONIX** Beckn protocol adapter (signing, verification, registry lookup), a sandbox BAP/BPP pair, and a Caddy router. ONIX is the recommended adapter for IES; if you already run one, swap it in — the wire format and registry contracts are the same.
 
 ---
 
@@ -19,7 +19,7 @@ After this you can issue and respond to requests on the IES network. You still n
 
 ## Before you start
 
-From **[Setup Register](setup-register.md)** you need, for the real-network sections (§3.3 onward; the local sandbox §3.1–3.2 needs none of it):
+From **[Setting up Register](setup-register.md)** you need, for the real-network sections (§3.3 onward; the local sandbox §3.1–3.2 needs none of it):
 
 - A verified DeDi namespace (§1.4).
 - Your Ed25519 keypair (§1.5), published subscriber record with its **record ID** (§1.6), and the IES network reference written by the Secretariat (§1.7).
@@ -102,7 +102,7 @@ docker compose down
 
 ## 3.3 — Swap in your real identity
 
-**Prerequisite:** Setup Register §1.5–1.7 — your Ed25519 keypair, subscriber record + record ID, and network reference.
+**Prerequisite:** Setting up Register §1.5–1.7 — your Ed25519 keypair, subscriber record + record ID, and network reference.
 
 The walkthrough so far ran on the shipped sandbox identities. To join the IES networks, replace them with yours in [`config/local-simple-bap.yaml`](https://github.com/beckn/DEG/blob/main/devkits/data-exchange/config/local-simple-bap.yaml) (and the matching `local-simple-bpp.yaml`):
 
@@ -126,7 +126,7 @@ modules:
             signingPublicKey:  <base64-ed25519-public>
 ```
 
-| Value from Setup Register | ONIX YAML path |
+| Value from Setting up Register | ONIX YAML path |
 |---|---|
 | Your `subscriber_id` (§1.6) | `plugins.keyManager.config.networkParticipant` |
 | Your record ID (§1.6) | `plugins.keyManager.config.keyId` |
@@ -167,7 +167,7 @@ Full recipe: [devkit README — Over-the-internet notes](https://github.com/beck
 
 The recommended production pattern — keep test and prod cleanly separated:
 
-1. **Run two ONIX deployments — test and prod — on separate hostnames** (e.g. `test.example-np.com` and `beckn.example-np.com`). Each has its own TLS cert, its own keypair, its own DeDi subscriber record under your namespace, in two separate subscriber registries (`subscribers-test` / `subscribers-prod` from [Setup Register §1.6](setup-register.md#id-1.6-beckn-participants-publish-your-beckn-subscriber-record)) so they cannot be confused.
+1. **Run two ONIX deployments — test and prod — on separate hostnames** (e.g. `test.example-np.com` and `beckn.example-np.com`). Each has its own TLS cert, its own keypair, its own DeDi subscriber record under your namespace, in two separate subscriber registries (`subscribers-test` / `subscribers-prod` from [Setting up Register §1.6](setup-register.md#id-1.6-beckn-participants-publish-your-beckn-subscriber-record)) so they cannot be confused.
 2. **`allowedNetworkIDs` is set narrowly on each side.** Test ONIX accepts only `indiaenergystack.in/test-ies-data-sharing-network`; prod ONIX accepts only `indiaenergystack.in/ies-data-sharing-network`. Cross-network traffic is rejected at the adapter — no stray test message can reach a prod counterparty.
 3. **Phased onboarding:** start in test → certification ([Conformance](conformance.md)) → IES references your *prod* subscriber DeDi URL into the prod network → from that moment your prod ONIX is allowed to transact with production NPs. Test stays useful for staging upgrades and certifying new use cases.
 
@@ -204,7 +204,7 @@ With your real identity configured, run a `discover` (or `confirm`) from your BA
 - Discovery returns a catalogue / `on_confirm` returns data.
 - ONIX's network-membership check passes (both subscribers are referenced into the same IES network registry).
 
-If all four pass, Setup Exchange is done.
+If all four pass, this setup is done.
 
 ---
 
@@ -256,7 +256,7 @@ Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](htt
 
 ### `DatasetItem` and `accessMethod`
 
-The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from [DDM](../glossary.md#ddm), Beckn's Decentralized Data Marketplace schema family) is the per-dataset record shape that rides inside `message.contract.commitments[].resources[]`, qualified by `resourceAttributes`:
+The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from DDM, Beckn's Decentralized Data Marketplace schema family) is the per-dataset record shape that rides inside `message.contract.commitments[].resources[]`, qualified by `resourceAttributes`:
 
 ```json
 "resources": [{
@@ -390,7 +390,7 @@ What happens after a `receiver` verifies a message is defined in the [routing co
 When a message arrives, ONIX:
 
 1. Reads the sender from the message context (`bapId` on a forward request, `bppId` on a callback).
-2. Looks the sender up in the **[DeDi](../glossary.md#dedi) registry**: `GET https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`. The response carries the sender's callback URL, signing public key, and network memberships.
+2. Looks the sender up in the **DeDi registry**: `GET https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`. The response carries the sender's callback URL, signing public key, and network memberships.
 3. Cross-checks those memberships against the local `allowedNetworkIDs` config (§3.3). A sender outside the boundary of trust is rejected.
 4. Verifies the signature.
 
@@ -417,7 +417,7 @@ ONIX only fetches `@context` URLs from **allow-listed hosts** (default: `raw.git
 3. Host both at a URL ONIX is allowed to reach — they must sit at the same path (`<base>/context.jsonld` and `<base>/attributes.yaml`).
 4. In your payload, set `@context` to the context URL and `@type` to the matching schema name.
 
-No code change in ONIX — the dispatch is purely URL-driven. The families under [Schemas](../schemas/README.md) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
+No code change in ONIX — the dispatch is purely URL-driven. The families under [IES Schemas](../schemas-ies/README.md) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
 
 ## Appendix E — Hostnames: sandbox vs production
 
@@ -471,5 +471,5 @@ sequenceDiagram
 - [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — the source for the walkthrough above (Postman collections, fixtures, configs)
 - [Beckn ONIX](https://github.com/beckn/beckn-onix) — the protocol adapter; [`install/generate-ed25519-keys.go`](https://github.com/beckn/beckn-onix/blob/main/install/generate-ed25519-keys.go) for the Ed25519 keypair
 - [Beckn Protocol v2.0.0 spec](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0)
-- [Discover](../what-ies-provides/discover.md) — the concepts this page implements
-- [Use cases](../use-cases/README.md) — end-to-end flows that exercise this protocol
+- [Discover in depth](../what-ies-provides/discover.md) — the concepts this page implements
+- [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) and [P2P Energy Transaction](../use-cases/p2p-energy-trading/README.md) — end-to-end use-case flows that exercise this protocol

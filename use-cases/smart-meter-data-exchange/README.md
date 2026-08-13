@@ -1,6 +1,6 @@
 # Smart Meter Data Exchange
 
-**A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a state regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/discover.md), carrying the [MeterData](../../schemas/MeterData/README.md) payload (currently `v0.6`).**
+**A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a state regulator, and consented third parties — over [IES Data Exchange](../../what-ies-provides/discover.md), carrying the [MeterData](../../schemas-ies/MeterData.md) payload (currently `v0.6`).**
 
 You replace bespoke FTP drops, proprietary MDMS APIs, and CSV email attachments with one signed, schema-validated flow. The same surface area works AMISP→DISCOM, DISCOM→SERC, and DISCOM→consented-third-party.
 
@@ -17,13 +17,13 @@ This use case is a thin composition over four existing building blocks. The setu
 | A name and a signing key your counterparties can verify | [Identifiers & Addressing](../../what-ies-provides/register.md), [Registries](../../what-ies-provides/register.md#the-directory-dedi) | A DeDi namespace under your control and your current public key published into it. A formal `did:web` document is **not** required for this use case; the namespace + key are enough for Beckn signing and verification. |
 | A trust boundary — "who can transact on this network" | [Registries — IES networks today](../../what-ies-provides/register.md#the-ies-networks-today) | Your subscriber record referenced in the IES network registry |
 | The transport that carries discovery, contract, audit, and the payload | [Data Exchange](../../what-ies-provides/discover.md) | The Beckn lifecycle + ONIX adapter; the same `accessMethod` covers inline payloads and signed-URL handoff |
-| (Optional) Cryptographic proof that the requester is authorised | [MeterDataRequestCredential](../../schemas/MeterDataRequestCredential/README.md) | A signed credential the seeker attaches at `confirm`; provider verifies offline |
+| (Optional) Cryptographic proof that the requester is authorised | [MeterDataRequestCredential](../../schemas-ies/MeterDataRequestCredential.md) | A signed credential the seeker attaches at `confirm`; provider verifies offline |
 
 ---
 
 ## The dataset — `MeterData/v0.6`
 
-The payload is the [MeterData](../../schemas/MeterData/README.md) compact-profile schema (currently `v0.6`). v0.6 standardises eight profile shapes covering every smart-meter cadence:
+The payload is the [MeterData](../../schemas-ies/MeterData.md) compact-profile schema (currently `v0.6`). v0.6 standardises eight profile shapes covering every smart-meter cadence:
 
 | Profile | Carries |
 |---|---|
@@ -42,7 +42,7 @@ For the Indian-terminology mapping (OBIS codes, IS 15959 event IDs, CIM master-d
 
 ## Optional consent — `MeterDataRequestCredential`
 
-When a third party (a consented app, a researcher, sometimes a regulator) is the BAP, the provider's offer policy can require an authorisation credential at `confirm` time. IES uses [`MeterDataRequestCredential`](../../schemas/MeterDataRequestCredential/README.md) — a W3C VC 2.0 that wraps a [`MeterDataRequest`](../../schemas/MeterDataRequest/README.md) and identifies the requester, scopes the request (which meters, which time window, which profile), and is signed by the authoriser (typically the DISCOM, sometimes the consumer themselves via OpenCred).
+When a third party (a consented app, a researcher, sometimes a regulator) is the BAP, the provider's offer policy can require an authorisation credential at `confirm` time. IES uses [`MeterDataRequestCredential`](../../schemas-ies/MeterDataRequestCredential.md) — a W3C VC 2.0 that wraps a [`MeterDataRequest`](../../schemas-ies/MeterDataRequest.md) and identifies the requester, scopes the request (which meters, which time window, which profile), and is signed by the authoriser (typically the DISCOM, sometimes the consumer themselves via OpenCred).
 
 ```
 Seeker (BAP)                                       Provider (BPP)
@@ -77,7 +77,7 @@ You do **not** need to rename anything in your CIS, MDMS, or asset registers. Yo
 
 ### 3. Discover — stand up the Data Exchange adapters
 
-Both sides run an [ONIX](../../glossary.md#onix) adapter → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**. The fastest start is the devkit sandbox:
+Both sides run an ONIX adapter → **[Setup Exchange](../../how-you-implement-ies/setup-exchange.md)**. The fastest start is the devkit sandbox:
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -118,15 +118,21 @@ did:web:<discom-domain>:feeders:<existing-feeder-code>
 did:web:<discom-domain>:substations:<existing-substation-code>
 ```
 
-`<discom-domain>` is your own domain — the same one your `did.json` and DeDi namespace hang off (see [Setup Register §1.1](../../how-you-implement-ies/setup-register.md)). The DID method is always `did:web`, so these resolve under your domain exactly like your organisation DID; DeDi acts as the discovery and verification layer for your namespace — see [Glossary → DeDi](../../glossary.md#dedi) and [Identifiers — Appendix C](../../what-ies-provides/register.md#identifier-patterns). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
+`<discom-domain>` is your own domain — the same one your `did.json` and DeDi namespace hang off (see [Setup Register §1.1](../../how-you-implement-ies/setup-register.md)). The DID method is always `did:web`, so these resolve under your domain exactly like your organisation DID; DeDi acts as the discovery and verification layer for your namespace — see [Identifiers — Appendix C](../../what-ies-provides/register.md#identifier-patterns). This step is *nice to have*, not a blocker for first deployment — initial flows can use bare IDs inside `MeterData` payloads and adopt the `did:web` form incrementally.
 
 ---
 
 ## Checklist for your meter-data rollout
 
-For the **underlying network onboarding** (DeDi subscriber, ONIX, signing keys, sandbox→test→prod cut-over), follow **[How you implement IES](../../how-you-implement-ies/README.md)**. Don't duplicate those items here.
+**Step 0 — Prerequisites**
 
-The items below are **meter-data-specific** additions on top of that checklist:
+- [ ] Register your organisation in the DeDi directory and create your `did:web` identity — see [Setting up Register](../../how-you-implement-ies/setup-register.md)
+- [ ] Stand up your Beckn ONIX adapter and connect it to the network — see [Setting up Discover & Exchange](../../how-you-implement-ies/setup-exchange.md)
+- [ ] Pass the basic conformance check — see [Conformance Checklist](../../how-you-implement-ies/conformance.md)
+
+For the full network onboarding detail (sandbox→test→prod cut-over, key management), see **[Concepts — Before you build](../../how-you-implement-ies/README.md)**.
+
+The items below are **meter-data-specific** additions on top of the prerequisites:
 
 - [ ] Meter population, geography, granularity, and counterparty for Phase 1 agreed
 - [ ] Source system mapped (HES / MDMS endpoint, owner team, SLA)
@@ -148,9 +154,9 @@ The items below are **meter-data-specific** additions on top of that checklist:
 
 ## References
 
-- [MeterData — schema and examples](../../schemas/MeterData/README.md) (current: `v0.6`)
-- [MeterDataRequest — request payload schema](../../schemas/MeterDataRequest/README.md) (current: `v0.6`)
-- [MeterDataRequestCredential — authorisation VC](../../schemas/MeterDataRequestCredential/README.md) (current: `v0.1`)
+- [MeterData — schema and examples](../../schemas-ies/MeterData.md) (current: `v0.6`)
+- [MeterDataRequest — request payload schema](../../schemas-ies/MeterDataRequest.md) (current: `v0.6`)
+- [MeterDataRequestCredential — authorisation VC](../../schemas-ies/MeterDataRequestCredential.md) (current: `v0.1`)
 - [IES Meter Data Model](./ies-meter-data-model.md) — OBIS / IS 15959 / CIM → MeterData v0.6 mapping
 - [Overview — Smart Meter Data Exchange](../../use-cases-overview/smart-meter-data-exchange.md) — standards basis, definitions, full field schedule
 - [Data Exchange chapter](../../what-ies-provides/discover.md)

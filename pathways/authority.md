@@ -1,8 +1,6 @@
 # Authority / Regulator Pathway: Step-by-Step IES Integration Roadmap
 
-Welcome to the **Authority / Regulator Pathway**. This guide provides an actionable and structured roadmap for the Ministry of Power, the Central Electricity Authority (CEA), the Central and State Electricity Regulatory Commissions (CERC/SERC), the Forum of Regulators, and State Governments / Union Territory Administrations to adopt the capabilities of the India Energy Stack (IES).
-
-To keep this guide extremely clean and focused on regulatory progress, technical specifications are referenced via hyperlinks rather than repeated. Expand any step to find actionable guidelines, cross-team advice, and prework checkpoints.
+A roadmap for the Ministry of Power, the Central Electricity Authority (CEA), the Central and State Electricity Regulatory Commissions (CERC/SERC), the Forum of Regulators, and State Governments / Union Territory Administrations to adopt the India Energy Stack (IES). Technical specifications are linked, not repeated — expand any step for guidance and prework checkpoints.
 
 ---
 
@@ -19,7 +17,7 @@ flowchart TD
 
 ## Prework & Pre-Alignment Matrix
 
-Before commencing the integration pathway, we recommend aligning the following internal teams and offices. Setting up these channels early ensures a seamless deployment experience:
+Align these internal teams and offices before starting:
 
 | Department / Role | System / Resource Involved | Purpose in Pathway |
 |---|---|---|
@@ -92,10 +90,10 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 * [DISCOM Regulatory Filing — use case overview](../draft/use-cases/discom-regulatory-filing/README.md)
 * [DISCOM Regulatory Filing — What It Records / Covers](../draft/use-cases-overview/discom-regulatory-filing.md#id-2.-what-it-records-covers)
 * [DISCOM Regulatory Filing — How Each Item is Identified](../draft/use-cases-overview/discom-regulatory-filing.md#id-3.-how-each-item-is-identified)
-* [ArrFiling family page](../schemas/ArrFiling/README.md)
+* [ArrFiling schema page](../schemas-ies/ArrFiling.md)
 * [ArrFiling Schema Reference (v0.5)](https://india-energy-stack.gitbook.io/docs/schemas/arrfiling/v0.5)
 * [ArrFiling Machine-Readable Example](https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/examples/arr_filings.json)
-* [Schemas — Schema map (ArrFiling entry)](../schemas/README.md#data-exchange-payloads)
+* [Schemas catalog — Data Exchange payloads (ArrFiling entry)](../schemas-ies/README.md#data-exchange-payloads)
 </details>
 
 <details>
@@ -106,7 +104,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 
 ### 📋 Prework Required
 * Complete [Register](../what-ies-provides/register.md) (Phase 1) so your `did:web` is resolvable, since DISCOMs will cite it as the filing's recipient.
-* List your SERC in the [IES Regulators reference registry](../what-ies-provides/register.md#the-directory-dedi) so DISCOMs can resolve you for subscription and delivery.
+* List your SERC in the `ies-regulators-reference-registry` (see [Register — The IES networks today](../what-ies-provides/register.md#the-ies-networks-today)) so DISCOMs can resolve you for subscription and delivery.
 
 ### Execution Guidance
 1. Confirm the DISCOM's catalogue entry for each filing (`filingType`, `policyContext` — the tariff order it answers, `accessMethod`) resolves correctly on your side.
@@ -116,7 +114,7 @@ Move from reading DISCOM regulatory filings as PDFs to monitoring them directly 
 ### References & Anchors
 * [DISCOM Regulatory Filing — Setup: Register → Discover → Exchange](../draft/use-cases/discom-regulatory-filing/README.md#setup-register-discover-exchange)
 * [DISCOM Regulatory Filing — Value Unlock](../draft/use-cases-overview/discom-regulatory-filing.md#value-unlock)
-* [Registries — reference allow-lists](../what-ies-provides/register.md#the-directory-dedi)
+* [Register — reference allow-lists](../what-ies-provides/register.md#the-ies-networks-today)
 </details>
 
 ---
@@ -147,7 +145,6 @@ Move from issuing tariff orders as PDFs to publishing them as computable objects
 * [Policy as Code — How Each Item is Identified](../draft/use-cases-overview/tariff-intelligence.md#id-3.-how-each-item-is-identified)
 * [Policy as Code — Setup: Register → Discover → Exchange](../draft/use-cases/tariff-intelligence/README.md#setup-register-discover-exchange)
 * [Policy as Code — Value Unlock](../draft/use-cases-overview/tariff-intelligence.md#value-unlock)
-* [Schemas — Schema map (`IES_Policy`, in progress)](../schemas/README.md#data-exchange-payloads)
 </details>
 
 ---
@@ -167,12 +164,12 @@ When a proposal arrives, the review checks:
 1. **No existing overlap**: confirm no existing schema (with optional extension) already covers the proposed domain object.
 2. **Standards alignment**: confirm the proposal follows the IES standards precedence order — **Bureau of Indian Standards (IS) → CEA Regulations / Indian Electricity Grid Code (IEGC) → International Electrotechnical Commission (IEC) → Institute of Electrical and Electronics Engineers (IEEE)** — and that it documents any gap where no Indian standard yet exists.
 3. **Use-case fit**: confirm the proposal is grounded in a real use case, with example payloads.
-4. **Acceptance**: publish a versioned `v0.1` (new schema) or a new minor/major version (change to an existing schema), and add or update the entry in the schema map.
+4. **Acceptance**: publish a versioned `v0.1` (new schema) or a new minor/major version (change to an existing schema), and add or update the entry in the schema catalog.
 
 ### References & Anchors
-* [Schemas — Proposing a new schema (or a change)](../schemas/README.md#proposing-a-new-schema-or-a-change)
-* [Schemas — Standards precedence](../schemas/README.md#standards-precedence)
-* [Schemas — Schema map](../schemas/README.md#schema-map)
+* [Propose a Schema — the submission flow](../propose-a-schema.md)
+* [Schemas Overview — page template, incl. Basis of Standards (BIS → CEA → IEC → IEEE)](../what-ies-provides/schemas-overview/README.md#how-each-page-is-organised)
+* [Schemas catalog](../schemas-ies/README.md)
 </details>
 
 <details>
@@ -184,12 +181,11 @@ When a proposal arrives, the review checks:
 ### Execution Guidance
 As the schema steward, the IES Cell is operationally responsible for:
 1. **Schema source of truth** — this repository, under `schemas/`.
-2. **Canonical hosting** — the published schema map at `india-energy-stack.github.io/ies-accelerator/schemas/...`.
+2. **Canonical hosting** — the published schema files at `india-energy-stack.github.io/ies-accelerator/schemas/...`.
 3. **Versioning policy** — semver-light (`v<major>.<minor>`), with non-breaking changes absorbed within a minor version and breaking changes triggering a new version.
-4. **Deprecation** — old versions stay queryable; the schema map and canonical URL flag the currently active version.
+4. **Deprecation** — old versions stay reachable; each schema's catalog page flags the currently active version.
 
 ### References & Anchors
-* [Schemas — Stewardship](../schemas/README.md#stewardship)
-* [Schemas — Versioning](../schemas/README.md#versioning)
-* [Schemas — Where this fits](../schemas/README.md#where-this-fits)
+* [Schemas catalog — How versions work](../schemas-ies/README.md#how-versions-work)
+* [Exchange — where the schemas fit in the IES spine](../what-ies-provides/exchange.md)
 </details>

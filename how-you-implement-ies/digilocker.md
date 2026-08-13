@@ -1,4 +1,4 @@
-# DigiLocker Integration — DISCOM Guide
+# DigiLocker Delivery — DISCOM Guide
 
 This guide covers everything your DISCOM needs to build the DigiLocker Pull URI endpoint — the single piece of custom code required to make IES energy credentials available to consumers in DigiLocker.
 
@@ -76,7 +76,7 @@ The `issuer_did` is the one from [Step 2](#step-2-stand-up-opencred-and-your-iss
 
 ### Step 2 — Stand Up OpenCred and Your Issuer DID
 
-Follow [Setup Register — keypair and did.json](setup-register.md#id-1.2-generate-your-credential-signing-keypair) and [Issue Credentials — run OpenCred](issue-credentials.md#id-2.3-run-opencred-in-did-web-mode) end-to-end. By the time you reach this page you should have:
+Follow [Setting up Register — keypair and did.json](setup-register.md#id-1.2-generate-your-credential-signing-keypair) and [Issuing Credentials — run OpenCred](issue-credentials.md#id-2.3-run-opencred-in-did-web-mode) end-to-end. By the time you reach this page you should have:
 
 - OpenCred running with `signingKeyLoaded: true`
 - An issuer DID — `did:web:ies.discom.example` (recommended) or `did:key:…` (from an imported DSC)
@@ -212,7 +212,7 @@ holder_idref = {
 }
 ```
 
-The rendered certificate (`DocContent`) should also show this in human-readable form — e.g. *"Identity Binding: binding method DIGILOCKER_PULL, binding date …"* — the pattern APEPDCL's current implementation already follows.
+The rendered certificate (`DocContent`) should also show this in human-readable form — e.g. *"Identity Binding: binding method DIGILOCKER_PULL, binding date …"* — the pattern APEPDCL's pilot implementation followed.
 
 > **Schema gap.** `customerProfile.idRef` exists on the [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) schema, so the Passport can carry this binding today. `MeterDataCredential` v0.6's `credentialSubject` does **not** yet define an `idRef` (or equivalent) property — until the schema adds one, the Digest cannot carry this binding as a structured VC field, only in the rendered `DocContent`. Track this as an open schema item alongside the MPLTR rollout.
 
@@ -222,7 +222,7 @@ This step differs by DocType — see [Issuing NYCER (v1.2)](issue-credentials.md
 
 ### Step 5 — Package the PDF and VC for the response
 
-Rendering the PDF is a **separate call** — `POST /v1/credentials/package` with `formats: ["pdf"]` (the DocType handlers in Step 4 make it). An inline `packageFormats` field on the *issue* body is silently ignored, so this call is not optional — see [Issue Credentials §2.10](issue-credentials.md#id-2.10-package-the-credential-as-a-pdf-qr-code). The PDF carries the signed credential payload in its info dictionary and embeds a scannable QR — DigiLocker stores the PDF, and verifiers can later re-extract the credential from the PDF itself.
+Rendering the PDF is a **separate call** — `POST /v1/credentials/package` with `formats: ["pdf"]` (the DocType handlers in Step 4 make it). An inline `packageFormats` field on the *issue* body is silently ignored, so this call is not optional — see [Issuing Credentials §2.10](issue-credentials.md#id-2.10-package-the-credential-as-a-pdf-qr-code). The PDF carries the signed credential payload in its info dictionary and embeds a scannable QR — DigiLocker stores the PDF, and verifiers can later re-extract the credential from the PDF itself.
 
 ```python
 import base64, json
@@ -412,7 +412,7 @@ vc_json = credential_response["credential"]
 
 # Render the PDF with a SEPARATE packaging call. Packaging is a distinct
 # rendering step, not part of issue — an inline `packageFormats` field on the
-# issue body is silently ignored (see Issue Credentials §2.10). Package the
+# issue body is silently ignored (see Issuing Credentials §2.10). Package the
 # credential as issued, proof intact, so the QR embedded in the PDF stays
 # independently verifiable.
 package_response = requests.post(
@@ -483,14 +483,14 @@ MeterDataCredential  (W3C VC 2.0  ·  subclass of EnergyCredential v2.0)
 
 The **period and shape** the consumer chose are expressed by the profiles themselves:
 
-- A **twelve-month statement** is a `MONTHLY` profile (a `P1M` interval-block array).
-- **Raw analytics data** is an `INTERVAL` profile (`PT15M` / `PT30M` blocks, ~96 readings a day), optionally preceded by a `DESCRIPTOR` profile that the interval blocks reference via `payloadDescriptorSetRef`.
+- A **twelve-month statement** is an array of `MONTHLY` profiles — one `MonthlyProfile` object per month, each with a `timePeriod` (`P1M`) and its `readings`.
+- **Raw analytics data** is an `INTERVAL` profile (`PT15M` / `PT30M` intervals, ~96 readings a day), preceded by a `DESCRIPTOR` profile that the interval profile references via `payloadDescriptorSetRef` / `compactSequenceRef`.
 
 A monthly-bill view and a 15-minute analytics feed are the **same credential type** with different `meterData` profiles. The consumer's requested window simply bounds which profiles the DISCOM returns — within the scope authorised by the originating request.
 
 ### Example — a twelve-month statement (`MONTHLY` profile)
 
-This is the exact JSON-LD that travels in `VcContent`.
+The JSON-LD that travels in `VcContent`, per the canonical MeterDataCredential v0.6 monthly example — one `MonthlyProfile` per month, carried as an array (trimmed proof; first month shown in full):
 
 ```json
 {
@@ -509,31 +509,41 @@ This is the exact JSON-LD that travels in `VcContent`.
   "validFrom": "2026-05-15T10:00:00+05:30",
   "validUntil": "2027-05-15T10:00:00+05:30",
   "credentialStatus": {
-    "id": "https://dedi.global/dedi/lookup/discom/vc-revocation-registry/9b3c1f0a",
-    "type": "dedi",
-    "statusPurpose": "revocation"
+    "id": "https://dedi.global/dedi/query/did:web:ies.discom.example/vc-revocation-registry",
+    "type": "dediregistry",
+    "statusPurpose": "revocation",
+    "statusListCredential": "https://dedi.global/dedi/lookup/did:web:ies.discom.example/vc-revocation-registry"
   },
   "credentialSubject": {
     "id": "did:key:z6MkjVQ8r4f3rPuY7CG2D6Lf8WJxJBs5sjkR8d3v2Bv4nP4Z",
-    "meterData": {
-      "profileType": "MONTHLY",
-      "meterId": "MTR-98765432",
-      "servicePointId": "DISCOM-2025-001234567",
-      "intervalBlocks": [
-        { "start": "2025-05-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 391, "unit": "kWh" }] },
-        { "start": "2025-06-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 412, "unit": "kWh" }] },
-        { "start": "2025-07-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 478, "unit": "kWh" }] },
-        { "start": "2025-08-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 463, "unit": "kWh" }] },
-        { "start": "2025-09-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 421, "unit": "kWh" }] },
-        { "start": "2025-10-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 384, "unit": "kWh" }] },
-        { "start": "2025-11-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 352, "unit": "kWh" }] },
-        { "start": "2025-12-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 339, "unit": "kWh" }] },
-        { "start": "2026-01-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 367, "unit": "kWh" }] },
-        { "start": "2026-02-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 358, "unit": "kWh" }] },
-        { "start": "2026-03-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 405, "unit": "kWh" }] },
-        { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M", "readings": [{ "type": "ACTIVE_ENERGY_IMPORT", "value": 437, "unit": "kWh" }] }
-      ]
-    }
+    "meterData": [
+      {
+        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
+        "@type": "MonthlyProfile",
+        "profileType": "MONTHLY",
+        "meterRefs": [
+          { "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }
+        ],
+        "serviceDeliveryPointRefs": [
+          { "scheme": "DID", "value": "did:web:ies.discom.example:connections:SDP-A-12345" }
+        ],
+        "timePeriod": { "start": "2025-05-01T00:00:00+05:30", "duration": "P1M" },
+        "readings": [
+          { "readingType": "kWh imp", "value": 391.0, "validationStatus": "VALID", "source": "METER" }
+        ]
+      },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2025-06-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 412.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2025-07-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 478.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2025-08-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 463.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2025-09-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 421.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2025-10-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 384.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2025-11-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 352.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2025-12-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 339.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2026-01-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 367.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2026-02-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 358.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2026-03-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 405.0 }] },
+      { "@type": "MonthlyProfile", "profileType": "MONTHLY", "meterRefs": [{ "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }], "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" }, "readings": [{ "readingType": "kWh imp", "value": 437.0 }] }
+    ]
   },
   "proof": { "type": "Ed25519Signature2020", "proofValue": "z5wQ…" }
 }
@@ -541,7 +551,7 @@ This is the exact JSON-LD that travels in `VcContent`.
 
 ### Example — raw analytics (`INTERVAL` profile + `DESCRIPTOR`)
 
-For raw analytics data the same wrapper carries an `INTERVAL` profile — `PT15M` blocks, around 96 readings a day — typically preceded by a `DESCRIPTOR` profile that the interval blocks reference via `payloadDescriptorSetRef`. The `meterData` value becomes an **array of profiles**:
+For raw analytics data the same wrapper carries an `INTERVAL` profile — `PT15M` intervals, around 96 readings a day — preceded by a `DESCRIPTOR` profile the interval profile references via `payloadDescriptorSetRef` and `compactSequenceRef`. The `meterData` value is an **array of profiles** (fragment, per the canonical v0.6 interval example; envelope as in the statement example above):
 
 ```json
 {
@@ -549,20 +559,35 @@ For raw analytics data the same wrapper carries an `INTERVAL` profile — `PT15M
     "id": "did:key:z6MkjVQ8r4f3rPuY7CG2D6Lf8WJxJBs5sjkR8d3v2Bv4nP4Z",
     "meterData": [
       {
+        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
+        "@type": "PayloadDescriptorProfile",
         "profileType": "DESCRIPTOR",
-        "id": "desc-usage-15m",
-        "payloadDescriptors": [
-          { "type": "ACTIVE_ENERGY_IMPORT", "unit": "kWh", "readingType": "DIRECT_READ" }
+        "id": "DESC-INTERVAL-2026Q2",
+        "payloadDescriptorSets": [
+          {
+            "name": "IntervalLoadSurveySet",
+            "payloadDescriptors": [
+              { "readingType": "kWh imp block", "name": "Active energy import – block incremental", "unit": "kWh", "flowDirection": "IMPORT", "reportedMode": "USAGE", "obis": "1.0.1.29.0.255" }
+            ],
+            "compactSequences": [
+              { "name": "IntervalSeq", "sequenceItems": [{ "readingType": "kWh imp block" }] }
+            ]
+          }
         ]
       },
       {
+        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
+        "@type": "IntervalProfile",
         "profileType": "INTERVAL",
-        "meterId": "MTR-98765432",
-        "servicePointId": "DISCOM-2025-001234567",
-        "payloadDescriptorSetRef": "desc-usage-15m",
-        "intervalBlocks": [
-          { "start": "2026-05-01T00:00:00+05:30", "duration": "PT15M", "readings": [{ "value": 0.18 }] },
-          { "start": "2026-05-01T00:15:00+05:30", "duration": "PT15M", "readings": [{ "value": 0.16 }] }
+        "meterRefs": [
+          { "scheme": "DID", "value": "did:web:ies.discom.example:assets:meter:DISCOM-SM-2025-654321" }
+        ],
+        "payloadDescriptorSetRef": "DESC-INTERVAL-2026Q2",
+        "compactSequenceRef": "IntervalSeq",
+        "intervalPeriod": { "start": "2026-05-01T00:00:00+05:30", "duration": "PT15M" },
+        "intervals": [
+          { "id": 0, "payloads": [0.18] },
+          { "id": 1, "payloads": [0.16] }
         ]
       }
     ]
@@ -609,13 +634,25 @@ IST = timezone(timedelta(hours=5, minutes=30))
 window = resolve_period(udf2)            # e.g. "last-12-months" → MONTHLY, 2025-05..2026-04
 readings = mdm.query(consumer.meter_id, window.start, window.end, window.granularity)
 
-# 2. Build the MeterData v0.6 payload (single profile here; use an array for INTERVAL + DESCRIPTOR)
-meter_data = {
-    "profileType": window.profile_type,          # "MONTHLY" | "INTERVAL" | "DAILY" | …
-    "meterId": consumer.meter_id,
-    "servicePointId": consumer.consumer_number,
-    "intervalBlocks": readings.to_interval_blocks(),
-}
+# 2. Build the MeterData v0.6 payload — an array of profile objects
+#    (one MonthlyProfile per month for a statement; DESCRIPTOR + INTERVAL for analytics).
+#    Every profile carries the required meterRefs; readings use the v0.6 Reading shape
+#    (readingType / value / openingValue / closingValue / validationStatus / source).
+meter_data = [
+    {
+        "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld",
+        "@type": "MonthlyProfile",
+        "profileType": "MONTHLY",
+        "meterRefs": [{"scheme": "DID", "value": consumer.meter_did}],
+        "serviceDeliveryPointRefs": [{"scheme": "DID", "value": consumer.sdp_did}],
+        "timePeriod": {"start": month.start.isoformat(), "duration": "P1M"},
+        "readings": [
+            {"readingType": "kWh imp", "value": month.kwh_import,
+             "validationStatus": "VALID", "source": "METER"}
+        ],
+    }
+    for month in readings.by_month()
+]
 
 # 3. Issue via OpenCred — same instance, MeterDataCredential schema, short validUntil
 credential_response = requests.post(
@@ -644,7 +681,7 @@ credential_response = requests.post(
 vc_json = credential_response["credential"]
 
 # Render the PDF with a separate packaging call (same pattern as NYCER, and
-# Issue Credentials §2.10) — package the credential as issued, proof intact.
+# Issuing Credentials §2.10) — package the credential as issued, proof intact.
 package_response = requests.post(
     "http://opencred:3100/v1/credentials/package",
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
@@ -665,7 +702,7 @@ vc_json["issuer"] = {
 uri = f"in.gov.discom-MPLTR-{consumer.consumer_number}-{window.uri_period}"
 ```
 
-Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issue Credentials → Revoke](issue-credentials.md#id-2.8-revoke).
+Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issuing Credentials → Revoke](issue-credentials.md#id-2.8-revoke).
 
 ### What the consumer can do with it
 
@@ -704,7 +741,7 @@ In every mode the signed JSON moves as-is (see [Step 5](#step-5-package-the-pdf-
 
 ## Phase 2 — Consumer Shares Credential with a Verifier
 
-Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential or Meter Digest from DigiLocker using the standard DigiLocker OAuth flow. See [Issue Credentials → Verify](issue-credentials.md#id-2.7-verify) for the verifier-side implementation.
+Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential or Meter Digest from DigiLocker using the standard DigiLocker OAuth flow. See [Issuing Credentials → Verify](issue-credentials.md#id-2.7-verify) for the verifier-side implementation.
 
 ---
 

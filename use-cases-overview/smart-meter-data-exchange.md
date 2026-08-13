@@ -1,13 +1,13 @@
 # Smart Meter Data Exchange
 
-*A standard, audit-trailed way to exchange smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties — over [IES Data Exchange](../what-ies-provides/discover.md), carrying the [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) payload.*
+*A standard, audit-trailed way to move smart-meter telemetry between an AMISP, a DISCOM, a State regulator, and consented third parties. Discovery and contracting run over Beckn (the IES [Discover](../what-ies-provides/discover.md) layer); the payload on the wire is [MeterData](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6) v0.6. Integrate once, and the same request/response pattern works against every adopting DISCOM.*
 
 **[Implementation Guide →](../use-cases/smart-meter-data-exchange/README.md)**
 
 | Field | Value |
 |---|---|
 | Document | IES/SMDX-PROFILE/0.6 |
-| Status | Piloted — see [Status](../STATUS.md) |
+| Status | Piloted (four pilot DISCOMs, completed 30-day DISCOM Challenge) — see [Status summary](../README.md) |
 | Applicability | All AMISPs, DISCOMs and SERCs |
 | This version | Built on MeterData v0.6, MeterDataRequest v0.6 and (optional) MeterDataRequestCredential v0.1 over Beckn. |
 
@@ -68,7 +68,7 @@ Eight MeterData v0.6 compact profiles cover every cadence:
 
 ## 5. Basis of Standards
 
-See [Schemas — Standards precedence](../schemas/README.md#standards-precedence) for the fixed IES order of preference.
+Fixed IES order of preference: **IS → CEA Regulations / IEGC → IEC → IEEE**.
 
 | Standard | Role here |
 |---|---|
@@ -199,7 +199,7 @@ With IES: DISCOM ── one MeterData v0.6 over Beckn ──► AMISP-1 / AMISP-
 
 ## Value Unlock
 
-**DISCOMs/AMISPs** — one interface replaces bespoke pair-by-pair integration; months become days. **Regulators/analytics** — one consistent format with a verifiable audit trail; comparable analysis across DISCOMs. **Consumers** — consented third parties reading meter data on standard rails unlocks green loans, automated solar quotes and demand-shift offers.
+**DISCOMs/AMISPs** — one interface replaces bespoke pair-by-pair integration. **Regulators/analytics** — one consistent format with a verifiable audit trail, so analysis is comparable across DISCOMs. **Consumers** — consented third parties can read meter data on standard rails, the basis for services like green loans, solar quotes and demand-shift offers.
 
 ---
 

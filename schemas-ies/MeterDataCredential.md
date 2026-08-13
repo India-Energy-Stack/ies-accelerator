@@ -14,12 +14,11 @@ layout:
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential` |
 | **Latest version** | **v0.6** |
-| **All versions** | v0.6 |
 | **Status** | Stable — In Pilot (current: **v0.6**, aligned with MeterData v0.6) · **Issued by** data providers (AMISPs, MDM systems, or a DISCOM in that role) · **Consumed by** DISCOMs, consumers' wallets, and downstream verifiers |
 | **Category** | Verifiable Credentials |
 | **Used in** | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) |
 
-See the full family notes — inheritance, standards basis, design rationale — in [MeterDataCredential (schemas)](../schemas/MeterDataCredential/README.md).
+What this schema is for, in plain language — standards basis, design rationale, open points: [MeterDataCredential (Schemas Overview)](../what-ies-provides/schemas-overview/meter-data-credential.md).
 
 ## Developer resources — v0.6 (current)
 
@@ -34,7 +33,7 @@ See the full family notes — inheritance, standards basis, design rationale —
 
 ## Field reference — v0.6 (current)
 
-_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the canonical per-version README (linked above) carries the full text, standards basis and notes._
+_A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the per-version pages (see **Versions** below) carry the full text, standards basis and notes._
 
 **MeterDataCredential**
 
@@ -50,8 +49,10 @@ _A field name in **bold** with a trailing **\*** is required; all others are opt
 | **`meterData`** \* | schema.json | The attested meter data payload. |
 
 
----
+## Versions
 
-## Previous versions
+Every published version stays reachable at its canonical URL — clients pin a version explicitly. Click a version for its full field reference.
 
-_v0.6 is the first published version — no previous versions yet._
+| Version | Status | Notes | Files |
+|---|---|---|---|
+| [v0.6](../schemas/MeterDataCredential/v0.6/README.md) | **Current** | Wraps MeterData v0.6; DeDi-registry revocation (`credentialStatus.type: dediregistry`) | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataCredential/v0.6/examples) |

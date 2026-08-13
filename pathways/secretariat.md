@@ -1,6 +1,6 @@
 # IES Secretariat Pathway: Step-by-Step Registration Approval & Network Governance Roadmap
 
-Welcome to the **Secretariat Pathway**. This guide provides an actionable, structured step-by-step checklist for the India Energy Stack (IES) Secretariat, Network Facilitator Organisation (NFO), or network operators to set up registries, process participant registration requests, govern the network, and manage schemas and protocols.
+A checklist for the India Energy Stack (IES) Secretariat, Network Facilitator Organisation (NFO), or network operators: set up registries, process participant registration requests, govern the network, and manage schemas and protocols.
 
 ---
 
@@ -27,11 +27,12 @@ In this phase, the Secretariat establishes the core authoritative registries tha
 > Secure the root DeDi namespace key — every verification depends on it.
 
 ### Execution Guidance
-Under the canonical DeDi namespace `india-energy-stack` (`indiaenergystack.in` for Beckn), initialize:
-1. **`ies-discoms-reference-registry`** (tag: `membership`): DISCOM allow-list.
-2. **`ies-regulators-reference-registry`** (tag: `membership`): regulator allow-list (SERCs, CERC, etc.).
-3. **`ies-schemas`** (tag: `schema`): canonical, versioned IES schemas.
-4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): prod/pre-prod Beckn participant directories.
+Under the IES operator namespace (verified against `indiaenergystack.in`), initialize:
+1. **`ies-discoms-reference-registry`**: DISCOM allow-list.
+2. **`ies-regulators-reference-registry`**: regulator allow-list (SERCs, CERC, etc.).
+3. **`ies-service-providers-reference-registry`**: recognised service providers.
+4. **`ies-data-sharing-network` & `test-ies-data-sharing-network`** (tag: `beckn_subscriber_reference`): prod/test Beckn network membership registries. The same pattern applies to the other IES networks (`ies-p2p-trading-network`, `ies-der-integration-network`).
+5. **`ies-schemas`**: canonical, versioned IES schemas (see Phase 5).
 
 ### References & Anchors
 * [Register — The IES networks today](../what-ies-provides/register.md#the-ies-networks-today)
@@ -45,7 +46,7 @@ Under the canonical DeDi namespace `india-energy-stack` (`indiaenergystack.in` f
 > Restrict namespace-key write access via multi-sig validation or HSM storage.
 
 ### Execution Guidance
-1. Secure the namespace controller key for `india-energy-stack` (linked to `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`).
+1. Secure the namespace controller key for the IES operator namespace (namespace ID `did:web:did.cord.network:76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma`).
 2. Log key access and restrict admin roles.
 
 ### References & Anchors
@@ -71,7 +72,7 @@ When a registration package arrives via [IES.Secretariat@fsrglobal.org](mailto:I
 * **Digital Signature Certificate (DSC)**: (Optional) `x5c` certificate chain if they anchor in CSCA.
 
 ### References & Anchors
-* [How you implement IES — checklists](../how-you-implement-ies/README.md)
+* [Before you build — getting-started checklist](../how-you-implement-ies/README.md)
 * [How to apply for an IES listing](../how-you-implement-ies/setup-register.md#id-1.7-beckn-participants-get-referenced-into-an-ies-network)
 </details>
 
@@ -107,7 +108,7 @@ In this phase, you whitelist the verified participant inside the authoritative n
 Append the verified participant's metadata to the reference registry:
 1. Compile the verified record payload per the registry schema (`id`, `did`, `legalName`, `publicKeys`, `serviceAreas`, `endpoints`, `status: "active"`).
 2. Sign with the namespace controller key and write to:
-   `india-energy-stack/ies-discoms-reference-registry/<discom-id>`
+   `indiaenergystack.in/ies-discoms-reference-registry/<discom-id>`
 3. Confirm the entry resolves publicly:
    ```bash
    curl https://api.dedi.global/dedi/lookup/did%3Aweb%3Adid.cord.network%3A76EU9AJNL25X4LAxgb92rA8op4co7n892oeySAuEk9gAay2N28ctma/ies-discoms-reference-registry/<discom-id>
@@ -156,7 +157,7 @@ In this phase, you monitor network activity, coordinate changes, and enforce net
 
 ### Execution Guidance
 1. Enforce transport security baselines (e.g. TLS 1.3 for ONIX endpoints).
-2. Set node timeout guidelines (e.g. 5-second max) to prevent cascading latency.
+2. Publish node timeout guidelines (the ONIX sandbox config defaults to 30 seconds) to prevent cascading latency.
 
 ### References & Anchors
 * [Discover — The lifecycle at a glance](../what-ies-provides/discover.md#the-lifecycle-at-a-glance)
@@ -174,7 +175,7 @@ In this phase, you manage the publication, versioning, and migration of canonica
 ### Execution Guidance
 1. For approved telemetry shapes (e.g. `MeterData` v0.6), compile the Draft 2020-12 JSON Schema and JSON-LD contexts.
 2. Publish to the canonical registry under:
-   `india-energy-stack/ies-schemas/<domain>/<version>`
+   `indiaenergystack.in/ies-schemas/<domain>/<version>`
 3. Maintain mappings and docs for anchored, tamper-proof schema resolution.
 
 ### References & Anchors

@@ -1,13 +1,13 @@
 # DER Visibility
 
-*A DISCOM's view of every distributed energy resource behind its meters — what is connected (Schedule I, [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)) and what it is doing now (Schedule II, [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)). Both halves are executable today at the per-consumer / per-DER level; the grid-side per-locus **aggregate** of Schedule I remains an illustrative future profile — see §1 and §8.2.*
+*A DISCOM's view of every distributed energy resource (DER) behind its meters, in two halves: what is connected (Schedule I, [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)) and what it is doing now (Schedule II, [MeterData v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6)). Both halves are executable today at the per-consumer / per-DER level; the grid-side per-locus **aggregate** of Schedule I remains an illustrative future profile — see §1 and §8.2.*
 
 **[Implementation Guide →](../use-cases/der-visibility/README.md)**
 
 | Field | Value |
 |---|---|
 | Document | IES/DERV-PROFILE/1.2 |
-| Status | Piloted — see [Status](../STATUS.md) |
+| Status | Piloted (four pilot DISCOMs, completed 30-day DISCOM Challenge; per-consumer path — see §1) — see [Status summary](../README.md) |
 | Applicability | All distribution licensees |
 | This version | Executable today: the per-consumer ElectricityCredential v1.2 (Energy Passport). Illustrative, future: a grid-side, PII-free per-locus profile conceptually reusing `energyResources[]` + `consumptionProfiles[]` (the building blocks of ElectricityCredential v1.2), with the network locus — not a consumer — as subject; see §1. |
 

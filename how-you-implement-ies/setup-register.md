@@ -1,8 +1,8 @@
-# Setup Register
+# Setting up Register
 
-> **Step 1 of the implementation path — set up.** Get your organisation a verifiable digital identity, list it in the shared directory, and — if your use cases need a Beckn network — publish your network identity too. *Done once.* Takes less than 30 minutes.
+> **The first setup every participant completes.** Get your organisation a verifiable digital identity, list it in the shared directory, and — if your use cases need a Beckn network — publish your network identity too. *Done once.* Takes less than 30 minutes.
 
-The concepts behind every artefact on this page — DIDs, DeDi, namespaces, subscriber records — are in **[What IES Provides → Register](../what-ies-provides/register.md)**. This page is the do-guide.
+The concepts behind every artefact on this page — DIDs, DeDi, namespaces, subscriber records — are in **[Register & Identifiers in depth](../what-ies-provides/register.md)**. This page is the do-guide.
 
 ---
 
@@ -12,8 +12,8 @@ Registration is role-based. Everyone does §1.1–1.4; the rest depends on what 
 
 | You are… | Do | Then go to |
 |---|---|---|
-| **A DISCOM / AMISP issuing credentials only** (Consumer Energy Passport, Meter Digest) | §1.1 – §1.4 | [Issue Credentials](issue-credentials.md) |
-| **Any organisation joining a Beckn network** (data exchange, P2P trading — DISCOMs, AMISPs, trading platforms, aggregators) | §1.1 – §1.4, then §1.5 – §1.7 | [Setup Exchange](setup-exchange.md) |
+| **A DISCOM / AMISP issuing credentials only** (Consumer Energy Passport, Meter Digest) | §1.1 – §1.4 | [Issuing Credentials](issue-credentials.md) |
+| **Any organisation joining a Beckn network** (data exchange, P2P trading — DISCOMs, AMISPs, trading platforms, aggregators) | §1.1 – §1.4, then §1.5 – §1.7 | [Setting up Discover & Exchange](setup-exchange.md) |
 | **A network operator (NFO)** running your own Beckn network | §1.1 – §1.4, then §1.8 | NFH network-operator docs (linked in §1.8) |
 
 Trading platforms and other pure Beckn participants who never issue credentials still need §1.1–1.4: the domain, `did.json`, and the verified DeDi namespace are the root of trust that the Beckn subscriber record hangs off.
@@ -43,13 +43,13 @@ Either works. Most DISCOMs use a dedicated subdomain so the credential-issuing i
 
 The host you pick becomes the host portion of your `did:web`. Your DID document will live at `https://<your-host>/.well-known/did.json`.
 
-Once picked, record it in an environment variable — the copy-pasteable commands in this guide and in [Issue Credentials](issue-credentials.md) all reference `$OPENCRED_ISSUER_DOMAIN`, so you set your domain once here and never hand-edit a command:
+Once picked, record it in an environment variable — the copy-pasteable commands in this guide and in [Issuing Credentials](issue-credentials.md) all reference `$OPENCRED_ISSUER_DOMAIN`, so you set your domain once here and never hand-edit a command:
 
 ```bash
 export OPENCRED_ISSUER_DOMAIN="ies.yourdiscom.in"
 ```
 
-> **Hosting `did.json` in a subfolder instead of the domain root?** `did:web` encodes sub-paths with colons, and `OPENCRED_ISSUER_DOMAIN` accepts the same form: set `OPENCRED_ISSUER_DOMAIN="<discom-domain>:subfolder"` and your DID becomes `did:web:<discom-domain>:subfolder`. The generator in §1.3 works unchanged, but the hosting path changes: a path-form DID resolves to `https://<discom-domain>/subfolder/did.json` — **no `.well-known/`** — so in §1.3 replace the colon with a slash and drop `.well-known/` when uploading and verifying. Variant table in [Register — DID and DID document](../what-ies-provides/register.md#the-did-methods-ies-uses).
+> **Hosting `did.json` in a subfolder instead of the domain root?** `did:web` encodes sub-paths with colons, and `OPENCRED_ISSUER_DOMAIN` accepts the same form: set `OPENCRED_ISSUER_DOMAIN="<discom-domain>:subfolder"` and your DID becomes `did:web:<discom-domain>:subfolder`. The generator in §1.3 works unchanged, but the hosting path changes: a path-form DID resolves to `https://<discom-domain>/subfolder/did.json` — **no `.well-known/`** — so in §1.3 replace the colon with a slash and drop `.well-known/` when uploading and verifying. Variant table in [Register & Identifiers — DID and DID document](../what-ies-provides/register.md#the-did-methods-ies-uses).
 
 ---
 
@@ -66,7 +66,7 @@ openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 \
 chmod 600 keys/issuer-key.pem
 ```
 
-Keep `issuer-key.pem` in your KMS in production. Treat it like a TLS private key. [Issue Credentials](issue-credentials.md) mounts this exact file into the OpenCred signing container, so keep the `~/opencred/keys/` path (or adjust consistently later).
+Keep `issuer-key.pem` in your KMS in production. Treat it like a TLS private key. [Issuing Credentials](issue-credentials.md) mounts this exact file into the OpenCred signing container, so keep the `~/opencred/keys/` path (or adjust consistently later).
 
 > This key signs **credentials**. Beckn messages use a different key (Ed25519, §1.5). The two identities intentionally use separate keys, live in different registries, and serve different verifiers, so a compromise of one does not compromise the other.
 
@@ -151,13 +151,13 @@ DeDi is the public registry mechanism IES uses for namespaces, credential revoca
 
 You create the empty namespace here. What goes inside it depends on your role:
 
-- **For credential issuance**, you do **not** need to create the registries by hand — when you run OpenCred in [Issue Credentials](issue-credentials.md), it auto-creates the four it needs on first boot (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`).
+- **For credential issuance**, you do **not** need to create the registries by hand — when you run OpenCred in [Issuing Credentials](issue-credentials.md), it auto-creates the four it needs on first boot (`vc-revocation-registry`, `opencred-key-registry`, `schema_registry`, `context_registry`).
 - **As a participant on a Beckn network**, you create **subscriber registries** by hand (§1.6) — one record per role/environment declaring your callback URL and message-signing key.
 - **As a network operator (NFO)**, you create a **directory of participants** — a Beckn *subscriber-reference* registry (§1.8) that curates which subscribers belong to your network.
 
-DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**; the IES-specific registry map is in **[Register — The directory: DeDi](../what-ies-provides/register.md#the-directory-dedi)**.
+DeDi itself is documented at **[docs.nfh.global](https://docs.nfh.global/)**; the IES-specific registry map is in **[Register & Identifiers — The directory: DeDi](../what-ies-provides/register.md#the-directory-dedi)**.
 
-> **Checkpoint — issuing credentials only?** You are done with registration. Continue to **[Issue Credentials](issue-credentials.md)**, which runs the OpenCred signing container against the domain, key, namespace and API key you just set up (and auto-creates those four registries). The remaining sections of this page are for Beckn-network participants.
+> **Checkpoint — issuing credentials only?** You are done with registration. Continue to **[Issuing Credentials](issue-credentials.md)**, which runs the OpenCred signing container against the domain, key, namespace and API key you just set up (and auto-creates those four registries). The remaining sections of this page are for Beckn-network participants.
 
 ---
 
@@ -180,7 +180,7 @@ signingPrivateKey: <Base64, 32-byte seed>
 signingPublicKey:  <Base64, 32-byte public key>
 ```
 
-- **`signingPrivateKey`** — store in your secret manager; ONIX loads it to sign outgoing messages ([Setup Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity)). Never commit it.
+- **`signingPrivateKey`** — store in your secret manager; ONIX loads it to sign outgoing messages ([Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity)). Never commit it.
 - **`signingPublicKey`** — publish in your subscriber record (§1.6). Other Beckn nodes fetch it to verify your message signatures.
 
 The generator source is [`install/generate-ed25519-keys.go`](https://github.com/beckn/beckn-onix/blob/main/install/generate-ed25519-keys.go); any other Ed25519 keypair generator works as long as it produces the same two Base64 artefacts (raw 32-byte seed and raw public key, no PEM headers).
@@ -189,7 +189,7 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
 
 ## 1.6 — *(Beckn participants)* Publish your Beckn subscriber record
 
-**Prerequisite:** verified namespace (§1.4), Ed25519 public key (§1.5), and the public HTTPS URL where your Beckn adapter will receive messages (you can publish first and deploy the adapter in [Setup Exchange](setup-exchange.md); the URL just has to be the one you will use).
+**Prerequisite:** verified namespace (§1.4), Ed25519 public key (§1.5), and the public HTTPS URL where your Beckn adapter will receive messages (you can publish first and deploy the adapter in [Setting up Discover & Exchange](setup-exchange.md); the URL just has to be the one you will use).
 
 1. **Create a subscriber registry** under your verified namespace in [publish.dedi.global](https://publish.dedi.global), with the built-in **`beckn_subscriber`** tag. Create **one registry per environment** — `subscribers-test` and `subscribers-prod` — so a misconfigured test run can never pollute a production lookup.
 
@@ -204,9 +204,9 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
    | `encryption_public_key` | *(Optional)* encryption public key | `lCI84I0Q0U0w...` |
    | `countries` | Countries where you operate | `["IND"]` |
 
-   If you operate in both roles (BAP *and* BPP), publish a separate record per role. That `did:web` `subscriber_id` is what you set as `networkParticipant` in your ONIX config ([Setup Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity)).
+   If you operate in both roles (BAP *and* BPP), publish a separate record per role. That `did:web` `subscriber_id` is what you set as `networkParticipant` in your ONIX config ([Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity)).
 
-3. **Note the record ID** DeDi assigns — you will configure it into ONIX as the `keyId` in [Setup Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
+3. **Note the record ID** DeDi assigns — you will configure it into ONIX as the `keyId` in [Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
 
 4. **Verify the lookup.** Other nodes resolve your record through the Beckn fabric lookup URL. Substitute `<your-subscriber-id>` (your DeDi namespace from §1.4 — the path is addressed by this subscriber id, not by the `did:web` value of the `subscriber_id` record field) and `<your_record_id>` (from step 3); `subscribers.beckn.one` is the fixed fabric schema keyword — leave it literal, it is not your registry name. Allow 5–10 minutes for the cache, then:
 
@@ -222,9 +222,9 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
 
 **Prerequisite:** subscriber record published and resolvable (§1.6).
 
-A subscriber record alone does not put you on a network. Each IES network is a curated registry operated by the IES network operator (the [NFO](../glossary.md#nfo) — currently REC / IES Secretariat under the `indiaenergystack.in` namespace). To join, the NFO writes a **reference entry** pointing at your subscriber record; your identity stays self-owned, nothing is copied.
+A subscriber record alone does not put you on a network. Each IES network is a curated registry operated by the IES network operator (the Network Facilitator Organisation, NFO — currently REC / IES Secretariat under the `indiaenergystack.in` namespace). To join, the NFO writes a **reference entry** pointing at your subscriber record; your identity stays self-owned, nothing is copied.
 
-This section describes the documented application process. Whether the Secretariat and these network registries are currently staffed and reachable is not something this repository can verify on its own — check **[Status](../STATUS.md)** before treating it as a live pipeline.
+This section describes the documented application process. Whether the Secretariat and these network registries are currently staffed and reachable is not something this repository can verify on its own — see where things stand on the [Getting Started](../README.md) page before treating it as a live pipeline.
 
 The networks you can apply to:
 
@@ -253,7 +253,7 @@ Before approving, the Secretariat validates that your namespace is domain-verifi
 curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-subscriber-id>/subscribers.beckn.one/<your_record_id>" | jq '.data.network_memberships'
 ```
 
-Expected: the parent network IDs appear, e.g. `["indiaenergystack.in/test-ies-data-sharing-network"]`. Empty or missing means the NFO hasn't written the reference yet (or wrote it against a different record) — this is exactly the value your ONIX checks against `allowedNetworkIDs` in [Setup Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
+Expected: the parent network IDs appear, e.g. `["indiaenergystack.in/test-ies-data-sharing-network"]`. Empty or missing means the NFO hasn't written the reference yet (or wrote it against a different record) — this is exactly the value your ONIX checks against `allowedNetworkIDs` in [Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
 
 Membership in the test network does **not** imply membership in prod; each is referenced separately.
 
@@ -299,4 +299,4 @@ Beckn participants additionally:
 - [ ] Fabric lookup URL returns your record
 - [ ] IES Secretariat emailed; reference entry written into the network registry you applied for
 
-When your role's boxes are ticked, you have completed **Setup Register**. Credential issuers: continue to **[Issue Credentials](issue-credentials.md)**. Beckn participants: continue to **[Setup Exchange](setup-exchange.md)**.
+When your role's boxes are ticked, registration is done. Credential issuers: continue to **[Issuing Credentials](issue-credentials.md)**. Beckn participants: continue to **[Setting up Discover & Exchange](setup-exchange.md)**.

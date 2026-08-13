@@ -301,7 +301,7 @@ Mandating the contract policy the same way as the network policy keeps every par
 
 ## Setup: Register → Discover → Exchange
 
-Built on the four implementation steps in **[How you implement IES](../../how-you-implement-ies/README.md)**. Prerequisites: Git, Docker + Docker Compose, and Postman — nothing else. If you have never run an IES exchange before, do the [Data Exchange quick start](../../what-ies-provides/exchange.md) first; this use case reuses that stack unchanged.
+Built on the four implementation steps in **[Concepts — Before you build](../../how-you-implement-ies/README.md)**. Prerequisites: Git, Docker + Docker Compose, and Postman — nothing else. If you have never run an IES exchange before, do the [Data Exchange quick start](../../what-ies-provides/exchange.md) first; this use case reuses that stack unchanged.
 
 ### Step 0 — See it run before you build (local devkit)
 
@@ -363,6 +363,14 @@ None of the four steps require permission from a platform owner. For a guided fi
 ---
 
 ## Checklist
+
+**Step 0 — Prerequisites**
+
+- [ ] Register your organisation in the DeDi directory and create your `did:web` identity — see [Setting up Register](../../how-you-implement-ies/setup-register.md)
+- [ ] Stand up your Beckn ONIX adapter and connect it to the network — see [Setting up Discover & Exchange](../../how-you-implement-ies/setup-exchange.md)
+- [ ] Pass the basic conformance check — see [Conformance Checklist](../../how-you-implement-ies/conformance.md)
+
+**Role-specific rollout**
 
 - [ ] Subscriber record under the correct network namespace (test / production)
 - [ ] Signing key in a secrets manager

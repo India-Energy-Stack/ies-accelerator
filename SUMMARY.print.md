@@ -7,35 +7,65 @@
   SUMMARY.md (see .gitbook.yaml). Same grammar as SUMMARY.md: canonical
   starred title-plus-path list entries with even-space indentation.
 
-  Scope policy (IES Task Force closure, Aug 2026): the PDF is the formal
-  Part C addendum to the Task Force white paper — deliverable material only.
-  Developer implementation manuals (how-you-implement-ies/, use-cases/,
-  schemas-ies/), site-only pages (Propose a Schema, Download PDF, Pathways,
-  Status, Contributors), draft/ content, and any use case not finalised
-  (P2P Energy Transaction — in progress) are deliberately NOT listed here.
-  They remain in the GitBook; they are not printed. Entries under schemas/
-  are pulled into the trailing "Appendix — Schemas Reference". -->
+  Scope policy (technical-reference refactor, Aug 2026): the PDF mirrors the
+  refactored GitBook — the technical reference a reader needs to understand
+  and build on IES. Site-only pages (Propose a Schema) and draft/ content are
+  deliberately NOT listed here. Entries under schemas/ are pulled into the
+  trailing "Appendix — Schemas Reference". -->
 
-* [Home](README.md)
-* [Reference Material](print/reference-material.md)
+* [Getting Started](README.md)
 
-## What IES Provides
+## Schemas Overview
 
-* [Overview](what-ies-provides/README.md)
-* [Register](what-ies-provides/register.md)
-* [Discover](what-ies-provides/discover.md)
-* [Exchange](what-ies-provides/exchange.md)
-* [Verifiable Credentials](what-ies-provides/energy-credentials/README.md)
-* [Security](what-ies-provides/security.md)
 * [Schemas Overview](what-ies-provides/schemas-overview/README.md)
+* [ElectricityCredential](what-ies-provides/schemas-overview/electricity-credential.md)
+* [MeterData](what-ies-provides/schemas-overview/meter-data.md)
+* [MeterDataCredential](what-ies-provides/schemas-overview/meter-data-credential.md)
+* [MeterDataRequest](what-ies-provides/schemas-overview/meter-data-request.md)
+* [MeterDataRequestCredential](what-ies-provides/schemas-overview/meter-data-request-credential.md)
+* [ArrFiling](what-ies-provides/schemas-overview/arr-filing.md)
+* [OutageNotification (WIP)](what-ies-provides/schemas-overview/outage-notification.md)
 
 ## Use Case Overviews
 
-* [Overview](use-cases-overview/README.md)
 * [Consumer Energy Passport](use-cases-overview/consumer-energy-passport.md)
 * [Consumer Meter Digest](use-cases-overview/consumer-meter-digest.md)
 * [Smart Meter Data Exchange](use-cases-overview/smart-meter-data-exchange.md)
 * [DER Visibility](use-cases-overview/der-visibility.md)
+* [P2P Energy Transaction](use-cases-overview/p2p-energy-trading.md)
+
+## Use Case Implementation Guides
+
+* [Consumer Energy Passport](use-cases/consumer-energy-passport/README.md)
+* [Consumer Meter Digest](use-cases/consumer-meter-digest/README.md)
+* [Smart Meter Data Exchange](use-cases/smart-meter-data-exchange/README.md)
+  * [IES Meter Data Model](use-cases/smart-meter-data-exchange/ies-meter-data-model.md)
+* [DER Visibility](use-cases/der-visibility/README.md)
+* [P2P Energy Transaction](use-cases/p2p-energy-trading/README.md)
+
+## Pathways
+
+* [Overview](pathways/README.md)
+* [Authority / Regulator Pathway](pathways/authority.md)
+* [Utility Pathway](pathways/utility.md)
+* [Technology Service Provider Pathway](pathways/tsp.md)
+* [Researcher / Analyst Pathway](pathways/researcher.md)
+* [Secretariat Pathway](pathways/secretariat.md)
+
+## Concepts
+
+* [Before you build](how-you-implement-ies/README.md)
+* [Setting up Register](how-you-implement-ies/setup-register.md)
+  * [Register & Identifiers in depth](what-ies-provides/register.md)
+* [Setting up Discover & Exchange](how-you-implement-ies/setup-exchange.md)
+  * [Discover in depth](what-ies-provides/discover.md)
+  * [Exchange in depth](what-ies-provides/exchange.md)
+* [Issuing Credentials](how-you-implement-ies/issue-credentials.md)
+  * [Verifiable Credentials in depth](what-ies-provides/energy-credentials/README.md)
+  * [DigiLocker delivery](how-you-implement-ies/digilocker.md)
+* [Build your Internal-facing Adapter](how-you-implement-ies/build-adapter.md)
+* [Security Model](what-ies-provides/security.md)
+* [Conformance Checklist](how-you-implement-ies/conformance.md)
 
 ## Appendix — Schemas Reference
 
@@ -54,11 +84,3 @@
 * [OutageNotification (WIP)](schemas/OutageNotification/README.md)
   * [v0.1](schemas/OutageNotification/v0.1/README.md)
 * [External Schemas](schemas/external/README.md)
-
-## Back matter
-
-<!-- Printed after the schemas appendix (BACK_MATTER_PATHS in build_pdf.py);
-  the "Reference Material" page after Home points readers here. -->
-
-* [Glossary](glossary.md)
-* [FAQ](faq.md)
