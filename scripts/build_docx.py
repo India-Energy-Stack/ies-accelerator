@@ -39,6 +39,59 @@ def _strip_frontmatter(body: str) -> str:
     return re.sub(r"\A---\n.*?\n---\n+", "", body, count=1, flags=re.DOTALL)
 
 
+FIELD_REFS_MD = bp.BUILD / "docx_field_refs.md"
+CANONICAL_BASE = "https://india-energy-stack.github.io/ies-accelerator/schemas"
+
+
+def _latest_versions() -> list[tuple[str, str]]:
+    """(family, latest-version) pairs discovered from schemas/ on disk."""
+    out = []
+    for fam_dir in sorted((ROOT / "schemas").iterdir()):
+        if not fam_dir.is_dir() or fam_dir.name == "external":
+            continue
+        vers = []
+        for v in fam_dir.iterdir():
+            m = re.fullmatch(r"v(\d+)\.(\d+)", v.name) if v.is_dir() else None
+            if m:
+                vers.append((int(m.group(1)), int(m.group(2)), v.name))
+        if vers:
+            vers.sort()
+            out.append((fam_dir.name, vers[-1][2]))
+    return out
+
+
+def write_field_refs_page() -> tuple[int, str, str]:
+    """The appendix carries family summaries only; this page points at the
+    canonical per-version field references the .docx deliberately omits."""
+    lines = [
+        "The field-by-field reference for every schema — each field's name, type,",
+        "description and standards basis — lives at the version's canonical URL,",
+        "alongside the machine-readable `schema.json`, `attributes.yaml`,",
+        "`context.jsonld` and `vocab.jsonld`:",
+        "",
+        "| Family | Latest | Field reference | JSON Schema |",
+        "|---|---|---|---|",
+    ]
+    for fam, ver in _latest_versions():
+        lines.append(
+            f"| {fam} | {ver} "
+            f"| [README]({CANONICAL_BASE}/{fam}/{ver}/README.md) "
+            f"| [schema.json]({CANONICAL_BASE}/{fam}/{ver}/schema.json) |"
+        )
+    lines += [
+        "",
+        "Every published version stays reachable at its canonical URL — "
+        "substitute the version segment to pin an older release.",
+        "",
+    ]
+    FIELD_REFS_MD.write_text("\n".join(lines))
+    return (
+        1,
+        "Full field references — canonical URLs",
+        FIELD_REFS_MD.relative_to(ROOT).as_posix(),
+    )
+
+
 def combined_markdown(all_versions: bool) -> int:
     """Assemble the combined Markdown for the .docx scope."""
     bp.SUMMARY = ROOT / "SUMMARY.docx.md"
@@ -80,7 +133,13 @@ def combined_markdown(all_versions: bool) -> int:
         bp.APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix(),
     )
 
-    combined = main_entries + [divider] + schema_entries + back_entries
+    combined = (
+        main_entries
+        + [divider]
+        + schema_entries
+        + [write_field_refs_page()]
+        + back_entries
+    )
 
     errors = []
     for _, _, path in combined:
@@ -95,6 +154,65 @@ def combined_markdown(all_versions: bool) -> int:
         return 1
 
     return bp.build_document(combined, OUT_MD, mmdc)
+
+
+REFERENCE_DOCX = bp.BUILD / "docx_reference.docx"
+
+
+def make_reference_docx() -> pathlib.Path:
+    """Densified styling: 10pt body, 9pt code, tighter paragraph spacing,
+    0.75in margins. Built by patching pandoc's default reference docx, so
+    the whole pipeline stays reproducible with no binary checked in."""
+    default = bp.BUILD / "docx_reference_default.docx"
+    with default.open("wb") as fh:
+        subprocess.run(
+            ["pandoc", "--print-default-data-file", "reference.docx"],
+            stdout=fh,
+            check=True,
+        )
+    with zipfile.ZipFile(default) as zin, zipfile.ZipFile(
+        REFERENCE_DOCX, "w", zipfile.ZIP_DEFLATED
+    ) as zout:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            if item.filename == "word/styles.xml":
+                text = data.decode("utf-8")
+                # 12pt -> 10pt document default
+                text = re.sub(
+                    r'(<w:rPrDefault>\s*<w:rPr>.*?)<w:sz w:val="24" />(\s*)<w:szCs w:val="24" />',
+                    r'\1<w:sz w:val="20" />\2<w:szCs w:val="20" />',
+                    text,
+                    count=1,
+                    flags=re.DOTALL,
+                )
+                # body paragraphs: 180 twips of space either side -> 60
+                text = text.replace(
+                    '<w:spacing w:before="180" w:after="180" />',
+                    '<w:spacing w:before="60" w:after="60" />',
+                )
+                # code (inline + blocks): 11pt -> 9pt
+                text = re.sub(
+                    r'(w:styleId="VerbatimChar">.*?)<w:sz w:val="22" />',
+                    r'\1<w:sz w:val="18" />',
+                    text,
+                    count=1,
+                    flags=re.DOTALL,
+                )
+                data = text.encode("utf-8")
+            elif item.filename == "word/document.xml":
+                text = data.decode("utf-8")
+                if "<w:pgMar" not in text:
+                    text = text.replace(
+                        "</w:sectPr>",
+                        '<w:pgSz w:w="12240" w:h="15840" />'
+                        '<w:pgMar w:top="1080" w:right="1080" w:bottom="1080" '
+                        'w:left="1080" w:header="720" w:footer="720" w:gutter="0" />'
+                        "</w:sectPr>",
+                        1,
+                    )
+                data = text.encode("utf-8")
+            zout.writestr(item, data)
+    return REFERENCE_DOCX
 
 
 def enable_update_fields_on_open(docx_path: pathlib.Path) -> None:
@@ -156,6 +274,7 @@ def main() -> int:
         f"date={date}",
         "--metadata",
         "toc-title=Contents",
+        "--reference-doc=" + str(make_reference_docx()),
         "--resource-path=" + str(ROOT),
     ]
     log = bp.BUILD / "pandoc-docx.log"
