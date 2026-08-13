@@ -39,59 +39,6 @@ def _strip_frontmatter(body: str) -> str:
     return re.sub(r"\A---\n.*?\n---\n+", "", body, count=1, flags=re.DOTALL)
 
 
-FIELD_REFS_MD = bp.BUILD / "docx_field_refs.md"
-CANONICAL_BASE = "https://india-energy-stack.github.io/ies-accelerator/schemas"
-
-
-def _latest_versions() -> list[tuple[str, str]]:
-    """(family, latest-version) pairs discovered from schemas/ on disk."""
-    out = []
-    for fam_dir in sorted((ROOT / "schemas").iterdir()):
-        if not fam_dir.is_dir() or fam_dir.name == "external":
-            continue
-        vers = []
-        for v in fam_dir.iterdir():
-            m = re.fullmatch(r"v(\d+)\.(\d+)", v.name) if v.is_dir() else None
-            if m:
-                vers.append((int(m.group(1)), int(m.group(2)), v.name))
-        if vers:
-            vers.sort()
-            out.append((fam_dir.name, vers[-1][2]))
-    return out
-
-
-def write_field_refs_page() -> tuple[int, str, str]:
-    """The appendix carries family summaries only; this page points at the
-    canonical per-version field references the .docx deliberately omits."""
-    lines = [
-        "The field-by-field reference for every schema — each field's name, type,",
-        "description and standards basis — lives at the version's canonical URL,",
-        "alongside the machine-readable `schema.json`, `attributes.yaml`,",
-        "`context.jsonld` and `vocab.jsonld`:",
-        "",
-        "| Family | Latest | Field reference | JSON Schema |",
-        "|---|---|---|---|",
-    ]
-    for fam, ver in _latest_versions():
-        lines.append(
-            f"| {fam} | {ver} "
-            f"| [README]({CANONICAL_BASE}/{fam}/{ver}/README.md) "
-            f"| [schema.json]({CANONICAL_BASE}/{fam}/{ver}/schema.json) |"
-        )
-    lines += [
-        "",
-        "Every published version stays reachable at its canonical URL — "
-        "substitute the version segment to pin an older release.",
-        "",
-    ]
-    FIELD_REFS_MD.write_text("\n".join(lines))
-    return (
-        1,
-        "Full field references — canonical URLs",
-        FIELD_REFS_MD.relative_to(ROOT).as_posix(),
-    )
-
-
 def combined_markdown(all_versions: bool) -> int:
     """Assemble the combined Markdown for the .docx scope."""
     bp.SUMMARY = ROOT / "SUMMARY.docx.md"
@@ -133,13 +80,7 @@ def combined_markdown(all_versions: bool) -> int:
         bp.APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix(),
     )
 
-    combined = (
-        main_entries
-        + [divider]
-        + schema_entries
-        + [write_field_refs_page()]
-        + back_entries
-    )
+    combined = main_entries + [divider] + schema_entries + back_entries
 
     errors = []
     for _, _, path in combined:
