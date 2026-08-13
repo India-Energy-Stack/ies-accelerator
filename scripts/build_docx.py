@@ -34,20 +34,10 @@ OUT_MD = bp.BUILD / "ies_docx_combined.md"
 OUT_DOCX = bp.BUILD / "IES_Technical_Reference.docx"
 
 
-def _strip_frontmatter(body: str) -> str:
-    """Drop a leading GitBook YAML frontmatter block (--- ... ---)."""
-    return re.sub(r"\A---\n.*?\n---\n+", "", body, count=1, flags=re.DOTALL)
-
-
 def combined_markdown(all_versions: bool) -> int:
-    """Assemble the combined Markdown for the .docx scope."""
+    """Assemble the combined Markdown for the .docx scope, mirroring the
+    GitBook nav via the shared grouped assembly in build_pdf."""
     bp.SUMMARY = ROOT / "SUMMARY.docx.md"
-
-    # GitBook page frontmatter (e.g. layout hints on README.md) hides the
-    # page's leading H1 from build_pdf's strip_leading_h1, which doubles the
-    # chapter heading in the .docx. Strip it before the H1 pass.
-    _orig_strip_h1 = bp.strip_leading_h1
-    bp.strip_leading_h1 = lambda body: _orig_strip_h1(_strip_frontmatter(body))
 
     bp.BUILD.mkdir(exist_ok=True)
     bp.MERMAID_DIR.mkdir(exist_ok=True)
@@ -59,28 +49,7 @@ def combined_markdown(all_versions: bool) -> int:
             file=sys.stderr,
         )
 
-    entries = bp.parse_summary()
-    if not all_versions:
-        entries = bp.filter_latest_versions(entries)
-
-    main_entries = [
-        e
-        for e in entries
-        if not bp.is_schema_entry(e[2]) and e[2] not in bp.BACK_MATTER_PATHS
-    ]
-    schema_entries = bp.shift_depth_to(
-        [e for e in entries if bp.is_schema_entry(e[2])], target_min=1
-    )
-    back_entries = [e for e in entries if e[2] in bp.BACK_MATTER_PATHS]
-
-    bp.APPENDIX_DIVIDER_MD.write_text(bp.APPENDIX_INTRO)
-    divider = (
-        0,
-        bp.APPENDIX_TITLE,
-        bp.APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix(),
-    )
-
-    combined = main_entries + [divider] + schema_entries + back_entries
+    combined = bp.grouped_entries(all_versions)
 
     errors = []
     for _, _, path in combined:
@@ -100,47 +69,83 @@ def combined_markdown(all_versions: bool) -> int:
     return missing
 
 
-def number_headings(md_path: pathlib.Path) -> None:
-    """Prepend chapter/section numbers: H1 -> 'N.', H2 -> 'N.M'.
+STEP_RE = re.compile(r"(\d+)\.(\d+)( — .*)$")
+SINGLE_RE = re.compile(r"(\d+)\.\s+(.*)$")
 
-    H2s that already start with a digit keep their authored numbering
-    (the templated '1. Scope and Purpose' style) — prefixing those would
-    double-number them. Literal prefixes are anchor-safe: pandoc's auto
-    identifiers strip everything before the first letter, so link targets
-    do not change.
+
+def number_headings(md_path: pathlib.Path) -> None:
+    """Hierarchical numbering over H1/H2/H3: chapters 'N.', pages 'N.M',
+    sections 'N.M.K' — matching the GitBook nav structure.
+
+    Headings that carry authored numbers are *renumbered into* the hierarchy
+    (the authored index becomes the last component, so prose references like
+    '§9.1' stay suffix-recognisable). Where a parent mixes authored and
+    unnumbered children, only the authored ones are numbered — generated
+    numbers would collide with them. Number prefixes never change pandoc's
+    auto identifiers (they strip to the first letter), so anchors survive.
     """
     lines = md_path.read_text().split("\n")
 
-    # A chapter whose sections carry authored numbers ('2.1 — Pull the
-    # image', '1. Scope and Purpose') keeps them untouched and gets no
-    # generated section numbers at all — mixing the two schemes in one
-    # chapter reads as broken numbering in the TOC.
-    authored: list[bool] = []
+    # Pass 1 — which parents have authored-numbered children.
+    ch_i, h2_i = -1, -1
+    ch_has_authored: list[bool] = []
+    h2_has_authored: dict[tuple[int, int], bool] = {}
     in_code = False
     for ln in lines:
         if ln.startswith("```"):
             in_code = not in_code
         elif not in_code and ln.startswith("# "):
-            authored.append(False)
-        elif not in_code and ln.startswith("## ") and re.match(r"## \d", ln):
-            if authored:
-                authored[-1] = True
+            ch_i += 1
+            h2_i = -1
+            ch_has_authored.append(False)
+        elif not in_code and ln.startswith("## "):
+            h2_i += 1
+            h2_has_authored.setdefault((ch_i, h2_i), False)
+            if re.match(r"## \d", ln):
+                ch_has_authored[ch_i] = True
+        elif not in_code and ln.startswith("### ") and re.match(r"### \d", ln):
+            h2_has_authored[(ch_i, h2_i)] = True
 
-    out, in_code, ch, sec = [], False, 0, 0
+    # Pass 2 — assign labels.
+    out: list[str] = []
+    in_code = False
+    ch = 0
+    ch_i, h2_i = -1, -1
+    sec = subsec = 0
+    sec_label: str | None = None
     for ln in lines:
         if ln.startswith("```"):
             in_code = not in_code
         elif not in_code and ln.startswith("# "):
-            ch, sec = ch + 1, 0
+            ch += 1
+            ch_i += 1
+            h2_i, sec, sec_label = -1, 0, None
             ln = f"# {ch}. {ln[2:]}"
-        elif (
-            not in_code
-            and ln.startswith("## ")
-            and not re.match(r"## \d", ln)
-            and not authored[ch - 1]
-        ):
-            sec += 1
-            ln = f"## {ch}.{sec} {ln[3:]}"
+        elif not in_code and ln.startswith("## "):
+            h2_i += 1
+            subsec = 0
+            rest = ln[3:]
+            if m := STEP_RE.match(rest):
+                sec_label = f"{ch}.{m.group(2)}"
+                ln = f"## {sec_label}{m.group(3)}"
+            elif m := SINGLE_RE.match(rest):
+                sec_label = f"{ch}.{m.group(1)}"
+                ln = f"## {sec_label} {m.group(2)}"
+            elif not ch_has_authored[ch_i]:
+                sec += 1
+                sec_label = f"{ch}.{sec}"
+                ln = f"## {sec_label} {rest}"
+            else:
+                sec_label = None
+        elif not in_code and ln.startswith("### ") and sec_label:
+            rest = ln[4:]
+            if m := STEP_RE.match(rest):
+                ln = f"### {sec_label}.{m.group(2)}{m.group(3)}"
+            elif m := SINGLE_RE.match(rest):
+                ln = f"### {sec_label}.{m.group(1)} {m.group(2)}"
+            elif not h2_has_authored.get((ch_i, h2_i), False):
+                subsec += 1
+                ln = f"### {sec_label}.{subsec} {rest}"
         out.append(ln)
     md_path.write_text("\n".join(out))
 

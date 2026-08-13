@@ -177,6 +177,77 @@ def parse_summary() -> list[tuple[int, str, str]]:
     return entries
 
 
+GROUP_RE = re.compile(r"^## (.+?)\s*$")
+
+
+def parse_summary_grouped() -> list[tuple[str | None, list[tuple[int, str, str]]]]:
+    """Like parse_summary, but split into the manifest's '## Group' segments.
+
+    Returns [(group_title_or_None, entries), ...] in manifest order; the
+    leading None segment holds entries before the first group heading.
+    """
+    segments: list[tuple[str | None, list[tuple[int, str, str]]]] = [(None, [])]
+    for line in SUMMARY.read_text().splitlines():
+        g = GROUP_RE.match(line)
+        if g:
+            segments.append((g.group(1), []))
+            continue
+        m = ENTRY_RE.match(line)
+        if not m:
+            continue
+        indent, title, path = m.groups()
+        if not path.endswith(".md") or path in EXCLUDE_FROM_PDF:
+            continue
+        segments[-1][1].append((len(indent) // 2, title, path))
+    return [(t, e) for t, e in segments if e]
+
+
+def group_stub_path(title: str) -> pathlib.Path:
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    return BUILD / f"section_{slug}.md"
+
+
+def grouped_entries(all_versions: bool = False) -> list[tuple[int, str, str]]:
+    """The document structure, mirroring the GitBook nav: each manifest
+    group becomes a top-level chapter and its pages nest one level down.
+
+    A group whose first entry is its landing page (same title, depth 0) uses
+    that page as the chapter body; the Appendix group uses the divider intro;
+    any other group gets an empty synthetic stub page under build/.
+    """
+    final: list[tuple[int, str, str]] = []
+    for gtitle, entries in parse_summary_grouped():
+        if not all_versions:
+            entries = filter_latest_versions(entries)
+        if gtitle is None:
+            final.extend(entries)
+            continue
+        if gtitle.startswith("Appendix"):
+            APPENDIX_DIVIDER_MD.write_text(APPENDIX_INTRO)
+            chapter = (0, gtitle, APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix())
+            rest = entries
+        elif entries and entries[0][0] == 0 and entries[0][1] == gtitle:
+            # the landing page becomes the chapter; its own subtree (the
+            # entries nested under it in the manifest) already carries the
+            # right relative depth — only later depth-0 siblings shift down.
+            chapter, rest = entries[0], entries[1:]
+            final.append(chapter)
+            in_landing_subtree = True
+            for d, t, p in rest:
+                if d == 0:
+                    in_landing_subtree = False
+                final.append((d, t, p) if in_landing_subtree else (d + 1, t, p))
+            continue
+        else:
+            sp = group_stub_path(gtitle)
+            sp.write_text("")
+            chapter = (0, gtitle, sp.relative_to(ROOT).as_posix())
+            rest = entries
+        final.append(chapter)
+        final.extend((d + 1, t, p) for d, t, p in rest)
+    return final
+
+
 def render_mermaid(source: str, mmdc: str | None, no_generate: bool = False) -> str:
     """Replace each ```mermaid``` block with a PNG image reference.
 
@@ -242,9 +313,16 @@ def strip_leading_h1(body: str) -> str:
     the synthesized heading and remove the body's duplicate. Only strips when the
     first non-blank line is an H1, so pages that open with content are untouched.
     """
+    # GitBook YAML frontmatter (layout hints) can precede the H1; drop it
+    # first or the duplicate heading below survives.
+    body = re.sub(r"\A\s*---\n.*?\n---\n+", "", body, count=1, flags=re.DOTALL)
     lines = body.splitlines()
     i = 0
-    while i < len(lines) and lines[i].strip() == "":
+    # skip blanks and leading blockquote banners (e.g. the canonical
+    # per-version schema READMEs open with '> **Files**...' lines)
+    while i < len(lines) and (
+        lines[i].strip() == "" or lines[i].lstrip().startswith(">")
+    ):
         i += 1
     if i < len(lines) and re.match(r"^#\s+\S", lines[i]):
         del lines[i]
@@ -363,24 +441,7 @@ def main() -> int:
     if mmdc is None:
         print("NOTE: mmdc (mermaid-cli) not on PATH; mermaid blocks will render as code.", file=sys.stderr)
 
-    entries = parse_summary()
-    if not args.all_versions:
-        before = len(entries)
-        entries = filter_latest_versions(entries)
-        dropped = before - len(entries)
-        if dropped:
-            print(f"Including latest version only — dropped {dropped} older version page(s). Use --all-versions to include all.")
-
-    main_entries = [
-        e for e in entries if not is_schema_entry(e[2]) and e[2] not in BACK_MATTER_PATHS
-    ]
-    schema_entries = shift_depth_to([e for e in entries if is_schema_entry(e[2])], target_min=1)
-    back_entries = [e for e in entries if e[2] in BACK_MATTER_PATHS]
-
-    APPENDIX_DIVIDER_MD.write_text(APPENDIX_INTRO)
-    appendix_divider_entry = (0, APPENDIX_TITLE, APPENDIX_DIVIDER_MD.relative_to(ROOT).as_posix())
-
-    combined_entries = main_entries + [appendix_divider_entry] + schema_entries + back_entries
+    combined_entries = grouped_entries(args.all_versions)
 
     errors: list[str] = []
     for _, _, path in combined_entries:
