@@ -122,7 +122,7 @@ Create these registries under your namespace (OpenCred auto-creates the credenti
 ### References & Anchors
 * [The registries IES uses, by role](../what-ies-provides/register.md#the-registries-ies-uses-by-role)
 * [Setup Register — claim namespace, subscriber registries](../how-you-implement-ies/setup-register.md#id-1.4-claim-a-dedi-namespace-and-verify-your-domain)
-* [Issue Credentials — confirm OpenCred's auto-created registries](../how-you-implement-ies/issue-credentials.md#id-2.4-confirm-your-dedi-namespace-is-live)
+* [Issue Credentials — confirm OpenCred's auto-created registries](../how-you-implement-ies/issue-credentials.md#id-3.4-confirm-your-dedi-namespace-is-live)
 </details>
 
 <details>
@@ -164,11 +164,11 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 3. **Deploy OpenCred**: Deploy the containerized service using your secured P-256 signing keys.
 4. **CRM Status Logging & Issuance**: Store credential UUIDs to coordinate revocations, then issue via `/v1/credentials/issue` using the `ElectricityCredential` shape.
 5. **Verify Revocation Handling**: Confirm revocation checks are active — DeDi and OpenCred caching can leave verifiers seeing `not_revoked` for several minutes after a revoke (see [Troubleshooting](../how-you-implement-ies/issue-credentials.md#troubleshooting)).
-6. **Validate the Issued Credential**: Call `/v1/credentials/verify` on the issued VC to confirm the verifier resolves the DID and validates the signature (see the [smoke test](../how-you-implement-ies/issue-credentials.md#id-2.9-smoke-test) for DeDi sync caveats).
+6. **Validate the Issued Credential**: Call `/v1/credentials/verify` on the issued VC to confirm the verifier resolves the DID and validates the signature (see the [smoke test](../how-you-implement-ies/issue-credentials.md#id-3.9-smoke-test) for DeDi sync caveats).
 
 ### References & Anchors
 * [Verifiable Credentials in depth](../what-ies-provides/energy-credentials/README.md)
-* [Issue Credentials — smoke test](../how-you-implement-ies/issue-credentials.md#id-2.9-smoke-test)
+* [Issue Credentials — smoke test](../how-you-implement-ies/issue-credentials.md#id-3.9-smoke-test)
 * [Issue Credentials — Troubleshooting (revocation caching)](../how-you-implement-ies/issue-credentials.md#troubleshooting)
 * [Issue Credentials — Batch issuance](../how-you-implement-ies/issue-credentials.md#batch-issuance)
 * [Consumer Energy Passport Use Case](../use-cases/consumer-energy-passport/README.md)
@@ -186,7 +186,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 
 ### References & Anchors
 * [DigiLocker Integration Guide](../how-you-implement-ies/digilocker.md)
-* [Issue Credentials — issue your first credential](../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential)
+* [Issue Credentials — issue your first credential](../how-you-implement-ies/issue-credentials.md#id-3.6-issue-your-first-credential)
 </details>
 
 ---
@@ -198,7 +198,7 @@ Provide citizens with a secure, tamper-evident digital passport of their utility
 Enable federated, policy-governed data sharing of smart meter telemetry and master data with authorized third parties.
 
 <details>
-<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox))</b></summary>
+<summary><b>Step 4.1: Setup BPP Nodes ([BECKN Network](../how-you-implement-ies/setup-exchange.md#id-2.1-deploy-the-local-sandbox))</b></summary>
 
 ### 💡 Phase Advice
 > Deploying the ONIX adapter as Docker takes under 10 minutes — run the local test sandbox first to verify configs before production.
@@ -210,8 +210,8 @@ Enable federated, policy-governed data sharing of smart meter telemetry and mast
 
 ### References & Anchors
 * [Discover Concepts](../what-ies-provides/discover.md#the-lifecycle-at-a-glance)
-* [Data Exchange Quick Start](../how-you-implement-ies/setup-exchange.md#id-3.1-deploy-the-local-sandbox)
-* [ONIX Registry Setup](../how-you-implement-ies/setup-exchange.md#id-3.3-swap-in-your-real-identity)
+* [Data Exchange Quick Start](../how-you-implement-ies/setup-exchange.md#id-2.1-deploy-the-local-sandbox)
+* [ONIX Registry Setup](../how-you-implement-ies/setup-exchange.md#id-2.3-swap-in-your-real-identity)
 * [Setup Exchange — Checklist](../how-you-implement-ies/setup-exchange.md#checklist)
 </details>
 

@@ -19,7 +19,7 @@ After this you can issue and respond to requests on the IES network. You still n
 
 ## Before you start
 
-From **[Setting up Register](setup-register.md)** you need, for the real-network sections (§3.3 onward; the local sandbox §3.1–3.2 needs none of it):
+From **[Setting up Register](setup-register.md)** you need, for the real-network sections (§2.3 onward; the local sandbox §2.1–3.2 needs none of it):
 
 - A verified DeDi namespace (§1.4).
 - Your Ed25519 keypair (§1.5), published subscriber record with its **record ID** (§1.6), and the IES network reference written by the Secretariat (§1.7).
@@ -43,7 +43,7 @@ The devkit ships pre-configured sandbox identities (`bap.example.com` / `bpp.exa
 
 ---
 
-## 3.1 — Deploy the local sandbox
+## 2.1 — Deploy the local sandbox
 
 ```bash
 git clone https://github.com/beckn/DEG.git
@@ -66,7 +66,7 @@ Expected: `docker compose ps` shows all 7 containers running (redis/sandbox: hea
 
 If checks fail, give ONIX ~15 s after `docker compose up` to initialise, then re-curl. Persistent `connection refused` usually means a container isn't running — `docker compose logs onix-bap` / `onix-bpp` shows why.
 
-## 3.2 — Run your first exchange
+## 2.2 — Run your first exchange
 
 **Import the Postman collection** for your use case. Each use case ships matching BAP and BPP collections; import the **BAP** one:
 
@@ -92,7 +92,7 @@ Expected: an `on_confirm` entry. Its body carries the dataset (inline) or a hand
 
 If nothing arrives: (a) check `bap_host_root` / `bpp_host_root` are still the docker hostnames, (b) `docker logs onix-bap | grep -i error` and the same for `onix-bpp`, (c) host-alias DNS — see [beckn/DEG#319](https://github.com/beckn/DEG/issues/319).
 
-**BPP path.** Same sanity check in reverse — import the **BPP** collection, trigger `on_confirm`, and tail `docker logs sandbox-bpp 2>&1 | grep -E 'confirm|status' | tail -5`. To replace the sandbox with your own provider, see [§3.6](#id-3.6-make-the-sandbox-your-own).
+**BPP path.** Same sanity check in reverse — import the **BPP** collection, trigger `on_confirm`, and tail `docker logs sandbox-bpp 2>&1 | grep -E 'confirm|status' | tail -5`. To replace the sandbox with your own provider, see [§2.6](#id-2.6-make-the-sandbox-your-own).
 
 **Stop the stack** when done:
 
@@ -100,7 +100,7 @@ If nothing arrives: (a) check `bap_host_root` / `bpp_host_root` are still the do
 docker compose down
 ```
 
-## 3.3 — Swap in your real identity
+## 2.3 — Swap in your real identity
 
 **Prerequisite:** Setting up Register §1.5–1.7 — your Ed25519 keypair, subscriber record + record ID, and network reference.
 
@@ -138,12 +138,12 @@ modules:
 
 - **Use full network IDs**, not bare registry names — `indiaenergystack.in/ies-data-sharing-network`, not `ies-data-sharing-network`.
 - **Leaving `allowedNetworkIDs` unset accepts everything.** Useful for a discovery / catalogue node; never the right setting for a transactional BAP / BPP.
-- **One ONIX instance per environment** — see [§3.5](#id-3.5-two-registries-two-onix-deployments). Configure the prod instance with prod-network IDs and the test instance with `test-` IDs only.
+- **One ONIX instance per environment** — see [§2.5](#id-2.5-two-registries-two-onix-deployments). Configure the prod instance with prod-network IDs and the test instance with `test-` IDs only.
 - The older config key `allowedParentNamespaces` is **deprecated**; the plugin errors until you migrate to `allowedNetworkIDs`.
 
 After the config swap, restart the stack and re-import the same Postman collection — only the identity ONIX signs with and the network it claims change. Use the same network ID in every payload's `context.networkId`: ONIX rejects messages whose `networkId` isn't in its `allowedNetworkIDs`. Stay on the **test network** (`indiaenergystack.in/test-ies-data-sharing-network`) until certified — see [Conformance](conformance.md).
 
-## 3.4 — Go over the public internet (ngrok)
+## 2.4 — Go over the public internet (ngrok)
 
 Once the local exchange is green, prove the same stack interoperates through a real public tunnel — typically with another participant's laptop or a cloud host:
 
@@ -163,7 +163,7 @@ Once the local exchange is green, prove the same stack interoperates through a r
 
 Full recipe: [devkit README — Over-the-internet notes](https://github.com/beckn/DEG/blob/main/devkits/README.md#over-the-internet-notes).
 
-## 3.5 — Two registries, two ONIX deployments
+## 2.5 — Two registries, two ONIX deployments
 
 The recommended production pattern — keep test and prod cleanly separated:
 
@@ -180,7 +180,7 @@ docker compose -p ies-prod -f install-prod/docker-compose.yml up -d
 
 In real production each stack would typically run on a separate host or VM with its own TLS termination. See [devkit README — Hosting the site](https://github.com/beckn/DEG/blob/main/devkits/README.md#hosting-the-site-beyond-the-devkit) for the patterns.
 
-## 3.6 — Make the sandbox your own
+## 2.6 — Make the sandbox your own
 
 When you outgrow the sandbox, your app connects to ONIX in exactly two places — `bapUri` / `bppUri` are *not* one of them (those always point at ONIX receivers):
 
@@ -195,7 +195,7 @@ You can also build the bundled [beckn/sandbox](https://github.com/beckn/sandbox)
 
 This is where **[Build your Internal-facing Adapter](build-adapter.md)** picks up — the webhook service you wire in here is the Part-2 mapping you build there.
 
-## 3.7 — Test the end-to-end loop
+## 2.7 — Test the end-to-end loop
 
 With your real identity configured, run a `discover` (or `confirm`) from your BAP to a sandbox BPP or a peer's BPP on the test network. Verify:
 
@@ -213,18 +213,18 @@ If all four pass, this setup is done.
 - [ ] Local sandbox up; `confirm` → `on_confirm` round-trip observed in `sandbox-bap` logs
 - [ ] Same round-trip over a public tunnel (ngrok) with a second party
 - [ ] ONIX configured with your subscriber ID, record ID, Ed25519 keypair, and `allowedNetworkIDs`
-- [ ] End-to-end loop on the **test** network succeeds against a counterparty (all four §3.7 checks)
+- [ ] End-to-end loop on the **test** network succeeds against a counterparty (all four §2.7 checks)
 - [ ] Test/prod separation planned: two ONIX deployments, two subscriber registries, narrow `allowedNetworkIDs` each
 
 When all five are ticked, move on to **[Build your Internal-facing Adapter](build-adapter.md)**.
 
 ---
 
-# Appendices
+## Appendices
 
 Wire-level reference for implementers. Skip on first read; come back when you're building the adapter or debugging.
 
-## Appendix A — Message envelope and correlation rules
+### Appendix A — Message envelope and correlation rules
 
 Every Beckn message shares the same envelope (v2.0 wire format, camelCase):
 
@@ -254,7 +254,7 @@ Two correlation rules from the Beckn v2.0 spec — every implementation honours 
 
 Authoritative reference: [beckn/protocol-specifications-v2 — `api/v2.0.0`](https://github.com/beckn/protocol-specifications-v2/tree/main/api/v2.0.0).
 
-### `DatasetItem` and `accessMethod`
+#### `DatasetItem` and `accessMethod`
 
 The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from DDM, Beckn's Decentralized Data Marketplace schema family) is the per-dataset record shape that rides inside `message.contract.commitments[].resources[]`, qualified by `resourceAttributes`:
 
@@ -283,11 +283,11 @@ The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from
 
 IES Data Exchange today primarily uses `INLINE` (often paged via [Appendix B](#appendix-b-pagination-large-datasets-across-multiple-status-on_status-messages)) — data arrives as part of the protocol message, making the exchange end-to-end verifiable.
 
-## Appendix B — Pagination: large datasets across multiple `status` / `on_status` messages
+### Appendix B — Pagination: large datasets across multiple `status` / `on_status` messages
 
 When a dataset is too large to fit in a single `on_confirm` (e.g. a quarter of AMI interval reads for a 500-meter feeder), the BAP and BPP exchange the payload across multiple `on_status` messages — one **page** per message. Two complementary patterns are in active use in the devkit:
 
-### BAP-PULL — the BAP drives the cadence
+#### BAP-PULL — the BAP drives the cadence
 
 1. **First page.** The BAP sends `status` **without** a `pageCursor` (or omits the `pagination` tag entirely). The BPP treats a missing cursor as page 0.
 2. **Subsequent pages.** The BPP's `on_status` carries `pageInfo.nextCursor` (and `pageInfo.isLast: false`). The BAP issues a new `status` with that cursor.
@@ -333,14 +333,14 @@ When a dataset is too large to fit in a single `on_confirm` (e.g. a quarter of A
 
 The cursor is **opaque** to the BAP — it's the BPP's internal identifier for the next slice. Echo it back unchanged.
 
-### BPP-PUSH — the BPP drives the cadence
+#### BPP-PUSH — the BPP drives the cadence
 
 1. **The BPP fires several back-to-back `on_status` messages**, each with its own slice of `dataPayload` and a `pageInfo` carrying `sequence`, `isLast`, and `collectionId`. The BAP accumulates entries across all messages with the same `(transactionId, collectionId)`.
 2. **Done.** The BAP only triggers downstream processing once it sees `pageInfo.isLast: true`.
 
 `pageInfo.cursor` / `nextCursor` are unused in push mode (the BAP isn't requesting anything); `sequence` and `isLast` are what matter.
 
-### Worked examples in the devkit
+#### Worked examples in the devkit
 
 The on-the-wire payloads (with sample interval reads and the full `pageInfo` block) live next to each use case:
 
@@ -349,7 +349,7 @@ The on-the-wire payloads (with sample interval reads and the full `pageInfo` blo
 
 Both patterns share the same `transactionId` across every message in the exchange — see [Appendix A](#appendix-a-message-envelope-and-correlation-rules).
 
-## Appendix C — Architecture at a glance
+### Appendix C — Architecture at a glance
 
 Your application never speaks Beckn directly — it talks to **ONIX**, which exposes a `caller` endpoint (where your app hands it outbound messages to sign and dispatch) and a `receiver` endpoint (where the network delivers inbound messages, which ONIX verifies and forwards to your app's webhook). One caller / receiver pair per role — `/bap/caller`, `/bap/receiver`, `/bpp/caller`, `/bpp/receiver` — and one ONIX deployment can host any combination under one identity. **Roles are configuration, not separate software.**
 
@@ -374,7 +374,7 @@ The devkit simulates **two participants** (`bap.example.com` and `bpp.example.co
 | `beckn-router` | Plain Caddy reverse proxy — routes by path (`/bap/*` → `onix-bap`, `/bpp/*` → `onix-bpp`) and carries the dummy participant hostnames as docker aliases. **Not a Beckn entity** — deployment plumbing |
 | `redis` | Per-side message cache used by ONIX |
 
-### The four ONIX endpoints
+#### The four ONIX endpoints
 
 | Endpoint | Role | Direction | Who calls it |
 |---|---|---|---|
@@ -383,20 +383,20 @@ The devkit simulates **two participants** (`bap.example.com` and `bpp.example.co
 | `/bpp/caller` | BPP | outbound | **Your provider app** hands ONIX an `on_*` response to sign and dispatch |
 | `/bpp/receiver` | BPP | inbound | **The network** delivers requests (`confirm`, `status`, …) here; ONIX verifies and forwards them to your provider's webhook |
 
-What happens after a `receiver` verifies a message is defined in the [routing configs](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/config) (`local-simple-routing-{BAPReceiver,BPPReceiver,BAPCaller,BPPCaller}.yaml`). The receiver routing config controls the webhook URL inbound messages are forwarded to — that's where you wire in your own app (§3.6).
+What happens after a `receiver` verifies a message is defined in the [routing configs](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/config) (`local-simple-routing-{BAPReceiver,BPPReceiver,BAPCaller,BPPCaller}.yaml`). The receiver routing config controls the webhook URL inbound messages are forwarded to — that's where you wire in your own app (§2.6).
 
-### Identity resolution
+#### Identity resolution
 
 When a message arrives, ONIX:
 
 1. Reads the sender from the message context (`bapId` on a forward request, `bppId` on a callback).
 2. Looks the sender up in the **DeDi registry**: `GET https://fabric.nfh.global/registry/dedi/lookup/<subscriber_id>/subscribers.beckn.one/<record_id>`. The response carries the sender's callback URL, signing public key, and network memberships.
-3. Cross-checks those memberships against the local `allowedNetworkIDs` config (§3.3). A sender outside the boundary of trust is rejected.
+3. Cross-checks those memberships against the local `allowedNetworkIDs` config (§2.3). A sender outside the boundary of trust is rejected.
 4. Verifies the signature.
 
 Two participants on different (or non-overlapping) networks cannot reach each other through their ONIX adapters.
 
-## Appendix D — Schema validation on the wire
+### Appendix D — Schema validation on the wire
 
 The wire envelope accepts arbitrary JSON inside `dataPayload`; validation is **opt-in per object**, driven by JSON-LD self-description:
 
@@ -405,12 +405,12 @@ The wire envelope accepts arbitrary JSON inside `dataPayload`; validation is **o
 
 ONIX only fetches `@context` URLs from **allow-listed hosts** (default: `raw.githubusercontent.com`, `schema.beckn.io`). To validate payloads from your own schema repo, add the host to `extendedSchema` in your ONIX config.
 
-### Failure modes
+#### Failure modes
 
 - `no schema found for @type: XYZ` — the `attributes.yaml` doesn't define a schema with that name. Either `@type` is wrong, or the schema file at the resolved URL doesn't include it.
 - Schema validation error — the object is missing a required field, has the wrong type, or otherwise doesn't match the OpenAPI definition. ONIX includes the JSON path of the failure in the error.
 
-### Publishing your own schema for ONIX to validate
+#### Publishing your own schema for ONIX to validate
 
 1. Author an OpenAPI 3.x `attributes.yaml` with your schemas in `components.schemas`.
 2. Author a JSON-LD `context.jsonld` mapping your field names to URIs.
@@ -419,7 +419,7 @@ ONIX only fetches `@context` URLs from **allow-listed hosts** (default: `raw.git
 
 No code change in ONIX — the dispatch is purely URL-driven. The families under [IES Schemas](../schemas-ies/README.md) and [beckn/DDM](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1.1) are working references for how to lay out the pair.
 
-## Appendix E — Hostnames: sandbox vs production
+### Appendix E — Hostnames: sandbox vs production
 
 The hostnames in `bapUri` / `bppUri` represent **participant identities**. In production they are your real public URLs, published in your DeDi subscriber record. In the devkit they are **dummy aliases that only resolve inside the docker network**: compose attaches `bap.example.com` and `bpp.example.com` as aliases of `beckn-router`, so dispatch lands on the Caddy proxy, which path-routes to the right ONIX `receiver`.
 
@@ -430,11 +430,11 @@ That gives two kinds of URL at different layers:
 | **HTTP target** — where your client (Postman, your app) POSTs `confirm`, `discover`, etc. | `http://localhost:8081/bap/caller` *(port-mapped to `onix-bap`)* | Your ONIX deployment URL behind TLS |
 | **HTTP target** — where your provider POSTs `on_confirm` / `on_status` | `http://localhost:8082/bpp/caller` *(port-mapped to `onix-bpp`)* | Your ONIX deployment URL behind TLS |
 | **Payload hostnames** — `bapUri` / `bppUri` in each message's `context`; resolved by the *sending* ONIX to reach the counterparty's `receiver` | `http://beckn-router:9000/{bap,bpp}/receiver` (or the docker aliases — both resolve to the proxy) | Your public callback URLs (matching what you published in your DeDi subscriber record) |
-| `networkId`, `bapId` / `bppId`, `allowedNetworkIDs` | placeholder values shipped in `config/` | Your values (§3.3) |
+| `networkId`, `bapId` / `bppId`, `allowedNetworkIDs` | placeholder values shipped in `config/` | Your values (§2.3) |
 
 Your Postman client never connects to `beckn-router` — it POSTs to the port-mapped `caller` endpoints (`:8081` / `:8082`); the payload variables substitute the docker-resolvable hostnames into the message body for ONIX to use.
 
-## Appendix F — Generic Beckn flow (sequence diagram)
+### Appendix F — Generic Beckn flow (sequence diagram)
 
 ```mermaid
 sequenceDiagram
@@ -466,7 +466,7 @@ sequenceDiagram
 
 ---
 
-## References
+### References
 
 - [DEG Data Exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange) — the source for the walkthrough above (Postman collections, fixtures, configs)
 - [Beckn ONIX](https://github.com/beckn/beckn-onix) — the protocol adapter; [`install/generate-ed25519-keys.go`](https://github.com/beckn/beckn-onix/blob/main/install/generate-ed25519-keys.go) for the Ed25519 keypair

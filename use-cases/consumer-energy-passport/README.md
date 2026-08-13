@@ -46,7 +46,7 @@ A typical issuance happens once at customer onboarding (and then is re-issued on
 
 1. **Register** — set up the DISCOM `did:web` and run OpenCred → [Setup Register](../../how-you-implement-ies/setup-register.md); [Energy Credentials — Set up OpenCred](../../how-you-implement-ies/setup-register.md#id-1.2-generate-your-credential-signing-keypair).
 2. Decide your identity-proofing method (DigiLocker pull, offline-KYC XML, in-person KYC, record-match) and document it for privacy review — see [Identifiers — Identity-proofing at issuance](../../how-you-implement-ies/issue-credentials.md#before-you-bind-anything-identity-proofing-at-issuance).
-3. **Exchange** — issue the Passport via [Energy Credentials — Issue your first credential](../../how-you-implement-ies/issue-credentials.md#id-2.6-issue-your-first-credential), setting `credentialSubject.id` to the wallet DID and populating `customerProfile.idRef` with the government-ID reference.
+3. **Exchange** — issue the Passport via [Energy Credentials — Issue your first credential](../../how-you-implement-ies/issue-credentials.md#id-3.6-issue-your-first-credential), setting `credentialSubject.id` to the wallet DID and populating `customerProfile.idRef` with the government-ID reference.
 4. Deliver into the consumer's DigiLocker or wallet → [DigiLocker delivery](../../how-you-implement-ies/digilocker.md).
 5. Wire revocation into the same flow you use for any v1.2 credential.
 

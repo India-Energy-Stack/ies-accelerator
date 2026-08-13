@@ -110,6 +110,22 @@ def number_headings(md_path: pathlib.Path) -> None:
     do not change.
     """
     lines = md_path.read_text().split("\n")
+
+    # A chapter whose sections carry authored numbers ('2.1 — Pull the
+    # image', '1. Scope and Purpose') keeps them untouched and gets no
+    # generated section numbers at all — mixing the two schemes in one
+    # chapter reads as broken numbering in the TOC.
+    authored: list[bool] = []
+    in_code = False
+    for ln in lines:
+        if ln.startswith("```"):
+            in_code = not in_code
+        elif not in_code and ln.startswith("# "):
+            authored.append(False)
+        elif not in_code and ln.startswith("## ") and re.match(r"## \d", ln):
+            if authored:
+                authored[-1] = True
+
     out, in_code, ch, sec = [], False, 0, 0
     for ln in lines:
         if ln.startswith("```"):
@@ -117,7 +133,12 @@ def number_headings(md_path: pathlib.Path) -> None:
         elif not in_code and ln.startswith("# "):
             ch, sec = ch + 1, 0
             ln = f"# {ch}. {ln[2:]}"
-        elif not in_code and ln.startswith("## ") and not re.match(r"## \d", ln):
+        elif (
+            not in_code
+            and ln.startswith("## ")
+            and not re.match(r"## \d", ln)
+            and not authored[ch - 1]
+        ):
             sec += 1
             ln = f"## {ch}.{sec} {ln[3:]}"
         out.append(ln)
@@ -145,6 +166,25 @@ def make_reference_docx() -> pathlib.Path:
             data = zin.read(item.filename)
             if item.filename == "word/styles.xml":
                 text = data.decode("utf-8")
+                # Theme-font indirection (minorHAnsi/majorHAnsi) breaks in
+                # Google Docs, which can't resolve Word themes and
+                # substitutes an unrelated face. Pin explicit fonts that
+                # exist in both Word and Google Docs.
+                for attr, val in (
+                    ("asciiTheme", "ascii"),
+                    ("hAnsiTheme", "hAnsi"),
+                    ("cstheme", "cs"),
+                ):
+                    text = re.sub(
+                        rf'w:{attr}="(?:minor|major)[A-Za-z]*"',
+                        f'w:{val}="Calibri"',
+                        text,
+                    )
+                text = re.sub(r'\s*w:eastAsiaTheme="[^"]*"', "", text)
+                text = text.replace(
+                    'w:ascii="Consolas" w:hAnsi="Consolas"',
+                    'w:ascii="Courier New" w:hAnsi="Courier New"',
+                )
                 # 12pt -> 10pt document default
                 text = re.sub(
                     r'(<w:rPrDefault>\s*<w:rPr>.*?)<w:sz w:val="24" />(\s*)<w:szCs w:val="24" />',

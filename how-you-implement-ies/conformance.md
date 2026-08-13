@@ -43,7 +43,7 @@ Clearing every box below means your interface is well-formed and internally cons
 
 - [ ] One use-case implementation guide (e.g. [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) or [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md)) implemented end-to-end
 - [ ] Output validates against the canonical JSON Schema (`make validate` or `python3 scripts/validate_schema.py …`)
-- [ ] **[beckn]** At least one real record exchanged with a counterparty on the testnet, **or [credential]** at least one credential issued, verified, and revoked (the [§2.9 smoke test](issue-credentials.md#id-2.9-smoke-test))
+- [ ] **[beckn]** At least one real record exchanged with a counterparty on the testnet, **or [credential]** at least one credential issued, verified, and revoked (the [§3.9 smoke test](issue-credentials.md#id-3.9-smoke-test))
 - [ ] Schema validation enforced on every outgoing payload
 
 ### Signatures and trust chain check out
@@ -90,7 +90,7 @@ Treat a schema-validation pass as scoped to what this repository defines — see
 
 ### Beckn participants (B2B)
 
-Run the conformance suite that ships with the devkit you cloned in [Setting up Discover & Exchange](setup-exchange.md#id-3.1-deploy-the-local-sandbox):
+Run the conformance suite that ships with the devkit you cloned in [Setting up Discover & Exchange](setup-exchange.md#id-2.1-deploy-the-local-sandbox):
 
 ```bash
 cd DEG/devkits/data-exchange/conformance
@@ -101,7 +101,7 @@ The script exercises every path on the checklist above against a sandbox peer an
 
 ### Credential-only issuers (B2C)
 
-You have no Beckn devkit and no counterparty, so these checks are self-contained — run the [§2.9 smoke test](issue-credentials.md#id-2.9-smoke-test) end-to-end:
+You have no Beckn devkit and no counterparty, so these checks are self-contained — run the [§3.9 smoke test](issue-credentials.md#id-3.9-smoke-test) end-to-end:
 
 1. Issue a credential with your adapter (or OpenCred directly).
 2. Validate the credential document (`out.json`) against the canonical credential-root JSON Schema (`python3 scripts/validate_schema.py schemas/<Credential>/<version>/schema.json out.json`) — repository-local structural validation, per the [scope note above](#what-this-checklist-proves-and-what-it-doesnt).

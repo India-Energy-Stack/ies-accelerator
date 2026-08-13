@@ -76,7 +76,7 @@ The `issuer_did` is the one from [Step 2](#step-2-stand-up-opencred-and-your-iss
 
 ### Step 2 — Stand Up OpenCred and Your Issuer DID
 
-Follow [Setting up Register — keypair and did.json](setup-register.md#id-1.2-generate-your-credential-signing-keypair) and [Issuing Credentials — run OpenCred](issue-credentials.md#id-2.3-run-opencred-in-did-web-mode) end-to-end. By the time you reach this page you should have:
+Follow [Setting up Register — keypair and did.json](setup-register.md#id-1.2-generate-your-credential-signing-keypair) and [Issuing Credentials — run OpenCred](issue-credentials.md#id-3.3-run-opencred-in-did-web-mode) end-to-end. By the time you reach this page you should have:
 
 - OpenCred running with `signingKeyLoaded: true`
 - An issuer DID — `did:web:ies.discom.example` (recommended) or `did:key:…` (from an imported DSC)
@@ -218,11 +218,11 @@ The rendered certificate (`DocContent`) should also show this in human-readable 
 
 ### Step 4 — Call OpenCred to Issue the Credential
 
-This step differs by DocType — see [Issuing NYCER (v1.2)](issue-credentials.md#id-2.6-issue-your-first-credential) and [Issuing the Digest (MPLTR)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC, then render the PDF with a **separate** `POST /v1/credentials/package` call (see [Step 5](#step-5-package-the-pdf-and-vc-for-the-response)).
+This step differs by DocType — see [Issuing NYCER (v1.2)](issue-credentials.md#id-3.6-issue-your-first-credential) and [Issuing the Digest (MPLTR)](#issuing-the-digest-meterdatacredential-v0.6) below. Both return a signed VC, then render the PDF with a **separate** `POST /v1/credentials/package` call (see [Step 5](#step-5-package-the-pdf-and-vc-for-the-response)).
 
 ### Step 5 — Package the PDF and VC for the response
 
-Rendering the PDF is a **separate call** — `POST /v1/credentials/package` with `formats: ["pdf"]` (the DocType handlers in Step 4 make it). An inline `packageFormats` field on the *issue* body is silently ignored, so this call is not optional — see [Issuing Credentials §2.10](issue-credentials.md#id-2.10-package-the-credential-as-a-pdf-qr-code). The PDF carries the signed credential payload in its info dictionary and embeds a scannable QR — DigiLocker stores the PDF, and verifiers can later re-extract the credential from the PDF itself.
+Rendering the PDF is a **separate call** — `POST /v1/credentials/package` with `formats: ["pdf"]` (the DocType handlers in Step 4 make it). An inline `packageFormats` field on the *issue* body is silently ignored, so this call is not optional — see [Issuing Credentials §3.10](issue-credentials.md#id-3.10-package-the-credential-as-a-pdf-qr-code). The PDF carries the signed credential payload in its info dictionary and embeds a scannable QR — DigiLocker stores the PDF, and verifiers can later re-extract the credential from the PDF itself.
 
 ```python
 import base64, json
@@ -416,7 +416,7 @@ vc_json = credential_response["credential"]
 
 # Render the PDF with a SEPARATE packaging call. Packaging is a distinct
 # rendering step, not part of issue — an inline `packageFormats` field on the
-# issue body is silently ignored (see Issuing Credentials §2.10). Package the
+# issue body is silently ignored (see Issuing Credentials §3.10). Package the
 # credential as issued, proof intact, so the QR embedded in the PDF stays
 # independently verifiable.
 package_response = requests.post(
@@ -685,7 +685,7 @@ credential_response = requests.post(
 vc_json = credential_response["credential"]
 
 # Render the PDF with a separate packaging call (same pattern as NYCER, and
-# Issuing Credentials §2.10) — package the credential as issued, proof intact.
+# Issuing Credentials §3.10) — package the credential as issued, proof intact.
 package_response = requests.post(
     "http://opencred:3100/v1/credentials/package",
     headers={"Authorization": f"Bearer {OPENCRED_API_KEY}"},
@@ -706,7 +706,7 @@ vc_json["issuer"] = {
 uri = f"in.gov.discom-MPLTR-{consumer.consumer_number}-{window.uri_period}"
 ```
 
-Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issuing Credentials → Revoke](issue-credentials.md#id-2.8-revoke).
+Revocations are rare in practice — Digests are usually short-lived enough to expire before any revoke would matter — but when a revoke is needed, pass an optional `reason` such as `"data-correction"` or `"holder-request"` on `POST /v1/credentials/revoke`; see [Issuing Credentials → Revoke](issue-credentials.md#id-3.8-revoke).
 
 ### What the consumer can do with it
 
@@ -745,7 +745,7 @@ In every mode the signed JSON moves as-is (see [Step 5](#step-5-package-the-pdf-
 
 ## Phase 2 — Consumer Shares Credential with a Verifier
 
-Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential or Meter Digest from DigiLocker using the standard DigiLocker OAuth flow. See [Issuing Credentials → Verify](issue-credentials.md#id-2.7-verify) for the verifier-side implementation.
+Phase 2 requires no DISCOM involvement. Consumers share their NYCER credential or Meter Digest from DigiLocker using the standard DigiLocker OAuth flow. See [Issuing Credentials → Verify](issue-credentials.md#id-3.7-verify) for the verifier-side implementation.
 
 ---
 

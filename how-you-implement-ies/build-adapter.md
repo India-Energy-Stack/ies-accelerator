@@ -124,13 +124,13 @@ This proves repository-local structural conformance against the schema shown abo
 
 The Beckn wiring (subscriber id, callback URL, route registration) is in ONIX config; the handler endpoint is your code.
 
-**Credential use cases — wire into OpenCred.** Your mapping assembles the credential subject from CIS / MDM data (Tasks 1–3) and POSTs it to OpenCred's `/v1/credentials/issue`; OpenCred signs with your key and returns the credential for delivery to the holder. The issue / verify / revoke walkthrough is in **[Issuing Credentials](issue-credentials.md#id-2.6-issue-your-first-credential)**.
+**Credential use cases — wire into OpenCred.** Your mapping assembles the credential subject from CIS / MDM data (Tasks 1–3) and POSTs it to OpenCred's `/v1/credentials/issue`; OpenCred signs with your key and returns the credential for delivery to the holder. The issue / verify / revoke walkthrough is in **[Issuing Credentials](issue-credentials.md#id-3.6-issue-your-first-credential)**.
 
 ### Task 5 — Test end-to-end
 
-**Beckn-network use cases.** Use the [Data Exchange devkit](setup-exchange.md#id-3.1-deploy-the-local-sandbox) to send your handler real Beckn messages from a sandbox counterparty. Iterate until all required schema fields are populated correctly, signatures verify on the receiving side, and the end-to-end round trip succeeds for at least one realistic record.
+**Beckn-network use cases.** Use the [Data Exchange devkit](setup-exchange.md#id-2.1-deploy-the-local-sandbox) to send your handler real Beckn messages from a sandbox counterparty. Iterate until all required schema fields are populated correctly, signatures verify on the receiving side, and the end-to-end round trip succeeds for at least one realistic record.
 
-**Credential use cases.** There is no Beckn counterparty — test the issuance path directly: have your mapping assemble the subject from a real record and POST it to OpenCred's `/v1/credentials/issue`, then run the [§2.9 smoke test](issue-credentials.md#id-2.9-smoke-test) (issue → resolve your `did:web` → verify → revoke → re-check). Iterate until it issues a schema-valid, signature-verifiable credential for at least one realistic record.
+**Credential use cases.** There is no Beckn counterparty — test the issuance path directly: have your mapping assemble the subject from a real record and POST it to OpenCred's `/v1/credentials/issue`, then run the [§3.9 smoke test](issue-credentials.md#id-3.9-smoke-test) (issue → resolve your `did:web` → verify → revoke → re-check). Iterate until it issues a schema-valid, signature-verifiable credential for at least one realistic record.
 
 Then graduate from sandbox → testnet → prod with the same adapter.
 

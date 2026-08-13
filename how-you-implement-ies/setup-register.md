@@ -180,7 +180,7 @@ signingPrivateKey: <Base64, 32-byte seed>
 signingPublicKey:  <Base64, 32-byte public key>
 ```
 
-- **`signingPrivateKey`** — store in your secret manager; ONIX loads it to sign outgoing messages ([Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity)). Never commit it.
+- **`signingPrivateKey`** — store in your secret manager; ONIX loads it to sign outgoing messages ([Setting up Discover & Exchange §2.3](setup-exchange.md#id-2.3-swap-in-your-real-identity)). Never commit it.
 - **`signingPublicKey`** — publish in your subscriber record (§1.6). Other Beckn nodes fetch it to verify your message signatures.
 
 The generator source is [`install/generate-ed25519-keys.go`](https://github.com/beckn/beckn-onix/blob/main/install/generate-ed25519-keys.go); any other Ed25519 keypair generator works as long as it produces the same two Base64 artefacts (raw 32-byte seed and raw public key, no PEM headers).
@@ -204,9 +204,9 @@ The generator source is [`install/generate-ed25519-keys.go`](https://github.com/
    | `encryption_public_key` | *(Optional)* encryption public key | `lCI84I0Q0U0w...` |
    | `countries` | Countries where you operate | `["IND"]` |
 
-   If you operate in both roles (BAP *and* BPP), publish a separate record per role. That `did:web` `subscriber_id` is what you set as `networkParticipant` in your ONIX config ([Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity)).
+   If you operate in both roles (BAP *and* BPP), publish a separate record per role. That `did:web` `subscriber_id` is what you set as `networkParticipant` in your ONIX config ([Setting up Discover & Exchange §2.3](setup-exchange.md#id-2.3-swap-in-your-real-identity)).
 
-3. **Note the record ID** DeDi assigns — you will configure it into ONIX as the `keyId` in [Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
+3. **Note the record ID** DeDi assigns — you will configure it into ONIX as the `keyId` in [Setting up Discover & Exchange §2.3](setup-exchange.md#id-2.3-swap-in-your-real-identity).
 
 4. **Verify the lookup.** Other nodes resolve your record through the Beckn fabric lookup URL. Substitute `<your-subscriber-id>` (your DeDi namespace from §1.4 — the path is addressed by this subscriber id, not by the `did:web` value of the `subscriber_id` record field) and `<your_record_id>` (from step 3); `subscribers.beckn.one` is the fixed fabric schema keyword — leave it literal, it is not your registry name. Allow 5–10 minutes for the cache, then:
 
@@ -253,7 +253,7 @@ Before approving, the Secretariat validates that your namespace is domain-verifi
 curl -s "https://fabric.nfh.global/registry/dedi/lookup/<your-subscriber-id>/subscribers.beckn.one/<your_record_id>" | jq '.data.network_memberships'
 ```
 
-Expected: the parent network IDs appear, e.g. `["indiaenergystack.in/test-ies-data-sharing-network"]`. Empty or missing means the NFO hasn't written the reference yet (or wrote it against a different record) — this is exactly the value your ONIX checks against `allowedNetworkIDs` in [Setting up Discover & Exchange §3.3](setup-exchange.md#id-3.3-swap-in-your-real-identity).
+Expected: the parent network IDs appear, e.g. `["indiaenergystack.in/test-ies-data-sharing-network"]`. Empty or missing means the NFO hasn't written the reference yet (or wrote it against a different record) — this is exactly the value your ONIX checks against `allowedNetworkIDs` in [Setting up Discover & Exchange §2.3](setup-exchange.md#id-2.3-swap-in-your-real-identity).
 
 Membership in the test network does **not** imply membership in prod; each is referenced separately.
 
