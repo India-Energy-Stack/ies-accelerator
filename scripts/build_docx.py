@@ -94,7 +94,34 @@ def combined_markdown(all_versions: bool) -> int:
             print(f"  {err}", file=sys.stderr)
         return 1
 
-    return bp.build_document(combined, OUT_MD, mmdc)
+    missing = bp.build_document(combined, OUT_MD, mmdc)
+    if not missing:
+        number_headings(OUT_MD)
+    return missing
+
+
+def number_headings(md_path: pathlib.Path) -> None:
+    """Prepend chapter/section numbers: H1 -> 'N.', H2 -> 'N.M'.
+
+    H2s that already start with a digit keep their authored numbering
+    (the templated '1. Scope and Purpose' style) — prefixing those would
+    double-number them. Literal prefixes are anchor-safe: pandoc's auto
+    identifiers strip everything before the first letter, so link targets
+    do not change.
+    """
+    lines = md_path.read_text().split("\n")
+    out, in_code, ch, sec = [], False, 0, 0
+    for ln in lines:
+        if ln.startswith("```"):
+            in_code = not in_code
+        elif not in_code and ln.startswith("# "):
+            ch, sec = ch + 1, 0
+            ln = f"# {ch}. {ln[2:]}"
+        elif not in_code and ln.startswith("## ") and not re.match(r"## \d", ln):
+            sec += 1
+            ln = f"## {ch}.{sec} {ln[3:]}"
+        out.append(ln)
+    md_path.write_text("\n".join(out))
 
 
 REFERENCE_DOCX = bp.BUILD / "docx_reference.docx"
