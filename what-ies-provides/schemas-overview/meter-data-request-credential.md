@@ -4,8 +4,6 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/MDRC/0.1 |
-| Status | Stable — In Pilot (v0.1, dated 2026-05-26 per the schema changelog) |
 | Applicability | Issued by a data requester (e.g. a DISCOM, or a third-party aggregator such as a Technical Service Provider) that attaches it in `commitmentAttributes.ies:meterDataRequest` at Beckn `confirm`; consumed by the metering data provider (e.g. an AMISP or MDM system) that receives it |
 | This version | Defines the credential envelope and its one substantive field, `credentialSubject`, whose `meterDataRequest` property wraps a `MeterDataRequest` object from the separate **MeterDataRequest v0.6** schema family, as specified in [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) |
 

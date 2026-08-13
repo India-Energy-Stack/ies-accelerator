@@ -4,8 +4,6 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/MDC/0.6 |
-| Status | Stable — In Pilot — initial version (dated 2026-06-06 per the schema changelog), aligned with MeterData v0.6 |
 | Applicability | Issued by data providers (AMISPs, MDM systems, or a DISCOM acting in that role); consumed by DISCOMs, consumers' wallets, and any downstream verifier of delivered telemetry |
 | This version | Wraps a `MeterData v0.6` payload (single profile or array of profiles) inside a W3C Verifiable Credential envelope, defined in [`schema.json`](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/schema.json) |
 

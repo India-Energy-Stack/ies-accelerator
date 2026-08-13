@@ -6,8 +6,6 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/CMD-PROFILE/0.6 |
-| Status | Piloted (four pilot DISCOMs, completed 30-day DISCOM Challenge) — see [Status summary](../README.md) |
 | Applicability | All distribution licensees |
 | This version | Consumer Meter Digest *variant* of MeterDataCredential v0.6, holder-bound. Wraps [MeterData v0.6](../schemas/MeterData/v0.6/README.md) profiles. |
 

@@ -6,8 +6,6 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/SMDX-PROFILE/0.6 |
-| Status | Piloted (four pilot DISCOMs, completed 30-day DISCOM Challenge) — see [Status summary](../README.md) |
 | Applicability | All AMISPs, DISCOMs and SERCs |
 | This version | Built on MeterData v0.6, MeterDataRequest v0.6 and (optional) MeterDataRequestCredential v0.1 over Beckn. |
 

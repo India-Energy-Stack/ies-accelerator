@@ -40,7 +40,7 @@ A typical issuance happens once at customer onboarding (and then is re-issued on
 | [Identifiers and Addressing](../../what-ies-provides/register.md) | DISCOM's `did:web`; consumer's wallet `did:key`; asset / meter / connection DIDs that appear inside the credential |
 | [Energy Credentials](../../what-ies-provides/energy-credentials/README.md) | The single home for signing, verifying, and revoking — including the [Consumer Energy Passport variant](../../what-ies-provides/energy-credentials/README.md#credential-variants) under "Credential variants" |
 | [Holder binding](../../how-you-implement-ies/issue-credentials.md#appendix-binding-the-credential-to-a-holder-identity) | Wallet-DID binding pattern; presentation-time challenge / VP proof |
-| [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) | The bulk delivery channel for Indian consumers; for many use cases DigiLocker's Aadhaar pull also acts as the identity-binding step |
+| [DigiLocker delivery](../../how-you-implement-ies/digilocker.md) | Delivers the credential into the consumer's DigiLocker for easy access and sharing; for many use cases DigiLocker's Aadhaar pull also acts as the identity-binding step |
 
 ## Setup: Register → Discover → Exchange
 
@@ -52,7 +52,7 @@ A typical issuance happens once at customer onboarding (and then is re-issued on
 
 ## DigiLocker integration (DocType `NYCER`)
 
-For Indian consumers, DigiLocker is the bulk delivery channel. The Passport travels as DocType **`NYCER`** through the DigiLocker **Pull URI** mechanism: the consumer searches for the credential, DigiLocker calls your endpoint, your endpoint calls OpenCred to issue the signed v1.2 credential, and DigiLocker stores it. The structures below are the current NYCER shapes; the full delivery flow (API Setu registration, HMAC verification, CIS lookup, the OpenCred issue and package calls, error handling) is in [DigiLocker delivery](../../how-you-implement-ies/digilocker.md).
+For Indian consumers, DigiLocker is the delivery channel of choice — the credential lands in a wallet they already use, ready to view and share. The Passport travels as DocType **`NYCER`** through the DigiLocker **Pull URI** mechanism: the consumer searches for the credential, DigiLocker calls your endpoint, your endpoint calls OpenCred to issue the signed v1.2 credential, and DigiLocker stores it. The structures below are the current NYCER shapes; the full delivery flow (API Setu registration, HMAC verification, CIS lookup, the OpenCred issue and package calls, error handling) is in [DigiLocker delivery](../../how-you-implement-ies/digilocker.md).
 
 ### Endpoint
 

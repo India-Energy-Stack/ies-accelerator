@@ -6,8 +6,6 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/DERV-PROFILE/1.2 |
-| Status | Piloted (four pilot DISCOMs, completed 30-day DISCOM Challenge; per-consumer path — see §1) — see [Status summary](../README.md) |
 | Applicability | All distribution licensees |
 | This version | Executable today: the per-consumer ElectricityCredential v1.2 (Energy Passport). Illustrative, future: a grid-side, PII-free per-locus profile conceptually reusing `energyResources[]` + `consumptionProfiles[]` (the building blocks of ElectricityCredential v1.2), with the network locus — not a consumer — as subject; see §1. |
 

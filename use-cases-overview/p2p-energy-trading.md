@@ -6,8 +6,6 @@
 
 | | |
 |---|---|
-| **Document** | IES/P2PEX-PROFILE/2.0 |
-| **Status** | Specified; schema stable in the DEG wave-2 devkit, under the CERC Innovation Sandbox order — see [Status summary](../README.md) |
 | **Applicability** | Trading platforms, regulated Ledger Providers, DISCOMs |
 | **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.beckn.io](https://schema.beckn.io)) over Beckn, with signed Rego policies governing the network and contract rules. Mirrored in [External Schemas — Energy Trading](../schemas-ies/external.md). |
 

@@ -6,8 +6,6 @@
 
 | Field | Value |
 |---|---|
-| Document | IES/CEP-PROFILE/1.2 |
-| Status | Piloted (four pilot DISCOMs, completed 30-day DISCOM Challenge) — see [Status summary](../README.md) |
 | Applicability | All distribution licensees |
 | This version | Consumer Energy Passport *variant* of ElectricityCredential v1.2. Static credential only; live interval data uses MeterData, separately. |
 

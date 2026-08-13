@@ -18,13 +18,13 @@ Every IES interaction follows the same three steps:
 
 - **Register** — every participant gets a verifiable digital identity (a [W3C DID](https://www.w3.org/TR/did-core/)) and a listing in a shared directory (DeDi). Done once.
 - **Discover** — before an exchange, the two systems look each other up, verify each other, and agree terms over the [Beckn protocol](https://github.com/beckn/protocol-specifications-v2). No bilateral arrangement needed.
-- **Exchange** — data moves over the same signed Beckn channel that Discover established, shaped by published [IES schemas](schemas-ies/README.md) built on open standards (DLMS/COSEM for meter data, IEEE 2030.5 for DER, OpenADR for demand response). Where a durable record is needed, the exchange produces a [W3C Verifiable Credential](https://www.w3.org/TR/vc-data-model/) the holder keeps — in DigiLocker, for consumers.
+- **Exchange** — data moves over the same signed Beckn channel that Discover established, shaped by published [IES schemas](schemas-ies/README.md) built on open standards (e.g. DLMS/COSEM, IEEE 2030.5, OpenADR etc). Where a durable record is needed, the exchange produces a [W3C Verifiable Credential](https://www.w3.org/TR/vc-data-model/) the holder keeps — in DigiLocker, for consumers. The IES Exchange flows also support bulk data transfer using both paginated inline transfer or via supported channels like signed urls, SFTP, kafka streams etc.
 
-The specifications cover five building blocks: **Register**, **Discover**, **Exchange**, **Verifiable Credentials**, and the **Security** posture that runs through all of them. IES selects the right open standard for each and publishes a specification that builds on it — IES does not write new standards, and it is not a platform, a database, or a product.
+The specifications cover five building blocks: **Identifiers**, **Registries**, **Exchange**, **Verifiable Credentials**, and the **Security**, **Consent**, **Machine Readable Rules** posture that runs through all of them. IES selects the right open standard for each and publishes a specification that builds on it — IES does not write new standards, and it is not a platform, a database, or a product.
 
-## What this GitBook is
+## What this Documentation is
 
-This GitBook is the **technical reference** for building on IES: the schema definitions with their canonical URLs, per-use-case implementation guides with step-by-step checklists, and role-based adoption pathways. If you are here to build something, go straight to:
+This documentation is the **technical reference** for building on IES: the schema definitions with their canonical URLs, per-use-case implementation guides with step-by-step checklists, and role-based adoption pathways. If you are here to build something, go straight to:
 
 - **[Schemas Overview](what-ies-provides/schemas-overview/README.md)** — what each schema is for, in plain language
 - **[Schemas](schemas-ies/README.md)** — the developer catalog: field references, canonical URIs, versions
@@ -37,9 +37,9 @@ Whatever you are building, every participant completes the same three prerequisi
 
 ## The full story
 
-This reference deliberately stays lean. For a detailed understanding of IES — the concepts, the in-depth architecture, the acceleration and adoption strategy, governance, and the pilot record — read the **IES report** at **[indiaenergystack.in/report](https://indiaenergystack.in/report)**.
+This reference deliberately stays lean. For a detailed understanding of IES — the concepts, the in-depth architecture, the acceleration and adoption strategy, governance, and the pilot record — read the **IES report** at **REPORT URL TO BE UPDATED**.
 
-**Where things stand:** the specifications are published and versioned in this repository. Four pilot DISCOMs — PVVNL (Uttar Pradesh), APEPDCL (Andhra Pradesh), DGVCL (Gujarat) and Tata Power (Maharashtra) — completed a 30-day DISCOM Challenge, each building an IES adapter and demonstrating the first four use cases (DER Visibility, Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange) against the specifications and the pilot sandbox. That is a completed, historical outcome, not a claim that any pilot is running today.
+**Where things stand:** the specifications are published and versioned in this repository. Four pilot DISCOMs — PVVNL (Uttar Pradesh), APEPDCL (Andhra Pradesh), DGVCL (Gujarat) and Tata Power (Maharashtra) — completed a 30-day DISCOM Challenge, each building an IES adapter and demonstrating the first four use cases (DER Visibility, Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange) against the specifications and the pilot sandbox. 
 
 {% hint style="info" %}
 📄 **Printable version:** the deliverable subset of this reference is published as a single PDF — [**ies-report.pdf**](https://india-energy-stack.github.io/ies-accelerator/ies-report.pdf).
@@ -50,3 +50,7 @@ This reference deliberately stays lean. For a detailed understanding of IES — 
 - **IES Secretariat** — `ies.secretariat@fsrglobal.org`
 - **REC (Nodal Agency)** — `ies@recindia.com`
 - **Issues, discussions, contributions** — [github.com/India-Energy-Stack/ies-accelerator](https://github.com/India-Energy-Stack/ies-accelerator)
+
+## For more information and Updates on IES
+
+- **IES Homepage** — `ies.smartgridobservatory.org`
