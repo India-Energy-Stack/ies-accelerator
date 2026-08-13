@@ -47,12 +47,12 @@ Get a correct mental model of what IES is (and is not), and where its published 
 * None. This step is purely orientation — bookmark the two entry points below.
 
 ### Execution Guidance
-1. **The GitBook** — this repository (`ies-accelerator`) is the canonical, rendered specification set. [Getting Started — What this GitBook is](../README.md#what-this-gitbook-is) indexes the schema catalog, use-case guides, and pathways.
+1. **The GitBook** — this repository (`ies-accelerator`) is the canonical, rendered specification set. [Getting Started — What this Documentation is](../README.md#what-this-documentation-is) indexes the schema catalog, use-case guides, and pathways.
 2. **The pilot record** — [Getting Started — The full story](../README.md#the-full-story) summarises where things stand: four pilot DISCOMs completed the 30-day DISCOM Challenge (see Phase 3 below). The full narrative — architecture, adoption strategy, governance, pilot record — is the IES report at [indiaenergystack.in/report](https://indiaenergystack.in/report).
 3. Confirm you can navigate from the [Schemas Overview](../what-ies-provides/schemas-overview/README.md) down into a schema family folder (e.g. `schemas/MeterData/`) so that Phase 2 is a matter of reading, not searching.
 
 ### References & Anchors
-* [Getting Started — What this GitBook is](../README.md#what-this-gitbook-is)
+* [Getting Started — What this Documentation is](../README.md#what-this-documentation-is)
 * [Getting Started — The full story](../README.md#the-full-story)
 </details>
 
