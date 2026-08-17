@@ -2,7 +2,7 @@
   "schemas/ArrFiling/v0.5": {
     "status": "deferred-fail",
     "expectedIssues": [
-      "expansion-error:arr_filings.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=ArrFiling:context-sha256=8fe7a6fd152461ea70ad6efde07ef8cc839debe882113a636d075c8dcd14286e:example-sha256=cc793bbd9f99fb8898a0d2d519bed70180bc83aec5c10f86465e4d343659fd62"
+      "expansion-error:arr_filings.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=ArrFiling:context-sha256=7d8c08ee4ad9edf71dfcc0aed21d8ad15e4579dde16661d3316d14a3765d5e95:example-sha256=cc793bbd9f99fb8898a0d2d519bed70180bc83aec5c10f86465e4d343659fd62"
     ],
     "reason": "The committed context has a pre-existing scoped-context expansion defect; contract edits are outside the v0.6 launch freeze."
   },
@@ -81,8 +81,8 @@
   "schemas/OutageNotification/v0.1": {
     "status": "deferred-fail",
     "expectedIssues": [
-      "expansion-error:discom_planned_shutdown.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=OutageNotification:context-sha256=e67fa3d1db8117418fcbf7c1cfb43229efef01fc480ccb1c414a61b10a195296:example-sha256=389074e1774b1b8139122a801057b262b9bf00b37f9fb557bf00a23a03045954",
-      "expansion-error:outage_notifications.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=OutageNotification:context-sha256=e67fa3d1db8117418fcbf7c1cfb43229efef01fc480ccb1c414a61b10a195296:example-sha256=a906d233241f111ec1509b69ebfc42d459fb8b63f487bac6735040ef292e8066",
+      "expansion-error:discom_planned_shutdown.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=OutageNotification:context-sha256=cac62471056cfb3298cd7fcb37ee75e2049a0c7eb78f1296895cb11bd5f8a35e:example-sha256=389074e1774b1b8139122a801057b262b9bf00b37f9fb557bf00a23a03045954",
+      "expansion-error:outage_notifications.json:JsonLdError:jsonld.SyntaxError:invalid scoped context:term=OutageNotification:context-sha256=cac62471056cfb3298cd7fcb37ee75e2049a0c7eb78f1296895cb11bd5f8a35e:example-sha256=a906d233241f111ec1509b69ebfc42d459fb8b63f487bac6735040ef292e8066",
       "unmapped:discom_planned_shutdown.json:downType,groupId",
       "unmapped:outage_notifications.json:breakdownId,coordinates,downType"
     ],
