@@ -89,6 +89,48 @@ rewrite that function.
    - `propose-a-schema.md` (the GitBook page link), and
    - `.github/ISSUE_TEMPLATE/config.yml`.
 
+## Thank-you mail (optional)
+
+After filing the issue, the script can send the submitter a "thanks for contributing"
+mail from `NoReply@recindia.com`. This is **optional** — leave the two script properties
+below unset and the step is skipped, with issue creation unaffected.
+
+Apps Script cannot speak SMTP (no raw sockets), so it cannot reach `smtp.office365.com`
+itself. It instead makes one HTTPS call to a small Node function that holds the mailbox
+credentials — `api/notify.js` in the **ies-proxy** Vercel project:
+
+```
+Form submit → Apps Script ─┬─→ GitHub issue          (independent of the mail)
+                           └─→ POST /api/notify → SMTP → thank-you mail
+```
+
+**Sender must be `recindia.com`.** Its SPF authorises Office 365, DKIM is signed by the
+tenant (`selector1`/`selector2` → `reclindia.onmicrosoft.com`), and DMARC is
+`p=quarantine`. A domain without that setup fails authentication and gets quarantined.
+
+To enable:
+
+1. **Deploy the relay**: in the ies-proxy project, set three encrypted env vars —
+   `vercel env add SMTP_USER production` (`NoReply@recindia.com`),
+   `vercel env add SMTP_PASSWORD production`, and
+   `vercel env add NOTIFY_SECRET production` (any long random string). Then `vercel --prod`.
+2. **Point the script at it**: in Apps Script `Project Settings → Script properties`, add
+   `NOTIFY_URL` (`https://ies.recindia.org.in/api/notify`) and `NOTIFY_SECRET` (the same
+   random string). The secret is what stops anyone who finds the URL from sending mail
+   as REC.
+
+Notes:
+
+- **SMTP AUTH must be enabled on the mailbox.** Microsoft disables it tenant-wide by
+  default; a `5.7.139 Authentication unsuccessful` error means it is off — an admin
+  toggle, not a code bug.
+- Office 365 client submission allows 30 messages/minute, 10,000 recipients/day.
+- The mail call is wrapped in try/catch, so a mail outage degrades to "issue filed, no
+  mail" rather than losing the proposal. Failures are logged in the Apps Script
+  Executions tab.
+- The relay never logs the recipient address — the submitter's email is private, and
+  the logs must not recreate the leak the public issue avoids.
+
 ## Notes
 
 - Ensure the `schema-proposal` label exists in the repo (Issues → Labels), or drop
