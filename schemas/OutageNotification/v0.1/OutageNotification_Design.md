@@ -331,7 +331,7 @@ OutageNotification
     },
 
     "GeoJSONGeometry": {
-      "$ref": "https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
+      "$ref": "https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
     }
   }
 }

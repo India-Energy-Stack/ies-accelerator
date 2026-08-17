@@ -33,7 +33,7 @@ Structured, non-credential payloads exchanged over the network or published as f
 
 ## External — DEG schemas IES uses
 
-Schemas defined and published outside this repository, canonical at [schema.beckn.io](https://schema.beckn.io). Their field reference is mirrored in [External Schemas](external.md).
+Schemas defined and published outside this repository, canonical at [schema.nfh.global](https://schema.nfh.global). Their field reference is mirrored in [External Schemas](external.md).
 
 ---
 

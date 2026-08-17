@@ -20,7 +20,7 @@ The full field-level reference for each of these families lives in the **[Schema
 
 ## Where the P2P and flexibility schemas live (external)
 
-Some IES use cases build on schemas that IES does **not** publish itself — they are maintained upstream in the **Digital Energy Grid (DEG)** project, canonical at [schema.beckn.io](https://schema.beckn.io). If you are looking for the schemas behind **[P2P Energy Transaction](../../use-cases/p2p-energy-trading/README.md)** (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, …) or demand-side flexibility (`DemandFlexNeed`, `DemandFlexBuyOffer`, …), you will not find them among the families above — they are mirrored, with a field reference, in **[External Schemas](../../schemas-ies/external.md)** under the [Schemas](../../schemas-ies/README.md) section. The pages above cover only the schema families IES itself stewards.
+Some IES use cases build on schemas that IES does **not** publish itself — they are maintained upstream in the **Digital Energy Grid (DEG)** project, canonical at [schema.nfh.global](https://schema.nfh.global). If you are looking for the schemas behind **[P2P Energy Transaction](../../use-cases/p2p-energy-trading/README.md)** (`P2PTrade`, `DEGContract`, `EnergyTradeOffer`, …) or demand-side flexibility (`DemandFlexNeed`, `DemandFlexBuyOffer`, …), you will not find them among the families above — they are mirrored, with a field reference, in **[External Schemas](../../schemas-ies/external.md)** under the [Schemas](../../schemas-ies/README.md) section. The pages above cover only the schema families IES itself stewards.
 
 ---
 

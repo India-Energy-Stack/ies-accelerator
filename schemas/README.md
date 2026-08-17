@@ -45,11 +45,11 @@ Structured, non-credential payload schemas.
 
 ### External — DEG schemas IES uses
 
-Canonical at [schema.beckn.io](https://schema.beckn.io); the field reference is mirrored in **[External Schemas](external/README.md)**.
+Canonical at [schema.nfh.global](https://schema.nfh.global); the field reference is mirrored in **[External Schemas](external/README.md)**.
 
 | Schema family | Domain | Used in |
 |---|---|---|
-| `P2PTrade` / `DEGContract` / `EnergyTradeOffer` / `EnergyTradeDelivery` / `DiscomLedgerProvider` / `BecknTimeSeries` (mirror covers the core trade tables; `EnergyTradeDelivery` and `DiscomLedgerProvider` are defined only at schema.beckn.io) | Peer-to-peer energy trade | [P2P Energy Transaction](../use-cases/p2p-energy-trading/README.md) |
+| `P2PTrade` / `DEGContract` / `EnergyTradeOffer` / `EnergyTradeDelivery` / `DiscomLedgerProvider` / `BecknTimeSeries` (mirror covers the core trade tables; `EnergyTradeDelivery` and `DiscomLedgerProvider` are defined only at schema.nfh.global) | Peer-to-peer energy trade | [P2P Energy Transaction](../use-cases/p2p-energy-trading/README.md) |
 | `DemandFlexNeed` / `DemandFlexBuyOffer` / `DemandFlexPerformance` + shared `EnergyResource` / `DEGContract` / `RevenueFlow` / `BecknTimeSeries` | Demand-side flexibility procurement and M&V | — not yet an IES use case |
 
 ---

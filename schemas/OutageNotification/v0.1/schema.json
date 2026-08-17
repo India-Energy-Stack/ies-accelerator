@@ -305,7 +305,7 @@
         "geo": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
+              "$ref": "https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
             }
           ],
           "description": "Optional inline geometry (WGS84): Point (substation/DT),\nLineString (feeder route), Polygon (service area).\n",
@@ -360,7 +360,7 @@
         "geo": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
+              "$ref": "https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
             }
           ],
           "description": "Polygon/MultiPolygon service area, or Point/circle (CAP). WGS84.",

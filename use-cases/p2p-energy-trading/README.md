@@ -206,7 +206,7 @@ One `BecknTimeSeries` envelope carries the whole trade; what changes between pha
 
 ```json
 "commitmentAttributes": {
-  "@context": "https://schema.beckn.io/BecknTimeSeries/v1.0/context.jsonld",
+  "@context": "https://schema.nfh.global/BecknTimeSeries/v1.0/context.jsonld",
   "@type": "TimeSeries",
   "intervalPeriod": { "start": "2026-04-26T04:30:00Z", "duration": "PT1H" },
   "payloadDescriptors": [
@@ -249,7 +249,7 @@ One `BecknTimeSeries` envelope carries the whole trade; what changes between pha
 "consideration": [
   { "id": "auto-settlement-flows",
     "considerationAttributes": {
-      "@context": "https://schema.beckn.io/RevenueFlow/v2.0/context.jsonld",
+      "@context": "https://schema.nfh.global/RevenueFlow/v2.0/context.jsonld",
       "@type": "RevenueFlow",
       "revenueFlows": [
         { "role": "buyerPlatform",  "value": -437.15, "currency": "INR", "description": "Energy purchase cost (18.5 kWh × ₹12.5 + 14.2 kWh × ₹14.5)" },
@@ -419,5 +419,5 @@ None of the four steps require permission from a platform owner. For a guided fi
 
 - **[Overview — P2P Energy Transaction](../../use-cases-overview/p2p-energy-trading.md)** — standards basis, definitions, full field schedule, the six-phase walkthrough, and Points for Confirmation
 - **[External Schemas — Energy Trading](../../schemas-ies/external.md#energy-trading-p2p)** — consolidated field reference
-- Canonical schemas at **[schema.beckn.io](https://schema.beckn.io)** — [P2PTrade/v2.0](https://schema.beckn.io/P2PTrade/v2.0) · [DEGContract/v2.0](https://schema.beckn.io/DEGContract/v2.0) · [EnergyTradeOffer/v2.0](https://schema.beckn.io/EnergyTradeOffer/v2.0) · [EnergyTradeDelivery/v2.0](https://schema.beckn.io/EnergyTradeDelivery/v2.0) · [DiscomLedgerProvider/v2.0](https://schema.beckn.io/DiscomLedgerProvider/v2.0) · [BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)
+- Canonical schemas at **[schema.nfh.global](https://schema.nfh.global)** — [P2PTrade/v2.0](https://schema.nfh.global/P2PTrade/v2.0) · [DEGContract/v2.0](https://schema.nfh.global/DEGContract/v2.0) · [EnergyTradeOffer/v2.0](https://schema.nfh.global/EnergyTradeOffer/v2.0) · [EnergyTradeDelivery/v2.0](https://schema.nfh.global/EnergyTradeDelivery/v2.0) · [DiscomLedgerProvider/v2.0](https://schema.nfh.global/DiscomLedgerProvider/v2.0) · [BecknTimeSeries/v1.0](https://schema.nfh.global/BecknTimeSeries/v1.0)
 - **[ElectricityCredential v1.2](../../schemas/ElectricityCredential/v1.2/README.md)** *(optional)* — seller's attestation backing the offer

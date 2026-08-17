@@ -21,11 +21,11 @@ The receiver checks: credential type is `MeterDataCredential`, `validUntil` has 
 
 ## Inheritance
 
-`MeterDataCredential` is a **subclass of [`EnergyCredential v2.0`](https://schema.beckn.io/EnergyCredential/v2.0)** (defined in the [DEG specification](https://github.com/beckn/DEG)):
+`MeterDataCredential` is a **subclass of [`EnergyCredential v2.0`](https://schema.nfh.global/EnergyCredential/v2.0)** (defined in the [DEG specification](https://github.com/beckn/DEG)):
 
 ```
 beckn:Credential
-  └── EnergyCredential (https://schema.beckn.io/EnergyCredential/v2.0)
+  └── EnergyCredential (https://schema.nfh.global/EnergyCredential/v2.0)
         └── MeterDataCredential
 ```
 
@@ -38,11 +38,11 @@ The common VC envelope is **inherited, not duplicated**:
 | `credentialStatus` (DeDi registry) | |
 | `proof` (Ed25519Signature2020) | |
 
-In `attributes.yaml` this is expressed as `allOf: - $ref: https://schema.beckn.io/EnergyCredential/v2.0`, matching the same pattern used by `MeterDataRequestCredential`, `ConsumptionProfileCredential`, and other DEG energy credentials.
+In `attributes.yaml` this is expressed as `allOf: - $ref: https://schema.nfh.global/EnergyCredential/v2.0`, matching the same pattern used by `MeterDataRequestCredential`, `ConsumptionProfileCredential`, and other DEG energy credentials.
 
 The `@context` of a credential instance must include:
 1. `https://www.w3.org/ns/credentials/v2`
-2. `https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld`
+2. `https://schema.nfh.global/EnergyCredential/v2.0/context.jsonld`
 3. `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataCredential/v0.6/context.jsonld`
 
 ---

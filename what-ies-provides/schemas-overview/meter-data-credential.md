@@ -79,7 +79,7 @@ The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → 
 | **Ed25519Signature2020** | `proof.type` in the worked examples |
 | **IS 15959 / IEC 62056** (OBIS) | *Transitively*, via the inline-wrapped MeterData payload — e.g. `EventProfile` is an "IS 15959 event log"; `meterCategory` (`A`, `B`, `C`, `D1`–`D4`) is the IS 15959 classification; OBIS codes identify physical quantities in `payloadDescriptors`, resolved against `IES codes.json` |
 
-The `@context` chain a valid instance must declare is three deep: `https://www.w3.org/ns/credentials/v2` → `https://schema.beckn.io/EnergyCredential/v2.0/context.jsonld` → this schema's own `context.jsonld`, each layer adding only what it defines.
+The `@context` chain a valid instance must declare is three deep: `https://www.w3.org/ns/credentials/v2` → `https://schema.nfh.global/EnergyCredential/v2.0/context.jsonld` → this schema's own `context.jsonld`, each layer adding only what it defines.
 
 ## 6. Where Indian Standards Do Not Yet Exist
 

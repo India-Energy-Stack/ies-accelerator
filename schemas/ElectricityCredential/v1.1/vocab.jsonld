@@ -1,8 +1,8 @@
 {
     "@context": {
         "@version": 1.1,
-        "deg": "https://schema.beckn.io/deg/",
-        "energyCred": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "deg": "https://schema.nfh.global/deg/",
+        "energyCred": "https://schema.nfh.global/deg/EnergyCredential/v2.0/",
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
         "xsd": "http://www.w3.org/2001/XMLSchema#"

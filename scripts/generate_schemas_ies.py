@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the developer-facing ``schemas-ies/`` section — a schema.beckn.io-style
+"""Generate the developer-facing ``schemas-ies/`` section — a schema.nfh.global-style
 catalog and one term page per schema family.
 
 For each family ``schemas/<Family>/`` this produces ``schemas-ies/<Family>.md``:
@@ -403,7 +403,7 @@ def catalog_page() -> str:
         "## External — DEG schemas IES uses",
         "",
         "Schemas defined and published outside this repository, canonical at "
-        "[schema.beckn.io](https://schema.beckn.io). Their field reference is mirrored in "
+        "[schema.nfh.global](https://schema.nfh.global). Their field reference is mirrored in "
         "[External Schemas](external.md).",
         "",
         "---",

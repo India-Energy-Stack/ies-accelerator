@@ -36,10 +36,10 @@ try:
         }
     }
     registry = Registry().with_resources([
-        ("https://schema.beckn.io/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
-        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema)),
-        ("https://schema.beckn.io/Address/v2.0/attributes.yaml", Resource.from_contents(beckn_address_schema)),
-        ("https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml", Resource.from_contents(beckn_geojson_schema))
+        ("https://schema.nfh.global/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
+        ("https://schema.nfh.global/EnergyResource/v2.0", Resource.from_contents(energy_res_schema)),
+        ("https://schema.nfh.global/Address/v2.0/attributes.yaml", Resource.from_contents(beckn_address_schema)),
+        ("https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml", Resource.from_contents(beckn_geojson_schema))
     ])
 except ImportError:
     registry = None

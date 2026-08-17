@@ -1,6 +1,6 @@
 # External Schemas
 
-Some schemas used across IES are **defined and published outside this repository** — served canonically at [schema.beckn.io](https://schema.beckn.io) — and documented here so the book carries a complete field reference. Each schema links to its canonical definition; each domain links to its use-case guide and deployable devkit.
+Some schemas used across IES are **defined and published outside this repository** — served canonically at [schema.nfh.global](https://schema.nfh.global) — and documented here so the book carries a complete field reference. Each schema links to its canonical definition; each domain links to its use-case guide and deployable devkit.
 
 {% hint style="info" %}
 These tables are **auto-generated** from the schema sources by `scripts/generate_external_field_tables.py` (version `v2.0`). Don't edit by hand — re-run the generator to refresh. Where a field derives from a recognised standard, its description begins with **Based on** and the standard reference (from the source's `x-standard` annotation).
@@ -16,13 +16,13 @@ A peer-to-peer trade is modelled as a `P2PTrade` contract (a beckn `Contract` su
 
 ### P2PTrade
 
-_Defined at [`P2PTrade/v2.0`](https://schema.beckn.io/P2PTrade/v2.0) — P2PTrade._
+_Defined at [`P2PTrade/v2.0`](https://schema.nfh.global/P2PTrade/v2.0) — P2PTrade._
 
 _Inherits all fields from **EnergyContract**._
 
 ### EnergyTradeOffer
 
-_Defined at [`EnergyTradeOffer/v2.0`](https://schema.beckn.io/EnergyTradeOffer/v2.0) — EnergyTradeOffer — Offer Attributes (v2.0)._
+_Defined at [`EnergyTradeOffer/v2.0`](https://schema.nfh.global/EnergyTradeOffer/v2.0) — EnergyTradeOffer — Offer Attributes (v2.0)._
 
 | Field | Type | Description |
 |----|-------|-----------------|
@@ -44,7 +44,7 @@ _Object: `EnergyTradeOffer.commitmentAttributes`_
 
 ### EnergyCustomer
 
-_Defined at [`EnergyCustomer/v2.0`](https://schema.beckn.io/EnergyCustomer/v2.0) — EnergyCustomer — Customer Attributes (v2.0)._
+_Defined at [`EnergyCustomer/v2.0`](https://schema.nfh.global/EnergyCustomer/v2.0) — EnergyCustomer — Customer Attributes (v2.0)._
 
 | Field | Type | Description |
 |----|-------|-----------------|
@@ -56,7 +56,7 @@ _Defined at [`EnergyCustomer/v2.0`](https://schema.beckn.io/EnergyCustomer/v2.0)
 
 ### EnergyOrderItem
 
-_Defined at [`EnergyOrderItem/v2.0`](https://schema.beckn.io/EnergyOrderItem/v2.0) — EnergyOrderItem._
+_Defined at [`EnergyOrderItem/v2.0`](https://schema.nfh.global/EnergyOrderItem/v2.0) — EnergyOrderItem._
 
 | Field | Type | Description |
 |----|-------|-----------------|
@@ -77,7 +77,7 @@ _Object: `EnergyOrderItem.fulfillmentAttributes`_
 
 ### RevenueFlow
 
-_Defined at [`RevenueFlow/v2.0`](https://schema.beckn.io/RevenueFlow/v2.0) — RevenueFlow — Consideration Attributes (v2.0)._
+_Defined at [`RevenueFlow/v2.0`](https://schema.nfh.global/RevenueFlow/v2.0) — RevenueFlow — Consideration Attributes (v2.0)._
 
 | Field | Type | Description |
 |----|-------|-----------------|
@@ -94,7 +94,7 @@ _Object: `RevenueFlow.revenueFlows[]`_
 
 ### DEGContract
 
-_Defined at [`DEGContract/v2.0`](https://schema.beckn.io/DEGContract/v2.0) — DEG — Contract (v2.0)._
+_Defined at [`DEGContract/v2.0`](https://schema.nfh.global/DEGContract/v2.0) — DEG — Contract (v2.0)._
 
 | Field | Type | Description |
 |----|-------|-----------------|
@@ -127,7 +127,7 @@ _Object: `DEGContract.revenueFlows[]`_
 
 ### EnergyResource
 
-_Defined at [`EnergyResource/v2.0`](https://schema.beckn.io/EnergyResource/v2.0) — EnergyResource — Resource Attributes (v2.0)._
+_Defined at [`EnergyResource/v2.0`](https://schema.nfh.global/EnergyResource/v2.0) — EnergyResource — Resource Attributes (v2.0)._
 
 Discriminated union of all typed EnergyResource kinds. Dispatched by the 'type' field. Each kind lives in its own schema at schema.nfh.global/<Kind>/v1.0 and is referenced above. EnergyResourceCommon (id, type, subResources, parentResources, attributes) and EnergyResourceCommonAttributes (make, model, maxExportKw, maxImportKw, ratedPowerKw, telemetryProvider, commissioningDate, location) are defined in EnergyResourceCommon/v1.0 and inherited by all kinds via allOf external $ref. For P2P-trading: minimal usage is {id, type}. For demand-flex and credentials: add attributes fields as needed. For targeted validation: $ref the specific kind directly.
 
@@ -135,7 +135,7 @@ _Discriminated union (`oneOf`) of: `EnergyResourceMeter`, `EnergyResourceGenerat
 
 ### BecknTimeSeries
 
-_Defined at [`BecknTimeSeries/v1.0`](https://schema.beckn.io/BecknTimeSeries/v1.0) — BecknTimeSeries — Time-Series Payload (v1.0)._
+_Defined at [`BecknTimeSeries/v1.0`](https://schema.nfh.global/BecknTimeSeries/v1.0) — BecknTimeSeries — Time-Series Payload (v1.0)._
 
 _Based on **OpenADR 3.1.0**._
 
@@ -162,7 +162,7 @@ A flexibility programme advertises a `DemandFlexNeed`, contracts via a `DemandFl
 
 ### DemandFlexNeed
 
-_Defined at [`DemandFlexNeed/v2.0`](https://schema.beckn.io/DemandFlexNeed/v2.0) — Demand Flex — Need Attributes (v2.0)._
+_Defined at [`DemandFlexNeed/v2.0`](https://schema.nfh.global/DemandFlexNeed/v2.0) — Demand Flex — Need Attributes (v2.0)._
 
 _Based on **OpenADR 3.1.0 (event time series)**._
 
@@ -178,7 +178,7 @@ Buyer-authored demand-flex procurement schedule as an OpenADR-aligned time serie
 
 ### DemandFlexBuyOffer
 
-_Defined at [`DemandFlexBuyOffer/v2.0`](https://schema.beckn.io/DemandFlexBuyOffer/v2.0) — Demand Flex — Buy Offer Attributes (v2.0)._
+_Defined at [`DemandFlexBuyOffer/v2.0`](https://schema.nfh.global/DemandFlexBuyOffer/v2.0) — Demand Flex — Buy Offer Attributes (v2.0)._
 
 #### DemandFlexBuyOffer
 
@@ -214,7 +214,7 @@ _Object: `DemandFlexRoleInput.inputs.participatingMetersDigest`_
 
 ### DemandFlexPerformance
 
-_Defined at [`DemandFlexPerformance/v2.0`](https://schema.beckn.io/DemandFlexPerformance/v2.0) — Demand Flex — Performance Attributes (v2.0)._
+_Defined at [`DemandFlexPerformance/v2.0`](https://schema.nfh.global/DemandFlexPerformance/v2.0) — Demand Flex — Performance Attributes (v2.0)._
 
 Performance attributes for demand-flex M&V (Measurement & Verification). Attached to Performance.performanceAttributes in on_status callbacks.
 
