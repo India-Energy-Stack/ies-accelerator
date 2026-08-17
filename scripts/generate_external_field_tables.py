@@ -18,7 +18,7 @@ Difference from ``generate_field_tables.py``
 That sibling tool reads a *compiled* ``schema.json`` (a flat ``$defs`` map). The
 DEG trading / demand-flex schemas have no ``schema.json`` — they are authored as
 OpenAPI ``attributes.yaml`` (``components.schemas``) with ``allOf`` inheritance,
-internal ``$defs``, ``schema.beckn.io`` URL ``$ref``s and inline nested objects.
+internal ``$defs``, ``schema.nfh.global`` URL ``$ref``s and inline nested objects.
 This tool reads those ``attributes.yaml`` files directly, expands inline nested
 objects into their own sub-tables, and renders the same column layout. A field's
 ``x-standard`` annotation (when present in the source) leads its Description cell
@@ -51,7 +51,7 @@ COL_RULE = "|----|-------|-----------------|"
 
 VERSION = "v2.0"
 # Canonical published location of each schema (its definition + JSON-LD context).
-SCHEMA_BASE = "https://schema.beckn.io"
+SCHEMA_BASE = "https://schema.nfh.global"
 # Where the source attributes.yaml are read from (a local checkout of the repo
 # that publishes to SCHEMA_BASE). Path is configurable via --schema-repo.
 DEG_DEVKITS = "https://github.com/beckn/DEG/tree/main/devkits"
@@ -141,7 +141,7 @@ def code_enum(values) -> str:
 def ref_label(ref: str) -> str:
     """Human label for a $ref. Handles internal (#/components/schemas/X, #/$defs/X),
     fragment URLs (…/Schema/v1.0#/components/schemas/X) and whole-schema URLs
-    (https://schema.beckn.io/EnergyContract/v2.0 -> 'EnergyContract')."""
+    (https://schema.nfh.global/EnergyContract/v2.0 -> 'EnergyContract')."""
     base, _, frag = ref.partition("#")
     if frag:
         return frag.rstrip("/").split("/")[-1]
@@ -388,7 +388,7 @@ def build_page(repo: str) -> str:
         "# External Schemas",
         "",
         "Some schemas used across IES are **defined and published outside this "
-        f"repository** — served canonically at [schema.beckn.io]({SCHEMA_BASE}) — "
+        f"repository** — served canonically at [schema.nfh.global]({SCHEMA_BASE}) — "
         "and documented here so the book carries a complete field reference. Each "
         "schema links to its canonical definition; each domain links to its "
         "use-case guide and deployable devkit.",

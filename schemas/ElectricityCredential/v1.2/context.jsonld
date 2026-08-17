@@ -3,7 +3,7 @@
         "@version": 1.1,
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "deg": "https://schema.beckn.io/deg#",
+        "deg": "https://schema.nfh.global/deg#",
         "ElectricityCredential": {
             "@id": "deg:ElectricityCredential",
             "@context": {
@@ -30,7 +30,7 @@
                     "@type": "@id",
                     "@container": "@set",
                     "@context": {
-                        "@import": "https://schema.beckn.io/EnergyResource/v2.1/context.jsonld",
+                        "@import": "https://schema.nfh.global/EnergyResource/v2.1/context.jsonld",
                         "attributes": {
                             "@id": "deg:attributes",
                             "@type": "@id"
@@ -42,7 +42,7 @@
                     "@type": "@id",
                     "@container": "@set",
                     "@context": {
-                        "@import": "https://schema.beckn.io/MeterServiceProfile/v1.1/context.jsonld",
+                        "@import": "https://schema.nfh.global/MeterServiceProfile/v1.1/context.jsonld",
                         "@protected": true
                     }
                 }
@@ -52,7 +52,7 @@
             "@id": "deg:customerDetails",
             "@type": "@id",
             "@context": {
-                "@import": "https://schema.beckn.io/CustomerDetails/v1.0/context.jsonld",
+                "@import": "https://schema.nfh.global/CustomerDetails/v1.0/context.jsonld",
                 "@protected": true
             }
         },

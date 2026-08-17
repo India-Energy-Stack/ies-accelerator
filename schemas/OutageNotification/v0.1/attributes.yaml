@@ -207,7 +207,7 @@ components:
           allOf: [{ $ref: '#/components/schemas/Identifier' }]
           description: Parent asset (e.g. a feeder's substation, a DT's feeder).
         geo:
-          allOf: [{ $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry' }]
+          allOf: [{ $ref: 'https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry' }]
           description: |
             Optional inline geometry (WGS84): Point (substation/DT),
             LineString (feeder route), Polygon (service area).
@@ -249,7 +249,7 @@ components:
           items: { type: string }
           description: Named localities / wards / villages.
         geo:
-          allOf: [{ $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry' }]
+          allOf: [{ $ref: 'https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry' }]
           description: Polygon/MultiPolygon service area, or Point/circle (CAP). WGS84.
           x-standard: "GeoJSON (RFC 7946); CAP area"
 

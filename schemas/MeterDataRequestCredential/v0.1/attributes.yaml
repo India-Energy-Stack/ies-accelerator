@@ -44,7 +44,7 @@ components:
         "@context": ./context.jsonld
         "@type": MeterDataRequestCredential
       allOf:
-        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+        - $ref: "https://schema.nfh.global/EnergyCredential/v2.0"
       properties:
         credentialSubject:
           $ref: "#/components/schemas/MeterDataRequestCredentialSubject"

@@ -40,7 +40,7 @@ info:
 
 jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 servers:
-  - url: https://schema.beckn.io
+  - url: https://schema.nfh.global
     description: Canonical schema registry
 paths: {}
 components:
@@ -52,7 +52,7 @@ components:
       type: object
       additionalProperties: true
       allOf:
-        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+        - $ref: "https://schema.nfh.global/EnergyCredential/v2.0"
       x-tags:
         - energy
         - credential
@@ -124,25 +124,25 @@ components:
             $ref: "#/components/schemas/ConsumptionProfile"
 
     IdRef:
-      $ref: "https://schema.beckn.io/IdRef/v1.0#/components/schemas/IdRef"
+      $ref: "https://schema.nfh.global/IdRef/v1.0#/components/schemas/IdRef"
       description: External identity reference for the customer. Defined in IdRef/v1.0.
 
     ConsumptionProfile:
-      $ref: "https://schema.beckn.io/MeterServiceProfile/v1.1#/components/schemas/MeterServiceProfile"
+      $ref: "https://schema.nfh.global/MeterServiceProfile/v1.1#/components/schemas/MeterServiceProfile"
       description: >
         Tariff and regulatory load profile for one meter connection.
         meterId links to a METER entry in customerProfile.energyResources[].
         Uses MeterServiceProfile/v1.1 (sanctionedLoad, contractMaxDemand as QuantitativeValue).
 
     CustomerDetails:
-      $ref: "https://schema.beckn.io/CustomerDetails/v1.0#/components/schemas/CustomerDetails"
+      $ref: "https://schema.nfh.global/CustomerDetails/v1.0#/components/schemas/CustomerDetails"
       description: >
         PII section — fullName, installationAddress, serviceConnectionDate.
         fullName appears ONLY here — never in customerProfile or resource entries.
         Defined in CustomerDetails/v1.0.
 
     EnergyResource:
-      $ref: "https://schema.beckn.io/EnergyResource/v2.1#/components/schemas/EnergyResource"
+      $ref: "https://schema.nfh.global/EnergyResource/v2.1#/components/schemas/EnergyResource"
       description: >
         Discriminated union of all seven typed EnergyResource kinds, each
         inheriting id, type, subResources, parentResources, and attributes

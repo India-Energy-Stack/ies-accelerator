@@ -827,6 +827,6 @@ components:
       - NetMeter
       - Other
     Address:
-      $ref: 'https://schema.beckn.io/Address/v2.0/attributes.yaml#/components/schemas/Address'
+      $ref: 'https://schema.nfh.global/Address/v2.0/attributes.yaml#/components/schemas/Address'
     GeoJSONGeometry:
-      $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'
+      $ref: 'https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'

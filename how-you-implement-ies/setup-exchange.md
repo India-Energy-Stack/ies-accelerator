@@ -36,7 +36,7 @@ On this machine:
 | Discovery service (DS) — where ONIX routes `discover` | `https://34.93.165.42.sslip.io` |
 | Catalog service (CS) + DeDi registry lookups | `https://fabric.nfh.global` |
 | DeDi publishing | `https://publish.dedi.global` |
-| Schema contexts | `https://schema.beckn.io`, `https://schema.nfh.global`, `https://raw.githubusercontent.com` |
+| Schema contexts | `https://schema.nfh.global`, `https://schema.nfh.global`, `https://raw.githubusercontent.com` |
 | IES docs and hosted schemas | `https://india-energy-stack.gitbook.io/docs`, `https://india-energy-stack.github.io` |
 
 The devkit ships pre-configured sandbox identities (`bap.example.com` / `bpp.example.com`) — no real credentials needed for the local walkthrough.
@@ -241,7 +241,7 @@ Every Beckn message shares the same envelope (v2.0 wire format, camelCase):
     "transactionId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
     "messageId": "1e2f3a4b-5c6d-7890-4567-890123456789",
     "timestamp": "2026-04-01T09:25:00Z",
-    "schemaContext": ["https://schema.beckn.io/DatasetItem/v1.1/context.jsonld"]
+    "schemaContext": ["https://schema.nfh.global/DatasetItem/v1.1/context.jsonld"]
   },
   "message": { /* action-specific payload */ }
 }
@@ -263,7 +263,7 @@ The resource a data exchange agrees on is a **dataset**. **`DatasetItem`** (from
   "id": "ds-ami-meter-data-blr-zone-a-q1-2026",
   "descriptor": { "name": "IntelliGrid AMI Meter Data — Bengaluru Zone A — Q1 2026" },
   "resourceAttributes": {
-    "@context": "https://schema.beckn.io/DatasetItem/v1.1/context.jsonld",
+    "@context": "https://schema.nfh.global/DatasetItem/v1.1/context.jsonld",
     "@type": "DatasetItem",
     "accessMethod": "INLINE",
     "dataPayload": { /* inline MeterData, ArrFiling, ... */ }
@@ -315,7 +315,7 @@ When a dataset is too large to fit in a single `on_confirm` (e.g. a quarter of A
 
 ```json
 "performanceAttributes": {
-  "@context":  "https://schema.beckn.io/DatasetItem/v1.1/context.jsonld",
+  "@context":  "https://schema.nfh.global/DatasetItem/v1.1/context.jsonld",
   "@type":     "DatasetItem",
   "dataPayload": [ /* this page's slice of CustomerProfile / IntervalProfile entries */ ],
   "pageInfo": {
@@ -403,7 +403,7 @@ The wire envelope accepts arbitrary JSON inside `dataPayload`; validation is **o
 - **Payload declares `@context` + `@type` → ONIX validates it.** ONIX fetches the OpenAPI 3.x **`attributes.yaml` that sits next to the `context.jsonld`** named in `@context` (same URL, different filename — every IES / Beckn schema family publishes the pair side by side), and validates the object against the `components.schemas` entry whose name matches `@type` exactly (`DatasetItem`, `MeterData`, `ArrFiling`, …). A failed validation rejects the message.
 - **Payload omits `@context` → ONIX passes it through.** Useful for prototyping a new dataset shape.
 
-ONIX only fetches `@context` URLs from **allow-listed hosts** (default: `raw.githubusercontent.com`, `schema.beckn.io`). To validate payloads from your own schema repo, add the host to `extendedSchema` in your ONIX config.
+ONIX only fetches `@context` URLs from **allow-listed hosts** (default: `raw.githubusercontent.com`, `schema.nfh.global`). To validate payloads from your own schema repo, add the host to `extendedSchema` in your ONIX config.
 
 #### Failure modes
 

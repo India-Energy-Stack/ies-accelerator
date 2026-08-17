@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | **Applicability** | Trading platforms, regulated Ledger Providers, DISCOMs |
-| **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.beckn.io](https://schema.beckn.io)) over Beckn, with signed Rego policies governing the network and contract rules. Mirrored in [External Schemas — Energy Trading](../schemas-ies/external.md). |
+| **This version** | Built on the DEG `P2PTrade` / `DEGContract` / `BecknTimeSeries` family (canonical at [schema.nfh.global](https://schema.nfh.global)) over Beckn, with signed Rego policies governing the network and contract rules. Mirrored in [External Schemas — Energy Trading](../schemas-ies/external.md). |
 
 > **Initial topology.** The architecture supports one Ledger Provider per DISCOM, but the starting configuration connects **all trading platforms to a single Ledger Provider** at `ies-p2p-energy-ledger.beckn.io` — the two LPs in the diagrams below collapse into one (the intra-DISCOM topology; same protocol, fewer hops). The network namespaces are `indiaenergystack.in/test-ies-p2p-trading-network` (test) and `indiaenergystack.in/ies-p2p-trading-network` (production).
 
@@ -71,7 +71,7 @@ IES order of preference: **IS → CEA → IEC → IEEE**. Indian standards do no
 | Standard | Role here |
 |---|---|
 | **Beckn Protocol v2** | The discovery / contracting / status lifecycle (`discover` → `select` → `init` → `confirm` → `status`); providers list offers to the Catalog service via `publish-catalog`, consumers query the Discovery service with `discover` |
-| **DEG schema family** | `P2PTrade`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DEGContract`, `DiscomLedgerProvider`, `BecknTimeSeries` — canonical at [schema.beckn.io](https://schema.beckn.io) |
+| **DEG schema family** | `P2PTrade`, `EnergyTradeOffer`, `EnergyTradeDelivery`, `DEGContract`, `DiscomLedgerProvider`, `BecknTimeSeries` — canonical at [schema.nfh.global](https://schema.nfh.global) |
 | **OPA / Rego** | The policy bundle format (standardised by CNCF) |
 | **W3C VC Data Model 2.0 / W3C DID Core** | Issuer key, signing |
 | **JSON-LD 1.1** | Wire format and semantic resolution |
@@ -96,7 +96,7 @@ If the use case needs a holder-bound credential — e.g. a prosumer carrying a c
 
 ## 8. Schedule I — Static Fields of the Exchange
 
-Schedule I is a use-case profile table over DEG's externally governed schema family, canonical at [schema.beckn.io](https://schema.beckn.io) and mirrored in [External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p). Because these fields are not maintained in this repository, the schema-qualified names below identify the upstream contract rather than local JSON-Schema paths. **Upstream Requires** follows the mirrored v2.0 field tables; **P2P Guidance** is informative use-case guidance.
+Schedule I is a use-case profile table over DEG's externally governed schema family, canonical at [schema.nfh.global](https://schema.nfh.global) and mirrored in [External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p). Because these fields are not maintained in this repository, the schema-qualified names below identify the upstream contract rather than local JSON-Schema paths. **Upstream Requires** follows the mirrored v2.0 field tables; **P2P Guidance** is informative use-case guidance.
 
 ### 8.1 Contract Roles and Policy
 
@@ -169,7 +169,7 @@ Every `payloadType` used in an interval must be declared by the profile's descri
 | Trade-side meter identity | `EnergyCustomer.meterId` | Required upstream field | Identifies the prosumer endpoint used by the trade |
 | Daily injected/consumed actuals | `BecknTimeSeries` report payload types | Governed by the P2P reconciliation profile | Supplied by each DISCOM to its LP inside the contract-status flow |
 | MeterData v0.6 | Separate IES telemetry schema | **Not embedded as a MeterData profile in this trade contract** | A DISCOM may derive actuals from its MeterData system, but the trade-side wire shape remains BecknTimeSeries |
-| Ledger-provider binding | `DiscomLedgerProvider` upstream schema | Defined only at schema.beckn.io | Associates a regulated ledger endpoint with its DISCOM/utility ID |
+| Ledger-provider binding | `DiscomLedgerProvider` upstream schema | Defined only at schema.nfh.global | Associates a regulated ledger endpoint with its DISCOM/utility ID |
 
 ## 10. How It Fits Together
 
@@ -207,12 +207,12 @@ The cascade rules, the four ledger interfaces, and the payload snapshots that ma
 
 | Schema | Role |
 |---|---|
-| **[P2PTrade](https://schema.beckn.io/P2PTrade/)** | The contract `@type` — agreed quantity, price, delivery window, the four roles, the policy URL |
-| **[EnergyTradeOffer](https://schema.beckn.io/EnergyTradeOffer/)** | The seller's offer block |
-| **[EnergyTradeDelivery](https://schema.beckn.io/EnergyTradeDelivery/)** | The performance block populated during reconciliation |
-| **[DEGContract](https://schema.beckn.io/DEGContract/)** | The envelope — roles, the rego policy URL, computed revenue flows |
-| **[DiscomLedgerProvider](https://schema.beckn.io/DiscomLedgerProvider/)** | The LP↔DISCOM binding (`utilityId`, `ledgerUrl`) |
-| **[BecknTimeSeries](https://schema.beckn.io/BecknTimeSeries/)** | Per-interval payload carrier — declares `payloadDescriptors` and `payloads[]` |
+| **[P2PTrade](https://schema.nfh.global/P2PTrade/)** | The contract `@type` — agreed quantity, price, delivery window, the four roles, the policy URL |
+| **[EnergyTradeOffer](https://schema.nfh.global/EnergyTradeOffer/)** | The seller's offer block |
+| **[EnergyTradeDelivery](https://schema.nfh.global/EnergyTradeDelivery/)** | The performance block populated during reconciliation |
+| **[DEGContract](https://schema.nfh.global/DEGContract/)** | The envelope — roles, the rego policy URL, computed revenue flows |
+| **[DiscomLedgerProvider](https://schema.nfh.global/DiscomLedgerProvider/)** | The LP↔DISCOM binding (`utilityId`, `ledgerUrl`) |
+| **[BecknTimeSeries](https://schema.nfh.global/BecknTimeSeries/)** | Per-interval payload carrier — declares `payloadDescriptors` and `payloads[]` |
 | **[ElectricityCredential v1.2](../schemas/ElectricityCredential/v1.2/README.md)** *(optional)* | Seller's attestation of meter / sanctioned-load / DER details backing the offer |
 
 A consolidated field reference is in **[External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p)**.
@@ -250,16 +250,16 @@ The wave-2 devkit ships example payloads for every phase, per role:
 
 ## Annexure C — JSON Schema
 
-Canonical references at **[schema.beckn.io](https://schema.beckn.io)**:
+Canonical references at **[schema.nfh.global](https://schema.nfh.global)**:
 
-- **[P2PTrade/v2.0](https://schema.beckn.io/P2PTrade/v2.0)**
-- **[DEGContract/v2.0](https://schema.beckn.io/DEGContract/v2.0)**
-- **[EnergyTradeOffer/v2.0](https://schema.beckn.io/EnergyTradeOffer/v2.0)**
-- **[EnergyTradeDelivery/v2.0](https://schema.beckn.io/EnergyTradeDelivery/v2.0)**
-- **[DiscomLedgerProvider/v2.0](https://schema.beckn.io/DiscomLedgerProvider/v2.0)**
-- **[BecknTimeSeries/v1.0](https://schema.beckn.io/BecknTimeSeries/v1.0)**
+- **[P2PTrade/v2.0](https://schema.nfh.global/P2PTrade/v2.0)**
+- **[DEGContract/v2.0](https://schema.nfh.global/DEGContract/v2.0)**
+- **[EnergyTradeOffer/v2.0](https://schema.nfh.global/EnergyTradeOffer/v2.0)**
+- **[EnergyTradeDelivery/v2.0](https://schema.nfh.global/EnergyTradeDelivery/v2.0)**
+- **[DiscomLedgerProvider/v2.0](https://schema.nfh.global/DiscomLedgerProvider/v2.0)**
+- **[BecknTimeSeries/v1.0](https://schema.nfh.global/BecknTimeSeries/v1.0)**
 
-A consolidated field reference for the trade schemas (except `DiscomLedgerProvider` and `EnergyTradeDelivery`, defined only at schema.beckn.io) is in **[External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p)**.
+A consolidated field reference for the trade schemas (except `DiscomLedgerProvider` and `EnergyTradeDelivery`, defined only at schema.nfh.global) is in **[External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p)**.
 
 ## Annexure D — Derived Views
 

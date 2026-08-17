@@ -34,8 +34,8 @@ try:
         "type": "object"
     }
     registry = Registry().with_resources([
-        ("https://schema.beckn.io/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
-        ("https://schema.beckn.io/EnergyResource/v2.0", Resource.from_contents(energy_res_schema))
+        ("https://schema.nfh.global/EnergyCredential/v2.0", Resource.from_contents(energy_cred_schema)),
+        ("https://schema.nfh.global/EnergyResource/v2.0", Resource.from_contents(energy_res_schema))
     ])
 except ImportError:
     registry = None

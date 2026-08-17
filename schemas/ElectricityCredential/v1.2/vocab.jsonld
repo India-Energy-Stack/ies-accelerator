@@ -1,9 +1,9 @@
 {
     "@context": {
         "@version": 1.1,
-        "deg":        "https://schema.beckn.io/deg/",
-        "erDeg":      "https://schema.beckn.io/deg/EnergyResource/v1.2/",
-        "energyCred": "https://schema.beckn.io/deg/EnergyCredential/v2.0/",
+        "deg":        "https://schema.nfh.global/deg/",
+        "erDeg":      "https://schema.nfh.global/deg/EnergyResource/v1.2/",
+        "energyCred": "https://schema.nfh.global/deg/EnergyCredential/v2.0/",
         "qudt":       "http://qudt.org/schema/qudt/",
         "cim":        "https://cim.ucaiug.io/ns#",
         "rdf":        "http://www.w3.org/1999/02/22-rdf-syntax-ns#",

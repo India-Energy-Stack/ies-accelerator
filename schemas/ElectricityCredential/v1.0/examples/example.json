@@ -2,12 +2,12 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.org/",
-    "https://schema.beckn.io/Location/2.0/context.jsonld",
+    "https://schema.nfh.global/Location/2.0/context.jsonld",
     "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.0/context.jsonld",
-    "https://schema.beckn.io/EnergyCustomerProfile/v1.0/context.jsonld",
-    "https://schema.beckn.io/ConsumptionProfileCredential/v2.0/context.jsonld",
-    "https://schema.beckn.io/GenerationProfileCredential/v2.0/context.jsonld",
-    "https://schema.beckn.io/StorageProfileCredential/v2.0/context.jsonld"
+    "https://schema.nfh.global/EnergyCustomerProfile/v1.0/context.jsonld",
+    "https://schema.nfh.global/ConsumptionProfileCredential/v2.0/context.jsonld",
+    "https://schema.nfh.global/GenerationProfileCredential/v2.0/context.jsonld",
+    "https://schema.nfh.global/StorageProfileCredential/v2.0/context.jsonld"
   ],
   "@type": "ElectricityCredential",
   "id": "urn:uuid:e5f6a7b8-9012-34ab-cdef-567890123456",

@@ -42,7 +42,7 @@ info:
 
 jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 servers:
-  - url: https://schema.beckn.io
+  - url: https://schema.nfh.global
     description: Canonical schema registry
 paths: {}
 components:
@@ -54,7 +54,7 @@ components:
       type: object
       additionalProperties: true
       allOf:
-        - $ref: "https://schema.beckn.io/EnergyCredential/v2.0"
+        - $ref: "https://schema.nfh.global/EnergyCredential/v2.0"
       x-tags:
         - energy
         - credential
@@ -140,7 +140,7 @@ components:
           x-jsonld:
             "@id": deg:energyResources
           items:
-            $ref: "https://schema.beckn.io/EnergyResource/v2.0#/components/schemas/EnergyResource"
+            $ref: "https://schema.nfh.global/EnergyResource/v2.0#/components/schemas/EnergyResource"
         consumptionProfiles:
           type: array
           minItems: 1
@@ -253,9 +253,9 @@ components:
             - geo
           properties:
             geo:
-              $ref: 'https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'
+              $ref: 'https://schema.nfh.global/GeoJSONGeometry/v2.0/attributes.yaml#/components/schemas/GeoJSONGeometry'
             address:
-              $ref: 'https://schema.beckn.io/Address/v2.0/attributes.yaml#/components/schemas/Address'
+              $ref: 'https://schema.nfh.global/Address/v2.0/attributes.yaml#/components/schemas/Address'
         serviceConnectionDate:
           type: string
           format: date-time

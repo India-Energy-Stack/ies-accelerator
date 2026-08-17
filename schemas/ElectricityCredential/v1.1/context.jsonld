@@ -6,8 +6,8 @@
         "type": "@type",
         "schema": "https://schema.org/",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "deg": "https://schema.beckn.io/deg#",
-        "erDeg": "https://schema.beckn.io/deg/EnergyResource/v2.0/",
+        "deg": "https://schema.nfh.global/deg#",
+        "erDeg": "https://schema.nfh.global/deg/EnergyResource/v2.0/",
         "ElectricityCredential": {
             "@id": "deg:ElectricityCredential",
             "@context": {
@@ -95,7 +95,7 @@
                     "@id": "beckn:Location",
                     "@type": "@id",
                     "@context": {
-                        "beckn": "https://schema.beckn.io/",
+                        "beckn": "https://schema.nfh.global/",
                         "geo": {
                             "@id": "beckn:geo",
                             "@type": "@id",
