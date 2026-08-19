@@ -1,0 +1,156 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-BILL-DETAILS-DOMESTIC",
+    "payloadDescriptorSets": [
+      {
+        "name": "DomesticBillingSet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255"
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.2.8.0.255"
+          },
+          {
+            "name": "Maximum demand (kW) - current billing period",
+            "readingType": "MD kW",
+            "unit": "kW",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.6.0.255"
+          },
+          {
+            "name": "Active energy import - TZ1 (kWh)",
+            "readingType": "kWh TZ1",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "category": "energyToU",
+            "obis": "1.0.1.8.1.255"
+          },
+          {
+            "name": "Active energy import - TZ2 (kWh)",
+            "readingType": "kWh TZ2",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "category": "energyToU",
+            "obis": "1.0.1.8.2.255"
+          },
+          {
+            "name": "Active energy import - TZ3 (kWh)",
+            "readingType": "kWh TZ3",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "category": "energyToU",
+            "obis": "1.0.1.8.3.255"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "BillDetails",
+    "profileType": "BILL_DETAILS",
+    "customerRefs": [
+      { "value": "did:web:discom.example:consumers:RR-1234", "scheme": "DID" },
+      { "value": "RR-1234", "scheme": "CONSUMER_NUMBER" }
+    ],
+    "meterRefs": [
+      { "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "DomesticBillingSet",
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      {
+        "readingType": "kWh imp",
+        "value": 412.5,
+        "openingValue": 18432.5,
+        "closingValue": 18845.0,
+        "validationStatus": "VALID",
+        "source": "MDM_COMPUTED"
+      },
+      {
+        "readingType": "kWh exp",
+        "value": 96.4,
+        "openingValue": 1210.0,
+        "closingValue": 1306.4,
+        "validationStatus": "VALID",
+        "source": "MDM_COMPUTED"
+      },
+      { "readingType": "MD kW", "occurredAt": "2026-04-18T20:00:00+05:30", "value": 4.2, "integrationPeriod": "PT30M" }
+    ],
+    "touBuckets": [
+      {
+        "readings": [
+          { "readingType": "kWh TZ1", "value": 151.3 }
+        ],
+        "zone": 1
+      },
+      {
+        "readings": [
+          { "readingType": "kWh TZ2", "value": 168.7 }
+        ],
+        "zone": 2
+      },
+      {
+        "readings": [
+          { "readingType": "kWh TZ3", "value": 92.5 }
+        ],
+        "zone": 3
+      }
+    ],
+    "billNumber": "DISCOM-RR-1234-202604",
+    "billVersion": 1,
+    "billingFrequency": "MONTHLY",
+    "billDate": "2026-05-01",
+    "billGeneratedAt": "2026-05-01T02:15:00+05:30",
+    "dueDate": "2026-05-21",
+    "nextBillDate": "2026-06-01",
+    "currency": "INR",
+    "energyCharges": 2133.68,
+    "fixedCharges": 440.0,
+    "fppcaCharges": 110.64,
+    "otherCharges": 100.0,
+    "slabRate": 6.75,
+    "taxElectricityDuty": 241.59,
+    "taxGst": 18.0,
+    "taxTdsTcs": 0.0,
+    "subsidyAmount": 250.0,
+    "subsidyKwh": 50.0,
+    "touAdjustmentAmount": -42.3,
+    "incentiveAmount": 25.0,
+    "currentBillAmount": 2726.61,
+    "arrearsAmount": 312.4,
+    "advancePayment": 500.0,
+    "securityDeposit": 3200.0,
+    "enforcementAmount": 0.0,
+    "amountDue": 2539.01,
+    "earlyPaymentAmount": 2511.74,
+    "earlyPaymentDate": "2026-05-11",
+    "latePaymentAmount": 2579.91,
+    "discountExpiryDate": "2026-05-11",
+    "paymentStatus": "UNPAID",
+    "serviceLocation": {
+      "postalCode": "560034",
+      "city": "Bengaluru",
+      "district": "Bengaluru Urban",
+      "state": "Karnataka",
+      "substation": "SS-KOR-11",
+      "region": "BLR-SOUTH"
+    }
+  }
+]

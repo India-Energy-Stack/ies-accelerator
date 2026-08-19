@@ -44,5 +44,6 @@ The primary telemetry payload of **[Smart Meter Data Exchange](../../use-cases/s
 
 | Version | Status | Notes |
 |---------|--------|-------|
+| [v0.7](v0.7/README.md) | Draft — proposed (additive) | Extends `BILL_DETAILS` with itemised bill components (taxes, subsidy, arrears, open access, ToU adjustment, payment terms, coarse `serviceLocation`); every v0.6 payload validates unchanged |
 | [v0.6](v0.6/README.md) | **Current** | Adds ALARM profile, anonymised topology, reading mode, split billing |
 | [v0.5](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.5) | Previous | Six profiles: CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT |
