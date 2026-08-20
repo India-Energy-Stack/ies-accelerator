@@ -15,6 +15,7 @@
 ## Schemas
 
 * [All Schemas](/schemas-ies/README.md)
+* [Term Taxonomy](/schemas-ies/taxonomy.md)
 * [ElectricityCredential](/schemas-ies/ElectricityCredential.md)
   * [v1.2](/schemas/ElectricityCredential/v1.2/README.md)
   * [v1.1](/schemas/ElectricityCredential/v1.1/README.md)
