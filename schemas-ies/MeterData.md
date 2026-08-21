@@ -13,7 +13,7 @@ layout:
 | | |
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData` |
-| **Latest version** | **v0.6** |
+| **Current version** | **v0.6** |
 | **Status** | Stable — In Pilot (current: **v0.6**) · **Issued by** AMISPs, HES/MDM systems, DISCOMs · **Consumed by** DISCOMs, regulators, TSPs and consented third parties |
 | **Category** | Data Exchange payloads |
 | **Used in** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) · [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) |
@@ -366,5 +366,6 @@ Every published version stays reachable at its canonical URL — clients pin a v
 
 | Version | Status | Notes | Files |
 |---|---|---|---|
+| [v0.7](../schemas/MeterData/v0.7/README.md) | Draft — proposed (additive) | Extends `BILL_DETAILS` with itemised bill components (taxes, subsidy, arrears, open access, ToU adjustment, payment terms, coarse `serviceLocation`); every v0.6 payload validates unchanged | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.7/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.7/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.7/examples) |
 | [v0.6](../schemas/MeterData/v0.6/README.md) | **Current** | Adds ALARM profile, anonymised topology, reading mode, split billing | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.6/examples) |
 | [v0.5](../schemas/MeterData/v0.5/README.md) | Previous | Six profiles: CUSTOMER, INTERVAL, DAILY, BILLING, INSTANTANEOUS, EVENT | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterData/v0.5/examples) |

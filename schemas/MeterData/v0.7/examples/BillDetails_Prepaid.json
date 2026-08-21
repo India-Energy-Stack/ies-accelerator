@@ -1,0 +1,63 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-BILL-DETAILS-PREPAID",
+    "payloadDescriptorSets": [
+      {
+        "name": "PrepaidBillingSet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "BillDetails",
+    "profileType": "BILL_DETAILS",
+    "customerRefs": [
+      { "value": "PP-20-118836", "scheme": "CONSUMER_NUMBER" }
+    ],
+    "meterRefs": [
+      { "value": "DISCOM-PP-2025-330912", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "PrepaidBillingSet",
+    "timePeriod": { "start": "2026-04-14T00:00:00+05:30", "duration": "P1D" },
+    "readings": [
+      {
+        "readingType": "kWh imp",
+        "value": 9.8,
+        "openingValue": 2210.6,
+        "closingValue": 2220.4,
+        "validationStatus": "VALID",
+        "source": "METER"
+      }
+    ],
+    "billNumber": "DISCOM-PP-20-118836-20260414",
+    "billVersion": 1,
+    "billingFrequency": "DAILY",
+    "billDate": "2026-04-15",
+    "billGeneratedAt": "2026-04-15T00:05:00+05:30",
+    "nextBillDate": "2026-04-16",
+    "currency": "INR",
+    "energyCharges": 57.82,
+    "fixedCharges": 2.5,
+    "fppcaCharges": 3.43,
+    "slabRate": 5.9,
+    "taxElectricityDuty": 5.74,
+    "currentBillAmount": 69.49,
+    "arrearsAmount": 0.0,
+    "securityDeposit": 0.0,
+    "amountDue": 0.0,
+    "prepaidBalance": 412.35,
+    "paymentStatus": "PAID",
+    "serviceLocation": { "postalCode": "110092", "city": "Delhi", "district": "East Delhi", "state": "Delhi", "region": "DL-EAST" }
+  }
+]

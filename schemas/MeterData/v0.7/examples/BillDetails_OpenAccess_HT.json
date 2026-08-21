@@ -1,0 +1,117 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-BILL-DETAILS-HT-OA",
+    "payloadDescriptorSets": [
+      {
+        "name": "HTBillingSet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1000
+          },
+          {
+            "name": "Apparent energy import - cumulative (kVAh)",
+            "readingType": "kVAh imp",
+            "unit": "kVAh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.9.8.0.255",
+            "multiplier": 1000
+          },
+          {
+            "name": "Maximum demand (kVA) - current billing period",
+            "readingType": "MD kVA",
+            "unit": "kVA",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.9.6.0.255"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "BillDetails",
+    "profileType": "BILL_DETAILS",
+    "customerRefs": [
+      { "value": "HT-77-004512", "scheme": "CONSUMER_NUMBER" }
+    ],
+    "serviceDeliveryPointRefs": [
+      { "value": "SDP-IND-PEENYA-0451", "scheme": "SERVICE_DELIVERY_POINT" }
+    ],
+    "meterRefs": [
+      { "value": "DISCOM-HT-2024-118842", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "HTBillingSet",
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      {
+        "readingType": "kWh imp",
+        "value": 236.6,
+        "openingValue": 4812.4,
+        "closingValue": 5049.0,
+        "validationStatus": "ESTIMATED",
+        "source": "MDM_COMPUTED",
+        "changeMethod": "CT_FAILURE_ASSESSMENT"
+      },
+      {
+        "readingType": "kVAh imp",
+        "value": 259.8,
+        "openingValue": 5290.1,
+        "closingValue": 5549.9,
+        "validationStatus": "VALID",
+        "source": "METER"
+      },
+      { "readingType": "MD kVA", "occurredAt": "2026-04-09T11:30:00+05:30", "value": 1412.0, "integrationPeriod": "PT15M" }
+    ],
+    "billNumber": "DISCOM-HT-77-004512-202604",
+    "billVersion": 2,
+    "billingFrequency": "MONTHLY",
+    "billDate": "2026-05-03",
+    "billGeneratedAt": "2026-05-03T01:40:00+05:30",
+    "dueDate": "2026-05-18",
+    "nextBillDate": "2026-06-03",
+    "currency": "INR",
+    "energyCharges": 1126060.0,
+    "fixedCharges": 675000.0,
+    "fppcaCharges": 104412.0,
+    "otherCharges": 12500.0,
+    "slabRate": 7.1,
+    "taxElectricityDuty": 114328.32,
+    "taxGst": 2250.0,
+    "taxTdsTcs": 36021.2,
+    "subsidyAmount": 0.0,
+    "subsidyKwh": 0.0,
+    "assessedKwh": 12000.0,
+    "touAdjustmentAmount": 18450.0,
+    "openAccessKwh": 90000.0,
+    "openAccessTerm": "STOA",
+    "openAccessContractDemandKw": 1200.0,
+    "wheelingCharges": 49500.0,
+    "crossSubsidySurcharge": 144000.0,
+    "additionalSurcharge": 81000.0,
+    "currentBillAmount": 2363521.52,
+    "arrearsAmount": -15230.5,
+    "advancePayment": 0.0,
+    "securityDeposit": 4250000.0,
+    "enforcementAmount": 0.0,
+    "amountDue": 2348291.02,
+    "latePaymentAmount": 2377835.04,
+    "paymentStatus": "UNPAID",
+    "serviceLocation": {
+      "postalCode": "560058",
+      "city": "Bengaluru",
+      "district": "Bengaluru Urban",
+      "state": "Karnataka",
+      "substation": "SS-PNY-66",
+      "region": "BLR-WEST"
+    }
+  }
+]

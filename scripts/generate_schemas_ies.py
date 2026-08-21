@@ -4,7 +4,7 @@ catalog and one term page per schema family.
 
 For each family ``schemas/<Family>/`` this produces ``schemas-ies/<Family>.md``:
 
-  * title + tagline + at-a-glance (canonical base URL, latest version, status)
+  * title + tagline + at-a-glance (canonical base URL, current version, status)
   * a pointer to the plain-language page in ``what-ies-provides/schemas-overview/``
   * a **Developer resources** table for the current version — the canonical
     ``https://india-energy-stack.github.io/ies-accelerator/schemas/<Family>/<ver>/…``
@@ -129,7 +129,7 @@ def cards_table(families: list[str]) -> str:
     rows = [head]
     for f in families:
         info = parse_readme(f)
-        latest = versions_of(f)[0]
+        latest = current_version(f, versions_of(f))
         desc = _h(info["tagline"] or "")
         rows.append(
             f'<tr><td><strong>{f}</strong></td><td>{_h(latest)}</td><td>{desc}</td>'
@@ -156,6 +156,17 @@ def versions_of(family: str) -> list[str]:
         and os.path.exists(os.path.join(fam_dir, d, "schema.json"))
     ]
     return sorted(vers, key=version_key, reverse=True)
+
+
+def current_version(family: str, vers: list[str]) -> str:
+    """The version presented as current: the newest one whose status in the family
+    README's Versions table is not a draft. A family whose only versions are drafts
+    (a WIP family) keeps its newest as current."""
+    noted = parse_versions_table(family)
+    for v in vers:
+        if "draft" not in noted.get(v, ("", ""))[0].lower():
+            return v
+    return vers[0]
 
 
 def parse_readme(family: str) -> dict:
@@ -338,7 +349,7 @@ def family_page(family: str) -> str:
     meta = FAMILIES[family]
     info = parse_readme(family)
     vers = versions_of(family)
-    latest = vers[0]
+    latest = current_version(family, vers)
 
     schema_path = os.path.join(SCHEMAS_DIR, family, latest, "schema.json")
     with open(schema_path, encoding="utf-8") as f:
@@ -354,7 +365,7 @@ def family_page(family: str) -> str:
     # At-a-glance
     L += ["| | |", "|---|---|"]
     L.append(f"| **Canonical base** | `{PAGES_BASE}/{family}` |")
-    L.append(f"| **Latest version** | **{latest}** |")
+    L.append(f"| **Current version** | **{latest}** |")
     if info["status"]:
         L.append(f"| **Status** | {info['status']} |")
     L.append(f"| **Category** | {meta['category']} |")

@@ -13,7 +13,7 @@ layout:
 | | |
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential` |
-| **Latest version** | **v0.1** |
+| **Current version** | **v0.1** |
 | **Status** | Stable — In Pilot (current: **v0.1**) · **Issued by** the requester (a DISCOM, or a third-party aggregator/TSP) · **Consumed by** the data provider (AMISP or MDM system) |
 | **Category** | Verifiable Credentials |
 | **Used in** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional consent proof) |

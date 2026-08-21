@@ -1,0 +1,17 @@
+[
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "meterRefs": [
+      { "value": "TEST-METER", "scheme": "METER_SERIAL" }
+    ],
+    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 1.25 ]
+      }
+    ],
+    "compactSequenceRef": "IntervalSeq"
+  }
+]

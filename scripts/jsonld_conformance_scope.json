@@ -51,6 +51,18 @@
     ],
     "reason": "The committed normative context does not cover every example field; the approved freeze forbids context changes in this candidate."
   },
+  "schemas/MeterData/v0.7": {
+    "status": "deferred-fail",
+    "expectedIssues": [
+      "unmapped:Anonymised_Topology_Example.json:addressLine,latitude,longitude,manufacturer,modelNumber",
+      "unmapped:CustomerProfile.json:addressLine,latitude,longitude,manufacturer,modelNumber",
+      "unmapped:MultiMeterBulkDataset.json:addressLine,latitude,longitude,manufacturer,modelNumber",
+      "unmapped:MultiMeterBulkDatasetShortCodes.json:addressLine,latitude,longitude,manufacturer,modelNumber",
+      "unmapped:MultiMeterBulkDatasetShortCodes_Elaborated.json:addressLine,latitude,longitude,manufacturer,modelNumber",
+      "unmapped:MultiMeterBulkDataset_Elaborated.json:addressLine,latitude,longitude,manufacturer,modelNumber"
+    ],
+    "reason": "Draft additive release. The v0.6 example set is carried forward verbatim and inherits its pre-existing unmapped external Address/manufacturer terms; every v0.7 field and the three new BILL_DETAILS examples are fully mapped."
+  },
   "schemas/MeterDataCredential/v0.6": {
     "status": "deferred-fail",
     "expectedIssues": [

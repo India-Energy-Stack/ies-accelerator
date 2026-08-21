@@ -15,7 +15,7 @@ layout:
 | | |
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling` |
-| **Latest version** | **v0.5** |
+| **Current version** | **v0.5** |
 | **Status** | Work in progress (current: **v0.5**) · **Filed by** DISCOMs · **Received by** SERCs / Joint Electricity Regulatory Commissions |
 | **Category** | Data Exchange payloads |
 | **Used in** | [DISCOM Regulatory Filing](../draft/use-cases/discom-regulatory-filing/README.md) |

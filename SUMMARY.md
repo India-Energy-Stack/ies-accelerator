@@ -23,6 +23,7 @@
   * [v1.1](schemas/ElectricityCredential/v1.1/README.md)
   * [v1.0](schemas/ElectricityCredential/v1.0/README.md)
 * [MeterData](schemas-ies/MeterData.md)
+  * [v0.7 (draft)](schemas/MeterData/v0.7/README.md)
   * [v0.6](schemas/MeterData/v0.6/README.md)
   * [v0.5](schemas/MeterData/v0.5/README.md)
 * [MeterDataCredential](schemas-ies/MeterDataCredential.md)
