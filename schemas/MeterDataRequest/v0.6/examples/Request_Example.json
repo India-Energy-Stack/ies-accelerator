@@ -1,0 +1,22 @@
+{
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/context.jsonld",
+  "@type": "MeterDataRequest",
+  "consumers": [ "did:web:ies.discom.example:customer:IN-MH-CUST-80" ],
+  "resources": [ "did:web:ies.discom.example:meter:IN-MH-MTR-89721", "did:web:ies.discom.example:meter:IN-MH-MTR-89722" ],
+  "scope": "ResourceOnly",
+  "from": "2026-05-18T00:00:00Z",
+  "duration": "P30D",
+  "consumerConsent": [ "did:web:ies.discom.example:consent:CN-89021-SIGNED-BY-USER" ],
+  "authorisation": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/examples/Authorisation_Example.json",
+  "capabilitiesRequested": {
+    "profiles": [
+      {
+        "profileType": "IntervalProfile",
+        "readings": [
+          { "value": "kWh imp block", "mode": "USAGE" }
+        ]
+      }
+    ]
+  },
+  "maxRecordsShared": 100
+}

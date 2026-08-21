@@ -1,0 +1,904 @@
+[
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-A",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "MAINTENANCE",
+      "text": "DT metering and tailless work under Business Plan 2024-2025"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Ghaziabad-1",
+      "circle": "EUDC-1 Ghaziabad",
+      "division": "EUDD-11kV & LT Line City Side",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Rajnagar-1"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Feeder No 1"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3006913"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Feeder No 2"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3006916"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "SEC-14, 9, 11 Rajnagar"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T12:00:00+05:30",
+        "duration": "PT2H"
+      }
+    },
+    "publicInfo": {
+      "language": "en",
+      "headline": "Planned shutdown — Rajnagar-1, 22-06-2026 12:00-14:00",
+      "description": "DT metering and tailless work under Business Plan 2024-2025"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "A",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-B",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "MAINTENANCE",
+      "text": "DT metering and tailless work under Business Plan 2024-2025"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Ghaziabad-1",
+      "circle": "EUDC-1 Ghaziabad",
+      "division": "EUDD-11kV & LT Line City Side",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "RDC"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Feeder No 3"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3008072"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Feeder No 4"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3008075"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "SEC-6,7,4,3,8, Ashok Marg"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T06:30:00+05:30",
+        "duration": "PT2H"
+      }
+    },
+    "publicInfo": {
+      "language": "en",
+      "headline": "Planned shutdown — RDC, 22-06-2026 6:30-8:30",
+      "description": "DT metering and tailless work under Business Plan 2024-2025"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "B",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-C",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "MAINTENANCE",
+      "text": "LT line maintenance work and pole welding under Business Plan"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Ghaziabad-1",
+      "circle": "EUDC-1 Ghaziabad",
+      "division": "EUDD-11kV & LT Line South Side",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Behrampur"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Budh Vihar"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3005437"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Behrampur"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3005738"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Bagu"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3005440"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Khrati Nagar"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3005441"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "Sidharth Vihar, Rahul Vihar, Budh Vihar"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T10:30:00+05:30",
+        "duration": "PT3H"
+      }
+    },
+    "publicInfo": {
+      "language": "en",
+      "headline": "Planned shutdown — Behrampur, 22-06-2026 10:30-13:30",
+      "description": "LT line maintenance work and pole welding under Business Plan"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "C",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-D1",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "MAINTENANCE",
+      "text": "Tree branch cutting work"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Ghaziabad-3",
+      "circle": "EUDC-(Technical & Commercial) Ghaziabad",
+      "division": "EUDD-11kV & LT Network Sahibabad",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Sector-8 Vasundhara"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Feeder No-6"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3002728"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "Jan Hit Kari, Swarn Ganga, Vashudha, Gautam Sahkari"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T09:00:00+05:30",
+        "duration": "PT1H"
+      }
+    },
+    "publicInfo": {
+      "language": "en",
+      "headline": "Planned shutdown — Sector-8 Vasundhara, 22-06-2026 9:00-10:00",
+      "description": "Tree branch cutting work"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "D1",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-D2",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "MAINTENANCE",
+      "text": "Tree branch cutting work"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Ghaziabad-3",
+      "circle": "EUDC-(Technical & Commercial) Ghaziabad",
+      "division": "EUDD-11kV & LT Network Sahibabad",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Sector-8 Vasundhara"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Feeder No-4"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3002920"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "Jan Hit Kari, Swarn Ganga, Vashudha, Gautam Sahkari"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T10:00:00+05:30",
+        "duration": "PT1H"
+      }
+    },
+    "publicInfo": {
+      "language": "en",
+      "headline": "Planned shutdown — Sector-8 Vasundhara, 22-06-2026 10:00-11:00",
+      "description": "Tree branch cutting work"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "D2",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-E",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "NEW_CONSTRUCTION",
+      "text": "For the shifting work of 33 KV line underground under CM Grid Yojna"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Meerut-1",
+      "circle": "EUDC-Meerut",
+      "division": "EUDD-33kV (O&M) Meerut",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Ladies Park"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Budhana Gate"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3006471"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "G.I.C"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3006604"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "Bachha Park, GIC, Indra Chowk, Khair Nagar, Tehsil"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T07:00:00+05:30",
+        "duration": "PT4H"
+      }
+    },
+    "publicInfo": {
+      "language": "en",
+      "headline": "Planned shutdown — Ladies Park, 22-06-2026 7:00-11:00",
+      "description": "For the shifting work of 33 KV line underground under CM Grid Yojna"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "E",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-F",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "NEW_CONSTRUCTION",
+      "text": "नई 33 के.वी. अंतवाडा लाइन का निर्माण कार्य करने हेतु"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Muzaffarnagar",
+      "circle": "EDC-2 Muzaffarnagar",
+      "division": "EDD-Khatauli",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Sarai Rasoolpur (Antwada)"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Antwada Town"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "RURAL",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3008604"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "ग्राम–सराय रसूलपुर, पलड़ा, ताजपुर, पाल, नोना"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T07:00:00+05:30",
+        "duration": "PT4H"
+      }
+    },
+    "publicInfo": {
+      "language": "hi",
+      "headline": "Planned shutdown — Sarai Rasoolpur (Antwada), 22-06-2026 7:00-11:00",
+      "description": "नई 33 के.वी. अंतवाडा लाइन का निर्माण कार्य करने हेतु"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "F",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-G",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "NEW_CONSTRUCTION",
+      "text": "बिजनेस प्लान के अंतर्गत बुढ़ाना टाउन में पोल लगाने व वी.सी.बी. बदलने का कार्य"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Muzaffarnagar",
+      "circle": "EDC-2 Muzaffarnagar",
+      "division": "EDD-Budhana",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Budhana Dehat"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Garhi"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "RURAL",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3009279"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Basi"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "AGRICULTURE",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3009281"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Nagwa"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "AGRICULTURE",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3009211"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "सफीपुर गांव, भसाना गांव, गढ़ी, बड़कता, बसी आदि"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T09:00:00+05:30",
+        "duration": "PT4H"
+      }
+    },
+    "publicInfo": {
+      "language": "hi",
+      "headline": "Planned shutdown — Budhana Dehat, 22-06-2026 9:00-13:00",
+      "description": "बिजनेस प्लान के अंतर्गत बुढ़ाना टाउन में पोल लगाने व वी.सी.बी. बदलने का कार्य"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "G",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-H",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "NEW_CONSTRUCTION",
+      "text": "बिजनेस प्लान के अंतर्गत बुढ़ाना टाउन में पोल लगाने व वी.सी.बी. बदलने का कार्य"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Muzaffarnagar",
+      "circle": "EDC-2 Muzaffarnagar",
+      "division": "EDD-Budhana",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Budhana Town"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Baraut Road"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "OTHER",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3009308"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Namami Gange"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "OTHER",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3009187"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "नई बस्ती, सफीपुर पट्टी, शाहवाडा, चमारान"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T09:00:00+05:30",
+        "duration": "PT4H"
+      }
+    },
+    "publicInfo": {
+      "language": "hi",
+      "headline": "Planned shutdown — Budhana Town, 22-06-2026 9:00-13:00",
+      "description": "बिजनेस प्लान के अंतर्गत बुढ़ाना टाउन में पोल लगाने व वी.सी.बी. बदलने का कार्य"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "H",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-I",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "NEW_CONSTRUCTION",
+      "text": "बिजनेस प्लान 2025-26 के अन्तर्गत नया ट्रांसफार्मर लगाने का कार्य"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Saharanpur",
+      "circle": "EUDC-Saharanpur",
+      "division": "EUDD-(Technical) Saharanpur",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "33/11 KV Manak Mau- Urban"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Nawada Road"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3001810"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Galira Road"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3001812"
+        }
+      },
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Ojpura"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3001865"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "पूजा इंक्लेव, नवादा रोड, शारदा नगर, गलीरा रोड, ओजपुरा"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T10:00:00+05:30",
+        "duration": "PT2H"
+      }
+    },
+    "publicInfo": {
+      "language": "hi",
+      "headline": "Planned shutdown — 33/11 KV Manak Mau- Urban, 22-06-2026 10:00-12:00",
+      "description": "बिजनेस प्लान 2025-26 के अन्तर्गत नया ट्रांसफार्मर लगाने का कार्य"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "I",
+        "downType": "FEEDER"
+      }
+    }
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/context.jsonld",
+    "@type": "OutageNotification",
+    "objectType": "OUTAGE_NOTIFICATION",
+    "id": {
+      "scheme": "OTHER",
+      "value": "DISCOM-PSD-J",
+      "namespace": "outages.discom.example"
+    },
+    "outageClass": "PLANNED",
+    "status": "SCHEDULED",
+    "msgType": "ALERT",
+    "category": "MAINTENANCE",
+    "cause": {
+      "category": "PLANNED",
+      "subcategory": "MAINTENANCE",
+      "text": "LT line maintenance work under Business Plan"
+    },
+    "forceMajeure": false,
+    "issuedBy": {
+      "name": "DISCOM",
+      "contact": "1912"
+    },
+    "issuedAt": "2026-06-22T00:00:00+05:30",
+    "network": {
+      "zone": "Ghaziabad-1",
+      "circle": "EUDC-1 Ghaziabad",
+      "division": "EUDD-11kV & LT Line South Side",
+      "substation": {
+        "scheme": "SUBSTATION",
+        "value": "Siddharth Vihar"
+      }
+    },
+    "affectedAssets": [
+      {
+        "id": {
+          "scheme": "FEEDER",
+          "value": "Gaushala"
+        },
+        "assetLevel": "FEEDER",
+        "voltageLevel": "11kV",
+        "consumerCategory": "URBAN",
+        "meterRef": {
+          "scheme": "METER_SERIAL",
+          "value": "HP3005490"
+        }
+      }
+    ],
+    "affectedArea": {
+      "text": "Madhupur, Kailashpuri"
+    },
+    "timing": {
+      "period": {
+        "start": "2026-06-22T09:00:00+05:30",
+        "duration": "PT4H"
+      }
+    },
+    "publicInfo": {
+      "language": "en",
+      "headline": "Planned shutdown — Siddharth Vihar, 22-06-2026 9:00-13:00",
+      "description": "LT line maintenance work under Business Plan"
+    },
+    "extensions": {
+      "discom": {
+        "groupId": "J",
+        "downType": "FEEDER"
+      }
+    }
+  }
+]

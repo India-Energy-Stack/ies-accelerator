@@ -1,0 +1,241 @@
+
+--- Semantics Audit: AggregatedFeeder.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp block, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: AggregatedFeeder_Elaborated.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp block, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: AlarmProfile.json ---
+✅ Structural validation: PASSED
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: BillDetails.json ---
+✅ Structural validation: PASSED
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: BillingProfile.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.6.0.255, in dict? True, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: Billing_MeterChange.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: CustomerBillingSummary.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.6.0.255, in dict? True, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: CustomerProfile.json ---
+✅ Structural validation: PASSED
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: DailyProfile.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kvarh Q1, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kvarh Q1, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: DailyProfile_Elaborated.json ---
+❌ Structural Validation Failed:
+  - Path: Root | Message: [{'@type': 'PayloadDescriptorProfile', 'profileType': 'DESCRIPTOR', 'id': 'DESC-DAILYPROFILE', 'payloadDescriptorSets': [{'name': 'DailyLoadSurveySet', 'payloadDescriptors': [{'readingType': 'kWh imp', 'name': 'Active energy import - cumulative (kWh)', 'unit': 'kWh', 'flowDirection': 'IMPORT', 'reportedMode': 'READING', 'obis': '1.0.1.8.0.255'}, {'readingType': 'kWh exp', 'obis': '1.0.2.8.0.255', 'name': 'Active energy export - cumulative (kWh)', 'unit': 'kWh', 'flowDirection': 'EXPORT', 'reportedMode': 'READING'}, {'readingType': 'kvarh Q1', 'name': 'Reactive energy Q1 - cumulative (kvarh)', 'unit': 'kvarh', 'flowDirection': 'IMPORT', 'reportedMode': 'READING', 'obis': '1.0.5.8.0.255'}, {'readingType': 'MD kW', 'name': 'Maximum demand (kW) - current billing period', 'unit': 'kW', 'flowDirection': 'IMPORT', 'reportedMode': 'USAGE', 'obis': '1.0.1.6.0.255'}], 'compactSequences': [{'name': 'DailyEnergySeq', 'sequenceItems': [{'readingType': 'kWh imp', 'attribute': 'value'}, {'readingType': 'kWh exp', 'attribute': 'value'}, {'readingType': 'kvarh Q1', 'attribute': 'value'}, {'readingType': 'MD kW', 'attribute': 'value'}, {'readingType': 'MD kW', 'attribute': 'occurredAt'}]}]}]}, {'@type': 'DailyProfile', 'profileType': 'DAILY', 'customerRefs': [{'scheme': 'CONSUMER_NUMBER', 'value': 'RR-1234'}], 'meterRefs': [{'scheme': 'METER_SERIAL', 'value': 'BESCOM-SM-2025-654321'}], 'intervalPeriod': {'start': '2026-05-04T00:00:00+05:30', 'duration': 'P1D'}, 'payloadDescriptorSetRef': 'DailyLoadSurveySet', 'readings': [{'readingType': 'kWh imp', 'reportedMode': 'READING', 'occurredAt': '2026-05-04T00:00:00+05:30', 'closingValue': 1000.0, 'openingValue': 0.0, 'value': 1000.0}, {'readingType': 'kWh exp', 'reportedMode': 'READING', 'occurredAt': '2026-05-04T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'kvarh Q1', 'reportedMode': 'READING', 'occurredAt': '2026-05-04T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-04T00:00:00+05:30', 'value': 8.42}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-04T19:30:00+05:30'}, {'readingType': 'kWh imp', 'reportedMode': 'READING', 'occurredAt': '2026-05-05T00:00:00+05:30', 'closingValue': 1005.2, 'openingValue': 1000.0, 'value': 5.2000000000000455}, {'readingType': 'kWh exp', 'reportedMode': 'READING', 'occurredAt': '2026-05-05T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'kvarh Q1', 'reportedMode': 'READING', 'occurredAt': '2026-05-05T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-05T00:00:00+05:30', 'value': 9.15}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-05T20:00:00+05:30'}, {'readingType': 'kWh imp', 'reportedMode': 'READING', 'occurredAt': '2026-05-06T00:00:00+05:30', 'closingValue': 1011.8, 'openingValue': 1005.2, 'value': 6.599999999999909}, {'readingType': 'kWh exp', 'reportedMode': 'READING', 'occurredAt': '2026-05-06T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'kvarh Q1', 'reportedMode': 'READING', 'occurredAt': '2026-05-06T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-06T00:00:00+05:30', 'value': 8.74}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-06T19:00:00+05:30'}, {'readingType': 'kWh imp', 'reportedMode': 'READING', 'occurredAt': '2026-05-07T00:00:00+05:30', 'closingValue': 1016.5, 'openingValue': 1011.8, 'value': 4.7000000000000455}, {'readingType': 'kWh exp', 'reportedMode': 'READING', 'occurredAt': '2026-05-07T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'kvarh Q1', 'reportedMode': 'READING', 'occurredAt': '2026-05-07T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-07T00:00:00+05:30', 'value': 7.92}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-07T18:30:00+05:30'}, {'readingType': 'kWh imp', 'reportedMode': 'READING', 'occurredAt': '2026-05-08T00:00:00+05:30', 'closingValue': 1022.7, 'openingValue': 1016.5, 'value': 6.2000000000000455}, {'readingType': 'kWh exp', 'reportedMode': 'READING', 'occurredAt': '2026-05-08T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'kvarh Q1', 'reportedMode': 'READING', 'occurredAt': '2026-05-08T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-08T00:00:00+05:30', 'value': 9.41}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-08T20:15:00+05:30'}, {'readingType': 'kWh imp', 'reportedMode': 'READING', 'occurredAt': '2026-05-09T00:00:00+05:30', 'closingValue': 1028.3, 'openingValue': 1022.7, 'value': 5.599999999999909}, {'readingType': 'kWh exp', 'reportedMode': 'READING', 'occurredAt': '2026-05-09T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'kvarh Q1', 'reportedMode': 'READING', 'occurredAt': '2026-05-09T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-09T00:00:00+05:30', 'value': 6.18}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-09T13:45:00+05:30'}, {'readingType': 'kWh imp', 'reportedMode': 'READING', 'occurredAt': '2026-05-10T00:00:00+05:30', 'closingValue': 1034.9, 'openingValue': 1028.3, 'value': 6.600000000000136}, {'readingType': 'kWh exp', 'reportedMode': 'READING', 'occurredAt': '2026-05-10T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'kvarh Q1', 'reportedMode': 'READING', 'occurredAt': '2026-05-10T00:00:00+05:30', 'closingValue': 0.0, 'openingValue': 0.0, 'value': 0.0}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-10T00:00:00+05:30', 'value': 6.02}, {'readingType': 'MD kW', 'reportedMode': 'USAGE', 'occurredAt': '2026-05-10T14:00:00+05:30'}]}] is not valid under any of the given schemas
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kvarh Q1, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: DailyProfile_ReadingMode.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: DailyProfile_ReadingMode_Elaborated.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: EventProfile.json ---
+✅ Structural validation: PASSED
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: InstantaneousProfile.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving 1.0.32.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.52.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.72.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.31.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.51.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.71.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.33.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.53.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.73.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.13.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.14.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.3.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.2.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.6.0.255, in dict? True, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: IntervalProfile.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: IntervalProfile_Elaborated.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: MonthlyProfile.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving 1.0.1.6.0.255, in dict? True, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: MonthlyProfile_MultipleResets.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: MultiMeterBulkDataset.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving 1.0.1.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.6.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.32.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.52.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.72.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.31.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.12.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.11.7.0.255, in dict? True, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: MultiMeterBulkDatasetShortCodes.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving V_1P, in dict? False, len(dict)=75
+DEBUG: resolving I_Phase, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+DEBUG: resolving V_R, in dict? False, len(dict)=75
+DEBUG: resolving V_Y, in dict? False, len(dict)=75
+DEBUG: resolving V_B, in dict? False, len(dict)=75
+DEBUG: resolving I_R, in dict? False, len(dict)=75
+DEBUG: resolving V_1P, in dict? False, len(dict)=75
+DEBUG: resolving I_Phase, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: MultiMeterBulkDatasetShortCodes_Elaborated.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving V_1P, in dict? False, len(dict)=75
+DEBUG: resolving I_Phase, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp block, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh exp, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp, in dict? False, len(dict)=75
+DEBUG: resolving kWh imp, in dict? False, len(dict)=75
+DEBUG: resolving kVAh imp, in dict? False, len(dict)=75
+DEBUG: resolving MD kW, in dict? False, len(dict)=75
+DEBUG: resolving V_R, in dict? False, len(dict)=75
+DEBUG: resolving V_Y, in dict? False, len(dict)=75
+DEBUG: resolving V_B, in dict? False, len(dict)=75
+DEBUG: resolving I_R, in dict? False, len(dict)=75
+DEBUG: resolving V_1P, in dict? False, len(dict)=75
+DEBUG: resolving I_Phase, in dict? False, len(dict)=75
+✅ Semantic validation: PASSED
+
+--- Semantics Audit: MultiMeterBulkDataset_Elaborated.json ---
+✅ Structural validation: PASSED
+DEBUG: resolving 1.0.1.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.29.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.9.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.6.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.1.8.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.32.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.52.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.72.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.31.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.12.7.0.255, in dict? True, len(dict)=75
+DEBUG: resolving 1.0.11.7.0.255, in dict? True, len(dict)=75
+✅ Semantic validation: PASSED
+
+❌ Semantics audit FAILED!
