@@ -20,6 +20,16 @@ const FIELDS = {
     email: 'entry.1931736363',
     mobile: 'entry.323624506',
     useCase: 'entry.896988893',
+    // ── New fields ──────────────────────────────────────────────────────────
+    // These three entry ids are PLACEHOLDERS. Create the matching questions in
+    // the Google Form first (see ../schema-proposal/README.md for the exact
+    // titles/types), then re-read the ids with the snippet in this folder's
+    // README and paste the real `entry.<id>` values here. Until then the block
+    // renders these inputs but their answers will NOT reach the form.
+    existingOrNew: 'entry.REPLACE_existingOrNew',
+    taxonomyCompliant: 'entry.REPLACE_taxonomyCompliant',
+    conceptNote: 'entry.REPLACE_conceptNote',
+    // ────────────────────────────────────────────────────────────────────────
     description: 'entry.2091763378',
     schema: 'entry.1749605353',
     standards: 'entry.1286840799',
@@ -29,6 +39,22 @@ const FIELDS = {
 
 type FieldKey = keyof typeof FIELDS;
 
+/**
+ * The two choices for "existing vs new use case". The option `id` is what gets
+ * POSTed, so it MUST match the Google Form multiple-choice option text verbatim.
+ */
+const EXISTING_OR_NEW_OPTIONS = [
+    { id: 'Existing use case', label: 'Existing use case' },
+    { id: 'New use case', label: 'New use case' },
+];
+
+/**
+ * Exact text of the single option on the Google Form's taxonomy-compliance
+ * "Checkboxes" question. A Checkboxes answer is submitted as its option text,
+ * so this string must match that option verbatim.
+ */
+const TAXONOMY_OPTION_TEXT = 'I confirm this submission is compliant with the IES taxonomy';
+
 interface State {
     [key: string]: string | boolean;
     name: string;
@@ -36,6 +62,10 @@ interface State {
     email: string;
     mobile: string;
     useCase: string;
+    existingOrNew: string;
+    /** ContentKit checkbox state: `false`/`undefined` unticked, the `value` prop ('yes') when ticked. */
+    taxonomyCompliant: boolean | string;
+    conceptNote: string;
     description: string;
     schema: string;
     standards: string;
@@ -51,6 +81,7 @@ const REQUIRED: Array<[FieldKey, string]> = [
     ['organization', 'Organization'],
     ['email', 'Contact email'],
     ['useCase', 'Use case'],
+    ['existingOrNew', 'Existing or new use case'],
     ['description', 'Description and background'],
     ['schema', 'Schema'],
 ];
@@ -61,6 +92,9 @@ const EMPTY: State = {
     email: '',
     mobile: '',
     useCase: '',
+    existingOrNew: '',
+    taxonomyCompliant: false,
+    conceptNote: '',
     description: '',
     schema: '',
     standards: '',
@@ -99,10 +133,21 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
 
         const body = new URLSearchParams();
         for (const [key, entryId] of Object.entries(FIELDS)) {
+            // taxonomyCompliant is a boolean in state, but Google Forms expects the
+            // exact option text of a Checkboxes question — appended separately below.
+            if (key === 'taxonomyCompliant') {
+                continue;
+            }
             const value = String(state[key as FieldKey] ?? '').trim();
             if (value) {
                 body.append(entryId, value);
             }
+        }
+
+        // Checkbox → Google Forms "Checkboxes" answer: send the exact option text,
+        // and only when actually ticked (guard against the string "false").
+        if (state.taxonomyCompliant === true || state.taxonomyCompliant === 'yes') {
+            body.append(FIELDS.taxonomyCompliant, TAXONOMY_OPTION_TEXT);
         }
 
         let ok = false;
@@ -194,6 +239,33 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                             <textinput
                                 state="useCase"
                                 placeholder="e.g. Consumer Energy Passport"
+                            />
+                        }
+                    />
+                    <input
+                        label="Is the proposed schema for an existing use case or a new one?"
+                        element={
+                            <select
+                                state="existingOrNew"
+                                placeholder="Choose one"
+                                options={EXISTING_OR_NEW_OPTIONS}
+                            />
+                        }
+                    />
+                    <input
+                        label="IES taxonomy compliance"
+                        hint="Tick to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
+                        element={
+                            <checkbox state="taxonomyCompliant" value="yes" />
+                        }
+                    />
+                    <input
+                        label="Concept note (link)"
+                        hint="Optional. Paste a public link to a concept note that follows the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md)."
+                        element={
+                            <textinput
+                                state="conceptNote"
+                                placeholder="https://…  (e.g. a Google Doc set to 'anyone with the link', or a GitHub link)"
                             />
                         }
                     />
