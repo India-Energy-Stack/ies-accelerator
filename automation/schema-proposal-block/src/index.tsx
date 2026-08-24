@@ -235,7 +235,6 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
         return (
             <block>
                 <vstack>
-                    {state.error ? <text style="bold">{state.error}</text> : <text> </text>}
 
                     <input
                         label="Name"
@@ -352,6 +351,15 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         element={<textinput state="github" placeholder="octocat" />}
                     />
 
+                    {/* Error renders HERE, next to the Submit button, because the
+                        user's eyes are on the button when it appears — rendered at
+                        the top of the form it sits off-screen and a failed submit
+                        looks like "nothing happened". */}
+                    {state.error ? (
+                        <text style="bold">{`⚠️ ${state.error}`}</text>
+                    ) : (
+                        <text> </text>
+                    )}
                     <button
                         label="Submit proposal"
                         style="primary"
