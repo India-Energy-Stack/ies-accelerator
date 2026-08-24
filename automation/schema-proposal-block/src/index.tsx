@@ -35,13 +35,21 @@ const FIELDS = {
 type FieldKey = keyof typeof FIELDS;
 
 /**
- * The two choices for "existing vs new use case". The option `id` is what gets
- * POSTed, so it MUST match the Google Form multiple-choice option text verbatim.
+ * The two choices for "existing vs new use case". The POSTed value MUST match
+ * the Google Form multiple-choice option text verbatim.
+ *
+ * Published-site renderer constraints (found empirically, Aug 2026):
+ *  - ContentKit `select` and `checkbox` elements are silently dropped — the
+ *    input label renders, the control doesn't. Buttons and textinputs render.
+ *  - Between actions, the client rebuilds state from the DOM's BOUND INPUTS
+ *    only; state that lives nowhere but the returned state object resets on
+ *    the next action.
+ * So both choice fields are bound textinputs (the persistence), with buttons
+ * as one-tap fillers (each press re-renders the block, writing the chosen
+ * value into the bound input). Typed values are normalized on submit.
  */
-const EXISTING_OR_NEW_OPTIONS = [
-    { id: 'Existing use case', label: 'Existing use case' },
-    { id: 'New use case', label: 'New use case' },
-];
+const EXISTING_USE_CASE = 'Existing use case';
+const NEW_USE_CASE = 'New use case';
 
 /**
  * Exact text of the single option on the Google Form's taxonomy-compliance
@@ -49,6 +57,20 @@ const EXISTING_OR_NEW_OPTIONS = [
  * so this string must match that option verbatim.
  */
 const TAXONOMY_OPTION_TEXT = 'I confirm this submission is compliant with the IES taxonomy';
+
+/** Maps a typed answer to the exact form option, or '' if unrecognizable. */
+const normalizeExistingOrNew = (value: string): string => {
+    const v = value.trim();
+    if (/^existing/i.test(v)) return EXISTING_USE_CASE;
+    if (/^new/i.test(v)) return NEW_USE_CASE;
+    return '';
+};
+
+/** True when the typed/toggled taxonomy confirmation counts as a tick. */
+const isTaxonomyTicked = (value: string): boolean => {
+    const v = value.trim();
+    return /^y(es)?$/i.test(v) || v === TAXONOMY_OPTION_TEXT;
+};
 
 interface State {
     [key: string]: string | boolean;
@@ -58,8 +80,8 @@ interface State {
     mobile: string;
     useCase: string;
     existingOrNew: string;
-    /** ContentKit checkbox state: `false`/`undefined` unticked, the `value` prop ('yes') when ticked. */
-    taxonomyCompliant: boolean | string;
+    /** Typed confirmation ('YES', or the full option text when set by the toggle button). */
+    taxonomyCompliant: string;
     conceptNote: string;
     description: string;
     schema: string;
@@ -88,7 +110,7 @@ const EMPTY: State = {
     mobile: '',
     useCase: '',
     existingOrNew: '',
-    taxonomyCompliant: false,
+    taxonomyCompliant: '',
     conceptNote: '',
     description: '',
     schema: '',
@@ -99,7 +121,12 @@ const EMPTY: State = {
     submitted: false,
 };
 
-type Action = { action: 'submit' } | { action: 'reset' };
+type Action =
+    | { action: 'submit' }
+    | { action: 'reset' }
+    | { action: 'choose-existing' }
+    | { action: 'choose-new' }
+    | { action: 'toggle-taxonomy' };
 
 const schemaProposalBlock = createComponent<{}, State, Action>({
     componentId: 'schema-proposal',
@@ -108,6 +135,28 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
     async action(element, action) {
         if (action.action === 'reset') {
             return { state: { ...EMPTY } };
+        }
+
+        // One-tap fillers (see EXISTING_USE_CASE note): each press re-renders
+        // the block with the value written into its bound textinput, where it
+        // persists; every other typed-in field is preserved too.
+        if (action.action === 'choose-existing') {
+            return { state: { ...element.state, existingOrNew: EXISTING_USE_CASE } };
+        }
+        if (action.action === 'choose-new') {
+            return { state: { ...element.state, existingOrNew: NEW_USE_CASE } };
+        }
+        if (action.action === 'toggle-taxonomy') {
+            return {
+                state: {
+                    ...element.state,
+                    taxonomyCompliant: isTaxonomyTicked(
+                        String(element.state.taxonomyCompliant ?? ''),
+                    )
+                        ? ''
+                        : 'YES',
+                },
+            };
         }
 
         if (action.action !== 'submit') {
@@ -126,11 +175,25 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
             };
         }
 
+        // Typed answers are forgiving ('existing', 'NEW', …) but must resolve to
+        // one of the two exact form options.
+        const existingOrNew = normalizeExistingOrNew(String(state.existingOrNew ?? ''));
+        if (!existingOrNew) {
+            return {
+                state: {
+                    ...state,
+                    error:
+                        'For "existing or new use case", tap one of the two buttons ' +
+                        `or type "${EXISTING_USE_CASE}" or "${NEW_USE_CASE}".`,
+                },
+            };
+        }
+
         const body = new URLSearchParams();
         for (const [key, entryId] of Object.entries(FIELDS)) {
-            // taxonomyCompliant is a boolean in state, but Google Forms expects the
-            // exact option text of a Checkboxes question — appended separately below.
-            if (key === 'taxonomyCompliant') {
+            // These two are normalized to the exact form option text and appended
+            // separately below — never send the raw typed value.
+            if (key === 'taxonomyCompliant' || key === 'existingOrNew') {
                 continue;
             }
             const value = String(state[key as FieldKey] ?? '').trim();
@@ -139,9 +202,11 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
             }
         }
 
-        // Checkbox → Google Forms "Checkboxes" answer: send the exact option text,
-        // and only when actually ticked (guard against the string "false").
-        if (state.taxonomyCompliant === true || state.taxonomyCompliant === 'yes') {
+        body.append(FIELDS.existingOrNew, existingOrNew);
+
+        // Confirmation → Google Forms "Checkboxes" answer: send the exact option
+        // text, and only when actually ticked.
+        if (isTaxonomyTicked(String(state.taxonomyCompliant ?? ''))) {
             body.append(FIELDS.taxonomyCompliant, TAXONOMY_OPTION_TEXT);
         }
 
@@ -239,28 +304,75 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                     />
                     <input
                         label="Is the proposed schema for an existing use case or a new one?"
+                        hint="Tap a button below, or type the answer."
                         element={
-                            <select
+                            <textinput
                                 state="existingOrNew"
-                                placeholder="Choose one"
-                                options={EXISTING_OR_NEW_OPTIONS}
+                                placeholder={`${EXISTING_USE_CASE} / ${NEW_USE_CASE}`}
                             />
                         }
                     />
+                    <hstack>
+                        <button
+                            label={
+                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
+                                EXISTING_USE_CASE
+                                    ? '● Existing use case'
+                                    : '○ Existing use case'
+                            }
+                            style={
+                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
+                                EXISTING_USE_CASE
+                                    ? 'primary'
+                                    : 'secondary'
+                            }
+                            onPress={{ action: 'choose-existing' }}
+                        />
+                        <button
+                            label={
+                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
+                                NEW_USE_CASE
+                                    ? '● New use case'
+                                    : '○ New use case'
+                            }
+                            style={
+                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
+                                NEW_USE_CASE
+                                    ? 'primary'
+                                    : 'secondary'
+                            }
+                            onPress={{ action: 'choose-new' }}
+                        />
+                    </hstack>
+
                     <input
                         label="IES taxonomy compliance"
-                        hint="Tick to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
+                        hint="Optional. Type YES (or tap the button) to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
                         element={
-                            <checkbox state="taxonomyCompliant" value="yes" />
+                            <textinput state="taxonomyCompliant" placeholder="YES" />
                         }
                     />
+                    <button
+                        label={
+                            (isTaxonomyTicked(String(state.taxonomyCompliant ?? ''))
+                                ? '☑ '
+                                : '☐ ') + TAXONOMY_OPTION_TEXT
+                        }
+                        style={
+                            isTaxonomyTicked(String(state.taxonomyCompliant ?? ''))
+                                ? 'primary'
+                                : 'secondary'
+                        }
+                        onPress={{ action: 'toggle-taxonomy' }}
+                    />
+
                     <input
                         label="Concept note (link)"
                         hint="Optional. Link to a concept note on the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md). Kept private — shared only with the IES secretariat."
                         element={
                             <textinput
                                 state="conceptNote"
-                                placeholder="https://…  (e.g. a Google Doc set to 'anyone with the link')"
+                                placeholder="https://…  (a Google Doc or OneDrive link that anyone with the link can view)"
                             />
                         }
                     />
