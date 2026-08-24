@@ -25,6 +25,9 @@ const Q = {
   email: 'Contact email', // captured privately, NOT posted to the public issue
   mobile: 'Contact mobile number', // captured privately, NOT posted to the public issue
   useCase: 'Use case the proposed schema supports',
+  existingOrNew: 'Is the proposed schema for an existing use case or a new one?',
+  taxonomyCompliant: 'IES taxonomy compliance', // Checkboxes; answer is the ticked option text (blank if not ticked)
+  conceptNote: 'Concept note (link)',
   description: 'Description and background',
   schema: 'Schema',
   standards: 'Standards the schema is based on',
@@ -42,11 +45,16 @@ function onFormSubmit(e) {
   const name = answer(Q.name);
   const org = answer(Q.organization);
   const useCase = answer(Q.useCase);
+  const existingOrNew = answer(Q.existingOrNew);
+  const conceptNote = answer(Q.conceptNote);
   const description = answer(Q.description);
   const schema = answer(Q.schema);
   const standards = answer(Q.standards);
   const additional = answer(Q.additional);
   const githubUser = answer(Q.githubUser).replace(/^@/, '');
+
+  // Checkboxes question: a non-empty answer means the proposer ticked the box.
+  const taxonomyCompliant = answer(Q.taxonomyCompliant) ? 'Yes' : 'Not confirmed';
 
   const attribution = org ? name + ' (' + org + ')' : name;
   const title = '[Schema proposal] ' + (useCase || 'New schema') + ' — ' + (org || name || 'community');
@@ -56,6 +64,9 @@ function onFormSubmit(e) {
     githubUser ? '**GitHub:** @' + githubUser : '',
     '',
     '**Use case:** ' + (useCase || '—'),
+    '**Existing or new use case:** ' + (existingOrNew || '—'),
+    '**IES taxonomy compliance:** ' + taxonomyCompliant,
+    '**Concept note:** ' + (conceptNote || '—'),
     '',
     '### Description and background',
     description || '—',

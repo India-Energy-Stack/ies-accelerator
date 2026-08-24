@@ -42,6 +42,9 @@ the script reads answers by question title (`Code.gs` → `Q`):
 | Contact email | Short answer | Yes |
 | Contact mobile number | Short answer | No |
 | Use case the proposed schema supports | Short answer | Yes |
+| Is the proposed schema for an existing use case or a new one? | Multiple choice | Yes |
+| IES taxonomy compliance | Checkboxes | No |
+| Concept note (link) | Short answer | No |
 | Description and background | Paragraph | Yes |
 | Schema | Paragraph | Yes |
 | Standards the schema is based on | Paragraph | No |
@@ -52,6 +55,30 @@ the script reads answers by question title (`Code.gs` → `Q`):
 (Consumer Energy Passport, Consumer Meter Digest, Smart Meter Data Exchange, DER
 Visibility, DISCOM Regulatory Filing, Policy as Code, P2P Energy Transaction) or describe
 a new one.
+
+The three questions after it were added for taxonomy alignment and concept-note intake:
+
+- **Is the proposed schema for an existing use case or a new one?** — Multiple choice with
+  exactly two options, **`Existing use case`** and **`New use case`** (verbatim — the
+  inline GitBook block submits these strings).
+- **IES taxonomy compliance** — a **Checkboxes** question with a single option, verbatim
+  **`I confirm this submission is compliant with the IES taxonomy`**. In the question
+  description, link the taxonomy: `https://india-energy-stack.gitbook.io/docs/schemas/taxonomy`.
+  A checkbox answer is submitted as its option text, so the option wording must match the
+  `TAXONOMY_OPTION_TEXT` constant in the inline block.
+- **Concept note (link)** — a Short answer for a **public link** (not a file upload). In
+  the description, point proposers at the use-case overview template:
+  `https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/templates/use-case-overview.md`.
+  A Google Forms *File upload* question is deliberately not used: it forces respondents to
+  sign in with a Google account and cannot be submitted through the anonymous inline
+  GitBook block, which posts to `formResponse` as plain form-encoded text.
+
+**Don't add these three by hand** — [`setup-questions.gs`](setup-questions.gs) creates
+them in place (right after the "Use case…" question) with the exact titles, options and
+required flags, and its `logEntryIds()` prints the `entry.<id>` values the inline block
+needs. Paste it into the form-bound Apps Script project next to `Code.gs`, run
+`addNewQuestions`, then `logEntryIds`. It is idempotent — re-running never duplicates a
+question.
 
 ### Watch for stray spaces in question titles
 
