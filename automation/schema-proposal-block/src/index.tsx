@@ -43,10 +43,11 @@ type FieldKey = keyof typeof FIELDS;
  *    input label renders, the control doesn't. Buttons and textinputs render.
  *  - Between actions, the client rebuilds state from the DOM's BOUND INPUTS
  *    only; state that lives nowhere but the returned state object resets on
- *    the next action.
- * So both choice fields are bound textinputs (the persistence), with buttons
- * as one-tap fillers (each press re-renders the block, writing the chosen
- * value into the bound input). Typed values are normalized on submit.
+ *    the next action. Action-returned state does NOT repopulate a bound
+ *    textinput's DOM value either, so button-set choices don't survive to
+ *    submit. (Buttons also render full-width and overflow inside `hstack`.)
+ * So both choice fields are plain typed textinputs — the one mechanism proven
+ * to round-trip — normalized on submit to the exact form option strings.
  */
 const EXISTING_USE_CASE = 'Existing use case';
 const NEW_USE_CASE = 'New use case';
@@ -121,12 +122,7 @@ const EMPTY: State = {
     submitted: false,
 };
 
-type Action =
-    | { action: 'submit' }
-    | { action: 'reset' }
-    | { action: 'choose-existing' }
-    | { action: 'choose-new' }
-    | { action: 'toggle-taxonomy' };
+type Action = { action: 'submit' } | { action: 'reset' };
 
 const schemaProposalBlock = createComponent<{}, State, Action>({
     componentId: 'schema-proposal',
@@ -135,28 +131,6 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
     async action(element, action) {
         if (action.action === 'reset') {
             return { state: { ...EMPTY } };
-        }
-
-        // One-tap fillers (see EXISTING_USE_CASE note): each press re-renders
-        // the block with the value written into its bound textinput, where it
-        // persists; every other typed-in field is preserved too.
-        if (action.action === 'choose-existing') {
-            return { state: { ...element.state, existingOrNew: EXISTING_USE_CASE } };
-        }
-        if (action.action === 'choose-new') {
-            return { state: { ...element.state, existingOrNew: NEW_USE_CASE } };
-        }
-        if (action.action === 'toggle-taxonomy') {
-            return {
-                state: {
-                    ...element.state,
-                    taxonomyCompliant: isTaxonomyTicked(
-                        String(element.state.taxonomyCompliant ?? ''),
-                    )
-                        ? ''
-                        : 'YES',
-                },
-            };
         }
 
         if (action.action !== 'submit') {
@@ -183,8 +157,8 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                 state: {
                     ...state,
                     error:
-                        'For "existing or new use case", tap one of the two buttons ' +
-                        `or type "${EXISTING_USE_CASE}" or "${NEW_USE_CASE}".`,
+                        'For "existing or new use case", please type ' +
+                        `"${EXISTING_USE_CASE}" or "${NEW_USE_CASE}" (just "existing" or "new" works too).`,
                 },
             };
         }
@@ -304,7 +278,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                     />
                     <input
                         label="Is the proposed schema for an existing use case or a new one?"
-                        hint="Tap a button below, or type the answer."
+                        hint='Type "Existing" or "New".'
                         element={
                             <textinput
                                 state="existingOrNew"
@@ -312,58 +286,12 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                             />
                         }
                     />
-                    <hstack>
-                        <button
-                            label={
-                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
-                                EXISTING_USE_CASE
-                                    ? '● Existing use case'
-                                    : '○ Existing use case'
-                            }
-                            style={
-                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
-                                EXISTING_USE_CASE
-                                    ? 'primary'
-                                    : 'secondary'
-                            }
-                            onPress={{ action: 'choose-existing' }}
-                        />
-                        <button
-                            label={
-                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
-                                NEW_USE_CASE
-                                    ? '● New use case'
-                                    : '○ New use case'
-                            }
-                            style={
-                                normalizeExistingOrNew(String(state.existingOrNew ?? '')) ===
-                                NEW_USE_CASE
-                                    ? 'primary'
-                                    : 'secondary'
-                            }
-                            onPress={{ action: 'choose-new' }}
-                        />
-                    </hstack>
-
                     <input
                         label="IES taxonomy compliance"
-                        hint="Optional. Type YES (or tap the button) to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
+                        hint="Optional. Type YES to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
                         element={
                             <textinput state="taxonomyCompliant" placeholder="YES" />
                         }
-                    />
-                    <button
-                        label={
-                            (isTaxonomyTicked(String(state.taxonomyCompliant ?? ''))
-                                ? '☑ '
-                                : '☐ ') + TAXONOMY_OPTION_TEXT
-                        }
-                        style={
-                            isTaxonomyTicked(String(state.taxonomyCompliant ?? ''))
-                                ? 'primary'
-                                : 'secondary'
-                        }
-                        onPress={{ action: 'toggle-taxonomy' }}
                     />
 
                     <input
