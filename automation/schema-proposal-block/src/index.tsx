@@ -20,16 +20,11 @@ const FIELDS = {
     email: 'entry.1931736363',
     mobile: 'entry.323624506',
     useCase: 'entry.896988893',
-    // ── New fields ──────────────────────────────────────────────────────────
-    // These three entry ids are PLACEHOLDERS. Create the matching questions in
-    // the Google Form first (see ../schema-proposal/README.md for the exact
-    // titles/types), then re-read the ids with the snippet in this folder's
-    // README and paste the real `entry.<id>` values here. Until then the block
-    // renders these inputs but their answers will NOT reach the form.
-    existingOrNew: 'entry.REPLACE_existingOrNew',
-    taxonomyCompliant: 'entry.REPLACE_taxonomyCompliant',
-    conceptNote: 'entry.REPLACE_conceptNote',
-    // ────────────────────────────────────────────────────────────────────────
+    // Added Aug 2026 via ../schema-proposal/setup-questions.gs; ids read from
+    // the live form with its logEntryIds().
+    existingOrNew: 'entry.2110258648',
+    taxonomyCompliant: 'entry.1449425730',
+    conceptNote: 'entry.1478660713',
     description: 'entry.2091763378',
     schema: 'entry.1749605353',
     standards: 'entry.1286840799',
@@ -40,13 +35,22 @@ const FIELDS = {
 type FieldKey = keyof typeof FIELDS;
 
 /**
- * The two choices for "existing vs new use case". The option `id` is what gets
- * POSTed, so it MUST match the Google Form multiple-choice option text verbatim.
+ * The two choices for "existing vs new use case". The POSTed value MUST match
+ * the Google Form multiple-choice option text verbatim.
+ *
+ * Published-site renderer constraints (found empirically, Aug 2026):
+ *  - ContentKit `select` and `checkbox` elements are silently dropped — the
+ *    input label renders, the control doesn't. Buttons and textinputs render.
+ *  - Between actions, the client rebuilds state from the DOM's BOUND INPUTS
+ *    only; state that lives nowhere but the returned state object resets on
+ *    the next action. Action-returned state does NOT repopulate a bound
+ *    textinput's DOM value either, so button-set choices don't survive to
+ *    submit. (Buttons also render full-width and overflow inside `hstack`.)
+ * So both choice fields are plain typed textinputs — the one mechanism proven
+ * to round-trip — normalized on submit to the exact form option strings.
  */
-const EXISTING_OR_NEW_OPTIONS = [
-    { id: 'Existing use case', label: 'Existing use case' },
-    { id: 'New use case', label: 'New use case' },
-];
+const EXISTING_USE_CASE = 'Existing use case';
+const NEW_USE_CASE = 'New use case';
 
 /**
  * Exact text of the single option on the Google Form's taxonomy-compliance
@@ -54,6 +58,20 @@ const EXISTING_OR_NEW_OPTIONS = [
  * so this string must match that option verbatim.
  */
 const TAXONOMY_OPTION_TEXT = 'I confirm this submission is compliant with the IES taxonomy';
+
+/** Maps a typed answer to the exact form option, or '' if unrecognizable. */
+const normalizeExistingOrNew = (value: string): string => {
+    const v = value.trim();
+    if (/^existing/i.test(v)) return EXISTING_USE_CASE;
+    if (/^new/i.test(v)) return NEW_USE_CASE;
+    return '';
+};
+
+/** True when the typed/toggled taxonomy confirmation counts as a tick. */
+const isTaxonomyTicked = (value: string): boolean => {
+    const v = value.trim();
+    return /^y(es)?$/i.test(v) || v === TAXONOMY_OPTION_TEXT;
+};
 
 interface State {
     [key: string]: string | boolean;
@@ -63,8 +81,8 @@ interface State {
     mobile: string;
     useCase: string;
     existingOrNew: string;
-    /** ContentKit checkbox state: `false`/`undefined` unticked, the `value` prop ('yes') when ticked. */
-    taxonomyCompliant: boolean | string;
+    /** Typed confirmation ('YES', or the full option text when set by the toggle button). */
+    taxonomyCompliant: string;
     conceptNote: string;
     description: string;
     schema: string;
@@ -93,7 +111,7 @@ const EMPTY: State = {
     mobile: '',
     useCase: '',
     existingOrNew: '',
-    taxonomyCompliant: false,
+    taxonomyCompliant: '',
     conceptNote: '',
     description: '',
     schema: '',
@@ -131,11 +149,25 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
             };
         }
 
+        // Typed answers are forgiving ('existing', 'NEW', …) but must resolve to
+        // one of the two exact form options.
+        const existingOrNew = normalizeExistingOrNew(String(state.existingOrNew ?? ''));
+        if (!existingOrNew) {
+            return {
+                state: {
+                    ...state,
+                    error:
+                        'For "existing or new use case", please type ' +
+                        `"${EXISTING_USE_CASE}" or "${NEW_USE_CASE}" (just "existing" or "new" works too).`,
+                },
+            };
+        }
+
         const body = new URLSearchParams();
         for (const [key, entryId] of Object.entries(FIELDS)) {
-            // taxonomyCompliant is a boolean in state, but Google Forms expects the
-            // exact option text of a Checkboxes question — appended separately below.
-            if (key === 'taxonomyCompliant') {
+            // These two are normalized to the exact form option text and appended
+            // separately below — never send the raw typed value.
+            if (key === 'taxonomyCompliant' || key === 'existingOrNew') {
                 continue;
             }
             const value = String(state[key as FieldKey] ?? '').trim();
@@ -144,9 +176,11 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
             }
         }
 
-        // Checkbox → Google Forms "Checkboxes" answer: send the exact option text,
-        // and only when actually ticked (guard against the string "false").
-        if (state.taxonomyCompliant === true || state.taxonomyCompliant === 'yes') {
+        body.append(FIELDS.existingOrNew, existingOrNew);
+
+        // Confirmation → Google Forms "Checkboxes" answer: send the exact option
+        // text, and only when actually ticked.
+        if (isTaxonomyTicked(String(state.taxonomyCompliant ?? ''))) {
             body.append(FIELDS.taxonomyCompliant, TAXONOMY_OPTION_TEXT);
         }
 
@@ -244,28 +278,29 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                     />
                     <input
                         label="Is the proposed schema for an existing use case or a new one?"
+                        hint='Type "Existing" or "New".'
                         element={
-                            <select
+                            <textinput
                                 state="existingOrNew"
-                                placeholder="Choose one"
-                                options={EXISTING_OR_NEW_OPTIONS}
+                                placeholder={`${EXISTING_USE_CASE} / ${NEW_USE_CASE}`}
                             />
                         }
                     />
                     <input
                         label="IES taxonomy compliance"
-                        hint="Tick to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
+                        hint="Optional. Type YES to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
                         element={
-                            <checkbox state="taxonomyCompliant" value="yes" />
+                            <textinput state="taxonomyCompliant" placeholder="YES" />
                         }
                     />
+
                     <input
                         label="Concept note (link)"
-                        hint="Optional. Paste a public link to a concept note that follows the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md)."
+                        hint="Optional. Link to a concept note on the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md). Kept private — shared only with the IES secretariat."
                         element={
                             <textinput
                                 state="conceptNote"
-                                placeholder="https://…  (e.g. a Google Doc set to 'anyone with the link', or a GitHub link)"
+                                placeholder="https://…  (a Google Doc or OneDrive link that anyone with the link can view)"
                             />
                         }
                     />

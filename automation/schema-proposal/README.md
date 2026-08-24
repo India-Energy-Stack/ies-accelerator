@@ -13,8 +13,9 @@ Issue creation is triggered **directly by the form submission** — it does not 
 spreadsheet. Optionally link a responses Google Sheet for your own records; Google fills
 it independently, as a separate parallel copy that plays no part in issue creation.
 
-**Contact email and mobile stay private** — they are never written to the public issue
-(they exist only in the form's own responses, and the optional sheet if you link one).
+**Contact email, mobile and the concept-note link stay private** — they are never written
+to the public issue (they exist only in the form's own responses, and the optional sheet
+if you link one).
 
 ```
                     ┌─(Apps Script, form-bound)─► public GitHub issue (no email / mobile)
@@ -66,12 +67,14 @@ The three questions after it were added for taxonomy alignment and concept-note 
   description, link the taxonomy: `https://india-energy-stack.gitbook.io/docs/schemas/taxonomy`.
   A checkbox answer is submitted as its option text, so the option wording must match the
   `TAXONOMY_OPTION_TEXT` constant in the inline block.
-- **Concept note (link)** — a Short answer for a **public link** (not a file upload). In
+- **Concept note (link)** — a Short answer for a **shareable link** (not a file upload). In
   the description, point proposers at the use-case overview template:
   `https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/templates/use-case-overview.md`.
-  A Google Forms *File upload* question is deliberately not used: it forces respondents to
-  sign in with a Google account and cannot be submitted through the anonymous inline
-  GitBook block, which posts to `formResponse` as plain form-encoded text.
+  The link is **held privately** like email/mobile — `Code.gs` deliberately does not post
+  it to the public issue. A Google Forms *File upload* question is deliberately not used:
+  it forces respondents to sign in with a Google account and cannot be submitted through
+  the anonymous inline GitBook block, which posts to `formResponse` as plain
+  form-encoded text.
 
 **Don't add these three by hand** — [`setup-questions.gs`](setup-questions.gs) creates
 them in place (right after the "Use case…" question) with the exact titles, options and
@@ -123,5 +126,5 @@ rewrite that function.
 - Google Forms shows a confirmation message after submit (no custom redirect). If you
   want submitters redirected to a specific URL instead, a form tool like Tally supports
   redirect-on-submit — but its webhooks are a paid feature.
-- To change which fields are public, edit the `body` builder in `Code.gs`. Email/mobile
-  are deliberately not referenced there.
+- To change which fields are public, edit the `body` builder in `Code.gs`. Email, mobile
+  and the concept-note link are deliberately not referenced there.
