@@ -27,7 +27,7 @@ const Q = {
   useCase: 'Use case the proposed schema supports',
   existingOrNew: 'Is the proposed schema for an existing use case or a new one?',
   taxonomyCompliant: 'IES taxonomy compliance', // Checkboxes; answer is the ticked option text (blank if not ticked)
-  conceptNote: 'Concept note (link)',
+  conceptNote: 'Concept note (link)', // captured privately, NOT posted to the public issue
   description: 'Description and background',
   schema: 'Schema',
   standards: 'Standards the schema is based on',
@@ -46,7 +46,6 @@ function onFormSubmit(e) {
   const org = answer(Q.organization);
   const useCase = answer(Q.useCase);
   const existingOrNew = answer(Q.existingOrNew);
-  const conceptNote = answer(Q.conceptNote);
   const description = answer(Q.description);
   const schema = answer(Q.schema);
   const standards = answer(Q.standards);
@@ -66,7 +65,7 @@ function onFormSubmit(e) {
     '**Use case:** ' + (useCase || '—'),
     '**Existing or new use case:** ' + (existingOrNew || '—'),
     '**IES taxonomy compliance:** ' + taxonomyCompliant,
-    '**Concept note:** ' + (conceptNote || '—'),
+    // Concept note (link) deliberately not referenced — held privately, like email/mobile.
     '',
     '### Description and background',
     description || '—',

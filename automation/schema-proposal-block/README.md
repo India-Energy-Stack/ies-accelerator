@@ -24,8 +24,9 @@ Proposer fills the form on the page ┤                                  ├─�
                                                           (email / mobile never included)
 ```
 
-Contact email and mobile stay private exactly as before: they land in the form's own
-responses and are not referenced by the issue builder in `../schema-proposal/Code.gs`.
+Contact email, mobile and the concept-note link stay private exactly as before: they land
+in the form's own responses and are not referenced by the issue builder in
+`../schema-proposal/Code.gs`.
 
 ## Field ids
 
@@ -39,26 +40,22 @@ form's `FB_PUBLIC_LOAD_DATA_`:
 | Contact email | `entry.1931736363` | Short | Yes |
 | Contact mobile number | `entry.323624506` | Short | No |
 | Use case the proposed schema supports | `entry.896988893` | Short | Yes |
-| Is the proposed schema for an existing use case or a new one? | `entry.REPLACE_existingOrNew` ⚠️ | Multiple choice | Yes |
-| IES taxonomy compliance | `entry.REPLACE_taxonomyCompliant` ⚠️ | Checkboxes | No |
-| Concept note (link) | `entry.REPLACE_conceptNote` ⚠️ | Short | No |
+| Is the proposed schema for an existing use case or a new one? | `entry.2110258648` | Multiple choice | Yes |
+| IES taxonomy compliance | `entry.1449425730` | Checkboxes | No |
+| Concept note (link) | `entry.1478660713` | Short | No |
 | Description and background | `entry.2091763378` | Paragraph | Yes |
 | Schema | `entry.1749605353` | Paragraph | Yes |
 | Standards the schema is based on | `entry.1286840799` | Paragraph | No |
 | Any additional material | `entry.1174083829` | Paragraph | No |
 | GitHub username (optional) | `entry.986421744` | Short | No |
 
-> **⚠️ The three `entry.REPLACE_*` ids are placeholders.** Create these questions in the
-> Google Form first (titles/types/options in
-> [`../schema-proposal/README.md`](../schema-proposal/README.md)), then re-read the real
-> ids with the snippet at the bottom of this file and paste them into the `FIELDS` map in
-> `src/index.tsx`. Until they are filled in, the block renders these three inputs but
-> their answers do not reach the form.
->
-> Two of them carry values that must match the form verbatim: the multiple-choice options
-> (`Existing use case` / `New use case`) equal the `id`s in `EXISTING_OR_NEW_OPTIONS`, and
-> the checkbox option text equals `TAXONOMY_OPTION_TEXT` — a Checkboxes answer is POSTed as
-> its option text, not as a boolean.
+> The three Aug 2026 additions were created by
+> [`../schema-proposal/setup-questions.gs`](../schema-proposal/setup-questions.gs), and
+> their ids read from its `logEntryIds()`. Two of them carry values that must match the
+> form verbatim: the multiple-choice options (`Existing use case` / `New use case`) equal
+> the `id`s in `EXISTING_OR_NEW_OPTIONS`, and the checkbox option text equals
+> `TAXONOMY_OPTION_TEXT` — a Checkboxes answer is POSTed as its option text, not as a
+> boolean.
 
 > **If you edit the Google Form, re-check these.** Renaming a question keeps its id, but
 > deleting and recreating one mints a **new** id — the old id then silently drops that

@@ -20,16 +20,11 @@ const FIELDS = {
     email: 'entry.1931736363',
     mobile: 'entry.323624506',
     useCase: 'entry.896988893',
-    // ── New fields ──────────────────────────────────────────────────────────
-    // These three entry ids are PLACEHOLDERS. Create the matching questions in
-    // the Google Form first (see ../schema-proposal/README.md for the exact
-    // titles/types), then re-read the ids with the snippet in this folder's
-    // README and paste the real `entry.<id>` values here. Until then the block
-    // renders these inputs but their answers will NOT reach the form.
-    existingOrNew: 'entry.REPLACE_existingOrNew',
-    taxonomyCompliant: 'entry.REPLACE_taxonomyCompliant',
-    conceptNote: 'entry.REPLACE_conceptNote',
-    // ────────────────────────────────────────────────────────────────────────
+    // Added Aug 2026 via ../schema-proposal/setup-questions.gs; ids read from
+    // the live form with its logEntryIds().
+    existingOrNew: 'entry.2110258648',
+    taxonomyCompliant: 'entry.1449425730',
+    conceptNote: 'entry.1478660713',
     description: 'entry.2091763378',
     schema: 'entry.1749605353',
     standards: 'entry.1286840799',
@@ -261,11 +256,11 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                     />
                     <input
                         label="Concept note (link)"
-                        hint="Optional. Paste a public link to a concept note that follows the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md)."
+                        hint="Optional. Link to a concept note on the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md). Kept private — shared only with the IES secretariat."
                         element={
                             <textinput
                                 state="conceptNote"
-                                placeholder="https://…  (e.g. a Google Doc set to 'anyone with the link', or a GitHub link)"
+                                placeholder="https://…  (e.g. a Google Doc set to 'anyone with the link')"
                             />
                         }
                     />
