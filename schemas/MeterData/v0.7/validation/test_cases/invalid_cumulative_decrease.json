@@ -1,0 +1,43 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-TEST",
+    "payloadDescriptorSets": [
+      {
+        "name": "DailySet",
+        "payloadDescriptors": [
+          { "readingType": "kWh imp", "reportedMode": "READING", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 }
+        ],
+        "compactSequences": [
+          {
+            "name": "DailySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "DailyProfile",
+    "profileType": "DAILY",
+    "meterRefs": [
+      { "value": "TEST-METER", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "DailySet",
+    "intervalPeriod": { "start": "2026-05-18T00:00:00+05:30", "duration": "P1D" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 100.5 ]
+      },
+      {
+        "id": 1,
+        "payloads": [ 99.4 ]
+      }
+    ],
+    "compactSequenceRef": "DailySeq"
+  }
+]

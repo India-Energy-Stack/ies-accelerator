@@ -1,0 +1,77 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-INTERVALPROFILE",
+    "payloadDescriptorSets": [
+      {
+        "name": "IntervalLoadSurveySet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - block incremental (kWh)",
+            "readingType": "kWh imp block",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.29.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Active energy export - block incremental (kWh)",
+            "readingType": "kWh exp block",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.2.29.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          }
+        ],
+        "compactSequences": [
+          {
+            "name": "IntervalEnergySeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp block", "attribute": "value" },
+              { "readingType": "kWh exp block", "attribute": "value" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "serviceDeliveryPointRefs": [
+      { "value": "did:web:discom.example:connections:SDP-BLR-A-12345", "scheme": "DID" }
+    ],
+    "meterRefs": [
+      { "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "IntervalLoadSurveySet",
+    "intervalPeriod": { "start": "2026-05-04T09:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 4.62, 0.0 ]
+      },
+      {
+        "id": 1,
+        "payloads": [ 4.85, 0.0 ]
+      },
+      {
+        "id": 2,
+        "payloads": [ 5.21, 0.12 ],
+        "overrides": [
+          { "descriptorIndex": 0, "validationStatus": "ESTIMATED", "source": "ESTIMATED", "changeMethod": "linear-interpolation", "failCode": "VEE-MISSING-INTERVAL" }
+        ]
+      },
+      {
+        "id": 3,
+        "payloads": [ 5.04, 0.0 ]
+      }
+    ],
+    "compactSequenceRef": "IntervalEnergySeq"
+  }
+]
