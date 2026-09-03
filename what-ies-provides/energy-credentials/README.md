@@ -16,7 +16,7 @@ Three credentials cover almost everything IES does:
 |---|---|---|---|
 | **[ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2)** | A service connection — customer number, sanctioned load, tariff, meter info, energy resources (rooftop solar, BESS, EV chargers) | DISCOM | The consumer's wallet, or a verifier (bank, marketplace, regulator) the consumer shares it with |
 | **[MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6)** | A signed meter-reading payload (raw `MeterData` profiles or derived summaries) for a specified period | AMISP, MDM, or DISCOM | DISCOM (B2B telemetry) or the consumer (their own readings) |
-| **[MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** | A signed request for meter data — proves the requester has the right to ask | Seeker (typically a DISCOM) | Provider (typically an AMISP) at Beckn `confirm` time |
+| **[MeterDataRequestCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.6)** | A signed request for meter data — proves the requester has the right to ask | Seeker (typically a DISCOM) | Provider (typically an AMISP) at Beckn `confirm` time |
 
 ### Lifecycle at a glance
 
@@ -84,9 +84,9 @@ A signed VC wrapping a [MeterData v0.6](https://india-energy-stack.gitbook.io/do
 - **B2B**, typically without `credentialSubject.id`. The AMISP signs; the DISCOM consumes the payload.
 - **Holder-bound, consumer-presentable** — the **Consumer Meter Digest** pattern. `credentialSubject.id` is the consumer's wallet DID, `validUntil` is short (hours to days), and the readings cover a period the consumer asked for. Delivered into the consumer's wallet / DigiLocker; verifiers (banks, marketplaces) check it without phoning the DISCOM. Use case: [Consumer Meter Digest](../../use-cases/consumer-meter-digest/README.md).
 
-### MeterDataRequestCredential v0.1 — proof of right-to-ask
+### MeterDataRequestCredential v0.6 — proof of right-to-ask
 
-A signed VC carried at Beckn `confirm` time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it — the one credential that rides *inside* a Beckn message. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1); ready-to-send `confirm` payloads live in the [DEG data-exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc1-meter-data).
+A signed VC carried at Beckn `confirm` time by a seeker (typically a DISCOM) when an AMISP's offer policy requires it — the one credential that rides *inside* a Beckn message. Proves the seeker has been authorised to request the data they're confirming. Schema: [MeterDataRequestCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.6); ready-to-send `confirm` payloads live in the [DEG data-exchange devkit](https://github.com/beckn/DEG/tree/main/devkits/data-exchange/uc1-meter-data).
 
 ### Summary
 
@@ -96,7 +96,7 @@ A signed VC carried at Beckn `confirm` time by a seeker (typically a DISCOM) whe
 | Consumer Energy Passport | `ElectricityCredential/v1.2` | wallet `did:key` (+ `customerProfile.idRef`) | years | DISCOM |
 | B2B MeterDataCredential | `MeterDataCredential/v0.6` | absent | days to a year | AMISP / MDM |
 | Consumer Meter Digest | `MeterDataCredential/v0.6` | wallet `did:key` | hours to days | DISCOM (on consumer demand) |
-| Meter-data request | `MeterDataRequestCredential/v0.1` | absent | weeks to months (the authorised request window) | Seeker (typically DISCOM) |
+| Meter-data request | `MeterDataRequestCredential/v0.6` | absent | weeks to months (the authorised request window) | Seeker (typically DISCOM) |
 
 ---
 

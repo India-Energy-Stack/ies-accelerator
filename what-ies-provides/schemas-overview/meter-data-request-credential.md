@@ -1,11 +1,11 @@
-# MeterDataRequestCredential v0.1
+# MeterDataRequestCredential v0.6
 
 *A W3C Verifiable Credential that a data requester attaches to a Beckn request to prove it is authorised to ask for smart-meter telemetry.*
 
 | Field | Value |
 |---|---|
 | Applicability | Issued by a data requester (e.g. a DISCOM, or a third-party aggregator such as a Technical Service Provider) that attaches it in `commitmentAttributes.ies:meterDataRequest` at Beckn `confirm`; consumed by the metering data provider (e.g. an AMISP or MDM system) that receives it |
-| This version | Defines the credential envelope and its one substantive field, `credentialSubject`, whose `meterDataRequest` property wraps a `MeterDataRequest` object from the separate **MeterDataRequest v0.6** schema family, as specified in [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) |
+| This version | Defines the credential envelope and its one substantive field, `credentialSubject`, whose `meterDataRequest` property wraps a `MeterDataRequest` object from the separate **MeterDataRequest v0.6** schema family, as specified in [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/attributes.yaml) |
 
 ## 1. Scope and Purpose
 
@@ -13,7 +13,7 @@ The stakeholders are a data requester -- typically a DISCOM, though `attributes.
 
 The schema's own description states the purpose precisely: the credential "binds the requester's identity to a scoped, time-bounded query expressed as a MeterDataRequest." It exists specifically to satisfy a provider policy that requires "a credential-backed, verifiable request before fulfilling data delivery" -- meaning attaching it is not universal practice but something a specific provider's offer can mandate.
 
-This document explains the **MeterDataRequestCredential v0.1** schema. It does not define a new schema; it explains the existing one.
+This document explains the **MeterDataRequestCredential v0.6** schema. It does not define a new schema; it explains the existing one.
 
 ## 2. What It Records / Covers
 
@@ -53,7 +53,7 @@ This schema does not introduce its own identifier scheme -- it reuses the DID-ba
 
 ## 5. Basis of Standards
 
-The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. MeterDataRequestCredential v0.1 is a credential envelope; it defines no new engineering/metering standards. No IS or CEA/IEGC citation appears anywhere in this schema family — the envelope is pure W3C/DEG, and the wrapped request payload's only cited standard is the IEC OBIS/DLMS-COSEM register scheme.
+The IES order of preference is fixed: **IS → CEA Regulations/IEGC → IEC → IEEE**. MeterDataRequestCredential v0.6 is a credential envelope; it defines no new engineering/metering standards. No IS or CEA/IEGC citation appears anywhere in this schema family — the envelope is pure W3C/DEG, and the wrapped request payload's only cited standard is the IEC OBIS/DLMS-COSEM register scheme.
 
 | Standard | Role here |
 |---|---|
@@ -88,7 +88,7 @@ The schema is built from these logical blocks:
 | **credentialSubject** (`MeterDataRequestCredentialSubject`) | the DID of the requesting entity (`id`) and its one required, substantive field, `meterDataRequest` |
 | embedded **MeterDataRequest object** (defined in the separate MeterDataRequest v0.6 family, required fields `from`, `duration`, `capabilitiesRequested`) | `consumers`, `resources`, `scope`, `from`/`duration`, `consumerConsent`, `authorisation`, `capabilitiesRequested` (itself built from `MeterDataCapabilities` → `ProfileCapability` → `ValueCapability`, down to individual OBIS/short-code registers and telemetry modes), and the optional `maxRecordsShared` cap |
 
-The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) for this credential is at [MeterDataRequestCredential v0.1 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1#field-reference); the fields of the object it wraps are documented at [MeterDataRequest v0.6 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6#field-reference).
+The full field-by-field reference (Field / Type / Description, auto-generated from schema.json) for this credential is at [MeterDataRequestCredential v0.6 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.6#field-reference); the fields of the object it wraps are documented at [MeterDataRequest v0.6 -- Field reference](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequest/v0.6#field-reference).
 
 ## 9. Schedule II
 
@@ -111,7 +111,7 @@ MeterDataRequestCredential is the optional authorisation attachment on the reque
 
 ## 11. Points for Confirmation
 
-1. The schema's own changelog records v0.1 (2026-05-26) only as "Initial draft", while the family README lists it as Stable — In Pilot; the changelog has not been updated to reflect the later status.
+1. The schema's own changelog records v0.1 (2026-05-26) as "Initial draft" and v0.6 (2026-09-03) as a renumbering only, while the family README lists it as Stable — In Pilot; the changelog has not been updated to reflect the later status.
 2. This credential is optional in the Smart Meter Data Exchange use case -- when a provider's offer policy requires it versus when a request may proceed without it is a per-provider policy decision that this document does not resolve.
 3. The `consumerConsent` field is typed as a plain string array (not `format: uri`), unlike `consumers` and `resources` which are DIDs -- the schema does not specify whether consent entries must be DIDs, opaque receipt hashes, or some other format, leaving consent-evidence interoperability between DISCOMs and TSPs undefined at the schema level.
 4. `authorisation` may be an inline `MeterDataAuthorisation` object or a bare URI reference to one; the schema does not specify how a provider is expected to dereference and independently verify a URI-referenced authorisation (e.g. whether it must itself be signed, or how staleness/revocation of that referenced grant is checked), which matters once a TSP-style delegation chain (DISCOM → TSP) is involved rather than a direct DISCOM-to-provider request.
@@ -128,8 +128,8 @@ MeterDataRequestCredential is the optional authorisation attachment on the reque
 
 ### Annexure B — Example Payloads
 
-A complete example instance is at [schemas/MeterDataRequestCredential/v0.1/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.1/examples) (the DISCOM requesting Q1 2026 customer, interval, daily and monthly profiles for all meters under feeder `IN-KA-BLR-ZONE-A`). The wrapped `MeterDataRequest` object's own worked examples -- covering a plain request, an inline authorisation grant, and provider capability declarations -- are at [schemas/MeterDataRequest/v0.6/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.6/examples).
+A complete example instance is at [schemas/MeterDataRequestCredential/v0.6/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.6/examples) (the DISCOM requesting Q1 2026 customer, interval, daily and monthly profiles for all meters under feeder `IN-KA-BLR-ZONE-A`). The wrapped `MeterDataRequest` object's own worked examples -- covering a plain request, an inline authorisation grant, and provider capability declarations -- are at [schemas/MeterDataRequest/v0.6/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequest/v0.6/examples).
 
 ### Annexure C — JSON Schema
 
-The machine-readable definitions are at [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml). The wrapped object's own definitions are at [MeterDataRequest v0.6 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/attributes.yaml).
+The machine-readable definitions are at [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/attributes.yaml). The wrapped object's own definitions are at [MeterDataRequest v0.6 schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/schema.json) and [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequest/v0.6/attributes.yaml).

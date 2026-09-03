@@ -308,7 +308,7 @@ curl -s http://localhost:3100/v1/credentials/issue \
   }" | tee credential.json | jq .credential
 ```
 
-### MeterDataRequestCredential v0.1 — proof of right-to-ask
+### MeterDataRequestCredential v0.6 — proof of right-to-ask
 
 This schema is **not** in OpenCred's built-in registry, so issue it with an **`inlineSchema`** rather than a `schemaId`: pass the JSON Schema in the request and OpenCred validates `credentialSubject` against it, writes the schema `$id`, and signs. Here we reuse the published MeterDataRequest `$defs` so the inline schema stays canonical — the first command pulls them, the second wraps them as the `credentialSubject` schema and issues:
 
@@ -318,7 +318,7 @@ REQ_DEFS=$(curl -s https://india-energy-stack.github.io/ies-accelerator/schemas/
 jq -n --argjson defs "$REQ_DEFS" --arg iss "$ISSUER_DID" \
   --arg reg "https://api.dedi.global/dedi/query/$OPENCRED_DEDI_NAMESPACE/vc-revocation-registry" '{
   inlineSchema: {
-    "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json",
+    "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/schema.json",
     type: "object", required: ["meterDataRequest"],
     properties: {
       id: { type: "string", format: "uri" },

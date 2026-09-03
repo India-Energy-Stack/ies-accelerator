@@ -71,7 +71,7 @@
     "status": "enforced-pass",
     "reason": "The v0.6 request context and all committed examples must pass local JSON-LD coverage and expansion."
   },
-  "schemas/MeterDataRequestCredential/v0.1": {
+  "schemas/MeterDataRequestCredential/v0.6": {
     "status": "deferred-fail",
     "expectedIssues": [
       "unmapped:example.json:capabilitiesRequested,created,credentialStatus,duration,from,issuer,licenseNumber,maxRecordsShared,mode,name,profileType,profiles,proof,proofPurpose,proofValue,readings,resources,scope,statusListCredential,statusPurpose,validFrom,validUntil,value,verificationMethod"

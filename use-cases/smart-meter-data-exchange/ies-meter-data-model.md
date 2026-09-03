@@ -175,7 +175,7 @@ This is the minimal pattern. Daily / Monthly / Instantaneous / Event / Alarm fol
 - [Smart Meter Data Exchange](README.md) — the use case that carries this payload
 - [Data Exchange](../../what-ies-provides/exchange.md) — the wire that carries it
 - [`MeterDataRequest`](../../schemas-ies/MeterDataRequest.md) — the matching request schema (current: `v0.6`)
-- [`MeterDataRequestCredential`](../../schemas-ies/MeterDataRequestCredential.md) — optional authorisation VC (current: `v0.1`)
+- [`MeterDataRequestCredential`](../../schemas-ies/MeterDataRequestCredential.md) — optional authorisation VC (current: `v0.6`)
 - [`ElectricityCredential`](../../schemas-ies/ElectricityCredential.md) — sits alongside `MeterData` for the slow-changing customer / asset / service-connection data (current: `v1.2`)
 
 ---

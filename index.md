@@ -15,10 +15,11 @@ These documents provide a general introduction, terminology definitions, and lay
   <ul>
     <li><a href="README.md#getting-started">Getting Started</a>    <ul>
       <li><a href="README.md#how-ies-works-register-discover-exchange">How IES works — Register, Discover, Exchange</a></li>
-      <li><a href="README.md#what-this-gitbook-is">What this GitBook is</a></li>
+      <li><a href="README.md#what-this-documentation-is">What this Documentation is</a></li>
       <li><a href="README.md#before-you-build">Before you build</a></li>
       <li><a href="README.md#the-full-story">The full story</a></li>
-      <li><a href="README.md#get-in-touch">Get in touch</a>
+      <li><a href="README.md#get-in-touch">Get in touch</a></li>
+      <li><a href="README.md#for-more-information-and-updates-on-ies">For more information and Updates on IES</a>
     </li>
     </ul>
   </li>
@@ -236,19 +237,19 @@ This block handles digital attestations of connections, billing summaries, and c
   <ul>
     <li><a href="how-you-implement-ies/issue-credentials.md#issuing-credentials">Issuing Credentials</a>    <ul>
       <li><a href="how-you-implement-ies/issue-credentials.md#before-you-start">Before you start</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.1-pull-the-opencred-image">2.1 — Pull the OpenCred image</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.2-generate-the-opencred-api-token">2.2 — Generate the OpenCred API token</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.3-run-opencred-in-did-web-mode">2.3 — Run OpenCred in `did:web` mode</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.4-confirm-your-dedi-namespace-is-live">2.4 — Confirm your DeDi namespace is live</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.5-confirm-the-issuer-did-opencred-reports">2.5 — Confirm the issuer DID OpenCred reports</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.6-issue-your-first-credential">2.6 — Issue your first credential</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.7-verify">2.7 — Verify</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.8-revoke">2.8 — Revoke</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.9-smoke-test">2.9 — Smoke test</a></li>
-      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.10-package-the-credential-as-a-pdf-qr-code">2.10 — Package the credential as a PDF / QR code</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.1-pull-the-opencred-image">3.1 — Pull the OpenCred image</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.2-generate-the-opencred-api-token">3.2 — Generate the OpenCred API token</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.3-run-opencred-in-did-web-mode">3.3 — Run OpenCred in `did:web` mode</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.4-confirm-your-dedi-namespace-is-live">3.4 — Confirm your DeDi namespace is live</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.5-confirm-the-issuer-did-opencred-reports">3.5 — Confirm the issuer DID OpenCred reports</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.6-issue-your-first-credential">3.6 — Issue your first credential</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.7-verify">3.7 — Verify</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.8-revoke">3.8 — Revoke</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.9-smoke-test">3.9 — Smoke test</a></li>
+      <li><a href="how-you-implement-ies/issue-credentials.md#id-3.10-package-the-credential-as-a-pdf-qr-code">3.10 — Package the credential as a PDF / QR code</a></li>
       <li><a href="how-you-implement-ies/issue-credentials.md#issue-the-credential-variants">Issue the credential variants</a>      <ul>
         <li><a href="how-you-implement-ies/issue-credentials.md#meterdatacredential-v0.6-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
-        <li><a href="how-you-implement-ies/issue-credentials.md#meterdatarequestcredential-v0.1-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a>
+        <li><a href="how-you-implement-ies/issue-credentials.md#meterdatarequestcredential-v0.6-proof-of-right-to-ask">MeterDataRequestCredential v0.6 — proof of right-to-ask</a>
       </li>
       </ul>
       <li><a href="how-you-implement-ies/issue-credentials.md#verify-a-credential-you-received-the-verifiers-walkthrough">Verify a credential you received (the verifier's walkthrough)</a></li>
@@ -292,7 +293,7 @@ This block handles digital attestations of connections, billing summaries, and c
       <li><a href="what-ies-provides/energy-credentials/README.md#credential-variants">Credential variants</a>      <ul>
         <li><a href="what-ies-provides/energy-credentials/README.md#electricitycredential-v1.2-the-default">ElectricityCredential v1.2 — the default</a></li>
         <li><a href="what-ies-provides/energy-credentials/README.md#meterdatacredential-v0.6-telemetry-signing">MeterDataCredential v0.6 — telemetry signing</a></li>
-        <li><a href="what-ies-provides/energy-credentials/README.md#meterdatarequestcredential-v0.1-proof-of-right-to-ask">MeterDataRequestCredential v0.1 — proof of right-to-ask</a></li>
+        <li><a href="what-ies-provides/energy-credentials/README.md#meterdatarequestcredential-v0.6-proof-of-right-to-ask">MeterDataRequestCredential v0.6 — proof of right-to-ask</a></li>
         <li><a href="what-ies-provides/energy-credentials/README.md#summary">Summary</a>
       </li>
       </ul>
@@ -420,40 +421,40 @@ This block governs data discovery, consent, and the transfer of telemetry and re
     <li><a href="how-you-implement-ies/setup-exchange.md#setting-up-discover-exchange">Setting up Discover & Exchange</a>    <ul>
       <li><a href="how-you-implement-ies/setup-exchange.md#what-youll-have-at-the-end">What you'll have at the end</a></li>
       <li><a href="how-you-implement-ies/setup-exchange.md#before-you-start">Before you start</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.1-deploy-the-local-sandbox">3.1 — Deploy the local sandbox</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.2-run-your-first-exchange">3.2 — Run your first exchange</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.3-swap-in-your-real-identity">3.3 — Swap in your real identity</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.4-go-over-the-public-internet-ngrok">3.4 — Go over the public internet (ngrok)</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.5-two-registries-two-onix-deployments">3.5 — Two registries, two ONIX deployments</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.6-make-the-sandbox-your-own">3.6 — Make the sandbox your own</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.7-test-the-end-to-end-loop">3.7 — Test the end-to-end loop</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#checklist">Checklist</a>
-    </li>
-    </ul>
-    <li><a href="how-you-implement-ies/setup-exchange.md#appendices">Appendices</a>    <ul>
-      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-a-message-envelope-and-correlation-rules">Appendix A — Message envelope and correlation rules</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-exchange.md#datasetitem-and-accessmethod">`DatasetItem` and `accessMethod`</a>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.1-deploy-the-local-sandbox">2.1 — Deploy the local sandbox</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.2-run-your-first-exchange">2.2 — Run your first exchange</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.3-swap-in-your-real-identity">2.3 — Swap in your real identity</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.4-go-over-the-public-internet-ngrok">2.4 — Go over the public internet (ngrok)</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.5-two-registries-two-onix-deployments">2.5 — Two registries, two ONIX deployments</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.6-make-the-sandbox-your-own">2.6 — Make the sandbox your own</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#id-2.7-test-the-end-to-end-loop">2.7 — Test the end-to-end loop</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#checklist">Checklist</a></li>
+      <li><a href="how-you-implement-ies/setup-exchange.md#appendices">Appendices</a>      <ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#appendix-a-message-envelope-and-correlation-rules">Appendix A — Message envelope and correlation rules</a>        <ul>
+          <li><a href="how-you-implement-ies/setup-exchange.md#datasetitem-and-accessmethod">`DatasetItem` and `accessMethod`</a>
+        </li>
+        </ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#appendix-b-pagination-large-datasets-across-multiple-status-on_status-messages">Appendix B — Pagination: large datasets across multiple `status` / `on_status` messages</a>        <ul>
+          <li><a href="how-you-implement-ies/setup-exchange.md#bap-pull-the-bap-drives-the-cadence">BAP-PULL — the BAP drives the cadence</a></li>
+          <li><a href="how-you-implement-ies/setup-exchange.md#bpp-push-the-bpp-drives-the-cadence">BPP-PUSH — the BPP drives the cadence</a></li>
+          <li><a href="how-you-implement-ies/setup-exchange.md#worked-examples-in-the-devkit">Worked examples in the devkit</a>
+        </li>
+        </ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#appendix-c-architecture-at-a-glance">Appendix C — Architecture at a glance</a>        <ul>
+          <li><a href="how-you-implement-ies/setup-exchange.md#the-four-onix-endpoints">The four ONIX endpoints</a></li>
+          <li><a href="how-you-implement-ies/setup-exchange.md#identity-resolution">Identity resolution</a>
+        </li>
+        </ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#appendix-d-schema-validation-on-the-wire">Appendix D — Schema validation on the wire</a>        <ul>
+          <li><a href="how-you-implement-ies/setup-exchange.md#failure-modes">Failure modes</a></li>
+          <li><a href="how-you-implement-ies/setup-exchange.md#publishing-your-own-schema-for-onix-to-validate">Publishing your own schema for ONIX to validate</a>
+        </li>
+        </ul>
+        <li><a href="how-you-implement-ies/setup-exchange.md#appendix-e-hostnames-sandbox-vs-production">Appendix E — Hostnames: sandbox vs production</a></li>
+        <li><a href="how-you-implement-ies/setup-exchange.md#appendix-f-generic-beckn-flow-sequence-diagram">Appendix F — Generic Beckn flow (sequence diagram)</a></li>
+        <li><a href="how-you-implement-ies/setup-exchange.md#references">References</a>
       </li>
       </ul>
-      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-b-pagination-large-datasets-across-multiple-status-on_status-messages">Appendix B — Pagination: large datasets across multiple `status` / `on_status` messages</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-exchange.md#bap-pull-the-bap-drives-the-cadence">BAP-PULL — the BAP drives the cadence</a></li>
-        <li><a href="how-you-implement-ies/setup-exchange.md#bpp-push-the-bpp-drives-the-cadence">BPP-PUSH — the BPP drives the cadence</a></li>
-        <li><a href="how-you-implement-ies/setup-exchange.md#worked-examples-in-the-devkit">Worked examples in the devkit</a>
-      </li>
-      </ul>
-      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-c-architecture-at-a-glance">Appendix C — Architecture at a glance</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-exchange.md#the-four-onix-endpoints">The four ONIX endpoints</a></li>
-        <li><a href="how-you-implement-ies/setup-exchange.md#identity-resolution">Identity resolution</a>
-      </li>
-      </ul>
-      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-d-schema-validation-on-the-wire">Appendix D — Schema validation on the wire</a>      <ul>
-        <li><a href="how-you-implement-ies/setup-exchange.md#failure-modes">Failure modes</a></li>
-        <li><a href="how-you-implement-ies/setup-exchange.md#publishing-your-own-schema-for-onix-to-validate">Publishing your own schema for ONIX to validate</a>
-      </li>
-      </ul>
-      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-e-hostnames-sandbox-vs-production">Appendix E — Hostnames: sandbox vs production</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#appendix-f-generic-beckn-flow-sequence-diagram">Appendix F — Generic Beckn flow (sequence diagram)</a></li>
-      <li><a href="how-you-implement-ies/setup-exchange.md#references">References</a>
     </li>
     </ul>
   </li>
@@ -593,7 +594,7 @@ Plain-language overviews of each schema family and how the schemas fit together 
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#meterdatarequestcredential-v0.1">MeterDataRequestCredential v0.1</a>    <ul>
+    <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#meterdatarequestcredential-v0.6">MeterDataRequestCredential v0.6</a>    <ul>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#id-1.-scope-and-purpose">1. Scope and Purpose</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#id-2.-what-it-records-covers">2. What It Records / Covers</a></li>
       <li><a href="what-ies-provides/schemas-overview/meter-data-request-credential.md#id-3.-how-each-item-is-identified">3. How Each Item is Identified</a></li>
@@ -884,27 +885,27 @@ Each family page opens with a concise plain-language overview; version pages car
   </li>
   </ul>
   </details>
-* **[README.md](schemas/MeterDataRequestCredential/v0.1/README.md)**
+* **[README.md](schemas/MeterDataRequestCredential/v0.6/README.md)**
   - *Summary*: W3C Verifiable Credential wrapping a MeterDataRequest, enabling secure authorized requests.
   <details>
   <summary><b>Show Outline / Headings</b></summary>
   <ul>
-    <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#meterdatarequestcredential-v0.1">MeterDataRequestCredential v0.1</a>    <ul>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#purpose">Purpose</a></li>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#inheritance">Inheritance</a></li>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#schema-files">Schema Files</a></li>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#credential-structure">Credential Structure</a></li>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#usage-in-beckn-data-exchange-uc1">Usage in Beckn Data Exchange (UC1)</a>      <ul>
-        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#provider-side-catalog-publish">Provider side — `catalog/publish`</a></li>
-        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#seeker-side-confirm">Seeker side — `confirm`</a></li>
-        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#provider-side-on_status">Provider side — `on_status`</a>
+    <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#meterdatarequestcredential-v0.6">MeterDataRequestCredential v0.6</a>    <ul>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#purpose">Purpose</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#inheritance">Inheritance</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#schema-files">Schema Files</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#credential-structure">Credential Structure</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#usage-in-beckn-data-exchange-uc1">Usage in Beckn Data Exchange (UC1)</a>      <ul>
+        <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#provider-side-catalog-publish">Provider side — `catalog/publish`</a></li>
+        <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#seeker-side-confirm">Seeker side — `confirm`</a></li>
+        <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#provider-side-on_status">Provider side — `on_status`</a>
       </li>
       </ul>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#example">Example</a></li>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#changelog">Changelog</a></li>
-      <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#field-reference">Field reference</a>      <ul>
-        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#meterdatarequestcredential">MeterDataRequestCredential</a></li>
-        <li><a href="schemas/MeterDataRequestCredential/v0.1/README.md#meterdatarequestcredentialsubject">MeterDataRequestCredentialSubject</a>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#example">Example</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#changelog">Changelog</a></li>
+      <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#field-reference">Field reference</a>      <ul>
+        <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#meterdatarequestcredential">MeterDataRequestCredential</a></li>
+        <li><a href="schemas/MeterDataRequestCredential/v0.6/README.md#meterdatarequestcredentialsubject">MeterDataRequestCredentialSubject</a>
       </li>
       </ul>
     </li>
@@ -1052,7 +1053,7 @@ Shallow, business-outcome overviews of each use case — what it delivers and wh
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.-schedule-i-static-fields-of-the-data-exchange">8. Schedule I — Static Fields of the Data Exchange</a>      <ul>
         <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.1-meterdatarequest-v0.6-query-and-scope">8.1 MeterDataRequest v0.6 — Query and Scope</a></li>
         <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.2-capabilities-and-authorisation">8.2 Capabilities and Authorisation</a></li>
-        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.3-optional-meterdatarequestcredential-v0.1">8.3 Optional MeterDataRequestCredential v0.1</a>
+        <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-8.3-optional-meterdatarequestcredential-v0.6">8.3 Optional MeterDataRequestCredential v0.6</a>
       </li>
       </ul>
       <li><a href="use-cases-overview/smart-meter-data-exchange.md#id-9.-schedule-ii-meter-readings-live-record">9. Schedule II — Meter Readings (Live Record)</a>      <ul>

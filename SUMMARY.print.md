@@ -69,7 +69,7 @@
 * [MeterDataRequest](schemas/MeterDataRequest/README.md)
   * [v0.6](schemas/MeterDataRequest/v0.6/README.md)
 * [MeterDataRequestCredential](schemas/MeterDataRequestCredential/README.md)
-  * [v0.1](schemas/MeterDataRequestCredential/v0.1/README.md)
+  * [v0.6](schemas/MeterDataRequestCredential/v0.6/README.md)
 * [ArrFiling (WIP)](schemas/ArrFiling/README.md)
   * [v0.5](schemas/ArrFiling/v0.5/README.md)
 * [OutageNotification (WIP)](schemas/OutageNotification/README.md)

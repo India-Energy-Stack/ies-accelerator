@@ -10,7 +10,7 @@ Read one of these before the field reference in [Schemas](../../schemas-ies/READ
 | **[MeterData v0.6](meter-data.md)** | Compact telemetry payload — nine record shapes (eight telemetry profiles plus a shared descriptor object) for smart-meter readings, events and alarms | Stable — In Pilot |
 | **[MeterDataCredential v0.6](meter-data-credential.md)** | W3C Verifiable Credential wrapping a MeterData payload to attest its provenance | Stable — In Pilot |
 | **[MeterDataRequest v0.6](meter-data-request.md)** | Query and authorisation payload for asking a provider for telemetry | Stable — In Pilot |
-| **[MeterDataRequestCredential v0.1](meter-data-request-credential.md)** | W3C Verifiable Credential wrapping a MeterDataRequest to prove the requester's authorisation | Stable — In Pilot |
+| **[MeterDataRequestCredential v0.6](meter-data-request-credential.md)** | W3C Verifiable Credential wrapping a MeterDataRequest to prove the requester's authorisation | Stable — In Pilot |
 | **[ArrFiling v0.5](arr-filing.md)** | Structured Aggregate Revenue Requirement filing — DISCOM to SERC | **Work in progress** |
 | **[OutageNotification v0.1](outage-notification.md)** | Planned/unplanned outage record — pull feed + CAP-aligned push | **Work in progress** |
 

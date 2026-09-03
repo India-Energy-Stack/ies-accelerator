@@ -2,3 +2,5 @@ root: ./
 structure:
   readme: README.md
   summary: SUMMARY.md
+redirects:
+  schemas/meterdatarequestcredential/v0.1: schemas/MeterDataRequestCredential/v0.6/README.md

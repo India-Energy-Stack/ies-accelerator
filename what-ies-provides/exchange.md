@@ -30,7 +30,7 @@ A subset of Exchange payloads are issued as W3C Verifiable Credentials — durab
 |---|---|
 | [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) | Static facts of a consumer's connection — sanctioned load, tariff, assets behind the meter |
 | [MeterDataCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatacredential/v0.6) | A signed envelope around a MeterData payload — consumer's own readings for a window |
-| [MeterDataRequestCredential v0.1](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1) | A signed proof-of-right-to-ask that a seeker presents to a meter-data provider |
+| [MeterDataRequestCredential v0.6](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.6) | A signed proof-of-right-to-ask that a seeker presents to a meter-data provider |
 
 For the concept, trust model and issuance operations, see **[Verifiable Credentials](energy-credentials/README.md)**; to issue them, **[Issuing Credentials](../how-you-implement-ies/issue-credentials.md)**.
 
