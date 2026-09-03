@@ -108,7 +108,7 @@ Arrays typically start with a `DESCRIPTOR` profile followed by one or more data 
 
 ## Relationship to MeterDataRequestCredential
 
-`MeterDataCredential` is the **response** counterpart to [`MeterDataRequestCredential`](../../MeterDataRequestCredential/v0.1/):
+`MeterDataCredential` is the **response** counterpart to [`MeterDataRequestCredential`](../../MeterDataRequestCredential/v0.6/):
 
 | | `MeterDataRequestCredential` | `MeterDataCredential` |
 |---|---|---|

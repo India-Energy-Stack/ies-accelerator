@@ -2,7 +2,7 @@
 
 *A W3C Verifiable Credential a data requester attaches to a Beckn request to prove it is authorised to ask for smart-meter telemetry.*
 
-**Status:** Stable — In Pilot (current: **v0.1**) · **Issued by** the requester (a DISCOM, or a third-party aggregator/TSP) · **Consumed by** the data provider (AMISP or MDM system)
+**Status:** Stable — In Pilot (current: **v0.6**, aligned with MeterDataRequest v0.6) · **Issued by** the requester (a DISCOM, or a third-party aggregator/TSP) · **Consumed by** the data provider (AMISP or MDM system)
 
 ## What it records
 
@@ -30,4 +30,4 @@ The optional authorisation attachment on the request leg of **[Smart Meter Data 
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v0.1](v0.1/README.md) | **Current** | Initial release; wraps MeterDataRequest v0.6 |
+| [v0.6](v0.6/README.md) | **Current** | Renumbered from v0.1 to align with the MeterData / MeterDataRequest v0.6 family; no schema change. Wraps MeterDataRequest v0.6 |

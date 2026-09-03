@@ -248,10 +248,10 @@ Map HES DLMS-COSEM or IEC 61968-9 interval profiles to the standard **`INTERVAL`
 <summary><b>Step 4.4: Establish Data Exchange Authorisation</b></summary>
 
 ### 💡 Phase Advice
-> Use **[MeterDataRequestCredential](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** to formalise incoming B2B authorisations — the actual sharing request can be a subset of what's authorised.
+> Use **[MeterDataRequestCredential](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.6)** to formalise incoming B2B authorisations — the actual sharing request can be a subset of what's authorised.
 
 ### Execution Guidance
-Authorisation logic is left to the utility; we suggest requiring the BAP present a **[MeterDataRequestCredential](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)** (see [example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)) or **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**, verified by your BPP ONIX adapter before dispensing profiles.
+Authorisation logic is left to the utility; we suggest requiring the BAP present a **[MeterDataRequestCredential](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.6)** (see [example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/examples/example.json)) or **[Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) with consent**, verified by your BPP ONIX adapter before dispensing profiles.
 
 ### ⚠️ Caution
 > **Scoped Access Violations**: Never expose granular consumer interval data without verifying that the presented credential permits that specific access window and profile.
@@ -261,8 +261,8 @@ Authorisation logic is left to the utility; we suggest requiring the BAP present
 
 ### References & Anchors
 * [Discover — Beckn protocol lifecycle](../what-ies-provides/discover.md#the-lifecycle-at-a-glance)
-* [MeterDataRequestCredential Schema](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.1)
-* [MeterDataRequestCredential Example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/examples/example.json)
+* [MeterDataRequestCredential Schema](https://india-energy-stack.gitbook.io/docs/schemas/meterdatarequestcredential/v0.6)
+* [MeterDataRequestCredential Example](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/examples/example.json)
 </details>
 
 <details>

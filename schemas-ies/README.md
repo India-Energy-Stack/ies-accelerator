@@ -17,7 +17,7 @@ W3C VC payloads — signed, durable records the holder keeps and verifies indepe
 <table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody>
 <tr><td><strong>ElectricityCredential</strong></td><td>v1.2</td><td>A W3C Verifiable Credential, issued per meter or connection by a distribution licensee, that carries the static facts of a consumer's connection and the energy resources behind the meter.</td><td><a href="ElectricityCredential.md">ElectricityCredential.md</a></td></tr>
 <tr><td><strong>MeterDataCredential</strong></td><td>v0.6</td><td>A signed, tamper-evident wrapper that attests who delivered a set of smart-meter readings, and that the readings have not been altered since.</td><td><a href="MeterDataCredential.md">MeterDataCredential.md</a></td></tr>
-<tr><td><strong>MeterDataRequestCredential</strong></td><td>v0.1</td><td>A W3C Verifiable Credential a data requester attaches to a Beckn request to prove it is authorised to ask for smart-meter telemetry.</td><td><a href="MeterDataRequestCredential.md">MeterDataRequestCredential.md</a></td></tr>
+<tr><td><strong>MeterDataRequestCredential</strong></td><td>v0.6</td><td>A W3C Verifiable Credential a data requester attaches to a Beckn request to prove it is authorised to ask for smart-meter telemetry.</td><td><a href="MeterDataRequestCredential.md">MeterDataRequestCredential.md</a></td></tr>
 </tbody></table>
 
 ## Data Exchange payloads

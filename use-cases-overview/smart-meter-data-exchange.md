@@ -7,7 +7,7 @@
 | Field | Value |
 |---|---|
 | Applicability | All AMISPs, DISCOMs and SERCs |
-| This version | Built on MeterData v0.6, MeterDataRequest v0.6 and (optional) MeterDataRequestCredential v0.1 over Beckn. |
+| This version | Built on MeterData v0.6, MeterDataRequest v0.6 and (optional) MeterDataRequestCredential v0.6 over Beckn. |
 
 > For consumer-pull of *their own* meter data, see **[Consumer Meter Digest](consumer-meter-digest.md)**. This is the bulk, scheduled, machine-to-machine flow.
 
@@ -26,7 +26,7 @@ Four things, and only these four:
 | Records | Detail | Source |
 |---|---|---|
 | The contract | How a request is discovered, agreed and carried | Beckn protocol |
-| Consent & scope | How consent, scope and duration are recorded | MeterDataRequest v0.6 / MeterDataRequestCredential v0.1 |
+| Consent & scope | How consent, scope and duration are recorded | MeterDataRequest v0.6 / MeterDataRequestCredential v0.6 |
 | The data shape | The MeterData wire format | MeterData v0.6 (DLMS-COSEM / IS 15959) |
 | Receipts & audit | Proof of what was exchanged | Beckn protocol; W3C VC |
 
@@ -86,7 +86,7 @@ No Verifiable Credential by default. Each exchange produces: a **signed Beckn co
 
 ## 8. Schedule I — Static Fields of the Data Exchange
 
-Schedule I tabulates the static contracts that frame this exchange: [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) selects scope and capabilities, and the optional [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) makes a request portable and verifiable. The [MeterData v0.6](../schemas/MeterData/v0.6/README.md) response itself is the live half — see [Schedule II](#id-9.-schedule-ii-meter-readings-live-record). **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
+Schedule I tabulates the static contracts that frame this exchange: [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) selects scope and capabilities, and the optional [MeterDataRequestCredential v0.6](../schemas/MeterDataRequestCredential/v0.6/README.md) makes a request portable and verifiable. The [MeterData v0.6](../schemas/MeterData/v0.6/README.md) response itself is the live half — see [Schedule II](#id-9.-schedule-ii-meter-readings-live-record). **Schema Requires** is normative for the named schema; **SMDX Guidance** is informative deployment guidance.
 
 ### 8.1 MeterDataRequest v0.6 — Query and Scope
 
@@ -118,7 +118,7 @@ Schedule I tabulates the static contracts that frame this exchange: [MeterDataRe
 | `authorisation.validFrom` / `.validUntil` | date-time / date-time | Both required | Reject expired or not-yet-valid grants |
 | `authorisation.capabilities` | `MeterDataCapabilities` | Required | Must cover the requested profile, scope and registers |
 
-### 8.3 Optional MeterDataRequestCredential v0.1
+### 8.3 Optional MeterDataRequestCredential v0.6
 
 | **Normative Path** | **Type** | **Schema Requires** | **SMDX Guidance** *(informative)* |
 |---|---|---|---|
@@ -193,7 +193,7 @@ With IES: DISCOM ── one MeterData v0.6 over Beckn ──► AMISP-1 / AMISP-
 |---|---|
 | [MeterData v0.6](../schemas/MeterData/v0.6/README.md) | The payload — eight compact profiles |
 | [MeterDataRequest v0.6](../schemas/MeterDataRequest/v0.6/README.md) | The query / capabilities shape |
-| [MeterDataRequestCredential v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) *(optional)* | Seeker authorisation VC |
+| [MeterDataRequestCredential v0.6](../schemas/MeterDataRequestCredential/v0.6/README.md) *(optional)* | Seeker authorisation VC |
 
 ## Value Unlock
 

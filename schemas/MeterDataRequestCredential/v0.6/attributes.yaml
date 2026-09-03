@@ -1,7 +1,7 @@
 openapi: 3.1.1
 info:
   title: "MeterDataRequestCredential"
-  version: "0.1.0"
+  version: "0.6.0"
   description: >
     W3C Verifiable Credential (VC Data Model 2.0) that wraps a MeterDataRequest.
     Issued by a data requester (e.g., DISCOM, third-party aggregator) to prove
@@ -27,7 +27,7 @@ paths: {}
 components:
   schemas:
     MeterDataRequestCredential:
-      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json"
+      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/schema.json"
       title: "MeterDataRequestCredential"
       description: >
         W3C Verifiable Credential wrapping a MeterDataRequest. Subclass of

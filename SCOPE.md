@@ -35,7 +35,7 @@ Both now sit under a **Draft (Work in Progress)** section of the GitBook navigat
 
 ## Schema statuses
 
-- **Stable — In Pilot**: ElectricityCredential v1.2, MeterData v0.6, MeterDataCredential v0.6, MeterDataRequest v0.6, MeterDataRequestCredential v0.1
+- **Stable — In Pilot**: ElectricityCredential v1.2, MeterData v0.6, MeterDataCredential v0.6, MeterDataRequest v0.6, MeterDataRequestCredential v0.6
 - **Work in progress** (nav titles carry "(WIP)"): ArrFiling v0.5, OutageNotification v0.1 — both remain in the appendix; OutageNotification keeps its ⚠️ page banners
 - Use Case Overviews table labels DISCOM Regulatory Filing and Policy as Code 🚧 WIP; the six other use cases are Piloted (per each page's Status row)
 

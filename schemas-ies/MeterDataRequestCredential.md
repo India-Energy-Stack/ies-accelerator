@@ -13,25 +13,25 @@ layout:
 | | |
 |---|---|
 | **Canonical base** | `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential` |
-| **Latest version** | **v0.1** |
-| **Status** | Stable — In Pilot (current: **v0.1**) · **Issued by** the requester (a DISCOM, or a third-party aggregator/TSP) · **Consumed by** the data provider (AMISP or MDM system) |
+| **Latest version** | **v0.6** |
+| **Status** | Stable — In Pilot (current: **v0.6**, aligned with MeterDataRequest v0.6) · **Issued by** the requester (a DISCOM, or a third-party aggregator/TSP) · **Consumed by** the data provider (AMISP or MDM system) |
 | **Category** | Verifiable Credentials |
 | **Used in** | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional consent proof) |
 
 What this schema is for, in plain language — standards basis, design rationale, open points: [MeterDataRequestCredential (Schemas Overview)](../what-ies-provides/schemas-overview/meter-data-request-credential.md).
 
-## Developer resources — v0.1 (current)
+## Developer resources — v0.6 (current)
 
 | Resource | URL | Notes |
 |---|---|---|
-| Field reference (README) | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/README.md](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/README.md) | human-readable field reference for this version |
-| `attributes.yaml` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) | OpenAPI 3.1 source of truth |
-| `schema.json` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json) | compiled JSON Schema (Draft 2020-12) — validate against this |
-| `context.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/context.jsonld) | JSON-LD context for semantic resolution |
-| `vocab.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/vocab.jsonld) | RDF vocabulary with standards alignments |
-| `examples/` | [https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.1/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.1/examples) | worked payloads |
+| Field reference (README) | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/README.md](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/README.md) | human-readable field reference for this version |
+| `attributes.yaml` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/attributes.yaml) | OpenAPI 3.1 source of truth |
+| `schema.json` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/schema.json) | compiled JSON Schema (Draft 2020-12) — validate against this |
+| `context.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/context.jsonld) | JSON-LD context for semantic resolution |
+| `vocab.jsonld` | [https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/vocab.jsonld) | RDF vocabulary with standards alignments |
+| `examples/` | [https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.6/examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.6/examples) | worked payloads |
 
-## Field reference — v0.1 (current)
+## Field reference — v0.6 (current)
 
 _A field name in **bold** with a trailing **\*** is required; all others are optional. **Type** shows units for QuantitativeValue models. Descriptions are simplified to the plain meaning of each field — the per-version pages (see **Versions** below) carry the full text, standards basis and notes._
 
@@ -55,4 +55,4 @@ Every published version stays reachable at its canonical URL — clients pin a v
 
 | Version | Status | Notes | Files |
 |---|---|---|---|
-| [v0.1](../schemas/MeterDataRequestCredential/v0.1/README.md) | **Current** | Initial release; wraps MeterDataRequest v0.6 | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.1/examples) |
+| [v0.6](../schemas/MeterDataRequestCredential/v0.6/README.md) | **Current** | Renumbered from v0.1 to align with the MeterData / MeterDataRequest v0.6 family; no schema change. Wraps MeterDataRequest v0.6 | [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/schema.json) · [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/attributes.yaml) · [examples](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.6/examples) |

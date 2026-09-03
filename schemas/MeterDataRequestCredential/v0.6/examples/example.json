@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://schema.nfh.global/EnergyCredential/v2.0/context.jsonld",
-    "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/context.jsonld"
+    "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/context.jsonld"
   ],
   "id": "urn:uuid:f7a8b9c0-d1e2-4f56-a789-012345678901",
   "type": ["VerifiableCredential", "MeterDataRequestCredential"],

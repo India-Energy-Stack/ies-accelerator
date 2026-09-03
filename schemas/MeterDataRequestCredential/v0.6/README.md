@@ -1,6 +1,6 @@
-> **Files** — [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/attributes.yaml) · [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/schema.json) · [context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/context.jsonld) · [vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/vocab.jsonld) · [examples/](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.1/examples)
+> **Files** — [attributes.yaml](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/attributes.yaml) · [schema.json](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/schema.json) · [context.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/context.jsonld) · [vocab.jsonld](https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/vocab.jsonld) · [examples/](https://github.com/India-Energy-Stack/ies-accelerator/tree/main/schemas/MeterDataRequestCredential/v0.6/examples)
 
-# MeterDataRequestCredential v0.1
+# MeterDataRequestCredential v0.6
 
 A **W3C Verifiable Credential (VC Data Model 2.0)** that wraps a [`MeterDataRequest`](../../MeterDataRequest/v0.6/) to prove a data requester's authorisation for accessing smart meter telemetry.
 
@@ -43,7 +43,7 @@ In `attributes.yaml` this is expressed as `allOf: - $ref: https://schema.nfh.glo
 The `@context` of a credential instance must include:
 1. `https://www.w3.org/ns/credentials/v2`
 2. `https://schema.nfh.global/EnergyCredential/v2.0/context.jsonld`
-3. `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.1/context.jsonld`
+3. `https://india-energy-stack.github.io/ies-accelerator/schemas/MeterDataRequestCredential/v0.6/context.jsonld`
 
 ---
 
@@ -119,6 +119,7 @@ See [`examples/example.json`](./examples/example.json) for a complete W3C VC 2.0
 
 | Version | Date | Notes |
 |---|---|---|
+| v0.6 | 2026-09-03 | Renumbered from v0.1 to align with the MeterData / MeterDataRequest v0.6 family; no schema change |
 | v0.1 | 2026-05-26 | Initial draft |
 
 

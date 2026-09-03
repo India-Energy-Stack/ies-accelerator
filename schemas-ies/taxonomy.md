@@ -14,7 +14,7 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | Code | Schema family | Code | Schema family |
 |---|---|---|---|
 | ARR | ArrFiling v0.5 | MDR | MeterDataRequest v0.6 |
-| EC | ElectricityCredential v1.2 | MDRC | MeterDataRequestCredential v0.1 |
+| EC | ElectricityCredential v1.2 | MDRC | MeterDataRequestCredential v0.6 |
 | MD | MeterData v0.6 | ON | OutageNotification v0.1 |
 | MDC | MeterDataCredential v0.6 | — | — |
 

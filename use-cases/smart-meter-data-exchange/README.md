@@ -156,7 +156,7 @@ The items below are **meter-data-specific** additions on top of the prerequisite
 
 - [MeterData — schema and examples](../../schemas-ies/MeterData.md) (current: `v0.6`)
 - [MeterDataRequest — request payload schema](../../schemas-ies/MeterDataRequest.md) (current: `v0.6`)
-- [MeterDataRequestCredential — authorisation VC](../../schemas-ies/MeterDataRequestCredential.md) (current: `v0.1`)
+- [MeterDataRequestCredential — authorisation VC](../../schemas-ies/MeterDataRequestCredential.md) (current: `v0.6`)
 - [IES Meter Data Model](./ies-meter-data-model.md) — OBIS / IS 15959 / CIM → MeterData v0.6 mapping
 - [Overview — Smart Meter Data Exchange](../../use-cases-overview/smart-meter-data-exchange.md) — standards basis, definitions, full field schedule
 - [Data Exchange chapter](../../what-ies-provides/discover.md)

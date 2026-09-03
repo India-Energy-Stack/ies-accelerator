@@ -29,7 +29,7 @@ W3C VC payloads — signed, durable records the holder keeps and verifies indepe
 |---|---|---|---|
 | [ElectricityCredential](ElectricityCredential/README.md) | Static facts of a consumer connection — sanctioned load, tariff, assets behind the meter | [Consumer Energy Passport](../use-cases/consumer-energy-passport/README.md) · [DER Visibility](../use-cases/der-visibility/README.md) | **[v1.2](ElectricityCredential/v1.2/README.md)** |
 | [MeterDataCredential](MeterDataCredential/README.md) | Signed envelope around a MeterData payload — attests who produced the readings | [Consumer Meter Digest](../use-cases/consumer-meter-digest/README.md) | **[v0.6](MeterDataCredential/v0.6/README.md)** |
-| [MeterDataRequestCredential](MeterDataRequestCredential/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional) | **[v0.1](MeterDataRequestCredential/v0.1/README.md)** |
+| [MeterDataRequestCredential](MeterDataRequestCredential/README.md) | Signed proof-of-right-to-ask that a seeker presents to a meter-data provider | [Smart Meter Data Exchange](../use-cases/smart-meter-data-exchange/README.md) (optional) | **[v0.6](MeterDataRequestCredential/v0.6/README.md)** |
 
 ### Data Exchange payloads
 
