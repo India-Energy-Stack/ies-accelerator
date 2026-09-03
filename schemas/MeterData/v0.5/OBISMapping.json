@@ -1,0 +1,820 @@
+{
+  "codes": {
+    "0.0.96.1.0.255": {
+      "name": "Meter serial number",
+      "shortLabel": "Serial",
+      "unit": "",
+      "category": "identification",
+      "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 1 Table 30; Part 2 Table A12; Part 3 Table 12"
+    },
+    "0.0.96.1.1.255": {
+      "name": "Manufacturer name",
+      "shortLabel": "Mfg Name",
+      "unit": "",
+      "category": "identification",
+      "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A12"
+    },
+    "0.0.96.1.2.255": {
+      "name": "Device ID",
+      "shortLabel": "Device ID",
+      "unit": "",
+      "category": "identification",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A12"
+    },
+    "1.0.0.2.0.255": {
+      "name": "Firmware version",
+      "shortLabel": "FW Version",
+      "unit": "",
+      "category": "identification",
+      "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A12"
+    },
+    "0.0.94.91.9.255": {
+      "name": "Meter type",
+      "shortLabel": "Meter Type",
+      "unit": "",
+      "category": "identification",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A12"
+    },
+    "0.0.94.91.11.255": {
+      "name": "Meter category",
+      "shortLabel": "Meter Cat",
+      "unit": "",
+      "category": "identification",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A12"
+    },
+    "0.0.1.0.0.255": {
+      "name": "Clock",
+      "shortLabel": "Clock",
+      "unit": "",
+      "category": "general",
+      "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.32.7.0.255": {
+      "name": "Voltage R-phase",
+      "shortLabel": "V_R",
+      "unit": "V",
+      "phase": "R",
+      "category": "voltage",
+      "meterCategories": ["D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A14; Part 3 Table 1"
+    },
+    "1.0.52.7.0.255": {
+      "name": "Voltage Y-phase",
+      "shortLabel": "V_Y",
+      "unit": "V",
+      "phase": "Y",
+      "category": "voltage",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.72.7.0.255": {
+      "name": "Voltage B-phase",
+      "shortLabel": "V_B",
+      "unit": "V",
+      "phase": "B",
+      "category": "voltage",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.12.7.0.255": {
+      "name": "Voltage 1P",
+      "shortLabel": "V_1P",
+      "unit": "V",
+      "category": "voltage",
+      "meterCategories": ["D1"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.31.7.0.255": {
+      "name": "Current R-phase",
+      "shortLabel": "I_R",
+      "unit": "A",
+      "phase": "R",
+      "category": "current",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.51.7.0.255": {
+      "name": "Current Y-phase",
+      "shortLabel": "I_Y",
+      "unit": "A",
+      "phase": "Y",
+      "category": "current",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.71.7.0.255": {
+      "name": "Current B-phase",
+      "shortLabel": "I_B",
+      "unit": "A",
+      "phase": "B",
+      "category": "current",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.11.7.0.255": {
+      "name": "Phase current",
+      "shortLabel": "I_Phase",
+      "unit": "A",
+      "category": "current",
+      "meterCategories": ["D1"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.91.7.0.255": {
+      "name": "Neutral current",
+      "shortLabel": "I_Neutral",
+      "unit": "A",
+      "category": "current",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.1.7.0.255": {
+      "name": "Active power import",
+      "shortLabel": "P_Import",
+      "unit": "kW",
+      "category": "power",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.2.7.0.255": {
+      "name": "Active power export",
+      "shortLabel": "P_Export",
+      "unit": "kW",
+      "category": "power",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.3.7.0.255": {
+      "name": "Reactive power lag",
+      "shortLabel": "Q_Lag",
+      "unit": "kvar",
+      "category": "power",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.9.7.0.255": {
+      "name": "Apparent power",
+      "shortLabel": "S_Total",
+      "unit": "kVA",
+      "category": "power",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.13.7.0.255": {
+      "name": "Power factor 3-phase",
+      "shortLabel": "PF_3P",
+      "unit": "",
+      "category": "power",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.33.7.0.255": {
+      "name": "Power factor R-phase",
+      "shortLabel": "PF_R",
+      "unit": "",
+      "phase": "R",
+      "category": "power",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.53.7.0.255": {
+      "name": "Power factor Y-phase",
+      "shortLabel": "PF_Y",
+      "unit": "",
+      "phase": "Y",
+      "category": "power",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.73.7.0.255": {
+      "name": "Power factor B-phase",
+      "shortLabel": "PF_B",
+      "unit": "",
+      "phase": "B",
+      "category": "power",
+      "meterCategories": ["D2", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.14.7.0.255": {
+      "name": "Frequency",
+      "shortLabel": "Freq",
+      "unit": "Hz",
+      "category": "power",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.1.8.0.255": {
+      "name": "Active energy import - cumulative (kWh)",
+      "shortLabel": "kWh imp",
+      "unit": "kWh",
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 1 Table 22; Part 2 Table A14; Part 3 Table 1"
+    },
+    "1.0.2.8.0.255": {
+      "name": "Active energy export - cumulative (kWh)",
+      "shortLabel": "kWh exp",
+      "unit": "kWh",
+      "flowDirection": "EXPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.9.8.0.255": {
+      "name": "Apparent energy import - cumulative (kVAh)",
+      "shortLabel": "kVAh imp",
+      "unit": "kVAh",
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.10.8.0.255": {
+      "name": "Apparent energy export - cumulative (kVAh)",
+      "shortLabel": "kVAh exp",
+      "unit": "kVAh",
+      "flowDirection": "EXPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.5.8.0.255": {
+      "name": "Reactive energy Q1 - cumulative (kvarh)",
+      "shortLabel": "kvarh Q1",
+      "unit": "kvarh",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.6.8.0.255": {
+      "name": "Reactive energy Q2 - cumulative (kvarh)",
+      "shortLabel": "kvarh Q2",
+      "unit": "kvarh",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.7.8.0.255": {
+      "name": "Reactive energy Q3 - cumulative (kvarh)",
+      "shortLabel": "kvarh Q3",
+      "unit": "kvarh",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.8.8.0.255": {
+      "name": "Reactive energy Q4 - cumulative (kvarh)",
+      "shortLabel": "kvarh Q4",
+      "unit": "kvarh",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyCumulative",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.1.29.0.255": {
+      "name": "Active energy import - block incremental (kWh)",
+      "shortLabel": "kWh imp block",
+      "unit": "kWh",
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "DELTA",
+      "category": "energyIncremental",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A15; Part 3 Table 2"
+    },
+    "1.0.2.29.0.255": {
+      "name": "Active energy export - block incremental (kWh)",
+      "shortLabel": "kWh exp block",
+      "unit": "kWh",
+      "flowDirection": "EXPORT",
+      "accumulationBehaviour": "DELTA",
+      "category": "energyIncremental",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A15; Part 3 Table 2"
+    },
+    "1.0.9.29.0.255": {
+      "name": "Apparent energy import - block incremental (kVAh)",
+      "shortLabel": "kVAh imp block",
+      "unit": "kVAh",
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "DELTA",
+      "category": "energyIncremental",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A15; Part 3 Table 2"
+    },
+    "1.0.10.29.0.255": {
+      "name": "Apparent energy export - block incremental (kVAh)",
+      "shortLabel": "kVAh exp block",
+      "unit": "kVAh",
+      "flowDirection": "EXPORT",
+      "accumulationBehaviour": "DELTA",
+      "category": "energyIncremental",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A15; Part 3 Table 2"
+    },
+    "1.0.5.29.0.255": {
+      "name": "Reactive energy lag - block incremental (kvarh)",
+      "shortLabel": "kvarh lag block",
+      "unit": "kvarh",
+      "accumulationBehaviour": "DELTA",
+      "category": "energyIncremental",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A15; Part 3 Table 2"
+    },
+    "1.0.8.29.0.255": {
+      "name": "Reactive energy lead - block incremental (kvarh)",
+      "shortLabel": "kvarh lead block",
+      "unit": "kvarh",
+      "accumulationBehaviour": "DELTA",
+      "category": "energyIncremental",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A15; Part 3 Table 2"
+    },
+    "1.0.1.8.1.255": {
+      "name": "Active energy import - TZ1 (kWh)",
+      "shortLabel": "kWh TZ1",
+      "unit": "kWh",
+      "touZone": 1,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 1 Table 29; Part 2 Table A17; Part 3 Table 4"
+    },
+    "1.0.1.8.2.255": {
+      "name": "Active energy import - TZ2 (kWh)",
+      "shortLabel": "kWh TZ2",
+      "unit": "kWh",
+      "touZone": 2,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.1.8.3.255": {
+      "name": "Active energy import - TZ3 (kWh)",
+      "shortLabel": "kWh TZ3",
+      "unit": "kWh",
+      "touZone": 3,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.1.8.4.255": {
+      "name": "Active energy import - TZ4 (kWh)",
+      "shortLabel": "kWh TZ4",
+      "unit": "kWh",
+      "touZone": 4,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.1.8.5.255": {
+      "name": "Active energy import - TZ5 (kWh)",
+      "shortLabel": "kWh TZ5",
+      "unit": "kWh",
+      "touZone": 5,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.1.8.6.255": {
+      "name": "Active energy import - TZ6 (kWh)",
+      "shortLabel": "kWh TZ6",
+      "unit": "kWh",
+      "touZone": 6,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.1.8.7.255": {
+      "name": "Active energy import - TZ7 (kWh)",
+      "shortLabel": "kWh TZ7",
+      "unit": "kWh",
+      "touZone": 7,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.1.8.8.255": {
+      "name": "Active energy import - TZ8 (kWh)",
+      "shortLabel": "kWh TZ8",
+      "unit": "kWh",
+      "touZone": 8,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.1.255": {
+      "name": "Apparent energy import - TZ1 (kVAh)",
+      "shortLabel": "kVAh TZ1",
+      "unit": "kVAh",
+      "touZone": 1,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.2.255": {
+      "name": "Apparent energy import - TZ2 (kVAh)",
+      "shortLabel": "kVAh TZ2",
+      "unit": "kVAh",
+      "touZone": 2,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.3.255": {
+      "name": "Apparent energy import - TZ3 (kVAh)",
+      "shortLabel": "kVAh TZ3",
+      "unit": "kVAh",
+      "touZone": 3,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.4.255": {
+      "name": "Apparent energy import - TZ4 (kVAh)",
+      "shortLabel": "kVAh TZ4",
+      "unit": "kVAh",
+      "touZone": 4,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.5.255": {
+      "name": "Apparent energy import - TZ5 (kVAh)",
+      "shortLabel": "kVAh TZ5",
+      "unit": "kVAh",
+      "touZone": 5,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.6.255": {
+      "name": "Apparent energy import - TZ6 (kVAh)",
+      "shortLabel": "kVAh TZ6",
+      "unit": "kVAh",
+      "touZone": 6,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.7.255": {
+      "name": "Apparent energy import - TZ7 (kVAh)",
+      "shortLabel": "kVAh TZ7",
+      "unit": "kVAh",
+      "touZone": 7,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.9.8.8.255": {
+      "name": "Apparent energy import - TZ8 (kVAh)",
+      "shortLabel": "kVAh TZ8",
+      "unit": "kVAh",
+      "touZone": 8,
+      "flowDirection": "IMPORT",
+      "accumulationBehaviour": "CUMULATIVE",
+      "category": "energyToU",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A4"
+    },
+    "1.0.1.6.0.255": {
+      "name": "Maximum demand (kW) - current billing period",
+      "shortLabel": "MD kW",
+      "unit": "kW",
+      "category": "demand",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 1 Table 29; Part 2 Table A14; Part 3 Table 1",
+      "description": "Captured with its occurredAt timestamp."
+    },
+    "1.0.9.6.0.255": {
+      "name": "Maximum demand (kVA) - current billing period",
+      "shortLabel": "MD kVA",
+      "unit": "kVA",
+      "category": "demand",
+      "meterCategories": ["C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A1"
+    },
+    "1.0.0.8.0.255": {
+      "name": "Demand integration period",
+      "shortLabel": "Demand IP",
+      "unit": "s",
+      "category": "programmable",
+      "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 1 Table 31; Part 2 Table A13; Part 3 Table 13",
+      "description": "Default 1800 s (30 min); programmable to 900 s (15 min)."
+    },
+    "1.0.0.8.4.255": {
+      "name": "Profile capture period",
+      "shortLabel": "Capture IP",
+      "unit": "s",
+      "category": "programmable",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A13",
+      "description": "Default 1800 s; programmable to 900/3600 s."
+    },
+    "0.0.13.0.0.255": {
+      "name": "Activity calendar (TOU schedule)",
+      "shortLabel": "Activity Cal",
+      "unit": "",
+      "category": "programmable",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A13, IC 20"
+    },
+    "0.0.15.0.0.255": {
+      "name": "Single-action schedule (Billing date)",
+      "shortLabel": "Billing Schedule",
+      "unit": "",
+      "category": "programmable",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A13, IC 22"
+    },
+    "0.0.17.0.0.255": {
+      "name": "Load limit threshold",
+      "shortLabel": "Load Limit KW",
+      "unit": "kW",
+      "category": "programmable",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2 Table A13"
+    },
+    "0.0.94.91.21.255": {
+      "name": "Load limit function status",
+      "shortLabel": "Load Limit Status",
+      "unit": "",
+      "category": "programmable",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2",
+      "description": "1=ON / 0=OFF"
+    },
+    "0.0.96.3.10.255": {
+      "name": "Relay control object status",
+      "shortLabel": "Relay Status",
+      "unit": "",
+      "category": "programmable",
+      "meterCategories": ["D1", "D2"],
+      "source": "IS 15959 Part 2",
+      "description": "State of contactor relay."
+    },
+    "1.0.99.1.0.255": {
+      "name": "Block load profile (load survey)",
+      "shortLabel": "Block prof",
+      "unit": "",
+      "category": "profile",
+      "meterCategories": ["A", "B", "C", "D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 1 Table 23; Part 2 Table A15; Part 3 Table 2",
+      "description": "Block intervals at the demand integration period (default 30 min). Retention >= 22 days."
+    },
+    "1.0.99.2.0.255": {
+      "name": "Daily load profile",
+      "shortLabel": "Daily prof",
+      "unit": "",
+      "category": "profile",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Clause 13",
+      "description": "Captured at midnight."
+    },
+    "0.0.98.1.0.255": {
+      "name": "Billing profile",
+      "shortLabel": "Billing prof",
+      "unit": "",
+      "category": "profile",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Clause 14",
+      "description": "Up to 6 cycles."
+    },
+    "0.0.99.98.0.255": {
+      "name": "Event log - voltage events",
+      "shortLabel": "Evt Volt",
+      "unit": "",
+      "category": "eventLog",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A8 / Clause 15",
+      "eventIdRange": "1-12"
+    },
+    "0.0.99.98.1.255": {
+      "name": "Event log - current events",
+      "shortLabel": "Evt Curr",
+      "unit": "",
+      "category": "eventLog",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A8 / Clause 15",
+      "eventIdRange": "51-70"
+    },
+    "0.0.99.98.2.255": {
+      "name": "Event log - power events",
+      "shortLabel": "Evt Power",
+      "unit": "",
+      "category": "eventLog",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A8 / Clause 15",
+      "eventIdRange": "101-102"
+    },
+    "0.0.99.98.3.255": {
+      "name": "Event log - transaction events",
+      "shortLabel": "Evt Trans",
+      "unit": "",
+      "category": "eventLog",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A8 / Clause 15",
+      "eventIdRange": "151"
+    },
+    "0.0.99.98.4.255": {
+      "name": "Event log - other tamper events",
+      "shortLabel": "Evt Tamper",
+      "unit": "",
+      "category": "eventLog",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A8 / Clause 15",
+      "eventIdRange": "201-216"
+    },
+    "0.0.99.98.5.255": {
+      "name": "Event log - non-rollover events",
+      "shortLabel": "Evt NonRoll",
+      "unit": "",
+      "category": "eventLog",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A8 / Clause 15",
+      "eventIdRange": "251+"
+    },
+    "0.0.99.98.6.255": {
+      "name": "Event log - control events",
+      "shortLabel": "Evt Ctrl",
+      "unit": "",
+      "category": "eventLog",
+      "meterCategories": ["D1", "D2", "D3", "D4"],
+      "source": "IS 15959 Part 2 Table A8 / Clause 15",
+      "eventIdRange": "301-307"
+    }
+  },
+  "events": {
+    "_description": "IS 15959 event taxonomy. Events are timestamped state transitions captured into the event log profiles above. Each event has an integer ID (1-305+), a phase (R/Y/B/NONE), and a kind (occurrence / restoration / configurationChange / control).",
+    "ids": {
+      "1": {
+        "name": "Phase-to-Neutral Under Voltage - occurrence",
+        "phase": "R",
+        "kind": "occurrence"
+      },
+      "2": {
+        "name": "Phase-to-Neutral Under Voltage - restoration",
+        "phase": "R",
+        "kind": "restoration"
+      },
+      "3": {
+        "name": "Phase-to-Neutral Over Voltage - occurrence",
+        "phase": "R",
+        "kind": "occurrence"
+      },
+      "4": {
+        "name": "Phase-to-Neutral Over Voltage - restoration",
+        "phase": "R",
+        "kind": "restoration"
+      },
+      "11": {
+        "name": "Phase Missing - occurrence",
+        "phase": "R",
+        "kind": "occurrence"
+      },
+      "12": {
+        "name": "Phase Missing - restoration",
+        "phase": "R",
+        "kind": "restoration"
+      },
+      "51": {
+        "name": "Phase Current Unbalance - occurrence",
+        "phase": "ABC",
+        "kind": "occurrence"
+      },
+      "52": {
+        "name": "Phase Current Unbalance - restoration",
+        "phase": "ABC",
+        "kind": "restoration"
+      },
+      "61": {
+        "name": "CT Reverse - occurrence",
+        "phase": "ABC",
+        "kind": "occurrence"
+      },
+      "62": {
+        "name": "CT Reverse - restoration",
+        "phase": "ABC",
+        "kind": "restoration"
+      },
+      "69": {
+        "name": "Neutral Disturbance - occurrence",
+        "phase": "NONE",
+        "kind": "occurrence"
+      },
+      "70": {
+        "name": "Neutral Disturbance - restoration",
+        "phase": "NONE",
+        "kind": "restoration"
+      },
+      "101": {
+        "name": "Power Failure - occurrence",
+        "phase": "ABC",
+        "kind": "occurrence"
+      },
+      "102": {
+        "name": "Power Failure - restoration",
+        "phase": "ABC",
+        "kind": "restoration"
+      },
+      "151": {
+        "name": "Parameters Programming - occurrence",
+        "phase": "NONE",
+        "kind": "occurrence"
+      },
+      "201": {
+        "name": "Magnetic Interference - occurrence",
+        "phase": "NONE",
+        "kind": "occurrence"
+      },
+      "202": {
+        "name": "Magnetic Interference - restoration",
+        "phase": "NONE",
+        "kind": "restoration"
+      },
+      "205": {
+        "name": "Meter Cover Open - occurrence",
+        "phase": "NONE",
+        "kind": "occurrence"
+      },
+      "301": {
+        "name": "Relay Disconnect (Manual or Remote)",
+        "phase": "NONE",
+        "kind": "control"
+      },
+      "302": {
+        "name": "Relay Connect (Manual or Remote)",
+        "phase": "NONE",
+        "kind": "control"
+      },
+      "303": {
+        "name": "Relay Disconnect (Overload limit exceeded)",
+        "phase": "NONE",
+        "kind": "control"
+      },
+      "304": {
+        "name": "Relay Disconnect (Low Prepayment Credit)",
+        "phase": "NONE",
+        "kind": "control"
+      },
+      "305": {
+        "name": "Relay Disconnect (Tamper detection trigger)",
+        "phase": "NONE",
+        "kind": "control"
+      },
+      "306": {
+        "name": "Token Acceptance Success (STS system)",
+        "phase": "NONE",
+        "kind": "control"
+      },
+      "307": {
+        "name": "Token Rejection (STS system validation failure)",
+        "phase": "NONE",
+        "kind": "control"
+      }
+    }
+  }
+}

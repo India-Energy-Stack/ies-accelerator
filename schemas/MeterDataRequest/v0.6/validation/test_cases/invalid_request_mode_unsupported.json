@@ -1,0 +1,14 @@
+{
+  "from": "2026-05-18T10:00:00+05:30",
+  "duration": "PT30M",
+  "capabilitiesRequested": {
+    "profiles": [
+      {
+        "profileType": "IntervalProfile",
+        "readings": [
+          { "value": "kWh imp block", "mode": "READING" }
+        ]
+      }
+    ]
+  }
+}
