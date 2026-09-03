@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/OutageNotification/v0.1/schema.json",
+  "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/schema.json",
   "title": "OutageNotification Payload",
   "description": "A planned or unplanned electricity outage notice. A feed is an array of\nthese; a push delivers one. Reuses IES conventions: Identifier\n{scheme,value}, TimePeriod {start,duration}, GeoJSON geometry.\n",
   "type": "object",

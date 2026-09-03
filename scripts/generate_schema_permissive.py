@@ -206,7 +206,7 @@ def main():
         
     schema_json = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": root_def.get("$id", f"https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/{schema_name}/{version_folder}/schema.json"),
+        "$id": root_def.get("$id", f"https://india-energy-stack.github.io/ies-accelerator/schemas/{schema_name}/{version_folder}/schema.json"),
         "title": root_def.get("title", schema_name),
         "description": root_def.get("description", ""),
     }
@@ -241,7 +241,7 @@ def main():
             "schema": "https://schema.org/",
             "xsd": "http://www.w3.org/2001/XMLSchema#",
             "deg": "https://schema.nfh.global/deg/EnergyCredential/v2.0/",
-            "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies#",
+            "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies#",
         }
     }
     
@@ -265,7 +265,7 @@ def main():
     vocab_json = {
         "@context": {
             "@version": 1.1,
-            "ies": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/ies/",
+            "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies/",
             "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
             "xsd": "http://www.w3.org/2001/XMLSchema#",
