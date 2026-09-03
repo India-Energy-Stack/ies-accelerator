@@ -48,7 +48,7 @@ def migrate_node(node):
 
     # 1. Update context
     if "@context" in node:
-        node["@context"] = "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/v0.6/context.jsonld"
+        node["@context"] = "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/context.jsonld"
 
     # 2. Extract profile details
     profile_type = node.get("profileType", "")

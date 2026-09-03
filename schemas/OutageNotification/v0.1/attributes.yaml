@@ -22,6 +22,7 @@ info:
 components:
   schemas:
     OutageNotification:
+      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/OutageNotification/v0.1/schema.json"
       title: OutageNotification Payload
       description: |
         A planned or unplanned electricity outage notice. A feed is an array of

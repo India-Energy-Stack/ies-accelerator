@@ -54,7 +54,7 @@ def main():
         
     schema_json = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "https://raw.githubusercontent.com/India-Energy-Stack/ies-accelerator/main/schemas/MeterData/vOpenAdr/schema.json",
+        "$id": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/vOpenAdr/schema.json",
         "title": "OpenADR Report Payload",
         "description": root_def.get("description", "OpenADR 3.0 compatible report payload"),
     }

@@ -12,6 +12,7 @@ paths: {}
 components:
   schemas:
     MeterData:
+      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.6/schema.json"
       title: MeterData Payload
       description: Root payload can be a single profile or an array of profiles.
       oneOf:

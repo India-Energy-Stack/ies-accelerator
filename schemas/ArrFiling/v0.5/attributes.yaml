@@ -15,6 +15,7 @@ info:
 components:
   schemas:
     ArrFiling:
+      $id: "https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/schema.json"
       description: |
         A complete ARR filing by a distribution licensee.
         Contains one or more fiscal years, each with its own line items.
