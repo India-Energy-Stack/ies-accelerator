@@ -5,6 +5,11 @@
 __pycache__/
 *.pyc
 
+# Local virtualenvs (e.g. for running the QA validators)
+.venv/
+.venv-*/
+venv/
+
 # OS-specific files
 .DS_Store
 **/.DS_Store
