@@ -1,0 +1,127 @@
+Welcome. This is a walkthrough of the India Energy Stack documentation. It is for you if someone said "build this with I E S" and you are opening these docs for the first time.
+
+We will do it in five parts. First, the idea behind I E S. Then the schemas, which are what you code against. Then the use cases, which turn a schema into a build. Then the setup every participant does once. And last, how to propose a schema of your own.
+
+Open the site in another window. I will ask you to pause and try things as we go.
+
+Start on the home page. Read this paragraph with me. I E S works the way U P I works for payments. It holds no data of its own. Your data stays in the systems that already hold it. I E S only defines how two systems find each other and share data in one common, verifiable shape.
+
+Every exchange has three moves. Register. Discover. Exchange.
+
+Register means you get a digital identity, a W three C decentralised identifier, and a listing in a shared directory called DeDi. You do this once.
+
+Discover means two systems look each other up and agree terms over the Beckn protocol. No one-off integration.
+
+Exchange means data moves over that same signed channel, shaped by the I E S schemas. When a lasting record is needed, the exchange produces a Verifiable Credential. Consumers keep theirs in DigiLocker.
+
+Under those three moves sit five building blocks: identifiers, registries, exchange, credentials, and the security and consent rules that run through all of them.
+
+Remember what I E S is not. It is not a platform, a database, or a product. It picks an open standard for each block and writes a specification on top.
+
+Now look at the sidebar. This is the whole site, and the order matters.
+
+Schemas Overview explains each schema in plain words. Schemas is the developer catalog: fields, U R Ls, versions. Use Case Overviews and Implementation Guides cover the same five use cases, first for decision makers, then as build checklists. Pathways sorts all of this by the kind of organisation you are. Concepts is the one-time setup. And Propose a Schema, at the top, is how the catalog grows.
+
+Skip the Draft section. It is work in progress.
+
+We will go top to bottom: schemas, use cases, setup, propose.
+
+Open Schemas Overview. This table is the catalog on one screen. Seven schema families. Five are stable and were used in the pilot: Electricity Credential, Meter Data, Meter Data Credential, Meter Data Request, and Meter Data Request Credential. Two are still work in progress: A R R Filing and Outage Notification. Do not build production on those yet.
+
+Look at the "what it is" column. You will see a pattern. Some rows are payloads, like Meter Data. Some rows are credentials that wrap a payload and prove who sent it. Payload, then credential. You will see this pair again.
+
+Pause the video here. Find the row that matches your project. If you issue something to a consumer, it is a credential. If you move readings between systems, it is a payload.
+
+One more thing. The peer-to-peer trading schemas are not in this table. They live upstream in the Digital Energy Grid project and are mirrored under External Schemas.
+
+Now click Electricity Credential. Every schema page uses the same eleven numbered sections: scope, what it records, how items are identified, the standards behind it, gaps in Indian standards, and the field summary in Schedule One. Learn this layout once. Every schema page and every use-case page follows it.
+
+Now open the Schemas section and click All Schemas. The same families, sorted by kind. Verifiable Credentials are signed records a holder keeps and can verify without any network. Data Exchange payloads are records moved over the network or published as feeds.
+
+Scroll to "How versions work". Learn this rule. A small, safe change stays in the same minor version. A breaking change gets a new version, and the old one stays online.
+
+Click Electricity Credential. The top table gives the canonical U R L, the latest version, the status, and which use cases use it.
+
+Below that are six developer files for each version. Attributes dot yaml. Schema dot json, the compiled JSON Schema. This is the file you validate your payloads against. Context dot json l d and vocab dot json l d carry the semantics and the mapping to standards, like the I E C Common Information Model. And examples are worked payloads you can copy.
+
+Click version one point two. This is the page you will live on. Look at the structure tree. The customer profile holds the account number and the list of energy resources. Personal details sit in a separate block, on purpose.
+
+Each energy resource has a type. There are seven kinds: meter, generator, storage, E V charger, inverter, controllable load, network equipment. Every power or capacity value is a pair, a number and a unit, not a bare number. That is the big change from version one point one, and the migration table spells it out.
+
+Scroll to the field reference. Bold with a star means required. And where a field derives from a standard, the description starts with "Based on" and names it.
+
+Now click the examples link and open example dot json. One meter, a solar array, a wind turbine, and two batteries, in one credential. Pause here and open the example for your own schema. Copying an example is the fastest way to start.
+
+Back to the catalog. Open Meter Data version zero point six. This is the telemetry payload. It has eight profiles, one for each cadence a meter produces: customer metadata, interval readings, daily, monthly, bill details, instantaneous snapshots, events, and alarms. It is small on the wire and carries no signature.
+
+That is why the family comes as a set of four. Meter Data Request is how you ask for data. Meter Data Credential wraps the data when you need proof of who sent it. Meter Data Request Credential wraps the request to prove you may ask. Payload and credential. Request and credential.
+
+Let's try something. Click the search box at the top and type "sanctioned load". You get hits in more than one place. Open Term Taxonomy. Here is the row. It appears in Electricity Credential and in Meter Data, with the same meaning.
+
+Taxonomy lists every published term, three hundred and sixty-eight of them. Before you invent a field, search here first. Try it now with one field name from your own system.
+
+Now the use cases, where a schema becomes a build. There are five, and each is really a schema plus a delivery pattern.
+
+Consumer Energy Passport is an Electricity Credential issued holder-bound to a consumer's wallet. Consumer Meter Digest is a Meter Data Credential issued to the consumer, wrapping their own readings. Smart Meter Data Exchange is Meter Data moving machine to machine over Beckn. D E R Visibility is an Electricity Credential for what is connected, plus Meter Data for what it is doing, and the feeder-level aggregate is still illustrative, as the page says. Peer-to-peer Energy Transaction rides on the external Digital Energy Grid contract schemas.
+
+Pick yours now. We will walk one credential build and one data-exchange build, because every I E S build is one of those two.
+
+Open the Consumer Energy Passport overview. The first line tells you everything. It is an Electricity Credential version one point two, issued to a consumer's wallet. Click the Implementation Guide link at the top.
+
+The guide starts with a shortcut: "In a hurry? Jump to the Checklist." Use it later. For now, scroll to the table "How it differs from a bearer Electricity Credential". Only two fields change. The credential subject I D becomes the consumer's wallet identifier. And the I D reference holds a verified government-I D reference, never the raw number. Everything else is the same credential.
+
+Next, Actors and flow. The DISCOM issues. The consumer holds it in DigiLocker or a wallet. A bank or subsidy portal verifies it offline against the DISCOM's public key. No phone call.
+
+Now Setup. Five steps. Register your did web identity and run OpenCred. Choose and document how you prove identity. Issue the credential with those two fields set. Deliver it to DigiLocker. Wire revocation into the same flow.
+
+Below that, the DigiLocker section gives you the exact request and response shapes for document type N Y C E R.
+
+And here is the checklist. Prerequisites, identity proofing, delivery, credential content, verification. Every guide ends with one of these. When you build, work down this list.
+
+Now open the Smart Meter Data Exchange guide and scroll to Setup. This is the machine-to-machine shape. An A M I S P, a DISCOM, or a regulator moving readings over Beckn.
+
+Seven steps. Decide scope: which profiles, which cadence. Register: get your network identity. Discover: stand up the Data Exchange adapter. This is Beckn ONIX, an engine you deploy, not code you write. Exchange: publish your dataset catalogue as the provider. Exercise the flow against a sandbox peer. Then, and only then, connect your real head-end system. Last, and optional, give meters did web names. Plain serial numbers work in payloads to start.
+
+Notice what both guides share. Register once. Deploy an engine. Map your data into the schema. Validate. Exercise the flow. Tick the checklist. The only real difference is the engine: OpenCred for credentials, ONIX for network exchange. That is what the Concepts section covers.
+
+Open Concepts and click "Before you build". This is the page to send to your I T and security team.
+
+Every participant does three things once. Register in DeDi and publish a did web identity. Stand up the Beckn ONIX adapter. Pass the conformance check. Two more pieces depend on what you build. OpenCred, if you issue credentials to consumers. And your internal-facing adapter, the only code you write, usually two hundred to one thousand lines per use case, mapping your existing systems to the I E S schema.
+
+Look at the time table. One or two days for identity. One or two days for the engine. Half a day for credentials. One to three weeks for your first adapter. One day for conformance.
+
+Scroll down. You need a domain you control, D N S access for one text record, one Linux host running Docker, and one engineer. You do not need a new database, a compliance filing, a procurement contract, a licence, or anyone's approval to start on the sandbox.
+
+Now open the Conformance Checklist. Each item is tagged. "All" is for everyone. "Credential" is for issuers. "Beckn" is for network participants. Read the section "What schema validation proves". It tells you the limits of a local pass. Read it before you say you are conformant.
+
+Last, Pathways. One page per role: DISCOM, A M I S P or O E M, regulator, secretariat, researcher. Open the Technology Service Provider pathway and expand a step. Every step looks like this: advice, prework, then guidance with links. Vendors, this page separates the engine you deploy from the mapping you are hired to build.
+
+One day you will need a schema I E S does not have. A new asset type. A new filing. A new feed. Click Propose a Schema.
+
+The diagram shows a four-week lifecycle. Day zero, you submit a proposal with a concept note, and a public GitHub issue opens. That issue is the record for the whole journey. Weeks one and two, the community comments, and the schema freezes at version zero point one. Week three, chosen experts review it. Week four, an architecture review, then the I E S Cell finalises it, the authorities sign off, and it is published. Changing an existing schema follows the same path.
+
+Scroll to the info box. Keep two things open while you write. The Term Taxonomy, so you reuse terms that already exist. And the use-case overview template, so your concept note has the same eleven sections you have seen all over this site. Share the note as a public link.
+
+Now the form. Who you are. Which use case your schema supports. The schema itself. The standards it builds on. Your email and phone stay private. Everything else becomes the public issue, automatically. You do not need a GitHub account.
+
+Open the issue tracker. This is where the discussion happens, in the open. Read a few proposals before you write yours.
+
+Here is your first hour with I E S, as a to-do list.
+
+One. Read the home page for the three moves: register, discover, exchange.
+
+Two. Find your schema in Schemas Overview and read its page.
+
+Three. Open its catalog page, get schema dot json, and copy an example.
+
+Four. Pick your use case and open its implementation guide. Read the checklist first.
+
+Five. Send "Before you build" to your I T team.
+
+Six. When a schema is missing, propose it.
+
+One honest note. The specifications are published and versioned. Four pilot DISCOMs each built an adapter and showed four use cases in a thirty-day challenge. That challenge is finished. The Status page is the only source for what runs today. Check it. Do not assume.
+
+This whole reference is also one P D F, linked here. Questions go to the I E S Secretariat or R E C. Issues and contributions go to GitHub.
+
+Start with Schemas Overview. See you in the issue tracker.
