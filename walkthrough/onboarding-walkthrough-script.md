@@ -1,14 +1,14 @@
-# IES Documentation Walkthrough — 15-minute hands-on tutorial script
+# IES Documentation Walkthrough — 15-minute onboarding script
 
 **Who it is for:** an engineer or architect at a DISCOM, AMISP, OEM, or system integrator who was told "build this with IES" and is opening the GitBook for the first time.
 
 **What they can do at the end:** explain IES in one sentence, find the schema for their project, read a schema page like a developer, open the right use-case guide and its checklist, know the one-time setup, and propose a schema when one is missing.
 
-**Style:** a tutorial, not a tour. You do things on camera. The viewer does them with you. Short sentences. Plain words. Five "pause and try it" moments.
+**Style:** an explainer with your hands on the docs. Most of the time you are explaining while you navigate, the way a colleague would walk you through a site. Five short moments ask the viewer to try something themselves. Short sentences, plain words, no jargon left unexplained.
 
 **Source:** [india-energy-stack.gitbook.io/docs](https://india-energy-stack.gitbook.io/docs), as rendered from this repository on 2026-09-06. Sidebar labels are quoted exactly from `SUMMARY.md`.
 
-**Length:** about 2,100 words of narration. At 150 words per minute that is about 14 minutes; the five pauses and the on-camera clicks fill it to 15:00.
+**Length:** about 2,100 words of narration. At 150 words per minute that is about 14 minutes. The five pauses and the on-camera clicks fill it to 15:00.
 
 ---
 
@@ -51,7 +51,7 @@ Sidebar path is the authoritative locator. URLs are given only where the docs th
 
 ## The script
 
-Each step has five parts. **Goal** is what the viewer can do after the step. **On screen** is what you record, with **click** and **type** actions in bold. **Say** is the narration, read as written. **Pause** is a moment where the viewer tries it. **Check** is what they should see or know before moving on.
+Each step has up to five parts. **Goal** is what the viewer can do after the step. **On screen** is what you record, with **click** and **type** actions in bold. **Say** is the narration, read as written. **Pause** appears in five steps only, where the viewer tries something themselves. **Check** is what they should know before moving on; it is a note to you, not a line to read aloud.
 
 ---
 
@@ -63,7 +63,7 @@ Each step has five parts. **Goal** is what the viewer can do after the step. **O
 
 **On screen:** Tab 1, Getting Started, top of page. Hold on the first two paragraphs. Do not scroll yet.
 
-> Welcome. This is a hands-on tour of the India Energy Stack documentation. It is for you if someone said "build this with IES" and you are opening these docs for the first time.
+> Welcome. This is a walkthrough of the India Energy Stack documentation. It is for you if someone said "build this with IES" and you are opening these docs for the first time.
 >
 > We will do it in five parts. First, the idea behind IES. Then the schemas, which are what you code against. Then the use cases, which turn a schema into a build. Then the setup every participant does once. And last, how to propose a schema of your own.
 >
