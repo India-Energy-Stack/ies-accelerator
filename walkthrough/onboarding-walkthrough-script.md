@@ -1,264 +1,377 @@
-# IES Documentation Walkthrough — 15-minute onboarding video script
+# IES Documentation Walkthrough — 15-minute hands-on tutorial script
 
-**Audience:** an engineer or architect at a DISCOM, AMISP, OEM, or system integrator who has been told "implement this with IES" and is opening the GitBook for the first time.
+**Who it is for:** an engineer or architect at a DISCOM, AMISP, OEM, or system integrator who was told "build this with IES" and is opening the GitBook for the first time.
 
-**Job of the video:** in 15 minutes, leave them knowing (1) what IES is and is not, (2) how to read the schemas, (3) how a use case turns a schema into a build, (4) what setup every participant does once, and (5) how to propose a schema when IES doesn't cover their domain object yet.
+**What they can do at the end:** explain IES in one sentence, find the schema for their project, read a schema page like a developer, open the right use-case guide and its checklist, know the one-time setup, and propose a schema when one is missing.
 
-**Source:** [india-energy-stack.gitbook.io/docs](https://india-energy-stack.gitbook.io/docs) as rendered from this repository at the time of writing (2026-09-06). Sidebar labels below are quoted exactly from the GitBook navigation (`SUMMARY.md`).
+**Style:** a tutorial, not a tour. You do things on camera. The viewer does them with you. Short sentences. Plain words. Five "pause and try it" moments.
 
-**Narration length:** about 2,250 words. At a relaxed 150 words per minute that is 15:00. If you speak faster, don't fill the gap — let the screens breathe.
+**Source:** [india-energy-stack.gitbook.io/docs](https://india-energy-stack.gitbook.io/docs), as rendered from this repository on 2026-09-06. Sidebar labels are quoted exactly from `SUMMARY.md`.
+
+**Length:** about 2,100 words of narration. At 150 words per minute that is about 14 minutes; the five pauses and the on-camera clicks fill it to 15:00.
 
 ---
 
 ## Before you hit record
 
-Do these once and the recording becomes a single take with no fumbling.
-
-1. **Pre-open every page as a tab, in order.** Use the tab list under "Tabs to pre-open" below. During the recording you only ever switch to the next tab and scroll — never type a URL or search.
-2. **Browser prep.** One clean profile, no extensions or bookmarks bar, window at 1920×1080, page zoom **110–125%** so field tables are legible on a phone. Pick one theme (light is safer for tables) and keep it for the whole take.
-3. **Collapse the GitBook sidebar groups** you are not on, so the sidebar is short enough to read in one frame during the "map of the docs" segment.
-4. **Scroll positions.** For each tab, scroll to the heading named in "Where to be" *before* you start. The script tells you when to scroll further.
-5. **Pointer discipline.** Hover the thing you are talking about; don't circle the cursor. Highlight table rows by selecting text only when the script says "select".
-6. **Segment checkpoints.** The timecodes are targets, not hard cuts. If you are 30 seconds over at 7:40 (the end of the Use Case Overviews segment), use the "If you're running long" cuts at the end of this document.
-7. **Fallback for the Propose form.** The inline form is a GitBook ContentKit block. Load the Propose a Schema tab first and confirm the form renders. If it doesn't, the page has an "open it in a new tab" link — pre-open that as well.
+1. **Pre-open every page as a tab, in order** (table below). Where the script says **click**, click the real link on camera. The tabs are your safety net if a link is slow.
+2. **Browser prep.** One clean profile. No extensions or bookmarks bar. Window at 1920×1080. Page zoom 110–125% so tables read on a phone. Pick one theme and keep it.
+3. **Collapse sidebar groups** you are not on, so the whole sidebar fits in one frame for Step 2.
+4. **Test the search.** Type `sanctionedLoad` in the GitBook search box and confirm Term Taxonomy appears in the results. If it does not, use the fallback in Step 6.
+5. **Test the Propose form.** Open Propose a Schema and confirm the inline form renders. If not, pre-open the "open it in a new tab" link on that page.
+6. **Test the Pathway step.** Open the Technology Service Provider Pathway and check that steps expand when clicked. If they render already expanded, just scroll to Step 1.2 in Step 10.
+7. **Pointer discipline.** Hover what you are talking about. Do not circle the cursor.
 
 ### Tabs to pre-open (in recording order)
 
-Sidebar path is the authoritative locator. URLs are given where the docs themselves cite them; for the rest, navigate from the sidebar and copy the URL into your own notes.
+Sidebar path is the authoritative locator. URLs are given only where the docs themselves cite them.
 
-| # | Sidebar path | Where to be when you switch to the tab | Known URL |
+| # | Sidebar path | Where to be | Known URL |
 |---|---|---|---|
-| 1 | Getting Started | Top of page | `https://india-energy-stack.gitbook.io/docs` |
-| 2 | Schemas Overview › Schemas Overview | Top (the 7-row status table) | — |
+| 1 | Getting Started | Top | `https://india-energy-stack.gitbook.io/docs` |
+| 2 | Schemas Overview › Schemas Overview | Top (the status table) | — |
 | 3 | Schemas Overview › ElectricityCredential | Top | — |
-| 4 | Schemas › All Schemas | Top (the "Verifiable Credentials" cards) | — |
-| 5 | Schemas › ElectricityCredential | Top (the canonical-base table) | — |
-| 6 | Schemas › ElectricityCredential › v1.2 | Top (the "Files" bar) | `https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2` |
-| 7 | Schemas › Term Taxonomy | Top | `https://india-energy-stack.gitbook.io/docs/schemas/taxonomy` |
-| 8 | Schemas › External Schemas | Top | — |
-| 9 | Schemas › MeterData › v0.6 | Top | `https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6` |
-| 10 | Use Case Overviews › Smart Meter Data Exchange | Heading "2. What It Records / Covers" (the profile table) | — |
-| 11 | Use Case Overviews › Consumer Energy Passport | Top | — |
-| 12 | Use Case Implementation Guides › Consumer Energy Passport | Top | — |
-| 13 | Use Case Implementation Guides › Smart Meter Data Exchange | Heading "Setup: Register → Discover → Exchange" | — |
-| 14 | Concepts › Before you build | Top | — |
-| 15 | Concepts › Conformance Checklist | Heading "What conformance means" | — |
-| 16 | Pathways › Overview | Top (the pathway table) | — |
-| 17 | Propose a Schema | Top (the lifecycle diagram) | — |
-| 18 | GitHub issue tracker | Issues list | `https://github.com/India-Energy-Stack/ies-accelerator/issues` |
-| 19 | Getting Started (again) | Heading "Get in touch" | `https://india-energy-stack.gitbook.io/docs` |
+| 4 | Schemas › All Schemas | Top | — |
+| 5 | Schemas › ElectricityCredential | Top | — |
+| 6 | Schemas › ElectricityCredential › v1.2 | Top | `https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2` |
+| 7 | GitHub: `example.json` for ElectricityCredential v1.2 | Top of file | `https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/ElectricityCredential/v1.2/examples/example.json` |
+| 8 | Schemas › MeterData › v0.6 | Top | `https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6` |
+| 9 | Schemas › Term Taxonomy | Top | `https://india-energy-stack.gitbook.io/docs/schemas/taxonomy` |
+| 10 | Use Case Overviews › Consumer Energy Passport | Top | — |
+| 11 | Use Case Implementation Guides › Consumer Energy Passport | Top | — |
+| 12 | Use Case Implementation Guides › Smart Meter Data Exchange | Heading "Setup: Register → Discover → Exchange" | — |
+| 13 | Concepts › Before you build | Top | — |
+| 14 | Concepts › Conformance Checklist | Heading "What conformance means" | — |
+| 15 | Pathways › Technology Service Provider Pathway | Heading "Phase 1" | — |
+| 16 | Propose a Schema | Top (the lifecycle diagram) | — |
+| 17 | GitHub issue tracker | Issues list | `https://github.com/India-Energy-Stack/ies-accelerator/issues` |
+| 18 | Getting Started (again) | Heading "Where things stand" | `https://india-energy-stack.gitbook.io/docs` |
 
 ---
 
 ## The script
 
-Format for every segment: **time range → what is on screen → what you say.** Screen directions are in *italics*. Narration is in plain text. Read the narration as written; it is paced to the screens.
+Each step has five parts. **Goal** is what the viewer can do after the step. **On screen** is what you record, with **click** and **type** actions in bold. **Say** is the narration, read as written. **Pause** is a moment where the viewer tries it. **Check** is what they should see or know before moving on.
 
 ---
 
-### 0:00–0:40 · Cold open — who this is for
+## Part 1 · The idea
 
-**On screen:** Tab 1, Getting Started, top of page. Hold on the first paragraph. *At 0:20, slowly scroll so the "How IES works" heading is visible at the bottom of the frame.*
+### Step 0 · 0:00–0:35 · Welcome
 
-> If you've been asked to implement something with the India Energy Stack and you've just opened this documentation, this video is for you. In fifteen minutes I'll walk the docs in the order you should actually read them: what IES is, then the schemas you'll code against, then the use cases that turn a schema into a build, then the one-time setup every participant does, and finally how to propose a schema when IES doesn't cover your domain object yet.
+**Goal:** the viewer knows what the next fifteen minutes cover and opens the site alongside.
+
+**On screen:** Tab 1, Getting Started, top of page. Hold on the first two paragraphs. Do not scroll yet.
+
+> Welcome. This is a hands-on tour of the India Energy Stack documentation. It is for you if someone said "build this with IES" and you are opening these docs for the first time.
 >
-> IES is a Ministry of Power initiative; REC is the nodal agency and FSR Global the knowledge partner. This site is the technical reference for building on it.
+> We will do it in five parts. First, the idea behind IES. Then the schemas, which are what you code against. Then the use cases, which turn a schema into a build. Then the setup every participant does once. And last, how to propose a schema of your own.
+>
+> Open the site in another window. I will ask you to pause and try things as we go.
+
+**Check:** the viewer has the site open next to the video.
 
 ---
 
-### 0:40–2:00 · How IES works — Register, Discover, Exchange
+### Step 1 · 0:35–1:50 · Learn the three moves
 
-**On screen:** Tab 1, scroll to the heading **"How IES works — Register, Discover, Exchange"**. *Hover each bold word as you say it. At 1:30, scroll to the sentence beginning "The specifications cover five building blocks".*
+**Goal:** the viewer can say what IES is, and what it is not, in one breath.
 
-> The one idea to take from this page is the UPI comparison. IES holds no data of its own. Your DISCOM software, your metering platform, your vendor database — the data stays where it is. IES specifies how any two of those systems identify each other, find each other, and exchange data in a common, verifiable shape.
+**On screen:** Tab 1. Scroll to the paragraph beginning "IES works the way UPI works". Then scroll to the heading **"How IES works — Register, Discover, Exchange"**. Hover each bold word as you say it. At 1:35, scroll to "The specifications cover five building blocks".
+
+> Start on the home page. Read this paragraph with me. IES works the way UPI works for payments. It holds no data of its own. Your data stays in the systems that already hold it. IES only defines how two systems find each other and share data in one common, verifiable shape.
 >
-> Every interaction follows three steps. **Register**: every participant gets a verifiable digital identity — a W3C DID — and a listing in a shared directory called DeDi. Done once. **Discover**: before an exchange, the two systems look each other up and agree terms over the Beckn protocol, so there's no bilateral integration to negotiate. **Exchange**: data moves over that same signed Beckn channel, shaped by the IES schemas, which build on existing open standards — DLMS/COSEM for meters, IEEE 2030.5 and OpenADR for DERs. Where a durable record is needed, the exchange produces a W3C Verifiable Credential the holder keeps — for consumers, in DigiLocker.
+> Every exchange has three moves. Register. Discover. Exchange.
 >
-> Five building blocks sit under those steps: identifiers, registries, exchange, verifiable credentials, and the security, consent and machine-readable-rules posture running through all of them. And notice what IES is not: it doesn't write new standards, and it's not a platform, a database, or a product.
+> Register means you get a digital identity, a W3C DID, and a listing in a shared directory called DeDi. You do this once.
+>
+> Discover means two systems look each other up and agree terms over the Beckn protocol. No one-off integration.
+>
+> Exchange means data moves over that same signed channel, shaped by the IES schemas. When a lasting record is needed, the exchange produces a Verifiable Credential. Consumers keep theirs in DigiLocker.
+>
+> Under those three moves sit five building blocks: identifiers, registries, exchange, credentials, and the security and consent rules that run through all of them.
+>
+> Remember what IES is not. It is not a platform, a database, or a product. It picks an open standard for each block and writes a specification on top.
+
+**Check:** register, discover, exchange. IES holds no data.
 
 ---
 
-### 2:00–2:40 · Map of the docs
+### Step 2 · 1:50–2:30 · Learn the map
 
-**On screen:** Tab 1, keep the page still and **move the pointer down the sidebar**, resting on each group as you name it. *Groups in order: Schemas Overview, Schemas, Use Case Overviews, Use Case Implementation Guides, Pathways, Concepts, then back up to Propose a Schema at the top.*
+**Goal:** the viewer knows the seven sidebar groups and the reading order.
 
-> Before we go anywhere, here's the shape of the site, because the reading order matters.
+**On screen:** Tab 1. Keep the page still. Move the pointer down the sidebar and rest on each group as you name it: Schemas Overview, Schemas, Use Case Overviews, Use Case Implementation Guides, Pathways, Concepts, then up to Propose a Schema. Hover Draft last.
+
+> Now look at the sidebar. This is the whole site, and the order matters.
 >
-> Two schema sections: **Schemas Overview** is the plain-language "why" for each schema; **Schemas** is the developer catalog — field references, canonical URLs, versions. Then the same five use cases twice: **Use Case Overviews** for decision-makers, **Implementation Guides** as build checklists. **Pathways** sequences everything by the kind of organisation you are. **Concepts** is the one-time setup. **Propose a Schema**, at the top, is how the catalog grows. Everything under **Draft** is work in progress, so we'll skip it.
+> Schemas Overview explains each schema in plain words. Schemas is the developer catalog: fields, URLs, versions. Use Case Overviews and Implementation Guides cover the same five use cases, first for decision makers, then as build checklists. Pathways sorts all of this by the kind of organisation you are. Concepts is the one-time setup. And Propose a Schema, at the top, is how the catalog grows.
 >
-> We'll follow that order: schemas, use cases, setup, propose.
+> Skip the Draft section. It is work in progress.
+>
+> We will go top to bottom: schemas, use cases, setup, propose.
+
+**Check:** the viewer can point to each group.
 
 ---
 
-### 2:40–4:00 · Schemas Overview — the plain-language layer
+## Part 2 · The schemas
 
-**On screen:** Tab 2, Schemas Overview. *Hold on the status table for the first paragraph. Select the three "Stable — In Pilot" credential rows as you mention them, then hover the two "Work in progress" rows. At 3:25, scroll to "Where the P2P and flexibility schemas live (external)". At 3:40, switch to Tab 3 (ElectricityCredential overview) and scroll slowly through the numbered section headings, then stop on "8. Schedule I".*
+### Step 3 · 2:30–3:45 · Find your schema
 
-> Start with Schemas Overview. This table is the whole catalog on one screen: seven schema families IES stewards itself, with a status column. Five are stable and were used in the pilot: ElectricityCredential, MeterData, MeterDataCredential, MeterDataRequest, and MeterDataRequestCredential. Two — ArrFiling and OutageNotification — are still work in progress, so don't build production against them yet.
+**Goal:** the viewer finds the schema family their project needs.
+
+**On screen:** **Click** Schemas Overview in the sidebar (Tab 2). Hold on the status table. Select the five "Stable — In Pilot" rows as you name them. Hover the two "Work in progress" rows. At 3:20, **click** ElectricityCredential in the table (Tab 3) and scroll slowly down the numbered headings. Stop at "8. Schedule I".
+
+> Open Schemas Overview. This table is the catalog on one screen. Seven schema families. Five are stable and were used in the pilot: ElectricityCredential, MeterData, MeterDataCredential, MeterDataRequest, and MeterDataRequestCredential. Two are still work in progress: ArrFiling and OutageNotification. Do not build production on those yet.
 >
-> Read the "what it is" column carefully, because it tells you the pattern. There are payloads — MeterData, MeterDataRequest — and there are credentials that wrap those payloads to attest who sent them and that nothing changed. You'll see that pairing again and again.
+> Look at the "what it is" column. You will see a pattern. Some rows are payloads, like MeterData. Some rows are credentials that wrap a payload and prove who sent it. Payload, then credential. You will see this pair again.
 >
-> One thing that trips people up: the peer-to-peer trading and demand-flexibility schemas are not here. They're maintained upstream in the Digital Energy Grid project and mirrored under External Schemas — I'll show you where.
+> Pause the video here. Find the row that matches your project. If you issue something to a consumer, it is a credential. If you move readings between systems, it is a payload.
 >
-> Each family gets one plain-language page. Open ElectricityCredential and look at the structure: eleven numbered sections — scope and purpose, what it records, how each item is identified, the standards it's based on, where Indian standards don't yet exist, then Schedule I, the field summary, and open points for confirmation. Every schema page and every use-case page uses this same template, so once you've read one, you can navigate all of them.
+> One more thing. The peer-to-peer trading schemas are not in this table. They live upstream in the Digital Energy Grid project and are mirrored under External Schemas.
+>
+> Now click ElectricityCredential. Every schema page uses the same eleven sections: scope, what it records, how items are identified, the standards behind it, gaps in Indian standards, and the field summary in Schedule I. Learn this layout once. Every schema page and every use-case page follows it.
+
+**Pause:** "Find the row that matches your project."
+
+**Check:** the viewer has one schema family name written down.
 
 ---
 
-### 4:00–6:15 · Schemas — the developer catalog
+### Step 4 · 3:45–6:00 · Read a schema like a developer
+
+**Goal:** the viewer knows the six files per version, which one to validate against, and how to read the field table.
 
 **On screen:**
-- *4:00 — Tab 4, All Schemas. Hover the three cards under "Verifiable Credentials", then the four under "Data Exchange payloads". Scroll to "How versions work" at 4:25.*
-- *4:35 — Tab 5, Schemas › ElectricityCredential. Hold on the top table (Canonical base, Latest version, Status, Used in). Then scroll to the "Developer resources — v1.2 (current)" table and hover each row as you name the file.*
-- *5:15 — Tab 6, ElectricityCredential v1.2. Show the "Files" bar, then scroll to the "Structure" tree, then the "EnergyResource kinds" table, then the "v1.1 → v1.2 migration" table, then a glimpse of the "Field reference".*
-- *5:55 — Tab 7, Term Taxonomy: hold on the opening paragraph and the family-code table. 6:05 — Tab 8, External Schemas: hold on the "Energy Trading (P2P)" heading.*
+- 3:45 — **Click** Schemas › All Schemas (Tab 4). Hover the three "Verifiable Credentials" cards, then the four "Data Exchange payloads" cards. Scroll to "How versions work".
+- 4:15 — **Click** the ElectricityCredential card (Tab 5). Hold on the top table. Scroll to "Developer resources — v1.2 (current)" and hover each file as you name it.
+- 4:50 — **Click** v1.2 in the sidebar (Tab 6). Show the "Structure" tree, then "EnergyResource kinds", then the "v1.1 → v1.2 migration" table, then the "Field reference".
+- 5:35 — **Click** the `examples/` link in the Files bar. **Click** `example.json` (Tab 7). Scroll slowly through the `energyResources` array.
 
-> Now the developer catalog. All Schemas groups the seven families into two kinds: Verifiable Credentials — signed records a holder keeps and verifies independently of any network — and Data Exchange payloads — structured records exchanged over the network or published as feeds. Below that is the versioning rule, worth memorising: a non-breaking change — an optional field, a new enum value — stays within the minor version. A breaking change gets a new sibling version, and the old one stays reachable.
+> Now open the Schemas section and click All Schemas. The same families, sorted by kind. Verifiable Credentials are signed records a holder keeps and can verify without any network. Data Exchange payloads are records moved over the network or published as feeds.
 >
-> Open a family page — ElectricityCredential. The top table gives the canonical base URL, the latest version, the status, who issues and consumes it, and which use cases it's used in. Then six developer files per version. `attributes.yaml` is the OpenAPI source of truth. `schema.json` is the compiled JSON Schema — **this is the file you validate against**. `context.jsonld` and `vocab.jsonld` carry the semantics and the mapping to standards like the IEC Common Information Model. And `examples` are worked payloads you can copy.
+> Scroll to "How versions work". Learn this rule. A small, safe change stays in the same minor version. A breaking change gets a new version, and the old one stays online.
 >
-> The version page is where you'll spend your time. The structure tree: a non-PII `customerProfile` — customer number, an `energyResources` array, consumption profiles — and an optional PII `customerDetails` block, kept separate on purpose. Every energy resource is discriminated by `type` into one of seven kinds: meter, generator, storage, EV charger, inverter, controllable load, network equipment. Every power or capacity field is a `{value, unit}` pair, not a bare number — the big change from 1.1, and the migration table spells it out. Below that, the field reference: bold with an asterisk means required, and where a field derives from a standard, the description starts with "Based on" and names it.
+> Click ElectricityCredential. The top table tells you the canonical URL, the latest version, the status, and which use cases use it.
 >
-> Two more pages to keep open. Term Taxonomy lists every term across all seven families — 368 of them — with schema code and source standard, so you can check whether the field you're about to invent already exists. And External Schemas is where the P2P and flexibility schemas from the Digital Energy Grid project are mirrored, with a link to their canonical home.
+> Below that are six files for each version. `attributes.yaml` is the source of truth. `schema.json` is the compiled JSON Schema. This is the file you validate your payloads against. `context.jsonld` and `vocab.jsonld` map the fields to standards, like the IEC Common Information Model. And `examples` are real payloads you can copy.
+>
+> Click v1.2. This is the page you will live on. Look at the structure tree. The customer profile holds the account number and the list of energy resources. Personal details sit in a separate block, on purpose.
+>
+> Each energy resource has a type. There are seven kinds: meter, generator, storage, EV charger, inverter, controllable load, and network equipment. Every power or capacity value is a pair, a number and a unit. That is the big change from version 1.1, and the migration table lists every field.
+>
+> Scroll to the field reference. Bold with a star means required. When a field comes from a standard, the description starts with "Based on" and names it.
+>
+> Now click the examples link and open example.json. One meter, a solar array, a wind turbine, and two batteries, in one credential. Pause here and open the example for your own schema. Copying an example is the fastest way to start.
+
+**Pause:** "Open the example for your own schema."
+
+**Check:** the viewer knows to validate against `schema.json` and has an example open.
 
 ---
 
-### 6:15–7:00 · MeterData and the request/credential pairing
+### Step 5 · 6:00–6:40 · Meet the MeterData set
 
-**On screen:** Tab 9, MeterData v0.6. *Hold on the opening paragraph, then scroll to wherever the profile list is visible. At 6:40, switch to Tab 10 (Smart Meter Data Exchange overview, section 2) and hold on the eight-profile table.*
+**Goal:** the viewer understands the four-schema MeterData family.
 
-> The other schema you'll almost certainly touch is MeterData. It's the telemetry payload: nine record shapes — eight profiles plus a shared descriptor. The profiles cover every cadence a meter produces: CUSTOMER for slow-changing metadata, INTERVAL for 15- or 30-minute block load survey, DAILY, MONTHLY for billing resets, BILL_DETAILS, INSTANTANEOUS snapshots, and EVENT and ALARM from the IS 15959 codes. It's deliberately compact — a daily interval row can be a handful of numbers — and it carries no signature.
+**On screen:** **Click** Schemas › MeterData › v0.6 in the sidebar (Tab 8). Hold on the opening paragraph, then scroll until the profile names are visible. At 6:25, hover MeterDataRequest, MeterDataCredential, and MeterDataRequestCredential in the sidebar as you name them.
+
+> Back to the catalog. Open MeterData v0.6. This is the telemetry payload. It has eight profiles, one for each cadence a meter produces: customer metadata, interval readings, daily, monthly, bill details, instantaneous snapshots, events, and alarms. It is small on the wire and carries no signature.
 >
-> That's why the family comes as a set of four. MeterDataRequest is how you ask for telemetry — the query, capabilities and authorisation. MeterDataCredential wraps MeterData when you need signed provenance. MeterDataRequestCredential wraps the request to prove the requester is authorised. Payload plus credential, request plus credential.
+> That is why it comes as a set of four. MeterDataRequest is how you ask for data. MeterDataCredential wraps the data when you need proof of who sent it. MeterDataRequestCredential wraps the request to prove you may ask. Payload and credential. Request and credential.
+
+**Check:** four names, two pairs.
 
 ---
 
-### 7:00–7:40 · Use Case Overviews — five use cases, and which schema each one rides on
+### Step 6 · 6:40–7:10 · Try the search
 
-**On screen:** Tab 1 sidebar, or simply the sidebar on the current tab. *Hover each of the five Use Case Overviews entries as you name them.*
+**Goal:** the viewer uses site search and the Term Taxonomy before inventing a field.
 
-> Now the use cases, where a schema becomes a build. There are five, and each is really a schema plus a delivery pattern.
+**On screen:** **Click** the search box at the top. **Type** `sanctionedLoad`. Hover the results. **Click** the Term Taxonomy result (Tab 9) and select the `sanctionedLoad` row. *Fallback if search does not list Taxonomy: open Tab 9 and use browser find (Ctrl+F) for `sanctionedLoad`.*
+
+> Let's try something. Click the search box at the top and type "sanctionedLoad". You get hits in more than one place. Open Term Taxonomy. Here is the row. It appears in ElectricityCredential and in MeterData, with the same meaning.
 >
-> **Consumer Energy Passport**: ElectricityCredential issued holder-bound to a consumer's wallet. **Consumer Meter Digest**: MeterDataCredential issued to the consumer, wrapping their own readings. **Smart Meter Data Exchange**: MeterData and MeterDataRequest moving machine-to-machine over Beckn. **DER Visibility**: ElectricityCredential for what's connected plus MeterData for what it's doing — the feeder-level aggregate is still illustrative, and the page says so. **P2P Energy Transaction** rides on the external Digital Energy Grid contract schemas.
->
-> Let's open two — one consumer credential flow and one business-to-business exchange — because those are the two shapes every IES build takes.
+> Taxonomy lists every published term, 368 of them. Before you invent a field, search here first. Try it now with one field name from your own system.
+
+**Pause:** "Try it with one field name from your own system."
+
+**Check:** the viewer has searched once.
 
 ---
 
-### 7:40–9:30 · Consumer Energy Passport — overview, then the implementation guide
+## Part 3 · The use cases
+
+### Step 7 · 7:10–7:45 · Match a use case to a schema
+
+**Goal:** the viewer picks the use case that matches their build.
+
+**On screen:** Stay on the current tab. Hover each of the five entries under **Use Case Overviews** in the sidebar as you name them.
+
+> Now the use cases. Look at the five names in the sidebar. Each one is a schema plus a way to deliver it.
+>
+> Consumer Energy Passport is ElectricityCredential, issued to a consumer's wallet. Consumer Meter Digest is MeterDataCredential, issued to a consumer. Smart Meter Data Exchange is MeterData moving between systems over Beckn. DER Visibility is ElectricityCredential for what is connected, plus MeterData for what it is doing. P2P Energy Transaction uses the external trading schemas.
+>
+> Pick yours now. We will walk one credential build and one data-exchange build, because every IES build is one of those two.
+
+**Pause:** "Pick yours now."
+
+**Check:** the viewer has a use case name written next to their schema name.
+
+---
+
+### Step 8 · 7:45–9:30 · Walk a credential build
+
+**Goal:** the viewer can navigate an implementation guide and knows to work from its checklist.
 
 **On screen:**
-- *7:40 — Tab 11, Consumer Energy Passport overview. Hold on the italic summary and the "Implementation Guide →" link. Click that link at 8:00 (or switch to Tab 12).*
-- *8:00 — Tab 12, implementation guide. Show the "In a hurry? Jump to the Checklist" line. Scroll to "How it differs from a bearer ElectricityCredential" and hold on the two-row table.*
-- *8:35 — scroll to "Actors and flow", then "Building blocks", then "Setup: Register → Discover → Exchange" (the five numbered steps).*
-- *9:05 — scroll to "DigiLocker integration (DocType NYCER)" briefly, then to the "Checklist" and hold there.*
+- 7:45 — **Click** Use Case Overviews › Consumer Energy Passport (Tab 10). Hold on the italic first line. **Click** the "Implementation Guide →" link (Tab 11).
+- 8:00 — Show the "In a hurry? Jump to the Checklist" line. Scroll to "How it differs from a bearer ElectricityCredential". Hold on the two-row table.
+- 8:30 — Scroll to "Actors and flow", then "Setup: Register → Discover → Exchange". Hover each of the five steps.
+- 9:05 — Scroll past "DigiLocker integration (DocType NYCER)". **Click** the "Jump to the Checklist" link at the top, or scroll to "Checklist". Hold there for five seconds.
 
-> The overview page is the decision-maker's version — the same eleven-section template, ending in Schedule I, the exact field list for this use case. The link at the top takes you to the implementation guide, which is what you'll build from.
+> Open the Consumer Energy Passport overview. The first line tells you everything. It is ElectricityCredential v1.2, issued to a consumer's wallet. Click the Implementation Guide link at the top.
 >
-> The guide opens with the single most important sentence: the Passport is not a new credential type. It's the existing ElectricityCredential v1.2, shaped, issued and delivered for a consumer audience. Exactly two things differ from a plain bearer credential: the `credentialSubject.id` is set to the consumer's wallet DID, and `customerProfile.idRef` carries a verified government-ID reference — a reference, never the raw number. Everything else, including the `type` array, is identical.
+> The guide starts with a shortcut. "In a hurry? Jump to the Checklist." Use it later. For now, scroll to the table "How it differs from a bearer ElectricityCredential". Only two fields change. The credential subject id becomes the consumer's wallet DID. And the id reference holds a verified government ID reference, never the raw number. Everything else is the same credential.
 >
-> Three actors: the DISCOM issues, the consumer holds it in DigiLocker or a DID wallet, and a bank, marketplace or subsidy portal verifies it offline against the DISCOM's published key — no phone call to the DISCOM. The building-blocks table links each piece to its concept page. Then the setup section gives you the sequence: register your `did:web` and run OpenCred; decide and document your identity-proofing method; issue the credential with the two fields set; deliver into DigiLocker; and wire revocation into the same flow.
+> Next, "Actors and flow". The DISCOM issues. The consumer holds it in DigiLocker or a wallet. A bank or subsidy portal verifies it offline against the DISCOM's public key. No phone call.
 >
-> For Indian consumers, delivery is DigiLocker, and the guide gives you the actual Pull URI request and response shapes for the NYCER document type. And at the bottom is the checklist — grouped by prerequisites, identity proofing, delivery, credential content, and verification. Every guide ends with one of these. If you only read one part of a guide, read the checklist.
+> Now "Setup". Five steps. Register your `did:web` and run OpenCred. Choose and document how you prove identity. Issue the credential with those two fields set. Deliver it to DigiLocker. Wire revocation into the same flow.
+>
+> Below that, the DigiLocker section gives you the exact request and response shapes for document type NYCER.
+>
+> And here is the checklist. Prerequisites, identity proofing, delivery, credential content, verification. Every guide ends with one of these. When you build, work down this list.
+
+**Check:** the viewer knows every guide ends in a checklist.
 
 ---
 
-### 9:30–10:40 · Smart Meter Data Exchange — the B2B pattern
+### Step 9 · 9:30–10:35 · Walk a data-exchange build
 
-**On screen:** Tab 13, Smart Meter Data Exchange implementation guide, at "Setup: Register → Discover → Exchange". *Scroll slowly through steps 1 to 7, pausing on step 4 ("publish your dataset catalogue (BPP)") and step 6 ("connect your real metering system"). At 10:25, scroll to "Checklist for your meter-data rollout".*
+**Goal:** the viewer sees the machine-to-machine pattern and what both patterns share.
 
-> The other shape is machine-to-machine. Smart Meter Data Exchange is an AMISP, a DISCOM, a regulator or a consented third party moving telemetry over Beckn, and the guide walks it as seven steps.
+**On screen:** **Click** Use Case Implementation Guides › Smart Meter Data Exchange (Tab 12), at "Setup: Register → Discover → Exchange". Scroll slowly through steps 1 to 7. Pause on step 4 ("publish your dataset catalogue") and step 6 ("connect your real metering system").
+
+> Now open the Smart Meter Data Exchange guide and scroll to Setup. This is the machine-to-machine shape. An AMISP, a DISCOM, or a regulator moving readings over Beckn.
 >
-> Decide scope — which profiles, which cadence. Register — get your network identity. Discover — stand up the Data Exchange adapters; this is Beckn ONIX, a ready-made engine you deploy rather than write. Exchange — publish your dataset catalogue as the provider side, the BPP. Exercise the flow end-to-end against a sandbox peer. Only then connect your real head-end or MDM system. And optionally, at the very end, adopt the `did:web` convention for meters and assets — the guide is explicit that bare meter serial numbers work in payloads to begin with. No new identifiers to allocate.
+> Seven steps. Decide scope: which profiles, which cadence. Register: get your network identity. Discover: stand up the Data Exchange adapter. This is Beckn ONIX, an engine you deploy, not code you write. Exchange: publish your dataset catalogue as the provider. Exercise the flow against a sandbox peer. Then, and only then, connect your real head-end system. Last, and optional, give meters `did:web` names. Plain serial numbers work in payloads to start.
 >
-> Notice what's the same across both guides: register once, stand up an engine, map your data into the schema, validate, exercise the flow, tick the checklist. Where they differ is which engine — OpenCred for credentials, ONIX for network exchange — and that's exactly what the Concepts section is about.
+> Notice what both guides share. Register once. Deploy an engine. Map your data into the schema. Validate. Exercise the flow. Tick the checklist. The only real difference is the engine: OpenCred for credentials, ONIX for network exchange. That is what the Concepts section covers.
+
+**Check:** register, engine, map, validate, exercise, checklist.
 
 ---
 
-### 10:40–12:10 · Concepts — the one-time setup, conformance, and your pathway
+## Part 4 · The setup
+
+### Step 10 · 10:35–12:05 · Do the one-time setup
+
+**Goal:** the viewer knows the three setup steps, the time each takes, and what conformance does and does not prove.
 
 **On screen:**
-- *10:40 — Tab 14, Before you build. Hold on the three numbered steps, then scroll to the setup table (Register / Exchange / Credentials / Adapter / Conformance with times).*
-- *11:15 — scroll to "What you need" and "What you do NOT need". Hover the crossed-out items.*
-- *11:35 — Tab 15, Conformance Checklist at "What conformance means". Hover the [all] / [credential] / [beckn] tags. Then scroll to "What schema validation proves — and what it doesn't" and hold briefly.*
-- *11:55 — Tab 16, Pathways › Overview. Hover the five rows.*
+- 10:35 — **Click** Concepts › Before you build (Tab 13). Hold on the three numbered steps. Scroll to the setup table with times.
+- 11:10 — Scroll to "What you need" and "What you do NOT need". Hover the crossed-out items.
+- 11:25 — **Click** Concepts › Conformance Checklist (Tab 14). Hover the [all], [credential], [beckn] tags. Scroll to "What schema validation proves — and what it doesn't".
+- 11:45 — **Click** Pathways › Technology Service Provider Pathway (Tab 15). **Click** to expand "Step 1.2: Understand the Two-Part Adapter". Hover the Phase Advice quote.
 
-> Before you build is the page to hand to your IT and security team. Every participant does the same setup once: register in DeDi and publish a `did:web`; stand up the Beckn ONIX adapter; pass the conformance check. Two pieces slot in depending on what you build: OpenCred, if you issue credentials to consumers, and your internal-facing adapter — the only place you write code — typically 200 to 1,000 lines per use case, mapping your existing systems to the IES schema.
+> Open Concepts and click Before you build. This is the page to send to your IT and security team.
 >
-> The table gives honest estimates: a day or two for identity, a day or two for the engine, half a day for credentials, one to three weeks for the first adapter, a day for conformance. You need a domain you control, DNS access for one TXT record, one Linux host running Docker, and one engineer. You don't need a new database, a compliance filing, a procurement contract, a licence fee, or anyone's approval to start on the sandbox.
+> Every participant does three things once. Register in DeDi and publish a `did:web`. Stand up the Beckn ONIX adapter. Pass the conformance check. Two more pieces depend on your build. OpenCred, if you issue credentials. And your own adapter, the only code you write, usually 200 to 1,000 lines per use case.
 >
-> The Conformance Checklist is tagged — "all", "credential" only if you issue credentials, "beckn" only if you're on the network — so a credential-only issuer skips the network items. It's also honest about scope: it says what passing local schema validation proves and what it doesn't. Read that before you tell anyone you're conformant.
+> Look at the time table. One or two days for identity. One or two days for the engine. Half a day for credentials. One to three weeks for your first adapter. One day for conformance.
 >
-> Finally, Pathways: one page per role — DISCOM, AMISP or OEM, regulator, secretariat, researcher — sequencing all of this. The Technology Service Provider pathway is especially useful for vendors: it separates the ready-made engine you deploy from the mapping you're actually hired to build.
+> Scroll down. You need a domain, one DNS record, one Linux host with Docker, and one engineer. You do not need a new database, a new filing, a new contract, a licence, or anyone's approval to start in the sandbox.
+>
+> Now open Conformance Checklist. Each item is tagged. "All" is for everyone. "Credential" is for issuers. "Beckn" is for network participants. Read the section "What schema validation proves". It tells you the limits of a local pass. Read it before you say you are conformant.
+>
+> Last, Pathways. One page per role. Open the Technology Service Provider pathway and expand a step. Every step looks like this: advice, prework, then guidance with links. Vendors, this page separates the engine you deploy from the mapping you are hired to build.
+
+**Check:** three steps, one engine, one adapter, one checklist.
 
 ---
 
-### 12:10–13:50 · Propose a Schema
+## Part 5 · Growing the catalog
+
+### Step 11 · 12:05–13:45 · Propose a schema
+
+**Goal:** the viewer knows the four-week lifecycle and how to submit a proposal.
 
 **On screen:**
-- *12:10 — Tab 17, Propose a Schema, at the lifecycle diagram. Hover each box left to right as you name the stage.*
-- *12:45 — scroll to the stage table, then the "Revising an existing schema" paragraph.*
-- *13:05 — scroll to the info box with the two references (taxonomy and the use-case overview template), then to the inline form. Scroll the form slowly so the question labels are readable. Do not fill it in on camera.*
-- *13:35 — Tab 18, GitHub issue tracker. Hold on the list.*
+- 12:05 — **Click** Propose a Schema (Tab 16). Hover each box in the lifecycle diagram, left to right, as you name the stage.
+- 12:45 — Scroll to the stage table, then the paragraph "Revising an existing schema".
+- 13:00 — Scroll to the info box with the two references. Then scroll the form slowly so each question label is readable. Do not fill it in.
+- 13:30 — **Click** the "GitHub Issue Tracker" link (Tab 17). Hold on the list.
 
-> Sooner or later you'll have a domain object IES doesn't cover — a new asset type, a new filing, a new feed. That's what Propose a Schema is for, and it runs on a fixed four-week lifecycle.
+> One day you will need a schema IES does not have. A new asset type. A new filing. A new feed. Click Propose a Schema.
 >
-> Day zero, you submit the proposal with a concept note, and a public GitHub issue opens — that issue stays the single record through every stage. Weeks one and two are open ecosystem comments, freezing the schema at 0.1. Week three is targeted expert review, producing 0.2. Week four: architecture review against IES conventions, then the IES Cell finalises the schema and turns your concept note into the use-case write-up, then CEA and the authorities sign off, and it's published. Revisions follow the same flow with the same versioning rule.
+> The diagram shows a four-week lifecycle. Day zero, you submit a proposal with a concept note, and a public GitHub issue opens. That issue is the record for the whole journey. Weeks one and two, the community comments, and the schema freezes at version 0.1. Week three, chosen experts review it. Week four, an architecture review, then the IES Cell finalises it, the authorities sign off, and it is published. Changing an existing schema follows the same path.
 >
-> Keep two references open while you write: the Term Taxonomy, so you reuse published terms rather than redefine them, and the use-case overview template on GitHub, which structures your concept note in the same eleven sections you've seen all through this site. Share the note as a public link.
+> Scroll to the info box. Keep two things open while you write. The Term Taxonomy, so you reuse terms that already exist. And the use-case overview template, so your concept note has the same eleven sections you have seen all over this site. Share the note as a public link.
 >
-> The form is right here on the page: who you are, which use case the schema supports, the schema itself, the standards it builds on. Your email and mobile stay private with the secretariat; everything else becomes the public tracking issue automatically. No GitHub account needed — though if you give your username, you'll be tagged on the issue.
+> Now the form. Who you are. Which use case your schema supports. The schema itself. The standards it builds on. Your email and phone stay private. Everything else becomes the public issue, automatically. You do not need a GitHub account.
 >
-> And that issue tracker is where the discussion happens, in the open.
+> Open the issue tracker. This is where the discussion happens, in the open. Read a few proposals before you write yours.
+
+**Check:** proposal, comments, expert review, architecture review, sign-off, published.
 
 ---
 
-### 13:50–15:00 · Wrap — the path in one breath, and where things stand
+### Step 12 · 13:45–15:00 · Your first hour with IES
 
-**On screen:** Tab 19, Getting Started at "Where things stand" and then "Get in touch". *Hover the PDF link, the two email addresses, and the GitHub link as you mention them. End on the sidebar with Schemas Overview highlighted.*
+**Goal:** the viewer leaves with a six-item to-do list and an honest picture of status.
 
-> So here's the path, in one breath. Read Getting Started for register, discover, exchange. Read the Schemas Overview page for your schema for the why, then the catalog page for the field reference, and validate against `schema.json`. Pick the use case that matches your build, read the implementation guide, and work its checklist. Do the one-time setup from Before you build and sign off with the Conformance Checklist. And when your use case needs a schema that doesn't exist yet, propose it.
+**On screen:** **Click** Getting Started (Tab 18). Scroll to "Where things stand". Hover the four DISCOM names. Then scroll to the PDF hint and "Get in touch". Hover the PDF link, the two email addresses, and the GitHub link. End on the sidebar with Schemas Overview highlighted.
+
+> Here is your first hour with IES, as a to-do list.
 >
-> One honest note on status. The specifications are published and versioned, and four pilot DISCOMs — PVVNL, APEPDCL, DGVCL and Tata Power — each built an adapter and demonstrated four use cases in a 30-day challenge. That challenge is a completed event; the site's Status page is the single source for what is running today, so check it rather than assume.
+> One. Read the home page for the three moves: register, discover, exchange.
+> Two. Find your schema in Schemas Overview and read its page.
+> Three. Open its catalog page, get `schema.json`, and copy an example.
+> Four. Pick your use case and open its implementation guide. Read the checklist first.
+> Five. Send Before you build to your IT team.
+> Six. When a schema is missing, propose it.
 >
-> This whole reference is also a single PDF, linked here. Questions go to the IES Secretariat or REC, and issues and contributions to the GitHub repository. Start with Schemas Overview. See you in the issue tracker.
+> One honest note. The specifications are published and versioned. Four pilot DISCOMs, PVVNL, APEPDCL, DGVCL, and Tata Power, each built an adapter and showed four use cases in a 30-day challenge. That challenge is finished. The Status page is the only source for what runs today. Check it. Do not assume.
+>
+> The whole reference is also one PDF, linked here. Questions go to the IES Secretariat or REC. Issues and contributions go to GitHub.
+>
+> Start with Schemas Overview. See you in the issue tracker.
+
+**Check:** the viewer has the six-item list.
 
 ---
 
 ## Timing checkpoints
 
-Glance at the clock at these points. If you're more than 30 seconds behind, apply the cuts below in order.
-
-| Checkpoint | Target | Segment ending |
+| Checkpoint | Target | Step ending |
 |---|---|---|
-| A | 2:40 | Map of the docs |
-| B | 6:15 | Schemas developer catalog |
-| C | 9:30 | Consumer Energy Passport |
-| D | 12:10 | Concepts / Pathways |
-| E | 15:00 | Wrap |
+| A | 2:30 | Step 2, Learn the map |
+| B | 6:00 | Step 4, Read a schema like a developer |
+| C | 9:30 | Step 8, Walk a credential build |
+| D | 12:05 | Step 10, Do the one-time setup |
+| E | 15:00 | Step 12, Your first hour |
 
 ## If you're running long
 
-Cut in this order. Each cut removes a self-contained beat and none of them break the narrative.
+Cut in this order. Each removes one self-contained beat. All five together save about 80 seconds.
 
-1. **Term Taxonomy and External Schemas** (5:55–6:15, ~25 s). Replace with one sentence: "Two more pages to keep open: Term Taxonomy, which lists every published term, and External Schemas, where the P2P schemas live."
-2. **DigiLocker beat** (9:05–9:15, ~10 s). Say only "delivery for Indian consumers is DigiLocker, and the guide has the exact request and response shapes."
-3. **"What you do NOT need" list** (11:15–11:35, ~20 s). Keep "one domain, one host, one engineer" and drop the crossed-out list.
-4. **Pathways** (11:55–12:10, ~15 s). Replace with "and Pathways sequences all of this by the kind of organisation you are."
-5. **GitHub issue tracker tab** (13:35–13:50, ~15 s). Drop Tab 18 entirely.
-
-Applying all five saves about 85 seconds.
+1. **Step 6, Try the search** (30 s). Replace with one line in Step 4: "Before you invent a field, search the Term Taxonomy first."
+2. **The example.json beat in Step 4** (5:35–6:00, ~20 s). Say only: "The examples link gives you real payloads to copy."
+3. **"What you do NOT need" in Step 10** (11:10–11:25, ~15 s). Keep "a domain, one host, one engineer."
+4. **The Pathway expand in Step 10** (11:45–12:05, ~15 s). Say only: "Pathways has one page per role."
+5. **The issue tracker in Step 11** (13:30–13:45, ~15 s). Drop Tab 17.
 
 ## If you have time to spare
 
-Add, in this order:
+1. In Step 4, after example.json, open `schema.json` in the browser for five seconds: "This is the file your validator reads."
+2. In Step 10, open Concepts › Setting up Register and show the numbered steps: "The setup pages are do-guides. Prerequisites, numbered steps, a checklist."
 
-1. At 5:55, open the `examples/` link on the v1.2 page and show `example.json` for ten seconds: "one meter, a solar array, a wind turbine and two batteries in one credential."
-2. At 10:40, open Concepts › Setting up Register and show the numbered copy-paste steps: "the setup pages are do-guides — prerequisites, numbered steps, checklist — with an in-depth page nested under each for the why."
+## Recording notes
 
-## Recording notes per segment
-
-- **Cold open:** don't read the whole first paragraph off the screen; the viewer can see it. Speak over it.
-- **Schemas catalog:** this is the densest segment. Scroll *slowly*; the field tables are the point. Resist the urge to explain individual fields beyond the ones scripted.
-- **Use-case guides:** the checklist is the money shot. Hold on it for a full five seconds in silence before moving on.
-- **Propose a Schema:** do not submit the form on camera. Scroll it so labels are readable and move on.
-- **Wrap:** slow down. This is the segment people will rewind.
+- **Pauses.** When you say "pause the video here", stop talking for two full seconds before you continue. Editors can extend the gap; they cannot create one.
+- **Clicks.** Move the pointer to the link, hold for half a second, then click. The viewer needs to see where you clicked.
+- **Typing.** Type `sanctionedLoad` at a normal pace. Do not paste.
+- **Schema pages.** Scroll slowly. The tables are the content.
+- **Checklist.** Hold on it in silence for five seconds. It is the most important screen in the video.
+- **Wrap.** Slow down. Read the six items as a list, with a beat between each.
