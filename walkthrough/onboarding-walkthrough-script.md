@@ -36,7 +36,7 @@ Sidebar path is the authoritative locator. URLs are given only where the docs th
 | 6 | Schemas › ElectricityCredential › v1.2 | Top | `https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2` |
 | 7 | GitHub: `example.json` for ElectricityCredential v1.2 | Top of file | `https://github.com/India-Energy-Stack/ies-accelerator/blob/main/schemas/ElectricityCredential/v1.2/examples/example.json` |
 | 8 | Schemas › MeterData › v0.6 | Top | `https://india-energy-stack.gitbook.io/docs/schemas/meterdata/v0.6` |
-| 9 | Schemas › Term Taxonomy | Top | `https://india-energy-stack.gitbook.io/docs/schemas/taxonomy` |
+| 9 | Schemas › Term Taxonomy | Top | navigate from the sidebar (the URL cited inside the docs is disputed) |
 | 10 | Use Case Overviews › Consumer Energy Passport | Top | — |
 | 11 | Use Case Implementation Guides › Consumer Energy Passport | Top | — |
 | 12 | Use Case Implementation Guides › Smart Meter Data Exchange | Heading "Setup: Register → Discover → Exchange" | — |
