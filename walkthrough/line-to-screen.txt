@@ -1,0 +1,99 @@
+
+===== FULL WALKTHROUGH (64 lines)
+
+ 1. Welcome. This is a walkthrough of the...              -> Getting Started — top
+ 2. We will do it in five parts....                       -> Getting Started — top
+ 3. Open the site in another window. I...                 -> Getting Started — top
+ 4. Start on the home page. Read this...                  -> Getting Started — the 'IES works the way UPI works' paragraph
+ 5. Every exchange has three moves. Register. Discover....-> Getting Started — heading 'How IES works', all three bullets
+ 6. Register means you get a digital identity,...         -> Getting Started — hover the Register bullet
+ 7. Discover means two systems look each other...         -> Getting Started — hover the Discover bullet
+ 8. Exchange means data moves over that same...           -> Getting Started — hover the Exchange bullet
+ 9. Under those three moves sit five building...          -> Getting Started — 'The specifications cover five building blocks'
+10. Remember what I E S is not....                        -> Getting Started — 'not a platform, a database, or a product'
+11. Now look at the sidebar. This is...                   -> Sidebar — pointer to the top
+12. Schemas Overview explains each schema in plain...     -> Sidebar — move down the groups as named
+13. Skip the Draft section. It is work...                 -> Sidebar — hover Draft
+14. We will go top to bottom: schemas,...                 -> Sidebar — back to the top
+15. Open Schemas Overview. This table is the...           -> Schemas Overview — the status table
+16. Look at the "what it is" column....                   -> Schemas Overview — select the 'what it is' column
+17. Pause the video here. Find the row...                 -> Schemas Overview — hold still (PAUSE)
+18. One more thing. The peer-to-peer trading schemas...   -> Schemas Overview — 'Where the P2P and flexibility schemas live'
+19. Now click Electricity Credential. Every schema page...-> Schemas Overview > ElectricityCredential — scroll the numbered headings
+20. Now open the Schemas section and click...             -> Schemas > All Schemas — the cards
+21. Scroll to "How versions work". Learn this...          -> Schemas > All Schemas — 'How versions work'
+22. Click Electricity Credential. The top table gives...  -> Schemas > ElectricityCredential — the top table
+23. Below that are the developer files for...             -> Schemas > ElectricityCredential — 'Developer resources'
+24. Click version one point two. This is...               -> v1.2 — the Structure tree
+25. Each energy resource has a type. The...               -> v1.2 — 'EnergyResource kinds', then the migration table
+26. Scroll to the field reference. Bold with...           -> v1.2 — 'Field reference'
+27. Now click the examples link and open...               -> GitHub example.json (PAUSE)
+28. Back to the catalog. Open Meter Data...               -> Schemas > MeterData > v0.6
+29. That is why the family comes as...                    -> Sidebar — hover the other three MeterData pages
+30. Let's try something. Click the search box...          -> Search box — type sanctionedLoad, open Term Taxonomy
+31. Taxonomy lists every term the schemas publish....     -> Term Taxonomy (PAUSE)
+32. Now the use cases, where a schema...                  -> Sidebar — Use Case Overviews group
+33. Consumer Energy Passport is an Electricity Credential...-> Sidebar — hover the five entries
+34. Pick yours now. We will walk one...                   -> Sidebar — hold still (PAUSE)
+35. Open the Consumer Energy Passport overview. The...    -> CEP overview -> click Implementation Guide
+36. The guide starts with a shortcut: "In...              -> CEP guide — 'How it differs' table
+37. Next, Actors and flow. The DISCOM issues....          -> CEP guide — 'Actors and flow'
+38. Now Setup. Register your did web identity...          -> CEP guide — 'Setup', the five steps
+39. Below that, the DigiLocker section gives you...       -> CEP guide — DigiLocker section
+40. And here is the checklist. Prerequisites, identity... -> CEP guide — Checklist (hold 5s)
+41. Now open the Smart Meter Data Exchange...             -> SMDE guide — 'Setup'
+42. Decide scope: which profiles, which cadence. Register:...-> SMDE guide — scroll steps 1 to 7
+43. Notice what both guides share. Register once....      -> SMDE guide — Checklist
+44. Open Concepts and click "Before you build"....        -> Before you build — top
+45. Every participant does the same setup once....        -> Before you build — the three numbered steps
+46. Look at the time table. One or...                     -> Before you build — the time table
+47. Scroll down. You need a domain you...                 -> Before you build — 'What you need' / 'What you do NOT need'
+48. Now open the Conformance Checklist. Each item...      -> Conformance Checklist — the tags, then 'What schema validation proves'
+49. Last, Pathways. One page per role: DISCOM,...         -> Pathways > TSP — open Step 1.2
+50. One day you will need a schema...                     -> Propose a Schema — top
+51. The diagram shows a four-week lifecycle. Day...       -> Propose a Schema — the lifecycle diagram
+52. Scroll to the info box. Keep two...                   -> Propose a Schema — stage table, then the info box
+53. Now the form. Who you are. Which...                   -> Propose a Schema — the form
+54. Open the issue tracker. This is where...              -> GitHub issue tracker
+55. Here is your first hour with I...                     -> Getting Started — top
+56. One. Read the home page for the...                    -> Getting Started + hover sidebar: home page
+57. Two. Find your schema in Schemas Overview...          -> ...hover Schemas Overview
+58. Three. Open its catalog page, get schema...           -> ...hover Schemas
+59. Four. Pick your use case and open...                  -> ...hover Use Case Guides
+60. Five. Send "Before you build" to your...              -> ...hover Concepts
+61. Six. When a schema is missing, propose...             -> ...hover Propose a Schema
+62. One honest note. The specifications are published...  -> Getting Started — 'Where things stand'
+63. This whole reference is also one P...                 -> Getting Started — PDF hint, then 'Get in touch'
+64. Start with Schemas Overview. See you in...            -> Sidebar — rest on Schemas Overview
+
+===== SITE TOUR (29 lines)
+
+ 1. Welcome. This is a short tour of...                   -> Getting Started — top, sidebar in frame
+ 2. Let's start with what this site is....                -> Getting Started — first two paragraphs
+ 3. Now look at the left-hand sidebar. That...            -> Sidebar — whole tree, all groups collapsed
+ 4. At the very top, above the groups,...                 -> Sidebar — hover Getting Started, then Propose a Schema
+ 5. Then the first group: Schemas Overview. One...        -> Sidebar — expand Schemas Overview
+ 6. Second group: Schemas. This is the biggest...         -> Sidebar — collapse it, expand Schemas, show nested versions
+ 7. Third and fourth groups go together: Use...           -> Sidebar — hover both Use Case groups
+ 8. Fifth group: Pathways. This is the section...         -> Sidebar — expand Pathways
+ 9. Sixth group: Draft, clearly marked work in...         -> Sidebar — collapse it, hover Draft
+10. And last: Concepts. This is the one-time...           -> Sidebar — expand Concepts
+11. That is the map. Now let me...                        -> Sidebar — collapse everything
+12. The fastest tool on this site is...                   -> Search box — type sanctionedLoad, let results render
+13. That matters especially on the Term Taxonomy...       -> Term Taxonomy — the filter box, then the 'GitHub Pages build' line
+14. Next, notice that pages repeat the same...            -> Schemas Overview > ElectricityCredential — top
+15. Every schema overview page has the same...            -> same page — scroll the numbered headings, pause on 8 and 11
+16. Every version page starts with a row...               -> Schemas > ElectricityCredential > v1.2 — the file links at the very top
+17. Every implementation guide ends with a checklist,...  -> CEP guide — 'Jump to the Checklist', then the Checklist
+18. The pathway pages are organised as phases...          -> Pathways > TSP — the roadmap, then open one step
+19. A few smaller things worth knowing....                -> no change — stay put
+20. Coloured boxes on a page are callouts....             -> Getting Started — the blue PDF box, then Schemas Overview > ArrFiling warning
+21. Several pages carry diagrams — flowcharts of...       -> Propose a Schema — the lifecycle diagram
+22. Anywhere you see a table with a...                    -> Schemas Overview — the status column
+23. And the whole reference is also published...          -> Getting Started — the PDF hint
+24. So, where should you actually start? Three...         -> Sidebar — whole tree
+25. If you are an engineer with a...                      -> Sidebar — hover Schemas Overview, then Schemas
+26. If you know the outcome you want...                   -> Sidebar — hover both Use Case groups
+27. And if you do not know where...                       -> Sidebar — hover Pathways
+28. One last thing, and it is a...                        -> Getting Started — 'Where things stand'
+29. That is the site. Sidebar to see...                   -> Sidebar — rest on Schemas Overview
