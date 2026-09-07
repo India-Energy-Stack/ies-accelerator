@@ -1,0 +1,57 @@
+Welcome. This is a short tour of the India Energy Stack documentation site. I am not going to teach you I E S itself. I am just going to show you what is on this site, how it is arranged, and how to find things quickly.
+
+Let's start with what this site is. It is the technical reference for building on the India Energy Stack. Sixty-six pages, published as a GitBook. It is not the full story of I E S, and it is not marketing. It is the schemas, the build guides, and the setup steps. If you want the background and the strategy, that lives in a separate report, linked from the home page.
+
+Now look at the left-hand sidebar. That is the whole site. Everything is in there, and it is grouped into seven sections. Let me walk down them.
+
+At the very top, above the groups, sit two single pages. Getting Started is the home page. Propose a Schema is the form you use when the catalog is missing something you need.
+
+Then the first group: Schemas Overview. Eight pages. One page introduces the set, and then there is one page per schema, written in plain language. This is the "why" layer. Read a page here when you want to understand what a schema is for before you look at its fields.
+
+Second group: Schemas. This is the biggest section, twenty-two pages, and it is the developer layer. Every schema family has a page listing its fields, its file locations, and every published version. Older versions stay on the site, nested under the current one, so a link never dies. There are also two special pages in here. Term Taxonomy lists every term the schemas publish, in one long searchable table. And External Schemas covers the schemas I E S uses but does not itself publish.
+
+Third and fourth groups go together: Use Case Overviews and Use Case Implementation Guides. The same five use cases, described twice. The overview is for someone deciding whether to do it. The guide is for someone building it. If you are writing code, go straight to the guide.
+
+Fifth group: Pathways. Six pages. This is the section people miss. Instead of organising by schema or by use case, it organises by who you are. There is a page for utilities, one for regulators, one for technology vendors, one for researchers, and one for the secretariat. Each one sequences the whole site into an order that makes sense for that role. If you are not sure where to start, start here.
+
+Sixth group: Draft. Five pages, clearly marked work in progress. These are ideas that were not finished. They are kept so the work is not lost, but do not build on them.
+
+And last: Concepts. Twelve pages. This is the one-time setup every participant does, plus the deeper background pages behind it. It is at the bottom of the sidebar, but in practice you will need it early, so do not save it for last.
+
+That is the map. Now let me show you how to move around inside it.
+
+The fastest tool on this site is the search box at the top. It searches every page and every table, including the field names inside the schemas. If you are hunting for a specific field, a specific term, or a specific standard, search is almost always faster than clicking through the sidebar. On most keyboards you can open it with Control K, or Command K on a Mac.
+
+That matters especially on the Term Taxonomy page. That page has its own filter box, but the filter only works on one build of the site, not here. On this site, use the search box at the top instead, or your browser's find-on-page.
+
+Next, notice that pages repeat the same shapes. Once you learn a shape, you can read any page of that kind.
+
+Every schema overview page has the same eleven numbered sections, in the same order: scope and purpose, what it records, how items are identified, definitions, the standards it is based on, gaps where Indian standards do not yet exist, the records themselves, the field summary, how it fits with other schemas, and open questions. If you want the field summary, it is always section eight. If you want the honest list of what is still unresolved, it is always section eleven.
+
+Every version page starts with a row of file links at the very top. That row is the most useful thing on the page. It gives you the source file, the compiled schema you validate against, the semantic context, and a folder of worked example payloads. Copying an example is usually faster than reading the field table.
+
+Every implementation guide ends with a checklist. All five of them. The checklist is grouped by phase and each item links to the page that explains it. Many guides also have a "jump to the checklist" link right at the top, because most people want it first.
+
+The pathway pages are organised as phases and numbered steps, each with advice, the prep work you need, and links onward. They are long, but you are meant to skim the roadmap and open only the step you are acting on.
+
+A few smaller things worth knowing.
+
+Coloured boxes on a page are callouts. Blue is useful context. Yellow or orange is a warning, usually that something is work in progress or has a limitation. Read those rather than skipping them.
+
+Several pages carry diagrams — flowcharts of a process, or sequence diagrams showing two systems talking. The proposal lifecycle and the trading flows both have them.
+
+Anywhere you see a table with a status column, take it seriously. Some schemas are stable and were used in the pilot; two are still work in progress and are labelled as such.
+
+And the whole reference is also published as a single P D F, linked from the home page, if you would rather read it offline or search it in one file.
+
+So, where should you actually start? Three answers, depending on who you are.
+
+If you are an engineer with a task already defined, go to Schemas Overview, find the schema that matches, then follow it into the Schemas section for the fields.
+
+If you know the outcome you want but not the pieces, go to Use Case Overviews, pick the one that matches, and click through to its implementation guide.
+
+And if you do not know where you fit at all, go to Pathways and open the page for your kind of organisation. It will sequence the rest of the site for you.
+
+One last thing, and it is a good habit. The home page has a section called "Where things stand". It describes the pilot as a completed, dated event rather than something running now. The documentation is careful about that distinction throughout, so when you see a claim about something being live or available, read it as history unless the page gives you a date.
+
+That is the site. Sidebar to see the shape, search to find a detail, and the repeating page patterns to read anything quickly. Start with Schemas Overview or with Pathways, depending on what you already know.
