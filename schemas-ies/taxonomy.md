@@ -63,7 +63,7 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | addressCountry | string | Country name or ISO-3166-1 alpha-2 code. | EC | schema.org PostalAddress |
 | addressLocality | string | City/locality. | EC | schema.org PostalAddress |
 | addressRegion | string | State/region/province. | EC | schema.org PostalAddress |
-| adminAreas | array | Named localities / wards / villages. | ON | OASIS CAP v1.2; GeoJSON RFC 7946 |
+| adminAreas | array | Named localities / wards / villages. | ON | OASIS CAP v1.2 |
 | affectedArea | OutageAffectedArea | OutageAffectedArea | ON | OASIS CAP v1.2; GeoJSON RFC 7946 |
 | affectedAssets † | array | Network assets affected by the outage, as OutageAsset entries. | ON | — |
 | aggregator | object | Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false. | EC | IEEE 2030.5; IEC 61850-7-420 (DER control roles) |
@@ -120,9 +120,9 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | created † | string | Timestamp at which the cryptographic proof was created. | EC | W3C VC Data Integrity |
 | credentialStatus † | object | Revocation/suspension status information for the credential. | EC | W3C VC Status List |
 | credentialSubject | MeterDataCredentialSubject; MeterDataRequestCredentialSubject; object | The subject of the credential: the consumer or asset entity whose meter data is attested, plus the MeterData payload. | EC, MDC, MDRC | — |
-| currency | string | ISO 4217 (INR, USD, ...). | ARR, MD | ISO 4217 |
+| currency | string | ISO 4217 (INR, USD, ...). | ARR, MD | MD: ISO 4217 |
 | customer † | Customer | Customer identity and connection master data (Customer object). | MD | — |
-| customerDetails | CustomerDetails | CustomerDetails | EC, MD | IEC 61968-1; GeoJSON RFC 7946; schema.org PostalAddress |
+| customerDetails | CustomerDetails | CustomerDetails | EC, MD | EC: IEC 61968-1, GeoJSON RFC 7946, schema.org PostalAddress; MD: IEC 61968-1 |
 | customerNumber | string | Utility customer account (CA) number. | EC | — |
 | customerProfile † | CustomerProfile | The credential subject's customer profile (CustomerProfile). | EC | — |
 | customerRefs | IdentifierList | IdentifierList | MD | — |
@@ -131,7 +131,7 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | dcArrayCapacity | QVPower | DC-side nameplate capacity of a photovoltaic array at Standard Test Conditions (industry term: "kWp"). For PV systems this is typically larger than the AC-side maxExport because of inverter clipping and DC-to-AC ratios. Relevant for SOLAR_PV resources. The unit is the standard QUDT power alias kW — the STC/peak semantic is documented here, not encoded in the unit string. | EC | IS 16221 (PV module qualification); IEC 61727 (PV grid interface) |
 | deEnergized | array | Optional SDP/UsagePoint refs (authenticated tier). | ON | CIM (IEC 61968-3 UsagePoint) |
 | defaultMode † | TelemetryMode | Default telemetry mode (READING or USAGE) applied when a request does not specify one. | MD | — |
-| description † | string | Free-text description shown to consumers in the public outage information. | ON | OASIS CAP v1.2; BCP-47 |
+| description † | string | Free-text description shown to consumers in the public outage information. | ON | OASIS CAP v1.2 |
 | descriptorIndex † | integer | Index of the payload descriptor this override applies to. | MD | — |
 | detectedAt | string | When MDMS/SCADA first detected the outage (unplanned). | ON | — |
 | detectionRef | Identifier | Reference to the real-time detection record that raised the outage (e.g. a DISCOM RTDAS_DATA_ID). Absence or a "0" sentinel indicates a manually entered outage (source=MANUAL). | ON | — |
@@ -149,7 +149,7 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | enrolledOn | string | ISO 8601 date the asset was enrolled with the aggregator. | EC | IEEE 2030.5; IEC 61850-7-420 |
 | enterServiceRampTimeSec | number | Seconds to ramp from 0 to rated power after reconnection. | EC | SunSpec DER Model 703 (ESRmpTms) |
 | estimatedRestoration | string | ETR (OMS "Estimated Time"). | ON | — |
-| eventId | integer; string | Idempotency key of the originating feeder-status event. | MD, ON | IS 15959 |
+| eventId | integer; string | Idempotency key of the originating feeder-status event. | MD, ON | MD: IS 15959 |
 | eventName † | string | Human-readable name of the meter event. | MD | IS 15959 |
 | events † | array | Meter event records carried in an EVENT profile (MeterEvent entries). | MD | IS 15959 |
 | extendedAddress | string | Address extension (apt/suite/floor, C/O). | EC | schema.org PostalAddress |
@@ -261,7 +261,7 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | ratedApparentPower | QVApparentPower | Rated apparent power. Replaces ratedApparentPowerKva from v1.0. | EC | SunSpec DER Model 702 (maxVA); CIM (IEC 61970-302 PowerElectronicsConnection.ratedS) |
 | ratedPower | QVPower | Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport. | EC | CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP) |
 | rawCode | string | Vendor-native status code as received (e.g. FEEDER_STATUS=102), for traceability. | ON | — |
-| readings | array | Granular capabilities for specific registers and metrics. If omitted, all readings under this profile are supported. | MD, MDR | IS 15959 / OBIS |
+| readings | array | Granular capabilities for specific registers and metrics. If omitted, all readings under this profile are supported. | MD, MDR | IS 15959 / OBIS (transitively, via Reading / ValueCapability entries) |
 | readingType † | string | OBIS code or short code identifying the measured quantity. | MD | IEC 62056 / DLMS |
 | references | array | Prior notice ids this message updates or cancels (CAP `references`). | ON | OASIS CAP v1.2 (alert/references) |
 | regulatoryCommission | string | SERC or Joint ERC that receives the filing. | ARR | — |
@@ -327,7 +327,7 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | validationStatus | ValidationStatus | VALID / ESTIMATED / MANUAL / SUSPECT / REJECTED | MD | — |
 | validFrom | string | ISO 8601 UTC date-time indicating when the authorization becomes valid. | EC, MDR | — |
 | validUntil | string | ISO 8601 UTC date-time indicating when the authorization expires. | EC, MDR | — |
-| value | number; string | The OBIS code (e.g. 1.0.1.8.0.255) or short code (e.g. kWh imp) representing the register. | EC, MD, MDR, ON | IS 15959 / IEC 62056 (OBIS) |
+| value | number; string | The OBIS code (e.g. 1.0.1.8.0.255) or short code (e.g. kWh imp) representing the register. | EC, MD, MDR, ON | MDR: IS 15959 / IEC 62056 (OBIS) |
 | verificationMethod † | string | URI of the key / verification method used to verify the proof. | EC | W3C VC Data Integrity |
 | voltageLevel | string | e.g. 33kV, 11kV, LT, DT. | ON | — |
 | voltVarEnabled | boolean | Volt-VAr curve active. | EC | IEEE 2030.5 (opModVoltVar); SunSpec DER Model 705 |
@@ -349,7 +349,7 @@ Concepts and abbreviations — DISCOM, DER, Beckn, DeDi and the like — are not
 | CompactSequence † | object | Named, ordered list of readingType/attribute pairs enabling compact array-form telemetry rows. | MD | — |
 | ConsumptionProfile | object | Tariff and regulatory load profile for one meter connection. meterId links to a METER entry in customerProfile.energyResources[]. Uses MeterServiceProfile/v1.1 (sanctionedLoad, contractMaxDemand as QuantitativeValue). | EC | — |
 | Customer † | object | Customer master record: id, name, consumer category, sanctioned load, billing cycle, payment mode, connection type, contract demand, tariff category. | MD | — |
-| CustomerDetails | object | PII section — fullName, installationAddress, serviceConnectionDate. fullName appears ONLY here — never in customerProfile or resource entries. Defined in CustomerDetails/v1.0. | EC, MD | IEC 61968-1; GeoJSON RFC 7946; schema.org PostalAddress |
+| CustomerDetails | object | PII section — fullName, installationAddress, serviceConnectionDate. fullName appears ONLY here — never in customerProfile or resource entries. Defined in CustomerDetails/v1.0. | EC, MD | EC: IEC 61968-1, GeoJSON RFC 7946, schema.org PostalAddress; MD: IEC 61968-1 |
 | CustomerProfile | object | Non-PII customer identity and asset list. Supports arbitrary topologies: a single customerNumber may span multiple METER entries (different premises, sub-meters, parallel meters) each with child DERs. | EC, MD | — |
 | DailyProfile | object | Daily Load Profile — P1D intervalBlocks. Same per-meter shape as IntervalProfile. | MD | IS 15959 / DLMS-COSEM |
 | EnergyData | object | A single compact data-only profile record. Must be one of the eight standard types. | MD | — |
