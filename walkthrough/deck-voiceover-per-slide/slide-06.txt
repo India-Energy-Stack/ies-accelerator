@@ -1,0 +1,9 @@
+Everything I E S does reduces to three steps.
+
+Register. Every participant, every meter, every solar unit gets a verified digital identity in a shared registry. Created once, recognised everywhere, with no repeat K Y C. Identities are revalidated on a set cycle and can be revoked, so the records stay current as meters and solar units change.
+
+Discover. Before any data moves, the two parties find each other in the registry and check credentials automatically. Who are you, what may you ask for, and on whose consent.
+
+Exchange. Data then moves on published schemas built on a uniform taxonomy. Every exchange is consented, signed and receipted, so what was shared, with whom, and why is a matter of record.
+
+Three steps, every use case, every participant. Whether the data moves inline or in bulk is a single decision made at contract time.

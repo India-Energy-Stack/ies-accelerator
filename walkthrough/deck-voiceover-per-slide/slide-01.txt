@@ -1,0 +1,1 @@
+The India Energy Stack. A shared set of specifications that lets every system in the power sector exchange data, the way U P I lets any bank pay any other. An initiative of the Ministry of Power, with R E C as nodal agency and F S R Global as knowledge partner. Fourteen months on, the digital rails are built.

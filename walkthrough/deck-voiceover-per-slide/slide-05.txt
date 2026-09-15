@@ -1,0 +1,7 @@
+I E S is a common set of specifications for sharing data across the power sector, and the closest analogy is U P I.
+
+With U P I, money stays in the bank. U P I is only the shared rules that let any bank's app pay any other bank's customer, without a separate deal for each pair.
+
+I E S works the same way. Energy data stays in the systems that already hold it. I E S is only the shared set of specifications that lets any system exchange data with any other, again without a separate deal for each pair.
+
+The sector already has rules for what to report. I E S does not replace them. It makes the same data machine-readable, common and verifiable, so that two systems can act on it directly.

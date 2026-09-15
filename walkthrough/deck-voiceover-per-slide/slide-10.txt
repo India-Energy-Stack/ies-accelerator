@@ -1,0 +1,5 @@
+Those seven schemas are the digital rails under the demonstrated use cases.
+
+The sequence runs left to right. First the shared schema layer. Then the use cases it enables: Smart Meter Data Exchange, the Consumer Energy Passport, the Consumer Meter Digest, and D E R Visibility. And finally the dependency map, showing which schema each use case actually draws on.
+
+The point of the map is that the use cases share rails rather than each bringing their own. Meter data exchange draws on three schemas. The Energy Passport draws on one. Nothing is built twice.

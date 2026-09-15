@@ -1,0 +1,7 @@
+Two asks have been put to M N R E, for P M S G two point zero. Both specifications are already in pilot with four DISCOMs, in Gujarat, Uttar Pradesh, Andhra Pradesh and Mumbai.
+
+The first ask is to verify from signed records. The Consumer Energy Passport and the Consumer Meter Digest would enter the P M S G application flow. For M N R E, verification then happens at the start, from the DISCOM's own signed record, rather than by manual checks weeks later. For the consumer, one DigiLocker credential replaces repeated document uploads, and the system quoted is sized from twelve months of real consumption.
+
+The second ask is one identity per installer. A L M M and empanelment lists become a queryable registry, giving each installer one verifiable identity that any DISCOM can check. At commissioning, the installer signs an installation credential, the DISCOM verifies it against the registry, and the DISCOM then issues the Passport with the system details. Subsidy release can be tied to a verified installation credential rather than to paperwork reconciliation.
+
+The proposal is to prove it in a ninety-day pilot with three or four willing DISCOMs.

@@ -1,0 +1,5 @@
+The problem is not a shortage of data. Utilities have added smart meters, rooftop solar, E V charging and demand-side tools, and every one of them produces something useful. The data stays trapped in systems that cannot read each other.
+
+The cost of that is real. A single DISCOM often runs several metering systems and spends years making them talk. The same effort is then repeated across the country.
+
+The diagram on the left shows why. Six systems connected by hand need fifteen custom connections, and each one is negotiated and built from scratch. On the right, the same six systems each carry an adapter at their edge. All speak one language, so any can reach any, with no centre and no bespoke pair.

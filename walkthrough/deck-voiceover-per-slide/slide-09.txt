@@ -1,0 +1,9 @@
+Seven distribution-side schemas are published so far.
+
+Electricity Credential is a W three C credential issued per meter by the DISCOM, carrying customer identity, D E R details and the tariff profile. Meter Data is the core meter-data format, covering customer, interval and daily profile shapes. Meter Data Credential wraps Meter Data in a verifiable credential, attesting to who produced the readings, and where and how.
+
+Meter Data Request is the query schema for asking for meter data, carrying capabilities and authorisation. Meter Data Request Credential wraps that request and proves the seeker is authorised to ask.
+
+A R R Filing covers DISCOM regulatory filings. And Outage Notification, at draft version zero point one, describes one planned or unplanned outage — grounded in a real DISCOM outage-management system.
+
+More are being added on the I E S GitHub and GitBook.

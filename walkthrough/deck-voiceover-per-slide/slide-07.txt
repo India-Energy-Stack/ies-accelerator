@@ -1,0 +1,7 @@
+In practice, all of that arrives as one adapter with two sides.
+
+The outside is ready-made and identical for everyone — an I E S compliant interface built on Beckn ONIX. Nobody builds that part.
+
+The inside is a one-time mapping between the utility's own formats and I E S, set up once by its vendor. In the pilots, that mapping was done in a single day.
+
+Think of it as a U S B C port. The connector is standard whatever the device behind it. Every system keeps its own internals, and every system speaks one language on the outside — so any connects to any, with no bespoke pair.

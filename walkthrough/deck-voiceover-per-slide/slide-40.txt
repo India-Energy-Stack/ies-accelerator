@@ -1,0 +1,9 @@
+From the end-August submission, three waves. The pilots keep running throughout.
+
+Now: the strategy and architecture documents are submitted, schema contributions are open through Contribute to I E S, and the Minister and Secretary are being briefed.
+
+On governance set-up: the Governance Committee and the I E S Cell stand up, C E A vetting begins through the Chief Architect's Group, schema ratification and versioning move onto the I E S Git, and collaboration with N P C I and the Powerthon technology providers begins — with a body that can actually contract.
+
+And from September, with the R F P: the R F P is issued and a system integrator comes on board, the forward deployment team takes utilities live, regional workshops run with the next cohort, and that cohort onboards in the thirty-day format. S L D Cs, transmission companies and generation companies enter here.
+
+Every item raised in the task force sits in one of these three waves, with an owner. Three start now, and nothing else waits on anything but the submission itself.

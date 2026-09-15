@@ -1,0 +1,11 @@
+The build follows the same four moves every time.
+
+Register. The utility claims its own namespace and keys in the shared registry. P V V N L signs as p v v n l dot org. Identity stays with the utility.
+
+Issue. Credential issuance runs on the utility's own servers. Passports and digests carry the DISCOM's own signature, revocable by the DISCOM alone.
+
+Connect. The adapter is wired to the utility's own billing, meter-data and C R M systems. One mapping, done once.
+
+And then switch on use cases. Each is configured on the same rails, with no fresh integration per use case, per partner, or per State.
+
+The whole arrangement is federated. A utility can run every component on its own network. Nothing is replaced, and no data leaves without a signed, recorded contract.

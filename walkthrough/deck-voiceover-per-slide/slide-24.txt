@@ -1,0 +1,5 @@
+A P E P D C L, Visakhapatnam. Bootcamp, the twenty-fifth and twenty-sixth of May.
+
+The Consumer Energy Passport is live in the portal, with sixty-four consumers registered, forty-eight of them real. My Meter Data is live for fifteen smart-meter consumers, a subset of those registrants. Both A P I s are on A P I Setu, awaiting DigiLocker. And Smart Meter Data Exchange was tested successfully with the technology provider, Element Tech.
+
+So sixty-four consumers can carry a signed Passport, and fifteen can pull their own meter data inside the portal. These are the first consumer-facing energy credentials at the utility, with a provider exchange proven end to end.

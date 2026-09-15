@@ -1,0 +1,7 @@
+Fourteen months, in numbers.
+
+Six utilities are live today, against an initial outlook of one. Four of them did the full adapter build, and G U V N L is now extending that adapter to its other DISCOMs in Gujarat. Data from a hundred and fifty smart meters is available for analytics. Sixty technology providers have been onboarded, from a hundred and ninety-eight applications. Eight use cases have been identified, five of which have completed validation.
+
+And the number that matters most is zero. No bilateral integration agreement was needed for any of it.
+
+Before I E S, every one of these exchanges required its own agreement and months of integration. Six utilities have now done it on one published specification — three public DISCOMs and three private utilities.

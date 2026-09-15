@@ -1,0 +1,5 @@
+The catalogue is not closed. The contribution procedure is already live, on the R E C website under "Contribute to I E S".
+
+Four steps. Open the Contribute to I E S link on the R E C India site, where the full procedure is published. Fill the form and submit the schema — each submission automatically opens an issue on the I E S Accelerator GitHub, in the open. The chief architect team then reviews and comments on that issue, iterating the draft and consolidating repetitions. And once agreed, it is merged as a canonical J S O N L D schema, versioned, on the I E S GitHub and GitBook, exactly as the existing seven were.
+
+Every draft starts from the same master vocabulary: same identifiers, same terms, same credential pattern, same conventions. No schema redefines a field.

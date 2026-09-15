@@ -1,0 +1,11 @@
+Procurement is proposed in four tracks.
+
+Track one, core I E S: one accountable firm, through the R F P, building and operating the shared rails — registries, adapter, schemas, tooling, dev kits and the test environment.
+
+Track two, a technical programme management unit: a separate, smaller engagement that evaluates the core firm's deliverables and assists on specifications, certification and design. Never the same firm as track one, so the checker is never the builder.
+
+Track three, forward deployment: R E C runs empanelment and certification, and stakeholders then engage the certified agencies through their own limited tenders.
+
+Track four, shared use-case infrastructure, at a later stage and case by case. Nothing is bought before a use case earns it.
+
+The commercial terms are disciplined: a two-year core term extendable annually to five at R E C's discretion, a fixed milestone-linked build price, a quarterly S L A linked operations fee, hosting at actual usage, and a published rate card.

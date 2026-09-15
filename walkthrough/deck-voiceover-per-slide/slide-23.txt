@@ -1,0 +1,5 @@
+Tata Power, Mumbai. Bootcamp, the twenty-first to the twenty-third of May.
+
+Three use cases complete. The Consumer Energy Passport, developed and published on A P I Setu, awaiting DigiLocker approval. Smart Meter Data Exchange, running live over I E S rails. And energy data exchange for D E R visibility, with fifty meters' data flowing from the A M I S P, FluentGrid, to the analytics provider, Trielectric.
+
+The value added sits in that last line. Trielectric is building D E R visibility, market-ready prosumer signals, revenue and billing analytics, and solar-underperformance detection on those fifty meters — analysis the utility could not run before I E S.

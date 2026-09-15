@@ -1,0 +1,9 @@
+The original order envisaged a single proof of concept. What happened was more interesting, and it split into two paths.
+
+Four utilities went all in. Tata Power, A P E P D C L, D G V C L and P V V N L each did the full build: their own adapter, their own keys, multiple use cases on their own systems. That is the deep path, and it took thirty days per utility.
+
+Three came for one use case. B R P L, T P D D L and P V V N L joined for a single use case, demonstrated live at the A I Impact Summit — one use case, with no full onboarding first.
+
+One pilot in the original outlook became four full implementations plus three single use-case utilities: six unique utilities live today.
+
+The lesson for the next cohort is that a utility can onboard whole, or start with the single use case it needs most. The standard carries both.

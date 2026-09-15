@@ -1,0 +1,7 @@
+That last point deserves its own slide.
+
+P V V N L took the adapter it had installed for the challenge and began building an outage service from data it already held. It used its own one nine one two C R M outage data as the source. It published an outage-notification use case on I E S rails, on that same adapter. And none of it was in the pilot scope — the utility did it on its own initiative.
+
+This is the clearest proof the standard works. Once a utility has the adapter, it can build what its own grid and its own consumers need. No new integration, no fresh specification, and no waiting for anyone else to define the use case.
+
+One adapter, and a DISCOM builds its own service. That is the compounding return the task force set out to create.

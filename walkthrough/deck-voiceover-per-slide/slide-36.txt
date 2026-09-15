@@ -1,0 +1,7 @@
+The proposed governance fits in one frame.
+
+The Ministry of Power owns I E S. Architecture, code and specifications are public property, and no firm acquires a claim on any of them. A Governance Committee approves specifications, budgets and stage gates. An I E S Cell runs the programme day to day — publishing and versioning specifications, granting I E S Ready status, and coordinating utility cohorts. Delivery partners build under contract: they deliver, they do not govern.
+
+Certification sits at the same altitude. Any participant self-tests against the open environment as often as it likes. Then a single recorded, automated conformance run — the suite decides, not a person. And the resulting I E S Ready status is recorded in a public registry, per use case, per specification version.
+
+Ecosystem consultation is structured but non-governing, and an independent annual audit is published.

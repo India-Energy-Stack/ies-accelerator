@@ -1,0 +1,9 @@
+Set against India's other digital public infrastructure, measured from programme set-up to first live transaction.
+
+Aadhaar took twenty months, and became a statutory authority in twenty sixteen. O N D C took ten months to a five-city alpha. The Ayushman Bharat Digital Mission was piloted in six Union Territories on announcement day and reached national rollout in about thirteen and a half months. Account Aggregator took sixty months. India Energy Stack took fourteen, and is live at six utilities across five States.
+
+In those fourteen months I E S produced seven things: a strategy document, an architecture document, published specifications, a running live environment, six live utility engagements, a governance design, and an approved R F P. No other Indian digital public infrastructure delivered all seven inside its first mandate period, and none had to do it across thirty-plus licensed jurisdictions.
+
+The Account Aggregator row is the cautionary one. The R B I master direction came in September twenty sixteen, the A P I specification three years later, and the ecosystem went live exactly sixty months after the direction. The mandate was never the problem. There was nobody to publish the specification, certify participants, or hold the budget.
+
+I E S already has the specification. The next phase gives it the body.

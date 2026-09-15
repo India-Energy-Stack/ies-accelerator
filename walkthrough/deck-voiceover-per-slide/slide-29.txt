@@ -1,0 +1,5 @@
+The proof so far, in numbers, from the thirty-day challenge.
+
+Sixty-four consumers hold live Energy Passports at A P E P D C L, and fifteen of them also use My Meter Data. Twenty-five internal test users are live on the Passport at D G V C L, ahead of a G U V N L wide rollout. Three utilities have Passport A P I s published on A P I Setu. And one use case was proposed by a utility on its own initiative.
+
+Three shifts sit behind those numbers. Verification is collapsing from days to seconds, because Passports and digests are checked against the DISCOM's own seal rather than by phone calls and scanned bills. Data is becoming a service, with providers at two utilities building analytics on meter data they could not have accessed before. And the standard is spreading on its own — D G V C L is extending its rollout to G U V N L's three other DISCOMs, which was never in the plan.

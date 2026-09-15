@@ -1,0 +1,46 @@
+One file per slide. Feed each to the TTS engine and drop the audio on that slide.
+
+slide-01.txt   0:24     60w   Title
+slide-02.txt   0:32     80w   Agenda
+slide-03.txt   0:04     12w   Section 01 divider
+slide-04.txt   0:49    124w   The problem
+slide-05.txt   0:54    136w   What it is
+slide-06.txt   0:57    143w   Register, Discover, Exchange
+slide-07.txt   0:44    111w   The adapter
+slide-08.txt   0:02      5w   Section 02 divider
+slide-09.txt   0:56    140w   The schemas
+slide-10.txt   0:38     95w   The digital rails
+slide-11.txt   0:04     11w   Reaching the GitBook  ·  SCREEN RECORDING
+slide-12.txt   0:02      6w   GitBook walkthrough  ·  SCREEN RECORDING
+slide-13.txt   0:56    140w   How schemas grow
+slide-14.txt   0:02      7w   Propose a schema  ·  SCREEN RECORDING
+slide-15.txt   0:03      9w   Issue tracker  ·  SCREEN RECORDING
+slide-16.txt   0:27     69w   OpenForge
+slide-17.txt   0:57    143w   DigiLocker
+slide-18.txt   0:26     66w   API Setu
+slide-19.txt   0:02      7w   Section 03 divider
+slide-20.txt   0:51    129w   What fourteen months produced
+slide-21.txt   1:08    171w   Live via four pilot DISCOMs
+slide-22.txt   0:54    135w   How the pilots built it
+slide-23.txt   0:43    108w   Tata Power, Mumbai
+slide-24.txt   0:44    110w   APEPDCL, Visakhapatnam
+slide-25.txt   1:04    160w   DGVCL, Surat
+slide-26.txt   0:50    125w   PVVNL, Meerut
+slide-27.txt   0:58    145w   A DISCOM built its own use case
+slide-28.txt   1:06    166w   From one pilot to six utilities
+slide-29.txt   1:08    171w   Impact already visible
+slide-30.txt   1:02    156w   APEPDCL in its own words
+slide-31.txt   0:57    143w   DGVCL, a consumer's view
+slide-32.txt   1:10    176w   A prosumer's voice
+slide-33.txt   0:49    124w   Recognition
+slide-34.txt   0:02      5w   Section 04 divider
+slide-35.txt   1:24    212w   How this compares
+slide-36.txt   0:57    143w   Governance
+slide-37.txt   1:04    160w   Procurement
+slide-38.txt   1:18    195w   Proposed to MNRE
+slide-39.txt   0:02      5w   Section 05 divider
+slide-40.txt   1:10    177w   The way forward
+slide-41.txt   0:58    147w   The IES Pledge
+slide-42.txt   0:24     62w   Closing
+
+Total 4489 words, about 29:55

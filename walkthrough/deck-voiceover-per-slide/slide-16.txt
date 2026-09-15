@@ -1,0 +1,3 @@
+The full I E S repository is public on OpenForge, the Government of India's collaborative-governance platform.
+
+What is public is the whole of it: architecture primitives, implementation guides, and the J S O N L D schemas — drawing on I E C six one eight five zero, Beckn, W three C Verifiable Credentials and the Common Information Model. The repository opens live from the R E C website.

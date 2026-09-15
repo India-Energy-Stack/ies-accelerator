@@ -1,0 +1,7 @@
+P V V N L, Meerut. Bootcamp, the twenty-second to the twenty-fourth of June.
+
+Passport and Meter Digest set-up is complete, with A P I publication and DigiLocker integration to follow. Energy data exchange is complete, with a hundred meters' data shared from the A M I S P, Intellismart, to Trielectric.
+
+And there is a third item, marked proposed rather than complete. P V V N L put forward a new use case of its own — outage publication, built on its own one nine one two C R M data. Guidelines are under review and implementation has not started.
+
+A hundred meters feeding analytics, and a utility proposing a brand-new use case unprompted. That is the ecosystem extending the standard on its own.

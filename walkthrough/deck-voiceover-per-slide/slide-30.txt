@@ -1,0 +1,5 @@
+A written testimonial from A P E P D C L.
+
+Their words: "Just as Aadhaar transformed identity and U P I transformed digital payments, the India Energy Stack holds the promise of transforming the power sector by unlocking seamless, secure and consumer-centric energy services for every citizen." And: the India Energy Stack "can serve as the digital backbone of a transparent, interoperable, consumer-centric and data-driven power sector."
+
+The utility also commented on each of the five use cases it ran. The Consumer Energy Passport, "a significant step towards establishing a unified digital identity for electricity consumers". My Meter Data, "a true embodiment of the I E S principle of real-time, consent-based data sharing". Smart Meter Data Exchange, which "reduces the effort required for system-to-system integration". D E R Visibility, "directly supporting the nation's energy transition and Net Zero objectives". And DISCOM to Regulator Data Exchange, which "can improve the quality and timeliness of regulatory submissions".

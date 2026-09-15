@@ -1,0 +1,1 @@
+A P I Setu is the government's A P I exchange, and Passport A P I s at three utilities are published there — Tata Power, A P E P D C L and D G V C L, with P V V N L to follow once its A P I is published. DigiLocker approvals are in process. Any authorised service can build against them.
