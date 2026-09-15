@@ -1,0 +1,749 @@
+IES DECK — VOICE-OVER NARRATION
+42 slides. 4489 words, about 29:55 at 150 words per minute.
+
+Lines in square brackets are slide markers, not narration. Delete them, or use
+them as split points for one audio file per slide. Acronyms are respelled for
+speech, so the engine says "I E S" and "A M I S P" rather than running them
+together.
+
+Slides 11, 12, 14 and 15 are screen-recording slides. The narration there is a
+short lead-in and hand-off; the recording itself carries that stretch.
+
+SLIDE INDEX  (cumulative start time at 150 words per minute)
+
+   1.  0:00  Title                                           60w
+   2.  0:24  Agenda                                          80w
+   3.  0:56  Section 01 divider                              12w
+   4.  1:00  The problem                                    124w
+   5.  1:50  What it is                                     136w
+   6.  2:44  Register, Discover, Exchange                   143w
+   7.  3:42  The adapter                                    111w
+   8.  4:26  Section 02 divider                               5w
+   9.  4:28  The schemas                                    140w
+  10.  5:24  The digital rails                               95w
+  11.  6:02  Reaching the GitBook  ·  SCREEN RECORDING       11w
+  12.  6:06  GitBook walkthrough  ·  SCREEN RECORDING         6w
+  13.  6:09  How schemas grow                               140w
+  14.  7:05  Propose a schema  ·  SCREEN RECORDING            7w
+  15.  7:07  Issue tracker  ·  SCREEN RECORDING               9w
+  16.  7:11  OpenForge                                       69w
+  17.  7:39  DigiLocker                                     143w
+  18.  8:36  API Setu                                        66w
+  19.  9:02  Section 03 divider                               7w
+  20.  9:05  What fourteen months produced                  129w
+  21.  9:57  Live via four pilot DISCOMs                    171w
+  22. 11:05  How the pilots built it                        135w
+  23. 11:59  Tata Power, Mumbai                             108w
+  24. 12:42  APEPDCL, Visakhapatnam                         110w
+  25. 13:26  DGVCL, Surat                                   160w
+  26. 14:30  PVVNL, Meerut                                  125w
+  27. 15:20  A DISCOM built its own use case                145w
+  28. 16:18  From one pilot to six utilities                166w
+  29. 17:25  Impact already visible                         171w
+  30. 18:33  APEPDCL in its own words                       156w
+  31. 19:36  DGVCL, a consumer's view                       143w
+  32. 20:33  A prosumer's voice                             176w
+  33. 21:43  Recognition                                    124w
+  34. 22:33  Section 04 divider                               5w
+  35. 22:35  How this compares                              212w
+  36. 24:00  Governance                                     143w
+  37. 24:57  Procurement                                    160w
+  38. 26:01  Proposed to MNRE                               195w
+  39. 27:19  Section 05 divider                               5w
+  40. 27:21  The way forward                                177w
+  41. 28:32  The IES Pledge                                 147w
+  42. 29:30  Closing                                         62w
+
+  Total: 4489 words, about 29:55
+
+===============================================================================
+[SLIDE 1 — Title]
+===============================================================================
+
+The India Energy Stack. A shared set of specifications that lets every system in
+the power sector exchange data, the way U P I lets any bank pay any other. An
+initiative of the Ministry of Power, with R E C as nodal agency and F S R Global
+as knowledge partner. Fourteen months on, the digital rails are built.
+
+===============================================================================
+[SLIDE 2 — Agenda]
+===============================================================================
+
+Five parts today. First, the reframing: what I E S is, and why it is simpler
+than it first appears. Second, documentation and integration — the GitBook, the
+schemas, how anyone contributes, and where I E S plugs into DigiLocker, A P I
+Setu and OpenForge. Third, the accelerator: six utilities, four bootcamps, live
+use cases, and the utilities in their own words. Fourth, governance and
+scale-up, including the proposal to M N R E. And fifth, the way forward.
+
+===============================================================================
+[SLIDE 3 — Section 01 divider]
+===============================================================================
+
+Section one. I E S reframing. From building blocks to one adapter.
+
+===============================================================================
+[SLIDE 4 — The problem]
+===============================================================================
+
+The problem is not a shortage of data. Utilities have added smart meters,
+rooftop solar, E V charging and demand-side tools, and every one of them
+produces something useful. The data stays trapped in systems that cannot read
+each other.
+
+The cost of that is real. A single DISCOM often runs several metering systems
+and spends years making them talk. The same effort is then repeated across the
+country.
+
+The diagram on the left shows why. Six systems connected by hand need fifteen
+custom connections, and each one is negotiated and built from scratch. On the
+right, the same six systems each carry an adapter at their edge. All speak one
+language, so any can reach any, with no centre and no bespoke pair.
+
+===============================================================================
+[SLIDE 5 — What it is]
+===============================================================================
+
+I E S is a common set of specifications for sharing data across the power
+sector, and the closest analogy is U P I.
+
+With U P I, money stays in the bank. U P I is only the shared rules that let any
+bank's app pay any other bank's customer, without a separate deal for each pair.
+
+I E S works the same way. Energy data stays in the systems that already hold it.
+I E S is only the shared set of specifications that lets any system exchange data
+with any other, again without a separate deal for each pair.
+
+The sector already has rules for what to report. I E S does not replace them. It
+makes the same data machine-readable, common and verifiable, so that two systems
+can act on it directly.
+
+===============================================================================
+[SLIDE 6 — Register, Discover, Exchange]
+===============================================================================
+
+Everything I E S does reduces to three steps.
+
+Register. Every participant, every meter, every solar unit gets a verified
+digital identity in a shared registry. Created once, recognised everywhere, with
+no repeat K Y C. Identities are revalidated on a set cycle and can be revoked,
+so the records stay current as meters and solar units change.
+
+Discover. Before any data moves, the two parties find each other in the registry
+and check credentials automatically. Who are you, what may you ask for, and on
+whose consent.
+
+Exchange. Data then moves on published schemas built on a uniform taxonomy.
+Every exchange is consented, signed and receipted, so what was shared, with whom,
+and why is a matter of record.
+
+Three steps, every use case, every participant. Whether the data moves inline or
+in bulk is a single decision made at contract time.
+
+===============================================================================
+[SLIDE 7 — The adapter]
+===============================================================================
+
+In practice, all of that arrives as one adapter with two sides.
+
+The outside is ready-made and identical for everyone — an I E S compliant
+interface built on Beckn ONIX. Nobody builds that part.
+
+The inside is a one-time mapping between the utility's own formats and I E S,
+set up once by its vendor. In the pilots, that mapping was done in a single day.
+
+Think of it as a U S B C port. The connector is standard whatever the device
+behind it. Every system keeps its own internals, and every system speaks one
+language on the outside — so any connects to any, with no bespoke pair.
+
+===============================================================================
+[SLIDE 8 — Section 02 divider]
+===============================================================================
+
+Section two. Documentation and integration.
+
+===============================================================================
+[SLIDE 9 — The schemas]
+===============================================================================
+
+Seven distribution-side schemas are published so far.
+
+Electricity Credential is a W three C credential issued per meter by the DISCOM,
+carrying customer identity, D E R details and the tariff profile. Meter Data is
+the core meter-data format, covering customer, interval and daily profile shapes.
+Meter Data Credential wraps Meter Data in a verifiable credential, attesting to
+who produced the readings, and where and how.
+
+Meter Data Request is the query schema for asking for meter data, carrying
+capabilities and authorisation. Meter Data Request Credential wraps that request
+and proves the seeker is authorised to ask.
+
+A R R Filing covers DISCOM regulatory filings. And Outage Notification, at draft
+version zero point one, describes one planned or unplanned outage — grounded in a
+real DISCOM outage-management system.
+
+More are being added on the I E S GitHub and GitBook.
+
+===============================================================================
+[SLIDE 10 — The digital rails]
+===============================================================================
+
+Those seven schemas are the digital rails under the demonstrated use cases.
+
+The sequence runs left to right. First the shared schema layer. Then the use
+cases it enables: Smart Meter Data Exchange, the Consumer Energy Passport, the
+Consumer Meter Digest, and D E R Visibility. And finally the dependency map,
+showing which schema each use case actually draws on.
+
+The point of the map is that the use cases share rails rather than each bringing
+their own. Meter data exchange draws on three schemas. The Energy Passport draws
+on one. Nothing is built twice.
+
+===============================================================================
+[SLIDE 11 — Reaching the GitBook  ·  SCREEN RECORDING]
+===============================================================================
+
+All of this is published. Here is how to reach it.
+
+[Hand off to the screen recording. Resume narration when it ends.]
+
+===============================================================================
+[SLIDE 12 — GitBook walkthrough  ·  SCREEN RECORDING]
+===============================================================================
+
+And here is the documentation itself.
+
+[Hand off to the GitBook walkthrough recording.]
+
+===============================================================================
+[SLIDE 13 — How schemas grow]
+===============================================================================
+
+The catalogue is not closed. The contribution procedure is already live, on the
+R E C website under "Contribute to I E S".
+
+Four steps. Open the Contribute to I E S link on the R E C India site, where the
+full procedure is published. Fill the form and submit the schema — each
+submission automatically opens an issue on the I E S Accelerator GitHub, in the
+open. The chief architect team then reviews and comments on that issue, iterating
+the draft and consolidating repetitions. And once agreed, it is merged as a
+canonical J S O N L D schema, versioned, on the I E S GitHub and GitBook, exactly
+as the existing seven were.
+
+Every draft starts from the same master vocabulary: same identifiers, same terms,
+same credential pattern, same conventions. No schema redefines a field.
+
+===============================================================================
+[SLIDE 14 — Propose a schema  ·  SCREEN RECORDING]
+===============================================================================
+
+The proposal form is open to anyone.
+
+[Hand off to the recording of the Propose a Schema page.]
+
+===============================================================================
+[SLIDE 15 — Issue tracker  ·  SCREEN RECORDING]
+===============================================================================
+
+And every submission lands in the public issue tracker.
+
+[Hand off to the recording of the issue tracker.]
+
+===============================================================================
+[SLIDE 16 — OpenForge]
+===============================================================================
+
+The full I E S repository is public on OpenForge, the Government of India's
+collaborative-governance platform.
+
+What is public is the whole of it: architecture primitives, implementation
+guides, and the J S O N L D schemas — drawing on I E C six one eight five zero,
+Beckn, W three C Verifiable Credentials and the Common Information Model. The
+repository opens live from the R E C website.
+
+===============================================================================
+[SLIDE 17 — DigiLocker]
+===============================================================================
+
+The integration with N E G D is working, not proposed.
+
+The Consumer Energy Passport is issued as a W three C verifiable credential and
+pulled into DigiLocker on the consumer's own request. P V V N L's live
+integration was demonstrated in March twenty twenty-six.
+
+A dedicated energy section in DigiLocker is planned with N E G D, which would put
+every citizen's energy documents one tap away, alongside Aadhaar and vehicle
+registration.
+
+Behind that sits a working rhythm. Two Energy Credentials bootcamps ran with
+N E G D and nine DISCOMs in March. Pull-based integration and authentication were
+agreed there, and credential validity was extended to one year.
+
+Why it matters: DigiLocker is how a digital public infrastructure reaches the
+citizen. The day the energy icon appears, I E S stops being sector infrastructure
+and becomes something a household can see.
+
+===============================================================================
+[SLIDE 18 — API Setu]
+===============================================================================
+
+A P I Setu is the government's A P I exchange, and Passport A P I s at three
+utilities are published there — Tata Power, A P E P D C L and D G V C L, with
+P V V N L to follow once its A P I is published. DigiLocker approvals are in
+process. Any authorised service can build against them.
+
+===============================================================================
+[SLIDE 19 — Section 03 divider]
+===============================================================================
+
+Section three. The I E S Accelerator.
+
+===============================================================================
+[SLIDE 20 — What fourteen months produced]
+===============================================================================
+
+Fourteen months, in numbers.
+
+Six utilities are live today, against an initial outlook of one. Four of them did
+the full adapter build, and G U V N L is now extending that adapter to its other
+DISCOMs in Gujarat. Data from a hundred and fifty smart meters is available for
+analytics. Sixty technology providers have been onboarded, from a hundred and
+ninety-eight applications. Eight use cases have been identified, five of which
+have completed validation.
+
+And the number that matters most is zero. No bilateral integration agreement was
+needed for any of it.
+
+Before I E S, every one of these exchanges required its own agreement and months
+of integration. Six utilities have now done it on one published specification —
+three public DISCOMs and three private utilities.
+
+===============================================================================
+[SLIDE 21 — Live via four pilot DISCOMs]
+===============================================================================
+
+Four pilot DISCOMs carried the deep implementation: P V V N L in Meerut,
+A P E P D C L in Visakhapatnam, D G V C L in Surat, and Tata Power in Mumbai.
+Each installed the adapter in one to two days, then brought a first set of use
+cases live over about a month.
+
+The table compares before and after, use case by use case. D E R Visibility: a
+solar unit registered with a verified identity, and grid-operator visibility
+confirmed — where before, no reliable sector-wide method existed. The Consumer
+Energy Passport: issued and stored in DigiLocker, shareable for a loan, a subsidy
+or an enrolment — where before, no portable verifiable consumer record existed.
+The Consumer Meter Digest: a verifiable consumption history, reusable across
+DISCOMs and States — where before it was manual and confined to one DISCOM. And
+Smart Meter Data Exchange: a DISCOM to A M I S P exchange completed with no
+bilateral integration agreement, where before each pair took weeks to months.
+
+===============================================================================
+[SLIDE 22 — How the pilots built it]
+===============================================================================
+
+The build follows the same four moves every time.
+
+Register. The utility claims its own namespace and keys in the shared registry.
+P V V N L signs as p v v n l dot org. Identity stays with the utility.
+
+Issue. Credential issuance runs on the utility's own servers. Passports and
+digests carry the DISCOM's own signature, revocable by the DISCOM alone.
+
+Connect. The adapter is wired to the utility's own billing, meter-data and
+C R M systems. One mapping, done once.
+
+And then switch on use cases. Each is configured on the same rails, with no fresh
+integration per use case, per partner, or per State.
+
+The whole arrangement is federated. A utility can run every component on its own
+network. Nothing is replaced, and no data leaves without a signed, recorded
+contract.
+
+===============================================================================
+[SLIDE 23 — Tata Power, Mumbai]
+===============================================================================
+
+Tata Power, Mumbai. Bootcamp, the twenty-first to the twenty-third of May.
+
+Three use cases complete. The Consumer Energy Passport, developed and published
+on A P I Setu, awaiting DigiLocker approval. Smart Meter Data Exchange, running
+live over I E S rails. And energy data exchange for D E R visibility, with fifty
+meters' data flowing from the A M I S P, FluentGrid, to the analytics provider,
+Trielectric.
+
+The value added sits in that last line. Trielectric is building D E R visibility,
+market-ready prosumer signals, revenue and billing analytics, and
+solar-underperformance detection on those fifty meters — analysis the utility
+could not run before I E S.
+
+===============================================================================
+[SLIDE 24 — APEPDCL, Visakhapatnam]
+===============================================================================
+
+A P E P D C L, Visakhapatnam. Bootcamp, the twenty-fifth and twenty-sixth of May.
+
+The Consumer Energy Passport is live in the portal, with sixty-four consumers
+registered, forty-eight of them real. My Meter Data is live for fifteen
+smart-meter consumers, a subset of those registrants. Both A P I s are on A P I
+Setu, awaiting DigiLocker. And Smart Meter Data Exchange was tested successfully
+with the technology provider, Element Tech.
+
+So sixty-four consumers can carry a signed Passport, and fifteen can pull their
+own meter data inside the portal. These are the first consumer-facing energy
+credentials at the utility, with a provider exchange proven end to end.
+
+===============================================================================
+[SLIDE 25 — DGVCL, Surat]
+===============================================================================
+
+D G V C L, Surat. Bootcamp, the fifteenth to the seventeenth of June.
+
+The Passport is live for twenty-five internal test users, with the A P I on A P I
+Setu, and is rolling out across G U V N L's three other DISCOMs, residential
+consumers first.
+
+D E R Visibility was reframed here into a grid-impact pilot at a single
+substation, using net-meter data the utility already held — looking at excess
+injection, evening ramp-up, phase imbalance, hosting capacity and net-banking
+mismatch.
+
+D G V C L also ran its own consumer campaign, producing creative and testimony
+videos in English and Gujarati, pointing consumers to passport dot g u v n l dot
+com and the one nine one two three helpline.
+
+The reframed pilot turns net-meter data into grid intelligence, and opens a path
+to community battery storage, hourly green-energy traceability and surplus-energy
+settlement — while the Passport scales state-wide through G U V N L.
+
+===============================================================================
+[SLIDE 26 — PVVNL, Meerut]
+===============================================================================
+
+P V V N L, Meerut. Bootcamp, the twenty-second to the twenty-fourth of June.
+
+Passport and Meter Digest set-up is complete, with A P I publication and
+DigiLocker integration to follow. Energy data exchange is complete, with a
+hundred meters' data shared from the A M I S P, Intellismart, to Trielectric.
+
+And there is a third item, marked proposed rather than complete. P V V N L put
+forward a new use case of its own — outage publication, built on its own one nine
+one two C R M data. Guidelines are under review and implementation has not
+started.
+
+A hundred meters feeding analytics, and a utility proposing a brand-new use case
+unprompted. That is the ecosystem extending the standard on its own.
+
+===============================================================================
+[SLIDE 27 — A DISCOM built its own use case]
+===============================================================================
+
+That last point deserves its own slide.
+
+P V V N L took the adapter it had installed for the challenge and began building
+an outage service from data it already held. It used its own one nine one two
+C R M outage data as the source. It published an outage-notification use case on
+I E S rails, on that same adapter. And none of it was in the pilot scope — the
+utility did it on its own initiative.
+
+This is the clearest proof the standard works. Once a utility has the adapter, it
+can build what its own grid and its own consumers need. No new integration, no
+fresh specification, and no waiting for anyone else to define the use case.
+
+One adapter, and a DISCOM builds its own service. That is the compounding return
+the task force set out to create.
+
+===============================================================================
+[SLIDE 28 — From one pilot to six utilities]
+===============================================================================
+
+The original order envisaged a single proof of concept. What happened was more
+interesting, and it split into two paths.
+
+Four utilities went all in. Tata Power, A P E P D C L, D G V C L and P V V N L
+each did the full build: their own adapter, their own keys, multiple use cases on
+their own systems. That is the deep path, and it took thirty days per utility.
+
+Three came for one use case. B R P L, T P D D L and P V V N L joined for a single
+use case, demonstrated live at the A I Impact Summit — one use case, with no full
+onboarding first.
+
+One pilot in the original outlook became four full implementations plus three
+single use-case utilities: six unique utilities live today.
+
+The lesson for the next cohort is that a utility can onboard whole, or start with
+the single use case it needs most. The standard carries both.
+
+===============================================================================
+[SLIDE 29 — Impact already visible]
+===============================================================================
+
+The proof so far, in numbers, from the thirty-day challenge.
+
+Sixty-four consumers hold live Energy Passports at A P E P D C L, and fifteen of
+them also use My Meter Data. Twenty-five internal test users are live on the
+Passport at D G V C L, ahead of a G U V N L wide rollout. Three utilities have
+Passport A P I s published on A P I Setu. And one use case was proposed by a
+utility on its own initiative.
+
+Three shifts sit behind those numbers. Verification is collapsing from days to
+seconds, because Passports and digests are checked against the DISCOM's own seal
+rather than by phone calls and scanned bills. Data is becoming a service, with
+providers at two utilities building analytics on meter data they could not have
+accessed before. And the standard is spreading on its own — D G V C L is
+extending its rollout to G U V N L's three other DISCOMs, which was never in the
+plan.
+
+===============================================================================
+[SLIDE 30 — APEPDCL in its own words]
+===============================================================================
+
+A written testimonial from A P E P D C L.
+
+Their words: "Just as Aadhaar transformed identity and U P I transformed digital
+payments, the India Energy Stack holds the promise of transforming the power
+sector by unlocking seamless, secure and consumer-centric energy services for
+every citizen." And: the India Energy Stack "can serve as the digital backbone of
+a transparent, interoperable, consumer-centric and data-driven power sector."
+
+The utility also commented on each of the five use cases it ran. The Consumer
+Energy Passport, "a significant step towards establishing a unified digital
+identity for electricity consumers". My Meter Data, "a true embodiment of the
+I E S principle of real-time, consent-based data sharing". Smart Meter Data
+Exchange, which "reduces the effort required for system-to-system integration".
+D E R Visibility, "directly supporting the nation's energy transition and Net
+Zero objectives". And DISCOM to Regulator Data Exchange, which "can improve the
+quality and timeliness of regulatory submissions".
+
+===============================================================================
+[SLIDE 31 — DGVCL, a consumer's view]
+===============================================================================
+
+A D G V C L consumer, recorded by the DISCOM.
+
+"Earlier, whenever I needed address proof, I would search for my electricity
+bill, and sometimes it was lost or torn. Now, with the D G V C L Consumer Energy
+Passport, my verified address is always on my phone. I can show it to a bank or
+any other stakeholder, and it is accepted in a minute. This is a truly digital
+identity. No running around anymore."
+
+What the consumer noticed is exactly the Passport's design intent: a verified
+record they hold themselves, accepted without a visit or a photocopy.
+
+D G V C L took it to the public with its own campaign — a state-wide portal at
+passport dot g u v n l dot com, and the one nine one two three helpline, inviting
+every consumer to get theirs.
+
+===============================================================================
+[SLIDE 32 — A prosumer's voice]
+===============================================================================
+
+Arun Kumar, a farmer and prosumer in Meerut, was one of the first consumers in
+the peer-to-peer energy-trading pilot. In a recent message to the I E S team, he
+wrote:
+
+"For the past six months I have been working without pause to make people aware
+of solar energy and peer-to-peer energy trading. So far I have taken this message
+to sixty-two villages, through more than a hundred videos. My aim is not personal
+gain, but to inspire people at the grassroots to adopt solar energy and
+understand peer-to-peer energy trading."
+
+Sixty-two villages. More than a hundred awareness videos. Six months of
+campaigning, unprompted.
+
+The peer-to-peer use case was launched at the A I Impact Summit in February with
+B R P L, T P D D L and P V V N L. Six months on, one of its first consumers is
+carrying the idea from village to village on his own initiative. Demand is
+forming at the grassroots ahead of the national rollout, and the people who tried
+it first are becoming its advocates.
+
+===============================================================================
+[SLIDE 33 — Recognition]
+===============================================================================
+
+I E S has been seen at the highest level twice in two months.
+
+At the A I Impact Summit in February, the energy-trading use case with B R P L,
+T P D D L and P V V N L was launched in the presence of the Honourable Prime
+Minister, and four ministers visited the I E S pavilion. At the Bharat
+Electricity Summit in March, Energy Credentials were issued live through
+DigiLocker to a national audience, with N E G D. And the pavilion itself ran
+across four booths with R E C, MeitY and the International Solar Alliance.
+
+The recognition matters, but it is not the outcome. The outcome is six utilities
+running live use cases on a published specification.
+
+===============================================================================
+[SLIDE 34 — Section 04 divider]
+===============================================================================
+
+Section four. Governance and scale-up.
+
+===============================================================================
+[SLIDE 35 — How this compares]
+===============================================================================
+
+Set against India's other digital public infrastructure, measured from
+programme set-up to first live transaction.
+
+Aadhaar took twenty months, and became a statutory authority in twenty sixteen.
+O N D C took ten months to a five-city alpha. The Ayushman Bharat Digital Mission
+was piloted in six Union Territories on announcement day and reached national
+rollout in about thirteen and a half months. Account Aggregator took sixty
+months. India Energy Stack took fourteen, and is live at six utilities across
+five States.
+
+In those fourteen months I E S produced seven things: a strategy document, an
+architecture document, published specifications, a running live environment, six
+live utility engagements, a governance design, and an approved R F P. No other
+Indian digital public infrastructure delivered all seven inside its first mandate
+period, and none had to do it across thirty-plus licensed jurisdictions.
+
+The Account Aggregator row is the cautionary one. The R B I master direction came
+in September twenty sixteen, the A P I specification three years later, and the
+ecosystem went live exactly sixty months after the direction. The mandate was
+never the problem. There was nobody to publish the specification, certify
+participants, or hold the budget.
+
+I E S already has the specification. The next phase gives it the body.
+
+===============================================================================
+[SLIDE 36 — Governance]
+===============================================================================
+
+The proposed governance fits in one frame.
+
+The Ministry of Power owns I E S. Architecture, code and specifications are
+public property, and no firm acquires a claim on any of them. A Governance
+Committee approves specifications, budgets and stage gates. An I E S Cell runs
+the programme day to day — publishing and versioning specifications, granting
+I E S Ready status, and coordinating utility cohorts. Delivery partners build
+under contract: they deliver, they do not govern.
+
+Certification sits at the same altitude. Any participant self-tests against the
+open environment as often as it likes. Then a single recorded, automated
+conformance run — the suite decides, not a person. And the resulting I E S Ready
+status is recorded in a public registry, per use case, per specification version.
+
+Ecosystem consultation is structured but non-governing, and an independent annual
+audit is published.
+
+===============================================================================
+[SLIDE 37 — Procurement]
+===============================================================================
+
+Procurement is proposed in four tracks.
+
+Track one, core I E S: one accountable firm, through the R F P, building and
+operating the shared rails — registries, adapter, schemas, tooling, dev kits and
+the test environment.
+
+Track two, a technical programme management unit: a separate, smaller engagement
+that evaluates the core firm's deliverables and assists on specifications,
+certification and design. Never the same firm as track one, so the checker is
+never the builder.
+
+Track three, forward deployment: R E C runs empanelment and certification, and
+stakeholders then engage the certified agencies through their own limited
+tenders.
+
+Track four, shared use-case infrastructure, at a later stage and case by case.
+Nothing is bought before a use case earns it.
+
+The commercial terms are disciplined: a two-year core term extendable annually to
+five at R E C's discretion, a fixed milestone-linked build price, a quarterly
+S L A linked operations fee, hosting at actual usage, and a published rate card.
+
+===============================================================================
+[SLIDE 38 — Proposed to MNRE]
+===============================================================================
+
+Two asks have been put to M N R E, for P M S G two point zero. Both specifications
+are already in pilot with four DISCOMs, in Gujarat, Uttar Pradesh, Andhra Pradesh
+and Mumbai.
+
+The first ask is to verify from signed records. The Consumer Energy Passport and
+the Consumer Meter Digest would enter the P M S G application flow. For M N R E,
+verification then happens at the start, from the DISCOM's own signed record,
+rather than by manual checks weeks later. For the consumer, one DigiLocker
+credential replaces repeated document uploads, and the system quoted is sized
+from twelve months of real consumption.
+
+The second ask is one identity per installer. A L M M and empanelment lists become
+a queryable registry, giving each installer one verifiable identity that any
+DISCOM can check. At commissioning, the installer signs an installation
+credential, the DISCOM verifies it against the registry, and the DISCOM then
+issues the Passport with the system details. Subsidy release can be tied to a
+verified installation credential rather than to paperwork reconciliation.
+
+The proposal is to prove it in a ninety-day pilot with three or four willing
+DISCOMs.
+
+===============================================================================
+[SLIDE 39 — Section 05 divider]
+===============================================================================
+
+Section five. The way forward.
+
+===============================================================================
+[SLIDE 40 — The way forward]
+===============================================================================
+
+From the end-August submission, three waves. The pilots keep running throughout.
+
+Now: the strategy and architecture documents are submitted, schema contributions
+are open through Contribute to I E S, and the Minister and Secretary are being
+briefed.
+
+On governance set-up: the Governance Committee and the I E S Cell stand up,
+C E A vetting begins through the Chief Architect's Group, schema ratification and
+versioning move onto the I E S Git, and collaboration with N P C I and the
+Powerthon technology providers begins — with a body that can actually contract.
+
+And from September, with the R F P: the R F P is issued and a system integrator
+comes on board, the forward deployment team takes utilities live, regional
+workshops run with the next cohort, and that cohort onboards in the thirty-day
+format. S L D Cs, transmission companies and generation companies enter here.
+
+Every item raised in the task force sits in one of these three waves, with an
+owner. Three start now, and nothing else waits on anything but the submission
+itself.
+
+===============================================================================
+[SLIDE 41 — The IES Pledge]
+===============================================================================
+
+One proposed initiative, and it can start next week.
+
+Pledge one: "We will be I E S Ready." An organisation commits to implement the
+specifications and certify for at least one use case. That is open to utilities,
+A M I S Ps, technology providers, banks and lenders.
+
+Pledge two: "We will contribute." An organisation commits to develop and review
+schemas in the open, on the I E S GitHub. That is how the standard grows beyond
+the founding team.
+
+Government bodies are invited to pledge first — N E G D, M N R E and others
+alongside utilities and providers, so that public institutions lead by example.
+I D A has offered to help carry the pledge to more DISCOMs.
+
+A pledge converts interest into named commitment. When governance stands up, it
+inherits a public register of organisations already committed to implement, and
+to contribute.
+
+===============================================================================
+[SLIDE 42 — Closing]
+===============================================================================
+
+Built once. Used by everyone.
+
+Working alone, every stakeholder solves the same problem by itself. With one
+common standard, the work is done once, and every participant can use it.
+
+It is live now, with four pilots building. It is open — published specifications,
+no licence fee. And it is yours to keep: your systems stay exactly as they are.
+
+Thank you.
+
+===============================================================================
+[END]
+===============================================================================
