@@ -68,32 +68,32 @@
 
 ===== SITE TOUR (29 lines)
 
- 1. Welcome. This is a short tour of...                   -> Getting Started — top, sidebar in frame
- 2. Let's start with what this site is....                -> Getting Started — first two paragraphs
- 3. Now look at the left-hand sidebar. That...            -> Sidebar — whole tree, all groups collapsed
+ 1. Welcome to the India Energy Stack documentation....   -> Getting Started — top, sidebar in frame
+ 2. Start with what the site is. It...                    -> Getting Started — first two paragraphs
+ 3. The left-hand sidebar is the whole site....           -> Sidebar — whole tree, all groups collapsed
  4. At the very top, above the groups,...                 -> Sidebar — hover Getting Started, then Propose a Schema
- 5. Then the first group: Schemas Overview. One...        -> Sidebar — expand Schemas Overview
- 6. Second group: Schemas. This is the biggest...         -> Sidebar — collapse it, expand Schemas, show nested versions
+ 5. First group: Schemas Overview. One page introduces... -> Sidebar — expand Schemas Overview
+ 6. Second group: Schemas. The biggest section, and...    -> Sidebar — collapse it, expand Schemas, show nested versions
  7. Third and fourth groups go together: Use...           -> Sidebar — hover both Use Case groups
  8. Fifth group: Pathways. This is the section...         -> Sidebar — expand Pathways
  9. Sixth group: Draft, clearly marked work in...         -> Sidebar — collapse it, hover Draft
-10. And last: Concepts. This is the one-time...           -> Sidebar — expand Concepts
-11. That is the map. Now let me...                        -> Sidebar — collapse everything
-12. The fastest tool on this site is...                   -> Search box — type sanctionedLoad, let results render
+10. Last: Concepts. The one-time setup every participant...-> Sidebar — expand Concepts
+11. That is the map. Next, how to...                      -> Sidebar — collapse everything
+12. The fastest tool on the site is...                    -> Search box — type sanctionedLoad, let results render
 13. That matters especially on the Term Taxonomy...       -> Term Taxonomy — the filter box, then the 'GitHub Pages build' line
-14. Next, notice that pages repeat the same...            -> Schemas Overview > ElectricityCredential — top
+14. Pages also repeat the same shapes. Learn...           -> Schemas Overview > ElectricityCredential — top
 15. Every schema overview page has the same...            -> same page — scroll the numbered headings, pause on 8 and 11
 16. Every version page starts with a row...               -> Schemas > ElectricityCredential > v1.2 — the file links at the very top
 17. Every implementation guide ends with a checklist,...  -> CEP guide — 'Jump to the Checklist', then the Checklist
 18. The pathway pages are organised as phases...          -> Pathways > TSP — the roadmap, then open one step
-19. A few smaller things worth knowing....                -> no change — stay put
+19. A few smaller things are worth knowing....            -> no change — stay put
 20. Coloured boxes on a page are callouts....             -> Getting Started — the blue PDF box, then Schemas Overview > ArrFiling warning
 21. Several pages carry diagrams — flowcharts of...       -> Propose a Schema — the lifecycle diagram
-22. Anywhere you see a table with a...                    -> Schemas Overview — the status column
-23. And the whole reference is also published...          -> Getting Started — the PDF hint
-24. So, where should you actually start? Three...         -> Sidebar — whole tree
-25. If you are an engineer with a...                      -> Sidebar — hover Schemas Overview, then Schemas
-26. If you know the outcome you want...                   -> Sidebar — hover both Use Case groups
-27. And if you do not know where...                       -> Sidebar — hover Pathways
-28. One last thing, and it is a...                        -> Getting Started — 'Where things stand'
-29. That is the site. Sidebar to see...                   -> Sidebar — rest on Schemas Overview
+22. Any table with a status column deserves...            -> Schemas Overview — the status column
+23. The whole reference is also published as...           -> Getting Started — the PDF hint
+24. Where to start depends on what you...                 -> Sidebar — whole tree
+25. For an engineer with a task already...                -> Sidebar — hover Schemas Overview, then Schemas
+26. For someone who knows the outcome but...              -> Sidebar — hover both Use Case groups
+27. And for anyone unsure where they fit...               -> Sidebar — hover Pathways
+28. One last habit worth forming. The home...             -> Getting Started — 'Where things stand'
+29. That is the site. The sidebar shows...                -> Sidebar — rest on Schemas Overview
