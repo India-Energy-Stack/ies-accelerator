@@ -36,6 +36,15 @@ MIRRORED_FILES = (
     "examples/example.json",
 )
 
+# Files that live beside the mirror but are not part of upstream.  They are
+# tolerated in the local tree and never compared.  Keep this list short: it is
+# the only sanctioned way for the mirror directory to diverge from DEG.
+LOCAL_ONLY_FILES = frozenset({
+    # context.jsonld with its three ``@import`` blocks copied in, so verifiers
+    # that do not resolve ``@import`` (DigiLocker) see every term in one file.
+    "context.inline.jsonld",
+})
+
 
 class MirrorError(RuntimeError):
     pass
@@ -58,6 +67,7 @@ def read_tree(root: Path) -> dict[str, bytes]:
         for path in root.rglob("*")
         if path.is_file()
     }
+    found -= LOCAL_ONLY_FILES
     missing = sorted(expected - found)
     unexpected = sorted(found - expected)
     if missing or unexpected:

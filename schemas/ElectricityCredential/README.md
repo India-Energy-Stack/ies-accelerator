@@ -4,6 +4,8 @@
 
 > **Mirror.** This directory is a verbatim mirror of the Beckn DEG [`ElectricityCredential`](https://github.com/beckn/DEG/tree/main/specification/schema/ElectricityCredential) specification. Upstream is authoritative; open an issue if you find a discrepancy.
 
+> **Self-contained context.** `v1.2/context.jsonld` pulls `EnergyResource`, `MeterServiceProfile` and `CustomerDetails` in with `@import`. Verifiers that do not resolve `@import` (DigiLocker's credential checker among them) report every imported term as missing. [`v1.2/context.inline.jsonld`](v1.2/context.inline.jsonld) is the same context with those three blocks copied in; it expands to the same RDF, so credentials signed against either file verify identically. Published at `https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/context.inline.jsonld`. It is local to this repository and not part of the upstream mirror.
+
 **Status:** Stable — In Pilot (current: **v1.2**) · **Issued by** DISCOMs · **Consumed by** consumers (holder-bound), grid operators and aggregators (bearer), banks / subsidy portals / DER marketplaces (as verifiers)
 
 ## What it records
