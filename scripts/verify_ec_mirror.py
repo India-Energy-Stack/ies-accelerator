@@ -40,8 +40,8 @@ MIRRORED_FILES = (
 # tolerated in the local tree and never compared.  Keep this list short: it is
 # the only sanctioned way for the mirror directory to diverge from DEG.
 LOCAL_ONLY_FILES = frozenset({
-    # context.jsonld with its three ``@import`` blocks copied in, so verifiers
-    # that do not resolve ``@import`` (DigiLocker) see every term in one file.
+    # Flat, single-level rendering of context.jsonld (no @import, no scoped
+    # contexts) for verifiers that resolve neither (DigiLocker).  Temporary.
     "context.inline.jsonld",
 })
 
