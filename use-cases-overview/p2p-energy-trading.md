@@ -256,7 +256,7 @@ Canonical references at **[schema.nfh.global](https://schema.nfh.global)**:
 - **[DEGContract/v2.0](https://schema.nfh.global/DEGContract/v2.0)**
 - **[EnergyTradeOffer/v2.0](https://schema.nfh.global/EnergyTradeOffer/v2.0)**
 - **[EnergyTradeDelivery/v2.0](https://schema.nfh.global/EnergyTradeDelivery/v2.0)**
-- **[DiscomLedgerProvider/v2.0](https://schema.nfh.global/DiscomLedgerProvider/v2.0)**
+- **[DiscomLedgerProvider/v1.0](https://schema.nfh.global/DiscomLedgerProvider/v1.0)**
 - **[BecknTimeSeries/v1.0](https://schema.nfh.global/BecknTimeSeries/v1.0)**
 
 A consolidated field reference for the trade schemas (except `DiscomLedgerProvider` and `EnergyTradeDelivery`, defined only at schema.nfh.global) is in **[External Schemas — Energy Trading](../schemas-ies/external.md#energy-trading-p2p)**.
