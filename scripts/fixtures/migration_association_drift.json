@@ -1,0 +1,9 @@
+{
+  "targetMutations": [
+    {
+      "file": "MultiMeterBulkDatasetShortCodes.json",
+      "pointer": "/2/meterRefs/0/value",
+      "value": "did:web:discom.example:assets:meter:METER-UNRELATED-99"
+    }
+  ]
+}

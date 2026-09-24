@@ -1,0 +1,9 @@
+{
+  "targetMutations": [
+    {
+      "file": "DailyProfile.json",
+      "pointer": "/1/intervals/0/payloads/0",
+      "value": 999.0
+    }
+  ]
+}

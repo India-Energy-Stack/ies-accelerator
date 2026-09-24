@@ -1,0 +1,216 @@
+{
+    "@context": {
+        "@version": 1.1,
+        "ies": "https://india-energy-stack.github.io/ies-accelerator/schemas/ies/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "schema": "https://schema.org/"
+    },
+    "@graph": [
+        {
+            "@id": "ies:ArrFiling",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Arr Filing",
+            "rdfs:comment": "A complete ARR filing by a distribution licensee.\nContains one or more fiscal years, each with its own line items.\nSupports both MYT control-period filings and annual historical data."
+        },
+        {
+            "@id": "ies:ArrFiscalYear",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Arr Fiscal Year",
+            "rdfs:comment": "ARR data for a single fiscal year.\nThe combination of yearType + amountBasis captures what the numbers represent:\ne.g., a BASE_YEAR with AUDITED amounts, or a PROJECTION year with PROPOSED amounts."
+        },
+        {
+            "@id": "ies:ArrLineItem",
+            "@type": "rdfs:Class",
+            "rdfs:label": "Arr Line Item",
+            "rdfs:comment": "A single cost, income, subtotal, or adjustment line item.\n\nThe schema accommodates varying granularity across DISCOMs:\n- O&M may be one line (consolidated) or split into Employee Costs,\n  Admin & General, Repair & Maintenance\n- Return may appear as Return on NFA, Return on Equity,\n  or Return on Capital Base depending on SERC regulations\n- Some years may have items not present in others\n  (e.g., Incentive/Disincentive, DSM Provision, O&M sharing gains)"
+        },
+        {
+            "@id": "ies:@context",
+            "@type": "rdf:Property",
+            "rdfs:label": "@context",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:objectType",
+            "@type": "rdf:Property",
+            "rdfs:label": "object Type",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:id",
+            "@type": "rdf:Property",
+            "rdfs:label": "id",
+            "rdfs:comment": "Unique identifier for this filing."
+        },
+        {
+            "@id": "ies:filingId",
+            "@type": "rdf:Property",
+            "rdfs:label": "filing Id",
+            "rdfs:comment": "Regulatory filing reference number."
+        },
+        {
+            "@id": "ies:filingDate",
+            "@type": "rdf:Property",
+            "rdfs:label": "filing Date",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:filingType",
+            "@type": "rdf:Property",
+            "rdfs:label": "filing Type",
+            "rdfs:comment": "MYT - Multi-Year Tariff control period filing (multiple years, mix of actual/proposed)\nANNUAL - single year or historical year-by-year approved data\nTRUE_UP - reconciliation of actuals vs previously approved amounts\nREVISED - amended filing with corrections"
+        },
+        {
+            "@id": "ies:licensee",
+            "@type": "rdf:Property",
+            "rdfs:label": "licensee",
+            "rdfs:comment": "Full name of the distribution licensee."
+        },
+        {
+            "@id": "ies:licenseeCode",
+            "@type": "rdf:Property",
+            "rdfs:label": "licensee Code",
+            "rdfs:comment": "Short code for the licensee."
+        },
+        {
+            "@id": "ies:stateProvince",
+            "@type": "rdf:Property",
+            "rdfs:label": "state Province",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:regulatoryCommission",
+            "@type": "rdf:Property",
+            "rdfs:label": "regulatory Commission",
+            "rdfs:comment": "SERC or Joint ERC that receives the filing."
+        },
+        {
+            "@id": "ies:controlPeriodStart",
+            "@type": "rdf:Property",
+            "rdfs:label": "control Period Start",
+            "rdfs:comment": "Start fiscal year of MYT control period (only for MYT filings)."
+        },
+        {
+            "@id": "ies:controlPeriodEnd",
+            "@type": "rdf:Property",
+            "rdfs:label": "control Period End",
+            "rdfs:comment": "End fiscal year of MYT control period."
+        },
+        {
+            "@id": "ies:currency",
+            "@type": "rdf:Property",
+            "rdfs:label": "currency",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:unitScale",
+            "@type": "rdf:Property",
+            "rdfs:label": "unit Scale",
+            "rdfs:comment": "Scale of all amounts in the filing."
+        },
+        {
+            "@id": "ies:status",
+            "@type": "rdf:Property",
+            "rdfs:label": "status",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:formReference",
+            "@type": "rdf:Property",
+            "rdfs:label": "form Reference",
+            "rdfs:comment": "Regulatory form identifier."
+        },
+        {
+            "@id": "ies:notes",
+            "@type": "rdf:Property",
+            "rdfs:label": "notes",
+            "rdfs:comment": "Footnotes, regulatory order references, and explanatory notes."
+        },
+        {
+            "@id": "ies:fiscalYears",
+            "@type": "rdf:Property",
+            "rdfs:label": "fiscal Years",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:fiscalYear",
+            "@type": "rdf:Property",
+            "rdfs:label": "fiscal Year",
+            "rdfs:comment": "Fiscal year label."
+        },
+        {
+            "@id": "ies:yearType",
+            "@type": "rdf:Property",
+            "rdfs:label": "year Type",
+            "rdfs:comment": "BASE_YEAR - reference year in an MYT filing (typically the year before the control period)\nCONTROL_PERIOD - a year within the MYT control period being filed for\nHISTORICAL - a past year with finalized data (used in annual/historical filings)"
+        },
+        {
+            "@id": "ies:amountBasis",
+            "@type": "rdf:Property",
+            "rdfs:label": "amount Basis",
+            "rdfs:comment": "AUDITED - actual costs verified by auditors\nAPPROVED - amounts approved by the SERC in a tariff order\nPROPOSED - amounts requested by the DISCOM, pending SERC approval\nTRUED_UP - reconciled amounts after comparing actuals to approved\nNOT_FILED - placeholder year in a control period, no data yet"
+        },
+        {
+            "@id": "ies:lineItems",
+            "@type": "rdf:Property",
+            "rdfs:label": "line Items",
+            "rdfs:comment": ""
+        },
+        {
+            "@id": "ies:lineItemId",
+            "@type": "rdf:Property",
+            "rdfs:label": "line Item Id",
+            "rdfs:comment": "Stable identifier for this line item across years.\nUse kebab-case, e.g., \"power-purchase-cost\", \"interest-working-cap\"."
+        },
+        {
+            "@id": "ies:serialNumber",
+            "@type": "rdf:Property",
+            "rdfs:label": "serial Number",
+            "rdfs:comment": "Display order as shown in the regulatory form."
+        },
+        {
+            "@id": "ies:category",
+            "@type": "rdf:Property",
+            "rdfs:label": "category",
+            "rdfs:comment": "VARIABLE - costs varying with energy volume (power purchase)\nFIXED - costs independent of volume (O&M, depreciation, interest, return)\nINCOME - revenue credits that reduce the ARR (negative amounts)\nSUB_TOTAL - computed aggregation of other line items\nARR - the final net/aggregate revenue requirement\nADJUSTMENT - true-up corrections, pass-throughs, FPPCA adjustments"
+        },
+        {
+            "@id": "ies:subCategory",
+            "@type": "rdf:Property",
+            "rdfs:label": "sub Category",
+            "rdfs:comment": "Functional sub-classification for analysis and comparison across DISCOMs."
+        },
+        {
+            "@id": "ies:head",
+            "@type": "rdf:Property",
+            "rdfs:label": "head",
+            "rdfs:comment": "Short heading as used in the regulatory form.\nVaries by DISCOM — use the original text from the filing."
+        },
+        {
+            "@id": "ies:particulars",
+            "@type": "rdf:Property",
+            "rdfs:label": "particulars",
+            "rdfs:comment": "Detailed description or the \"Particulars\" column value.\nUseful when head alone is ambiguous (e.g., \"Others\" head with\n\"Incentive/Disincentive on achievement of norms\" as particulars)."
+        },
+        {
+            "@id": "ies:amount",
+            "@type": "rdf:Property",
+            "rdfs:label": "amount",
+            "rdfs:comment": "Amount in the filing's currency and unitScale.\nNull means the line item exists in the form but was not filed / not applicable.\nNegative values represent credits, deductions, or adjustments that reduce ARR."
+        },
+        {
+            "@id": "ies:componentOf",
+            "@type": "rdf:Property",
+            "rdfs:label": "component Of",
+            "rdfs:comment": "lineItemId of the parent subtotal this item contributes to."
+        },
+        {
+            "@id": "ies:formula",
+            "@type": "rdf:Property",
+            "rdfs:label": "formula",
+            "rdfs:comment": "Human-readable computation formula expressed as references to other lineItemIds.\nOnly present on SUB_TOTAL and ARR items."
+        }
+    ]
+}
