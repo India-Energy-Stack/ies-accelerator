@@ -19,11 +19,23 @@
  *
  * The titles, options and required flags below must stay in sync with:
  *   - Code.gs → Q (issue builder reads answers by question title), and
- *   - ../schema-proposal-block/src/index.tsx (EXISTING_OR_NEW_OPTIONS,
+ *   - ../schema-proposal-block/src/index.tsx (EXISTING_USE_CASE / NEW_USE_CASE,
  *     TAXONOMY_OPTION_TEXT — the inline block POSTs these strings verbatim).
  */
 
 var ANCHOR_TITLE = 'Use case the proposed schema supports';
+
+// IES taxonomy compliance is a declaration: one Checkboxes option, YES, and the
+// question is required — so YES is the only answer a submission can carry.
+// TAXONOMY_YES must equal TAXONOMY_OPTION_TEXT in the inline block, and
+// TAXONOMY_DECLARATION its TAXONOMY_DECLARATION.
+var TAXONOMY_TITLE = 'IES taxonomy compliance';
+var TAXONOMY_YES = 'YES';
+var TAXONOMY_LEGACY_OPTION = 'I confirm this submission is compliant with the IES taxonomy';
+var TAXONOMY_DECLARATION =
+  'I hereby declare that the IES term taxonomy was studied before submitting this ' +
+  'schema, and that its terms reuse published IES terms or are marked as proposed additions. ' +
+  'Taxonomy: https://india-energy-stack.gitbook.io/docs/schemas/taxonomy';
 
 function addNewQuestions() {
   var form = FormApp.getActiveForm();
@@ -63,17 +75,15 @@ function addNewQuestions() {
     insertAt++;
   }
 
-  // 2. IES taxonomy compliance — Checkboxes with a single option, optional.
-  var cbTitle = 'IES taxonomy compliance';
+  // 2. IES taxonomy compliance — required declaration, single option YES.
+  var cbTitle = TAXONOMY_TITLE;
   if (!existingTitles[cbTitle]) {
     var cb = form
       .addCheckboxItem()
       .setTitle(cbTitle)
-      .setHelpText(
-        'The IES term taxonomy: https://india-energy-stack.gitbook.io/docs/schemas/taxonomy'
-      )
-      .setChoiceValues(['I confirm this submission is compliant with the IES taxonomy'])
-      .setRequired(false);
+      .setHelpText(TAXONOMY_DECLARATION)
+      .setChoiceValues([TAXONOMY_YES])
+      .setRequired(true);
     form.moveItem(cb.getIndex(), insertAt);
     insertAt++;
     Logger.log('Added: ' + cbTitle);
@@ -167,4 +177,44 @@ function logEntryIds() {
   for (var i = 0; i < ids.length; i++) {
     Logger.log(ids[i] + '  ' + answered[i]);
   }
+}
+
+/**
+ * Sep 2026 migration of the LIVE form's taxonomy question from an optional
+ * "I confirm …" tick to a required YES declaration. Edits the existing item in
+ * place, so its entry id (entry.1449425730) is unchanged.
+ *
+ * Two steps, because Google silently rejects a response whose checkbox value is
+ * not an option (and one missing a required answer) while still returning
+ * HTTP 200 to the inline block. Running them around the block publish means no
+ * submission is lost in between:
+ *
+ *   1. migrateTaxonomyStep1_acceptYes   — options become [legacy, YES]; still optional.
+ *   2. publish the inline block           (npx gitbook publish . — it now always posts YES)
+ *   3. migrateTaxonomyStep2_requireYes   — options become [YES]; required; declaration text.
+ *
+ * Both are idempotent.
+ */
+function migrateTaxonomyStep1_acceptYes() {
+  var cb = findTaxonomyItem_();
+  cb.setChoiceValues([TAXONOMY_LEGACY_OPTION, TAXONOMY_YES]);
+  Logger.log('Step 1 done: "' + TAXONOMY_TITLE + '" now accepts both options. Publish the block next.');
+}
+
+function migrateTaxonomyStep2_requireYes() {
+  var cb = findTaxonomyItem_();
+  cb.setChoiceValues([TAXONOMY_YES])
+    .setHelpText(TAXONOMY_DECLARATION)
+    .setRequired(true);
+  Logger.log('Step 2 done: "' + TAXONOMY_TITLE + '" is a required YES declaration.');
+}
+
+function findTaxonomyItem_() {
+  var items = FormApp.getActiveForm().getItems(FormApp.ItemType.CHECKBOX);
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].getTitle().trim() === TAXONOMY_TITLE) {
+      return items[i].asCheckboxItem();
+    }
+  }
+  throw new Error('Checkboxes question not found: "' + TAXONOMY_TITLE + '".');
 }

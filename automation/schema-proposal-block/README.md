@@ -41,7 +41,7 @@ form's `FB_PUBLIC_LOAD_DATA_`:
 | Contact mobile number | `entry.323624506` | Short | No |
 | Use case the proposed schema supports | `entry.896988893` | Short | Yes |
 | Is the proposed schema for an existing use case or a new one? | `entry.2110258648` | Multiple choice | Yes |
-| IES taxonomy compliance | `entry.1449425730` | Checkboxes | No |
+| IES taxonomy compliance | `entry.1449425730` | Checkboxes (single option `YES`) | Yes |
 | Concept note (link) | `entry.1478660713` | Short | No |
 | Description and background | `entry.2091763378` | Paragraph | Yes |
 | Schema | `entry.1749605353` | Paragraph | Yes |
@@ -53,9 +53,12 @@ form's `FB_PUBLIC_LOAD_DATA_`:
 > [`../schema-proposal/setup-questions.gs`](../schema-proposal/setup-questions.gs), and
 > their ids read from its `logEntryIds()`. Two of them carry values that must match the
 > form verbatim: the multiple-choice options (`Existing use case` / `New use case`) equal
-> the `id`s in `EXISTING_OR_NEW_OPTIONS`, and the checkbox option text equals
-> `TAXONOMY_OPTION_TEXT` — a Checkboxes answer is POSTed as its option text, not as a
-> boolean.
+> `EXISTING_USE_CASE` / `NEW_USE_CASE`, and the checkbox option text equals
+> `TAXONOMY_OPTION_TEXT` (`YES`) — a Checkboxes answer is POSTed as its option text, not
+> as a boolean. Taxonomy compliance has no input of its own: the block renders the
+> declaration above a **YES — I declare this. Submit proposal** button and always posts
+> `YES`, because a separate toggle button cannot hold its state until submit on the
+> published renderer.
 
 > **If you edit the Google Form, re-check these.** Renaming a question keeps its id, but
 > deleting and recreating one mints a **new** id — the old id then silently drops that

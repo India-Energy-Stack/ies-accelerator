@@ -54,10 +54,18 @@ const NEW_USE_CASE = 'New use case';
 
 /**
  * Exact text of the single option on the Google Form's taxonomy-compliance
- * "Checkboxes" question. A Checkboxes answer is submitted as its option text,
- * so this string must match that option verbatim.
+ * "Checkboxes" question (required). A Checkboxes answer is submitted as its
+ * option text, so this string must match that option verbatim.
  */
-const TAXONOMY_OPTION_TEXT = 'I confirm this submission is compliant with the IES taxonomy';
+const TAXONOMY_OPTION_TEXT = 'YES';
+
+/**
+ * The declaration a proposer makes by pressing the YES button. Keep in step
+ * with the question's help text (../schema-proposal/setup-questions.gs).
+ */
+const TAXONOMY_DECLARATION =
+    'I hereby declare that the IES term taxonomy was studied before submitting this ' +
+    'schema, and that its terms reuse published IES terms or are marked as proposed additions.';
 
 /** Maps a typed answer to the exact form option, or '' if unrecognizable. */
 const normalizeExistingOrNew = (value: string): string => {
@@ -65,12 +73,6 @@ const normalizeExistingOrNew = (value: string): string => {
     if (/^existing/i.test(v)) return EXISTING_USE_CASE;
     if (/^new/i.test(v)) return NEW_USE_CASE;
     return '';
-};
-
-/** True when the typed/toggled taxonomy confirmation counts as a tick. */
-const isTaxonomyTicked = (value: string): boolean => {
-    const v = value.trim();
-    return /^y(es)?$/i.test(v) || v === TAXONOMY_OPTION_TEXT;
 };
 
 interface State {
@@ -81,8 +83,6 @@ interface State {
     mobile: string;
     useCase: string;
     existingOrNew: string;
-    /** Typed confirmation ('YES', or the full option text when set by the toggle button). */
-    taxonomyCompliant: string;
     conceptNote: string;
     description: string;
     schema: string;
@@ -111,7 +111,6 @@ const EMPTY: State = {
     mobile: '',
     useCase: '',
     existingOrNew: '',
-    taxonomyCompliant: '',
     conceptNote: '',
     description: '',
     schema: '',
@@ -165,8 +164,8 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
 
         const body = new URLSearchParams();
         for (const [key, entryId] of Object.entries(FIELDS)) {
-            // These two are normalized to the exact form option text and appended
-            // separately below — never send the raw typed value.
+            // These two are set to the exact form option text and appended
+            // separately below — taxonomyCompliant has no input of its own.
             if (key === 'taxonomyCompliant' || key === 'existingOrNew') {
                 continue;
             }
@@ -178,11 +177,10 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
 
         body.append(FIELDS.existingOrNew, existingOrNew);
 
-        // Confirmation → Google Forms "Checkboxes" answer: send the exact option
-        // text, and only when actually ticked.
-        if (isTaxonomyTicked(String(state.taxonomyCompliant ?? ''))) {
-            body.append(FIELDS.taxonomyCompliant, TAXONOMY_OPTION_TEXT);
-        }
+        // The only way to reach this point is the YES button, so the declaration
+        // is always made. The form question is required: omitting it would make
+        // Google reject the response (while still answering HTTP 200).
+        body.append(FIELDS.taxonomyCompliant, TAXONOMY_OPTION_TEXT);
 
         let ok = false;
         try {
@@ -286,14 +284,6 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         }
                     />
                     <input
-                        label="IES taxonomy compliance"
-                        hint="Optional. Type YES to confirm your submission aligns with the IES term taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy"
-                        element={
-                            <textinput state="taxonomyCompliant" placeholder="YES" />
-                        }
-                    />
-
-                    <input
                         label="Concept note (link)"
                         hint="Optional. Link to a concept note on the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md). Kept private — shared only with the IES secretariat."
                         element={
@@ -351,6 +341,15 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         element={<textinput state="github" placeholder="octocat" />}
                     />
 
+                    {/* The declaration IS the submit: YES is the only valid answer,
+                        and a separate YES toggle can't hold its state until submit
+                        on the published renderer (see the constraints above). */}
+                    <text style="bold">IES taxonomy compliance</text>
+                    <text>{TAXONOMY_DECLARATION}</text>
+                    <text>
+                        Taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy — not
+                        sure? Run the Before You Propose checklist linked above the form.
+                    </text>
                     {/* Error renders HERE, next to the Submit button, because the
                         user's eyes are on the button when it appears — rendered at
                         the top of the form it sits off-screen and a failed submit
@@ -361,7 +360,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         <text> </text>
                     )}
                     <button
-                        label="Submit proposal"
+                        label="YES — I declare this. Submit proposal"
                         style="primary"
                         onPress={{ action: 'submit' }}
                     />

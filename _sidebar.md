@@ -1,5 +1,6 @@
 * [Getting Started](/README.md)
 * [Propose a Schema](/propose-a-schema.md)
+  * [Before You Propose](/before-you-propose.md)
 
 ## Schemas Overview
 
