@@ -3,8 +3,9 @@
 A proposal travels a fixed **~4-week lifecycle** — from the form below to a published entry
 in the [schema catalogue](schemas-ies/README.md). Your submission opens a public GitHub
 issue, and that issue stays the single record for it through every stage. Include a
-**concept note** built on the
-[use-case overview template](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/templates/use-case-overview.md)
+**concept note** built on the use-case overview template —
+[read it on GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/templates/use-case-overview.md) or
+[download it as Word (.docx)](https://github.com/India-Energy-Stack/ies-accelerator/raw/main/.github/templates/use-case-overview.docx)
 — after the architecture review, the IES Cell turns it into the use-case write-up that
 goes for final sign-off.
 
@@ -38,6 +39,13 @@ The IES ecosystem grows through community-proposed schemas. If you're working on
 model that a use case needs, propose it here — tell us who you are, which use case it
 supports (existing or new), the schema itself, and the standards it builds on.
 
+{% hint style="warning" %}
+**Read [Before You Propose](before-you-propose.md) first** (also as
+[Word .docx](https://github.com/India-Energy-Stack/ies-accelerator/raw/main/before-you-propose.docx)). It is a one-page checklist —
+taxonomy, naming, standards, one proposal per use case. Proposals that skip it are sent
+back before review starts.
+{% endhint %}
+
 Fill in the form below. Your contact details (email and mobile) are kept
 **private** — shared only with the IES secretariat. A public tracking issue is created
 automatically for the proposal itself (schema, use case, standards) so the community can
@@ -51,8 +59,9 @@ can follow the discussion.
 {% hint style="info" %}
 Two references worth keeping open as you fill this in:
 the [IES term taxonomy](https://india-energy-stack.gitbook.io/docs/schemas/taxonomy) —
-check your terms align with it — and the
-[use-case overview template](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/templates/use-case-overview.md)
+check your terms align with it — and the use-case overview template
+([GitHub](https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/templates/use-case-overview.md) ·
+[Word .docx](https://github.com/India-Energy-Stack/ies-accelerator/raw/main/.github/templates/use-case-overview.docx))
 to structure your concept note. Share the concept note as a **public link** (a Google Doc
 set to "anyone with the link", or a GitHub link).
 {% endhint %}

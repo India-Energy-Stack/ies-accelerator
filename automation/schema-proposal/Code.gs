@@ -26,7 +26,7 @@ const Q = {
   mobile: 'Contact mobile number', // captured privately, NOT posted to the public issue
   useCase: 'Use case the proposed schema supports',
   existingOrNew: 'Is the proposed schema for an existing use case or a new one?',
-  taxonomyCompliant: 'IES taxonomy compliance', // Checkboxes; answer is the ticked option text (blank if not ticked)
+  taxonomyCompliant: 'IES taxonomy compliance', // required Checkboxes, single option YES — a declaration
   conceptNote: 'Concept note (link)', // captured privately, NOT posted to the public issue
   description: 'Description and background',
   schema: 'Schema',
@@ -52,8 +52,11 @@ function onFormSubmit(e) {
   const additional = answer(Q.additional);
   const githubUser = answer(Q.githubUser).replace(/^@/, '');
 
-  // Checkboxes question: a non-empty answer means the proposer ticked the box.
-  const taxonomyCompliant = answer(Q.taxonomyCompliant) ? 'Yes' : 'Not confirmed';
+  // Required YES declaration. 'Not declared' only appears for responses filed
+  // before the question became required (Sep 2026).
+  const taxonomyCompliant = answer(Q.taxonomyCompliant)
+    ? 'YES — proposer declares the IES taxonomy was studied before submitting'
+    : 'Not declared';
 
   const attribution = org ? name + ' (' + org + ')' : name;
   const title = '[Schema proposal] ' + (useCase || 'New schema') + ' — ' + (org || name || 'community');

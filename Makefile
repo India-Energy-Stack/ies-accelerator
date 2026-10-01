@@ -5,7 +5,7 @@ ifeq ($(shell python3 -c "import yaml, jsonschema" >/dev/null 2>&1 && echo ok ||
   $(error Error: Required Python packages (PyYAML, jsonschema) are missing. Please activate your virtual environment or install them: pip install pyyaml jsonschema)
 endif
 
-.PHONY: all clean build validate index test external schemas-ies qa jsonld mirror migration navigation negative-fixtures schema-ids
+.PHONY: all clean build validate index test external schemas-ies qa jsonld mirror migration navigation negative-fixtures schema-ids template-docx
 
 # Local checkout that holds the external schema sources
 # (override: make external SCHEMA_REPO=/path/to/DEG)
@@ -85,6 +85,11 @@ index:
 schemas-ies:
 	@echo "Generating schemas-ies developer section..."
 	@python3 scripts/generate_schemas_ies.py
+
+# Rebuild the Word copies of the concept-note template and the Before You Propose
+# checklist that the Propose a Schema pages link for download. Commit .docx with .md.
+template-docx:
+	@python3 scripts/build_template_docx.py
 
 # Regenerate the External Schemas field-reference page from the schema sources.
 # Not part of `all` because it needs that local checkout present.

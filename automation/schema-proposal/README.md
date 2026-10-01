@@ -44,7 +44,7 @@ the script reads answers by question title (`Code.gs` → `Q`):
 | Contact mobile number | Short answer | No |
 | Use case the proposed schema supports | Short answer | Yes |
 | Is the proposed schema for an existing use case or a new one? | Multiple choice | Yes |
-| IES taxonomy compliance | Checkboxes | No |
+| IES taxonomy compliance | Checkboxes | Yes |
 | Concept note (link) | Short answer | No |
 | Description and background | Paragraph | Yes |
 | Schema | Paragraph | Yes |
@@ -62,11 +62,15 @@ The three questions after it were added for taxonomy alignment and concept-note 
 - **Is the proposed schema for an existing use case or a new one?** — Multiple choice with
   exactly two options, **`Existing use case`** and **`New use case`** (verbatim — the
   inline GitBook block submits these strings).
-- **IES taxonomy compliance** — a **Checkboxes** question with a single option, verbatim
-  **`I confirm this submission is compliant with the IES taxonomy`**. In the question
-  description, link the taxonomy: `https://india-energy-stack.gitbook.io/docs/schemas/taxonomy`.
-  A checkbox answer is submitted as its option text, so the option wording must match the
-  `TAXONOMY_OPTION_TEXT` constant in the inline block.
+- **IES taxonomy compliance** — a **required declaration**: a **Checkboxes** question
+  with a single option, verbatim **`YES`**, so YES is the only answer a submission can
+  carry. The question description holds the declaration ("I hereby declare that the IES
+  term taxonomy was studied before submitting this schema …") and links the taxonomy. A
+  checkbox answer is submitted as its option text, so the option must match the
+  `TAXONOMY_OPTION_TEXT` constant in the inline block, where the proposer must press a
+  **YES** button under the declaration before Submit is accepted. (Until Sep 2026 this was an optional "I confirm …" tick;
+  `setup-questions.gs` has a two-step `migrateTaxonomy*` pair that converts the live
+  question in place without losing submissions during the block publish.)
 - **Concept note (link)** — a Short answer for a **shareable link** (not a file upload). In
   the description, point proposers at the use-case overview template:
   `https://github.com/India-Energy-Stack/ies-accelerator/blob/main/.github/templates/use-case-overview.md`.
