@@ -285,7 +285,7 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                     />
                     <input
                         label="Concept note (link)"
-                        hint="Optional. Link to a concept note on the IES use-case overview template (github.com/India-Energy-Stack/ies-accelerator → .github/templates/use-case-overview.md). Kept private — shared only with the IES secretariat."
+                        hint="Optional. Link to a concept note written on the IES use-case overview template — get it on GitHub or as a Word (.docx) file from the links above this form. Kept private — shared only with the IES secretariat."
                         element={
                             <textinput
                                 state="conceptNote"
