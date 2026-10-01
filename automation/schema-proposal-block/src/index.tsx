@@ -62,6 +62,12 @@ const TAXONOMY_OPTION_TEXT = 'YES';
 /**
  * The declaration a proposer makes by pressing the YES button. Keep in step
  * with the question's help text (../schema-proposal/setup-questions.gs).
+ *
+ * The YES press has to survive until Submit, and returned state alone doesn't
+ * (see the renderer constraints above). So it rides in the action PAYLOAD of
+ * the rendered Submit button instead: after YES, render() emits
+ * `{ action: 'submit', declared: true }`, and that payload is part of the
+ * element tree the client sends back — not state it rebuilds from inputs.
  */
 const TAXONOMY_DECLARATION =
     'I hereby declare that the IES term taxonomy was studied before submitting this ' +
@@ -89,6 +95,8 @@ interface State {
     standards: string;
     additional: string;
     github: string;
+    /** YES pressed. Only drives render(); submit trusts the button payload. */
+    declared: boolean;
     error: string;
     submitted: boolean;
 }
@@ -117,11 +125,15 @@ const EMPTY: State = {
     standards: '',
     additional: '',
     github: '',
+    declared: false,
     error: '',
     submitted: false,
 };
 
-type Action = { action: 'submit' } | { action: 'reset' };
+type Action =
+    | { action: 'declare' }
+    | { action: 'submit'; declared?: boolean }
+    | { action: 'reset' };
 
 const schemaProposalBlock = createComponent<{}, State, Action>({
     componentId: 'schema-proposal',
@@ -132,15 +144,23 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
             return { state: { ...EMPTY } };
         }
 
+        if (action.action === 'declare') {
+            return { state: { ...element.state, declared: true, error: '' } };
+        }
+
         if (action.action !== 'submit') {
             return;
         }
 
-        const state = element.state;
+        const declared = action.declared === true;
+        const state: State = { ...element.state, declared };
 
         const missing = REQUIRED.filter(
             ([key]) => !String(state[key] ?? '').trim(),
         ).map(([, label]) => label);
+        if (!declared) {
+            missing.push('IES taxonomy compliance (click YES)');
+        }
 
         if (missing.length > 0) {
             return {
@@ -177,9 +197,9 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
 
         body.append(FIELDS.existingOrNew, existingOrNew);
 
-        // The only way to reach this point is the YES button, so the declaration
-        // is always made. The form question is required: omitting it would make
-        // Google reject the response (while still answering HTTP 200).
+        // Reaching here means YES was pressed. The form question is required:
+        // omitting it would make Google reject the response (while still
+        // answering HTTP 200).
         body.append(FIELDS.taxonomyCompliant, TAXONOMY_OPTION_TEXT);
 
         let ok = false;
@@ -341,15 +361,18 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         element={<textinput state="github" placeholder="octocat" />}
                     />
 
-                    {/* The declaration IS the submit: YES is the only valid answer,
-                        and a separate YES toggle can't hold its state until submit
-                        on the published renderer (see the constraints above). */}
+                    {/* YES is the only valid answer; Submit refuses until it's
+                        pressed. See TAXONOMY_DECLARATION for how it survives. */}
                     <text style="bold">IES taxonomy compliance</text>
                     <text>{TAXONOMY_DECLARATION}</text>
                     <text>
                         Taxonomy: india-energy-stack.gitbook.io/docs/schemas/taxonomy — not
                         sure? Run the Before You Propose checklist linked above the form.
                     </text>
+                    <button
+                        label={state.declared ? '✓ YES — declared' : 'YES'}
+                        onPress={{ action: 'declare' }}
+                    />
                     {/* Error renders HERE, next to the Submit button, because the
                         user's eyes are on the button when it appears — rendered at
                         the top of the form it sits off-screen and a failed submit
@@ -360,9 +383,9 @@ const schemaProposalBlock = createComponent<{}, State, Action>({
                         <text> </text>
                     )}
                     <button
-                        label="YES — I declare this. Submit proposal"
+                        label="Submit proposal"
                         style="primary"
-                        onPress={{ action: 'submit' }}
+                        onPress={{ action: 'submit', declared: state.declared }}
                     />
                 </vstack>
             </block>

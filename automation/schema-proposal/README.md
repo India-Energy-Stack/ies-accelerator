@@ -67,8 +67,8 @@ The three questions after it were added for taxonomy alignment and concept-note 
   carry. The question description holds the declaration ("I hereby declare that the IES
   term taxonomy was studied before submitting this schema …") and links the taxonomy. A
   checkbox answer is submitted as its option text, so the option must match the
-  `TAXONOMY_OPTION_TEXT` constant in the inline block, where the declaration is the YES
-  button that submits the form. (Until Sep 2026 this was an optional "I confirm …" tick;
+  `TAXONOMY_OPTION_TEXT` constant in the inline block, where the proposer must press a
+  **YES** button under the declaration before Submit is accepted. (Until Sep 2026 this was an optional "I confirm …" tick;
   `setup-questions.gs` has a two-step `migrateTaxonomy*` pair that converts the live
   question in place without losing submissions during the block publish.)
 - **Concept note (link)** — a Short answer for a **shareable link** (not a file upload). In

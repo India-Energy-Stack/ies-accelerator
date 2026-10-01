@@ -56,9 +56,10 @@ form's `FB_PUBLIC_LOAD_DATA_`:
 > `EXISTING_USE_CASE` / `NEW_USE_CASE`, and the checkbox option text equals
 > `TAXONOMY_OPTION_TEXT` (`YES`) — a Checkboxes answer is POSTed as its option text, not
 > as a boolean. Taxonomy compliance has no input of its own: the block renders the
-> declaration above a **YES — I declare this. Submit proposal** button and always posts
-> `YES`, because a separate toggle button cannot hold its state until submit on the
-> published renderer.
+> declaration with a separate **YES** button, and **Submit proposal** refuses until it is
+> pressed. Button-set state alone doesn't survive to submit on the published renderer, so
+> the YES press is carried in the Submit button's action payload (`declared: true`) —
+> verified on the live site, Sep 2026.
 
 > **If you edit the Google Form, re-check these.** Renaming a question keeps its id, but
 > deleting and recreating one mints a **new** id — the old id then silently drops that
