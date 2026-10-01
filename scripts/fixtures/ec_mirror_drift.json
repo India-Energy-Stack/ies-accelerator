@@ -1,0 +1,4 @@
+{
+  "relativePath": "attributes.yaml",
+  "append": "\n# deliberate negative drift fixture\n"
+}

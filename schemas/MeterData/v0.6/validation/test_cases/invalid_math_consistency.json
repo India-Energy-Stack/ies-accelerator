@@ -1,0 +1,24 @@
+[
+  {
+    "@type": "BillDetails",
+    "profileType": "BILL_DETAILS",
+    "meterRefs": [
+      { "value": "TEST-METER", "scheme": "METER_SERIAL" }
+    ],
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      {
+        "readingType": "kWh imp",
+        "value": 150.0,
+        "openingValue": 1000.0,
+        "closingValue": 1200.0,
+        "reportedMode": "USAGE"
+      }
+    ],
+    "billNumber": "TEST-BILL-001",
+    "billDate": "2026-05-01",
+    "dueDate": "2026-05-21",
+    "currency": "INR",
+    "amountDue": 1500.0
+  }
+]

@@ -1,0 +1,2572 @@
+[
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/context.jsonld",
+    "objectType": "ARR_FILING",
+    "@type": "ArrFiling",
+    "id": "arr-xxdcl-myt-2024-29",
+    "filingId": "ABRC/ARR/XXDCL/MYT/2024-29",
+    "filingDate": "2025-11-30",
+    "filingType": "MYT",
+    "licensee": "Alpha State Distribution Company Limited",
+    "licenseeCode": "XXDCL",
+    "stateProvince": "Alpha State",
+    "regulatoryCommission": "ABERC",
+    "controlPeriodStart": "FY 2024-25",
+    "controlPeriodEnd": "FY 2028-29",
+    "currency": "INR",
+    "unitScale": "CRORE",
+    "status": "SUBMITTED",
+    "formReference": "Form 1",
+    "notes": [
+      "Revenue Requirement Items are cost borne for supply of power to consumers within the area of supply of the Licensees and not availing supply under Open Access.",
+      "Transmission Cost refers to the transmission cost borne by the licensee to serve the consumers within the area of the supply and not availing supply under Open Access.",
+      "SLDC cost refers to the SLDC Charges paid to serve the consumers within the area of the supply and not availing supply under Open Access.",
+      "Distribution Cost refers to the distribution cost borne by the licensee to serve the consumers within the area of the supply and not availing supply under Open Access.",
+      "Inter-state transmission and scheduling expenses to be submitted in this form.",
+      "* Prior-year fuel cost adjustment as per regulatory order on true-up for FY 2024-25.",
+      "# Power purchase cost adjustment as per regulatory tariff order corrigendum for FY 2025-26."
+    ],
+    "fiscalYears": [
+      {
+        "fiscalYear": "FY 2023-24",
+        "yearType": "BASE_YEAR",
+        "amountBasis": "AUDITED",
+        "lineItems": [
+          {
+            "lineItemId": "transmission-cost",
+            "serialNumber": 1,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Transmission Cost",
+            "amount": 873.52,
+            "formReference": "Form 1.1",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "sldc-cost",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "SLDC Cost",
+            "amount": 9.57,
+            "formReference": "Form 1.2",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "net-distribution-cost",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Net Distribution Cost - Transferred to Supply Business",
+            "amount": 1600.13,
+            "formReference": "Form 1.3",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "pgcil-expenses",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Interstate Transmission Expenses",
+            "amount": 348.69,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "uldc-charges",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Scheduling Charges",
+            "amount": 3.27,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "network-and-sldc-cost",
+            "serialNumber": 6,
+            "category": "SUB_TOTAL",
+            "subCategory": "NETWORK_COST",
+            "head": "Network and SLDC Cost",
+            "amount": 4574.13,
+            "formula": "transmission-cost + sldc-cost + net-distribution-cost + pgcil-expenses + uldc-charges"
+          },
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 7,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase / Procurement Cost",
+            "amount": 26559.25,
+            "formReference": "Form 1.4",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "distribution-cost-rsb",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "Distribution Cost attributable to Supply Business",
+            "amount": null,
+            "formReference": "Form 1.3",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-csd",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on Consumer Security Deposits",
+            "amount": 72.5,
+            "formReference": "Form 1.5",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-margin",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Supply Margin in Retail Supply Business",
+            "amount": 13.67,
+            "formReference": "Form 1.6",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "other-costs",
+            "serialNumber": 11,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Other Costs, if any",
+            "amount": 9.56,
+            "formReference": "Form 1.7",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-pension-bonds",
+            "serialNumber": 12,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Additional Interest on pension bonds",
+            "amount": 291.69,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 13,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on working capital",
+            "amount": 0,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "provision-bad-debts",
+            "serialNumber": 14,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provision for bad debts",
+            "amount": null,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "uncontrollable-passthrough",
+            "serialNumber": 15,
+            "category": "ADJUSTMENT",
+            "subCategory": "OTHER",
+            "head": "N-2 Year: Uncontrollable Item-Pass Through",
+            "amount": null,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-cost",
+            "serialNumber": 18,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Supply Cost",
+            "amount": 17975.78,
+            "formula": "power-purchase-cost + distribution-cost-rsb + interest-csd + supply-margin + other-costs + interest-pension-bonds + interest-working-cap + provision-bad-debts + uncontrollable-passthrough"
+          },
+          {
+            "lineItemId": "aggregate-arr",
+            "serialNumber": 19,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "Aggregate Revenue Requirement",
+            "amount": 7251.77,
+            "formula": "network-and-sldc-cost + supply-cost"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2024-25",
+        "yearType": "CONTROL_PERIOD",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "transmission-cost",
+            "serialNumber": 1,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Transmission Cost",
+            "amount": 655.76,
+            "formReference": "Form 1.1",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "sldc-cost",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "SLDC Cost",
+            "amount": 41.49,
+            "formReference": "Form 1.2",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "net-distribution-cost",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Net Distribution Cost - Transferred to Supply Business",
+            "amount": 1888.76,
+            "formReference": "Form 1.3",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "pgcil-expenses",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Interstate Transmission Expenses",
+            "amount": 362.14,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "uldc-charges",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Scheduling Charges",
+            "amount": 3.24,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "network-and-sldc-cost",
+            "serialNumber": 6,
+            "category": "SUB_TOTAL",
+            "subCategory": "NETWORK_COST",
+            "head": "Network and SLDC Cost",
+            "amount": 5077.75,
+            "formula": "transmission-cost + sldc-cost + net-distribution-cost + pgcil-expenses + uldc-charges"
+          },
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 7,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase / Procurement Cost",
+            "amount": 4732.83,
+            "formReference": "Form 1.4",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "distribution-cost-rsb",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "Distribution Cost attributable to Supply Business",
+            "amount": 1414.64,
+            "formReference": "Form 1.3",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-csd",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on Consumer Security Deposits",
+            "amount": 227.31,
+            "formReference": "Form 1.5",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-margin",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Supply Margin in Retail Supply Business",
+            "amount": 10.71,
+            "formReference": "Form 1.6",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "other-costs",
+            "serialNumber": 11,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Other Costs, if any",
+            "amount": 17.05,
+            "formReference": "Form 1.7",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-pension-bonds",
+            "serialNumber": 12,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Additional Interest on pension bonds",
+            "amount": 999.26,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 13,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on working capital",
+            "amount": 0,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "provision-bad-debts",
+            "serialNumber": 14,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provision for bad debts",
+            "amount": 19.13,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "uncontrollable-passthrough",
+            "serialNumber": 15,
+            "category": "ADJUSTMENT",
+            "subCategory": "OTHER",
+            "head": "N-2 Year: Uncontrollable Item-Pass Through",
+            "amount": -192.12,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-cost",
+            "serialNumber": 18,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Supply Cost",
+            "amount": 7277.36,
+            "formula": "power-purchase-cost + distribution-cost-rsb + interest-csd + supply-margin + other-costs + interest-pension-bonds + interest-working-cap + provision-bad-debts + uncontrollable-passthrough"
+          },
+          {
+            "lineItemId": "aggregate-arr",
+            "serialNumber": 19,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "Aggregate Revenue Requirement",
+            "amount": 30111.89,
+            "formula": "network-and-sldc-cost + supply-cost"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2025-26",
+        "yearType": "CONTROL_PERIOD",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "transmission-cost",
+            "serialNumber": 1,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Transmission Cost",
+            "amount": 1520.31,
+            "formReference": "Form 1.1",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "sldc-cost",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "SLDC Cost",
+            "amount": 65.48,
+            "formReference": "Form 1.2",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "net-distribution-cost",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Net Distribution Cost - Transferred to Supply Business",
+            "amount": 3171.53,
+            "formReference": "Form 1.3",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "pgcil-expenses",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Interstate Transmission Expenses",
+            "amount": 663.96,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "uldc-charges",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Scheduling Charges",
+            "amount": 3.09,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "network-and-sldc-cost",
+            "serialNumber": 6,
+            "category": "SUB_TOTAL",
+            "subCategory": "NETWORK_COST",
+            "head": "Network and SLDC Cost",
+            "amount": 3657.42,
+            "formula": "transmission-cost + sldc-cost + net-distribution-cost + pgcil-expenses + uldc-charges"
+          },
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 7,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase / Procurement Cost",
+            "amount": 15619.69,
+            "formReference": "Form 1.4",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "distribution-cost-rsb",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "Distribution Cost attributable to Supply Business",
+            "amount": 1771.45,
+            "formReference": "Form 1.3",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-csd",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on Consumer Security Deposits",
+            "amount": 207.87,
+            "formReference": "Form 1.5",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-margin",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Supply Margin in Retail Supply Business",
+            "amount": 0,
+            "formReference": "Form 1.6",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "other-costs",
+            "serialNumber": 11,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Other Costs, if any",
+            "amount": 47.98,
+            "formReference": "Form 1.7",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-pension-bonds",
+            "serialNumber": 12,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Additional Interest on pension bonds",
+            "amount": 644.43,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 13,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on working capital",
+            "amount": 0,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "provision-bad-debts",
+            "serialNumber": 14,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provision for bad debts",
+            "amount": 57.84,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "uncontrollable-passthrough",
+            "serialNumber": 15,
+            "category": "ADJUSTMENT",
+            "subCategory": "OTHER",
+            "head": "N-2 Year: Uncontrollable Item-Pass Through",
+            "amount": 150.71,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-cost",
+            "serialNumber": 18,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Supply Cost",
+            "amount": 10537.44,
+            "formula": "power-purchase-cost + distribution-cost-rsb + interest-csd + supply-margin + other-costs + interest-pension-bonds + interest-working-cap + provision-bad-debts + uncontrollable-passthrough"
+          },
+          {
+            "lineItemId": "aggregate-arr",
+            "serialNumber": 19,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "Aggregate Revenue Requirement",
+            "amount": 15110.2,
+            "formula": "network-and-sldc-cost + supply-cost"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2026-27",
+        "yearType": "CONTROL_PERIOD",
+        "amountBasis": "PROPOSED",
+        "lineItems": [
+          {
+            "lineItemId": "transmission-cost",
+            "serialNumber": 1,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Transmission Cost",
+            "amount": 600.55,
+            "formReference": "Form 1.1",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "sldc-cost",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "SLDC Cost",
+            "amount": 30.29,
+            "formReference": "Form 1.2",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "net-distribution-cost",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Net Distribution Cost - Transferred to Supply Business",
+            "amount": 1220.89,
+            "formReference": "Form 1.3",
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "pgcil-expenses",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Interstate Transmission Expenses",
+            "amount": 452.16,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "uldc-charges",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "NETWORK_COST",
+            "head": "Scheduling Charges",
+            "amount": 2.2,
+            "componentOf": "network-and-sldc-cost"
+          },
+          {
+            "lineItemId": "network-and-sldc-cost",
+            "serialNumber": 6,
+            "category": "SUB_TOTAL",
+            "subCategory": "NETWORK_COST",
+            "head": "Network and SLDC Cost",
+            "amount": 3997.86,
+            "formula": "transmission-cost + sldc-cost + net-distribution-cost + pgcil-expenses + uldc-charges"
+          },
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 7,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase / Procurement Cost",
+            "amount": 11673.43,
+            "formReference": "Form 1.4",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "distribution-cost-rsb",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "Distribution Cost attributable to Supply Business",
+            "amount": 723.28,
+            "formReference": "Form 1.3",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-csd",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on Consumer Security Deposits",
+            "amount": 130.72,
+            "formReference": "Form 1.5",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-margin",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Supply Margin in Retail Supply Business",
+            "amount": 0,
+            "formReference": "Form 1.6",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "other-costs",
+            "serialNumber": 11,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Other Costs, if any",
+            "amount": 49.73,
+            "formReference": "Form 1.7",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-pension-bonds",
+            "serialNumber": 12,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Additional Interest on pension bonds",
+            "amount": 723.46,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 13,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest on working capital",
+            "amount": 0,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "provision-bad-debts",
+            "serialNumber": 14,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provision for bad debts",
+            "amount": 33.32,
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "uncontrollable-passthrough",
+            "serialNumber": 15,
+            "category": "ADJUSTMENT",
+            "subCategory": "OTHER",
+            "head": "N-2 Year: Uncontrollable Item-Pass Through",
+            "amount": 897.19,
+            "particulars": "True-up of uncontrollable items from FY 2024-25",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "fppca-adjustment",
+            "serialNumber": 16,
+            "category": "ADJUSTMENT",
+            "subCategory": "OTHER",
+            "head": "Prior-Year Fuel Cost Adjustment",
+            "amount": -1434.67,
+            "particulars": "As per regulatory order on true-up of fuel cost for FY 2024-25",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "pp-cost-adjustment",
+            "serialNumber": 17,
+            "category": "ADJUSTMENT",
+            "subCategory": "OTHER",
+            "head": "Power Purchase Cost Adjustment per Tariff Order for FY 2025-26",
+            "amount": -60.95,
+            "particulars": "As per regulatory corrigendum to the tariff order for FY 2025-26",
+            "componentOf": "supply-cost"
+          },
+          {
+            "lineItemId": "supply-cost",
+            "serialNumber": 18,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Supply Cost",
+            "amount": 13964.48,
+            "formula": "power-purchase-cost + distribution-cost-rsb + interest-csd + supply-margin + other-costs + interest-pension-bonds + interest-working-cap + provision-bad-debts + uncontrollable-passthrough + fppca-adjustment + pp-cost-adjustment"
+          },
+          {
+            "lineItemId": "aggregate-arr",
+            "serialNumber": 19,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "Aggregate Revenue Requirement",
+            "amount": 36623.27,
+            "formula": "network-and-sldc-cost + supply-cost"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2027-28",
+        "yearType": "CONTROL_PERIOD",
+        "amountBasis": "NOT_FILED",
+        "lineItems": [
+          {
+            "lineItemId": "network-and-sldc-cost",
+            "serialNumber": 6,
+            "category": "SUB_TOTAL",
+            "subCategory": "NETWORK_COST",
+            "head": "Network and SLDC Cost",
+            "amount": 0
+          },
+          {
+            "lineItemId": "supply-cost",
+            "serialNumber": 18,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Supply Cost",
+            "amount": 0
+          },
+          {
+            "lineItemId": "aggregate-arr",
+            "serialNumber": 19,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "Aggregate Revenue Requirement",
+            "amount": 0
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2028-29",
+        "yearType": "CONTROL_PERIOD",
+        "amountBasis": "NOT_FILED",
+        "lineItems": [
+          {
+            "lineItemId": "network-and-sldc-cost",
+            "serialNumber": 6,
+            "category": "SUB_TOTAL",
+            "subCategory": "NETWORK_COST",
+            "head": "Network and SLDC Cost",
+            "amount": 0
+          },
+          {
+            "lineItemId": "supply-cost",
+            "serialNumber": 18,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Supply Cost",
+            "amount": 0
+          },
+          {
+            "lineItemId": "aggregate-arr",
+            "serialNumber": 19,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "Aggregate Revenue Requirement",
+            "amount": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/ArrFiling/v0.5/context.jsonld",
+    "objectType": "ARR_FILING",
+    "@type": "ArrFiling",
+    "id": "arr-yyed-historical-2012-2024",
+    "filingId": "JXRC/ARR/YYED/HISTORICAL/2012-2024",
+    "filingType": "ANNUAL",
+    "licensee": "Gamma State Electricity Department",
+    "licenseeCode": "YYED",
+    "stateProvince": "Gamma State",
+    "regulatoryCommission": "JXRC",
+    "currency": "INR",
+    "unitScale": "CRORE",
+    "status": "APPROVED",
+    "fiscalYears": [
+      {
+        "fiscalYear": "FY 2011-12",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 1345.62,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "employee-costs",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "Employee costs",
+            "amount": 167.4,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "admin-general-expenses",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "Administration and General Expenses",
+            "amount": 19.88,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "repair-maintenance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "Repair and Maintenance Expenses",
+            "amount": 11.13,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 45.4,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 4.92,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 1.12,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-nfa",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "Others",
+            "particulars": "Return on NFA",
+            "amount": 9.8,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "other-expenses",
+            "serialNumber": 11,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Other Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 12,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 918.18
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 13,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -10.15,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "surplus-power-sale",
+            "serialNumber": 14,
+            "category": "INCOME",
+            "subCategory": "REVENUE_CREDIT",
+            "head": "Revenue",
+            "particulars": "Revenue from Surplus Power Sale/UI",
+            "amount": -168.78,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 15,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1892.41,
+            "formula": "total-revenue-requirement + non-tariff-income + surplus-power-sale"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2012-13",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 774.04,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "employee-costs",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "Employee costs",
+            "amount": 188.28,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "admin-general-expenses",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "Administration and General Expenses",
+            "amount": 19.02,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "repair-maintenance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "Repair and Maintenance Expenses",
+            "amount": 30.28,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 33.41,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 11.88,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 0.46,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-nfa",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "Others",
+            "particulars": "Return on NFA",
+            "amount": 16.58,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "other-expenses",
+            "serialNumber": 11,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Other Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 12,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 875.16
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 13,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -15.18,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "surplus-power-sale",
+            "serialNumber": 14,
+            "category": "INCOME",
+            "subCategory": "REVENUE_CREDIT",
+            "head": "Revenue",
+            "particulars": "Revenue from Surplus Power Sale/UI",
+            "amount": -51.02,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 15,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1086.07,
+            "formula": "total-revenue-requirement + non-tariff-income + surplus-power-sale"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2013-14",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 647.63,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 356.94,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 44.88,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 10.32,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 4.62,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 8.15,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "other-expenses",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Other Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 10,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 1621.83
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 11,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -22.2,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 12,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1212.25,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2014-15",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 437.31,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 214.47,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 77.46,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 32.49,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-capital-base",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "Others",
+            "particulars": "Return on Capital Base",
+            "amount": 29.02,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-consumer-sec-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Consumers Security Deposit",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 20.59,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "other-expenses",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Other Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 10,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 470.8
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 11,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -15.08,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 12,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1854.02,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2015-16",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 1191.96,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 188.66,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 64,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 16.09,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 12.51,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-capital-base",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "Others",
+            "particulars": "Return on Capital Base",
+            "amount": 17.39,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 9,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 2510.3
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 10,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -30.04,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 11,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1013.38,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2016-17",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 1287.54,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 135.21,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 84.22,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 57.91,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 7.32,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 4.55,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 51.76,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "other-expenses",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Other Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": -52.44,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 2161.6
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -69.25,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 2106.04,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2017-18",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 1314.33,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 88.3,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 43.79,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 10.9,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 22.59,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 7.25,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 67.61,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-dsm",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for DSM Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": 4.14,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 654.11
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -27.97,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 2760.65,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2018-19",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 623.36,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 273.37,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 23.35,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 35.7,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 15.85,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 2.7,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 45.17,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-dsm",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for DSM Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": -40.17,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 1258.09
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -29.56,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1655.66,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2019-20",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 961.17,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 387.41,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 52.35,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 9.51,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 21.61,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 10.41,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 56.46,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-dsm",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for DSM Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": -66.73,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 2093.85
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -9.63,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1243.32,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2020-21",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 1128.68,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 412.52,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 25.4,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 8.75,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 10.75,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 6.4,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 29.93,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-dsm",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for DSM Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": 30.96,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 2980.17
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -16.68,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 1228.67,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2021-22",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 2170.33,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 245.35,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 20.77,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 22.02,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 28.11,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 5.22,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 70.76,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-dsm",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for DSM Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": 22.87,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 1313.41
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -14.26,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 2064.83,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2022-23",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 2044.85,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 386.53,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 87,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 18.06,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 92.35,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 2.81,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 6.02,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": 5.98,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": 44.3,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "om-sharing-gain-loss",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "On Account of sharing gain and (loss) for O&M Expenses",
+            "amount": 6.9,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 1637.61
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": -52.45,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 2525.21,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      },
+      {
+        "fiscalYear": "FY 2023-24",
+        "yearType": "HISTORICAL",
+        "amountBasis": "APPROVED",
+        "lineItems": [
+          {
+            "lineItemId": "power-purchase-cost",
+            "serialNumber": 1,
+            "category": "VARIABLE",
+            "subCategory": "POWER_PURCHASE",
+            "head": "Power Purchase Cost",
+            "particulars": "Power Purchase Cost",
+            "amount": 1736.32,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "o-and-m",
+            "serialNumber": 2,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M Expense",
+            "particulars": "Operation & Maintenance Expenses",
+            "amount": 311.06,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "depreciation",
+            "serialNumber": 3,
+            "category": "FIXED",
+            "subCategory": "DEPRECIATION",
+            "head": "Depreciation",
+            "particulars": "Depreciation",
+            "amount": 94.92,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-finance",
+            "serialNumber": 4,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest and Finance charges",
+            "amount": 18.37,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "return-on-equity",
+            "serialNumber": 5,
+            "category": "FIXED",
+            "subCategory": "RETURN_ON_EQUITY",
+            "head": "RoE",
+            "particulars": "Return on Equity",
+            "amount": 91.26,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-security-dep",
+            "serialNumber": 6,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Security Deposit",
+            "amount": 7.42,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "interest-working-cap",
+            "serialNumber": 7,
+            "category": "FIXED",
+            "subCategory": "INTEREST",
+            "head": "Interest",
+            "particulars": "Interest on Working Capital",
+            "amount": 3.44,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "provision-bad-debt",
+            "serialNumber": 8,
+            "category": "FIXED",
+            "subCategory": "PROVISIONAL",
+            "head": "Provisional",
+            "particulars": "Provision for Bad Debt",
+            "amount": 0,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "incentive-disincentive",
+            "serialNumber": 9,
+            "category": "FIXED",
+            "subCategory": "OTHER",
+            "head": "Others",
+            "particulars": "Incentive/Disincentive on achievement of norms",
+            "amount": 0.41,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "om-sharing-gain-loss",
+            "serialNumber": 10,
+            "category": "FIXED",
+            "subCategory": "O_AND_M",
+            "head": "O&M",
+            "particulars": "On Account of sharing gain and (loss) for O&M Expenses",
+            "amount": null,
+            "componentOf": "total-revenue-requirement"
+          },
+          {
+            "lineItemId": "total-revenue-requirement",
+            "serialNumber": 11,
+            "category": "SUB_TOTAL",
+            "subCategory": "TOTAL",
+            "head": "Total",
+            "particulars": "Total Revenue Requirement",
+            "amount": 4634.65
+          },
+          {
+            "lineItemId": "non-tariff-income",
+            "serialNumber": 12,
+            "category": "INCOME",
+            "subCategory": "NON_TARIFF_INCOME",
+            "head": "Non-Tariff",
+            "particulars": "Non-Tariff Income",
+            "amount": 70.75,
+            "componentOf": "net-arr"
+          },
+          {
+            "lineItemId": "net-arr",
+            "serialNumber": 13,
+            "category": "ARR",
+            "subCategory": "NET_ARR",
+            "head": "ARR",
+            "particulars": "Net Revenue Requirement",
+            "amount": 4965.08,
+            "formula": "total-revenue-requirement + non-tariff-income"
+          }
+        ]
+      }
+    ]
+  }
+]

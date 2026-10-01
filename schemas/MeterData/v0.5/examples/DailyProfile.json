@@ -1,0 +1,127 @@
+{
+  "@context": "https://india-energy-stack.github.io/ies-accelerator/schemas/MeterData/v0.5/context.jsonld",
+  "@type": "DailyProfile",
+  "profileType": "DAILY",
+  "coveragePeriod": {
+    "start": "2026-05-04T00:00:00+05:30",
+    "end": "2026-05-11T00:00:00+05:30"
+  },
+  "intervalBlocks": [
+    {
+      "intervalPeriod": {
+        "start": "2026-05-04T00:00:00+05:30",
+        "duration": "P7D"
+      },
+      "intervalLength": "P1D",
+      "payloadDescriptors": [
+        {
+          "readingTypeRef": {
+            "scheme": "OBIS",
+            "value": "1.0.1.8.0.255"
+          },
+          "unit": "kWh",
+          "accumulationBehaviour": "DELTA",
+          "phase": "ABC",
+          "_label": "Energy import (kWh delta)"
+        },
+        {
+          "readingTypeRef": {
+            "scheme": "OBIS",
+            "value": "1.0.2.8.0.255"
+          },
+          "unit": "kWh",
+          "accumulationBehaviour": "DELTA",
+          "phase": "ABC",
+          "_label": "Energy export (kWh delta)"
+        },
+        {
+          "readingTypeRef": {
+            "scheme": "OBIS",
+            "value": "1.0.1.6.0.255"
+          },
+          "unit": "kW",
+          "accumulationBehaviour": "INSTANTANEOUS",
+          "phase": "ABC",
+          "_label": "Max demand of the day"
+        }
+      ],
+      "intervals": [
+        {
+          "id": 0,
+          "values": [
+            98.4,
+            0.0,
+            8.42
+          ],
+          "_mdOccurredAt": "2026-05-04T19:30:00+05:30"
+        },
+        {
+          "id": 1,
+          "values": [
+            105.2,
+            0.0,
+            9.15
+          ],
+          "_mdOccurredAt": "2026-05-05T20:00:00+05:30"
+        },
+        {
+          "id": 2,
+          "values": [
+            101.8,
+            0.0,
+            8.74
+          ],
+          "_mdOccurredAt": "2026-05-06T19:00:00+05:30"
+        },
+        {
+          "id": 3,
+          "values": [
+            96.5,
+            0.0,
+            7.92
+          ],
+          "_mdOccurredAt": "2026-05-07T18:30:00+05:30"
+        },
+        {
+          "id": 4,
+          "values": [
+            108.7,
+            0.0,
+            9.41
+          ],
+          "_mdOccurredAt": "2026-05-08T20:15:00+05:30"
+        },
+        {
+          "id": 5,
+          "values": [
+            74.3,
+            0.0,
+            6.18
+          ],
+          "_mdOccurredAt": "2026-05-09T13:45:00+05:30"
+        },
+        {
+          "id": 6,
+          "values": [
+            71.9,
+            0.0,
+            6.02
+          ],
+          "_mdOccurredAt": "2026-05-10T14:00:00+05:30"
+        }
+      ]
+    }
+  ],
+  "customerRefs": [
+    {
+      "scheme": "CONSUMER_NUMBER",
+      "value": "RR-1234"
+    }
+  ],
+  "meterRefs": [
+    {
+      "scheme": "METER_SERIAL",
+      "value": "DISCOM-SM-2025-654321"
+    }
+  ]
+}
