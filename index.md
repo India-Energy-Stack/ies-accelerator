@@ -332,7 +332,7 @@ This block handles digital attestations of connections, billing summaries, and c
       </ul>
       <li><a href="how-you-implement-ies/digilocker.md#phase-1-the-pull-uri-endpoint">Phase 1 — The Pull URI Endpoint</a>      <ul>
         <li><a href="how-you-implement-ies/digilocker.md#endpoint-specification">Endpoint Specification</a></li>
-        <li><a href="how-you-implement-ies/digilocker.md#step-1-verify-the-inbound-hmac">Step 1 — Verify the Inbound HMAC</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#step-1-authenticate-the-request">Step 1 — Authenticate the request</a></li>
         <li><a href="how-you-implement-ies/digilocker.md#step-2-parse-the-inbound-request">Step 2 — Parse the Inbound Request</a></li>
         <li><a href="how-you-implement-ies/digilocker.md#step-3-look-up-consumer-in-cis">Step 3 — Look Up Consumer in CIS</a></li>
         <li><a href="how-you-implement-ies/digilocker.md#identity-binding-the-digilocker-id">Identity Binding — the DigiLocker ID</a></li>
@@ -346,8 +346,10 @@ This block handles digital attestations of connections, billing summaries, and c
       <li><a href="how-you-implement-ies/digilocker.md#issuing-nycer-the-consumer-energy-passport-electricity-credential-v1.2">Issuing NYCER — the Consumer Energy Passport (Electricity Credential v1.2)</a>      <ul>
         <li><a href="how-you-implement-ies/digilocker.md#what-changed-from-the-flat-shape">What changed from the flat shape</a></li>
         <li><a href="how-you-implement-ies/digilocker.md#credentialsubject-shape">credentialSubject shape</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#payload-rules-for-a-signable-credential">Payload rules for a signable credential</a></li>
         <li><a href="how-you-implement-ies/digilocker.md#the-opencred-issue-call">The OpenCred issue call</a></li>
-        <li><a href="how-you-implement-ies/digilocker.md#what-digilocker-needs-to-accept-for-v1.2">What DigiLocker needs to accept for v1.2</a>
+        <li><a href="how-you-implement-ies/digilocker.md#what-goes-into-vccontent">What goes into `VcContent`</a></li>
+        <li><a href="how-you-implement-ies/digilocker.md#what-digilockers-verifier-checks">What DigiLocker's verifier checks</a>
       </li>
       </ul>
       <li><a href="how-you-implement-ies/digilocker.md#the-consumer-meter-digest-doctype-mpltr">The Consumer Meter Digest (DocType `MPLTR`)</a>      <ul>
