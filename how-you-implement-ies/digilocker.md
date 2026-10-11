@@ -157,9 +157,9 @@ DigiLocker sends a `PullURIRequest` XML v3.0. For NYCER, as DigiLocker actually 
 <PullURIRequest xmlns="https://www.digitallocker.gov.in/schema/issuer/v1/pullurirequest"
                 ver="3.0"
                 ts="2026-07-17T10:29:53+05:30"
-                txn="1784264393"
+                txn="TXN-20260717-001"
                 orgId="in.gov.discom"
-                keyhash="2b0bfac2a30839a4ecc02162ed824cebb188718dc38ac028a7654c486aed20f2"
+                keyhash="<sha256-hex>"
                 format="pdf">
   <DocDetails>
     <DocType>NYCER</DocType>
@@ -234,7 +234,7 @@ holder_idref = {
 }
 ```
 
-Both pass DigiLocker's verifier. Use (b) where NeGD asks for the DigiLocker binding; the rendered certificate (`DocContent`) should then also show it in human-readable form — e.g. *"Identity Binding: binding method DIGILOCKER_PULL, binding date …"* — the pattern APEPDCL's pilot implementation followed. Keep the CA number in `customerProfile.customerNumber` either way.
+Both pass DigiLocker's verifier. Use (b) where NeGD asks for the DigiLocker binding; the rendered certificate (`DocContent`) should then also show it in human-readable form — e.g. *"Identity Binding: binding method DIGILOCKER_PULL, binding date …"* — the pattern an earlier pilot DISCOM followed. Keep the CA number in `customerProfile.customerNumber` either way.
 
 > **Schema gap.** `customerProfile.idRef` exists on the [ElectricityCredential v1.2](https://india-energy-stack.gitbook.io/docs/schemas/electricitycredential/v1.2) schema, so the Passport can carry this binding today. `MeterDataCredential` v0.6's `credentialSubject` does **not** yet define an `idRef` (or equivalent) property — until the schema adds one, the Digest cannot carry this binding as a structured VC field, only in the rendered `DocContent`. Track this as an open schema item alongside the MPLTR rollout.
 
@@ -377,11 +377,11 @@ Common attributes (all kinds): `make`, `model`, `maxExport`, `maxImport`, `commi
 
 | Rule | Why | Do this |
 |---|---|---|
-| Every `id` is an **absolute URI** | `energyResources[].id` (and `credentialSubject.id`) are JSON-LD `@id` values; a bare serial such as `KS0042993` is a relative IRI | `"id": "urn:ies:meter:KS0042993"` (or a `did:web:…:assets:meter:KS0042993`). `consumptionProfiles[].meterId` may stay the bare serial — it is a plain string, not an `@id`. |
+| Every `id` is an **absolute URI** | `energyResources[].id` (and `credentialSubject.id`) are JSON-LD `@id` values; a bare serial such as `MTR0012345` is a relative IRI | `"id": "urn:ies:meter:MTR0012345"` (or a `did:web:…:assets:meter:MTR0012345`). `consumptionProfiles[].meterId` may stay the bare serial — it is a plain string, not an `@id`. |
 | `idRef.issuedBy` is a **DID or URL** | typed `@id` in the context | the issuer DID, `did:web:digilocker.gov.in`, or a regulator URL — never a display name |
 | **No fields outside v1.2** | an undefined property has no IRI and cannot be signed | put a mobile number, meter-reader code or any CIS extra in `DocContent`, not in `credentialSubject` |
 
-Enumerations and free-text values are unaffected: `tariffCategoryCode`, `premisesType`, `connectionType` and `addressCountry` carry whatever your CIS holds (`"LT I (B) :LT-RESIDENTIAL"`, `"Commercial"`, `"Single-phase"`, `"India"`).
+Enumerations and free-text values are unaffected: `tariffCategoryCode`, `premisesType`, `connectionType` and `addressCountry` carry whatever your CIS holds (`"LT-RES-1"`, `"Commercial"`, `"Single-phase"`, `"India"`).
 
 ### The OpenCred issue call
 
@@ -496,11 +496,11 @@ The credential OpenCred returns — and that DigiLocker verifies — has this en
     "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/context.jsonld",
     "https://w3id.org/security/suites/jws-2020/v1"
   ],
-  "id": "urn:uuid:97f3b029-48fb-4204-9145-1f3552e12dbe",
+  "id": "urn:uuid:3f2a9c1e-5b7d-4e8a-9c21-0d4f6a7b8c9e",
   "type": ["VerifiableCredential", "ElectricityCredential"],
   "issuer": "did:web:www.discom.example:energystack",
-  "validFrom": "2026-09-18T05:12:21Z",
-  "validUntil": "2027-03-18T05:12:21Z",
+  "validFrom": "2026-10-01T04:30:00Z",
+  "validUntil": "2027-04-01T04:30:00Z",
   "credentialSchema": {
     "id": "https://india-energy-stack.github.io/ies-accelerator/schemas/ElectricityCredential/v1.2/schema.json",
     "type": "JsonSchema"
@@ -511,23 +511,23 @@ The credential OpenCred returns — and that DigiLocker verifies — has this en
       "customerNumber": "100000012345",
       "idRef": { "issuedBy": "did:web:www.discom.example:energystack", "subjectId": "ca:100000012345" },
       "energyResources": [
-        { "id": "urn:ies:meter:KS0042993", "type": "METER", "attributes": { "meterCapability": "AMI" } }
+        { "id": "urn:ies:meter:MTR0012345", "type": "METER", "attributes": { "meterCapability": "AMI" } }
       ],
       "consumptionProfiles": [
-        { "meterId": "KS0042993", "connectionType": "Single-phase", "premisesType": "Commercial",
-          "sanctionedLoad": { "value": 7, "unit": "kW" }, "contractMaxDemand": { "value": 7, "unit": "kW" },
-          "tariffCategoryCode": "LT VI ELECTRIC VEHICLE CHARGING STATION" }
+        { "meterId": "MTR0012345", "connectionType": "Single-phase", "premisesType": "Residential",
+          "sanctionedLoad": { "value": 5, "unit": "kW" }, "contractMaxDemand": { "value": 5, "unit": "kW" },
+          "tariffCategoryCode": "LT-RES-1" }
       ]
     },
-    "customerDetails": { "fullName": "…", "installationAddress": { "address": { "…": "…" }, "geo": { "type": "Point", "coordinates": [72.881, 19.08] } },
-                         "serviceConnectionDate": "2025-04-25T00:00:00Z" }
+    "customerDetails": { "fullName": "…", "installationAddress": { "address": { "…": "…" }, "geo": { "type": "Point", "coordinates": [77.209, 28.614] } },
+                         "serviceConnectionDate": "2021-06-15T00:00:00Z" }
   },
   "proof": {
     "type": "JsonWebSignature2020",
-    "created": "2026-09-18T05:12:22.106Z",
+    "created": "2026-10-01T04:30:01Z",
     "proofPurpose": "assertionMethod",
     "verificationMethod": "did:web:www.discom.example:energystack#key-0",
-    "jws": "eyJhbGciOiJFUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..nXdbLFwjYvF8entvlJZe…"
+    "jws": "eyJhbGciOiJFUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..<signature>"
   }
 }
 ```
