@@ -1,0 +1,148 @@
+openapi: 3.1.0
+info:
+  title: Feeder Status Ingest API
+  version: 0.1.0
+  description: |
+    WORK IN PROGRESS — subject to change.
+
+    The DETECTION / INGEST layer of the outage pipeline: an AMI Service Provider
+    (AMISP) pushes a real-time feeder energized/de-energized signal — derived from
+    a substation meter's digital-input (DI) port — into the central platform
+    (MDMS/OMS). The OMS correlates and enriches these signals into a published
+    OutageNotification (the separate PUBLICATION layer).
+
+    Design principles:
+    - Named status enums (ENERGIZED/DE_ENERGIZED/UNKNOWN); the raw vendor code is
+      preserved in rawStatus for traceability. (Vendor status codes are not an
+      international or Indian standard; the standard layer is IS 15959 / DLMS-COSEM
+      event & OBIS codes.)
+    - RFC 3339 timestamps with offset.
+    - Bearer-token authentication + a single discomCode tenant.
+    - Client-supplied eventId for idempotency / de-duplication.
+    - Batch array input (a substation trip cascades many feeders at once).
+    - Typed per-item response with error codes, echoing eventId.
+    - Optional outageRef to correlate a restoration with its onset event.
+
+    Reference: this contract was informed by a draft "REAL TIME FEEDER STATUS"
+    push API contemplated by the DISCOM.
+
+servers:
+  - url: https://{serviceHost}
+    variables:
+      serviceHost: { default: feeder-status.example-discom.in }
+
+security:
+  - bearerAuth: []
+
+paths:
+  /feeder-status:
+    post:
+      summary: Push one or more real-time feeder-status events
+      operationId: pushFeederStatus
+      parameters:
+        - name: discomCode
+          in: header
+          required: true
+          schema: { type: string }
+          description: Tenant/DISCOM identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              minItems: 1
+              items: { $ref: '#/components/schemas/FeederStatusEvent' }
+            example:
+              - eventId: "AMISP1001-24391110044ALG-20250723T0031"
+                discomCode: "1001"
+                substationCode: "517"
+                amispCode: "AMISP1001"
+                feederCode: "24391110044ALG"
+                feederStatus: "DE_ENERGIZED"
+                rawStatus: { feederStatus: "102", diPortStatus: "402" }
+                eventTimestamp: "2025-07-23T00:31:00+05:30"
+                diPort: "DI1"
+      responses:
+        '200':
+          description: Ingest result (per-item).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IngestResult' }
+              example:
+                accepted: 1
+                rejected: 0
+                results:
+                  - eventId: "AMISP1001-24391110044ALG-20250723T0031"
+                    status: "OK"
+        '401': { description: "Missing/invalid bearer token." }
+        '422': { description: "Validation error (see results[].errorCode)." }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token for AMISP authentication.
+
+  schemas:
+    FeederStatusEvent:
+      type: object
+      required: [eventId, discomCode, amispCode, feederCode, feederStatus, eventTimestamp]
+      properties:
+        eventId:
+          type: string
+          description: Client-supplied idempotency key; de-duplicates replays.
+        discomCode:
+          type: string
+        substationCode:
+          type: string
+          description: |
+            Substation identifier (the draft API's SID). Identifies the
+            substation the feeder belongs to; enables substation-level events and
+            grouping a cascaded trip by substation.
+        amispCode:
+          type: string
+          description: AMI Service Provider supplying the signal (provenance).
+        feederCode:
+          type: string
+          description: Feeder identifier; join key to MDMS/MeterData and the OMS master.
+        feederStatus:
+          type: string
+          enum: [ENERGIZED, DE_ENERGIZED, UNKNOWN]
+          description: Normalized feeder energization state.
+        rawStatus:
+          type: object
+          description: Vendor-native codes preserved verbatim for traceability.
+          properties:
+            feederStatus: { type: string, description: 'e.g. "102"' }
+            diPortStatus: { type: string, description: 'e.g. "402"' }
+          additionalProperties: true
+        eventTimestamp:
+          type: string
+          format: date-time
+          description: RFC 3339 with offset, e.g. 2025-07-23T00:31:00+05:30.
+        diPort:
+          type: string
+          description: Digital-input port on the substation meter (e.g. DI1).
+        outageRef:
+          type: string
+          description: Optional — correlate a restoration to its onset event/outage id.
+
+    IngestResult:
+      type: object
+      required: [accepted, rejected, results]
+      properties:
+        accepted: { type: integer, minimum: 0 }
+        rejected: { type: integer, minimum: 0 }
+        results:
+          type: array
+          items:
+            type: object
+            required: [eventId, status]
+            properties:
+              eventId: { type: string }
+              status: { type: string, enum: [OK, DUPLICATE, REJECTED] }
+              errorCode:
+                type: string
+                description: Present when status=REJECTED, e.g. UNKNOWN_FEEDER, BAD_TIMESTAMP, SCHEMA_INVALID.

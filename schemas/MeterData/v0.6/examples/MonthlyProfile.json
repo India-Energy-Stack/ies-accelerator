@@ -1,0 +1,131 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-MONTHLY",
+    "payloadDescriptorSets": [
+      {
+        "name": "MonthlyBillingSet",
+        "payloadDescriptors": [
+          {
+            "name": "Active energy import - cumulative (kWh)",
+            "readingType": "kWh imp",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Apparent energy import - cumulative (kVAh)",
+            "readingType": "kVAh imp",
+            "unit": "kVAh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.9.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Active energy export - cumulative (kWh)",
+            "readingType": "kWh exp",
+            "unit": "kWh",
+            "flowDirection": "EXPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.2.8.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Maximum demand (kW) - current billing period",
+            "readingType": "MD kW",
+            "unit": "kW",
+            "flowDirection": "IMPORT",
+            "reportedMode": "USAGE",
+            "obis": "1.0.1.6.0.255",
+            "multiplier": 1.0,
+            "accuracy": 0.5
+          },
+          {
+            "name": "Active energy import - TZ1 (kWh)",
+            "readingType": "kWh TZ1",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyToU",
+            "obis": "1.0.1.8.1.255"
+          },
+          {
+            "name": "Active energy import - TZ2 (kWh)",
+            "readingType": "kWh TZ2",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyToU",
+            "obis": "1.0.1.8.2.255"
+          },
+          {
+            "name": "Active energy import - TZ3 (kWh)",
+            "readingType": "kWh TZ3",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyToU",
+            "obis": "1.0.1.8.3.255"
+          },
+          {
+            "name": "Active energy import - TZ4 (kWh)",
+            "readingType": "kWh TZ4",
+            "unit": "kWh",
+            "flowDirection": "IMPORT",
+            "reportedMode": "READING",
+            "category": "energyToU",
+            "obis": "1.0.1.8.4.255"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "MonthlyProfile",
+    "profileType": "MONTHLY",
+    "meterRefs": [
+      { "value": "did:web:discom.example:assets:meter:DISCOM-SM-2025-654321", "scheme": "DID" }
+    ],
+    "payloadDescriptorSetRef": "MonthlyBillingSet",
+    "timePeriod": { "start": "2026-04-01T00:00:00+05:30", "duration": "P1M" },
+    "readings": [
+      { "readingType": "kWh imp", "value": 412.5, "openingValue": 18432.5, "closingValue": 18845.0 },
+      { "readingType": "kVAh imp", "value": 421.8, "openingValue": 18715.4, "closingValue": 19137.2 },
+      { "readingType": "kWh exp", "value": 0.0, "openingValue": 0.0, "closingValue": 0.0 },
+      { "readingType": "MD kW", "occurredAt": "2026-04-23T19:30:00+05:30", "value": 8.42, "integrationPeriod": "PT30M" }
+    ],
+    "touBuckets": [
+      {
+        "readings": [
+          { "readingType": "kWh TZ1", "value": 138.2 }
+        ],
+        "zone": 1
+      },
+      {
+        "readings": [
+          { "readingType": "kWh TZ2", "value": 62.4 }
+        ],
+        "zone": 2
+      },
+      {
+        "readings": [
+          { "readingType": "kWh TZ3", "value": 174.0 }
+        ],
+        "zone": 3
+      },
+      {
+        "readings": [
+          { "readingType": "kWh TZ4", "value": 37.9 }
+        ],
+        "zone": 4
+      }
+    ]
+  }
+]

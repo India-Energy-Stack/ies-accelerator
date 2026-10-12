@@ -1,0 +1,14 @@
+{
+  "source": "use-cases/consumer-energy-passport/examples/schedule-i-example.json",
+  "mutations": [
+    {
+      "operation": "remove",
+      "pointer": "/credentialSubject/customerProfile/customerNumber"
+    }
+  ],
+  "validator": {
+    "kind": "schema",
+    "schema": "schemas/ElectricityCredential/v1.2/schema.json"
+  },
+  "expectedDiagnostic": "customerNumber"
+}

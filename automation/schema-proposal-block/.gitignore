@@ -1,0 +1,5 @@
+# package-lock.json is deliberately NOT ignored — this is a deployable, and pinning the
+# @gitbook/cli and @gitbook/runtime versions keeps `gitbook integration publish`
+# reproducible. An older CLI is rejected outright by the GitBook API.
+node_modules/
+.env

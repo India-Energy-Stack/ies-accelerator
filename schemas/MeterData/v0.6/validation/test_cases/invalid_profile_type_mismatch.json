@@ -1,0 +1,39 @@
+[
+  {
+    "@type": "PayloadDescriptorProfile",
+    "profileType": "DESCRIPTOR",
+    "id": "DESC-TEST",
+    "payloadDescriptorSets": [
+      {
+        "name": "IntervalSet",
+        "payloadDescriptors": [
+          { "readingType": "kWh imp", "reportedMode": "USAGE", "obis": "1.0.1.8.0.255", "multiplier": 1.0, "accuracy": 0.5 }
+        ],
+        "compactSequences": [
+          {
+            "name": "IntervalSeq",
+            "sequenceItems": [
+              { "readingType": "kWh imp" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@type": "IntervalProfile",
+    "profileType": "INTERVAL",
+    "meterRefs": [
+      { "value": "TEST-METER", "scheme": "METER_SERIAL" }
+    ],
+    "payloadDescriptorSetRef": "IntervalSet",
+    "intervalPeriod": { "start": "2026-05-18T10:00:00+05:30", "duration": "PT30M" },
+    "intervals": [
+      {
+        "id": 0,
+        "payloads": [ 1.25 ]
+      }
+    ],
+    "compactSequenceRef": "IntervalSeq"
+  }
+]
