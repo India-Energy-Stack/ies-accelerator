@@ -55,7 +55,7 @@
             "@id": "erDeg:maxImport",
             "@type": "rdf:Property",
             "rdfs:label": "Max Import",
-            "rdfs:comment": "Maximum power drawn from the grid as QuantitativeValue. Typical unit: kW. Always positive value. CIM: PowerElectronicsConnection.maxP (absorption direction).",
+            "rdfs:comment": "Maximum power drawn from the grid as QuantitativeValue. Typical unit: kW. Always positive value. CIM: PowerElectronicsUnit.minP (absorption; import = |minP| where minP < 0).",
             "rdfs:domain": { "@id": "erDeg:EnergyResourceCommonAttributes" },
             "rdfs:range":  { "@id": "qudt:QuantitativeValue" }
         },
@@ -63,7 +63,7 @@
             "@id": "erDeg:maxExport",
             "@type": "rdf:Property",
             "rdfs:label": "Max Export",
-            "rdfs:comment": "Maximum power injected to the grid as QuantitativeValue. Typical unit: kW. Always positive value. CIM: GeneratingUnit.maxOperatingP / PowerElectronicsConnection.maxP (injection direction).",
+            "rdfs:comment": "Maximum power injected to the grid as QuantitativeValue. Typical unit: kW. Always positive value. CIM: PowerElectronicsUnit.maxP (injection direction).",
             "rdfs:domain": { "@id": "erDeg:EnergyResourceCommonAttributes" },
             "rdfs:range":  { "@id": "qudt:QuantitativeValue" }
         },
@@ -79,7 +79,7 @@
             "@id": "erDeg:EnergyResourceGenerator",
             "@type": "rdfs:Class",
             "rdfs:label": "Energy Resource — Generator",
-            "rdfs:comment": "Electrical generation asset. type: SOLAR_PV | SOLAR | WIND | HYDRO | BIOGAS | CHP | FUEL_CELL. CIM: GeneratingUnit subtypes (IEC 61970-302).",
+            "rdfs:comment": "Electrical generation asset. type: SOLAR_PV | SOLAR | WIND | HYDRO | BIOGAS | CHP | FUEL_CELL. CIM: GeneratingUnit subtypes (IEC 61970-301).",
             "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
             "rdfs:seeAlso": { "@id": "cim:GeneratingUnit" }
         },
@@ -87,7 +87,7 @@
             "@id": "erDeg:EnergyResourceStorage",
             "@type": "rdfs:Class",
             "rdfs:label": "Energy Resource — Storage",
-            "rdfs:comment": "Stationary energy storage asset. type: BESS. CIM: BatteryUnit (IEC 61970-302). BATTERY deprecated.",
+            "rdfs:comment": "Stationary energy storage asset. type: BESS. CIM: BatteryUnit (IEC 61970-301). BATTERY deprecated.",
             "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
             "rdfs:seeAlso": { "@id": "cim:BatteryUnit" }
         },
@@ -103,7 +103,7 @@
             "@id": "erDeg:EnergyResourceInverter",
             "@type": "rdfs:Class",
             "rdfs:label": "Energy Resource — Inverter",
-            "rdfs:comment": "Grid-connected power-electronics inverter. type: INVERTER. IEEE 1547-2018 / SunSpec DER Models 702-714. CIM: PowerElectronicsConnection (IEC 61970-302).",
+            "rdfs:comment": "Grid-connected power-electronics inverter. type: INVERTER. IEEE 1547-2018 / SunSpec DER Models 702-714. CIM: PowerElectronicsConnection (IEC 61970-301).",
             "rdfs:subClassOf": { "@id": "erDeg:EnergyResourceCommonAttributes" },
             "rdfs:seeAlso": { "@id": "cim:PowerElectronicsConnection" }
         },
@@ -191,7 +191,7 @@
             "@id": "erDeg:operatingMode",
             "@type": "rdf:Property",
             "rdfs:label": "Operating Mode",
-            "rdfs:comment": "Inverter grid-interaction mode: GridFollowing, GridForming, Standby. CIM: PowerElectronicsConnection.inverterMode.",
+            "rdfs:comment": "Inverter grid-interaction mode: GridFollowing, GridForming, Standby. No native CIM attribute for GFM/GFL/Standby (IEEE 1547-2018 concept); IES extension candidate.",
             "rdfs:domain": { "@id": "erDeg:EnergyResourceInverter" },
             "schema:rangeIncludes": { "@id": "xsd:string" }
         },

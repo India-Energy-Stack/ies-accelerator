@@ -164,7 +164,7 @@
                     "minLength": 1,
                     "maxLength": 200,
                     "description": "Full name of the customer as per ID proof.",
-                    "x-standard": "CIM (IEC 61968-1 Customer.name)"
+                    "x-standard": "CIM (IEC 61968-11 Customer.name)"
                 },
                 "careOf": {
                     "type": "object",
@@ -197,13 +197,13 @@
                 "installationAddress": {
                     "$ref": "#/$defs/Location",
                     "description": "Physical location of the metered installation. geo (GeoJSON Point, coordinates [longitude, latitude]) is required; address (schema.org PostalAddress fields) is optional.\n",
-                    "x-standard": "GeoJSON RFC 7946; schema.org PostalAddress; CIM (IEC 61968-1 ServiceLocation)"
+                    "x-standard": "GeoJSON RFC 7946; schema.org PostalAddress; CIM (IEC 61968-11 ServiceLocation)"
                 },
                 "serviceConnectionDate": {
                     "type": "string",
                     "format": "date-time",
                     "description": "Date and time the service connection was activated, with timezone offset (ISO 8601).\n",
-                    "x-standard": "CIM (IEC 61968-1 ServiceLocation activation date)"
+                    "x-standard": "CIM (IEC 61968-11 ServiceLocation activation date)"
                 }
             }
         },
@@ -396,7 +396,7 @@
                         "type": {
                             "type": "string",
                             "const": "METER",
-                            "description": "Asset-class discriminator. Must be \"METER\". CIM cim:Meter (IEC 61968-9)."
+                            "description": "Asset-class discriminator. Must be \"METER\". IS 16444 (Parts 1 & 2, AC static smart meters) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM cim:Meter (IEC 61968-9) [data model]."
                         },
                         "attributes": {
                             "$ref": "#/$defs/EnergyResourceMeterAttributes"
@@ -467,17 +467,17 @@
                 "ratedPower": {
                     "$ref": "#/$defs/QVPower",
                     "description": "Manufacturer-rated peak power (nameplate value in principal direction). Kept for backward compatibility — prefer maxExport.\n",
-                    "x-standard": "CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970 GeneratingUnit.maxOperatingP)"
+                    "x-standard": "CIM (IEC 61968-9 EndDeviceInfo.ratedPower; IEC 61970-301:2020 GeneratingUnit.maxOperatingP)"
                 },
                 "maxExport": {
                     "$ref": "#/$defs/QVPower",
                     "description": "Maximum power this resource injects to the grid (generates/discharges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max discharge rate. Supersedes ratedPower.\n",
-                    "x-standard": "CIM (IEC 61970 GeneratingUnit.maxOperatingP; IEC 61970-302 PowerElectronicsConnection.maxP, injection)"
+                    "x-standard": "CIM (IEC 61970-301 PowerElectronicsUnit.maxP, injection)"
                 },
                 "maxImport": {
                     "$ref": "#/$defs/QVPower",
                     "description": "Maximum power this resource draws from the grid (absorbs/charges). Always ≥0. For bidirectional resources (BESS, V2G) this is the max charge rate.\n",
-                    "x-standard": "CIM (IEC 61970-302 PowerElectronicsConnection.maxP, absorption)"
+                    "x-standard": "CIM (IEC 61970-301 PowerElectronicsUnit.minP, absorption; import = |minP| where minP < 0)"
                 },
                 "telemetryProvider": {
                     "type": "string",
@@ -502,7 +502,7 @@
                     "type": "object",
                     "additionalProperties": false,
                     "description": "Commissioning / safety inspection record for the asset. Captured by the distribution licensee at energisation and on re-certification events.\n",
-                    "x-standard": "IEEE 1547-2018 Cl. 11 (commissioning); CEA Connectivity Regs 2013 (amended 2018)",
+                    "x-standard": "CEA (Technical Standards for Connectivity below 33 kV) Regulations 2013 (as amended 2019); IEEE 1547-2018 Cl. 11 (test & verification, incl. commissioning tests)",
                     "properties": {
                         "date": {
                             "type": "string",
@@ -529,7 +529,7 @@
                     "type": "object",
                     "additionalProperties": false,
                     "description": "Third-party flexibility / demand-response enrolment for this asset. Present when an aggregator is authorised to dispatch or observe the resource. Controllability flag is asset-level; the asset may still be observable even when controllable is false.\n",
-                    "x-standard": "IEEE 2030.5; IEC 61850-7-420 (DER control roles)",
+                    "x-standard": "IEC 61850-7-420:2021 (DER logical nodes); IEEE 2030.5-2023 (DER control roles)",
                     "properties": {
                         "id": {
                             "type": "string",
@@ -594,7 +594,7 @@
                                 "AMI"
                             ],
                             "description": "Communication/automation generation. Electromechanical: induction-disc. CMRI: manual optical-port (India legacy). AMR: one-way automated read. AMI: two-way smart meter.\n",
-                            "x-standard": "CIM (IEC 61968-9 AmiBillingReadyKind)"
+                            "x-standard": "IS 16444 (Parts 1 & 2, AC static smart meters) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM (IEC 61968-9 AmiBillingReadyKind) [data model]"
                         },
                         "energyDirection": {
                             "type": "string",
@@ -606,13 +606,13 @@
                             ],
                             "default": "Forward",
                             "description": "Energy flow direction metered at this point.",
-                            "x-standard": "CIM (FlowDirectionKind); ESPI NAESB REQ.21"
+                            "x-standard": "IS 15959 (DLMS/COSEM data exchange) [primary]; CIM (FlowDirectionKind) [data model]; ESPI NAESB REQ.21 [informative — not normative]"
                         },
                         "functions": {
                             "type": "array",
                             "uniqueItems": true,
                             "description": "Active meter capabilities.",
-                            "x-standard": "CIM (IEC 61968-9 EndDeviceFunction)",
+                            "x-standard": "IS 16444 (Parts 1 & 2) [primary]; CEA (Installation and Operation of Meters) Regulations 2006 [authority]; CIM (IEC 61968-9 EndDeviceFunction) [data model]",
                             "items": {
                                 "type": "string",
                                 "enum": [
@@ -708,7 +708,7 @@
                         "nominalPower": {
                             "$ref": "#/$defs/QVPower",
                             "description": "Nominal (nameplate) power output. Use when distinct from maxExport (peak).\n",
-                            "x-standard": "CIM (IEC 61970 GeneratingUnit.nominalP)"
+                            "x-standard": "CIM (IEC 61970-301:2020 GeneratingUnit.nominalP)"
                         },
                         "efficiency": {
                             "type": "number",
@@ -719,14 +719,14 @@
                         "dcArrayCapacity": {
                             "$ref": "#/$defs/QVPower",
                             "description": "DC-side nameplate capacity of a photovoltaic array at Standard Test Conditions (industry term: \"kWp\"). For PV systems this is typically larger than the AC-side maxExport because of inverter clipping and DC-to-AC ratios. Relevant for SOLAR_PV resources. The unit is the standard QUDT power alias kW — the STC/peak semantic is documented here, not encoded in the unit string.\n",
-                            "x-standard": "IS 16221 (PV module qualification); IEC 61727 (PV grid interface)"
+                            "x-standard": "IS 14286 (Part 1/Sec 1):2023 (PV module design qualification; = IEC 61215-1-1:2021); IEC 61727 (PV grid interface)"
                         }
                     }
                 }
             ]
         },
         "EnergyResourceStorage": {
-            "description": "A stationary battery energy storage resource (BESS). CIM: BatteryUnit (IEC 61970-302).\n",
+            "description": "A stationary battery energy storage resource (BESS). CIM: BatteryUnit (IEC 61970-301).\n",
             "allOf": [
                 {
                     "$ref": "#/$defs/EnergyResourceCommon"
@@ -744,7 +744,7 @@
                                 "BESS",
                                 "BATTERY"
                             ],
-                            "description": "Asset-class discriminator. BATTERY is deprecated — use BESS. CIM: BatteryUnit (IEC 61970-302).\n"
+                            "description": "Asset-class discriminator. BATTERY is deprecated — use BESS. CIM: BatteryUnit (IEC 61970-301).\n"
                         },
                         "attributes": {
                             "$ref": "#/$defs/EnergyResourceStorageAttributes"
@@ -766,7 +766,7 @@
                         "storageCapacity": {
                             "$ref": "#/$defs/QVEnergy",
                             "description": "Rated stored-energy capacity. Replaces storageCapacityKwh from v1.0.\n",
-                            "x-standard": "CIM (IEC 61970-302 BatteryUnit.ratedE)"
+                            "x-standard": "CIM (IEC 61970-301 BatteryUnit.ratedE)"
                         },
                         "storageType": {
                             "type": "string",
@@ -870,7 +870,8 @@
                                 "NACS",
                                 "Other"
                             ],
-                            "description": "Physical connector standard. Type1: IEC 62196-2 Type 1 (J1772). Type2: IEC 62196-2 Type 2 (Mennekes). CCS1/CCS2: Combined Charging System DC fast charge. CHAdeMO: CHAdeMO DC fast charge. GB_T: GB/T 20234. NACS: SAE J3400.\n"
+                            "description": "Physical connector standard. Type1: IEC 62196-2 Type 1 (J1772). Type2: IEC 62196-2 Type 2 (Mennekes). CCS1/CCS2: Combined Charging System DC fast charge. CHAdeMO: CHAdeMO DC fast charge. GB_T: GB/T 20234. NACS: SAE J3400.\n",
+                            "x-standard": "IS 17017 (relevant Part, conductive EV charging) [primary]; IEC 62196 / IEC 61851 [parent]"
                         },
                         "controlProtocol": {
                             "type": "string",
@@ -882,7 +883,8 @@
                                 "ISO_15118_20",
                                 "Other"
                             ],
-                            "description": "EVSE control and smart-charging protocol."
+                            "description": "EVSE control and smart-charging protocol.",
+                            "x-standard": "IS 17017 (relevant Part) [primary]; ISO 15118 / OCPP [parent/exchange protocol]"
                         },
                         "v2xProtocol": {
                             "type": "string",
@@ -893,14 +895,15 @@
                                 "ISO_15118_20_DC_BPT",
                                 "Other"
                             ],
-                            "description": "Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources."
+                            "description": "Vehicle-to-Grid / V2X protocol. Present only for EV_V2G resources.",
+                            "x-standard": "IS 17017 (relevant Part, where it covers bidirectional/V2G) [primary]; ISO 15118-20 / OCPP 2.1 BPT [parent/exchange protocol]"
                         }
                     }
                 }
             ]
         },
         "EnergyResourceInverter": {
-            "description": "A grid-connected power-electronics inverter energy resource. Captures IEEE 1547-2018 ride-through categories, operating mode, and reactive / frequency-support capabilities. CIM: PowerElectronicsConnection (IEC 61970-302).\n",
+            "description": "A grid-connected power-electronics inverter energy resource. Captures IEEE 1547-2018 ride-through categories, operating mode, and reactive / frequency-support capabilities. CIM: PowerElectronicsConnection (IEC 61970-301).\n",
             "allOf": [
                 {
                     "$ref": "#/$defs/EnergyResourceCommon"
@@ -915,7 +918,7 @@
                         "type": {
                             "type": "string",
                             "const": "INVERTER",
-                            "description": "Asset-class discriminator. Must be \"INVERTER\". CIM: PowerElectronicsConnection (IEC 61970-302).\n"
+                            "description": "Asset-class discriminator. Must be \"INVERTER\". CIM: PowerElectronicsConnection (IEC 61970-301).\n"
                         },
                         "attributes": {
                             "$ref": "#/$defs/EnergyResourceInverterAttributes"
@@ -937,17 +940,17 @@
                         "ratedApparentPower": {
                             "$ref": "#/$defs/QVApparentPower",
                             "description": "Rated apparent power. Replaces ratedApparentPowerKva from v1.0.\n",
-                            "x-standard": "SunSpec DER Model 702 (maxVA); CIM (IEC 61970-302 PowerElectronicsConnection.ratedS)"
+                            "x-standard": "SunSpec DER Model 702 (maxVA); CIM (IEC 61970-301 PowerElectronicsConnection.ratedS)"
                         },
                         "maxReactivePower": {
                             "$ref": "#/$defs/QVReactivePower",
                             "description": "Maximum reactive power injection (leading / over-excited). Replaces maxReactivePowerKvar from v1.0.\n",
-                            "x-standard": "SunSpec DER Model 702 (maxVar); CIM (IEC 61970-302 PowerElectronicsConnection.maxQ)"
+                            "x-standard": "SunSpec DER Model 702 (maxVar); CIM (IEC 61970-301 PowerElectronicsConnection.maxQ)"
                         },
                         "minReactivePower": {
                             "$ref": "#/$defs/QVReactivePower",
                             "description": "Maximum reactive power absorption (lagging / under-excited). Value is typically negative. Replaces minReactivePowerKvar from v1.0.\n",
-                            "x-standard": "SunSpec DER Model 702 (maxVarNeg); CIM (IEC 61970-302 PowerElectronicsConnection.minQ)"
+                            "x-standard": "SunSpec DER Model 702 (maxVarNeg); CIM (IEC 61970-301 PowerElectronicsConnection.minQ)"
                         },
                         "rideThroughCategory": {
                             "type": "string",
@@ -967,12 +970,12 @@
                                 "Standby"
                             ],
                             "description": "Inverter grid-interaction mode. GridFollowing: PLL-based sync. GridForming: own V/f reference (microgrid islanding, black-start). Standby: energised but not injecting.\n",
-                            "x-standard": "CIM (IEC 61970-302 PowerElectronicsConnection.inverterMode)"
+                            "x-standard": "IEEE 1547-2018 (grid-forming/grid-following operating mode). No native CIM attribute for GFM/GFL/Standby in IEC 61970-301/CGMES as released; IES extension candidate (nearest CIM: inv*Mode booleans, which do not encode GFM/GFL/Standby)"
                         },
                         "voltVarEnabled": {
                             "type": "boolean",
                             "description": "Volt-VAr curve active.",
-                            "x-standard": "IEEE 2030.5 (opModVoltVar); SunSpec DER Model 705"
+                            "x-standard": "IEEE 2030.5-2023 (opModVoltVar); SunSpec DER Model 705"
                         },
                         "freqDroopEnabled": {
                             "type": "boolean",
@@ -1201,7 +1204,7 @@
                 "sanctionedLoad": {
                     "$ref": "#/$defs/QVPower",
                     "description": "Sanctioned/approved import load.",
-                    "x-standard": "CIM (IEC 61968-9 UsagePoint)"
+                    "x-standard": "SERC Supply Code (state-specific) [authority — sanctioned/approved load]; CIM (IEC 61968-11 UsagePoint) [data model]"
                 },
                 "sanctionedExportLoad": {
                     "$ref": "#/$defs/QVPower",
@@ -1221,7 +1224,7 @@
                     "type": "string",
                     "minLength": 1,
                     "description": "Billing/tariff category code assigned by the utility.",
-                    "x-standard": "CIM (IEC 61968-9 UsagePoint.serviceCategory)"
+                    "x-standard": "SERC tariff order (state-specific) [authority]; CIM (IEC 61968-9 UsagePoint.serviceCategory) [data model]"
                 },
                 "premisesType": {
                     "type": "string",
@@ -1240,7 +1243,7 @@
                         "Three-phase"
                     ],
                     "description": "Electrical connection type.",
-                    "x-standard": "CIM (IEC 61968-9 UsagePoint.phaseCode)"
+                    "x-standard": "CIM (IEC 61970-301 PhaseCode; via IEC 61968-9 UsagePoint.phaseCode)"
                 },
                 "paymentMode": {
                     "type": "string",
@@ -1249,7 +1252,7 @@
                         "PREPAID"
                     ],
                     "description": "Billing/payment modality. POSTPAID: consume now, pay later. PREPAID: pay-before-use.\n",
-                    "x-standard": "CIM (IEC 61968-9 AmiBillingReadyKind, ESPI)"
+                    "x-standard": "IS 15884:2024 (AC Direct Connected Static Prepayment Meters, Class 1 & 2) [prepayment hardware]; IS 16444 (Parts 1 & 2) [shared smart-meter platform]; CEA (Installation and Operation of Meters) (Amendment) Regulations 2022, Reg. 4 [payment-mode mandate]; CIM (IEC 61968-9 AmiBillingReadyKind) [data model]; ESPI NAESB REQ.21 [informative — not normative]"
                 },
                 "serviceStatus": {
                     "type": "string",
